@@ -42,6 +42,7 @@ elixir(function (mix) {
         .sass('app.scss')
         .scripts([
             paths.jquery + 'jquery.min.js',
+            paths.bootstrap + 'javascripts/bootstrap.js',
             paths.select2 + 'js/select2.js',
             paths.moment + 'moment.js',
             paths.confirm2 + 'jquery-confirm.min.js'
