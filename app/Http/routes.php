@@ -2,7 +2,7 @@
 
 Route::auth();
 
-Route::get('/', 'HomeController@getIndex');
+Route::get('/', 'LandingController@getIndex');
 
 Route::group(['middleware' => 'auth'], function() {
 

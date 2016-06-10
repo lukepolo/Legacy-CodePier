@@ -16,6 +16,7 @@ var paths = {
     css_public: './public/css/',
 
     /* Vendor Files */
+    bootstrap: bower_path + 'bootstrap-sass/assets/',
     fontawesome: bower_path + 'font-awesome/',
     jquery: bower_path + 'jquery/dist/',
     select2: bower_path + 'select2/dist/',
