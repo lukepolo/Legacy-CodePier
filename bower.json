@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "font-awesome": "fontawesome#^4.6.3",
-    "jquery": "^3.0.0",
+    "jquery": "^2.0.0",
     "select2": "^4.0.3",
     "moment": "^2.13.0",
     "jquery-confirm2": "^2.5.1",

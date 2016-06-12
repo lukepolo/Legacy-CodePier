@@ -17,11 +17,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite@handle',
         ],
     ];
-
     /**
      * Register any other events for your application.
      *

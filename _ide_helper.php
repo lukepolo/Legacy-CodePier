@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.36 on 2016-06-10.
+ * Generated for Laravel 5.2.37 on 2016-06-12.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -13368,6 +13368,214 @@ if (! function_exists('with')) {
          */
         public static function componentCall($method, $parameters){
             return \Collective\Html\HtmlBuilder::componentCall($method, $parameters);
+        }
+        
+    }
+
+
+    class Socialite extends \Laravel\Socialite\Facades\Socialite{
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */
+        public static function with($driver){
+            return \Laravel\Socialite\SocialiteManager::with($driver);
+        }
+        
+        /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */
+        public static function buildProvider($provider, $config){
+            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
+        }
+        
+        /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */
+        public static function formatConfig($config){
+            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+        }
+        
+        /**
+         * Get the default driver name.
+         *
+         * @throws \InvalidArgumentException
+         * @return string 
+         * @static 
+         */
+        public static function getDefaultDriver(){
+            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+        }
+        
+        /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */
+        public static function driver($driver = null){
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::driver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return $this 
+         * @static 
+         */
+        public static function extend($driver, $callback){
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
+        }
+        
+        /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getDrivers(){
+            //Method inherited from \Illuminate\Support\Manager            
+            return \Laravel\Socialite\SocialiteManager::getDrivers();
+        }
+        
+    }
+
+
+    class DigitalOcean extends \GrahamCampbell\DigitalOcean\Facades\DigitalOcean{
+        
+        /**
+         * Get the factory instance.
+         *
+         * @return \GrahamCampbell\DigitalOcean\DigitalOceanFactory 
+         * @static 
+         */
+        public static function getFactory(){
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::getFactory();
+        }
+        
+        /**
+         * Get a connection instance.
+         *
+         * @param string $name
+         * @return object 
+         * @static 
+         */
+        public static function connection($name = null){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::connection($name);
+        }
+        
+        /**
+         * Reconnect to the given connection.
+         *
+         * @param string $name
+         * @return object 
+         * @static 
+         */
+        public static function reconnect($name = null){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::reconnect($name);
+        }
+        
+        /**
+         * Disconnect from the given connection.
+         *
+         * @param string $name
+         * @return void 
+         * @static 
+         */
+        public static function disconnect($name = null){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            \GrahamCampbell\DigitalOcean\DigitalOceanManager::disconnect($name);
+        }
+        
+        /**
+         * Get the configuration for a connection.
+         *
+         * @param string $name
+         * @throws \InvalidArgumentException
+         * @return array 
+         * @static 
+         */
+        public static function getConnectionConfig($name){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::getConnectionConfig($name);
+        }
+        
+        /**
+         * Get the default connection name.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getDefaultConnection(){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::getDefaultConnection();
+        }
+        
+        /**
+         * Set the default connection name.
+         *
+         * @param string $name
+         * @return void 
+         * @static 
+         */
+        public static function setDefaultConnection($name){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            \GrahamCampbell\DigitalOcean\DigitalOceanManager::setDefaultConnection($name);
+        }
+        
+        /**
+         * Register an extension connection resolver.
+         *
+         * @param string $name
+         * @param callable $resolver
+         * @return void 
+         * @static 
+         */
+        public static function extend($name, $resolver){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            \GrahamCampbell\DigitalOcean\DigitalOceanManager::extend($name, $resolver);
+        }
+        
+        /**
+         * Return all of the created connections.
+         *
+         * @return object[] 
+         * @static 
+         */
+        public static function getConnections(){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::getConnections();
+        }
+        
+        /**
+         * Get the config instance.
+         *
+         * @return \Illuminate\Contracts\Config\Repository 
+         * @static 
+         */
+        public static function getConfig(){
+            //Method inherited from \GrahamCampbell\Manager\AbstractManager            
+            return \GrahamCampbell\DigitalOcean\DigitalOceanManager::getConfig();
         }
         
     }

@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-06-10.
+    * Generated on 2016-06-12.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -39,6 +39,11 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'digitalocean.adapterfactory' instanceof \GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory,
+            'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
+            'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
+            'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -123,6 +128,8 @@ namespace PHPSTORM_META {
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'html' instanceof \Collective\Html\HtmlBuilder,
             'form' instanceof \Collective\Html\FormBuilder,
+            'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
+            'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -154,6 +161,11 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'digitalocean.adapterfactory' instanceof \GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory,
+            'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
+            'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
+            'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -238,6 +250,8 @@ namespace PHPSTORM_META {
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'html' instanceof \Collective\Html\HtmlBuilder,
             'form' instanceof \Collective\Html\FormBuilder,
+            'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
+            'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
         ],
         \App::make('') => [
             '' == '@',
@@ -269,6 +283,11 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'digitalocean.adapterfactory' instanceof \GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory,
+            'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
+            'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
+            'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -353,6 +372,8 @@ namespace PHPSTORM_META {
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'html' instanceof \Collective\Html\HtmlBuilder,
             'form' instanceof \Collective\Html\FormBuilder,
+            'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
+            'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
         ],
         app('') => [
             '' == '@',
@@ -384,6 +405,11 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'digitalocean.adapterfactory' instanceof \GrahamCampbell\DigitalOcean\Adapters\ConnectionFactory,
+            'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
+            'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
+            'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -468,6 +494,8 @@ namespace PHPSTORM_META {
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'html' instanceof \Collective\Html\HtmlBuilder,
             'form' instanceof \Collective\Html\FormBuilder,
+            'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
+            'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
         ],
     ];
 }

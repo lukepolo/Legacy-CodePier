@@ -27,4 +27,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
+    public function servers()
+    {
+        return $this->hasMany(UserServer::class);
+    }
+
+    public function serverProviders()
+    {
+        return $this->hasMany(UserServerProvider::class);
+    }
+
+    public function userProviders()
+    {
+        return $this->hasMany(UserProvider::class);
+    }
 }
