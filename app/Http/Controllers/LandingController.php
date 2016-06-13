@@ -27,7 +27,7 @@ class LandingController extends Controller
      */
     public function getIndex()
     {
-        dd($this->serverService->provision(UserServer::find(3)));
+        dd($this->serverService->provision(UserServer::find(6)));
 
         if (\Auth::check()) {
             return view('dashboard', [

@@ -39,19 +39,26 @@ class ServerService implements ServerServiceContract
 
     public function provision(UserServer $userServer)
     {
-        $process = new Process('ssh root@104.131.10.102');
-//        $process = new Process('~/.composer/vendor/bin/envoy run deploy --server=104.131.10.102 --branch=master --path=/home/codepier/laravel');
-//        $process = new Process('whoami');
+        $live = true;
+
+        $process = new Process('eval `ssh-agent -s` && echo kashani1 | ssh-add &&  ~/.composer/vendor/bin/envoy run provision --server='.$userServer->ip.' --branch=master --path=/home/codepier/laravel');
         $process->setTimeout(3600);
         $process->setIdleTimeout(300);
         $process->setWorkingDirectory(base_path());
 
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                echo 'ERR > '.$buffer;
-            } else {
-                echo 'OUT > '.$buffer;
-            }
-        });
+        try {
+            $process->run(function ($type, $buffer) use ($live, &$result) {
+                if ($live) {
+                    \Log::info($buffer);
+                    echo $buffer . '</br />';
+                }
+
+                $result[] = $buffer;
+            });
+        } catch (ProcessFailedException $e) {
+            dd($e->getMessage());
+        }
+
+        return $result;
     }
 }

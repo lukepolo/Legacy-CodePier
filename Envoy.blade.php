@@ -16,12 +16,26 @@
 
     $now = new DateTime();
     $date = $now->format('YmdHis');
-    $branch = $branch;
-    $path = rtrim($path, '/');
-    $release = $path.'/'.$date;
+
+    $branch = isset($branch) ? $branch : null;
+    $path = isset($path) ? rtrim($path, '/') : null;
+    $release = isset($path) ? $path.'/'.$date : null;
 @endsetup
 
-@servers(['web' => 'root@'.$options['server']])
+@servers(['web' => '-o StrictHostKeyChecking=no root@'.$options['server']])
+
+@macro('provision')
+    add_codepier_user
+    install_ppas
+    basic_packages
+    server_settings
+    php_packages
+    install_composer
+    install_laravel_packages
+    install_nginx_fpm
+    install_node
+    install_mysql
+@endmacro
 
 @macro('deploy')
     updating_repository
@@ -86,20 +100,6 @@
     echo "Cleaned up old deploments";
 @endtask
 
-@macro('provision')
-    DEBIAN_FRONTEND=noninteractive
-    add_codepier_user
-    install_ppas
-    basic_packages
-    server_settings
-    php_packages
-    install_composer
-    install_laravel_packages
-    install_nginx_fpm
-    install_node
-    install_mysql
-@endmacro
-
 @task('add_codepier_user')
     adduser --disabled-password --gecos "" codepier
     echo 'codepier:mypass' | chpasswd
@@ -121,20 +121,6 @@
     # Force Locale
     echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
     locale-gen en_US.UTF-8
-
-    # Install Some PPAs
-    apt-get install -y software-properties-common curl
-
-    apt-add-repository ppa:nginx/development -y
-    apt-add-repository ppa:chris-lea/redis-server -y
-    apt-add-repository ppa:ondrej/php -y
-
-    # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
-    apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
-    sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
-
-    #wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-    #sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
 
     curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
 
@@ -210,36 +196,6 @@
     sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
     sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
 
-    # Disable XDebug On The CLI
-
-    sudo phpdismod -s cli xdebug
-
-    # Copy fastcgi_params to Nginx because they broke it on the PPA
-
-    cat > /etc/nginx/fastcgi_params << EOF
-    fastcgi_param	QUERY_STRING		\$query_string;
-    fastcgi_param	REQUEST_METHOD		\$request_method;
-    fastcgi_param	CONTENT_TYPE		\$content_type;
-    fastcgi_param	CONTENT_LENGTH		\$content_length;
-    fastcgi_param	SCRIPT_FILENAME		\$request_filename;
-    fastcgi_param	SCRIPT_NAME		\$fastcgi_script_name;
-    fastcgi_param	REQUEST_URI		\$request_uri;
-    fastcgi_param	DOCUMENT_URI		\$document_uri;
-    fastcgi_param	DOCUMENT_ROOT		\$document_root;
-    fastcgi_param	SERVER_PROTOCOL		\$server_protocol;
-    fastcgi_param	GATEWAY_INTERFACE	CGI/1.1;
-    fastcgi_param	SERVER_SOFTWARE		nginx/\$nginx_version;
-    fastcgi_param	REMOTE_ADDR		\$remote_addr;
-    fastcgi_param	REMOTE_PORT		\$remote_port;
-    fastcgi_param	SERVER_ADDR		\$server_addr;
-    fastcgi_param	SERVER_PORT		\$server_port;
-    fastcgi_param	SERVER_NAME		\$server_name;
-    fastcgi_param	HTTPS			\$https if_not_empty;
-    fastcgi_param	REDIRECT_STATUS		200;
-    EOF
-
-
-    # Set The Nginx & PHP-FPM User
 
     sed -i "s/user www-data;/user codepier;/" /etc/nginx/nginx.conf
     sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
@@ -250,6 +206,13 @@
     sed -i "s/listen\.owner.*/listen.owner = codepier/" /etc/php/7.0/fpm/pool.d/www.conf
     sed -i "s/listen\.group.*/listen.group = codepier/" /etc/php/7.0/fpm/pool.d/www.conf
     sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
+
+
+    # Disable XDebug On The CLI
+
+    sudo phpdismod -s cli xdebug
+
+    # Set The Nginx & PHP-FPM User
 
     service nginx restart
     service php7.0-fpm restart
@@ -262,20 +225,17 @@
 @endtask
 
 @task('install_mysql')
-    debconf-set-selections <<< "mysql-community-server mysql-community-server/data-dir select ''"
-    debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password secret"
-    debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password secret"
+    export DEBIAN_FRONTEND="noninteractive"
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password password secret'
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password secret'
+
     apt-get install -y mysql-server
 
-    # Configure MySQL Password Lifetime
-    echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
-
     # Configure MySQL Remote Access
-    sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
+    sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
     mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
     service mysql restart
-
 
     # Add Timezone Support To MySQL
     mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql

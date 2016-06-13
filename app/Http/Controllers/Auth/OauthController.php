@@ -39,6 +39,10 @@ class OauthController extends Controller
                 'refresh_token' => $user->accessTokenResponseBody['refresh_token'],
                 'expires_in' => $user->accessTokenResponseBody['expires_in']
             ]);
+
+            $userServerProvider->save();
+
+            return back()->with('success', 'You have connected your digital ocean account');
             
         } else {
             if(!User::where('email', $user->getEmail())->first()) {

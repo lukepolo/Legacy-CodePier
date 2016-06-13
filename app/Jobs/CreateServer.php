@@ -47,6 +47,7 @@ class CreateServer extends Job implements ShouldQueue
         event(new ServerCreated($userServer));
 
         $serverService->saveServerInfo($userServer);
-        dispatch(new ProvisionServer($userServer));
+
+//        dispatch(new ProvisionServer($userServer));
     }
 }
