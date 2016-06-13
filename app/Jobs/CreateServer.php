@@ -5,7 +5,8 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\ServerCreated;
-use App\Models\UserServer;
+use App\Models\Server;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,18 +16,21 @@ class CreateServer extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
-    protected $options;
+    protected $user;
     protected $service;
+    protected $options;
 
     /**
      * Create a new job instance.
      *
      * @param $service
+     * @param User $user
      * @param array $options
      */
-    public function __construct($service, array $options)
+    public function __construct($service, User $user, array $options)
     {
         $this->service = $service;
+        $this->user = $user;
         $this->options = $options;
     }
 
@@ -37,17 +41,17 @@ class CreateServer extends Job implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        /** @var UserServer $userServer */
-        $userServer = $serverService->createServer($this->service, $this->options);
+        /** @var Server $server */
+        $server = $serverService->create($this->service, $this->user, $this->options);
 
-        while($serverStatus = $serverService->getServerStatus($userServer) == 'new') {
-            $serverStatus = $serverService->getServerStatus($userServer);
+        while($serverStatus = $serverService->getStatus($server) == 'new') {
+            $serverStatus = $serverService->getStatus($server);
         }
 
-        event(new ServerCreated($userServer));
+        event(new ServerCreated($server));
 
-        $serverService->saveServerInfo($userServer);
+        $serverService->saveInfo($server);
 
-//        dispatch(new ProvisionServer($userServer));
+        dispatch(new ProvisionServer($server));
     }
 }

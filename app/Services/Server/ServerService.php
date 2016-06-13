@@ -3,7 +3,8 @@
 namespace App\Services\Server;
 
 use App\Contracts\Server\ServerServiceContract;
-use App\Models\UserServer;
+use App\Models\Server;
+use App\Models\User;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -17,34 +18,63 @@ class ServerService implements ServerServiceContract
         'digitalocean' => ServerProviders\DigitalOceanProvider::class
     ];
 
+    /**
+     * @param $service
+     * @return mixed
+     */
     private function getService($service)
     {
         return new $this->services[$service]();
     }
 
-    public function createServer($service, array $options)
+    /**
+     * @param $service
+     * @param User $user
+     * @param array $options
+     * @return mixed
+     */
+    public function create($service, User $user, array $options)
     {
-        return $this->getService($service)->create();
+        return $this->getService($service)->create($user, $options);
     }
 
-    public function getServerStatus(UserServer $userServer)
+    /**
+     * @param Server $server
+     * @return mixed
+     */
+    public function getStatus(Server $server)
     {
-        return $this->getService($userServer->service)->getStatus($userServer);
+        return $this->getService($server->service)->getStatus($server);
     }
 
-    public function saveServerInfo(UserServer $userServer)
+    /**
+     * @param Server $server
+     * @return mixed
+     */
+    public function saveInfo(Server $server)
     {
-        return $this->getService($userServer->service)->savePublicIP($userServer);
+        return $this->getService($server->service)->savePublicIP($server);
     }
 
-    public function provision(UserServer $userServer)
+    /**
+     * @param Server $server
+     * @return bool
+     */
+    public function provision(Server $server)
     {
         $live = true;
 
-        $process = new Process('eval `ssh-agent -s` && echo kashani1 | ssh-add &&  ~/.composer/vendor/bin/envoy run provision --server='.$userServer->ip.' --branch=master --path=/home/codepier/laravel');
+        $process = new Process('
+            eval `ssh-agent -s` && 
+            echo kashani1 | ssh-add &&
+             ~/.composer/vendor/bin/envoy run provision --user=root --server='.$server->ip.' --branch=master --path=/home/codepier/laravel
+        ');
+
         $process->setTimeout(3600);
         $process->setIdleTimeout(300);
         $process->setWorkingDirectory(base_path());
+
+        $result = [];
 
         try {
             $process->run(function ($type, $buffer) use ($live, &$result) {
@@ -56,9 +86,9 @@ class ServerService implements ServerServiceContract
                 $result[] = $buffer;
             });
         } catch (ProcessFailedException $e) {
-            dd($e->getMessage());
+            return false;
         }
 
-        return $result;
+        return true;
     }
 }

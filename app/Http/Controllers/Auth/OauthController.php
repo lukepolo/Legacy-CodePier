@@ -24,12 +24,12 @@ class OauthController extends Controller
 
         if(\Auth::user()) {
 
-            $userServerProvider = UserServerProvider::firstOrNew([
+            $serverProvider = UserServerProvider::firstOrNew([
                 'service' => $service,
                 'user_id' => \Auth::user()->id,
             ]);
 
-            $userServerProvider->fill([
+            $serverProvider->fill([
                 'token' => $user->accessTokenResponseBody['access_token'],
                 'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null,
                 'provider_id' => $user->getId(),
@@ -40,7 +40,7 @@ class OauthController extends Controller
                 'expires_in' => $user->accessTokenResponseBody['expires_in']
             ]);
 
-            $userServerProvider->save();
+            $serverProvider->save();
 
             return back()->with('success', 'You have connected your digital ocean account');
             

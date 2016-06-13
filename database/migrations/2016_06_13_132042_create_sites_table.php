@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserServers extends Migration
+class CreateSitesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,8 @@ class UserServers extends Migration
      */
     public function up()
     {
-        Schema::create('user_servers', function (Blueprint $table) {
+        Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('server_id');
-            $table->string('name');
-            $table->string('service');
-            $table->string('ip')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ class UserServers extends Migration
      */
     public function down()
     {
-        Schema::drop('user_servers');
+        Schema::drop('sites');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Contracts\Server;
 
 /**
  * Interface ServerServiceContract
- * @package app\Contracts
+ * @package App\Contracts
  */
 interface ServerServiceContract
 {

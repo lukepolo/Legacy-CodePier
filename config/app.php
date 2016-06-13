@@ -170,7 +170,8 @@ return [
         /*
          * Custom Service Providers
          */
-        App\Providers\ServerServiceProvider::class
+        App\Providers\ServerServiceProvider::class,
+        App\Providers\SiteServiceProvider::class
     ],
 
     /*

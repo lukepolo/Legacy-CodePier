@@ -20,9 +20,10 @@
     $branch = isset($branch) ? $branch : null;
     $path = isset($path) ? rtrim($path, '/') : null;
     $release = isset($path) ? $path.'/'.$date : null;
+    $domain = isset($domain) ? $domain : null;
 @endsetup
 
-@servers(['web' => '-o StrictHostKeyChecking=no root@'.$options['server']])
+@servers(['web' => '-o StrictHostKeyChecking=no '.$options['user'].'@'.$options['server']])
 
 @macro('provision')
     add_codepier_user
@@ -30,18 +31,76 @@
     basic_packages
     server_settings
     php_packages
-    install_composer
     install_laravel_packages
     install_nginx_fpm
     install_node
     install_mysql
+    create_swap
 @endmacro
 
 @macro('deploy')
     updating_repository
     updating_third_party_vendors
+    setup_folders
     migrations
+    cleanup
 @endmacro
+
+@task('create_site')
+cat > /etc/nginx/sites-enabled/{{ $domain }} << 'EOF'
+
+    # codeier CONFIG (DOT NOT REMOVE!)
+    #include codeier-conf/{{ $domain }}/before/*;
+
+    server {
+        listen 80;
+        server_name {{ $domain }};
+        root /home/codepier/{{ $domain }}/current/public;
+
+        index index.html index.htm index.php;
+
+        charset utf-8;
+
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location = /robots.txt  { access_log off; log_not_found off; }
+
+        access_log off;
+        error_log  /var/log/nginx/{{ $domain }}-error.log error;
+
+        sendfile off;
+
+        client_max_body_size 100m;
+
+        location ~ \.php$ {
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+            fastcgi_intercept_errors off;
+            fastcgi_buffer_size 16k;
+            fastcgi_buffers 4 16k;
+            fastcgi_connect_timeout 300;
+            fastcgi_send_timeout 300;
+            fastcgi_read_timeout 300;
+        }
+
+        location ~ /\.ht {
+            deny all;
+        }
+    }
+
+    # codeier CONFIG (DOT NOT REMOVE!)
+    #include codeier-conf/{{ $domain }}/after/*;
+EOF
+
+service nginx restart;
+@endtask
 
 @task('updating_repository')
 
@@ -52,6 +111,10 @@
     cd {{ $path }};
     git clone {{ $repo }} --branch={{ $branch }} --depth=1 {{ $release }};
     echo "Repository fetched";
+
+    @if(!file_exists($path.'/.env'))
+        cp {{ $release }}/.env.example {{ $path }}/.env;
+    @endif
 
     ln -s {{ $path }}/.env {{ $release }}/.env;
     echo "Environment file set up";
@@ -64,40 +127,36 @@
     echo "Composer / Framework optimizations complete";
 
     @if(!file_exists($path.'/node_modules'))
-        npm install;
+        npm install --production;
         mv {{ $release }}/node_modules {{ $path }}/node_modules;
-    @else
-        rm -rf {{ $release }}/node_modules;
+        echo "Installed Node Modules";
     @endif
 
     ln -s {{ $path }}/node_modules {{ $release }}/node_modules;
 
     echo "Node modules set up";
+@endtask
 
+@task('setup_folders')
+    ln -sfn {{ $release }} {{ $path }}/current;
+    echo "Production folder set up : {{ $release }}";
 @endtask
 
 @task('migrations')
-
-    @if(file_exists($path.'/current'))
-        rm {{ $path }}/current;
-    @endif
-
-    ln -s {{ $release }} {{ $path }}/current;
-    echo "Production folder set up";
-
     cd {{ $release }}
 
     php artisan migrate --force --no-interaction;
     echo "Migrations complete";
 
     php artisan queue:restart
+
     echo "Queue Restarted"
 @endtask
 
 @task('cleanup')
     cd {{ $path }};
     find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n {{ 10 }} | xargs rm -Rf;
-    echo "Cleaned up old deploments";
+    echo "Cleaned up old deployments";
 @endtask
 
 @task('add_codepier_user')
@@ -129,7 +188,7 @@
 @endtask
 
 @task('basic_packages')
-    apt-get install -y git supervisor redis-server memcached beanstalkd
+    apt-get install -y zip unzip git supervisor redis-server memcached beanstalkd
 
     # Configure Beanstalkd
     sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd
@@ -139,34 +198,18 @@
 @task('server_settings')
     # Set My Timezone
     ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-
-    # Enable Swap Memory
-    /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-    /sbin/mkswap /var/swap.1
-    /sbin/swapon /var/swap.1
 @endtask
 
 @task('php_packages')
-    apt-get install -y php7.0-cli php7.0-dev \
-    php-pgsql php-sqlite3 php-gd php-apcu \
-    php-curl php7.0-mcrypt \
-    php-imap php-mysql php-memcached php7.0-readline php-xdebug \
-    php-mbstring php-xml php7.0-zip php7.0-intl php7.0-bcmath php-soap
+    apt-get install -y php7.0-cli php7.0-dev php-pgsql php-sqlite3 php-gd php-apcu php-curl php7.0-mcrypt php-imap php-mysql php-memcached php7.0-readline php-mbstring php-dom php-xml php7.0-zip php7.0-intl php7.0-bcmath php-soap composer
 
     # Set Some PHP CLI Settings
 
-    sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
-    sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
-    sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
-    sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
-@endtask
+    sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
+    sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
+    sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
+    sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
 
-@task('install_composer')
-    curl -sS https://getcomposer.org/installer | php
-    mv composer.phar /usr/local/bin/composer
-
-    # Add Composer Global Bin To Path
-    printf "\nPATH=\"$(sudo su - codepier -c 'composer config -g home 2>/dev/null')/vendor/bin:\$PATH\"\n" | tee -a /home/codepier/.profile
 @endtask
 
 @task('install_laravel_packages')
@@ -181,12 +224,6 @@
 
     rm /etc/nginx/sites-enabled/default
     rm /etc/nginx/sites-available/default
-    service nginx restart
-
-    echo "xdebug.remote_enable = 1" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
-    echo "xdebug.remote_connect_back = 1" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
-    echo "xdebug.remote_port = 9000" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
-    echo "xdebug.max_nesting_level = 512" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 
     sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
     sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
@@ -196,7 +233,7 @@
     sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini
     sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
 
-
+    # Set The Nginx & PHP-FPM User
     sed -i "s/user www-data;/user codepier;/" /etc/nginx/nginx.conf
     sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
@@ -206,13 +243,6 @@
     sed -i "s/listen\.owner.*/listen.owner = codepier/" /etc/php/7.0/fpm/pool.d/www.conf
     sed -i "s/listen\.group.*/listen.group = codepier/" /etc/php/7.0/fpm/pool.d/www.conf
     sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
-
-
-    # Disable XDebug On The CLI
-
-    sudo phpdismod -s cli xdebug
-
-    # Set The Nginx & PHP-FPM User
 
     service nginx restart
     service php7.0-fpm restart
@@ -234,9 +264,24 @@
     # Configure MySQL Remote Access
     sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
 
-    mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+    mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
     service mysql restart
 
     # Add Timezone Support To MySQL
     mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 @endtask
+
+@task('create_swap')
+    fallocate -l 1G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    cp /etc/fstab /etc/fstab.bak
+    echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+    echo "vm.swappiness=10" >> /etc/sysctl.conf
+    echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
+@endtask
+
+@after
+
+@endafter

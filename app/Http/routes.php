@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth'], function() {
     |
     */
 
+    Route::get('server/{serverID}', 'ServerController@getServer');
     Route::post('create-server', 'ServerController@postCreateServer');
 });
 

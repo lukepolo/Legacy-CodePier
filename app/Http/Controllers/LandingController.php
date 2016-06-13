@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Server\ServerServiceContract;
+use App\Contracts\Server\Site\SiteServiceContract;
 use App\Http\Requests;
-use App\Models\UserServer;
+use App\Models\Server;
 
 /**
  * Class HomeController
@@ -15,9 +16,10 @@ class LandingController extends Controller
     /**
      * LandingController constructor.
      */
-    public function __construct(ServerServiceContract $serverServiceContract)
+    public function __construct(ServerServiceContract $serverServiceContract, SiteServiceContract $siteServiceContract)
     {
         $this->serverService = $serverServiceContract;
+        $this->siteService = $siteServiceContract;
     }
 
     /**
@@ -27,9 +29,15 @@ class LandingController extends Controller
      */
     public function getIndex()
     {
-        dd($this->serverService->provision(UserServer::find(6)));
-
         if (\Auth::check()) {
+
+//            $server = Server::find(5);
+
+//            if($this->serverService->provision($server)) {
+//                if($this->siteService->create($server)) {
+//                    $this->siteService->deploy($server);
+//                }
+//            }
             return view('dashboard', [
                 'serverProviders' => \Auth::user()->serverProviders,
                 'servers' => \Auth::user()->servers

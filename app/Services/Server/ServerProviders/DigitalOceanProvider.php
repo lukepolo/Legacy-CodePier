@@ -2,7 +2,8 @@
 
 namespace App\Services\Server\ServerProviders;
 
-use App\Models\UserServer;
+use App\Models\Server;
+use App\Models\User;
 use DigitalOceanV2\Entity\Droplet;
 use DigitalOcean;
 
@@ -13,7 +14,12 @@ use DigitalOcean;
  */
 class DigitalOceanProvider {
 
-    public function create()
+    /**
+     * @param User $user
+     * @param array $options
+     * @return static
+     */
+    public function create(User $user, array $options = [])
     {
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
@@ -30,34 +36,49 @@ class DigitalOceanProvider {
             $userData = ''
         );
 
-        return $this->saveUserServer($droplet);
+        return $this->saveServer($droplet, $user);
     }
 
-    public function saveUserServer(Droplet $droplet)
+    /**
+     * @param Droplet $droplet
+     * @return static
+     */
+    public function saveServer(Droplet $droplet, User $user)
     {
-        return UserServer::create([
-            'user_id' => \Auth::user()->id,
+        return Server::create([
+            'user_id' => $user->id,
             'name' => $droplet->name,
             'server_id' => $droplet->id,
             'service' => 'digitalocean'
         ]);
     }
 
-    public function getStatus(UserServer $userServer)
+    /**
+     * @param Server $server
+     * @return mixed
+     */
+    public function getStatus(Server $server)
     {
-        return DigitalOcean::droplet()->getById($userServer->server_id)->status;
+        return DigitalOcean::droplet()->getById($server->server_id)->status;
     }
 
-    public function savePublicIP(UserServer $userServer)
+    /**
+     * @param Server $server
+     */
+    public function savePublicIP(Server $server)
     {
-        $userServer->update([
-            'ip' => $this->getPublicIP($userServer)
+        $server->update([
+            'ip' => $this->getPublicIP($server)
         ]);
     }
 
-    public function getPublicIP(UserServer $userServer)
+    /**
+     * @param Server $server
+     * @return mixed
+     */
+    public function getPublicIP(Server $server)
     {
-        $droplet = DigitalOcean::droplet()->getById($userServer->server_id);
+        $droplet = DigitalOcean::droplet()->getById($server->server_id);
 
         foreach($droplet->networks as $network) {
             if($network->type == 'public') {

@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function servers()
     {
-        return $this->hasMany(UserServer::class);
+        return $this->hasMany(Server::class);
     }
 
     public function serverProviders()
