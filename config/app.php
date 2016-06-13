@@ -170,6 +170,7 @@ return [
         /*
          * Custom Service Providers
          */
+        App\Providers\RemoteTaskServiceProvider::class,
         App\Providers\ServerServiceProvider::class,
         App\Providers\SiteServiceProvider::class
     ],

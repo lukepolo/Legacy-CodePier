@@ -30,14 +30,6 @@ class LandingController extends Controller
     public function getIndex()
     {
         if (\Auth::check()) {
-
-//            $server = Server::find(5);
-
-//            if($this->serverService->provision($server)) {
-//                if($this->siteService->create($server)) {
-//                    $this->siteService->deploy($server);
-//                }
-//            }
             return view('dashboard', [
                 'serverProviders' => \Auth::user()->serverProviders,
                 'servers' => \Auth::user()->servers

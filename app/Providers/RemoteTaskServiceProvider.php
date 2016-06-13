@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Contracts\Server\Site\SiteServiceContract;
-use App\Services\Server\Site\SiteService;
+use App\Contracts\RemoteTaskServiceContract;
+use App\Services\RemoteTaskService;
 use Illuminate\Support\ServiceProvider;
 
-class SiteServiceProvider extends ServiceProvider
+class RemoteTaskServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -26,8 +26,8 @@ class SiteServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            SiteServiceContract::class,
-            SiteService::class
+            RemoteTaskServiceContract::class,
+            RemoteTaskService::class
         );
     }
 }

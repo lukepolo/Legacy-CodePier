@@ -2,11 +2,10 @@
 
 namespace App\Services\Server;
 
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
 use App\Models\User;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
  * Class ServerService
@@ -14,17 +13,19 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  */
 class ServerService implements ServerServiceContract
 {
+    protected $remoteTaskService;
+
     public $services = [
         'digitalocean' => ServerProviders\DigitalOceanProvider::class
     ];
 
     /**
-     * @param $service
-     * @return mixed
+     * SiteService constructor.
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    private function getService($service)
+    public function __construct(RemoteTaskService $remoteTaskService)
     {
-        return new $this->services[$service]();
+        $this->remoteTaskService = $remoteTaskService;
     }
 
     /**
@@ -62,33 +63,24 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        $live = true;
-
-        $process = new Process('
-            eval `ssh-agent -s` && 
-            echo kashani1 | ssh-add &&
-             ~/.composer/vendor/bin/envoy run provision --user=root --server='.$server->ip.' --branch=master --path=/home/codepier/laravel
-        ');
-
-        $process->setTimeout(3600);
-        $process->setIdleTimeout(300);
-        $process->setWorkingDirectory(base_path());
-
-        $result = [];
-
-        try {
-            $process->run(function ($type, $buffer) use ($live, &$result) {
-                if ($live) {
-                    \Log::info($buffer);
-                    echo $buffer . '</br />';
-                }
-
-                $result[] = $buffer;
-            });
-        } catch (ProcessFailedException $e) {
-            return false;
-        }
-
-        return true;
+        return $this->remoteTaskService->run(
+            $server->ip,
+            'root',
+            'provision', [
+                'branch' => 'master',
+                'path' => '/home/codepier/laravel'
+            ],
+            true
+        );
     }
+
+    /**
+     * @param $service
+     * @return mixed
+     */
+    private function getService($service)
+    {
+        return new $this->services[$service]();
+    }
+
 }

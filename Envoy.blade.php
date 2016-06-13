@@ -23,7 +23,7 @@
     $domain = isset($domain) ? $domain : null;
 @endsetup
 
-@servers(['web' => '-o StrictHostKeyChecking=no '.$options['user'].'@'.$options['server']])
+@servers(['web' => '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '.$options['user'].'@'.$options['server']])
 
 @macro('provision')
     add_codepier_user
@@ -47,7 +47,7 @@
 @endmacro
 
 @task('create_site')
-cat > /etc/nginx/sites-enabled/{{ $domain }} << 'EOF'
+cat > /etc/nginx/sites-enabled/{{ $domain }} <<'EOF'
 
     # codeier CONFIG (DOT NOT REMOVE!)
     #include codeier-conf/{{ $domain }}/before/*;
@@ -182,12 +182,10 @@ service nginx restart;
     locale-gen en_US.UTF-8
 
     curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
-
-    # Update Package Lists
-    apt-get update
 @endtask
 
 @task('basic_packages')
+    apt-get update
     apt-get install -y zip unzip git supervisor redis-server memcached beanstalkd
 
     # Configure Beanstalkd
@@ -201,6 +199,7 @@ service nginx restart;
 @endtask
 
 @task('php_packages')
+    apt-get update
     apt-get install -y php7.0-cli php7.0-dev php-pgsql php-sqlite3 php-gd php-apcu php-curl php7.0-mcrypt php-imap php-mysql php-memcached php7.0-readline php-mbstring php-dom php-xml php7.0-zip php7.0-intl php7.0-bcmath php-soap composer
 
     # Set Some PHP CLI Settings
@@ -214,12 +213,13 @@ service nginx restart;
 
 @task('install_laravel_packages')
     sudo su codepier <<'EOF'
-    /usr/local/bin/composer global require "laravel/envoy=~1.0"
-    /usr/local/bin/composer global require "laravel/installer=~1.1"
+        composer global require "laravel/envoy=~1.0"
+        composer global require "laravel/installer=~1.1"
     EOF
 @endtask
 
 @task('install_nginx_fpm')
+    apt-get update
     apt-get install -y --force-yes nginx php7.0-fpm
 
     rm /etc/nginx/sites-enabled/default
@@ -249,6 +249,7 @@ service nginx restart;
 @endtask
 
 @task('install_node')
+    apt-get update
     apt-get install -y nodejs
     /usr/bin/npm install -g gulp
     /usr/bin/npm install -g bower

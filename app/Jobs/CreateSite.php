@@ -23,7 +23,7 @@ class CreateSite extends Job implements ShouldQueue
      * @param Server $server
      * @param $domain
      */
-    public function __construct(Server $server, $domain = null)
+    public function __construct(Server $server, $domain = 'default')
     {
         $this->server = $server;
         $this->domain = $domain;

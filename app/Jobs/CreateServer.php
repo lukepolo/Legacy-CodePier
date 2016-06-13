@@ -44,7 +44,10 @@ class CreateServer extends Job implements ShouldQueue
         /** @var Server $server */
         $server = $serverService->create($this->service, $this->user, $this->options);
 
-        while($serverStatus = $serverService->getStatus($server) == 'new') {
+        $serverStatus = 'new';
+
+        while($serverStatus == 'new') {
+            sleep(5);
             $serverStatus = $serverService->getStatus($server);
         }
 
@@ -52,6 +55,10 @@ class CreateServer extends Job implements ShouldQueue
 
         $serverService->saveInfo($server);
 
-        dispatch(new ProvisionServer($server));
+        if(env('QUEUE_DRIVER') == 'sync') {
+            sleep(15);
+        }
+
+        dispatch((new ProvisionServer($server))->onQueue('server_provision')->sleep(15));
     }
 }
