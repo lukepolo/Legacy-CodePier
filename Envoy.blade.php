@@ -12,7 +12,7 @@
         $options[$option[0]] = $option[1];
     }
 
-    $repo = 'https://github.com/laravel/laravel.git';
+    $repository = 'git@github.com:lukepolo/CodePier.git';
 
     $now = new DateTime();
     $date = $now->format('YmdHis');
@@ -109,7 +109,7 @@ service nginx restart;
     @endif
 
     cd {{ $path }};
-    git clone {{ $repo }} --branch={{ $branch }} --depth=1 {{ $release }};
+    git clone {{ $repository }} --branch={{ $branch }} --depth=1 {{ $release }};
     echo "Repository fetched";
 
     @if(!file_exists($path.'/.env'))
@@ -165,8 +165,13 @@ service nginx restart;
     adduser codepier sudo
     usermod -a -G www-data codepier
 
+    # Allow user to login as codepier
     mkdir /home/codepier/.ssh && cp -a ~/.ssh/authorized_keys /home/codepier/.ssh/authorized_keys
     chmod 700 /home/codepier/.ssh && chmod 600 /home/codepier/.ssh/authorized_keys
+
+    # Generate ssh key for codepier
+    ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+
     chown codepier /home/codepier/.ssh -R
 @endtask
 

@@ -2,9 +2,9 @@
 
 namespace App\Services\Server\Site\Repository\Providers;
 
-use App\Models\Server;
 use App\Models\User;
 use GitHub as GitHubService;
+use Github\Exception\ValidationFailedException;
 
 class GitHub
 {
@@ -15,22 +15,36 @@ class GitHub
         return GitHubService::api('repo')->all();
     }
 
-    public function importSshKey(Server $server, User $user)
+    public function importSshKey(User $user, $repository, $sshKey)
     {
         $this->setToken($user);
 
-        $key = GitHubService::api('repo')->keys()->create('lukepolo', 'codepier', [
-            'title' => 'key title',
-            'key' => env('SSH_KEY'),
-        ]);
+        $repositoryInfo = $this->getRepositoryInfo($repository);
 
-        dd($key);
-        dd($this->getSshKeys());
+        if ($repositoryInfo['private']) {
+            try {
+                GitHubService::api('repo')->keys()->create(
+                    $this->getRepositoryUser($repository),
+                    $this->getRepositoryName($repository),
+                    [
+                        'title' => 'key title',
+                        'key' => $sshKey,
+                    ]
+                );
+            } catch (ValidationFailedException $e) {
+                if (!$e->getMessage() == 'Validation Failed: key is already in use') {
+                    throw new \Exception($e->getMessage());
+                }
+            }
+        }
     }
 
-    private function getSshKeys()
+    private function getRepositoryInfo($repository)
     {
-        return GitHubService::api('repo')->keys()->all('lukepolo', 'codepier');
+        return GitHubService::api('repo')->show(
+            $this->getRepositoryUser($repository),
+            $this->getRepositoryName($repository)
+        );
     }
 
     private function setToken(User $user)
@@ -40,5 +54,15 @@ class GitHub
         }
 
         throw new \Exception('No server provider found for this user');
+    }
+
+    private function getRepositoryUser($repository)
+    {
+        return explode('/', $repository)[0];
+    }
+
+    private function getRepositoryName($repository)
+    {
+        return explode('/', $repository)[1];
     }
 }

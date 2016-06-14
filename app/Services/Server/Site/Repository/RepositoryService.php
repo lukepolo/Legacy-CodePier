@@ -24,9 +24,9 @@ class RepositoryService implements RepositoryServiceContract
         return $this->getProvider($provider)->getRepositories($user);
     }
 
-    public function importSshKey(Server $server, User $user)
+    public function importSshKey($service, User $user, $repository, $sshKey)
     {
-        return $this->getProvider('github')->importSshKey($server, $user);
+        return $this->getProvider($service)->importSshKey($user, $repository, $sshKey);
     }
 
     /**

@@ -23,14 +23,16 @@
                                 {!! Form::open(['action' => ['SiteController@postInstallRepository', $site->server->id, $site->id]]) !!}
                                     <div class="form-group">
                                         {!! Form::label('Repository') !!}
-                                        {!! Form::text('repository', null, ['class' => 'form-control']) !!}
+                                        {!! Form::text('repository', $site->repository, ['class' => 'form-control']) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('branch') !!}
-                                        {!! Form::text('branch', null, ['class' => 'form-control']) !!}
+                                        {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
                                     </div>
                                     {!! Form::submit('Install Repository') !!}
                                 {!! Form::close() !!}
+
+                                <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
                             </div>
                             <div class="tab-pane" id="environment">
                                 <pre>

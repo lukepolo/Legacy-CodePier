@@ -48,7 +48,6 @@ class SiteService implements SiteServiceContract
                 'wildcard_domain' => false,
                 'zerotime_deployment' => false,
                 'user_id' => $server->user_id,
-                'repository' => '',
                 'path' => '/home/codepier/' . $domain . '/current/public',
             ]);
 
@@ -62,18 +61,20 @@ class SiteService implements SiteServiceContract
      * Deploys a site on the server
      *
      * @param Server $server
+     * @param Site $site
      * @param bool $zeroDownTime
      *
      * @return bool
      */
-    public function deploy(Server $server, $zeroDownTime = true)
+    public function deploy(Server $server, Site $site, $zeroDownTime = true)
     {
         return $this->remoteTaskService->run(
             $server->ip,
             'codepier',
             'deploy', [
-                'branch' => 'master',
-                'path' => '/home/codepier/default'
+                'repository' => $site->repository,
+                'branch' => $site->branch,
+                'path' => $site->path
             ]
         );
     }

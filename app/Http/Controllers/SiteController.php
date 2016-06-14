@@ -6,6 +6,7 @@ use App\Contracts\Server\Site\Repository\RepositoryServiceContract as Repository
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Requests;
 use App\Jobs\CreateSite;
+use App\Models\Server;
 use App\Models\Site;
 
 /**
@@ -51,11 +52,19 @@ class SiteController extends Controller
 
     public function postInstallRepository($serverID, $siteID)
     {
+        $repository = \Request::get('repository');
+
         $site = Site::with('server')->findOrFail($siteID);
 
-        $this->repositoryService->importSshKey($site->server, \Auth::user());
+        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
+        $this->repositoryService->importSshKey('github', \Auth::user(), $repository, $sshKey);
 
-        dd('Imported key now try to deploy');
+        $site->repository = $repository;
+        $site->branch = \Request::get('branch');
+        
+        $site->save();
+
+        return back()->with('success', 'We have added the repository');
     }
 
     public function getEnv($serverID, $siteID)
@@ -63,5 +72,14 @@ class SiteController extends Controller
         $site = Site::with('server')->findOrFail($siteID);
 
         return $this->siteService->getFile($site->server, '/home/codepier/default/.env');
+    }
+
+    public function getDeploy($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->deploy($site->server, $site);
+
+        return back()->with('success', 'we are currently deploying');
     }
 }
