@@ -48,7 +48,7 @@ class SiteService implements SiteServiceContract
                 'wildcard_domain' => false,
                 'zerotime_deployment' => false,
                 'user_id' => $server->user_id,
-                'path' => '/home/codepier/' . $domain . '/current/public',
+                'path' => '/home/codepier/' . $domain,
             ]);
 
             return true;
@@ -91,6 +91,8 @@ class SiteService implements SiteServiceContract
             exit('Login Failed');
         }
 
-        return $ssh->get($filePath);
+        if($contents = $ssh->get($filePath)) {
+            return $contents;
+        }
     }
 }

@@ -61,7 +61,7 @@ class SiteController extends Controller
 
         $site->repository = $repository;
         $site->branch = \Request::get('branch');
-        
+
         $site->save();
 
         return back()->with('success', 'We have added the repository');

@@ -8,7 +8,7 @@
                     <div class="panel-heading">
                         Site Details
                         <div class="pull-right">
-                            server info up here
+                            {{ $site->server->ip }}
                         </div>
                     </div>
                     <div class="panel-body">

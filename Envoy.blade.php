@@ -108,6 +108,7 @@ service nginx restart;
         mkdir -p {{ $path }}
     @endif
 
+    echo "Installing into {{ $path }}";
     cd {{ $path }};
     git clone {{ $repository }} --branch={{ $branch }} --depth=1 {{ $release }};
     echo "Repository fetched";
