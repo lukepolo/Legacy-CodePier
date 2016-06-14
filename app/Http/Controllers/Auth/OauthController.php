@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\UserProvider;
 use App\Models\UserRepositoryProvider;
 use App\Models\UserServerProvider;
 use Socialite;
@@ -29,7 +28,9 @@ class OauthController extends Controller
 
     public function postNewProvider($provider)
     {
-        switch($provider) {
+        $scopes = null;
+
+        switch ($provider) {
             case 'github' :
                 $scopes = 'write:public_key admin:repo_hook repo';
                 break;
@@ -44,10 +45,10 @@ class OauthController extends Controller
     {
         $user = Socialite::driver($provider)->user();
 
-        if(\Auth::user()) {
+        if (\Auth::user()) {
 
-            if(in_array($provider, static::$repositoryProviders)) {
-                $serverProvider = UserRepositoryProvider::firstOrNew([
+            if (in_array($provider, static::$repositoryProviders)) {
+                $provider = UserRepositoryProvider::firstOrNew([
                     'service' => $provider,
                     'user_id' => \Auth::user()->id,
                 ]);
@@ -55,9 +56,8 @@ class OauthController extends Controller
                 $token = $user->token;
                 $refreshToken = $user->refreshToken;
                 $expiresIn = $user->expiresIn;
-
             } else {
-                $serverProvider = UserServerProvider::firstOrNew([
+                $provider = UserServerProvider::firstOrNew([
                     'service' => $provider,
                     'user_id' => \Auth::user()->id,
                 ]);
@@ -67,7 +67,7 @@ class OauthController extends Controller
                 $expiresIn = $user->accessTokenResponseBody['expires_in'];
             }
 
-            $serverProvider->fill([
+            $provider->fill([
                 'token' => $token,
                 'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null,
                 'provider_id' => $user->getId(),
@@ -78,12 +78,12 @@ class OauthController extends Controller
                 'expires_in' => $expiresIn
             ]);
 
-            $serverProvider->save();
+            $provider->save();
 
-            return back()->with('success', 'You have connected your '.$provider.' account');
-            
+            return back()->with('success', 'You have connected your ' . $provider . ' account');
+
         } else {
-            if(!User::where('email', $user->getEmail())->first()) {
+            if (!User::where('email', $user->getEmail())->first()) {
                 dd('This is a login user provider');
             }
         }

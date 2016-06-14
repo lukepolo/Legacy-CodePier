@@ -2,36 +2,37 @@
 
 namespace App\Services\Server\Site\Repository\Providers;
 
+use App\Models\Server;
 use App\Models\User;
-use GitHub;
+use GitHub as GitHubService;
 
-/**
- * Class GitHub
- * @package App\Services\Server\Site\Repository\Providers
- */
 class GitHub
 {
-    /**
-     * @param User $user
-     * @throws \Exception
-     */
     public function getRepositories(User $user)
     {
         $this->setToken($user);
 
-        return GitHub::api('repo')->all();
+        return GitHubService::api('repo')->all();
     }
 
-    public function setSshKey()
+    public function importSshKey(Server $server, User $user)
     {
-        dd('here');
+        $this->setToken($user);
+
+        $key = GitHubService::api('repo')->keys()->create('lukepolo', 'codepier', [
+            'title' => 'key title',
+            'key' => env('SSH_KEY'),
+        ]);
+
+        dd($key);
+        dd($this->getSshKeys());
     }
 
-    /**
-     * @param User $user
-     * @return mixed
-     * @throws \Exception
-     */
+    private function getSshKeys()
+    {
+        return GitHubService::api('repo')->keys()->all('lukepolo', 'codepier');
+    }
+
     private function setToken(User $user)
     {
         if ($userRepositoryProvider = $user->userRepositoryProviders->where('service', 'github')->first()) {

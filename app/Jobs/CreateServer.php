@@ -17,6 +17,7 @@ class CreateServer extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
     protected $user;
+    protected $name;
     protected $service;
     protected $options;
 
@@ -25,12 +26,14 @@ class CreateServer extends Job implements ShouldQueue
      *
      * @param $service
      * @param User $user
+     * @param $name
      * @param array $options
      */
-    public function __construct($service, User $user, array $options)
+    public function __construct($service, User $user, $name, array $options)
     {
         $this->service = $service;
         $this->user = $user;
+        $this->name = $name;
         $this->options = $options;
     }
 
@@ -42,7 +45,7 @@ class CreateServer extends Job implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         /** @var Server $server */
-        $server = $serverService->create($this->service, $this->user, $this->options);
+        $server = $serverService->create($this->service, $this->user, $this->name, $this->options);
 
         $serverStatus = 'new';
 

@@ -20,7 +20,7 @@
                         </ul>
                         <div id="my-tab-content" class="tab-content">
                             <div class="tab-pane active" id="repository">
-                                {!! Form::open() !!}
+                                {!! Form::open(['action' => ['SiteController@postInstallRepository', $site->server->id, $site->id]]) !!}
                                     <div class="form-group">
                                         {!! Form::label('Repository') !!}
                                         {!! Form::text('repository', null, ['class' => 'form-control']) !!}

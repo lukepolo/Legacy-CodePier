@@ -31,12 +31,13 @@ class ServerService implements ServerServiceContract
     /**
      * @param $provider
      * @param User $user
+     * @param $name
      * @param array $options
      * @return mixed
      */
-    public function create($provider, User $user, array $options)
+    public function create($provider, User $user, $name, array $options)
     {
-        return $this->getProvider($provider)->create($user, $options);
+        return $this->getProvider($provider)->create($user, $name, $options);
     }
 
     /**

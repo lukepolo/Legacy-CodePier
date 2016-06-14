@@ -49,6 +49,15 @@ class SiteController extends Controller
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
+    public function postInstallRepository($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->repositoryService->importSshKey($site->server, \Auth::user());
+
+        dd('Imported key now try to deploy');
+    }
+
     public function getEnv($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);

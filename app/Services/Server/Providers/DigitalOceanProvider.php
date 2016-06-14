@@ -16,16 +16,18 @@ class DigitalOceanProvider {
 
     /**
      * @param User $user
+     * @param $name
      * @param array $options
      * @return static
+     * @throws \Exception
      */
-    public function create(User $user, array $options = [])
+    public function create(User $user, $name, array $options = [])
     {
         $this->setToken($user);
 
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
-            \Request::get('name'),
+            $name,
             'nyc3',
             '512mb',
             'ubuntu-16-04-x64',

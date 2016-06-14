@@ -53,7 +53,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
             $process->wait(function ($type, $buffer) use ($live, &$result) {
                 if ($live) {
                     \Log::info($buffer);
-                    echo $buffer . '</br />';
                 }
                 $result[] = $buffer;
             });

@@ -33,7 +33,7 @@ class ServerController extends Controller
      */
     public function postCreateServer()
     {
-        $this->dispatch((new CreateServer(\Request::get('service'), \Auth::user(),
+        $this->dispatch((new CreateServer(\Request::get('service'), \Auth::user(), \Request::get('name'),
             \Request::except(['_token', 'service'])))->onQueue('server_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
