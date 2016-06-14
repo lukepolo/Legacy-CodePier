@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-06-13.
+    * Generated on 2016-06-14.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -43,7 +43,13 @@ namespace PHPSTORM_META {
             'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
             'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
             'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
+            'github.authfactory' instanceof \GrahamCampbell\GitHub\Authenticators\AuthenticatorFactory,
+            'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
+            'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
+            'github.connection' instanceof \Github\Client,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -165,7 +171,13 @@ namespace PHPSTORM_META {
             'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
             'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
             'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
+            'github.authfactory' instanceof \GrahamCampbell\GitHub\Authenticators\AuthenticatorFactory,
+            'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
+            'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
+            'github.connection' instanceof \Github\Client,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -287,7 +299,13 @@ namespace PHPSTORM_META {
             'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
             'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
             'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
+            'github.authfactory' instanceof \GrahamCampbell\GitHub\Authenticators\AuthenticatorFactory,
+            'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
+            'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
+            'github.connection' instanceof \Github\Client,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
@@ -409,7 +427,13 @@ namespace PHPSTORM_META {
             'digitalocean.factory' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanFactory,
             'digitalocean' instanceof \GrahamCampbell\DigitalOcean\DigitalOceanManager,
             'digitalocean.connection' instanceof \DigitalOceanV2\DigitalOceanV2,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
+            'github.authfactory' instanceof \GrahamCampbell\GitHub\Authenticators\AuthenticatorFactory,
+            'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
+            'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
+            'github.connection' instanceof \Github\Client,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,

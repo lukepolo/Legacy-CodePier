@@ -15,8 +15,8 @@ class ServerService implements ServerServiceContract
 {
     protected $remoteTaskService;
 
-    public $services = [
-        'digitalocean' => ServerProviders\DigitalOceanProvider::class
+    public $providers = [
+        'digitalocean' => Providers\DigitalOceanProvider::class
     ];
 
     /**
@@ -29,14 +29,14 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param $service
+     * @param $provider
      * @param User $user
      * @param array $options
      * @return mixed
      */
-    public function create($service, User $user, array $options)
+    public function create($provider, User $user, array $options)
     {
-        return $this->getService($service)->create($user, $options);
+        return $this->getProvider($provider)->create($user, $options);
     }
 
     /**
@@ -45,7 +45,7 @@ class ServerService implements ServerServiceContract
      */
     public function getStatus(Server $server)
     {
-        return $this->getService($server->service)->getStatus($server);
+        return $this->getProvider($server->service)->getStatus($server);
     }
 
     /**
@@ -54,7 +54,7 @@ class ServerService implements ServerServiceContract
      */
     public function saveInfo(Server $server)
     {
-        return $this->getService($server->service)->savePublicIP($server);
+        return $this->getProvider($server->service)->savePublicIP($server);
     }
 
     /**
@@ -63,7 +63,7 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        return $this->remoteTaskService->run(
+        if($this->remoteTaskService->run(
             $server->ip,
             'root',
             'provision', [
@@ -71,16 +71,23 @@ class ServerService implements ServerServiceContract
                 'path' => '/home/codepier/laravel'
             ],
             true
-        );
+        )) {
+            $server->status = 'Active';
+            $server->save();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * @param $service
+     * @param $provider
      * @return mixed
      */
-    private function getService($service)
+    private function getProvider($provider)
     {
-        return new $this->services[$service]();
+        return new $this->providers[$provider]();
     }
 
 }

@@ -59,6 +59,6 @@ class CreateServer extends Job implements ShouldQueue
             sleep(15);
         }
 
-        dispatch((new ProvisionServer($server))->onQueue('server_provision')->sleep(15));
+        dispatch((new ProvisionServer($server))->onQueue('server_provision')->delay(15));
     }
 }

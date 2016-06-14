@@ -44,8 +44,14 @@ class User extends Authenticatable
         return $this->hasMany(UserServerProvider::class);
     }
 
+    // TODO - change to login providers
     public function userProviders()
     {
         return $this->hasMany(UserProvider::class);
+    }
+
+    public function userRepositoryProviders()
+    {
+        return $this->hasMany(UserRepositoryProvider::class);
     }
 }

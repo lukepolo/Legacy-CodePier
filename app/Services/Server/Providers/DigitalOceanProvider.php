@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\ServerProviders;
+namespace App\Services\Server\Providers;
 
 use App\Models\Server;
 use App\Models\User;
@@ -21,6 +21,8 @@ class DigitalOceanProvider {
      */
     public function create(User $user, array $options = [])
     {
+        $this->setToken($user);
+
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
             \Request::get('name'),
@@ -45,11 +47,14 @@ class DigitalOceanProvider {
      */
     public function saveServer(Droplet $droplet, User $user)
     {
+        $this->setToken($user);
+
         return Server::create([
             'user_id' => $user->id,
             'name' => $droplet->name,
             'server_id' => $droplet->id,
-            'service' => 'digitalocean'
+            'service' => 'digitalocean',
+            'status' => 'Provisioning',
         ]);
     }
 
@@ -59,6 +64,8 @@ class DigitalOceanProvider {
      */
     public function getStatus(Server $server)
     {
+        $this->setToken($server->user);
+
         return DigitalOcean::droplet()->getById($server->server_id)->status;
     }
 
@@ -67,6 +74,8 @@ class DigitalOceanProvider {
      */
     public function savePublicIP(Server $server)
     {
+        $this->setToken($server->user);
+
         $server->update([
             'ip' => $this->getPublicIP($server)
         ]);
@@ -78,6 +87,8 @@ class DigitalOceanProvider {
      */
     public function getPublicIP(Server $server)
     {
+        $this->setToken($server->user);
+
         $droplet = DigitalOcean::droplet()->getById($server->server_id);
 
         foreach($droplet->networks as $network) {
@@ -85,5 +96,14 @@ class DigitalOceanProvider {
                 return $network->ipAddress;
             }
         }
+    }
+
+    private function setToken(User $user)
+    {
+        if($serverProvider = $user->serverProviders->where('service', 'digitalocean')->first()) {
+            return config(['digitalocean.connections.main.token' => $serverProvider->token]);
+        }
+
+        throw new \Exception('No server provider found for this user');
     }
 }

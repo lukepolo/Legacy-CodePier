@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Laravel DigitalOcean.
+ * This file is part of Laravel GitHub.
  *
  * (c) Graham Campbell <graham@alt-three.com>
  *
@@ -26,22 +26,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | DigitalOcean Connections
+    | GitHub Connections
     |--------------------------------------------------------------------------
     |
     | Here are each of the connections setup for your application. Example
     | configuration has been included, but you may add as many connections as
-    | you would like. Both guzzle and buzz drivers are supported, with "guzzle"
-    | being guzzle 3, and "guzzlehttp" being guzzle 5 or 6.
+    | you would like. Note that the 3 supported authentication methods are:
+    | "application", "password", and "token".
     |
     */
 
     'connections' => [
 
         'main' => [
-            'driver'  => 'guzzlehttp',
             'token'   => '',
-        ]
+            'method'  => 'token',
+            'cache'   => true,
+        ],
     ],
 
 ];

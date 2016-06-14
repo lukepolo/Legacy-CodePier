@@ -22,9 +22,10 @@
                         <tbody>
                         @foreach($servers as $server)
                             <tr>
-                                <td>{{ $server->name }}</td>
+                                <td><a href="{{ action('ServerController@getServer', $server->id) }}">{{ $server->name }}</a></td>
                                 <td>{{ $server->service }}</td>
                                 <td>{{ $server->ip }}</td>
+                                <td>{{ $server->status }}</td>
                                 <td></td>
                             </tr>
                         @endforeach

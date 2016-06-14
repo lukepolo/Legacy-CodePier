@@ -5,6 +5,7 @@ namespace App\Services\Server\Site;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
+use App\Models\Site;
 
 /**
  * Class SiteService
@@ -23,18 +24,47 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService = $remoteTaskService;
     }
 
+    /**
+     * Creates a site on the server
+     *
+     * @param Server $server
+     * @param string $domain
+     * @return bool
+     */
     public function create(Server $server, $domain = 'default')
     {
-        return $this->remoteTaskService->run(
+        if ($this->remoteTaskService->run(
             $server->ip,
             'root',
             'create_site', [
-                'domain' => $domain
-            ]
-        );
+            'domain' => $domain
+        ])
+        ) {
+            Site::create([
+                'domain' => $domain,
+                'server_id' => $server->id,
+                'wildcard_domain' => false,
+                'zerotime_deployment' => false,
+                'user_id' => $server->user_id,
+                'repository' => '',
+                'path' => '/home/codepier/' . $domain . '/current/public',
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 
-    public function deploy(Server $server)
+    /**
+     * Deploys a site on the server
+     *
+     * @param Server $server
+     * @param bool $zeroDownTime
+     *
+     * @return bool
+     */
+    public function deploy(Server $server, $zeroDownTime = true)
     {
         return $this->remoteTaskService->run(
             $server->ip,

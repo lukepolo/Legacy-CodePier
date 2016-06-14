@@ -26,7 +26,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
     {
         $live = true;
 
-
         $options = implode(' ', array_map(
             function ($value, $key) {
                 return '--'.$key.'='.$value;

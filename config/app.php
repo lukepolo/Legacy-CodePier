@@ -166,13 +166,15 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
+        GrahamCampbell\GitHub\GitHubServiceProvider::class,
 
         /*
          * Custom Service Providers
          */
+        App\Providers\RepositoryServiceProvider::class,
         App\Providers\RemoteTaskServiceProvider::class,
         App\Providers\ServerServiceProvider::class,
-        App\Providers\SiteServiceProvider::class
+        App\Providers\SiteServiceProvider::class,
     ],
 
     /*
@@ -226,7 +228,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class
+        'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
+        'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class
     ],
 
 ];
