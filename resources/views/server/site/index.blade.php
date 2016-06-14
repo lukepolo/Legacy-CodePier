@@ -33,7 +33,9 @@
                                 {!! Form::close() !!}
                             </div>
                             <div class="tab-pane" id="environment">
-                                Environment
+                                <pre>
+
+                                </pre>
                             </div>
                             <div class="tab-pane" id="workers">
                                 Workers
@@ -48,3 +50,11 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $.get('{{ action('SiteController@getEnv', [$site->server_id, $site->id]) }}', function(envFile) {
+            $('#environment').find('pre').html(envFile);
+        });
+    </script>
+@endpush

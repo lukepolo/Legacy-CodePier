@@ -23,7 +23,7 @@
         @include('layouts.core.footer')
 
         <script src="{{ elixir('js/all.js') }}"></script>
-        @include('layouts.core.socketio')
+        {{--@include('layouts.core.socketio')--}}
         @stack('scripts')
         <script type="text/javascript">
             $.ajaxSetup({

@@ -61,6 +61,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
             return false;
         }
 
-        return true;
+        return $result;
     }
 }

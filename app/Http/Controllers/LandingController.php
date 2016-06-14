@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Http\Requests;
-use App\Models\Server;
 
 /**
  * Class HomeController

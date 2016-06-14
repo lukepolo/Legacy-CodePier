@@ -6,6 +6,9 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
 use App\Models\Site;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
+use phpseclib\Net\SSH2;
 
 /**
  * Class SiteService
@@ -74,5 +77,20 @@ class SiteService implements SiteServiceContract
                 'path' => '/home/codepier/default'
             ]
         );
+    }
+
+    public function getFile(Server $server, $filePath)
+    {
+        $key = new RSA();
+        $key->setPassword(env('SSH_KEY_PASSWORD'));
+        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
+
+        $ssh = new SFTP($server->ip);
+
+        if (!$ssh->login('root', $key)) {
+            exit('Login Failed');
+        }
+
+        return $ssh->get($filePath);
     }
 }

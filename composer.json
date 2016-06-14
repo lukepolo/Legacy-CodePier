@@ -16,7 +16,8 @@
         "laravel/socialite": "^2.0",
         "socialiteproviders/digitalocean": "^2.0",
         "graham-campbell/digitalocean": "^3.1",
-        "graham-campbell/github": "^4.4"
+        "graham-campbell/github": "^4.4",
+        "phpseclib/phpseclib": "^2.0"
 
     },
     "require-dev": {
