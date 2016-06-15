@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Server\Site\SiteServiceContract;
 use App\Http\Requests;
 
 /**
@@ -12,15 +10,6 @@ use App\Http\Requests;
  */
 class LandingController extends Controller
 {
-    /**
-     * LandingController constructor.
-     */
-    public function __construct(ServerServiceContract $serverServiceContract, SiteServiceContract $siteServiceContract)
-    {
-        $this->serverService = $serverServiceContract;
-        $this->siteService = $siteServiceContract;
-    }
-
     /**
      * Show the application dashboard.
      *

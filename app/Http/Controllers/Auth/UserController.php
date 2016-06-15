@@ -25,8 +25,6 @@ class UserController extends Controller
 
     }
 
-   
-
     // TODO - Subscriptions
 
 }

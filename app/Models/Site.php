@@ -12,9 +12,12 @@ class Site extends Model
 {
     protected $guarded = ['id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
     public function server()
     {
         return $this->belongsTo(Server::class);

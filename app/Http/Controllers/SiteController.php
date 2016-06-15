@@ -6,7 +6,6 @@ use App\Contracts\Server\Site\Repository\RepositoryServiceContract as Repository
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Requests;
 use App\Jobs\CreateSite;
-use App\Models\Server;
 use App\Models\Site;
 
 /**
@@ -20,6 +19,7 @@ class SiteController extends Controller
 
     /**
      * SiteController constructor.
+     *
      * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
      * @param \App\Services\Server\Site\SiteService |SiteService $siteService
      */
@@ -29,6 +29,13 @@ class SiteController extends Controller
         $this->siteService = $siteService;
     }
 
+    /**
+     * Gets a site based on its id
+     *
+     * @param $serverID
+     * @param $siteID
+     * @return mixed
+     */
     public function getSite($serverID, $siteID)
     {
         $this->repositoryService->getRepositories('github', \Auth::user());
@@ -50,6 +57,13 @@ class SiteController extends Controller
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
+    /**
+     * Installs a repository for a site
+     *
+     * @param $serverID
+     * @param $siteID
+     * @return mixed
+     */
     public function postInstallRepository($serverID, $siteID)
     {
         $repository = \Request::get('repository');
@@ -57,6 +71,11 @@ class SiteController extends Controller
         $site = Site::with('server')->findOrFail($siteID);
 
         $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
+
+        if(empty($sshKey)) {
+            return back()->withErrors('You seem to be missing a SSH key, please contact support.');
+        }
+
         $this->repositoryService->importSshKey('github', \Auth::user(), $repository, $sshKey);
 
         $site->repository = $repository;
@@ -67,6 +86,13 @@ class SiteController extends Controller
         return back()->with('success', 'We have added the repository');
     }
 
+    /**
+     * Gets the env for a site
+     *
+     * @param $serverID
+     * @param $siteID
+     * @return mixed
+     */
     public function getEnv($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -74,6 +100,14 @@ class SiteController extends Controller
         return $this->siteService->getFile($site->server, '/home/codepier/default/.env');
     }
 
+    /**
+     * Creates the deployment // TODO - ajax
+     *
+     * @param $serverID
+     * @param $siteID
+     *
+     * @return mixed
+     */
     public function getDeploy($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);

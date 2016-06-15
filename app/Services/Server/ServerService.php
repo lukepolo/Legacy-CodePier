@@ -29,6 +29,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Creates a new server
+     *
      * @param $provider
      * @param User $user
      * @param $name
@@ -41,6 +43,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Gets the status of the serer
+     *
      * @param Server $server
      * @return mixed
      */
@@ -50,6 +54,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Saves the server information into the database
+     *
      * @param Server $server
      * @return mixed
      */
@@ -59,6 +65,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Provisions a server
+     *
      * @param Server $server
      * @return bool
      */
@@ -83,6 +91,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Gest the provider passed in
      * @param $provider
      * @return mixed
      */

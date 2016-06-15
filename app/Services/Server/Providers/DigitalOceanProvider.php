@@ -26,6 +26,8 @@ class DigitalOceanProvider {
         $this->setToken($user);
 
         /** @var Droplet $droplet */
+
+        // TODO - server should be configurable
         $droplet = DigitalOcean::droplet()->create(
             $name,
             'nyc3',
@@ -35,7 +37,7 @@ class DigitalOceanProvider {
             $ipv6 = true,
             $privateNetworking = true,
             $sshKeys = [
-                '06:73:25:f2:3f:cb:1a:04:fd:c2:f3:1e:b6:9f:e1:39'
+                env('SSH_KEY')
             ],
             $userData = ''
         );

@@ -26,6 +26,11 @@ class OauthController extends Controller
         'github'
     ];
 
+    /**
+     * Handles provider requests
+     * @param $provider
+     * @return mixed
+     */
     public function postNewProvider($provider)
     {
         $scopes = null;
@@ -41,6 +46,11 @@ class OauthController extends Controller
         return Socialite::driver($provider)->scopes([$scopes])->redirect();
     }
 
+    /**
+     * Handles the request from the provider
+     * @param $provider
+     * @return mixed
+     */
     public function getHandleProviderCallback($provider)
     {
         $user = Socialite::driver($provider)->user();
