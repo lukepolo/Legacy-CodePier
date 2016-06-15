@@ -104,6 +104,8 @@ service nginx restart;
 
 @task('updating_repository')
 
+    ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
     @if(!file_exists($path))
         mkdir -p {{ $path }}
     @endif
@@ -171,7 +173,7 @@ service nginx restart;
     chmod 700 /home/codepier/.ssh && chmod 600 /home/codepier/.ssh/authorized_keys
 
     # Generate ssh key for codepier
-    ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+    ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa
 
     chown codepier /home/codepier/.ssh -R
 @endtask

@@ -27,7 +27,7 @@ class GitHub
                     $this->getRepositoryUser($repository),
                     $this->getRepositoryName($repository),
                     [
-                        'title' => 'key title',
+                        'title' => 'CodePier',
                         'key' => $sshKey,
                     ]
                 );
