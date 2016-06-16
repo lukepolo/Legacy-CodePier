@@ -65,6 +65,34 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Installs a SSH key onto a server
+     *
+     * @param Server $server
+     * @param $sshKey
+     */
+    public function installSshKey(Server $server, $sshKey)
+    {
+        $this->remoteTaskService->run(
+            $server->ip,
+            'codepier',
+            'install_ssh_key', [
+                'sshKey' => $sshKey
+            ]
+        );
+    }
+
+    public function removeSshKey(Server $server, $sshKey)
+    {
+        $this->remoteTaskService->run(
+            $server->ip,
+            'codepier',
+            'remove_ssh_key', [
+                'sshKey' => $sshKey
+            ]
+        );
+    }
+
+    /**
      * Provisions a server
      *
      * @param Server $server

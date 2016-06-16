@@ -44,7 +44,7 @@ class DigitalOceanProvider {
 
         return $this->saveServer($droplet, $user);
     }
-
+    
     /**
      * @param Droplet $droplet
      * @return static

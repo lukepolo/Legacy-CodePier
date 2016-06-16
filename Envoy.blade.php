@@ -115,6 +115,11 @@ service nginx restart;
     git clone {{ $repository }} --branch={{ $branch }} --depth=1 {{ $release }};
     echo "Repository fetched";
 
+    echo "*" > .git/info/sparse-checkout
+    echo "!storage" >> .git/info/sparse-checkout
+    echo "!public/build" >> .git/info/sparse-checkout
+
+
     @if(!file_exists($path.'/.env'))
         cp {{ $release }}/.env.example {{ $path }}/.env;
     @endif
@@ -154,6 +159,9 @@ service nginx restart;
     php artisan queue:restart
 
     echo "Queue Restarted"
+
+    #this needs to be done
+    #sudo service php5-fpm restart
 @endtask
 
 @task('cleanup')
@@ -175,7 +183,7 @@ service nginx restart;
     # Generate ssh key for codepier
     ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa
 
-    chown codepier /home/codepier/.ssh -R
+    chown codepier:codepier /home/codepier/.ssh -R
 @endtask
 
 @task('install_ppas')
@@ -228,7 +236,7 @@ service nginx restart;
 
 @task('install_nginx_fpm')
     apt-get update
-    apt-get install -y --force-yes nginx php7.0-fpm
+    apt-get install -y --force-yes nginx php7.0-fpm php-fpm-cli
 
     rm /etc/nginx/sites-enabled/default
     rm /etc/nginx/sites-available/default
@@ -289,6 +297,14 @@ service nginx restart;
     echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
     echo "vm.swappiness=10" >> /etc/sysctl.conf
     echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
+@endtask
+
+@task('install_ssh_key')
+    echo {{ $sshKey }} >> ~/.ssh/authorized_keys
+@endtask
+
+@task('remove_ssh_key')
+    sed -i '/{{ $sshKey }}/d' ~/.ssh/authorized_keys
 @endtask
 
 @after

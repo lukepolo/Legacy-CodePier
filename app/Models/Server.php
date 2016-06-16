@@ -23,4 +23,9 @@ class Server extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function sshKeys()
+    {
+        return $this->hasMany(ServerSshKey::class);
+    }
 }
