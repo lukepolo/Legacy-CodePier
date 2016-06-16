@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ServerProvider;
 use App\Models\User;
 use App\Models\UserRepositoryProvider;
 use App\Models\UserServerProvider;
@@ -68,7 +69,7 @@ class OauthController extends Controller
                 $expiresIn = $user->expiresIn;
             } else {
                 $provider = UserServerProvider::firstOrNew([
-                    'service' => $provider,
+                    'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
                     'user_id' => \Auth::user()->id,
                 ]);
 

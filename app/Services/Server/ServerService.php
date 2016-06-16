@@ -5,6 +5,7 @@ namespace App\Services\Server;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
+use App\Models\ServerProvider;
 use App\Models\User;
 
 /**
@@ -40,6 +41,24 @@ class ServerService implements ServerServiceContract
     public function create($provider, User $user, $name, array $options)
     {
         return $this->getProvider($provider)->create($user, $name, $options);
+    }
+
+    /**
+     * @param $provider
+     * @return mixed
+     */
+    public function getServerOptions($provider)
+    {
+        return $this->getProvider($provider)->getOptions();
+    }
+
+    /**
+     * @param $provider
+     * @return mixed
+     */
+    public function getServerRegions($provider)
+    {
+        return $this->getProvider($provider)->getRegions();
     }
 
     /**
@@ -81,6 +100,10 @@ class ServerService implements ServerServiceContract
         );
     }
 
+    /**
+     * @param Server $server
+     * @param $sshKey
+     */
     public function removeSshKey(Server $server, $sshKey)
     {
         $this->remoteTaskService->run(
@@ -120,12 +143,12 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gest the provider passed in
-     * @param $provider
+     * @param ServerProvider 
      * @return mixed
      */
-    private function getProvider($provider)
+    private function getProvider(ServerProvider $serverProvider)
     {
-        return new $this->providers[$provider]();
+        return new $this->providers[$serverProvider->provider_name]();
     }
 
 }

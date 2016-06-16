@@ -4,11 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UserServerProvider
- * @package App\Models
- */
-class UserServerProvider extends Model
+class ServerProvider extends Model
 {
     protected $guarded = ['id'];
 
@@ -18,8 +14,13 @@ class UserServerProvider extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function serverProvider()
+    public function serverOptions()
     {
-        return $this->belongsTo(ServerProvider::class);
+        return $this->hasMany(ServerProviderOption::class);
+    }
+
+    public function serverRegions()
+    {
+        return $this->hasMany(ServerProviderRegion::class);
     }
 }

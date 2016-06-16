@@ -6,6 +6,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Requests;
 use App\Jobs\CreateServer;
 use App\Models\Server;
+use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
 
 /**
@@ -46,7 +47,7 @@ class ServerController extends Controller
      */
     public function postCreateServer()
     {
-        $this->dispatch((new CreateServer(\Request::get('service'), \Auth::user(), \Request::get('name'),
+        $this->dispatch((new CreateServer(ServerProvider::findorFail(\Request::get('server_provider_id')), \Auth::user(), \Request::get('name'),
             \Request::except(['_token', 'service'])))->onQueue('server_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');

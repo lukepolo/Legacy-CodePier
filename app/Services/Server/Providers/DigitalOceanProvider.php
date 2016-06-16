@@ -3,16 +3,57 @@
 namespace App\Services\Server\Providers;
 
 use App\Models\Server;
+use App\Models\ServerProvider;
+use App\Models\ServerProviderOption;
+use App\Models\ServerProviderRegion;
 use App\Models\User;
-use DigitalOceanV2\Entity\Droplet;
 use DigitalOcean;
+use DigitalOceanV2\Entity\Droplet;
 
 /**
  * Class DigitalOcean
  *
  * @package App\Services\Server\ServerProviders
  */
-class DigitalOceanProvider {
+class DigitalOceanProvider
+{
+    protected $providerName = 'digitalocean';
+
+    public function getOptions()
+    {
+        $options = [];
+        $this->setToken(\Auth::user());
+
+        foreach (DigitalOcean::size()->getAll() as $size) {
+
+            $options[] = ServerProviderOption::firstOrCreate([
+                'server_provider_id' => $this->getServerProviderID(),
+                'memory' => $size->memory,
+                'cpus' => $size->vcpus,
+                'space' => $size->disk,
+                'priceHourly' => $size->priceHourly,
+                'priceMonthly' => $size->priceMonthly
+            ]);
+        }
+
+        return $options;
+    }
+
+    public function getRegions()
+    {
+        $regions = [];
+        $this->setToken(\Auth::user());
+
+        foreach (DigitalOcean::region()->getAll() as $region) {
+            $regions[] = ServerProviderRegion::firstOrCreate([
+                'server_provider_id' => $this->getServerProviderID(),
+                'name' => $region->name,
+                'provider_name' => $region->slug
+            ]);
+        }
+
+        return $regions;
+    }
 
     /**
      * @param User $user
@@ -44,7 +85,7 @@ class DigitalOceanProvider {
 
         return $this->saveServer($droplet, $user);
     }
-    
+
     /**
      * @param Droplet $droplet
      * @return static
@@ -57,7 +98,7 @@ class DigitalOceanProvider {
             'user_id' => $user->id,
             'name' => $droplet->name,
             'server_id' => $droplet->id,
-            'service' => 'digitalocean',
+            'server_provider_id' => $this->getServerProviderID(),
             'status' => 'Provisioning',
         ]);
     }
@@ -95,8 +136,8 @@ class DigitalOceanProvider {
 
         $droplet = DigitalOcean::droplet()->getById($server->server_id);
 
-        foreach($droplet->networks as $network) {
-            if($network->type == 'public') {
+        foreach ($droplet->networks as $network) {
+            if ($network->type == 'public') {
                 return $network->ipAddress;
             }
         }
@@ -104,10 +145,17 @@ class DigitalOceanProvider {
 
     private function setToken(User $user)
     {
-        if($serverProvider = $user->serverProviders->where('service', 'digitalocean')->first()) {
+        if ($serverProvider = $user->userServerProviders->where('id', 1)->first()) {
             return config(['digitalocean.connections.main.token' => $serverProvider->token]);
         }
 
         throw new \Exception('No server provider found for this user');
+    }
+
+    private function getServerProviderID()
+    {
+        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function() {
+            return ServerProvider::where('provider_name', $this->providerName)->first()->id;
+        });
     }
 }

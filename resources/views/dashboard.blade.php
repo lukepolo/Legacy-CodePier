@@ -26,7 +26,7 @@
                                 <td>{{ $server->service }}</td>
                                 <td>{{ $server->ip }}</td>
                                 <td>{{ $server->status }}</td>
-                                <td></td>
+                                <td> // TODO - figure out how to make sure things are connected</td>
                             </tr>
                         @endforeach
                         </tbody>

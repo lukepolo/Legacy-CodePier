@@ -6,6 +6,7 @@ use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\ServerCreated;
 use App\Models\Server;
+use App\Models\ServerProvider;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -22,23 +23,23 @@ class CreateServer extends Job implements ShouldQueue
 
     protected $user;
     protected $name;
-    protected $service;
     protected $options;
+    protected $serverProvider;
 
     /**
      * Create a new job instance.
      *
-     * @param $service
+     * @param ServerProvider $serverProvider
      * @param User $user
      * @param $name
      * @param array $options
      */
-    public function __construct($service, User $user, $name, array $options)
+    public function __construct(ServerProvider $serverProvider, User $user, $name, array $options)
     {
-        $this->service = $service;
         $this->user = $user;
         $this->name = $name;
         $this->options = $options;
+        $this->serverProvider = $serverProvider;
     }
 
     /**
@@ -49,7 +50,7 @@ class CreateServer extends Job implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         /** @var Server $server */
-        $server = $serverService->create($this->service, $this->user, $this->name, $this->options);
+        $server = $serverService->create($this->serverProvider, $this->user, $this->name, $this->options);
 
         $serverStatus = 'new';
 

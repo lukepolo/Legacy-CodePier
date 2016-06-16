@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Server\ServerServiceContract;
 use App\Http\Requests;
+use App\Models\ServerProvider;
 
 /**
  * Class HomeController
@@ -10,6 +12,14 @@ use App\Http\Requests;
  */
 class LandingController extends Controller
 {
+    /**
+     * LandingController constructor.
+     */
+    public function __construct(ServerServiceContract $serverServiceContract)
+    {
+        $this->serverService = $serverServiceContract;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -19,7 +29,7 @@ class LandingController extends Controller
     {
         if (\Auth::check()) {
             return view('dashboard', [
-                'serverProviders' => \Auth::user()->serverProviders,
+                'userServerProviders' => \Auth::user()->userServerProviders,
                 'servers' => \Auth::user()->servers
             ]);
         }
