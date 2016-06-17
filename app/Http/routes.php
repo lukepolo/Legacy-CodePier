@@ -5,12 +5,30 @@ Route::auth();
 Route::get('/', 'LandingController@getIndex');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/my-profile', 'Auth\UserController@getMyProfile');
 
+    /*
+    |--------------------------------------------------------------------------
+    | OAuth Routes
+    |--------------------------------------------------------------------------
+    |
+    */
     Route::get('/provider/{provider}/link', 'Auth\OauthController@postNewProvider');
     Route::post('/provider/{provider}/link', 'Auth\OauthController@postNewProvider');
-    
     Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::get('/my-profile', 'Auth\UserController@getMyProfile');
+    Route::post('/my-profile', 'Auth\UserController@postMyProfile');
+    Route::post('/my-profile/add-ssh-key', 'Auth\UserController@postAddSshKey');
+    Route::get('/my-profile/remove-ssh-key/{sshKeyID}', 'Auth\UserController@getRemoveSshKey');
+
+
     
     /*
     |--------------------------------------------------------------------------

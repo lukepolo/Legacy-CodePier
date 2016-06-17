@@ -16,7 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -25,9 +27,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
-    
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -53,5 +56,10 @@ class User extends Authenticatable
     public function userRepositoryProviders()
     {
         return $this->hasMany(UserRepositoryProvider::class);
+    }
+
+    public function sshKeys()
+    {
+        return $this->hasMany(UserSshKey::class);
     }
 }

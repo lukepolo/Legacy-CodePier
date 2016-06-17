@@ -16,13 +16,55 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="account-info">
                                 <p>
-                                    tab 1
+                                    {!! Form::open(['action' => 'Auth\UserController@postMyProfile']) !!}
+                                        <div class="form-group">
+                                            {!! Form::label('name') !!}
+                                            {!! Form::text('name', \Auth::user()->name, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('email') !!}
+                                            {!! Form::email('email', \Auth::user()->email, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('new password') !!}
+                                            {!! Form::password('new-password', ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('confirm password') !!}
+                                            {!! Form::password('confirm-password', ['class' => 'form-control']) !!}
+                                        </div>
+                                        {!! Form::submit('Update Profile') !!}
+                                    {!! Form::close() !!}
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="ssh-keys">
-                                <p>
-                                    tab 2
-                                </p>
+                                {!! Form::open(['action' => ['Auth\UserController@postAddSshKey', 1]]) !!}
+                                <div class="form-group">
+                                    {!! Form::label('name') !!}
+                                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::label('Public Key') !!}
+                                    {!! Form::textarea('ssh_key', null, ['class' => 'form-control']) !!}
+                                </div>
+                                {!! Form::submit('Install SSH Key') !!}
+                                {!! Form::close() !!}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Key Name</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach(\Auth::user()->sshKeys as $sshKey)
+                                        <tr>
+                                            <td>{{ $sshKey->name }}</td>
+                                            <td><a href="{{ action('Auth\UserController@getRemoveSshKey', $sshKey->id) }}" class="fa fa-remove"></a></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="server-providers">
                                 <p>
