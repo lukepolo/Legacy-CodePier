@@ -4,9 +4,11 @@ namespace App\Services\Server\Providers;
 
 use App\Models\Server;
 use App\Models\ServerProvider;
+use App\Models\ServerProviderFeatures;
 use App\Models\ServerProviderOption;
 use App\Models\ServerProviderRegion;
 use App\Models\User;
+use App\Services\Server\ServerService;
 use DigitalOcean;
 use DigitalOceanV2\Entity\Droplet;
 
@@ -64,23 +66,30 @@ class DigitalOceanProvider
      */
     public function create(User $user, $name, array $options = [])
     {
+        $backups = false;
+        $serverOption = ServerProviderOption::findOrFail($options['server_option']);
+        $serverRegion = ServerProviderRegion::findOrFail($options['server_region']);
+
+        foreach($options['features'] as $featureID) {
+            $feature = lcfirst(ServerProviderFeatures::findOrFail($featureID)->feature);
+            $$feature = true;
+        }
+        
         $this->setToken($user);
 
         /** @var Droplet $droplet */
-
-        // TODO - server should be configurable
         $droplet = DigitalOcean::droplet()->create(
             $name,
-            'nyc3',
-            '512mb',
-            'ubuntu-16-04-x64',
-            $backups = true,
+            $serverRegion->provider_name,
+            strtolower($serverOption->getRamString()),
+            ServerService::$serverOperatingSystem,
+            $backups,
             $ipv6 = true,
             $privateNetworking = true,
             $sshKeys = [
                 env('SSH_KEY')
             ],
-            $userData = ''
+            $userData = null
         );
 
         return $this->saveServer($droplet, $user);

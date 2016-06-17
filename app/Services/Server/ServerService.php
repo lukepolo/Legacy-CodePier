@@ -20,6 +20,8 @@ class ServerService implements ServerServiceContract
         'digitalocean' => Providers\DigitalOceanProvider::class
     ];
 
+    public static $serverOperatingSystem = 'ubuntu-16-04-x64';
+
     /**
      * SiteService constructor.
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService

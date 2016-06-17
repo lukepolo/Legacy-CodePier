@@ -47,22 +47,26 @@ class ServerController extends Controller
      */
     public function postCreateServer()
     {
-        $this->dispatch((new CreateServer(ServerProvider::findorFail(\Request::get('server_provider_id')), \Auth::user(), \Request::get('name'),
-            \Request::except(['_token', 'service'])))->onQueue('server_creations'));
+        $this->dispatch((new CreateServer(
+            ServerProvider::findorFail(\Request::get('server_provider_id')),
+            \Auth::user(),
+            \Request::get('name'),
+            \Request::except(['_token', 'service'])
+        ))->onQueue('server_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
     /**
      * Installs a SSH key onto a server
-     * 
+     *
      * @param $serverID
      */
     public function postInstallSshKey($serverID)
     {
         $serverSshKey = ServerSshKey::create([
             'server_id' => $serverID,
-            'name' => str_replace(' ','_', \Request::get('name')),
+            'name' => str_replace(' ', '_', \Request::get('name')),
             'ssh_key' => \Request::get('ssh_key')
         ]);
 

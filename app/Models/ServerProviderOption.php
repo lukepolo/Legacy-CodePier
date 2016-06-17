@@ -13,9 +13,14 @@ class ServerProviderOption extends Model
     | Helpers
     |--------------------------------------------------------------------------
     */
-    public function formatToSring()
+    public function formatToString()
     {
         return $this->formatRAM($this->memory) . ' RAM - ' . $this->cpus . 'CPU Cores - ' . $this->space . 'GB SSD - $' . $this->priceHourly . ' / Hour - $' . $this->priceMonthly . ' / Month';
+    }
+
+    public function getRamString()
+    {
+        return  str_replace(' ','',strtolower($this->formatRAM($this->memory)));
     }
 
     private function formatRAM($megaBytes)

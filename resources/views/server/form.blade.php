@@ -15,7 +15,7 @@
                     @foreach($userServerProviders as $userServerProvider)
                         <div class="tab-pane active" id="{{ $userServerProvider->provider_name }}">
                             {!! Form::open(['action' => 'ServerController@postCreateServer']) !!}
-                            {!! Form::hidden('service', $userServerProvider->server_provider_id) !!}
+                            {!! Form::hidden('server_provider_id', $userServerProvider->server_provider_id) !!}
                             <div class="form-group">
                                 {!! Form::label('Name') !!}
                                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -56,9 +56,8 @@
                             @foreach($userServerProvider->serverProvider->serverFeatures as $feature)
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::hidden('feature_'.$feature->id, 0) !!}
-                                        {!! Form::checkbox('feature_'.$feature->id, 1) !!}
-                                        {{ 'Enable '.$feature->feature }}
+                                        {!! Form::checkbox('features[]'.$feature->id, 1) !!}
+                                        {{ 'Enable '.$feature->feature }} <small>{{ $feature->cost }}</small>
                                     </label>
                                 </div>
                             @endforeach
