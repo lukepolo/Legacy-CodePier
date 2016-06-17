@@ -21,6 +21,7 @@
     $path = isset($path) ? rtrim($path, '/') : null;
     $release = isset($path) ? $path.'/'.$date : null;
     $domain = isset($domain) ? $domain : null;
+    $sshKey = isset($sshKey) ? $sshKey : null;
 @endsetup
 
 @servers(['web' => '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '.$options['user'].'@'.$options['server']])

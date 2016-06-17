@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+@inject('serverService', 'App\Services\Server\ServerService')
+
+    <div class="container">
     @include('server.form')
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -25,8 +27,8 @@
                                 <td><a href="{{ action('ServerController@getServer', $server->id) }}">{{ $server->name }}</a></td>
                                 <td>{{ $server->service }}</td>
                                 <td>{{ $server->ip }}</td>
-                                <td>{{ $server->status }}</td>
-                                <td> // TODO - figure out how to make sure things are connected</td>
+                                <td>@if($server->updated_at->diffInMinutes(\Carbon\Carbon::now()) > 15) {{ $server->status }} @else  {{ $serverService->getStatus($server) }} @endif </td>
+                                <td> // TODO - Make sure we can SSH into the server</td>
                             </tr>
                         @endforeach
                         </tbody>

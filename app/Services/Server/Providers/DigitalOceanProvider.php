@@ -74,7 +74,7 @@ class DigitalOceanProvider
             $feature = lcfirst(ServerProviderFeatures::findOrFail($featureID)->feature);
             $$feature = true;
         }
-        
+
         $this->setToken($user);
 
         /** @var Droplet $droplet */

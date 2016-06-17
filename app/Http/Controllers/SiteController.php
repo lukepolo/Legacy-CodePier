@@ -72,7 +72,7 @@ class SiteController extends Controller
 
         $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
 
-        if(empty($sshKey)) {
+        if (empty($sshKey)) {
             return back()->withErrors('You seem to be missing a SSH key, please contact support.');
         }
 

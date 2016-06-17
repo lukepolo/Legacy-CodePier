@@ -19,6 +19,7 @@ class ServerController extends Controller
 
     /**
      * ServerController constructor.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function __construct(ServerService $serverService)
@@ -30,7 +31,6 @@ class ServerController extends Controller
      * Shows the servers information
      *
      * @param $serverID
-     *
      * @return mixed
      */
     public function getServer($serverID)

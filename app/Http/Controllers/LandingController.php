@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Server\ServerServiceContract;
 use App\Http\Requests;
-use App\Models\ServerProvider;
 
 /**
  * Class HomeController
@@ -12,14 +10,6 @@ use App\Models\ServerProvider;
  */
 class LandingController extends Controller
 {
-    /**
-     * LandingController constructor.
-     */
-    public function __construct(ServerServiceContract $serverServiceContract)
-    {
-        $this->serverService = $serverServiceContract;
-    }
-
     /**
      * Show the application dashboard.
      *

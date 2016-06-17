@@ -24,6 +24,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * SiteService constructor.
+     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
     public function __construct(RemoteTaskService $remoteTaskService)
@@ -46,6 +47,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Gets the server options available (ram, cpus , disk space, etc.)
+     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -55,6 +58,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Gets the servers regions available
+     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -71,7 +76,16 @@ class ServerService implements ServerServiceContract
      */
     public function getStatus(Server $server)
     {
-        return $this->getProvider($server->serverProvider)->getStatus($server);
+        $server->touch();
+
+        try {
+            return $this->getProvider($server->serverProvider)->getStatus($server);
+        } catch(\Exception $e) {
+            if($e->getMessage() == 'The resource you were accessing could not be found.') {
+                $server->delete();
+                return 'Server Has Been Deleted';
+            }
+        }
     }
 
     /**
@@ -103,6 +117,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
+     * Removes an SSH key from the server
+     *
      * @param Server $server
      * @param $sshKey
      */
@@ -145,6 +161,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gets the provider passed in
+     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
