@@ -37,7 +37,31 @@
                                 </select>
                             </div>
 
-                            // TODO - enable custom features , based on provider / provisioning
+                            <div class="checkbox">
+                                <label>
+                                    {!! Form::hidden('load_balancer', 0) !!}
+                                    {!! Form::checkbox('load_balancer', 1) !!}
+                                    Provision as Load Balancer (NOT WORKING YET)
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    {!! Form::hidden('maria_db', 0) !!}
+                                    {!! Form::checkbox('maria_db', 1, true) !!}
+                                    MariaDB 10.1 (NOT WORKING YET)
+                                </label>
+                            </div>
+
+                            @foreach($userServerProvider->serverProvider->serverFeatures as $feature)
+                                <div class="checkbox">
+                                    <label>
+                                        {!! Form::hidden('feature_'.$feature->id, 0) !!}
+                                        {!! Form::checkbox('feature_'.$feature->id, 1) !!}
+                                        {{ 'Enable '.$feature->feature }}
+                                    </label>
+                                </div>
+                            @endforeach
 
                             <div class="form-group">
                                 {!! Form::label('Database') !!}

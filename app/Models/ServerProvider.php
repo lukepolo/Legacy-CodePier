@@ -19,8 +19,14 @@ class ServerProvider extends Model
         return $this->hasMany(ServerProviderOption::class);
     }
 
+    public function serverFeatures()
+    {
+        return $this->hasMany(ServerProviderFeatures::class);
+    }
+
     public function serverRegions()
     {
         return $this->hasMany(ServerProviderRegion::class);
     }
+
 }
