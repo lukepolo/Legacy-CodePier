@@ -34,33 +34,33 @@ class ServerService implements ServerServiceContract
     /**
      * Creates a new server
      *
-     * @param $provider
+     * @param ServerProvider $serverProvider
      * @param User $user
      * @param $name
      * @param array $options
      * @return mixed
      */
-    public function create($provider, User $user, $name, array $options)
+    public function create(ServerProvider $serverProvider, User $user, $name, array $options)
     {
-        return $this->getProvider($provider)->create($user, $name, $options);
+        return $this->getProvider($serverProvider)->create($user, $name, $options);
     }
 
     /**
-     * @param $provider
+     * @param ServerProvider $serverProvider
      * @return mixed
      */
-    public function getServerOptions($provider)
+    public function getServerOptions(ServerProvider $serverProvider)
     {
-        return $this->getProvider($provider)->getOptions();
+        return $this->getProvider($serverProvider)->getOptions();
     }
 
     /**
-     * @param $provider
+     * @param ServerProvider $serverProvider
      * @return mixed
      */
-    public function getServerRegions($provider)
+    public function getServerRegions(ServerProvider $serverProvider)
     {
-        return $this->getProvider($provider)->getRegions();
+        return $this->getProvider($serverProvider)->getRegions();
     }
 
     /**
@@ -71,7 +71,7 @@ class ServerService implements ServerServiceContract
      */
     public function getStatus(Server $server)
     {
-        return $this->getProvider($server->service)->getStatus($server);
+        return $this->getProvider($server->serverProvider)->getStatus($server);
     }
 
     /**
@@ -82,7 +82,7 @@ class ServerService implements ServerServiceContract
      */
     public function saveInfo(Server $server)
     {
-        return $this->getProvider($server->service)->savePublicIP($server);
+        return $this->getProvider($server->serverProvider)->savePublicIP($server);
     }
 
     /**
@@ -144,8 +144,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Gest the provider passed in
-     * @param ServerProvider 
+     * Gets the provider passed in
+     * @param ServerProvider $serverProvider
      * @return mixed
      */
     private function getProvider(ServerProvider $serverProvider)

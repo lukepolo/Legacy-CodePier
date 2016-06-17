@@ -24,7 +24,7 @@
                                 {!! Form::label('Server Option') !!}
                                 <select class="form-control" name="server_option">
                                     @foreach($userServerProvider->serverProvider->serverOptions as $serverOption)
-                                            <option value="{{ $serverOption->id }}">{{ $serverOption->formatToSring() }}</option>
+                                            <option value="{{ $serverOption->id }}">{{ $serverOption->formatToString() }}</option>
                                     @endforeach
                                 </select>
                             </div>

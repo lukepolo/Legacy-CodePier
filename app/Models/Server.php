@@ -14,6 +14,11 @@ class Server extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function serverProvider()
+    {
+        return $this->belongsTo(ServerProvider::class);
+    }
+
     public function sites()
     {
         return $this->hasMany(Site::class);
