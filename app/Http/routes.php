@@ -3,18 +3,18 @@
 Route::auth();
 
 Route::get('/', 'LandingController@getIndex');
+
+/*
+|--------------------------------------------------------------------------
+| OAuth Routes
+|--------------------------------------------------------------------------
+|
+*/
+
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
 
-Route::group(['middleware' => 'auth'], function() {
-
-    /*
-    |--------------------------------------------------------------------------
-    | OAuth Routes
-    |--------------------------------------------------------------------------
-    |
-    */
-    Route::post('/provider/{provider}/link', 'Auth\OauthController@newProvider');
+Route::group(['middleware' => 'auth'], function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -28,8 +28,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/my-profile/add-ssh-key', 'Auth\UserController@postAddSshKey');
     Route::get('/my-profile/remove-ssh-key/{sshKeyID}', 'Auth\UserController@getRemoveSshKey');
 
-
-    
     /*
     |--------------------------------------------------------------------------
     | Server Routes
@@ -41,12 +39,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('create-server', 'ServerController@postCreateServer');
     Route::post('server/{serverID}/ssh-key/install', 'ServerController@postInstallSshKey');
     Route::get('server/{serverID}/ssh-key/{serverSshKeyId}/remove', 'ServerController@getRemoveSshKey');
+
     /*
     |--------------------------------------------------------------------------
     | Site Routes
     |--------------------------------------------------------------------------
     |
     */
+
     Route::get('server/{serverID}/site/{siteID}', 'SiteController@getSite');
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
     Route::get('server/{serverID}/site/{siteID}/env-file', 'SiteController@getEnv');

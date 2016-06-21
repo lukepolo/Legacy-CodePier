@@ -68,21 +68,22 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="server-providers">
                                 <p>
-                                    @foreach(\App\Http\Controllers\Auth\OauthController::$serverProviders as $serverProvider)
-                                        {!! Form::open(['method' => 'POST', 'action' => ['Auth\OauthController@newProvider', $serverProvider] ]) !!}
-                                            {!! Form::label($serverProvider) !!}
-                                            {!! Form::text('server_name') !!}
-                                            {!! Form::submit('Integrate') !!}
-                                        {!! Form::close() !!}
+                                    @foreach($serverProviders as $serverProvider)
+                                        Integrate with {{ $serverProvider->name }} :
+                                        @if(!\Auth::user()->userServerProviders->lists('id')->contains($serverProvider->id))
+                                            <a href="{{ action('Auth\OauthController@newProvider', $serverProvider) }}" class="btn btn-default">Integrate</a>
+                                        @else
+                                            Connected
+                                        @endif
                                     @endforeach
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="repository-providers">
-                                @foreach(\App\Http\Controllers\Auth\OauthController::$repositoryProviders as $repositoryProvider)
+                                @foreach($repositoryProviders as $repositoryProvider => $repositoryProviderDisplay)
                                     <p>
-                                        Integrate with {{ $repositoryProvider }} :
+                                        Integrate with {{ $repositoryProviderDisplay }} :
                                         @if(!\Auth::user()->userRepositoryProviders->lists('service')->contains($repositoryProvider))
-                                            <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider) }}" class="btn btn-default">{{ $repositoryProvider }}</a>
+                                            <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider) }}" class="btn btn-default">Integrate</a>
                                         @else
                                             Connected
                                         @endif

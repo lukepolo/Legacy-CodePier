@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ServerProvider;
 use App\Models\UserSshKey;
 
 /**
@@ -13,7 +14,10 @@ class UserController extends Controller
 {
     public function getMyProfile()
     {
-        return view('auth.user.profile');
+        return view('auth.user.profile', [
+            'serverProviders' => ServerProvider::all(),
+            'repositoryProviders' => \App\Http\Controllers\Auth\OauthController::$repositoryProviders
+        ]);
     }
 
     public function postMyProfile()

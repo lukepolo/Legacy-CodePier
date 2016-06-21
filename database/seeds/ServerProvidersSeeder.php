@@ -12,7 +12,7 @@ class ServerProvidersSeeder extends Seeder
     public function run()
     {
         $providers = [
-            'digitalocean' => [
+            \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN => [
                 'name' => 'Digital Ocean'
             ]
         ];
