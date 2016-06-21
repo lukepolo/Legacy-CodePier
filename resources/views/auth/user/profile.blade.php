@@ -71,7 +71,7 @@
                                     @foreach($serverProviders as $serverProvider)
                                         Integrate with {{ $serverProvider->name }} :
                                         @if(!\Auth::user()->userServerProviders->lists('id')->contains($serverProvider->id))
-                                            <a href="{{ action('Auth\OauthController@newProvider', $serverProvider) }}" class="btn btn-default">Integrate</a>
+                                            <a href="{{ action('Auth\OauthController@newProvider', $serverProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
                                             Connected
                                         @endif
@@ -79,11 +79,11 @@
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="repository-providers">
-                                @foreach($repositoryProviders as $repositoryProvider => $repositoryProviderDisplay)
+                                @foreach($repositoryProviders as $repositoryProvider)
                                     <p>
-                                        Integrate with {{ $repositoryProviderDisplay }} :
-                                        @if(!\Auth::user()->userRepositoryProviders->lists('service')->contains($repositoryProvider))
-                                            <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider) }}" class="btn btn-default">Integrate</a>
+                                        Integrate with {{ $repositoryProvider->name }} :
+                                        @if(!\Auth::user()->userRepositoryProviders->lists('id')->contains($repositoryProvider->id))
+                                            <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
                                             Connected
                                         @endif

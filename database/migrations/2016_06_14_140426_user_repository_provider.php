@@ -19,8 +19,8 @@ class UserRepositoryProvider extends Migration
             $table->string('provider_id');
             $table->string('service');
             $table->string('token');
-            $table->string('refresh_token');
-            $table->string('expires_in');
+            $table->string('refresh_token')->nullable();
+            $table->string('expires_in')->nullable();
             $table->string('tokenSecret')->nullable();
             $table->timestamps();
         });

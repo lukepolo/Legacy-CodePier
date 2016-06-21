@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\RepositoryProvider;
 use App\Models\ServerProvider;
 use App\Models\User;
 use App\Models\UserLoginProvider;
@@ -62,6 +63,7 @@ class OauthController extends Controller
         try {
             $user = Socialite::driver($provider)->user();
 
+            dd($user);
             if (!\Auth::user()) {
                 if (!$userProvider = UserLoginProvider::where('provider_id', $user->getId())->first()) {
                     $newLoginProvider = $this->createLoginProvider($provider, $user);
@@ -131,8 +133,8 @@ class OauthController extends Controller
     public function createUser($user, $userLoginProvider)
     {
         $userModel = User::create([
-            'name' => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'email' => $user->getEmail(),
+            'name' => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id
         ]);
 
@@ -149,19 +151,15 @@ class OauthController extends Controller
     private function saveRepositoryProvider($provider, $user)
     {
         $userRepositoryProvider = UserRepositoryProvider::firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'user_id' => \Auth::user()->id,
+            'server_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
+            'provider_id' => $user->getId()
         ]);
 
-        $token = $user->token;
-        $refreshToken = $user->refreshToken;
-        $expiresIn = $user->expiresIn;
-
         $userRepositoryProvider->fill([
-            'token' => $token,
-            'provider_id' => $user->getId(),
-            'refresh_token' => $refreshToken,
-            'expires_in' => $expiresIn,
+            'token' => $user->token,
+            'user_id' => \Auth::user()->id,
+            'expires_in' => $user->expiresIn,
+            'refresh_token' => $user->refreshToken,
             'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
         ]);
 
@@ -181,7 +179,7 @@ class OauthController extends Controller
     {
         $userServerProvider = UserServerProvider::firstOrNew([
             'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'user_id' => \Auth::user()->id,
+            'provider_id' => $user->getId(),
         ]);
 
         $token = $user->accessTokenResponseBody['access_token'];
@@ -190,9 +188,9 @@ class OauthController extends Controller
 
         $userServerProvider->fill([
             'token' => $token,
-            'provider_id' => $user->getId(),
-            'refresh_token' => $refreshToken,
             'expires_in' => $expiresIn,
+            'user_id' => \Auth::user()->id,
+            'refresh_token' => $refreshToken,
             'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
         ]);
 
