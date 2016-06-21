@@ -44,19 +44,10 @@
                                     Provision as Load Balancer (NOT WORKING YET)
                                 </label>
                             </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    {!! Form::hidden('maria_db', 0) !!}
-                                    {!! Form::checkbox('maria_db', 1, true) !!}
-                                    MariaDB 10.1 (NOT WORKING YET)
-                                </label>
-                            </div>
-
                             @foreach($userServerProvider->serverProvider->serverFeatures as $feature)
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::checkbox('features[]'.$feature->id, 1) !!}
+                                        {!! Form::checkbox('features[]'.$feature->option, 1, $feature->default) !!}
                                         {{ 'Enable '.$feature->feature }} <small>{{ $feature->cost }}</small>
                                     </label>
                                 </div>

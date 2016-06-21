@@ -13,6 +13,5 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ServerProvidersSeeder::class);
         $this->call(RepositoryProvidersSeeder::class);
-        $this->call(ServerProviderFeaturesSeeder::class);
     }
 }

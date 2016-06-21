@@ -16,7 +16,10 @@ class CreateServerProviderFeaturesTable extends Migration
             $table->increments('id');
             $table->integer('server_provider_id');
             $table->string('feature');
-            $table->string('cost');
+            $table->string('option');
+            $table->boolean('default');
+            $table->string('cost')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

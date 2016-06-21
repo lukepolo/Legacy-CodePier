@@ -67,6 +67,9 @@ class DigitalOceanProvider
     public function create(User $user, $name, array $options = [])
     {
         $backups = false;
+        $ipv6 = false;
+        $privateNetworking = false;
+        
         $serverOption = ServerProviderOption::findOrFail($options['server_option']);
         $serverRegion = ServerProviderRegion::findOrFail($options['server_region']);
 
