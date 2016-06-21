@@ -3,6 +3,8 @@
 Route::auth();
 
 Route::get('/', 'LandingController@getIndex');
+Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
+Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
 
 Route::group(['middleware' => 'auth'], function() {
 
@@ -12,9 +14,7 @@ Route::group(['middleware' => 'auth'], function() {
     |--------------------------------------------------------------------------
     |
     */
-    Route::get('/provider/{provider}/link', 'Auth\OauthController@postNewProvider');
-    Route::post('/provider/{provider}/link', 'Auth\OauthController@postNewProvider');
-    Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
+    Route::post('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 
     /*
     |--------------------------------------------------------------------------

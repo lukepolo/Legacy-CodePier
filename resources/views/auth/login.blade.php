@@ -61,6 +61,18 @@
                 </div>
             </div>
         </div>
+        <h5 class="text-center"> - Or sign in using -</h5>
+        <ul class="list-inline text-center">
+            <li>
+                <a href="{{ action('Auth\OauthController@newProvider', 'github') }}" class="btn btn-primary btn-circle"><i class="fa fa-github"></i></a>
+            </li>
+            <li>
+                <a href="{{ action('Auth\OauthController@newProvider', 'bitbucket') }}" class="btn btn-primary btn-circle"><i class="fa fa-bitbucket"></i></a>
+            </li>
+            <li>
+                <a href="{{ action('Auth\OauthController@newProvider', 'digitalocean') }}" class="btn btn-primary btn-circle"><i class="fa fa-server"></i></a>
+            </li>
+        </ul>
     </div>
 </div>
 @endsection

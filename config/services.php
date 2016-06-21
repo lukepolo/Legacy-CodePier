@@ -45,6 +45,12 @@ return [
         'redirect' => env('OAUTH_GITHUB_CALLBACK')
     ],
 
+    'bitbucket' => [
+        'client_id' => env('OAUTH_BITBUCKET_CLIENT_ID'),
+        'client_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
+        'redirect' => env('OAUTH_BITBUCKET_CALLBACK')
+    ],
+
     'digitalocean' => [
         'client_id' => env('OAUTH_DIGITALOCEAN_CLIENT_ID'),
         'client_secret' => env('OAUTH_DIGITALOCEAN_SECRET_ID'),

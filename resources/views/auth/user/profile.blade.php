@@ -69,7 +69,7 @@
                             <div role="tabpanel" class="tab-pane fade" id="server-providers">
                                 <p>
                                     @foreach(\App\Http\Controllers\Auth\OauthController::$serverProviders as $serverProvider)
-                                        {!! Form::open(['method' => 'POST', 'action' => ['Auth\OauthController@postNewProvider', $serverProvider] ]) !!}
+                                        {!! Form::open(['method' => 'POST', 'action' => ['Auth\OauthController@newProvider', $serverProvider] ]) !!}
                                             {!! Form::label($serverProvider) !!}
                                             {!! Form::text('server_name') !!}
                                             {!! Form::submit('Integrate') !!}
@@ -82,7 +82,7 @@
                                     <p>
                                         Integrate with {{ $repositoryProvider }} :
                                         @if(!\Auth::user()->userRepositoryProviders->lists('service')->contains($repositoryProvider))
-                                            <a href="{{ action('Auth\OauthController@postNewProvider', $repositoryProvider) }}" class="btn btn-default">{{ $repositoryProvider }}</a>
+                                            <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider) }}" class="btn btn-default">{{ $repositoryProvider }}</a>
                                         @else
                                             Connected
                                         @endif
