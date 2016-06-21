@@ -62,8 +62,7 @@ class OauthController extends Controller
     {
         try {
             $user = Socialite::driver($provider)->user();
-
-            dd($user);
+            
             if (!\Auth::user()) {
                 if (!$userProvider = UserLoginProvider::where('provider_id', $user->getId())->first()) {
                     $newLoginProvider = $this->createLoginProvider($provider, $user);
