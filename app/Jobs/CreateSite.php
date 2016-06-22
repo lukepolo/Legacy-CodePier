@@ -2,9 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Contracts\Server\Site\SiteServiceContract;
+use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Models\Server;
-use App\Services\Server\Site\SiteService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -36,7 +35,7 @@ class CreateSite extends Job implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteServiceContract $siteService
+     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
      */
     public function handle(SiteService $siteService)
     {

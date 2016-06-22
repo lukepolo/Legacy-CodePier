@@ -3,28 +3,20 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server;
+use App\Models\ServerProvider;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class ProvisionServer
+ * Class GetServerRegions
  * @package App\Jobs
  */
-class ProvisionServer extends Job implements ShouldQueue
+class GetServerRegions extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
     protected $server;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(Server $server)
-    {
-        $this->server = $server;
-    }
 
     /**
      * Execute the job.
@@ -33,8 +25,8 @@ class ProvisionServer extends Job implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $serverService->provision($this->server);
-
-        dispatch(new CreateSite($this->server));
+        foreach (ServerProvider::all() as $server) {
+            $serverService->getServerRegions($server);
+        }
     }
 }
