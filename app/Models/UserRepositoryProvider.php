@@ -17,4 +17,9 @@ class UserRepositoryProvider extends Model
     | Relations
     |--------------------------------------------------------------------------
     */
+
+    public function repositoryProvider()
+    {
+        return $this->belongsTo(RepositoryProvider::class);
+    }
 }

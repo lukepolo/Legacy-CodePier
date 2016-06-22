@@ -38,7 +38,7 @@ class SiteController extends Controller
      */
     public function getSite($serverID, $siteID)
     {
-        $this->repositoryService->getRepositories('github', \Auth::user());
+        $this->repositoryService->getUserRepositories(\Auth::user());
 
         return view('server.site.index', [
             'site' => Site::with('server')->findOrFail($siteID)

@@ -2,7 +2,7 @@
 
 namespace App\Services\Server\Site\Repository\Providers;
 
-use App\Models\User;
+use App\Models\UserRepositoryProvider;
 use GitHub as GitHubService;
 use Github\Exception\ValidationFailedException;
 
@@ -15,13 +15,13 @@ class GitHub
     /**
      * Gets all the repositories for a user
      *
-     * @param User $user
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed
      * @throws \Exception
      */
-    public function getRepositories(User $user)
+    public function getRepositories(UserRepositoryProvider $userRepositoryProvider)
     {
-        $this->setToken($user);
+        $this->setToken($userRepositoryProvider);
 
         return GitHubService::api('repo')->all();
     }
@@ -29,14 +29,14 @@ class GitHub
     /**
      * Imports a deploy key so we can clone the repositories
      *
-     * @param User $user
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
      * @throws \Exception
      */
-    public function importSshKey(User $user, $repository, $sshKey)
+    public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
-        $this->setToken($user);
+        $this->setToken($userRepositoryProvider);
 
         $repositoryInfo = $this->getRepositoryInfo($repository);
 
@@ -74,17 +74,13 @@ class GitHub
 
     /**
      * Sets the token so we can connect to the users account
-     * @param User $user
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @return mixed
      * @throws \Exception
      */
-    private function setToken(User $user)
+    private function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        if ($userRepositoryProvider = $user->userRepositoryProviders->where('service', 'github')->first()) {
-            return config(['github.connections.main.token' => $userRepositoryProvider->token]);
-        }
-
-        throw new \Exception('No server provider found for this user');
+        return config(['github.connections.main.token' => $userRepositoryProvider->token]);
     }
 
     /**

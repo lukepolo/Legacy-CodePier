@@ -15,7 +15,7 @@ class UserRepositoryProvider extends Migration
         Schema::create('user_repository_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('server_provider_id');
+            $table->integer('repository_provider_id');
             $table->string('provider_id');
             $table->string('service');
             $table->string('token');

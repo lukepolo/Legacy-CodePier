@@ -32,7 +32,7 @@
                                             <td><a href="{{ action('ServerController@getServer', $server->id) }}">{{ $server->name }}</a></td>
                                             <td>{{ $server->service }}</td>
                                             <td>{{ $server->ip }}</td>
-                                            <td>@if($server->updated_at->diffInMinutes(\Carbon\Carbon::now()) > 15) {{ $server->status }} @else  {{ $serverService->getStatus($server) }} @endif </td>
+                                            <td>@if($server->updated_at->diffInMinutes(\Carbon\Carbon::now()) < 15 || $server->status == 'Provisioning') {{ $server->status }} @else {{ $serverService->getStatus($server) }} @endif </td>
                                             <td> // TODO - Make sure we can SSH into the server</td>
                                         </tr>
                                     @endforeach
