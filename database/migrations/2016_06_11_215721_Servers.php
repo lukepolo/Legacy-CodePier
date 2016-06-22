@@ -17,7 +17,8 @@ class Servers extends Migration
             $table->integer('user_id');
             $table->integer('server_id');
             $table->string('name');
-            $table->string('service');
+            $table->string('status');
+            $table->integer('server_provider_id');
             $table->string('ip')->nullable();
             $table->timestamps();
         });
