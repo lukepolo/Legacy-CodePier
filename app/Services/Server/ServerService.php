@@ -107,6 +107,7 @@ class ServerService implements ServerServiceContract
      */
     public function installSshKey(Server $server, $sshKey)
     {
+//        echo {{ $sshKey }} >> ~/.ssh/authorized_keys
         $this->remoteTaskService->run(
             $server->ip,
             'codepier',
@@ -124,6 +125,7 @@ class ServerService implements ServerServiceContract
      */
     public function removeSshKey(Server $server, $sshKey)
     {
+//        sed -i '/{{ $sshKey }}/d' ~/.ssh/authorized_keys
         $this->remoteTaskService->run(
             $server->ip,
             'codepier',
@@ -141,20 +143,7 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        if($this->remoteTaskService->run(
-            $server->ip,
-            'root',
-            'provision', [
-                'branch' => 'master',
-                'path' => '/home/codepier/laravel'
-            ],
-            true
-        )) {
-            $server->status = 'Active';
-            $server->save();
-
-            return true;
-        }
+        $this->remoteTaskService->run($server->ip);
 
         return false;
     }

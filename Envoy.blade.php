@@ -197,8 +197,6 @@ service nginx restart;
     # Force Locale
     echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
     locale-gen en_US.UTF-8
-
-    curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
 @endtask
 
 @task('basic_packages')

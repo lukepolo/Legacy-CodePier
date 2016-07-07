@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\ServerCreated;
+use App\Events\Server\ServerCreated;
 use App\Models\Server;
 use App\Models\ServerProvider;
 use App\Models\User;

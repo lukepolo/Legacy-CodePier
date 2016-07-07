@@ -8,6 +8,7 @@ use App\Models\Server;
 use App\Models\Site;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
+use phpseclib\Net\SSH2;
 
 /**
  * Class SiteService

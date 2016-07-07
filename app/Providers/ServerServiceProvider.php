@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\Server\ProvisionServiceContract;
 use App\Contracts\Server\ServerServiceContract;
+use App\Services\Server\ProvisionService;
 use App\Services\Server\ServerService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +30,11 @@ class ServerServiceProvider extends ServiceProvider
         $this->app->bind(
             ServerServiceContract::class,
             ServerService::class
+        );
+
+        $this->app->bind(
+            ProvisionServiceContract::class,
+            ProvisionService::class
         );
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\RemoteTaskServiceContract;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SSH2;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -16,35 +18,17 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * Runs a command on a remote server
      *
      * @param $ip
-     * @param $user
-     * @param $task
-     * @param array $options
      *
      * @return bool
      */
-    public function run($ip, $user, $task, array $options = [])
+    public function run($ip)
     {
         $live = true;
 
-        $options = implode(' ', array_map(
-            function ($value, $key) {
-                return '--'.$key.'='.$value;
-            },
-            $options,
-            array_keys($options)
-        ));
+        $process = $this->ssh($ip);
 
-        $process = new Process('
-            eval `ssh-agent -s` &&
-            echo ' . env('SSH_KEY_PASSWORD') . ' | ssh-add &&
-            ssh-keygen -R ' . $ip . ' &&
-            ~/.composer/vendor/bin/envoy run ' . $task . ' --server=' . $ip . ' --user=' . $user . ' ' . $options
-        );
 
-        $process->setTimeout(3600);
-        $process->setIdleTimeout(300);
-        $process->setWorkingDirectory(base_path());
-
+        dd($process->getOutput());
         $result = [];
 
         $process->start();
@@ -61,5 +45,36 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         return $result;
+    }
+
+    public function ssh($ip)
+    {
+
+        $key = new RSA();
+        $key->setPassword(env('SSH_KEY_PASSWORD'));
+        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
+
+        $ssh = new SSH2($ip);
+
+        if (!$ssh->login('root', $key)) {
+            exit('Login Failed');
+        }
+
+
+        dd($ssh->read());
+
+        dd('done.');
+
+//
+//        $process = new Process('
+//            eval `ssh-agent -s` &&
+//            echo ' . env('SSH_KEY_PASSWORD') . ' | ssh-add &&
+//            ssh-keygen -R ' . $ip . ' &&
+//        ');
+//
+//        $process->setTimeout(3600);
+//        $process->setIdleTimeout(300);
+//
+//        return $process;
     }
 }
