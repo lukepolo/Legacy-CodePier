@@ -18,6 +18,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::get('/admin', 'AdminController@getIndex');
+    Route::get('/admin/server-provider/{providerID}/options-regions', 'AdminController@getServerOptionsAndRegions');
+
+    /*
+    |--------------------------------------------------------------------------
     | User Routes
     |--------------------------------------------------------------------------
     |
