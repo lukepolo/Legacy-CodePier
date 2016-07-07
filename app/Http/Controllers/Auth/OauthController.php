@@ -60,9 +60,9 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback($provider)
     {
-        try {
+//        try {
             $user = Socialite::driver($provider)->user();
-            
+
             if (!\Auth::user()) {
                 if (!$userProvider = UserLoginProvider::where('provider_id', $user->getId())->first()) {
                     $newLoginProvider = $this->createLoginProvider($provider, $user);
@@ -83,26 +83,26 @@ class OauthController extends Controller
 
             return back()->with('success', 'You have connected your ' . ucwords($provider) . ' account');
 
-        } catch (\Exception $e) {
-
-            if (!empty($newLoginProvider)) {
-                $newLoginProvider->delete();
-            }
-
-            if (!empty($newUserModel)) {
-                $newUserModel->delete();
-            }
-
-            if (!empty($newUserRepositoryProvider)) {
-                $newUserRepositoryProvider->delete();
-            }
-
-            if (!empty($newUserServerProvider)) {
-                $newUserServerProvider->delete();
-            }
-
-            return back()->withErrors($e->getMessage());
-        }
+//        } catch (\Exception $e) {
+//
+//            if (!empty($newLoginProvider)) {
+//                $newLoginProvider->delete();
+//            }
+//
+//            if (!empty($newUserModel)) {
+//                $newUserModel->delete();
+//            }
+//
+//            if (!empty($newUserRepositoryProvider)) {
+//                $newUserRepositoryProvider->delete();
+//            }
+//
+//            if (!empty($newUserServerProvider)) {
+//                $newUserServerProvider->delete();
+//            }
+//
+//            return back()->withErrors($e->getMessage());
+//        }
     }
 
     /**
@@ -150,7 +150,7 @@ class OauthController extends Controller
     private function saveRepositoryProvider($provider, $user)
     {
         $userRepositoryProvider = UserRepositoryProvider::firstOrNew([
-            'server_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
+            'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $user->getId()
         ]);
 
