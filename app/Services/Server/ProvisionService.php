@@ -30,7 +30,7 @@ class ProvisionService implements ProvisionServiceContract
 
     public function provision(Server $server)
     {
-        $provisionSystem = $this->getProvisionRepository('ubuntu 16.04');
+        $provisionSystem = $this->getProvisionRepository($server);
 
         $provisionSystem->updateSystem();
         $provisionSystem->setTimezoneToUTC();
@@ -38,26 +38,35 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->setLocaleToUTF8();
         $provisionSystem->createSwap();
 
+        $provisionSystem->installGit();
 
         $provisionSystem->installPHP();
-        $provisionSystem->installNginx();
-        $provisionSystem->installPhppm();
-        $provisionSystem->installRedis();
-        $provisionSystem->installMemcached();
-        $provisionSystem->installBeanstalk();
+        $provisionSystem->installPhpFpm();
         $provisionSystem->installComposer();
         $provisionSystem->installLaravelInstaller();
         $provisionSystem->installEnvoy();
+
+        $provisionSystem->installNginx();
+
+        $provisionSystem->installRedis();
+        $provisionSystem->installMemcached();
+
+        $provisionSystem->installSupervisor();
+        $provisionSystem->installBeanstalk();
+
+        $provisionSystem->installMySQL();
+        $provisionSystem->installMariaDB();
+
         $provisionSystem->installNodeJs();
         $provisionSystem->installGulp();
         $provisionSystem->installBower();
-        $provisionSystem->installMySQL();
-        $provisionSystem->installMariaDB();
+        dd('done');
     }
     
-    private function getProvisionRepository(Server $server, $ipAddress)
+    private function getProvisionRepository(Server $server)
     {
         $operatingSystem = 'ubuntu 16.04';
-        return new $this->remoteTaskService[$operatingSystem]($this->remoteTaskService, $ipAddress);
+
+        return new $this->provisionSystems[$operatingSystem]($this->remoteTaskService, $server);
     }
 }

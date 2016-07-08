@@ -3,6 +3,7 @@
 namespace App\Services\Server;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
 use App\Models\ServerProvider;
@@ -15,6 +16,7 @@ use App\Models\User;
 class ServerService implements ServerServiceContract
 {
     protected $remoteTaskService;
+    protected $provisionService;
 
     public $providers = [
         'digitalocean' => Providers\DigitalOceanProvider::class
@@ -26,10 +28,12 @@ class ServerService implements ServerServiceContract
      * SiteService constructor.
      *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @param \App\Services\Server\ProvisionService | ProvisionService $provisionService
      */
-    public function __construct(RemoteTaskService $remoteTaskService)
+    public function __construct(RemoteTaskService $remoteTaskService, ProvisionService $provisionService)
     {
         $this->remoteTaskService = $remoteTaskService;
+        $this->provisionService = $provisionService;
     }
 
     /**
@@ -143,9 +147,7 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        $this->remoteTaskService->run($server->ip);
-
-        return false;
+        $this->provisionService->provision($server);
     }
 
     /**

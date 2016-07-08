@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Contracts\RemoteTaskServiceContract;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
 /**
  * Class RemoteTaskService
@@ -14,41 +12,46 @@ use Symfony\Component\Process\Process;
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
+    private $session;
+    private $ip;
+
     /**
      * Runs a command on a remote server
      *
-     * @param $ip
-     *
-     * @return bool
+     * @param $command
+     * @param bool $read
+     * @return
+     * @throws \Exception
      */
-    public function run($ip)
+    public function run($command, $read = false)
     {
-        $live = true;
-
-        $process = $this->ssh($ip);
-
-
-        dd($process->getOutput());
-        $result = [];
-
-        $process->start();
-
         try {
-            $process->wait(function ($type, $buffer) use ($live, &$result) {
-                if ($live) {
-                    \Log::info($buffer);
-                }
-                $result[] = $buffer;
-            });
-        } catch (ProcessFailedException $e) {
-            return false;
+            $results = $this->session->exec($command.";");
+        } catch(\ErrorException $e) {
+
+            if($e->getMessage() == 'Unable to open channel') {
+                $this->ssh($this->ip);
+                $this->run($command, $read);
+            }
+            throw new \Exception($e->getMessage());
         }
 
-        return $result;
+        if(!empty($error = $this->session->getStdError())) {
+            \Log::error($error);
+        }
+
+        if(!empty($results)) {
+            \Log::info($results);
+        }
+
+        if($read) {
+            return $this->session->read();
+        }
     }
 
     public function ssh($ip)
     {
+        $this->ip = $ip;
 
         $key = new RSA();
         $key->setPassword(env('SSH_KEY_PASSWORD'));
@@ -56,25 +59,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $ssh = new SSH2($ip);
 
+        $ssh->enableQuietMode();
+
         if (!$ssh->login('root', $key)) {
             exit('Login Failed');
         }
 
-
-        dd($ssh->read());
-
-        dd('done.');
-
-//
-//        $process = new Process('
-//            eval `ssh-agent -s` &&
-//            echo ' . env('SSH_KEY_PASSWORD') . ' | ssh-add &&
-//            ssh-keygen -R ' . $ip . ' &&
-//        ');
-//
-//        $process->setTimeout(3600);
-//        $process->setIdleTimeout(300);
-//
-//        return $process;
+        $this->session = $ssh;
     }
 }
