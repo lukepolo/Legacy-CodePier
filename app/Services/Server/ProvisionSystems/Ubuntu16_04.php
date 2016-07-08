@@ -26,8 +26,8 @@ class Ubuntu16_04
 
     public function updateSystem()
     {
-        $this->remoteTaskService->run('apt-get update');
-        $this->remoteTaskService->run('apt-get -y upgrade');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
     }
 
     public function setTimezoneToUTC()
@@ -58,16 +58,19 @@ class Ubuntu16_04
 
     public function installPHP()
     {
-        $this->remoteTaskService->run('apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-dom php-xml php-zip php-intl php-bcmath php-soap');
-        $this->remoteTaskService->run('sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini');
-        $this->remoteTaskService->run('sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini');
-        $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini');
-        $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
+
+//        TODO - Not working!!!!!
+//        $this->remoteTaskService->run('sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini');
+//        $this->remoteTaskService->run('sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini');
+//        $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini');
+//        $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini');
     }
 
     public function installNginx()
     {
-        $this->remoteTaskService->run('apt-get install -y --force-yes nginx');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 
         $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/default');
         $this->remoteTaskService->run('rm /etc/nginx/sites-available/default');
@@ -81,7 +84,7 @@ class Ubuntu16_04
 
     public function installPhpFpm()
     {
-        $this->remoteTaskService->run('apt-get install -y php-fpm');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php-fpm');
 
         $this->remoteTaskService->run('sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini');
         $this->remoteTaskService->run('sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini');
@@ -101,35 +104,35 @@ class Ubuntu16_04
 
     public function installSupervisor()
     {
-        $this->remoteTaskService->run('apt-get install -y supervisor');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
     }
 
     public function installGit()
     {
-        $this->remoteTaskService->run('apt-get install -y git');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y git');
     }
 
     public function installRedis()
     {
-        $this->remoteTaskService->run('apt-get install -y redis-server');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
 
     }
 
     public function installMemcached()
     {
-        $this->remoteTaskService->run('apt-get install -y memcached');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
     }
 
     public function installBeanstalk()
     {
-        $this->remoteTaskService->run('apt-get install -y beanstalkd');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
         $this->remoteTaskService->run('sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd');
         $this->remoteTaskService->run('/etc/init.d/beanstalkd start');
     }
 
     public function installComposer()
     {
-        $this->remoteTaskService->run('apt-get install -y composer');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y composer');
     }
 
     public function installLaravelInstaller()
@@ -144,7 +147,7 @@ class Ubuntu16_04
 
     public function installNodeJs()
     {
-        $this->remoteTaskService->run('apt-get install -y nodejs npm');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
     }
 
     public function installGulp()
@@ -187,5 +190,10 @@ class Ubuntu16_04
         $this->remoteTaskService->run('echo \'/swapfile none swap sw 0 0\' | tee -a /etc/fstab');
         $this->remoteTaskService->run('echo "vm.swappiness=10" >> /etc/sysctl.conf');
         $this->remoteTaskService->run('echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf');
+    }
+
+    public function errors()
+    {
+        $this->remoteTaskService->getErrors();
     }
 }

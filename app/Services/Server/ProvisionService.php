@@ -28,6 +28,10 @@ class ProvisionService implements ProvisionServiceContract
         $this->remoteTaskService = $remoteTaskService;
     }
 
+    /**
+     * Provisions a server based on its operating system
+     * @param Server $server
+     */
     public function provision(Server $server)
     {
         $provisionSystem = $this->getProvisionRepository($server);
@@ -43,8 +47,6 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installPHP();
         $provisionSystem->installPhpFpm();
         $provisionSystem->installComposer();
-        $provisionSystem->installLaravelInstaller();
-        $provisionSystem->installEnvoy();
 
         $provisionSystem->installNginx();
 
@@ -60,9 +62,18 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installNodeJs();
         $provisionSystem->installGulp();
         $provisionSystem->installBower();
-        dd('done');
+
+        // TODO - having issues with the laravel installer and envoy installer
+//        $provisionSystem->installLaravelInstaller();
+//        $provisionSystem->installEnvoy();
+
+        return $provisionSystem->errors();
     }
-    
+
+    /**
+     * @param Server $server
+     * @return mixed
+     */
     private function getProvisionRepository(Server $server)
     {
         $operatingSystem = 'ubuntu 16.04';
