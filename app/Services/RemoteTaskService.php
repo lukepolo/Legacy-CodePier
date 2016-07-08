@@ -61,7 +61,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $ip
      * @throws \Exception
      */
-    public function ssh($ip)
+    public function ssh($ip, $user = 'root')
     {
         $this->ip = $ip;
 
@@ -74,7 +74,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $ssh->enableQuietMode();
 
         try {
-            if (!$ssh->login('root', $key)) {
+            if (!$ssh->login($user, $key)) {
                 throw new \Exception('Failed to login');
             }
         } catch (\Exception $e) {
@@ -82,6 +82,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         $ssh->setTimeout(0);
+
 
         $this->session = $ssh;
     }

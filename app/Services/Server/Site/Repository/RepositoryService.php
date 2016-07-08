@@ -46,8 +46,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
-        return $this->getProvider($userRepositoryProvider->provider_name)->importSshKey($userRepositoryProvider,
-            $repository, $sshKey);
+        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->importSshKey($userRepositoryProvider, $repository, $sshKey);
     }
 
     /**

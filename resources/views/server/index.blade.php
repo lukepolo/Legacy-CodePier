@@ -39,6 +39,8 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+
+                                @include('server.site.form')
                             </div>
                             <div class="tab-pane" id="ssh_keys">
                                 {!! Form::open(['action' => ['ServerController@postInstallSshKey', $server->id]]) !!}

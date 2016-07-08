@@ -5,8 +5,9 @@
                 Add a site
             </div>
             <div class="panel-body">
-                {!! Form::open(['action' => '']) !!}
+                {!! Form::open(['action' => ['SiteController@postCreateSite', $server->id]]) !!}
                     {!! Form::text('domain') !!}
+                    {!! Form::submit('Create Site') !!}
                 {!! Form::close() !!}
             </div>
         </div>

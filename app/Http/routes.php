@@ -57,8 +57,10 @@ Route::group(['middleware' => 'auth'], function () {
     */
 
     Route::get('server/{serverID}/site/{siteID}', 'SiteController@getSite');
+    Route::post('server/{serverID}/create-site', 'SiteController@postCreateSite');
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
     Route::get('server/{serverID}/site/{siteID}/env-file', 'SiteController@getEnv');
     Route::post('server/{serverID}/site/{siteID}/install-repository', 'SiteController@postInstallRepository');
+
 });
 

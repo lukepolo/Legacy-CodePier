@@ -6,6 +6,7 @@ use App\Contracts\Server\Site\Repository\RepositoryServiceContract as Repository
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Requests;
 use App\Jobs\CreateSite;
+use App\Models\Server;
 use App\Models\Site;
 
 /**
@@ -50,9 +51,9 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function postCreateSite()
+    public function postCreateSite($serverID)
     {
-        $this->dispatch((new CreateSite(\Request::get('domain')))->onQueue('site_creations'));
+        $this->dispatch((new CreateSite(Server::findOrFail($serverID),\Request::get('domain')))->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
@@ -70,13 +71,13 @@ class SiteController extends Controller
 
         $site = Site::with('server')->findOrFail($siteID);
 
-        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
+        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rs.pub');
 
         if (empty($sshKey)) {
             return back()->withErrors('You seem to be missing a SSH key, please contact support.');
         }
 
-        $this->repositoryService->importSshKey('github', \Auth::user(), $repository, $sshKey);
+        $this->repositoryService->importSshKey(\Auth::user()->userRepositoryProviders->first(), $repository, $sshKey);
 
         $site->repository = $repository;
         $site->branch = \Request::get('branch');

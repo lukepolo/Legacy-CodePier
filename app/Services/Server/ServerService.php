@@ -111,14 +111,8 @@ class ServerService implements ServerServiceContract
      */
     public function installSshKey(Server $server, $sshKey)
     {
-//        echo {{ $sshKey }} >> ~/.ssh/authorized_keys
-        $this->remoteTaskService->run(
-            $server->ip,
-            'codepier',
-            'install_ssh_key', [
-                'sshKey' => $sshKey
-            ]
-        );
+        $this->remoteTaskService->ssh($server->ip, 'codepier');
+        $this->remoteTaskService->run('echo '.$sshKey.' >> ~/.ssh/authorized_keys');
     }
 
     /**
@@ -129,14 +123,8 @@ class ServerService implements ServerServiceContract
      */
     public function removeSshKey(Server $server, $sshKey)
     {
-//        sed -i '/{{ $sshKey }}/d' ~/.ssh/authorized_keys
-        $this->remoteTaskService->run(
-            $server->ip,
-            'codepier',
-            'remove_ssh_key', [
-                'sshKey' => $sshKey
-            ]
-        );
+        $this->remoteTaskService->ssh($server->ip, 'codepier');
+        $this->remoteTaskService->run('sed -i \''.$sshKey.'\' ~/.ssh/authorized_keys');
     }
 
     /**

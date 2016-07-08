@@ -35,7 +35,6 @@ class ServerController extends Controller
      */
     public function getServer($serverID)
     {
-        $this->serverService->provision(Server::with('sites')->findOrFail($serverID));
         return view('server.index', [
             'server' => Server::with('sites')->findOrFail($serverID)
         ]);
