@@ -132,7 +132,8 @@ echo "Wrote" ')
 
         $this->remoteTaskService->ssh($server->ip);
         $this->remoteTaskService->run('service nginx restart');
-        dd('done');
+
+        return $this->remoteTaskService->getErrors();
     }
 
     public function getFile(Server $server, $filePath)

@@ -124,7 +124,7 @@ class ServerService implements ServerServiceContract
     public function removeSshKey(Server $server, $sshKey)
     {
         $this->remoteTaskService->ssh($server->ip, 'codepier');
-        $this->remoteTaskService->run('sed -i \''.$sshKey.'\' ~/.ssh/authorized_keys');
+        $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
     }
 
     /**
