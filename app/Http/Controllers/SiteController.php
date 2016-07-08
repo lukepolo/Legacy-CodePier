@@ -98,7 +98,7 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        return $this->siteService->getFile($site->server, '/home/codepier/default/.env');
+        return $this->siteService->getFile($site->server, $site->path.'/.env');
     }
 
     /**
