@@ -42,7 +42,7 @@ class PHP
         $this->remoteTaskService->run('cd '.$this->path.'/'.$this->release.'; echo "!storage" >> .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd '.$this->path.'/'.$this->release.'; echo "!public/build" >> .git/info/sparse-checkout');
 
-        $this->remoteTaskService->run('[ -f '.$this->path.'.env ] && echo "Found" || cp '.$this->path.'/'.$this->release.'/.env.example '.$this->path.'/.env; cd '.$this->path.'/'.$this->release.';');
+        $this->remoteTaskService->run('[ -f '.$this->path.'.env ] && echo "Found" || cp '.$this->path.'/'.$this->release.'/.env.example '.$this->path.'/.env; cd '.$this->path.'/'.$this->release);
         $this->remoteTaskService->run('ln -s '.$this->path.'/.env '.$this->path.'/'.$this->release.'/.env');
     }
 

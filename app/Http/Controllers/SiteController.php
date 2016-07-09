@@ -71,7 +71,7 @@ class SiteController extends Controller
 
         $site = Site::with('server')->findOrFail($siteID);
 
-        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rs.pub');
+        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
 
         if (empty($sshKey)) {
             return back()->withErrors('You seem to be missing a SSH key, please contact support.');

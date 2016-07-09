@@ -3,22 +3,22 @@
 namespace App\Events\Server;
 
 use App\Events\Event;
+use App\Models\Server;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UpdatedSystem
+ * Class RedisInstalled
  * @package App\Events\Server
  */
-class UpdatedTimeZone extends Event
+class RedisInstalled extends Event implements ShouldBroadcastNow
 {
     use SerializesModels;
 
     /**
      * Create a new event instance.
-     *
-     * @return void
      */
-    public function __construct()
+    public function __construct(Server $server)
     {
         //
     }

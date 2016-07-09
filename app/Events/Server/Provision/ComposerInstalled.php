@@ -8,10 +8,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UpdatedSystem
+ * Class ComposerInstalled
  * @package App\Events\Server
  */
-class UpdatedSystem extends Event implements ShouldBroadcastNow
+class ComposerInstalled extends Event implements ShouldBroadcastNow
 {
     use SerializesModels;
 
@@ -20,7 +20,7 @@ class UpdatedSystem extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-
+        //
     }
 
     /**

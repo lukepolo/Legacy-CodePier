@@ -3,13 +3,14 @@
 namespace App\Events\Server;
 
 use App\Events\Event;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class UpdatedSystem
+ * Class AddedCodePierUser
  * @package App\Events\Server
  */
-class AddedCodePierUser extends Event
+class AddedCodePierUser extends Event implements ShouldBroadcastNow
 {
     use SerializesModels;
 
