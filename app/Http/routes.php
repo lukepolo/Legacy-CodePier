@@ -62,5 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/site/{siteID}/env-file', 'SiteController@getEnv');
     Route::post('server/{serverID}/site/{siteID}/install-repository', 'SiteController@postInstallRepository');
 
+    Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
+    Route::post('server/{serverID}/site/{siteID}/ssl/lets-encrypt', 'SiteController@postRequestLetsEncryptSSLCert');
+
 });
 

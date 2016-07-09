@@ -6,7 +6,14 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Site Details
+                        Domain : {{ $site->domain }}
+
+                        {!! Form::open(['action' => ['SiteController@postRenameDomain', $site->server->id, $site->id]]) !!}
+                            {!! Form::label('Domain') !!}
+                            {!! Form::text('domain', $site->domain) !!}
+                            {!! Form::submit('Rename') !!}
+                        {!! Form::close() !!}
+
                         <div class="pull-right">
                             {{ $site->server->ip }}
                         </div>
@@ -43,7 +50,11 @@
                                 Workers
                             </div>
                             <div class="tab-pane" id="ssl_certs">
-                                SSL Certs
+                                {!! Form::open(['action' => ['SiteController@postRequestLetsEncryptSSLCert', $site->server->id, $site->id]]) !!}
+                                    {!! Form::label('Domains') !!}
+                                    {!! Form::text('domains', $site->domain) !!}
+                                    {!! Form::submit('Request SSL') !!}
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>

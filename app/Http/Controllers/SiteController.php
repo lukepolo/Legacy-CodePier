@@ -53,7 +53,19 @@ class SiteController extends Controller
      */
     public function postCreateSite($serverID)
     {
-        $this->dispatch((new CreateSite(Server::findOrFail($serverID),\Request::get('domain')))->onQueue('site_creations'));
+        $server = Server::findOrFail($serverID);
+        $domain = \Request::get('domain');
+
+        Site::create([
+            'domain' => $domain,
+            'server_id' => $server->id,
+            'wildcard_domain' => false,
+            'zerotime_deployment' => false,
+            'user_id' => $server->user_id,
+            'path' => '/home/codepier/' . $domain
+        ]);
+        
+        $this->dispatch((new CreateSite($server,$domain))->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
@@ -85,6 +97,21 @@ class SiteController extends Controller
         $site->save();
 
         return back()->with('success', 'We have added the repository');
+    }
+    
+    public function postRequestLetsEncryptSSLCert()
+    {
+        dd('test');
+    }
+
+    public function postRenameDomain($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->renameDomain($site, \Request::get('domain'));
+        $this->siteService->deploy($site->server, $site);
+
+        return back()->with('success', 'Updated name');
     }
 
     /**

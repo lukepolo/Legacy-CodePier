@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Models\Server;
+use App\Models\Site;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;

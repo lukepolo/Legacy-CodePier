@@ -180,6 +180,11 @@ class Ubuntu16_04
 
     }
 
+    public function installCertBot()
+    {
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+    }
+
     public function createSwap()
     {
         $this->remoteTaskService->run('fallocate -l 1G /swapfile');

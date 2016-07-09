@@ -7,6 +7,7 @@ use App\Contracts\Server\ProvisionServiceContract;
 use App\Events\Server\AddedCodePierUser;
 use App\Events\Server\BeanstalkInstalled;
 use App\Events\Server\BowerInstalled;
+use App\Events\Server\CertBotInstalled;
 use App\Events\Server\ComposerInstalled;
 use App\Events\Server\GitInstalled;
 use App\Events\Server\GulpInstalled;
@@ -112,6 +113,9 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installBower();
         event(new BowerInstalled($server));
 
+        $provisionSystem->installCertBot();
+        event(new CertBotInstalled($server));
+        
         // TODO - having issues with the laravel installer and envoy installer
 //        $provisionSystem->installLaravelInstaller();
 //        $provisionSystem->installEnvoy();
