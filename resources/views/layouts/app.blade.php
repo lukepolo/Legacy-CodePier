@@ -23,7 +23,9 @@
         @include('layouts.core.footer')
 
         <script src="{{ elixir('js/all.js') }}"></script>
-        {{--@include('layouts.core.socketio')--}}
+        @if(env('NODE_ON', false))
+            @include('layouts.core.socketio')
+        @endif
         @stack('scripts')
         <script type="text/javascript">
             $.ajaxSetup({
