@@ -76,8 +76,10 @@ class Ubuntu16_04
         $this->remoteTaskService->run('sed -i "s/user www-data;/user codepier;/" /etc/nginx/nginx.conf');
         $this->remoteTaskService->run('sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf');
 
-        $this->remoteTaskService->run('mkdir -p /ect/nginx/codepier-conf');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
+        $this->remoteTaskService->run('openssl dhparam -out /etc/nginx/dhparam.pem 2048');
+        
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
     }

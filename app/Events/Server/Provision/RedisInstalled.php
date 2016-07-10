@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Server;
+namespace App\Events\Server\Provision;;
 
 use App\Events\Event;
 use App\Models\Server;

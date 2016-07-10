@@ -99,9 +99,15 @@ class SiteController extends Controller
         return back()->with('success', 'We have added the repository');
     }
     
-    public function postRequestLetsEncryptSSLCert()
+    public function postRequestLetsEncryptSSLCert($serverID, $siteID)
     {
-        dd('test');
+        $errors = $this->siteService->installSSL(Site::with('server')->findOrFail($siteID));
+
+        if(is_array($errors)) {
+            return back()->withErrors($errors);
+        }
+
+        return back()->with('success', 'You have succsefully instlled your ssl cert');
     }
 
     public function postRenameDomain($serverID, $siteID)
@@ -109,7 +115,6 @@ class SiteController extends Controller
         $site = Site::with('server')->findOrFail($siteID);
 
         $this->siteService->renameDomain($site, \Request::get('domain'));
-        $this->siteService->deploy($site->server, $site);
 
         return back()->with('success', 'Updated name');
     }

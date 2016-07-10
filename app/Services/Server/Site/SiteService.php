@@ -42,16 +42,17 @@ class SiteService implements SiteServiceContract
     {
         $this->remoteTaskService->ssh($server->ip);
 
-        $this->remoteTaskService->run('mkdir -p /ect/nginx/codepier-conf/'.$domain.'/before');
-        $this->remoteTaskService->run('mkdir -p /ect/nginx/codepier-conf/'.$domain.'/server');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/before');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/server');
 
        $this->remoteTaskService->run('
 cat > /etc/nginx/codepier-conf/'.$domain.'/server/listen <<    \'EOF\'
     listen 80;
+    listen [::]:80;
 EOF
 echo "Wrote" ');
 
-        $this->remoteTaskService->run('mkdir -p /ect/nginx/codepier-conf/'.$domain.'/after');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/after');
 
         if ($this->remoteTaskService->run('
 cat > /etc/nginx/sites-enabled/'.$domain.' <<    \'EOF\'
@@ -113,7 +114,6 @@ EOF
 echo "Wrote" ')
         ) {
 
-            $this->remoteTaskService->run('openssl dhparam -out /etc/nginx/dhparam.pem 2048');
             $this->remoteTaskService->run('service nginx restart');
 
             return true;
@@ -124,8 +124,11 @@ echo "Wrote" ')
 
     public function renameDomain(Site $site, $domain)
     {
+        $this->remoteTaskService->ssh($site->server->ip);
+
         $this->remoteTaskService->run('mv '.$site->path.' /home/codepier/'.$domain);
 
+        $this->remove($site);
         $this->create($site->server, $domain);
 
         $site->domain = $domain;
@@ -152,6 +155,10 @@ echo "Wrote" ')
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
 
+        if(count($errors = $this->remoteTaskService->getErrors())) {
+            return $errors;
+        }
+
         $this->remoteTaskService->run('
 cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
     listen 443 ssl http2;
@@ -163,7 +170,7 @@ cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers on;
-    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+    ssl_dhparam /etc/nginx/dhparam.pem;
     ssl_ciphers \'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA\';
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
@@ -174,14 +181,30 @@ EOF
 echo "Wrote" ');
 
         $this->remoteTaskService->run('
-cat > /etc/nginx/codepier-conf/'.$site->domain.'/before/redirect <<    \'EOF\'
+cat > /etc/nginx/codepier-conf/'.$site->domain.'/before/ssl_redirect.conf <<    \'EOF\'
     server {
         listen 80;
-        server_name '.$site->domain.'
+        listen [::]:80;
+        server_name '.$site->domain.';
         return 301 https://$host$request_uri;
     }
 EOF
 echo "Wrote" ');
+    }
+
+    public function removeSSL(Site $site)
+    {
+        $this->remoteTaskService->ssh($site->server->ip);
+
+        $this->remoteTaskService->run('
+cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
+    listen 80;
+    listen [::]:80;
+EOF
+echo "Wrote" ');
+
+        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/'.$site->domain.'/before/redirect');
+
     }
 
     /**
