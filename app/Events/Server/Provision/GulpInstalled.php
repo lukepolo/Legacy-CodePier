@@ -20,7 +20,8 @@ class GulpInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Gulp Installed';
+        $server->save();
     }
 
     /**

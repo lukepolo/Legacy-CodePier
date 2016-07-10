@@ -20,7 +20,8 @@ class PHPFpmInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'PHP-FPM Installed';
+        $server->save();
     }
 
     /**

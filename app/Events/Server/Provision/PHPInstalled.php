@@ -20,7 +20,8 @@ class PHPInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'PHP 7.0 Installed';
+        $server->save();
     }
 
     /**

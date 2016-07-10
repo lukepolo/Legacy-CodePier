@@ -20,7 +20,8 @@ class MemcachedInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Memcached Installed';
+        $server->save();
     }
 
     /**

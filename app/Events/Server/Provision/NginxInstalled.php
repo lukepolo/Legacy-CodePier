@@ -20,7 +20,8 @@ class NginxInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Nginx Installed';
+        $server->save();
     }
 
     /**

@@ -20,7 +20,8 @@ class SwapCreated extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Swap Created';
+        $server->save();
     }
 
     /**

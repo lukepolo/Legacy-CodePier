@@ -20,7 +20,8 @@ class ComposerInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Composer Installed';
+        $server->save();
     }
 
     /**

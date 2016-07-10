@@ -136,6 +136,9 @@ class ServerService implements ServerServiceContract
     public function provision(Server $server)
     {
         $this->provisionService->provision($server);
+
+        $server->status = 'Provisioned';
+        $server->save();
     }
 
     /**

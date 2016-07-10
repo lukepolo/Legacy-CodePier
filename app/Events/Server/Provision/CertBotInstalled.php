@@ -20,7 +20,8 @@ class CertBotInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'CertBot Installed';
+        $server->save();
     }
 
     /**

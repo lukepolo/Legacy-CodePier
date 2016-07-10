@@ -20,7 +20,8 @@ class GitInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Git Installed';
+        $server->save();
     }
 
 

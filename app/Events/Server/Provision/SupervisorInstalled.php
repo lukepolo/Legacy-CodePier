@@ -20,7 +20,8 @@ class SupervisorInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Supervisor Installed';
+        $server->save();
     }
 
     /**

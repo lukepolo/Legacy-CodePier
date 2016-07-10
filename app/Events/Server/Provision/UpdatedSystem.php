@@ -20,7 +20,8 @@ class UpdatedSystem extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        
+        $server->status = 'System Updated';
+        $server->save();
     }
 
     /**

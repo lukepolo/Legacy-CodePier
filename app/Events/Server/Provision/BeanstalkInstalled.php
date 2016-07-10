@@ -20,7 +20,8 @@ class BeanstalkInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Beanstalk Installed';
+        $server->save();
     }
 
     /**

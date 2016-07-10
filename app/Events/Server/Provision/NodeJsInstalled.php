@@ -20,7 +20,8 @@ class NodeJsInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'NodeJS Installed';
+        $server->save();
     }
 
     /**

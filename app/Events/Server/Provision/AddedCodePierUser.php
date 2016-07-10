@@ -3,6 +3,7 @@
 namespace App\Events\Server;
 
 use App\Events\Event;
+use App\Models\Server;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
@@ -19,9 +20,10 @@ class AddedCodePierUser extends Event implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Server $server)
     {
-        //
+        $server->status = 'Created Code Pier User';
+        $server->save();
     }
 
     /**

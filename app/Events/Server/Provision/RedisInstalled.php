@@ -20,7 +20,8 @@ class RedisInstalled extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server)
     {
-        //
+        $server->status = 'Redis Installed';
+        $server->save();
     }
 
     /**
