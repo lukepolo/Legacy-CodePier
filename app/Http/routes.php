@@ -65,5 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
     Route::post('server/{serverID}/site/{siteID}/ssl/lets-encrypt', 'SiteController@postRequestLetsEncryptSSLCert');
 
+    Route::post('server/{serverID}/site/{siteID}/env', 'SiteController@postEnv');
+
 });
 

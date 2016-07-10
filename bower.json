@@ -24,8 +24,5 @@
     "moment": "^2.13.0",
     "jquery-confirm2": "^2.5.1",
     "bootstrap-sass": "^3.3.6"
-  },
-  "resolutions": {
-    "jquery": "^3.0.0"
   }
 }

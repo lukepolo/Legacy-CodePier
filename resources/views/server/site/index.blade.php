@@ -42,9 +42,12 @@
                                 <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
                             </div>
                             <div class="tab-pane" id="environment">
-                                <pre>
+                                {!! Form::open(['action' => ['SiteController@postEnv', $site->server->id, $site->id]]) !!}
+                                <textarea name="env">
 
-                                </pre>
+                                </textarea>
+                                {!! Form::submit('Update Env') !!}
+                                {!! Form::close() !!}
                             </div>
                             <div class="tab-pane" id="workers">
                                 Workers
@@ -66,8 +69,22 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $.get('{{ action('SiteController@getEnv', [$site->server_id, $site->id]) }}', function(envFile) {
-            $('#environment').find('pre').html(envFile);
+        var editor = $('#environment').find('textarea');
+
+        $(document).on('click', 'li a[href="#environment"]', function() {
+            renderEnvironmentEditor();
         });
+        function renderEnvironmentEditor() {
+            CodeMirror.fromTextArea(editor[0], {
+                mode: 'shell',
+                lineNumbers: true,
+                matchBrackets: true
+            });
+        }
+
+        $.get('{{ action('SiteController@getEnv', [$site->server_id, $site->id]) }}', function(envFile) {
+            editor.html(envFile);
+        });
+
     </script>
 @endpush

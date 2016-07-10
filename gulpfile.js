@@ -15,13 +15,16 @@ var paths = {
     js_public: './public/js/',
     css_public: './public/css/',
 
+    sass_partials : './resources/assets/sass/partials/',
+    sass_partials : './resources/assets/sass/partials/',
     /* Vendor Files */
     bootstrap: bower_path + 'bootstrap-sass/assets/',
     fontawesome: bower_path + 'font-awesome/',
     jquery: bower_path + 'jquery/dist/',
     select2: bower_path + 'select2/dist/',
     moment : bower_path + 'moment/',
-    confirm2: bower_path + 'jquery-confirm2/dist/'
+    confirm2: bower_path + 'jquery-confirm2/dist/',
+    codemirror : bower_path + 'codemirror/'
 };
 
 /*
@@ -38,14 +41,17 @@ var paths = {
 elixir(function (mix) {
     mix
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
-        .copy(paths.bootstrap + 'fonts', paths.fonts_build + '/bootstrap')
+        .copy(paths.bootstrap + 'fonts', paths.fonts_build + 'bootstrap')
+        .copy(paths.codemirror + 'lib/codemirror.css', paths.sass_partials + '_codemirror.scss')
         .sass('app.scss')
         .scripts([
             paths.jquery + 'jquery.min.js',
             paths.bootstrap + 'javascripts/bootstrap.js',
             paths.select2 + 'js/select2.js',
             paths.moment + 'moment.js',
-            paths.confirm2 + 'jquery-confirm.min.js'
+            paths.confirm2 + 'jquery-confirm.min.js',
+            paths.codemirror + 'lib/codemirror.js',
+            paths.codemirror + 'mode/shell/shell.js'
         ])
         .version([
             paths.css_public + "app.css",

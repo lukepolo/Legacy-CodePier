@@ -118,6 +118,15 @@ class SiteController extends Controller
 
         return back()->with('success', 'Updated name');
     }
+    
+    public function postEnv($serverID, $siteID) 
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->updateEnv($site, \Request::get('env'));
+
+        return back()->with('success', 'Updated Env');
+    }
 
     /**
      * Gets the env for a site

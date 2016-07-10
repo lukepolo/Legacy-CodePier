@@ -137,6 +137,17 @@ echo "Wrote" ')
         $site->save();
     }
 
+    public function updateEnv(Site $site, $env)
+    {
+        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->run('
+cat > /home/codepier/'.$site->domain.'/.env <<    \'EOF\'
+   '.$env.'
+EOF
+echo "Wrote" ');
+
+    }
+
     public function remove(Site $site)
     {
         $this->remoteTaskService->ssh($site->server->ip);
@@ -244,7 +255,7 @@ echo "Wrote" ');
         }
 
         if($contents = $ssh->get($filePath)) {
-            return $contents;
+            return trim($contents);
         }
 
         return null;
