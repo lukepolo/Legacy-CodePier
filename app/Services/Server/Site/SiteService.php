@@ -142,7 +142,7 @@ echo "Wrote" ')
         $this->remoteTaskService->ssh($site->server->ip);
 
         $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/'.$site->domain);
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-config/'.$site->domain);
+        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/'.$site->domain.' -rf');
 
     }
 
