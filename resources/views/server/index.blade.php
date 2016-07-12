@@ -96,7 +96,44 @@
 
                             </div>
                             <div class="tab-pane" id="daemons">
-                                daemons
+                                {!! Form::open(['action' => ['ServerController@postAddDaemon', $server->id]]) !!}
+
+                                Command
+                                {!! Form::text('command') !!}
+                                User
+                                {!! Form::text('user') !!}
+                                {!! Form::checkbox('auto_start') !!} Auto Start
+                                {!! Form::checkbox('auto_restart') !!} Auto Restart
+                                Workers
+                                {!! Form::text('number_of_workers') !!}
+
+                                {!! Form::submit('Create cron') !!}
+                                {!! Form::close() !!}
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Command</th>
+                                        <th>User</th>
+                                        <th>Auto Start</th>
+                                        <th>Auto Restart</th>
+                                        <th>Number of Workers</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($server->daemons as $daemon)
+                                        <tr>
+                                            <td>{{ $daemon->command }}</td>
+                                            <td>{{ $daemon->user }}</td>
+                                            <td>{{ $daemon->auto_start }}</td>
+                                            <td>{{ $daemon->auto_restart }}</td>
+                                            <td>{{ $daemon->number_of_workers }}</td>
+                                            <td><a href="{{ action('ServerController@getRemoveDaemon', [$server->id, $daemon->id]) }}" class="fa fa-remove"></a></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="tab-pane" id="firewall">
 
@@ -109,6 +146,8 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
+                                        <th>Name</th>
+                                        <th>From IP</th>
                                         <th>Port</th>
                                     </tr>
                                     </thead>

@@ -105,6 +105,7 @@ class Ubuntu16_04
     public function installSupervisor()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
+        $this->remoteTaskService->run('mkdir /home/codepier/workers');
     }
 
     public function installGit()

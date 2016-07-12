@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Jobs\CreateServer;
 use App\Models\Server;
 use App\Models\ServerCronJob;
+use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
@@ -119,5 +120,27 @@ class ServerController extends Controller
         $this->serverService->removeFirewallRule(Server::findOrFail($serverID), ServerFirewallRule::findOrFail($serverFireWallID));
 
         return back()->with('success', 'You removed a firewall rule');
+    }
+
+    public function postAddDaemon($serverID)
+    {
+        $this->serverService->installDaemon(
+            Server::findOrFail($serverID),
+            \Request::get('command'),
+            \Request::get('auto_start'),
+            \Request::get('auto_restart'),
+            \Request::get('user'),
+            \Request::get('number_of_workers')
+        );
+
+        return back()->with('success', 'You installed a new daemon');
+
+    }
+
+    public function getRemoveDaemon($serverID, $serverDaemonID)
+    {
+        $this->serverService->removeDaemon(Server::findOrFail($serverID), ServerDaemon::findOrFail($serverDaemonID));
+
+        return back()->with('success', 'You removed a daemon');
     }
 }

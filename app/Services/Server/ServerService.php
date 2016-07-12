@@ -7,6 +7,7 @@ use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
 use App\Models\ServerCronJob;
+use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\User;
@@ -203,5 +204,51 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server->ip);
         $this->remoteTaskService->run('./opt/iptables');
+    }
+
+    public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
+    {
+        $serverDaemon = ServerDaemon::create([
+            'server_id' => $server->id,
+            'command' => $command,
+            'auto_start' => $autoStart,
+            'auto_restart' => $autoRestart,
+            'user' => $user,
+            'number_of_workers' => $numberOfWorkers,
+        ]);
+
+        $this->remoteTaskService->ssh($server->ip);
+
+        $this->remoteTaskService->run('
+cat > /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf <<    \'EOF\'
+[program:worker-'.$serverDaemon->id.']
+process_name=%(program_name)s_%(process_num)02d
+command='.$command.'
+autostart='.$autoStart.'
+autorestart='.$autoRestart.'
+user='.$user.'
+numprocs='.$numberOfWorkers.'
+redirect_stderr=true
+stdout_logfile=/home/codepier/workers/worker-'.$serverDaemon->id.'.log
+EOF
+echo "Wrote" ');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+        $this->remoteTaskService->run('supervisorctl start worker-'.$serverDaemon->id.':*');
+
+    }
+
+    public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
+    {
+        $this->remoteTaskService->ssh($server->ip);
+
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+
+
+        $serverDaemon->delete();
     }
 }

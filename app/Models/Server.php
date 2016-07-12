@@ -43,4 +43,9 @@ class Server extends Model
     {
         return $this->hasMany(ServerFirewallRule::class);
     }
+
+    public function daemons()
+    {
+        return $this->hasMany(ServerDaemon::class);
+    }
 }
