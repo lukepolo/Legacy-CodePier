@@ -28,7 +28,6 @@ class CreateServer extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
      * @param ServerProvider $serverProvider
      * @param User $user
      * @param $name
@@ -44,8 +43,8 @@ class CreateServer extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     * @throws \Exception
      */
     public function handle(ServerService $serverService)
     {
@@ -63,14 +62,17 @@ class CreateServer extends Job implements ShouldQueue
 
         $serverService->saveInfo($server);
 
-        if(env('QUEUE_DRIVER') == 'sync') {
-            sleep(15);
+        $sshConnection = false;
+
+        while($sshConnection == false) {
+            sleep(5);
+            $sshConnection = $serverService->testSshConnection($server);
         }
 
         foreach($this->user->sshKeys as $sshKey) {
-            $serverService->installSshKey($server, $sshKey);
+            $serverService->installSshKey($server, $sshKey->ssh_key);
         }
 
-        dispatch((new ProvisionServer($server))->onQueue('server_provision')->delay(15));
+        dispatch((new ProvisionServer($server))->onQueue('server_provision'));
     }
 }

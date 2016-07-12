@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Requests;
 use App\Jobs\CreateServer;
+use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
@@ -177,7 +178,5 @@ class ServerController extends Controller
     public function getTestSshConnection($serverID)
     {
         $this->serverService->testSshConnection(Server::findOrFail($serverID));
-
-        return back();
     }
 }

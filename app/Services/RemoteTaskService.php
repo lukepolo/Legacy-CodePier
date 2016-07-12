@@ -77,9 +77,13 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         try {
             if (!$ssh->login($user, $key)) {
+                $server->ssh_connection = false;
+                $server->save();
                 throw new SshConnectionFailed('Failed to login');
             }
         } catch (\Exception $e) {
+            $server->ssh_connection = false;
+            $server->save();
             throw new SshConnectionFailed('Failed to login');
         }
 

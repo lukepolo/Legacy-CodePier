@@ -31,6 +31,15 @@ class CreateSite extends Job implements ShouldQueue
     {
         $this->server = $server;
         $this->domain = $domain;
+
+        Site::create([
+            'domain' => $domain,
+            'server_id' => $server->id,
+            'wildcard_domain' => false,
+            'zerotime_deployment' => false,
+            'user_id' => $server->user_id,
+            'path' => '/home/codepier/' . $domain
+        ]);
     }
 
     /**

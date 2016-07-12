@@ -12,6 +12,7 @@ use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
+use App\Models\ServerSshKey;
 use App\Models\User;
 use phpseclib\Crypt\RSA;
 
@@ -32,7 +33,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * SiteService constructor.
-     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      * @param \App\Services\Server\ProvisionService | ProvisionService $provisionService
      */
@@ -44,7 +44,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Creates a new server
-     *
      * @param ServerProvider $serverProvider
      * @param User $user
      * @param $name
@@ -66,7 +65,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gets the server options available (ram, cpus , disk space, etc.)
-     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -77,7 +75,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gets the servers regions available
-     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -88,7 +85,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gets the status of the serer
-     *
      * @param Server $server
      * @return mixed
      */
@@ -108,7 +104,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Saves the server information into the database
-     *
      * @param Server $server
      * @return mixed
      */
@@ -119,35 +114,42 @@ class ServerService implements ServerServiceContract
 
     /**
      * Installs a SSH key onto a server
-     *
      * @param Server $server
      * @param $sshKey
+     * @return bool
      */
     public function installSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('echo ' . $sshKey . ' >> ~/.ssh/authorized_keys');
-        $this->remoteTaskService->run('echo ' . $sshKey . ' >> /home/codepier/.ssh/authorized_keys');
+        try {
+            $this->remoteTaskService->ssh($server);
+            $this->remoteTaskService->run('echo ' . $sshKey . ' >> ~/.ssh/authorized_keys');
+            $this->remoteTaskService->run('echo ' . $sshKey . ' >> /home/codepier/.ssh/authorized_keys');
+        } catch (SshConnectionFailed $e) {
+            return false;
+        }
     }
 
     /**
      * Removes an SSH key from the server
-     *
      * @param Server $server
      * @param $sshKey
+     * @return bool
      */
     public function removeSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server);
-
-        $sshKey = str_replace('/', '\/', $sshKey);
-        $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
-        $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
+        try {
+            $this->remoteTaskService->ssh($server);
+            
+            $sshKey = str_replace('/', '\/', $sshKey);
+            $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
+            $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
+        } catch (SshConnectionFailed $e) {
+            return false;
+        }
     }
 
     /**
      * Provisions a server
-     *
      * @param Server $server
      */
     public function provision(Server $server)
@@ -165,7 +167,6 @@ class ServerService implements ServerServiceContract
 
     /**
      * Gets the provider passed in
-     *
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -280,7 +281,6 @@ echo "Wrote" ');
             $server->save();
             return true;
         } catch (SshConnectionFailed $e) {
-
             $server->ssh_connection = false;
             $server->save();
             return false;

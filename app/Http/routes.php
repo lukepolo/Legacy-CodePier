@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}', 'ServerController@getServer');
     Route::post('create-server', 'ServerController@postCreateServer');
 
-    Route::get('server/{serverID}', 'ServerController@getTestSshConnection');
+    Route::get('server/{serverID}/check-connection', 'ServerController@getTestSshConnection');
 
     Route::post('server/{serverID}/ssh-key/install', 'ServerController@postInstallSshKey');
     Route::get('server/{serverID}/ssh-key/{serverSshKeyId}/remove', 'ServerController@getRemoveSshKey');
@@ -70,7 +70,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('server/{serverID}/site/{siteID}', 'SiteController@getSite');
     Route::post('server/{serverID}/create-site', 'SiteController@postCreateSite');
-    Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
 
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
 
@@ -78,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('server/{serverID}/site/{siteID}/install-repository', 'SiteController@postInstallRepository');
 
+    Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
     Route::post('server/{serverID}/site/{siteID}/ssl/lets-encrypt', 'SiteController@postRequestLetsEncryptSSLCert');
 
     Route::post('server/{serverID}/site/{siteID}/env', 'SiteController@postEnv');

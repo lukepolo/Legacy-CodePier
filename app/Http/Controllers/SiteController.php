@@ -53,15 +53,6 @@ class SiteController extends Controller
         $server = Server::findOrFail($serverID);
         $domain = \Request::get('domain');
 
-        Site::create([
-            'domain' => $domain,
-            'server_id' => $server->id,
-            'wildcard_domain' => false,
-            'zerotime_deployment' => false,
-            'user_id' => $server->user_id,
-            'path' => '/home/codepier/' . $domain
-        ]);
-
         $this->dispatch((new CreateSite($server, $domain))->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
