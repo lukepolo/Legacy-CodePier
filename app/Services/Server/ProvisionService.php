@@ -26,7 +26,6 @@ use App\Events\Server\Provision\SwapCreated;
 use App\Events\Server\Provision\TimeZoneSetToUCT;
 use App\Events\Server\Provision\UpdatedSystem;
 use App\Models\Server;
-use App\Models\ServerFirewallRule;
 use App\Services\Server\ProvisionSystems\Ubuntu16_04;
 
 /**
@@ -35,6 +34,8 @@ use App\Services\Server\ProvisionSystems\Ubuntu16_04;
  */
 class ProvisionService implements ProvisionServiceContract
 {
+    protected $totalActions;
+    protected $doneActions = 0;
     protected $remoteTaskService;
 
     protected $provisionSystems = [
@@ -61,74 +62,82 @@ class ProvisionService implements ProvisionServiceContract
     {
         $provisionSystem = $this->getProvisionRepository($server);
 
+        $this->totalActions = count(get_class_methods($provisionSystem)) - 1;
+
+        dd(get_class_methods($provisionSystem));
         $provisionSystem->updateSystem();
-        event(new UpdatedSystem($server));
+        event(new UpdatedSystem($server), $this->getDonePercentage());
 
         $provisionSystem->setTimezoneToUTC();
-        event(new TimeZoneSetToUCT($server));
+        event(new TimeZoneSetToUCT($server), $this->getDonePercentage());
 
         $provisionSystem->addCodePierUser($sudoPassword);
-        event(new AddedCodePierUser($server));
+        event(new AddedCodePierUser($server), $this->getDonePercentage());
 
         $provisionSystem->setLocaleToUTF8();
-        event(new LocaleSetToUTF8($server));
+        event(new LocaleSetToUTF8($server), $this->getDonePercentage());
 
         $provisionSystem->createSwap();
-        event(new SwapCreated($server));
+        event(new SwapCreated($server), $this->getDonePercentage());
 
         $provisionSystem->installGit();
-        event(new GitInstalled($server));
+        event(new GitInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installPHP();
-        event(new PHPInstalled($server));
+        event(new PHPInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installPhpFpm();
-        event(new PHPFpmInstalled($server));
+        event(new PHPFpmInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installComposer();
-        event(new ComposerInstalled($server));
+        event(new ComposerInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installNginx();
-        event(new NginxInstalled($server));
+        event(new NginxInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installRedis();
-        event(new RedisInstalled($server));
+        event(new RedisInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installMemcached();
-        event(new MemcachedInstalled($server));
+        event(new MemcachedInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installSupervisor();
-        event(new SupervisorInstalled($server));
+        event(new SupervisorInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installBeanstalk();
-        event(new BeanstalkInstalled($server));
+        event(new BeanstalkInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installMySQL($databasePassword);
-        event(new MySQLInstalled($server));
+        event(new MySQLInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installMariaDB($databasePassword);
-        event(new MariaDBInstalled($server));
+        event(new MariaDBInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installNodeJs();
-        event(new NodeJsInstalled($server));
+        event(new NodeJsInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installGulp();
-        event(new GulpInstalled($server));
+        event(new GulpInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installBower();
-        event(new BowerInstalled($server));
+        event(new BowerInstalled($server), $this->getDonePercentage());
 
         $provisionSystem->installCertBot();
-        event(new CertBotInstalled($server));
-        
+        event(new CertBotInstalled($server), $this->getDonePercentage());
+
         $provisionSystem->installFirewallRules();
-        event(new FirewallSetup($server));
+        event(new FirewallSetup($server), $this->getDonePercentage());
 
         // TODO - having issues with the laravel installer and envoy installer
-        $provisionSystem->installLaravelInstaller();
-        $provisionSystem->installEnvoy();
+//        $provisionSystem->installLaravelInstaller();
+//        $provisionSystem->installEnvoy();
 
         return $provisionSystem->errors();
+    }
+
+    private function getDonePercentage()
+    {
+       return floor((++$this->doneActions / $this->totalActions) * 100);
     }
 
     /**

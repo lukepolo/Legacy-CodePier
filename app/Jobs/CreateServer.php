@@ -48,31 +48,34 @@ class CreateServer extends Job implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
+        \Log::info('Creating Server');
         /** @var Server $server */
         $server = $serverService->create($this->serverProvider, $this->user, $this->name, $this->options);
+        \Log::info('Created Server');
 
         $serverStatus = 'new';
 
+        \Log::info('Server Status');
         while ($serverStatus == 'new') {
             sleep(5);
             $serverStatus = $serverService->getStatus($server);
+            \Log::info('Server Status ' .$serverStatus);
         }
-
         event(new ServerCreated($server));
 
         $serverService->saveInfo($server);
 
         $sshConnection = false;
 
+
         while ($sshConnection == false) {
             sleep(5);
             $sshConnection = $serverService->testSshConnection($server);
+            \Log::info('SSH Status ' .$sshConnection);
         }
-
-        foreach ($this->user->sshKeys as $sshKey) {
-            $serverService->installSshKey($server, $sshKey->ssh_key);
-        }
-
-        dispatch((new ProvisionServer($server))->onQueue('server_provision'));
+        
+        \Log::info('Finished Creating Server' .$sshConnection);
+        dispatch(new ProvisionServer($server));
+//            ->onQueue('server_provision'));
     }
 }

@@ -35,6 +35,10 @@ class ProvisionServer extends Job implements ShouldQueue
     {
         $serverService->provision($this->server);
 
+        foreach ($this->server->user->sshKeys as $sshKey) {
+            $serverService->installSshKey($this->server, $sshKey->ssh_key);
+        }
+
         dispatch(new CreateSite($this->server));
     }
 }

@@ -15,14 +15,21 @@ class ComposerInstalled extends Event implements ShouldBroadcastNow
 {
     use SerializesModels;
 
+    public $server;
+    public $donePercentage;
+    
     /**
      * Create a new event instance.
      * @param Server $server
+     * @param $donePercentage
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, $donePercentage)
     {
         $server->status = 'Composer Installed';
         $server->save();
+
+        $this->server = $server;
+        $this->donePercentage = $donePercentage;
     }
 
     /**

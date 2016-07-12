@@ -18,7 +18,8 @@
         "graham-campbell/digitalocean": "^3.1",
         "graham-campbell/github": "^4.4",
         "phpseclib/phpseclib": "^2.0",
-        "authy/php": "2.*"
+        "authy/php": "2.*",
+        "pda/pheanstalk": "^3.1"
 
     },
     "require-dev": {
