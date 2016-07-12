@@ -6,10 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
 use App\Models\Site;
-use App\Services\Server\Site\DeploymentServices\PHP;
-use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
 
 /**
  * Class SiteService
@@ -22,6 +19,7 @@ class SiteService implements SiteServiceContract
     public $deploymentServices = [
         'php' => DeploymentServices\PHP::class
     ];
+
     /**
      * SiteService constructor.
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
@@ -33,7 +31,6 @@ class SiteService implements SiteServiceContract
 
     /**
      * Creates a site on the server
-     *
      * @param Server $server
      * @param string $domain
      * @return bool
@@ -42,29 +39,29 @@ class SiteService implements SiteServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/before');
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/server');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/before');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/server');
 
-       $this->remoteTaskService->run('
-cat > /etc/nginx/codepier-conf/'.$domain.'/server/listen <<    \'EOF\'
+        $this->remoteTaskService->run('
+cat > /etc/nginx/codepier-conf/' . $domain . '/server/listen <<    \'EOF\'
     listen 80;
     listen [::]:80;
 EOF
 echo "Wrote" ');
 
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/after');
+        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/after');
 
         if ($this->remoteTaskService->run('
-cat > /etc/nginx/sites-enabled/'.$domain.' <<    \'EOF\'
+cat > /etc/nginx/sites-enabled/' . $domain . ' <<    \'EOF\'
 
     # codepier CONFIG (DOT NOT REMOVE!)
-    include codepier-conf/'.$domain.'/before/*;
+    include codepier-conf/' . $domain . '/before/*;
    
     server {
-        include codepier-conf/'.$domain.'/server/*;
+        include codepier-conf/' . $domain . '/server/*;
         
-        server_name '.$domain.';
-        root /home/codepier/'.$domain.'/current/public;
+        server_name ' . $domain . ';
+        root /home/codepier/' . $domain . '/current/public;
 
         index index.html index.htm index.php;
 
@@ -82,7 +79,7 @@ cat > /etc/nginx/sites-enabled/'.$domain.' <<    \'EOF\'
         location = /robots.txt  { access_log off; log_not_found off; }
 
         access_log off;
-        error_log  /var/log/nginx/'.$domain.'-error.log error;
+        error_log  /var/log/nginx/' . $domain . '-error.log error;
 
         sendfile off;
 
@@ -109,7 +106,7 @@ cat > /etc/nginx/sites-enabled/'.$domain.' <<    \'EOF\'
     }
 
     # codepier CONFIG (DOT NOT REMOVE!)
-    include codepier-conf/'.$domain.'/after/*;
+    include codepier-conf/' . $domain . '/after/*;
 EOF
 echo "Wrote" ')
         ) {
@@ -122,60 +119,83 @@ echo "Wrote" ')
         return false;
     }
 
+    /**
+     * Renames a domain
+     * @param Site $site
+     * @param $domain
+     * @throws \App\Exceptions\SshConnectionFailed
+     */
     public function renameDomain(Site $site, $domain)
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('mv '.$site->path.' /home/codepier/'.$domain);
+        $this->remoteTaskService->run('mv ' . $site->path . ' /home/codepier/' . $domain);
 
         $this->remove($site);
         $this->create($site->server, $domain);
 
         $site->domain = $domain;
-        $site->path = '/home/codepier/'.$domain;
+        $site->path = '/home/codepier/' . $domain;
 
         $site->save();
     }
 
+    /**
+     * Updates the environment file for the site
+     * @param Site $site
+     * @param $env
+     * @throws \App\Exceptions\SshConnectionFailed
+     */
     public function updateEnv(Site $site, $env)
     {
         $this->remoteTaskService->ssh($site->server);
         $this->remoteTaskService->run('
-cat > /home/codepier/'.$site->domain.'/.env <<    \'EOF\'
-   '.$env.'
+cat > /home/codepier/' . $site->domain . '/.env <<    \'EOF\'
+   ' . $env . '
 EOF
 echo "Wrote" ');
 
     }
 
+    /**
+     * Removes a site from the server
+     * @param Site $site
+     * @throws \App\Exceptions\SshConnectionFailed
+     */
     public function remove(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/'.$site->domain);
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/'.$site->domain.' -rf');
+        $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/' . $site->domain);
+        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . ' -rf');
 
     }
 
+    /**
+     * Installs an ssl certificate for the site
+     * @param Site $site
+     * @return array
+     * @throws \App\Exceptions\SshConnectionFailed
+     */
     public function installSSL(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email '.$site->server->user->email.' --webroot -w /home/codepier/ -d codepier.io');
+        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ -d codepier.io');
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
 
-        if(count($errors = $this->remoteTaskService->getErrors())) {
+        if (count($errors = $this->remoteTaskService->getErrors())) {
             return $errors;
         }
 
         $this->remoteTaskService->run('
-cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
+cat > /etc/nginx/codepier-conf/' . $site->domain . '/server/listen <<    \'EOF\'
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    ssl_certificate /etc/letsencrypt/live/'.$site->domain.'/cert.pem;
+    ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
     ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
     ssl_trusted_certificate /etc/letsencrypt/live/codepier.io/fullchain.pem;
 
@@ -192,39 +212,41 @@ EOF
 echo "Wrote" ');
 
         $this->remoteTaskService->run('
-cat > /etc/nginx/codepier-conf/'.$site->domain.'/before/ssl_redirect.conf <<    \'EOF\'
+cat > /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf <<    \'EOF\'
     server {
         listen 80;
         listen [::]:80;
-        server_name '.$site->domain.';
+        server_name ' . $site->domain . ';
         return 301 https://$host$request_uri;
     }
 EOF
 echo "Wrote" ');
     }
 
+    /**
+     * Removes a ssl cert from a site
+     * @param Site $site
+     * @throws \App\Exceptions\SshConnectionFailed
+     */
     public function removeSSL(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run('
-cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
+cat > /etc/nginx/codepier-conf/' . $site->domain . '/server/listen <<    \'EOF\'
     listen 80;
     listen [::]:80;
 EOF
 echo "Wrote" ');
 
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/'.$site->domain.'/before/redirect');
-
+        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/redirect');
     }
 
     /**
      * Deploys a site on the server
-     *
      * @param Server $server
      * @param Site $site
      * @param bool $zeroDownTime
-     *
      * @return bool
      */
     public function deploy(Server $server, Site $site, $zeroDownTime = true)
@@ -242,26 +264,14 @@ echo "Wrote" ');
         return $this->remoteTaskService->getErrors();
     }
 
-    public function getFile(Server $server, $filePath)
+    /**
+     * Gest the deployment service to execute the commands
+     * @param Server $server
+     * @param Site $site
+     * @return mixed
+     */
+    private function getDeploymentService(Server $server, Site $site)
     {
-        $key = new RSA();
-        $key->setPassword(env('SSH_KEY_PASSWORD'));
-        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
-
-        $ssh = new SFTP($server->ip);
-
-        if (!$ssh->login('root', $key)) {
-            exit('Login Failed');
-        }
-
-        if($contents = $ssh->get($filePath)) {
-            return trim($contents);
-        }
-
-        return null;
-    }
-
-    private function getDeploymentService(Server $server, Site $site) {
         $deploymentService = 'php';
         return new $this->deploymentServices[$deploymentService]($this->remoteTaskService, $server, $site);
     }

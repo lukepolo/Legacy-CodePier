@@ -2,6 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
 use App\Models\ServerProvider;
 use App\Models\ServerProviderFeatures;
@@ -10,7 +11,6 @@ use App\Models\ServerProviderRegion;
 use App\Models\User;
 use App\Services\Server\ServerService;
 use DigitalOcean;
-use DigitalOceanV2\Api\Key;
 use DigitalOceanV2\Entity\Droplet;
 use phpseclib\Crypt\RSA;
 
@@ -19,10 +19,15 @@ use phpseclib\Crypt\RSA;
  *
  * @package App\Services\Server\ServerProviders
  */
-class DigitalOceanProvider
+class DigitalOceanProvider implements ServerServiceContract
 {
     protected $providerName = 'digitalocean';
 
+    /**
+     * Gets the server options from the provider
+     * @return array
+     * @throws \Exception
+     */
     public function getOptions()
     {
         $options = [];
@@ -43,6 +48,11 @@ class DigitalOceanProvider
         return $options;
     }
 
+    /**
+     * Gets the regions from the provider
+     * @return array
+     * @throws \Exception
+     */
     public function getRegions()
     {
         $regions = [];
@@ -60,6 +70,7 @@ class DigitalOceanProvider
     }
 
     /**
+     * Creates a new server
      * @param User $user
      * @param $name
      * @param $sshKey
@@ -75,11 +86,11 @@ class DigitalOceanProvider
         $ipv6 = false;
         $backups = false;
         $privateNetworking = false;
-        
+
         $serverOption = ServerProviderOption::findOrFail($options['server_option']);
         $serverRegion = ServerProviderRegion::findOrFail($options['server_region']);
 
-        foreach($options['features'] as $featureID) {
+        foreach ($options['features'] as $featureID) {
             $feature = lcfirst(ServerProviderFeatures::findOrFail($featureID)->feature);
             $$feature = true;
         }
@@ -107,6 +118,7 @@ class DigitalOceanProvider
     }
 
     /**
+     * Saves the server information
      * @param Droplet $droplet
      * @param User $user
      * @param $sshKey
@@ -129,6 +141,7 @@ class DigitalOceanProvider
     }
 
     /**
+     * Gets the status of a server
      * @param Server $server
      * @return mixed
      */
@@ -140,6 +153,7 @@ class DigitalOceanProvider
     }
 
     /**
+     * Gets the server IP
      * @param Server $server
      */
     public function savePublicIP(Server $server)
@@ -152,6 +166,7 @@ class DigitalOceanProvider
     }
 
     /**
+     * Gets the public IP of the server
      * @param Server $server
      * @return mixed
      */
@@ -168,6 +183,12 @@ class DigitalOceanProvider
         }
     }
 
+    /**
+     * Sets the token for the API
+     * @param User $user
+     * @return mixed
+     * @throws \Exception
+     */
     private function setToken(User $user)
     {
         if ($serverProvider = $user->userServerProviders->where('id', 1)->first()) {
@@ -177,9 +198,13 @@ class DigitalOceanProvider
         throw new \Exception('No server provider found for this user');
     }
 
+    /**
+     * Gest the server provider ID
+     * @return mixed
+     */
     private function getServerProviderID()
     {
-        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function() {
+        return \Cache::rememberForever('server.provider.' . $this->providerName . '.id', function () {
             return ServerProvider::where('provider_name', $this->providerName)->first()->id;
         });
     }

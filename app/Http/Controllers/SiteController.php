@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Requests;
@@ -16,17 +17,23 @@ use App\Models\Site;
 class SiteController extends Controller
 {
     protected $siteService;
+    protected $serverService;
     protected $repositoryService;
 
     /**
      * SiteController constructor.
      * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
+     * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Server\Site\SiteService |SiteService $siteService
      */
-    public function __construct(RepositoryService $repositoryService, SiteService $siteService)
-    {
-        $this->repositoryService = $repositoryService;
+    public function __construct(
+        RepositoryService $repositoryService,
+        ServerService $serverService,
+        SiteService $siteService
+    ) {
         $this->siteService = $siteService;
+        $this->serverService = $serverService;
+        $this->repositoryService = $repositoryService;
     }
 
     /**
@@ -70,7 +77,7 @@ class SiteController extends Controller
 
         $site = Site::with('server')->findOrFail($siteID);
 
-        $sshKey = $this->siteService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
+        $sshKey = $this->serverService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
 
         if (empty($sshKey)) {
             return back()->withErrors('You seem to be missing a SSH key, please contact support.');
@@ -143,7 +150,7 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        return $this->siteService->getFile($site->server, $site->path . '/.env');
+        return $this->serverService->getFile($site->server, $site->path . '/.env');
     }
 
     /**

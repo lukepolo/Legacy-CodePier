@@ -33,7 +33,7 @@ use App\Services\Server\ProvisionSystems\Ubuntu16_04;
  */
 class ProvisionService implements ProvisionServiceContract
 {
-    private $remoteTaskService;
+    protected $remoteTaskService;
 
     protected $provisionSystems = [
         'ubuntu 16.04' => Ubuntu16_04::class

@@ -14,6 +14,7 @@ use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\User;
 use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
 
 /**
  * Class ServerService
@@ -330,6 +331,31 @@ echo "Wrote" ');
             $server->save();
             return false;
         }
+    }
+
+    /**
+     * Gets a file on the server
+     * @param Server $server
+     * @param $filePath
+     * @return null|string
+     */
+    public function getFile(Server $server, $filePath)
+    {
+        $key = new RSA();
+        $key->setPassword(env('SSH_KEY_PASSWORD'));
+        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
+
+        $ssh = new SFTP($server->ip);
+
+        if (!$ssh->login('root', $key)) {
+            exit('Login Failed');
+        }
+
+        if ($contents = $ssh->get($filePath)) {
+            return trim($contents);
+        }
+
+        return null;
     }
 
     /**

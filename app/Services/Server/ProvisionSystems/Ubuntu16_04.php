@@ -9,7 +9,7 @@ use App\Models\Server;
  * Class Ubuntu16_04
  * @package App\Services\Server\ProvisionRepositories
  */
-class Ubuntu16_04 implements ProvisionSystemInterface
+class Ubuntu16_04 implements ProvisionSystemContract
 {
     private $remoteTaskService;
 
@@ -78,7 +78,7 @@ class Ubuntu16_04 implements ProvisionSystemInterface
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
         $this->remoteTaskService->run('openssl dhparam -out /etc/nginx/dhparam.pem 2048');
-        
+
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
     }
@@ -161,17 +161,17 @@ class Ubuntu16_04 implements ProvisionSystemInterface
 
     public function installMySQL($databasePassword)
     {
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password '.$databasePassword.'\'');
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password '.$databasePassword.'\'');
+        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password ' . $databasePassword . '\'');
+        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password ' . $databasePassword . '\'');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server');
 
         $this->remoteTaskService->run('sed -i \'/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/\' /etc/mysql/mysql.conf.d/mysqld.cnf');
 
-        $this->remoteTaskService->run('mysql --user="root" --password="'.$databasePassword.'" -e "GRANT ALL ON *.* TO root@\'%\' IDENTIFIED BY \''.$databasePassword.'````\' WITH GRANT OPTION;"');
+        $this->remoteTaskService->run('mysql --user="root" --password="' . $databasePassword . '" -e "GRANT ALL ON *.* TO root@\'%\' IDENTIFIED BY \'' . $databasePassword . '````\' WITH GRANT OPTION;"');
         $this->remoteTaskService->run('service mysql restart');
 
-        $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password='.$databasePassword.' mysql');
+        $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=' . $databasePassword . ' mysql');
     }
 
     public function installMariaDB()

@@ -6,10 +6,10 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Server;
 
 /**
- * Interface ProvisionSystemInterface
+ * Interface ProvisionSystemContract
  * @package App\Services\Server\ProvisionSystems
  */
-interface ProvisionSystemInterface
+interface ProvisionSystemContract
 {
     /**
      * ProvisionService constructor.
