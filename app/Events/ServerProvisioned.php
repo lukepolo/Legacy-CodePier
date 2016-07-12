@@ -7,6 +7,10 @@ use App\Models\Server;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Class ServerProvisioned
+ * @package App\Events
+ */
 class ServerProvisioned extends Event
 {
     use SerializesModels;

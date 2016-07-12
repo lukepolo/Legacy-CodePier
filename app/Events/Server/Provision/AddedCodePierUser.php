@@ -17,8 +17,7 @@ class AddedCodePierUser extends Event implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     *
-     * @return void
+     * @param Server $server
      */
     public function __construct(Server $server)
     {

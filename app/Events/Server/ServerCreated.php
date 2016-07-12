@@ -6,14 +6,16 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * Class ServerCreated
+ * @package App\Events\Server
+ */
 class ServerCreated extends Event
 {
     use SerializesModels;
 
     /**
      * Create a new event instance.
-     *
-     * @return void
      */
     public function __construct()
     {

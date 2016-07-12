@@ -17,6 +17,7 @@ class NodeJsInstalled extends Event implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     * @param Server $server
      */
     public function __construct(Server $server)
     {

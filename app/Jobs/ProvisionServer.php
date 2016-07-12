@@ -20,6 +20,7 @@ class ProvisionServer extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
+     * @param Server $server
      */
     public function __construct(Server $server)
     {
