@@ -40,7 +40,7 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, $domain = 'default')
     {
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/before');
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/'.$domain.'/server');
@@ -124,7 +124,7 @@ echo "Wrote" ')
 
     public function renameDomain(Site $site, $domain)
     {
-        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run('mv '.$site->path.' /home/codepier/'.$domain);
 
@@ -139,7 +139,7 @@ echo "Wrote" ')
 
     public function updateEnv(Site $site, $env)
     {
-        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->ssh($site->server);
         $this->remoteTaskService->run('
 cat > /home/codepier/'.$site->domain.'/.env <<    \'EOF\'
    '.$env.'
@@ -150,7 +150,7 @@ echo "Wrote" ');
 
     public function remove(Site $site)
     {
-        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/'.$site->domain);
         $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/'.$site->domain.' -rf');
@@ -159,7 +159,7 @@ echo "Wrote" ');
 
     public function installSSL(Site $site)
     {
-        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email '.$site->server->user->email.' --webroot -w /home/codepier/ -d codepier.io');
 
@@ -205,7 +205,7 @@ echo "Wrote" ');
 
     public function removeSSL(Site $site)
     {
-        $this->remoteTaskService->ssh($site->server->ip);
+        $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run('
 cat > /etc/nginx/codepier-conf/'.$site->domain.'/server/listen <<    \'EOF\'
@@ -236,7 +236,7 @@ echo "Wrote" ');
         $deploymentService->setupFolders();
         $deploymentService->cleanup();
 
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('service nginx restart');
 
         return $this->remoteTaskService->getErrors();

@@ -21,7 +21,7 @@ class Ubuntu16_04
     public function __construct(RemoteTaskService $remoteTaskService, Server $server)
     {
         $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
     }
 
     public function updateSystem()

@@ -11,6 +11,7 @@ use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\User;
+use phpseclib\Crypt\RSA;
 
 /**
  * Class ServerService
@@ -50,7 +51,15 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, User $user, $name, array $options)
     {
-        return $this->getProvider($serverProvider)->create($user, $name, $options);
+        return $this->getProvider($serverProvider)->create($user, $name, $this->createSshKey() ,$options);
+    }
+
+    private function createSshKey()
+    {
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
+        return $rsa->createKey();
     }
 
     /**
@@ -114,7 +123,7 @@ class ServerService implements ServerServiceContract
      */
     public function installSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server->ip, 'codepier');
+        $this->remoteTaskService->ssh($server, 'codepier');
         $this->remoteTaskService->run('echo '.$sshKey.' >> ~/.ssh/authorized_keys');
     }
 
@@ -126,7 +135,7 @@ class ServerService implements ServerServiceContract
      */
     public function removeSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server->ip, 'codepier');
+        $this->remoteTaskService->ssh($server, 'codepier');
         $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
     }
 
@@ -163,13 +172,13 @@ class ServerService implements ServerServiceContract
             'user' => 'root'
         ]);
 
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.' && echo "found") || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
     }
 
     public function removeCron(Server $server, ServerCronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
 
         $cronJob->delete();
@@ -183,7 +192,7 @@ class ServerService implements ServerServiceContract
             'port' => $port
         ]);
 
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /opt/iptables");
 
         $this->rebuildFirewall($server);
@@ -191,7 +200,7 @@ class ServerService implements ServerServiceContract
 
     public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule)
     {
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /opt/iptables");
 
@@ -202,7 +211,7 @@ class ServerService implements ServerServiceContract
 
     private function rebuildFirewall(Server $server)
     {
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('./opt/iptables');
     }
 
@@ -217,7 +226,7 @@ class ServerService implements ServerServiceContract
             'number_of_workers' => $numberOfWorkers,
         ]);
 
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('
 cat > /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf <<    \'EOF\'
@@ -241,7 +250,7 @@ echo "Wrote" ');
 
     public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
     {
-        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('rm /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf');
 

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\RemoteTaskServiceContract;
+use App\Models\Server;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 
@@ -12,9 +13,9 @@ use phpseclib\Net\SSH2;
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
-    private $ip;
-    private $errors = [];
+    private $server;
     private $session;
+    private $errors = [];
 
     /**
      * Runs a command on a remote server
@@ -33,7 +34,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         } catch (\ErrorException $e) {
             if ($e->getMessage() == "Unable to open channel") {
                 \Log::warning('retrying to connect to');
-                $this->ssh($this->ip);
+                $this->ssh($this->server);
                 $this->run($command, $read);
             } else {
                 dd($e->getMessage());
@@ -58,18 +59,18 @@ class RemoteTaskService implements RemoteTaskServiceContract
     /**
      * Sets up the SSH connections
      *
-     * @param $ip
+     * @param Server $server
+     * @param string $user
      * @throws \Exception
      */
-    public function ssh($ip, $user = 'root')
+    public function ssh(Server $server, $user = 'root')
     {
-        $this->ip = $ip;
+        $this->server = $server;
 
         $key = new RSA();
-        $key->setPassword(env('SSH_KEY_PASSWORD'));
-        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
+        $key->loadKey($server->ssh_private_key);
 
-        $ssh = new SSH2($ip);
+        $ssh = new SSH2($this->server->ip);
 
         $ssh->enableQuietMode();
 

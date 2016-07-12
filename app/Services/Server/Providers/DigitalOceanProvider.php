@@ -10,7 +10,9 @@ use App\Models\ServerProviderRegion;
 use App\Models\User;
 use App\Services\Server\ServerService;
 use DigitalOcean;
+use DigitalOceanV2\Api\Key;
 use DigitalOceanV2\Entity\Droplet;
+use phpseclib\Crypt\RSA;
 
 /**
  * Class DigitalOcean
@@ -60,14 +62,18 @@ class DigitalOceanProvider
     /**
      * @param User $user
      * @param $name
+     * @param $sshKey
      * @param array $options
      * @return static
      * @throws \Exception
      */
-    public function create(User $user, $name, array $options = [])
+    public function create(User $user, $name, $sshKey, array $options = [])
     {
-        $backups = false;
+        $sshPublicKey = new RSA();
+        $sshPublicKey->loadKey($sshKey['publickey']);
+
         $ipv6 = false;
+        $backups = false;
         $privateNetworking = false;
         
         $serverOption = ServerProviderOption::findOrFail($options['server_option']);
@@ -80,6 +86,8 @@ class DigitalOceanProvider
 
         $this->setToken($user);
 
+        DigitalOcean::key()->create($name, $sshKey['publickey']);
+
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
             $name,
@@ -87,22 +95,25 @@ class DigitalOceanProvider
             strtolower($serverOption->getRamString()),
             ServerService::$serverOperatingSystem,
             $backups,
-            $ipv6 = true,
-            $privateNetworking = true,
+            $ipv6,
+            $privateNetworking,
             $sshKeys = [
-                env('SSH_KEY')
+                $sshPublicKey->getPublicKeyFingerprint()
             ],
             $userData = null
         );
 
-        return $this->saveServer($droplet, $user);
+        return $this->saveServer($droplet, $user, $sshKey);
     }
 
     /**
      * @param Droplet $droplet
+     * @param User $user
+     * @param $sshKey
      * @return static
+     * @throws \Exception
      */
-    public function saveServer(Droplet $droplet, User $user)
+    public function saveServer(Droplet $droplet, User $user, $sshKey)
     {
         $this->setToken($user);
 
@@ -112,6 +123,8 @@ class DigitalOceanProvider
             'server_id' => $droplet->id,
             'server_provider_id' => $this->getServerProviderID(),
             'status' => 'Provisioning',
+            'public_ssh_key' => $sshKey['publickey'],
+            'private_ssh_key' => $sshKey['privatekey']
         ]);
     }
 

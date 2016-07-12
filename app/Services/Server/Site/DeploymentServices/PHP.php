@@ -27,7 +27,7 @@ class PHP
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
         $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server->ip, 'codepier');
+        $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->path = $site->path;
         $this->branch = $site->branch;
