@@ -9,6 +9,7 @@ use App\Events\Server\Provision\BeanstalkInstalled;
 use App\Events\Server\Provision\BowerInstalled;
 use App\Events\Server\Provision\CertBotInstalled;
 use App\Events\Server\Provision\ComposerInstalled;
+use App\Events\Server\Provision\FirewallSetup;
 use App\Events\Server\Provision\GitInstalled;
 use App\Events\Server\Provision\GulpInstalled;
 use App\Events\Server\Provision\LocaleSetToUTF8;
@@ -25,6 +26,7 @@ use App\Events\Server\Provision\SwapCreated;
 use App\Events\Server\Provision\TimeZoneSetToUCT;
 use App\Events\Server\Provision\UpdatedSystem;
 use App\Models\Server;
+use App\Models\ServerFirewallRule;
 use App\Services\Server\ProvisionSystems\Ubuntu16_04;
 
 /**
@@ -118,6 +120,9 @@ class ProvisionService implements ProvisionServiceContract
 
         $provisionSystem->installCertBot();
         event(new CertBotInstalled($server));
+        
+        $provisionSystem->installFirewallRules();
+        event(new FirewallSetup($server));
 
         // TODO - having issues with the laravel installer and envoy installer
         $provisionSystem->installLaravelInstaller();

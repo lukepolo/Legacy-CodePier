@@ -221,6 +221,9 @@ cat > /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf <<
     }
 EOF
 echo "Wrote" ');
+
+
+        $this->remoteTaskService->run('service nginx restart');
     }
 
     /**
@@ -240,6 +243,8 @@ EOF
 echo "Wrote" ');
 
         $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/redirect');
+
+        $this->remoteTaskService->run('service nginx restart');
     }
 
     /**

@@ -204,7 +204,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
     public function installFirewallRules()
     {
         $this->remoteTaskService->run('
-cat > /opt/iptables <<    \'EOF\'
+cat > /etc/opt/iptables <<    \'EOF\'
     #!/bin/sh
     echo "REDOING IP TABLES"
     iptables -F
@@ -237,7 +237,7 @@ cat > /opt/iptables <<    \'EOF\'
     EOF
 echo "Wrote" ');
 
-        $this->remoteTaskService->run('chmod 775 /opt/iptables');
-        $this->remoteTaskService->run('./opt/iptables');
+        $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
+        $this->remoteTaskService->run('./etc/opt/iptables');
     }
 }

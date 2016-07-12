@@ -216,7 +216,7 @@ class ServerService implements ServerServiceContract
         ]);
 
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /opt/iptables");
+        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
 
         $this->rebuildFirewall($server);
     }
@@ -232,7 +232,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /opt/iptables");
+        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
 
         $firewallRule->delete();
 
@@ -247,7 +247,7 @@ class ServerService implements ServerServiceContract
     private function rebuildFirewall(Server $server)
     {
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('./opt/iptables');
+        $this->remoteTaskService->run('./etc/opt/iptables');
     }
 
     /**
@@ -343,7 +343,7 @@ echo "Wrote" ');
     {
         $key = new RSA();
         $key->setPassword(env('SSH_KEY_PASSWORD'));
-        $key->loadKey(file_get_contents('/home/vagrant/.ssh/id_rsa'));
+        $key->loadKey($server->private_ssh_key);
 
         $ssh = new SFTP($server->ip);
 
