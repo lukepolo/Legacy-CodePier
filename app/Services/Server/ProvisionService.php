@@ -51,8 +51,11 @@ class ProvisionService implements ProvisionServiceContract
     /**
      * Provisions a server based on its operating system
      * @param Server $server
+     * @param $sudoPassword
+     * @param $databasePassword
+     * @return
      */
-    public function provision(Server $server)
+    public function provision(Server $server, $sudoPassword, $databasePassword)
     {
         $provisionSystem = $this->getProvisionRepository($server);
 
@@ -62,7 +65,7 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->setTimezoneToUTC();
         event(new TimeZoneSetToUCT($server));
 
-        $provisionSystem->addCodePierUser();
+        $provisionSystem->addCodePierUser($sudoPassword);
         event(new AddedCodePierUser($server));
 
         $provisionSystem->setLocaleToUTF8();
@@ -98,10 +101,10 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installBeanstalk();
         event(new BeanstalkInstalled($server));
 
-        $provisionSystem->installMySQL();
+        $provisionSystem->installMySQL($databasePassword);
         event(new MySQLInstalled($server));
 
-        $provisionSystem->installMariaDB();
+        $provisionSystem->installMariaDB($databasePassword);
         event(new MariaDBInstalled($server));
 
         $provisionSystem->installNodeJs();
@@ -115,7 +118,7 @@ class ProvisionService implements ProvisionServiceContract
 
         $provisionSystem->installCertBot();
         event(new CertBotInstalled($server));
-        
+
         // TODO - having issues with the laravel installer and envoy installer
 //        $provisionSystem->installLaravelInstaller();
 //        $provisionSystem->installEnvoy();

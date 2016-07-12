@@ -5,6 +5,7 @@ namespace App\Services\Server;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
+use App\Events\ServerProvisioned;
 use App\Exceptions\SshConnectionFailed;
 use App\Models\Server;
 use App\Models\ServerCronJob;
@@ -124,8 +125,9 @@ class ServerService implements ServerServiceContract
      */
     public function installSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server, 'codepier');
+        $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('echo ' . $sshKey . ' >> ~/.ssh/authorized_keys');
+        $this->remoteTaskService->run('echo ' . $sshKey . ' >> /home/codepier/.ssh/authorized_keys');
     }
 
     /**
@@ -136,22 +138,29 @@ class ServerService implements ServerServiceContract
      */
     public function removeSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server, 'codepier');
+        $this->remoteTaskService->ssh($server);
+
+        $sshKey = str_replace('/', '\/', $sshKey);
         $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
+        $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
     }
 
     /**
      * Provisions a server
      *
      * @param Server $server
-     * @return bool
      */
     public function provision(Server $server)
     {
-        $this->provisionService->provision($server);
+        $sudoPassword = str_random(32);
+        $databasePassword = str_random(32);
+
+        $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
         $server->status = 'Provisioned';
         $server->save();
+
+        event(new ServerProvisioned($server, $sudoPassword, $databasePassword));
     }
 
     /**

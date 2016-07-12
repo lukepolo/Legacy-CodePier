@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite@handle',
         ],
+        \App\Events\ServerProvisioned::class => [
+            \App\Listeners\EmailSudoAndDatabasePasswords::class,
+        ],
     ];
     /**
      * Register any other events for your application.

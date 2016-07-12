@@ -35,7 +35,7 @@ class Ubuntu16_04
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
     }
 
-    public function addCodePierUser()
+    public function addCodePierUser($sudoPassword)
     {
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
         $this->remoteTaskService->run('echo \'codepier:mypass\' | chpasswd');
@@ -47,6 +47,8 @@ class Ubuntu16_04
 
         $this->remoteTaskService->run('ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa');
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
+
+        $this->remoteTaskService->run('echo "codepier:'.$sudoPassword.'" | chpasswd');
     }
 
     public function setLocaleToUTF8()
@@ -161,22 +163,22 @@ class Ubuntu16_04
         $this->remoteTaskService->run('npm install -g bower');
     }
 
-    public function installMySQL()
+    public function installMySQL($databasePassword)
     {
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password secret\'');
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password secret\'');
+        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password '.$databasePassword.'\'');
+        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password '.$databasePassword.'\'');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server');
 
         $this->remoteTaskService->run('sed -i \'/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/\' /etc/mysql/mysql.conf.d/mysqld.cnf');
 
-        $this->remoteTaskService->run('mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@\'%\' IDENTIFIED BY \'secret\' WITH GRANT OPTION;"');
+        $this->remoteTaskService->run('mysql --user="root" --password="'.$databasePassword.'" -e "GRANT ALL ON *.* TO root@\'%\' IDENTIFIED BY \''.$databasePassword.'````\' WITH GRANT OPTION;"');
         $this->remoteTaskService->run('service mysql restart');
 
-        $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql');
+        $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password='.$databasePassword.' mysql');
     }
 
-    public function installMariaDB()
+    public function installMariaDB($databasePassword)
     {
 
     }
