@@ -9,7 +9,7 @@ use App\Models\Server;
  * Class Ubuntu16_04
  * @package App\Services\Server\ProvisionRepositories
  */
-class Ubuntu16_04
+class Ubuntu16_04 implements ProvisionSystemInterface
 {
     private $remoteTaskService;
 
@@ -35,7 +35,7 @@ class Ubuntu16_04
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
     }
 
-    public function addCodePierUser($sudoPassword)
+    public function addCodePierUser()
     {
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
         $this->remoteTaskService->run('echo \'codepier:mypass\' | chpasswd');
@@ -47,8 +47,6 @@ class Ubuntu16_04
 
         $this->remoteTaskService->run('ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa');
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
-
-        $this->remoteTaskService->run('echo "codepier:'.$sudoPassword.'" | chpasswd');
     }
 
     public function setLocaleToUTF8()
@@ -63,7 +61,6 @@ class Ubuntu16_04
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
 
-        // TODO - NEED SERVER SIZE
         $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini');
         $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini');
     }
@@ -90,7 +87,6 @@ class Ubuntu16_04
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php-fpm');
 
-        // TODO - need memory size
         $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini');
         $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini');
         $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini');
@@ -140,12 +136,12 @@ class Ubuntu16_04
 
     public function installLaravelInstaller()
     {
-        $this->remoteTaskService->run('sudo su codepier;  composer global require "laravel/installer=~1.1"');
+        $this->remoteTaskService->run('sudo su codepier; composer global require "laravel/installer=~1.1"');
     }
 
     public function installEnvoy()
     {
-        $this->remoteTaskService->run('sudo su codepier;  composer global require "laravel/envoy=~1.0"');
+        $this->remoteTaskService->run('sudo su codepier; composer global require "laravel/envoy=~1.0"');
     }
 
     public function installNodeJs()
@@ -178,7 +174,7 @@ class Ubuntu16_04
         $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password='.$databasePassword.' mysql');
     }
 
-    public function installMariaDB($databasePassword)
+    public function installMariaDB()
     {
 
     }

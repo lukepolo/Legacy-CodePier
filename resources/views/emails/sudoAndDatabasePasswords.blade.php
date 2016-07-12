@@ -1,4 +1,4 @@
-{{ $server['ip'] }}
+{{ $serverIp }}
 <br>
 Root Password :
 <br>

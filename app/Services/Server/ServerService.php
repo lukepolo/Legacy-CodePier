@@ -12,7 +12,6 @@ use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
-use App\Models\ServerSshKey;
 use App\Models\User;
 use phpseclib\Crypt\RSA;
 
@@ -53,14 +52,6 @@ class ServerService implements ServerServiceContract
     public function create(ServerProvider $serverProvider, User $user, $name, array $options)
     {
         return $this->getProvider($serverProvider)->create($user, $name, $this->createSshKey(), $options);
-    }
-
-    private function createSshKey()
-    {
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-
-        return $rsa->createKey();
     }
 
     /**
@@ -139,7 +130,7 @@ class ServerService implements ServerServiceContract
     {
         try {
             $this->remoteTaskService->ssh($server);
-            
+
             $sshKey = str_replace('/', '\/', $sshKey);
             $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
             $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
@@ -175,6 +166,12 @@ class ServerService implements ServerServiceContract
         return new $this->providers[$serverProvider->provider_name]();
     }
 
+    /**
+     * Installs a cron job
+     * @param Server $server
+     * @param $cronJob
+     * @throws SshConnectionFailed
+     */
     public function installCron(Server $server, $cronJob)
     {
         ServerCronJob::create([
@@ -187,6 +184,13 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ' && echo "found") || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
     }
 
+    /**
+     * Removes a cron job
+     * @param Server $server
+     * @param ServerCronJob $cronJob
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
     public function removeCron(Server $server, ServerCronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server);
@@ -195,6 +199,13 @@ class ServerService implements ServerServiceContract
         $cronJob->delete();
     }
 
+    /**
+     * Adds a firewall rule
+     * @param Server $server
+     * @param $port
+     * @param $description
+     * @throws SshConnectionFailed
+     */
     public function addFirewallRule(Server $server, $port, $description)
     {
         ServerFirewallRule::create([
@@ -209,6 +220,13 @@ class ServerService implements ServerServiceContract
         $this->rebuildFirewall($server);
     }
 
+    /**
+     * Removes a rule from the firewall
+     * @param Server $server
+     * @param ServerFirewallRule $firewallRule
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
     public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule)
     {
         $this->remoteTaskService->ssh($server);
@@ -220,12 +238,27 @@ class ServerService implements ServerServiceContract
         $this->rebuildFirewall($server);
     }
 
+    /**
+     * Rebuilds the firewall
+     * @param Server $server
+     * @throws SshConnectionFailed
+     */
     private function rebuildFirewall(Server $server)
     {
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('./opt/iptables');
     }
 
+    /**
+     * Installs a daemon
+     * @param Server $server
+     * @param $command
+     * @param $autoStart
+     * @param $autoRestart
+     * @param $user
+     * @param $numberOfWorkers
+     * @throws SshConnectionFailed
+     */
     public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
     {
         $serverDaemon = ServerDaemon::create([
@@ -259,6 +292,13 @@ echo "Wrote" ');
 
     }
 
+    /**
+     * Removes a daemon
+     * @param Server $server
+     * @param ServerDaemon $serverDaemon
+     * @throws SshConnectionFailed
+     * @throws \Exception
+     */
     public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
     {
         $this->remoteTaskService->ssh($server);
@@ -272,6 +312,11 @@ echo "Wrote" ');
         $serverDaemon->delete();
     }
 
+    /**
+     * Tests the ssh connection from codepier to the server
+     * @param Server $server
+     * @return bool
+     */
     public function testSshConnection(Server $server)
     {
         try {
@@ -285,5 +330,17 @@ echo "Wrote" ');
             $server->save();
             return false;
         }
+    }
+
+    /**
+     * Creates an ssh key for the server
+     * @return array
+     */
+    private function createSshKey()
+    {
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
+        return $rsa->createKey();
     }
 }

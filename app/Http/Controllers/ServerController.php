@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\ServerProvisioned;
 use App\Http\Requests;
 use App\Jobs\CreateServer;
-use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
@@ -175,6 +175,10 @@ class ServerController extends Controller
         return back()->with('success', 'You removed a daemon');
     }
 
+    /**
+     * Test the ssh connection
+     * @param $serverID
+     */
     public function getTestSshConnection($serverID)
     {
         $this->serverService->testSshConnection(Server::findOrFail($serverID));

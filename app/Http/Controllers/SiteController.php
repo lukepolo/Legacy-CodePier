@@ -150,7 +150,6 @@ class SiteController extends Controller
      * Creates the deployment
      * @param $serverID
      * @param $siteID
-     *
      * @return mixed
      */
     public function getDeploy($serverID, $siteID)

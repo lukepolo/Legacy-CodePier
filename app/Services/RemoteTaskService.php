@@ -24,10 +24,14 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $command
      * @param bool $read
      * @return bool
-     * @throws \Exception
+     * @throws SshConnectionFailed
      */
     public function run($command, $read = false)
     {
+        if (!$this->server) {
+            throw new SshConnectionFailed('No server set');
+        }
+
         \Log::info('Running Command : ' . $command);
 
         try {
@@ -89,10 +93,13 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $ssh->setTimeout(0);
 
-
         $this->session = $ssh;
     }
 
+    /**
+     * Gets the errors from the current sessions
+     * @return array
+     */
     public function getErrors()
     {
         return $this->errors;

@@ -120,15 +120,10 @@ class ProvisionService implements ProvisionServiceContract
         event(new CertBotInstalled($server));
 
         // TODO - having issues with the laravel installer and envoy installer
-//        $provisionSystem->installLaravelInstaller();
-//        $provisionSystem->installEnvoy();
+        $provisionSystem->installLaravelInstaller();
+        $provisionSystem->installEnvoy();
 
         return $provisionSystem->errors();
-    }
-
-    public function addUsersSshKeys()
-    {
-
     }
 
     /**

@@ -20,7 +20,6 @@ class GetServerOptions extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function handle(ServerService $serverService)

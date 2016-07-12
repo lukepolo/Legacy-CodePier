@@ -23,7 +23,6 @@ class CreateSite extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
      * @param Server $server
      * @param $domain
      */
@@ -44,7 +43,6 @@ class CreateSite extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      * @param \App\Services\Server\Site\SiteService | SiteService $siteService
      */
     public function handle(SiteService $siteService)

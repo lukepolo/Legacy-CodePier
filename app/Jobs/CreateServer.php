@@ -53,7 +53,7 @@ class CreateServer extends Job implements ShouldQueue
 
         $serverStatus = 'new';
 
-        while($serverStatus == 'new') {
+        while ($serverStatus == 'new') {
             sleep(5);
             $serverStatus = $serverService->getStatus($server);
         }
@@ -64,12 +64,12 @@ class CreateServer extends Job implements ShouldQueue
 
         $sshConnection = false;
 
-        while($sshConnection == false) {
+        while ($sshConnection == false) {
             sleep(5);
             $sshConnection = $serverService->testSshConnection($server);
         }
 
-        foreach($this->user->sshKeys as $sshKey) {
+        foreach ($this->user->sshKeys as $sshKey) {
             $serverService->installSshKey($server, $sshKey->ssh_key);
         }
 
