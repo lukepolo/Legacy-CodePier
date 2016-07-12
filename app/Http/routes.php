@@ -48,6 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('create-server', 'ServerController@postCreateServer');
     Route::post('server/{serverID}/ssh-key/install', 'ServerController@postInstallSshKey');
     Route::get('server/{serverID}/ssh-key/{serverSshKeyId}/remove', 'ServerController@getRemoveSshKey');
+    Route::post('server/{serverID}/cron-job/install', 'ServerController@postInstallCronJob');
+    Route::get('server/{serverID}/cron-job/{cronJobID}/remove', 'ServerController@getRemoveCronJob');
+
+
+    Route::post('server/{serverID}/firewall-rule/add', 'ServerController@postAddFirewallRule');
+    Route::get('server/{serverID}/firewall-rule/{fireWallID}/remove', 'ServerController@getRemoveFireWallRule');
 
     /*
     |--------------------------------------------------------------------------

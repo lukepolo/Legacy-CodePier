@@ -6,6 +6,8 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Requests;
 use App\Jobs\CreateServer;
 use App\Models\Server;
+use App\Models\ServerCronJob;
+use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
 
@@ -89,5 +91,33 @@ class ServerController extends Controller
         $serverSshKey->delete();
 
         return back()->with('success', 'You removed an ssh key');
+    }
+
+    public function postInstallCronJob($serverID)
+    {
+        $this->serverService->installCron(Server::findOrFail($serverID), \Request::get('cron'));
+
+        return back()->with('success', 'You added a cron job');
+    }
+
+    public function getRemoveCronJob($serverID, $cronJobID)
+    {
+        $this->serverService->removeCron(Server::findOrFail($serverID), ServerCronJob::findorFail($cronJobID));
+
+        return back()->with('success', 'You removed a cron job');
+    }
+
+    public function postAddFireWallRule($serverID)
+    {
+        $this->serverService->addFirewallRule(Server::findOrFail($serverID), \Request::get('port'), \Request::get('description'));
+
+        return back()->with('success', 'You added a firewall rule');
+    }
+
+    public function getRemoveFireWallRule($serverID, $serverFireWallID)
+    {
+        $this->serverService->removeFirewallRule(Server::findOrFail($serverID), ServerFirewallRule::findOrFail($serverFireWallID));
+
+        return back()->with('success', 'You removed a firewall rule');
     }
 }

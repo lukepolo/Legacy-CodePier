@@ -72,13 +72,57 @@
                                 </table>
                             </div>
                             <div class="tab-pane" id="cron_jobs">
-                                cron_jobs
+                                {!! Form::open(['action' => ['ServerController@postInstallCronJob', $server->id]]) !!}
+                                    {!! Form::text('cron') !!}
+                                    {!! Form::submit('Create cron') !!}
+                                {!! Form::close() !!}
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Job</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($server->cronJobs as $cronJob)
+                                        <tr>
+                                            <td>{{ $cronJob->job }}</td>
+                                            <td><a href="{{ action('ServerController@getRemoveCronJob', [$server->id, $cronJob->id]) }}" class="fa fa-remove"></a></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
                             </div>
                             <div class="tab-pane" id="daemons">
                                 daemons
                             </div>
                             <div class="tab-pane" id="firewall">
-                                firewall
+
+                                {!! Form::open(['action' => ['ServerController@postAddFirewallRule', $server->id]]) !!}
+                                    {!! Form::text('description') !!}
+                                    {!! Form::text('port') !!}
+                                {!! Form::submit('Create Rule') !!}
+                                {!! Form::close() !!}
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Port</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($server->firewallRules as $firewallRule)
+                                        <tr>
+                                            <td>{{ $firewallRule->description }}</td>
+                                            <td>{{ $firewallRule->port }}</td>
+                                            <td><a href="{{ action('ServerController@getRemoveFireWallRule', [$server->id, $firewallRule->id]) }}" class="fa fa-remove"></a></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,8 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
+use App\Models\ServerCronJob;
+use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\User;
 
@@ -152,4 +154,54 @@ class ServerService implements ServerServiceContract
         return new $this->providers[$serverProvider->provider_name]();
     }
 
+    public function installCron(Server $server, $cronJob)
+    {
+        ServerCronJob::create([
+            'server_id' => $server->id,
+            'job' => $cronJob,
+            'user' => 'root'
+        ]);
+
+        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.' && echo "found") || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+    }
+
+    public function removeCron(Server $server, ServerCronJob $cronJob)
+    {
+        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
+
+        $cronJob->delete();
+    }
+
+    public function addFirewallRule(Server $server, $port, $description)
+    {
+        ServerFirewallRule::create([
+            'description' => $description,
+            'server_id' => $server->id,
+            'port' => $port
+        ]);
+
+        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /opt/iptables");
+
+        $this->rebuildFirewall($server);
+    }
+
+    public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule)
+    {
+        $this->remoteTaskService->ssh($server->ip);
+
+        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /opt/iptables");
+
+        $firewallRule->delete();
+
+        $this->rebuildFirewall($server);
+    }
+
+    private function rebuildFirewall(Server $server)
+    {
+        $this->remoteTaskService->ssh($server->ip);
+        $this->remoteTaskService->run('./opt/iptables');
+    }
 }

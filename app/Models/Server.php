@@ -33,4 +33,14 @@ class Server extends Model
     {
         return $this->hasMany(ServerSshKey::class);
     }
+
+    public function cronJobs()
+    {
+        return $this->hasMany(ServerCronJob::class);
+    }
+
+    public function firewallRules()
+    {
+        return $this->hasMany(ServerFirewallRule::class);
+    }
 }
