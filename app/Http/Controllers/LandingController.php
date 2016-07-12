@@ -12,7 +12,6 @@ class LandingController extends Controller
 {
     /**
      * Show the application dashboard.
-     *
      * @return \Illuminate\Http\Response
      */
     public function getIndex()

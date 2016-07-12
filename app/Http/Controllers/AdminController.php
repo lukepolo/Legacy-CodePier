@@ -33,6 +33,11 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
+    /**
+     * Gets all the servers option and regions
+     * @param $serverProviderID
+     * @return mixed
+     */
     public function getServerOptionsAndRegions($serverProviderID)
     {
         $serverProvider = ServerProvider::findOrFail($serverProviderID);

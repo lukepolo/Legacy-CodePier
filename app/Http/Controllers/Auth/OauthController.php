@@ -60,7 +60,7 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback($provider)
     {
-//        try {
+        try {
             $user = Socialite::driver($provider)->user();
 
             if (!\Auth::user()) {
@@ -83,31 +83,30 @@ class OauthController extends Controller
 
             return back()->with('success', 'You have connected your ' . ucwords($provider) . ' account');
 
-//        } catch (\Exception $e) {
-//
-//            if (!empty($newLoginProvider)) {
-//                $newLoginProvider->delete();
-//            }
-//
-//            if (!empty($newUserModel)) {
-//                $newUserModel->delete();
-//            }
-//
-//            if (!empty($newUserRepositoryProvider)) {
-//                $newUserRepositoryProvider->delete();
-//            }
-//
-//            if (!empty($newUserServerProvider)) {
-//                $newUserServerProvider->delete();
-//            }
-//
-//            return back()->withErrors($e->getMessage());
-//        }
+        } catch (\Exception $e) {
+
+            if (!empty($newLoginProvider)) {
+                $newLoginProvider->delete();
+            }
+
+            if (!empty($newUserModel)) {
+                $newUserModel->delete();
+            }
+
+            if (!empty($newUserRepositoryProvider)) {
+                $newUserRepositoryProvider->delete();
+            }
+
+            if (!empty($newUserServerProvider)) {
+                $newUserServerProvider->delete();
+            }
+
+            return back()->withErrors($e->getMessage());
+        }
     }
 
     /**
      * Creates a login provider
-     *
      * @param $provider
      * @param $user
      * @return mixed
@@ -124,7 +123,6 @@ class OauthController extends Controller
 
     /**
      * Creates a new user
-     *
      * @param $user
      * @param $userLoginProvider
      * @return mixed
@@ -142,7 +140,6 @@ class OauthController extends Controller
 
     /**
      * Saves the users repository provider
-     *
      * @param $provider
      * @param $user
      * @return mixed
@@ -169,7 +166,6 @@ class OauthController extends Controller
 
     /**
      * Saves the users server provider
-     *
      * @param $provider
      * @param $user
      * @return mixed

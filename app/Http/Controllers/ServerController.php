@@ -22,7 +22,6 @@ class ServerController extends Controller
 
     /**
      * ServerController constructor.
-     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function __construct(ServerService $serverService)
@@ -32,7 +31,6 @@ class ServerController extends Controller
 
     /**
      * Shows the servers information
-     *
      * @param $serverID
      * @return mixed
      */
@@ -45,7 +43,6 @@ class ServerController extends Controller
 
     /**
      * Creates a new server for the user
-     *
      * @return mixed
      */
     public function postCreateServer()
@@ -62,7 +59,6 @@ class ServerController extends Controller
 
     /**
      * Installs a SSH key onto a server
-     *
      * @param $serverID
      */
     public function postInstallSshKey($serverID)
@@ -80,7 +76,6 @@ class ServerController extends Controller
 
     /**
      * Removes a SSH key on a server
-     *
      * @param $serverID
      */
     public function getRemoveSshKey($serverID, $serverSshKeyId)
@@ -94,6 +89,11 @@ class ServerController extends Controller
         return back()->with('success', 'You removed an ssh key');
     }
 
+    /**
+     * Installs a cron job on a server
+     * @param $serverID
+     * @return mixed
+     */
     public function postInstallCronJob($serverID)
     {
         $this->serverService->installCron(Server::findOrFail($serverID), \Request::get('cron'));
@@ -101,6 +101,12 @@ class ServerController extends Controller
         return back()->with('success', 'You added a cron job');
     }
 
+    /**
+     * Removes a cron job on a server
+     * @param $serverID
+     * @param $cronJobID
+     * @return mixed
+     */
     public function getRemoveCronJob($serverID, $cronJobID)
     {
         $this->serverService->removeCron(Server::findOrFail($serverID), ServerCronJob::findorFail($cronJobID));
@@ -108,20 +114,38 @@ class ServerController extends Controller
         return back()->with('success', 'You removed a cron job');
     }
 
+    /**
+     * Adds a firewall rule to a server
+     * @param $serverID
+     * @return mixed
+     */
     public function postAddFireWallRule($serverID)
     {
-        $this->serverService->addFirewallRule(Server::findOrFail($serverID), \Request::get('port'), \Request::get('description'));
+        $this->serverService->addFirewallRule(Server::findOrFail($serverID), \Request::get('port'),
+            \Request::get('description'));
 
         return back()->with('success', 'You added a firewall rule');
     }
 
+    /**
+     * Removes a firewall rule to a server
+     * @param $serverID
+     * @param $serverFireWallID
+     * @return mixed
+     */
     public function getRemoveFireWallRule($serverID, $serverFireWallID)
     {
-        $this->serverService->removeFirewallRule(Server::findOrFail($serverID), ServerFirewallRule::findOrFail($serverFireWallID));
+        $this->serverService->removeFirewallRule(Server::findOrFail($serverID),
+            ServerFirewallRule::findOrFail($serverFireWallID));
 
         return back()->with('success', 'You removed a firewall rule');
     }
 
+    /**
+     * Adds a daemon to a server
+     * @param $serverID
+     * @return mixed
+     */
     public function postAddDaemon($serverID)
     {
         $this->serverService->installDaemon(
@@ -137,6 +161,12 @@ class ServerController extends Controller
 
     }
 
+    /**
+     * Removes a daemon to a server
+     * @param $serverID
+     * @param $serverDaemonID
+     * @return mixed
+     */
     public function getRemoveDaemon($serverID, $serverDaemonID)
     {
         $this->serverService->removeDaemon(Server::findOrFail($serverID), ServerDaemon::findOrFail($serverDaemonID));

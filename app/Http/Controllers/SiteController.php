@@ -20,7 +20,6 @@ class SiteController extends Controller
 
     /**
      * SiteController constructor.
-     *
      * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
      * @param \App\Services\Server\Site\SiteService |SiteService $siteService
      */
@@ -32,7 +31,6 @@ class SiteController extends Controller
 
     /**
      * Gets a site based on its id
-     *
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -48,7 +46,6 @@ class SiteController extends Controller
 
     /**
      * Creates a new site
-     *
      * @return mixed
      */
     public function postCreateSite($serverID)
@@ -64,15 +61,14 @@ class SiteController extends Controller
             'user_id' => $server->user_id,
             'path' => '/home/codepier/' . $domain
         ]);
-        
-        $this->dispatch((new CreateSite($server,$domain))->onQueue('site_creations'));
+
+        $this->dispatch((new CreateSite($server, $domain))->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
     /**
      * Installs a repository for a site
-     *
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -98,18 +94,30 @@ class SiteController extends Controller
 
         return back()->with('success', 'We have added the repository');
     }
-    
+
+    /**
+     * Requests a SSL certificate on a server
+     * @param $serverID
+     * @param $siteID
+     * @return $this
+     */
     public function postRequestLetsEncryptSSLCert($serverID, $siteID)
     {
         $errors = $this->siteService->installSSL(Site::with('server')->findOrFail($siteID));
 
-        if(is_array($errors)) {
+        if (is_array($errors)) {
             return back()->withErrors($errors);
         }
 
         return back()->with('success', 'You have succsefully instlled your ssl cert');
     }
 
+    /**
+     * Renames a sites domain
+     * @param $serverID
+     * @param $siteID
+     * @return mixed
+     */
     public function postRenameDomain($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -118,8 +126,14 @@ class SiteController extends Controller
 
         return back()->with('success', 'Updated name');
     }
-    
-    public function postEnv($serverID, $siteID) 
+
+    /**
+     * Updates a sites environment file
+     * @param $serverID
+     * @param $siteID
+     * @return mixed
+     */
+    public function postEnv($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
 
@@ -130,7 +144,6 @@ class SiteController extends Controller
 
     /**
      * Gets the env for a site
-     *
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -139,12 +152,11 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        return $this->siteService->getFile($site->server, $site->path.'/.env');
+        return $this->siteService->getFile($site->server, $site->path . '/.env');
     }
 
     /**
-     * Creates the deployment // TODO - ajax
-     *
+     * Creates the deployment
      * @param $serverID
      * @param $siteID
      *

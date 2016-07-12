@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-06-21.
+    * Generated on 2016-07-12.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -50,6 +50,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
@@ -179,6 +180,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
@@ -308,6 +310,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
@@ -396,7 +399,7 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
         ],
-        app('') => [
+        \app('') => [
             '' == '@',
             'events' instanceof \Illuminate\Events\Dispatcher,
             'router' instanceof \Illuminate\Routing\Router,
@@ -437,6 +440,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
