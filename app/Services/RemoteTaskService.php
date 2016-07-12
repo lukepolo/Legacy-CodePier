@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\RemoteTaskServiceContract;
+use App\Exceptions\SshConnectionFailed;
 use App\Models\Server;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
@@ -68,7 +69,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $this->server = $server;
 
         $key = new RSA();
-        $key->loadKey($server->ssh_private_key);
+        $key->loadKey($server->private_ssh_key);
 
         $ssh = new SSH2($this->server->ip);
 
@@ -76,10 +77,10 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         try {
             if (!$ssh->login($user, $key)) {
-                throw new \Exception('Failed to login');
+                throw new SshConnectionFailed('Failed to login');
             }
         } catch (\Exception $e) {
-            throw new \Exception('Failed to login');
+            throw new SshConnectionFailed('Failed to login');
         }
 
         $ssh->setTimeout(0);

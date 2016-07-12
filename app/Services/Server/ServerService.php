@@ -5,6 +5,7 @@ namespace App\Services\Server;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
+use App\Exceptions\SshConnectionFailed;
 use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
@@ -51,7 +52,7 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, User $user, $name, array $options)
     {
-        return $this->getProvider($serverProvider)->create($user, $name, $this->createSshKey() ,$options);
+        return $this->getProvider($serverProvider)->create($user, $name, $this->createSshKey(), $options);
     }
 
     private function createSshKey()
@@ -96,8 +97,8 @@ class ServerService implements ServerServiceContract
 
         try {
             return $this->getProvider($server->serverProvider)->getStatus($server);
-        } catch(\Exception $e) {
-            if($e->getMessage() == 'The resource you were accessing could not be found.') {
+        } catch (\Exception $e) {
+            if ($e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();
                 return 'Server Has Been Deleted';
             }
@@ -124,7 +125,7 @@ class ServerService implements ServerServiceContract
     public function installSshKey(Server $server, $sshKey)
     {
         $this->remoteTaskService->ssh($server, 'codepier');
-        $this->remoteTaskService->run('echo '.$sshKey.' >> ~/.ssh/authorized_keys');
+        $this->remoteTaskService->run('echo ' . $sshKey . ' >> ~/.ssh/authorized_keys');
     }
 
     /**
@@ -173,7 +174,7 @@ class ServerService implements ServerServiceContract
         ]);
 
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.' && echo "found") || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ' && echo "found") || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
     }
 
     public function removeCron(Server $server, ServerCronJob $cronJob)
@@ -229,22 +230,22 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('
-cat > /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf <<    \'EOF\'
-[program:worker-'.$serverDaemon->id.']
+cat > /etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf <<    \'EOF\'
+[program:worker-' . $serverDaemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
-command='.$command.'
-autostart='.$autoStart.'
-autorestart='.$autoRestart.'
-user='.$user.'
-numprocs='.$numberOfWorkers.'
+command=' . $command . '
+autostart=' . $autoStart . '
+autorestart=' . $autoRestart . '
+user=' . $user . '
+numprocs=' . $numberOfWorkers . '
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/worker-'.$serverDaemon->id.'.log
+stdout_logfile=/home/codepier/workers/worker-' . $serverDaemon->id . '.log
 EOF
 echo "Wrote" ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start worker-'.$serverDaemon->id.':*');
+        $this->remoteTaskService->run('supervisorctl start worker-' . $serverDaemon->id . ':*');
 
     }
 
@@ -252,12 +253,28 @@ echo "Wrote" ');
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/worker-'.$serverDaemon->id.'.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
 
 
         $serverDaemon->delete();
+    }
+
+    public function testSshConnection(Server $server)
+    {
+        try {
+            $this->remoteTaskService->ssh($server);
+
+            $server->ssh_connection = true;
+            $server->save();
+            return true;
+        } catch (SshConnectionFailed $e) {
+
+            $server->ssh_connection = false;
+            $server->save();
+            return false;
+        }
     }
 }

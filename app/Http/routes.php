@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}', 'ServerController@getServer');
     Route::post('create-server', 'ServerController@postCreateServer');
 
+    Route::get('server/{serverID}', 'ServerController@getTestSshConnection');
+
     Route::post('server/{serverID}/ssh-key/install', 'ServerController@postInstallSshKey');
     Route::get('server/{serverID}/ssh-key/{serverSshKeyId}/remove', 'ServerController@getRemoveSshKey');
 

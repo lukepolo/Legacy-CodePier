@@ -173,4 +173,11 @@ class ServerController extends Controller
 
         return back()->with('success', 'You removed a daemon');
     }
+
+    public function getTestSshConnection($serverID)
+    {
+        $this->serverService->testSshConnection(Server::findOrFail($serverID));
+
+        return back();
+    }
 }

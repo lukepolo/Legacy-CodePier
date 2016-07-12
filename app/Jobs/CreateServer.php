@@ -67,6 +67,10 @@ class CreateServer extends Job implements ShouldQueue
             sleep(15);
         }
 
+        foreach($this->user->sshKeys as $sshKey) {
+            $serverService->installSshKey($server, $sshKey);
+        }
+
         dispatch((new ProvisionServer($server))->onQueue('server_provision')->delay(15));
     }
 }

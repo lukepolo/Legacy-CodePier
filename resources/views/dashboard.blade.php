@@ -33,7 +33,8 @@
                                             <td>{{ $server->service }}</td>
                                             <td>{{ $server->ip }}</td>
                                             <td>@if($server->updated_at->diffInMinutes(\Carbon\Carbon::now()) < 15 || $server->status == 'Provisioning') {{ $server->status }} @else {{ $serverService->getStatus($server) }} @endif </td>
-                                            <td> // TODO - Make sure we can SSH into the server</td>
+                                            <td>@if($server->ssh_connection) Successful @else <a href="{{ action('ServerController@getTestSshConnection', $server->id) }}">Try to connect</a>@endif</td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -15,6 +15,7 @@ class AddSshKeyToServer extends Migration
         Schema::table('servers', function (Blueprint $table) {
             $table->text('public_ssh_key');
             $table->text('private_ssh_key');
+            $table->boolean('ssh_connection')->default(0);
         });
     }
 
@@ -28,6 +29,7 @@ class AddSshKeyToServer extends Migration
         Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('public_ssh_key');
             $table->dropColumn('private_ssh_key');
+            $table->dropColumn('ssh_connection');
         });
     }
 }

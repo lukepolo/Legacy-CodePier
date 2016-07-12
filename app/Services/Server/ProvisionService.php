@@ -123,6 +123,11 @@ class ProvisionService implements ProvisionServiceContract
         return $provisionSystem->errors();
     }
 
+    public function addUsersSshKeys()
+    {
+
+    }
+
     /**
      * @param Server $server
      * @return mixed
