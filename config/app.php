@@ -167,6 +167,7 @@ return [
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
+        Lord\Laroute\LarouteServiceProvider::class,
 
         /*
          * Custom Service Providers

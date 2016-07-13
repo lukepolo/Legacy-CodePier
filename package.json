@@ -13,6 +13,7 @@
     "cookie": "^0.3.1",
     "dotenv": "^2.0.0",
     "ioredis": "^2.0.1",
+    "laravel-elixir-vueify": "^1.0.3",
     "php-serialize": "^1.2.0"
   }
 }

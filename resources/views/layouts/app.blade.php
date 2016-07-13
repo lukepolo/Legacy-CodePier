@@ -12,7 +12,6 @@
          <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     </head>
     <body id="app-layout">
-
         @include('layouts.core.navigation')
 
         @include('layouts.core.alerts')
@@ -23,16 +22,23 @@
         @include('layouts.core.footer')
 
         <script src="{{ elixir('js/all.js') }}"></script>
+
         @if(env('NODE_ON', false))
             @include('layouts.core.socketio')
         @endif
-        @stack('scripts')
+
         <script type="text/javascript">
+            var vue;
+
+            moment.tz.setDefault("UTC");
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
         </script>
+
+        @stack('scripts')
     </body>
 </html>

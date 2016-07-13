@@ -19,7 +19,8 @@
         "graham-campbell/github": "^4.4",
         "phpseclib/phpseclib": "^2.0",
         "authy/php": "2.*",
-        "pda/pheanstalk": "^3.1"
+        "pda/pheanstalk": "^3.1",
+        "lord/laroute" : "2.*"
 
     },
     "require-dev": {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Http\Requests;
+use App\Models\Server;
 
 /**
  * Class HomeController
@@ -17,9 +19,9 @@ class LandingController extends Controller
     public function getIndex()
     {
         if (\Auth::check()) {
-            return view('dashboard', [
+            return view('codepier', [
                 'userServerProviders' => \Auth::user()->userServerProviders,
-                'servers' => \Auth::user()->servers
+                'servers' => \Auth::user()->servers->load('serverProvider')
             ]);
         }
         return view('landing');
