@@ -4,62 +4,108 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-                    </form>
+            <div class="jcf-form-wrap">
+                <div class="heading">
+                    <h2>Create Account</h2>
+                    <p>Fill out the following fields to create your account.</p>
                 </div>
-            </div>
+
+                <form action="#0" method="post" class="validation-form floating-labels">
+                    <div class="jcf-input-group">
+                        <input type="text" id="firstName" name="firstName" required>
+                        <label for="firstName"><span class="float-label">First Name</span></label>
+                    </div>
+                    <div class="jcf-input-group">
+                        <input type="text" id="lastName" name="lastName" required>
+                        <label for="lastName"><span class="float-label">Last Name</span></label>
+                    </div>
+                    <div class="jcf-input-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email"><span class="float-label">Email</span></label>
+                    </div>
+                    <div class="jcf-input-group">
+                        <input type="password" id="password" name="password" required>
+                        <label for="password"><span class="float-label">Password</span></label>
+                    </div>
+
+                    <hr>
+
+                    <h3>Tell Us a Bit More About You:</h3>
+
+                    <div class="jcf-input-group input-checkbox">
+                        <div class="input-question">Which Fruits Do You Like?</div>
+                        <label>
+                            <input type="checkbox" id="fruits1" name="fruits" required>
+                            <span class="icon"></span>Apples
+                        </label>
+                        <label>
+                            <input type="checkbox" id="fruits2" name="fruits" required>
+                            <span class="icon"></span>Pears
+                        </label>
+                        <label>
+                            <input type="checkbox" id="fruits3" name="fruits" required>
+                            <span class="icon"></span>Bananas
+                        </label>
+                        <label>
+                            <input type="checkbox" id="fruits4" name="fruits" required>
+                            <span class="icon"></span>Passion Fruit
+                        </label>
+                    </div>
+
+                    <div class="jcf-input-group input-radio">
+                        <div class="input-question">What is your favorite season?</div>
+                        <label>
+                            <input type="radio" id="season1" name="season" required>
+                            <span class="icon"></span>Summer
+                        </label>
+                        <label>
+                            <input type="radio" id="season2" name="season" required>
+                            <span class="icon"></span>Fall
+                        </label>
+                        <label>
+                            <input type="radio" id="season3" name="season" required>
+                            <span class="icon"></span>Winter
+                        </label>
+                        <label>
+                            <input type="radio" id="season4" name="season" required>
+                            <span class="icon"></span>Spring
+                        </label>
+                    </div>
+
+                    <hr>
+
+                    <h3>Getting a Bit Personal</h3>
+
+                    <div class="jcf-input-group">
+                        <div class="input-question">What did you grow up?</div>
+                        <select>
+                            <option value="">Alabama</option>
+                            <option value="">Alaska</option>
+                            <option value="">Arizona</option>
+                            <option value="">Arkansas</option>
+                            <option value="">California</option>
+                            <option value="">Colorado</option>
+                            <option value="">Connecticuit</option>
+                            <option value="">Delaware</option>
+                            <option value="">Florida</option>
+                            <option value="">Georgia</option>
+                            <option value="">Hawaii</option>
+                            <option value="">Idaho</option>
+                            <option value="">Illinois</option>
+                            <option value="">Indiana</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div class="btn-footer">
+                    <button class="btn">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Sign Up</button>
+                </div>
+            </div><!-- end form-wrap -->
+
+
         </div>
         <h5 class="text-center"> - Or sign in using -</h5>
         <ul class="list-inline text-center">

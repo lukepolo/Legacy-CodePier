@@ -1,14 +1,6 @@
-@import './../bower/bootstrap-sass/assets/stylesheets/bootstrap';
-@import './../bower/font-awesome/scss/font-awesome';
-@import './../bower/select2/src/scss/core';
-
-@import './../bower/jquery-confirm2/css/jquery-confirm';
-@import './../bower/jcf-forms/assets/sass/jcf_forms';
-@import 'partials/codemirror';
-
-
 // VARIABLES ===============================================
 // =========================================================
+
 
 // COLOR VARIABLES -----------------------------------------
 // ---------------------------------------------------------
@@ -23,7 +15,8 @@ $pink:                          #FF4081                         !default;
 $green:                         #7BD581                         !default;
 $red:                           #C33C54                         !default;
 
-// COLOR DECLARATIONS
+
+// COLOR DECLARATIONS 
 $jcf-color-background:          $white                          !default;
 $jcf-color-primary-dark:        $blueDark                       !default;
 $jcf-color-primary:             $blue                           !default;
@@ -34,6 +27,8 @@ $jcf-color-text-secondary:      $gray                           !default;
 $jcf-color-text-inverse:        $white                          !default;
 $jcf-color-divider:             $grayLight                      !default;
 
+
+
 // FONT VARIABLES ------------------------------------------
 // ---------------------------------------------------------
 
@@ -41,11 +36,13 @@ $jcf-color-divider:             $grayLight                      !default;
 @import 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i';
 
 $jcf-bodyFont:                  'Open Sans', sans-serif         !default;
-$jcf-headingFont:               'Merriweather', serif           !default;
+$jcf-headingFont:               'Merriweather', serif           !default; 
+
 
 // FONT DECLARATIONS
 $jcf-font:                      $jcf-bodyFont                   !default;
 $jcf-font-size:                 16px                            !default;
+
 
 // FORM VARIABLES ------------------------------------------
 // ---------------------------------------------------------
@@ -54,9 +51,3 @@ $jcf-form-padding:              40px                            !default;
 
 $jcf-transition-in:             all .5s                         !default;
 $jcf-transition-out:            all .2s                         !default;
-
-body {
-  font-family: 'Lato';
-}
-
-

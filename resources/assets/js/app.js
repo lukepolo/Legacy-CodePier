@@ -23,8 +23,6 @@ Vue.mixin({
 vue = new Vue({
     el: '#app-layout',
 
-
-
     components: {
 
     },
