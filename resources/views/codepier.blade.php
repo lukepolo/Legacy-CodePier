@@ -87,7 +87,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="server in servers">
-                                <td>@{{ server.name }}</td>
+                                <td><a href="@{{ action('ServerController@getServer', { serverID : server.id }) }}">@{{ server.name }}</a></td>
                                 <td>@{{ server.server_provider.name }}</td>
                                 <td>@{{ server.ip }}</td>
                                 <td>

@@ -10179,11 +10179,27 @@ module.exports = Vue;
 },{"_process":1}],3:[function(require,module,exports){
 'use strict';
 
-var _date = require('./services/date');
-
-var _routes = require('./services/routes');
-
 var Vue = require('vue');
+
+Vue.mixin({
+    methods: {
+        now: function now() {
+            return moment();
+        },
+        parseDate: function parseDate(date, timezone) {
+            if (timezone) {
+                return moment(date).tz(timezone);
+            }
+            return moment(date);
+        },
+        dateHumanize: function dateHumanize(date, timezone) {
+            return moment(date).tz(timezone).fromNow();
+        },
+        action: function action(_action, parameters) {
+            return laroute.action(_action, parameters);
+        }
+    }
+});
 
 vue = new Vue({
     el: '#app-layout',
@@ -10198,56 +10214,9 @@ vue = new Vue({
 
     events: {},
 
-    methods: {
-
-        /*
-         |--------------------------------------------------------------------------
-         | Helpers
-         |--------------------------------------------------------------------------
-         |
-         */
-
-        action: function action(_action, parameters) {
-            return (0, _routes.createLink)(_action, parameters);
-        }
-    }
+    methods: {}
 });
 
-},{"./services/date":4,"./services/routes":5,"vue":2}],4:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.now = now;
-exports.parseDate = parseDate;
-exports.dateHumanize = dateHumanize;
-function now() {
-    return moment();
-}
-
-function parseDate(date, timezone) {
-    if (timezone) {
-        return moment(date).tz(timezone);
-    }
-    return moment(date);
-}
-
-function dateHumanize(date, timezone) {
-    return moment(date).tz(timezone).fromNow();
-}
-
-},{}],5:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.createLink = createLink;
-function createLink(action, parameters) {
-    return laroute.action(action, parameters);
-}
-
-},{}]},{},[3]);
+},{"vue":2}]},{},[3]);
 
 //# sourceMappingURL=app.js.map
