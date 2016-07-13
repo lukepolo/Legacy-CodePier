@@ -55,7 +55,6 @@ class CreateServer extends Job implements ShouldQueue
         while ($serverStatus == 'new') {
             sleep(5);
             $serverStatus = $serverService->getStatus($server);
-            \Log::info('Server Status ' . $serverStatus);
         }
         event(new ServerCreated($server));
 
@@ -67,7 +66,6 @@ class CreateServer extends Job implements ShouldQueue
         while ($sshConnection == false) {
             sleep(5);
             $sshConnection = $serverService->testSshConnection($server);
-            \Log::info('SSH Status ' . $sshConnection);
         }
 
         event(new ServerProvisionStatusChanged($server, 'Queue for Provisioning', 0));
