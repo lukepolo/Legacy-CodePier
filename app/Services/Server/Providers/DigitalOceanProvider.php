@@ -8,7 +8,6 @@ use App\Models\ServerProvider;
 use App\Models\ServerProviderFeatures;
 use App\Models\ServerProviderOption;
 use App\Models\ServerProviderRegion;
-use App\Models\User;
 use App\Services\Server\ServerService;
 use DigitalOcean;
 use DigitalOceanV2\Entity\Droplet;
@@ -31,7 +30,9 @@ class DigitalOceanProvider implements ServerServiceContract
     public function getOptions()
     {
         $options = [];
-        $this->setToken(\Auth::user());
+
+        dd('must be set in env');
+//        $this->setToken();
 
         foreach (DigitalOcean::size()->getAll() as $size) {
 
@@ -56,7 +57,8 @@ class DigitalOceanProvider implements ServerServiceContract
     public function getRegions()
     {
         $regions = [];
-        $this->setToken(\Auth::user());
+        dd('must be set in env');
+        $this->setToken();
 
         foreach (DigitalOcean::region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
@@ -71,14 +73,13 @@ class DigitalOceanProvider implements ServerServiceContract
 
     /**
      * Creates a new server
-     * @param User $user
-     * @param $name
+     * @param Server $server
      * @param $sshKey
      * @param array $options
      * @return static
      * @throws \Exception
      */
-    public function create(User $user, $name, $sshKey, array $options = [])
+    public function create(Server $server, $sshKey, array $options = [])
     {
         $sshPublicKey = new RSA();
         $sshPublicKey->loadKey($sshKey['publickey']);
@@ -95,13 +96,13 @@ class DigitalOceanProvider implements ServerServiceContract
             $$feature = true;
         }
 
-        $this->setToken($user);
+        $this->setToken($server);
 
-        DigitalOcean::key()->create($name, $sshKey['publickey']);
+        DigitalOcean::key()->create($server->name, $sshKey['publickey']);
 
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
-            $name,
+            $server->name,
             $serverRegion->provider_name,
             strtolower($serverOption->getRamString()),
             ServerService::$serverOperatingSystem,
@@ -114,27 +115,23 @@ class DigitalOceanProvider implements ServerServiceContract
             $userData = null
         );
 
-        return $this->saveServer($droplet, $user, $sshKey);
+        return $this->saveServer($server, $droplet, $sshKey);
     }
 
     /**
      * Saves the server information
+     * @param Server $server
      * @param Droplet $droplet
-     * @param User $user
      * @param $sshKey
      * @return static
      * @throws \Exception
      */
-    public function saveServer(Droplet $droplet, User $user, $sshKey)
+    public function saveServer(Server $server, Droplet $droplet, $sshKey)
     {
-        $this->setToken($user);
+        $this->setToken($server);
 
-        return Server::create([
-            'user_id' => $user->id,
-            'name' => $droplet->name,
+        return $server->fill([
             'server_id' => $droplet->id,
-            'server_provider_id' => $this->getServerProviderID(),
-            'status' => 'Provisioning',
             'public_ssh_key' => $sshKey['publickey'],
             'private_ssh_key' => $sshKey['privatekey']
         ]);
@@ -147,7 +144,7 @@ class DigitalOceanProvider implements ServerServiceContract
      */
     public function getStatus(Server $server)
     {
-        $this->setToken($server->user);
+        $this->setToken($server);
 
         return DigitalOcean::droplet()->getById($server->server_id)->status;
     }
@@ -158,7 +155,7 @@ class DigitalOceanProvider implements ServerServiceContract
      */
     public function savePublicIP(Server $server)
     {
-        $this->setToken($server->user);
+        $this->setToken($server);
 
         $server->update([
             'ip' => $this->getPublicIP($server)
@@ -172,7 +169,7 @@ class DigitalOceanProvider implements ServerServiceContract
      */
     public function getPublicIP(Server $server)
     {
-        $this->setToken($server->user);
+        $this->setToken($server);
 
         $droplet = DigitalOcean::droplet()->getById($server->server_id);
 
@@ -185,13 +182,17 @@ class DigitalOceanProvider implements ServerServiceContract
 
     /**
      * Sets the token for the API
-     * @param User $user
+     * @param Server $server
      * @return mixed
      * @throws \Exception
      */
-    private function setToken(User $user)
+    private function setToken(Server $server)
     {
-        if ($serverProvider = $user->userServerProviders->where('id', 1)->first()) {
+        if ($serverProvider = $server->user->userServerProviders->where(
+            'server_provider_id',
+            $server->server_provider_id
+        )->first()
+        ) {
             return config(['digitalocean.connections.main.token' => $serverProvider->token]);
         }
 

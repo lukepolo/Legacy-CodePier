@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,6 +40,6 @@ class ProvisionServer extends Job implements ShouldQueue
             $serverService->installSshKey($this->server, $sshKey->ssh_key);
         }
 
-        dispatch(new CreateSite($this->server));
+        event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
     }
 }

@@ -19,12 +19,14 @@ class EmailSudoAndDatabasePasswords
      */
     public function handle(ServerProvisioned $event)
     {
+        $user = $event->server->user;
+
         \Mail::queue('emails.sudoAndDatabasePasswords', [
             'serverIp' => $event->server->ip,
             'sudoPassword' => $event->sudoPassword,
             'databasePassword' => $event->databasePassword
-        ], function ($message) {
-            $message->to(\Auth::user()->email);
+        ], function ($message) use($user) {
+            $message->to($user->email);
             $message->subject('CodePier Server Provisioned');
         });
     }

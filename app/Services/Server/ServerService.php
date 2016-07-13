@@ -7,12 +7,13 @@ use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Events\ServerProvisioned;
 use App\Exceptions\SshConnectionFailed;
+use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
-use App\Models\User;
+use Illuminate\Bus\Dispatcher;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
 
@@ -45,14 +46,13 @@ class ServerService implements ServerServiceContract
     /**
      * Creates a new server
      * @param ServerProvider $serverProvider
-     * @param User $user
-     * @param $name
+     * @param Server $server
      * @param array $options
      * @return mixed
      */
-    public function create(ServerProvider $serverProvider, User $user, $name, array $options)
+    public function create(ServerProvider $serverProvider, Server $server, array $options)
     {
-        return $this->getProvider($serverProvider)->create($user, $name, $this->createSshKey(), $options);
+        return $this->getProvider($serverProvider)->create($server, $this->createSshKey(), $options);
     }
 
     /**
@@ -151,8 +151,7 @@ class ServerService implements ServerServiceContract
 
         $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
-        $server->status = 'Provisioned';
-        $server->save();
+        app(Dispatcher::class)->dispatchNow(new CreateSite($server));
 
         event(new ServerProvisioned($server, $sudoPassword, $databasePassword));
     }

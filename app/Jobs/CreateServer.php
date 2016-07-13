@@ -5,9 +5,9 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerCreated;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Models\ServerProvider;
-use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,22 +21,19 @@ class CreateServer extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
-    protected $user;
-    protected $name;
+    protected $server;
     protected $options;
     protected $serverProvider;
 
     /**
      * Create a new job instance.
      * @param ServerProvider $serverProvider
-     * @param User $user
-     * @param $name
+     * @param Server $server
      * @param array $options
      */
-    public function __construct(ServerProvider $serverProvider, User $user, $name, array $options)
+    public function __construct(ServerProvider $serverProvider, Server $server, array $options)
     {
-        $this->user = $user;
-        $this->name = $name;
+        $this->server = $server;
         $this->options = $options;
         $this->serverProvider = $serverProvider;
     }
@@ -48,18 +45,17 @@ class CreateServer extends Job implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        \Log::info('Creating Server');
+        event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
+
         /** @var Server $server */
-        $server = $serverService->create($this->serverProvider, $this->user, $this->name, $this->options);
-        \Log::info('Created Server');
+        $server = $serverService->create($this->serverProvider, $this->server, $this->options);
 
         $serverStatus = 'new';
 
-        \Log::info('Server Status');
         while ($serverStatus == 'new') {
             sleep(5);
             $serverStatus = $serverService->getStatus($server);
-            \Log::info('Server Status ' .$serverStatus);
+            \Log::info('Server Status ' . $serverStatus);
         }
         event(new ServerCreated($server));
 
@@ -71,10 +67,11 @@ class CreateServer extends Job implements ShouldQueue
         while ($sshConnection == false) {
             sleep(5);
             $sshConnection = $serverService->testSshConnection($server);
-            \Log::info('SSH Status ' .$sshConnection);
+            \Log::info('SSH Status ' . $sshConnection);
         }
-        
-        \Log::info('Finished Creating Server' .$sshConnection);
+
+        event(new ServerProvisionStatusChanged($server, 'Queue for Provisioning', 0));
+
         dispatch(new ProvisionServer($server));
 //            ->onQueue('server_provision'));
     }

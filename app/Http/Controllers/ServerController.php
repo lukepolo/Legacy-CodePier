@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\ServerProvisioned;
 use App\Http\Requests;
 use App\Jobs\CreateServer;
 use App\Models\Server;
@@ -48,10 +47,17 @@ class ServerController extends Controller
      */
     public function postCreateServer()
     {
+        $server = Server::create([
+            'user_id' => \Auth::user()->id,
+            'name' => \Request::get('name'),
+            'server_provider_id' => (int)\Request::get('server_provider_id'),
+            'status' => 'Queued For Creation',
+            'progress' => '0'
+        ]);
+
         $this->dispatch(new CreateServer(
             ServerProvider::findorFail(\Request::get('server_provider_id')),
-            \Auth::user(),
-            \Request::get('name'),
+            $server,
             \Request::except(['_token', 'service'])
         ));
 //            ->onQueue('server_creations'));

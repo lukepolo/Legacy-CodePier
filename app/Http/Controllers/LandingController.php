@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Server\ServerProvisionStatusChanged;
 use App\Http\Requests;
-use App\Models\Server;
 
 /**
  * Class HomeController

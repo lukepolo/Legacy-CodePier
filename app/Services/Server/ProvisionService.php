@@ -4,27 +4,7 @@ namespace App\Services\Server;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract;
-use App\Events\Server\Provision\AddedCodePierUser;
-use App\Events\Server\Provision\BeanstalkInstalled;
-use App\Events\Server\Provision\BowerInstalled;
-use App\Events\Server\Provision\CertBotInstalled;
-use App\Events\Server\Provision\ComposerInstalled;
-use App\Events\Server\Provision\FirewallSetup;
-use App\Events\Server\Provision\GitInstalled;
-use App\Events\Server\Provision\GulpInstalled;
-use App\Events\Server\Provision\LocaleSetToUTF8;
-use App\Events\Server\Provision\MariaDBInstalled;
-use App\Events\Server\Provision\MemcachedInstalled;
-use App\Events\Server\Provision\MySQLInstalled;
-use App\Events\Server\Provision\NginxInstalled;
-use App\Events\Server\Provision\NodeJsInstalled;
-use App\Events\Server\Provision\PHPFpmInstalled;
-use App\Events\Server\Provision\PHPInstalled;
-use App\Events\Server\Provision\RedisInstalled;
-use App\Events\Server\Provision\SupervisorInstalled;
-use App\Events\Server\Provision\SwapCreated;
-use App\Events\Server\Provision\TimeZoneSetToUCT;
-use App\Events\Server\Provision\UpdatedSystem;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Services\Server\ProvisionSystems\Ubuntu16_04;
 
@@ -34,6 +14,7 @@ use App\Services\Server\ProvisionSystems\Ubuntu16_04;
  */
 class ProvisionService implements ProvisionServiceContract
 {
+    protected $server;
     protected $totalActions;
     protected $doneActions = 0;
     protected $remoteTaskService;
@@ -60,72 +41,74 @@ class ProvisionService implements ProvisionServiceContract
      */
     public function provision(Server $server, $sudoPassword, $databasePassword)
     {
+        $this->server = $server;
+
         $provisionSystem = $this->getProvisionRepository($server);
 
-        $this->totalActions = count(get_class_methods($provisionSystem)) - 1;
+        $this->totalActions = count(get_class_methods($provisionSystem)) - 3;
 
+        $this->updateProgress('Updating system');
         $provisionSystem->updateSystem();
-        event(new UpdatedSystem($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Settings Timezone to UTC');
         $provisionSystem->setTimezoneToUTC();
-        event(new TimeZoneSetToUCT($server, $this->getDonePercentage()));
 
-        $provisionSystem->addCodePierUser($sudoPassword);
-        event(new AddedCodePierUser($server, $this->getDonePercentage()));
-
+        $this->updateProgress('Settings Locale to UTF8');
         $provisionSystem->setLocaleToUTF8();
-        event(new LocaleSetToUTF8($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Creating Swap');
         $provisionSystem->createSwap();
-        event(new SwapCreated($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Adding CodePier User');
+        $provisionSystem->addCodePierUser($sudoPassword);
+
+        $this->updateProgress('Installing GIT');
         $provisionSystem->installGit();
-        event(new GitInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing PHP');
         $provisionSystem->installPHP();
-        event(new PHPInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing PHP-FPM');
         $provisionSystem->installPhpFpm();
-        event(new PHPFpmInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Composer');
         $provisionSystem->installComposer();
-        event(new ComposerInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Nginx');
         $provisionSystem->installNginx();
-        event(new NginxInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Redis');
         $provisionSystem->installRedis();
-        event(new RedisInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Memcached');
         $provisionSystem->installMemcached();
-        event(new MemcachedInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Supervisor');
         $provisionSystem->installSupervisor();
-        event(new SupervisorInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Beanstalk');
         $provisionSystem->installBeanstalk();
-        event(new BeanstalkInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing MySQL');
         $provisionSystem->installMySQL($databasePassword);
-        event(new MySQLInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing MariaDB');
         $provisionSystem->installMariaDB($databasePassword);
-        event(new MariaDBInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing NodeJS');
         $provisionSystem->installNodeJs();
-        event(new NodeJsInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Gulp');
         $provisionSystem->installGulp();
-        event(new GulpInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Bower');
         $provisionSystem->installBower();
-        event(new BowerInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing LetsEncrypt - Cert Bot');
         $provisionSystem->installCertBot();
-        event(new CertBotInstalled($server, $this->getDonePercentage()));
 
+        $this->updateProgress('Installing Basic Firewall Rules');
         $provisionSystem->installFirewallRules();
-        event(new FirewallSetup($server, $this->getDonePercentage()));
 
         // TODO - having issues with the laravel installer and envoy installer
 //        $provisionSystem->installLaravelInstaller();
@@ -134,9 +117,11 @@ class ProvisionService implements ProvisionServiceContract
         return $provisionSystem->errors();
     }
 
-    private function getDonePercentage()
+    private function updateProgress($status)
     {
-       return floor((++$this->doneActions / $this->totalActions) * 100);
+        $progress = floor((++$this->doneActions / $this->totalActions) * 100);
+
+        event(new ServerProvisionStatusChanged($this->server, $status, $progress));
     }
 
     /**
