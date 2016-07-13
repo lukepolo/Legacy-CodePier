@@ -26,6 +26,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-up:before {
+    content: "\f106";
+}
+.icon-arrow-right:before {
+    content: "\f105";
+}
+.icon-arrow-down:before {
+    content: "\f107";
+}
+.icon-arrow-left:before {
+    content: "\f104";
+}
 .icon-check_box:before {
     content: "\e834";
 }

@@ -52,13 +52,14 @@ class ServerController extends Controller
             'name' => \Request::get('name'),
             'server_provider_id' => (int)\Request::get('server_provider_id'),
             'status' => 'Queued For Creation',
-            'progress' => '0'
+            'progress' => '0',
+            'options' => \Request::except(['_token', 'service', 'features']),
+            'features' => array_keys(\Request::get('features'))
         ]);
 
         $this->dispatch(new CreateServer(
             ServerProvider::findorFail(\Request::get('server_provider_id')),
-            $server,
-            \Request::except(['_token', 'service'])
+            $server
         ));
 //            ->onQueue('server_creations'));
 

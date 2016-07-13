@@ -47,12 +47,11 @@ class ServerService implements ServerServiceContract
      * Creates a new server
      * @param ServerProvider $serverProvider
      * @param Server $server
-     * @param array $options
      * @return mixed
      */
-    public function create(ServerProvider $serverProvider, Server $server, array $options)
+    public function create(ServerProvider $serverProvider, Server $server)
     {
-        return $this->getProvider($serverProvider)->create($server, $this->createSshKey(), $options);
+        return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
     }
 
     /**

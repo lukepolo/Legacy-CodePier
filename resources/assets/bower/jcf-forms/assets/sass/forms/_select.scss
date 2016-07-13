@@ -11,11 +11,37 @@
         border-radius: 0px;
         font-family: $jcf-font;
         font-size: $jcf-font-size;
-        padding: ($jcf-form-padding/4);
+        padding: ($jcf-form-padding/4) 50px ($jcf-form-padding/4) ($jcf-form-padding/4);
         width: 100%;
+        cursor: pointer;
         
         &:focus {
             outline: none;
+        }
+        
+        &:hover {
+            background-color: rgba($jcf-color-text-secondary, .05);
+        }
+    }
+    
+    .select-wrap {
+        position: relative;
+        
+        &:before {
+            content: '\f107';
+            font-family: 'icomoon';
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0px; 
+            bottom: 0px;
+            border-left: 1px solid $jcf-color-divider; 
+            color: $jcf-color-primary;
+            display: flex; 
+            align-items: center;
+            font-size: 2em; 
+            padding: 0px ($jcf-form-padding/4);
+            pointer-events: none; 
         }
     }
 }

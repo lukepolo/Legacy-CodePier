@@ -8977,6 +8977,18 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-arrow-up:before {
+  content: "\f106"; }
+
+.icon-arrow-right:before {
+  content: "\f105"; }
+
+.icon-arrow-down:before {
+  content: "\f107"; }
+
+.icon-arrow-left:before {
+  content: "\f104"; }
+
 .icon-check_box:before {
   content: "\e834"; }
 
@@ -9053,10 +9065,33 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0px;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  padding: 10px;
-  width: 100%; }
+  padding: 10px 50px 10px 10px;
+  width: 100%;
+  cursor: pointer; }
   .jcf-form-wrap select:focus {
     outline: none; }
+  .jcf-form-wrap select:hover {
+    background-color: rgba(85, 85, 85, 0.05); }
+
+.jcf-form-wrap .select-wrap {
+  position: relative; }
+  .jcf-form-wrap .select-wrap:before {
+    content: '\f107';
+    font-family: 'icomoon';
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-left: 1px solid #B6B6B6;
+    color: #607D8B;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 2em;
+    padding: 0px 10px;
+    pointer-events: none; }
 
 .jcf-form-wrap input[type="text"] + label:before,
 .jcf-form-wrap input[type="email"] + label:before,

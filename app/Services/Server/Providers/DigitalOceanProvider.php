@@ -75,11 +75,10 @@ class DigitalOceanProvider implements ServerServiceContract
      * Creates a new server
      * @param Server $server
      * @param $sshKey
-     * @param array $options
      * @return static
      * @throws \Exception
      */
-    public function create(Server $server, $sshKey, array $options = [])
+    public function create(Server $server, $sshKey)
     {
         $sshPublicKey = new RSA();
         $sshPublicKey->loadKey($sshKey['publickey']);
@@ -88,12 +87,12 @@ class DigitalOceanProvider implements ServerServiceContract
         $backups = false;
         $privateNetworking = false;
 
-        $serverOption = ServerProviderOption::findOrFail($options['server_option']);
-        $serverRegion = ServerProviderRegion::findOrFail($options['server_region']);
+        $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
+        $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
 
-        foreach ($options['features'] as $featureID) {
-            $feature = lcfirst(ServerProviderFeatures::findOrFail($featureID)->feature);
-            $$feature = true;
+        foreach ($server->features as $featureID) {
+            $feature = lcfirst(ServerProviderFeatures::findOrFail($featureID)->option);
+            $$feature = 1;
         }
 
         $this->setToken($server);

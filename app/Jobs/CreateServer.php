@@ -29,12 +29,10 @@ class CreateServer extends Job implements ShouldQueue
      * Create a new job instance.
      * @param ServerProvider $serverProvider
      * @param Server $server
-     * @param array $options
      */
-    public function __construct(ServerProvider $serverProvider, Server $server, array $options)
+    public function __construct(ServerProvider $serverProvider, Server $server)
     {
         $this->server = $server;
-        $this->options = $options;
         $this->serverProvider = $serverProvider;
     }
 
@@ -48,7 +46,7 @@ class CreateServer extends Job implements ShouldQueue
         event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
         /** @var Server $server */
-        $server = $serverService->create($this->serverProvider, $this->server, $this->options);
+        $server = $serverService->create($this->serverProvider, $this->server);
 
         $serverStatus = 'new';
 

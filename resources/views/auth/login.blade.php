@@ -80,22 +80,24 @@
 
                     <div class="jcf-input-group">
                         <div class="input-question">What did you grow up?</div>
-                        <select>
-                            <option value="">Alabama</option>
-                            <option value="">Alaska</option>
-                            <option value="">Arizona</option>
-                            <option value="">Arkansas</option>
-                            <option value="">California</option>
-                            <option value="">Colorado</option>
-                            <option value="">Connecticuit</option>
-                            <option value="">Delaware</option>
-                            <option value="">Florida</option>
-                            <option value="">Georgia</option>
-                            <option value="">Hawaii</option>
-                            <option value="">Idaho</option>
-                            <option value="">Illinois</option>
-                            <option value="">Indiana</option>
-                        </select>
+                        <div class="select-wrap">
+                            <select>
+                                <option value="">Alabama</option>
+                                <option value="">Alaska</option>
+                                <option value="">Arizona</option>
+                                <option value="">Arkansas</option>
+                                <option value="">California</option>
+                                <option value="">Colorado</option>
+                                <option value="">Connecticuit</option>
+                                <option value="">Delaware</option>
+                                <option value="">Florida</option>
+                                <option value="">Georgia</option>
+                                <option value="">Hawaii</option>
+                                <option value="">Idaho</option>
+                                <option value="">Illinois</option>
+                                <option value="">Indiana</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
 

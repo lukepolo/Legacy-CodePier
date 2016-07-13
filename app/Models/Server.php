@@ -8,6 +8,11 @@ class Server extends Model
 {
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'options' => 'array',
+        'features' => 'array',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
