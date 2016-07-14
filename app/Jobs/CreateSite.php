@@ -24,9 +24,10 @@ class CreateSite extends Job implements ShouldQueue
     /**
      * Create a new job instance.
      * @param Server $server
-     * @param $domain
+     * @param string $domain
+     * @param bool $wildcardDomain
      */
-    public function __construct(Server $server, $domain = 'default')
+    public function __construct(Server $server, $domain = 'default', $wildcardDomain = false)
     {
         $this->server = $server;
         $this->domain = $domain;
@@ -34,7 +35,7 @@ class CreateSite extends Job implements ShouldQueue
         Site::create([
             'domain' => $domain,
             'server_id' => $server->id,
-            'wildcard_domain' => false,
+            'wildcard_domain' => $wildcardDomain,
             'zerotime_deployment' => false,
             'user_id' => $server->user_id,
             'path' => '/home/codepier/' . $domain

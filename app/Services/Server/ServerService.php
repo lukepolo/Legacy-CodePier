@@ -113,7 +113,6 @@ class ServerService implements ServerServiceContract
     {
         try {
             $this->remoteTaskService->ssh($server);
-            $this->remoteTaskService->run('echo ' . $sshKey . ' >> ~/.ssh/authorized_keys');
             $this->remoteTaskService->run('echo ' . $sshKey . ' >> /home/codepier/.ssh/authorized_keys');
         } catch (SshConnectionFailed $e) {
             return false;
@@ -132,7 +131,6 @@ class ServerService implements ServerServiceContract
             $this->remoteTaskService->ssh($server);
 
             $sshKey = str_replace('/', '\/', $sshKey);
-            $this->remoteTaskService->run("sed -i '/$sshKey/d' ~/.ssh/authorized_keys");
             $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
         } catch (SshConnectionFailed $e) {
             return false;
