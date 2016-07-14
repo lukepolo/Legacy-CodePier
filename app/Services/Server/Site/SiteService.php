@@ -6,7 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
 use App\Models\Site;
-use App\Models\SiteSSLCertificate;
+use App\Models\SiteSslCertificate;
 
 /**
  * Class SiteService
@@ -183,7 +183,7 @@ include codepier-conf/' . $domain . '/after/*;
             return $errors;
         }
 
-        SiteSSLCertificate::create([
+        SiteSslCertificate::create([
             'site_id' => $site->id,
             'domains' => $domains,
             'type' => 'Let\'s Encrypt'

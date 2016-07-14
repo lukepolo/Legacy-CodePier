@@ -33,8 +33,9 @@
                                             <td><a href="{{ action('SiteController@getSite', [$server->id, $site->id]) }}">{{ $site->domain }}</a></td>
                                             <td>{{ $site->repository }}</td>
                                             <td>{{ $site->zerotime_deployment }}</td>
+                                            <td>0</td>
                                             <td>{{ $site->wildcard_domain }}</td>
-                                            <td>Inactive</td>
+                                            <td>{{ $site->hasSSL() ? $site->ssl->type : false }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

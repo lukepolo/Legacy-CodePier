@@ -22,4 +22,18 @@ class Site extends Model
     {
         return $this->belongsTo(Server::class);
     }
+
+    public function ssl()
+    {
+        return $this->hasOne(SiteSslCertificate::class);
+    }
+
+    public function hasSSL()
+    {
+        if(!empty($this->ssl)) {
+            return true;
+        }
+
+        return false;
+    }
 }

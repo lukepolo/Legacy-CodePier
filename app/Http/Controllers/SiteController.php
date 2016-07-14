@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
-use App\Http\Requests;
 use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\Site;
-use App\Models\SiteSSLCertificate;
 
 /**
  * Class SiteController
