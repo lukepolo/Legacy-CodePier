@@ -138,7 +138,11 @@
                             <div class="tab-pane" id="firewall">
 
                                 {!! Form::open(['action' => ['ServerController@postAddFirewallRule', $server->id]]) !!}
+                                    description
                                     {!! Form::text('description') !!}
+                                    from ip
+                                        {!! Form::text('from_ip') !!}
+                                    port
                                     {!! Form::text('port') !!}
                                 {!! Form::submit('Create Rule') !!}
                                 {!! Form::close() !!}

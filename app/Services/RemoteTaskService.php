@@ -61,6 +61,16 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return true;
     }
 
+    public function writeToFile($file, $contents, $read = false)
+    {
+        return $this->run('
+cat > '.$file.' <<    \'EOF\'
+'.trim($contents).'
+EOF
+echo "Wrote" ', $read);
+
+    }
+
     /**
      * Sets up the SSH connections
      *

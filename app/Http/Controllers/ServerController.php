@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Requests;
 use App\Jobs\CreateServer;
 use App\Models\Server;
 use App\Models\ServerCronJob;
@@ -66,9 +65,11 @@ class ServerController extends Controller
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
+
     /**
      * Installs a SSH key onto a server
      * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postInstallSshKey($serverID)
     {
@@ -86,6 +87,8 @@ class ServerController extends Controller
     /**
      * Removes a SSH key on a server
      * @param $serverID
+     * @param $serverSshKeyId
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getRemoveSshKey($serverID, $serverSshKeyId)
     {
@@ -130,7 +133,10 @@ class ServerController extends Controller
      */
     public function postAddFireWallRule($serverID)
     {
-        $this->serverService->addFirewallRule(Server::findOrFail($serverID), \Request::get('port'),
+        $this->serverService->addFirewallRule(
+            Server::findOrFail($serverID),
+            \Request::get('port'),
+            \Request::get('from_ip'),
             \Request::get('description'));
 
         return back()->with('success', 'You added a firewall rule');

@@ -201,20 +201,27 @@ class ServerService implements ServerServiceContract
     /**
      * Adds a firewall rule
      * @param Server $server
+     * @param $fromIP
      * @param $port
      * @param $description
      * @throws SshConnectionFailed
      */
-    public function addFirewallRule(Server $server, $port, $description)
+    public function addFirewallRule(Server $server, $fromIP, $port, $description)
     {
         ServerFirewallRule::create([
             'description' => $description,
             'server_id' => $server->id,
-            'port' => $port
+            'port' => $port,
+            'from_ip' => $fromIP
         ]);
 
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
+
+        if(empty($fromIP)) {
+            $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
+        } else {
+            $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
+        }
 
         $this->rebuildFirewall($server);
     }
@@ -230,7 +237,12 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
+        if(empty($firewallRule->from_ip)) {
+            $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
+        } else {
+            $this->remoteTaskService->run("sed -i '/iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
+        }
+
 
         $firewallRule->delete();
 
@@ -245,7 +257,7 @@ class ServerService implements ServerServiceContract
     private function rebuildFirewall(Server $server)
     {
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('./etc/opt/iptables');
+        $this->remoteTaskService->run('/etc/opt/./iptables');
     }
 
     /**
@@ -271,8 +283,7 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('
-cat > /etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf <<    \'EOF\'
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf ', '
 [program:worker-' . $serverDaemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
 command=' . $command . '
@@ -282,8 +293,7 @@ user=' . $user . '
 numprocs=' . $numberOfWorkers . '
 redirect_stderr=true
 stdout_logfile=/home/codepier/workers/worker-' . $serverDaemon->id . '.log
-EOF
-echo "Wrote" ');
+');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');

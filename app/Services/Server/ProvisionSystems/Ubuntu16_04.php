@@ -204,40 +204,38 @@ class Ubuntu16_04 implements ProvisionSystemContract
     public function installFirewallRules()
     {
         
-        $this->remoteTaskService->run('
-cat > /etc/opt/iptables <<    \'EOF\'
-    #!/bin/sh
-    echo "REDOING IP TABLES"
-    iptables -F
-    iptables -X
-    iptables -t nat -F
-    iptables -t nat -X
-    iptables -t mangle -F
-    iptables -t mangle -X
-    
-    iptables -P INPUT ACCEPT
-    iptables -P FORWARD ACCEPT
-    iptables -P OUTPUT ACCEPT
-    
-    iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-    iptables -I INPUT 1 -i lo -j ACCEPT
-    
-    # SSH
-    iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-    # WEB
-    iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
-    # WEB SSL 
-    iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables','
+#!/bin/sh
 
+echo "REDOING IP TABLES"
 
-    # DO NOT REMOVE Custom Rules
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
 
-    
-    iptables -P INPUT DROP
-EOF
-echo "Wrote" ');
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -I INPUT 1 -i lo -j ACCEPT
+
+# SSH
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+# WEB
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+# WEB SSL 
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+# DO NOT REMOVE - Custom Rules
+
+iptables -P INPUT DROP
+        ');
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
-        $this->remoteTaskService->run('./etc/opt/iptables');
+        $this->remoteTaskService->run('/etc/opt/./iptables');
     }
 }
