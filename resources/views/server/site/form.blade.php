@@ -9,8 +9,8 @@
                     Domain
                     {!! Form::text('domain') !!}
                     WildCard Domain
-                    {!! Form::hidden('wildcard_domain', false) !!}
-                    {!! Form::checkbox('wildcard_domain', true) !!}
+                    {!! Form::hidden('wildcard_domain', 0) !!}
+                    {!! Form::checkbox('wildcard_domain', 1) !!}
                     {!! Form::submit('Create Site') !!}
                 {!! Form::close() !!}
             </div>
