@@ -6,6 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
 use App\Models\Site;
+use App\Models\SiteSSLCertificate;
 
 /**
  * Class SiteService
@@ -168,18 +169,23 @@ include codepier-conf/' . $domain . '/after/*;
      * @return array
      * @throws \App\Exceptions\SshConnectionFailed
      */
-    public function installSSL(Site $site)
+    public function installSSL(Site $site, $domains)
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ -d codepier.io');
+        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ -d '.implode(' -d', explode(',', $domains)));
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
-
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
             return $errors;
         }
+
+        SiteSSLCertificate::create([
+            'site_id' => $site->id,
+            'domains' => $domains,
+            'type' => 'Let\'s Encrypt'
+        ]);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
 listen 443 ssl http2;

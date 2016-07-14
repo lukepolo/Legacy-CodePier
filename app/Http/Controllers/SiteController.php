@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\Site;
+use App\Models\SiteSSLCertificate;
 
 /**
  * Class SiteController
@@ -102,7 +103,7 @@ class SiteController extends Controller
      */
     public function postRequestLetsEncryptSSLCert($serverID, $siteID)
     {
-        $errors = $this->siteService->installSSL(Site::with('server')->findOrFail($siteID));
+        $errors = $this->siteService->installSSL(Site::with('server')->findOrFail($siteID), \Request::get('domains'));
 
         if (is_array($errors)) {
             return back()->withErrors($errors);
