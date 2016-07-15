@@ -7,7 +7,9 @@ use App\Contracts\Server\Site\Repository\RepositoryServiceContract as Repository
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Jobs\CreateSite;
 use App\Models\Server;
+use App\Models\ServerDaemon;
 use App\Models\Site;
+use App\Models\SiteDaemon;
 
 /**
  * Class SiteController
@@ -166,4 +168,30 @@ class SiteController extends Controller
 
         return back()->with('success', 'we are currently deploying');
     }
+
+    public function postInstallWorker($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->installDaemon(
+            $site,
+            $site->path . ($site->zerotime_deployment ? '/current' : null) .'/artisan queue:work '.\Request::get('connection').' --timeout='.\Request::get('timeout').' --sleep='.\Request::get('sleep').' --tries='.\Request::get('tries').' '.(\Request::get('daemon') ? '--daemon' : null),
+            true,
+            true,
+            'codepier',
+            1
+        );
+
+        return back()->with('success', 'You have added a worker');
+    }
+
+    public function getRemoveWorker($serverID, $siteID, $workerID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->removeDaemon($site->server, SiteDaemon::findOrFail($workerID));
+
+        return back()->with('success', 'You have removed the worker');
+    }
+
 }

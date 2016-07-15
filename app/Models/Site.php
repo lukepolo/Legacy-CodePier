@@ -36,4 +36,9 @@ class Site extends Model
 
         return false;
     }
+
+    public function daemons()
+    {
+        return $this->hasMany(SiteDaemon::class);
+    }
 }

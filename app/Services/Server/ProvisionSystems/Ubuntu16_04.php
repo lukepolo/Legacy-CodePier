@@ -104,6 +104,8 @@ class Ubuntu16_04 implements ProvisionSystemContract
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
         $this->remoteTaskService->run('mkdir /home/codepier/workers');
+
+        $this->remoteTaskService->run('service supervisor start');
     }
 
     public function installGit()
@@ -126,7 +128,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
         $this->remoteTaskService->run('sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd');
-        $this->remoteTaskService->run('/etc/init.d/beanstalkd start');
+        $this->remoteTaskService->run('service beanstalkd start');
     }
 
     public function installComposer()

@@ -6,6 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Models\Server;
 use App\Models\Site;
+use App\Models\SiteDaemon;
 use App\Models\SiteSslCertificate;
 
 /**
@@ -271,5 +272,63 @@ listen [::]:80 ' . $site->domain == 'default' ? 'default_server' : null . ';
     {
         $deploymentService = 'php';
         return new $this->deploymentServices[$deploymentService]($this->remoteTaskService, $server, $site);
+    }
+
+    /**
+     * Installs a daemon
+     * @param Site $site
+     * @param $command
+     * @param $autoStart
+     * @param $autoRestart
+     * @param $user
+     * @param $numberOfWorkers
+     */
+    public function installDaemon(Site $site, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
+    {
+        $serverDaemon = SiteDaemon::create([
+            'site_id' => $site->id,
+            'command' => $command,
+            'auto_start' => $autoStart,
+            'auto_restart' => $autoRestart,
+            'user' => $user,
+            'number_of_workers' => $numberOfWorkers,
+        ]);
+
+        $this->remoteTaskService->ssh($site->server);
+
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-' . $serverDaemon->id . '.conf ', '
+[program:site-worker-' . $serverDaemon->id . ']
+process_name=%(program_name)s_%(process_num)02d
+command=' . $command . '
+autostart=' . $autoStart . '
+autorestart=' . $autoRestart . '
+user=' . $user . '
+numprocs=' . $numberOfWorkers . '
+redirect_stderr=true
+stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
+');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+        $this->remoteTaskService->run('supervisorctl start site-worker-' . $serverDaemon->id . ':*');
+
+    }
+
+    /**
+     * Removes a daemon
+     * @param Server $server
+     * @param SiteDaemon $siteDaemon
+     */
+    public function removeDaemon(Server $server, SiteDaemon $siteDaemon)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/site-worker-' . $siteDaemon->id . '.conf');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+
+
+        $siteDaemon->delete();
     }
 }

@@ -13,6 +13,7 @@ use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
+use App\Models\Site;
 use Illuminate\Bus\Dispatcher;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -266,7 +267,6 @@ class ServerService implements ServerServiceContract
      * @param $autoRestart
      * @param $user
      * @param $numberOfWorkers
-     * @throws SshConnectionFailed
      */
     public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
     {
@@ -281,8 +281,8 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf ', '
-[program:worker-' . $serverDaemon->id . ']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf ', '
+[program:server-worker-' . $serverDaemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
 command=' . $command . '
 autostart=' . $autoStart . '
@@ -290,12 +290,12 @@ autorestart=' . $autoRestart . '
 user=' . $user . '
 numprocs=' . $numberOfWorkers . '
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/worker-' . $serverDaemon->id . '.log
+stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start worker-' . $serverDaemon->id . ':*');
+        $this->remoteTaskService->run('supervisorctl start server-worker-' . $serverDaemon->id . ':*');
 
     }
 
@@ -303,14 +303,12 @@ stdout_logfile=/home/codepier/workers/worker-' . $serverDaemon->id . '.log
      * Removes a daemon
      * @param Server $server
      * @param ServerDaemon $serverDaemon
-     * @throws SshConnectionFailed
-     * @throws \Exception
      */
     public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/worker-' . $serverDaemon->id . '.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
