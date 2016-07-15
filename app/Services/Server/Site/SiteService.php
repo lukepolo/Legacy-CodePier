@@ -175,7 +175,7 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ -d ' . implode(' -d',
+        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
                 explode(',', $domains)));
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
