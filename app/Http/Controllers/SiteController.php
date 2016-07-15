@@ -108,7 +108,14 @@ class SiteController extends Controller
             return back()->withErrors($errors);
         }
 
-        return back()->with('success', 'You have succsefully instlled your ssl cert');
+        return back()->with('success', 'You have successfully installed your ssl cert');
+    }
+
+    public function getRemoveSSL($serverID, $siteID)
+    {
+        $this->siteService->removeSSL(Site::findOrFail($siteID));
+
+        return back()->with('success', 'You have disabled your SSL certificate');
     }
 
     /**

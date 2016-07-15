@@ -28,6 +28,11 @@ class Site extends Model
         return $this->hasOne(SiteSslCertificate::class);
     }
 
+    public function daemons()
+    {
+        return $this->hasMany(SiteDaemon::class);
+    }
+
     public function hasSSL()
     {
         if(!empty($this->ssl)) {
@@ -37,8 +42,4 @@ class Site extends Model
         return false;
     }
 
-    public function daemons()
-    {
-        return $this->hasMany(SiteDaemon::class);
-    }
 }

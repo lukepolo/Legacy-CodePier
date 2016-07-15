@@ -45,8 +45,8 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/server');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $domain . '/server/listen', '
-listen 80' . $domain == 'default' ? 'default_server' : null . ';
-listen [::]:80' . $domain == 'default' ? 'default_server' : null . ';
+listen 80' . ($domain == 'default' ? 'default_server' : null) . ';
+listen [::]:80' . ($domain == 'default' ? 'default_server' : null) . ';
 ');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/after');
@@ -191,8 +191,8 @@ include codepier-conf/' . $domain . '/after/*;
         ]);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-listen 443 ssl http2 ' . $site->domain == 'default' ? 'default_server' : null . ';
-listen [::]:443 ssl http2 ' . $site->domain == 'default' ? 'default_server' : null . ';
+listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
 ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
 ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
@@ -211,8 +211,8 @@ add_header Strict-Transport-Security max-age=15768000;
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf', '
 server {
-    listen 80 ' . $site->domain == 'default' ? 'default_server' : null . ';
-    listen [::]:80 ' . $site->domain == 'default' ? 'default_server' : null . ';
+    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
     server_name ' . $site->wildcard_domain ? '.' : '' . $site->domain . ';
     return 301 https://$host$request_uri;
 }
@@ -231,13 +231,15 @@ server {
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-listen 80 ' . $site->domain == 'default' ? 'default_server' : null . ';
-listen [::]:80 ' . $site->domain == 'default' ? 'default_server' : null . ';
+listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 ');
 
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/redirect');
+        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf');
 
         $this->remoteTaskService->run('service nginx restart');
+
+        $site->ssl->delete();
     }
 
     /**
