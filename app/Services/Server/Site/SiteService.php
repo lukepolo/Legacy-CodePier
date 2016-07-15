@@ -184,11 +184,16 @@ include codepier-conf/' . $domain . '/after/*;
             return $errors;
         }
 
-        SiteSslCertificate::create([
+        $siteSSL = SiteSslCertificate::firstOrCreate([
             'site_id' => $site->id,
+        ]);
+
+        $siteSSL->fill([
             'domains' => $domains,
             'type' => 'Let\'s Encrypt'
         ]);
+
+        $siteSSL->save();
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
