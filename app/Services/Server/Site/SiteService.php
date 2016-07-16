@@ -59,7 +59,7 @@ include codepier-conf/' . $domain . '/before/*;
 server {
     include codepier-conf/' . $domain . '/server/*;
     
-    server_name ' . $wildCardDomain ? '.' : '' . $domain . ';
+    server_name ' . ($wildCardDomain ? '.' : '' . $domain).'
     root /home/codepier/' . $domain . '/current/public;
 
     index index.html index.htm index.php;
@@ -220,7 +220,7 @@ add_header Strict-Transport-Security max-age=15768000;
 server {
     listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
     listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    server_name ' . $site->wildcard_domain ? '.' : '' . $site->domain . ';
+    server_name ' . ($site->wildcard_domain ? '.' : '' . $site->domain) . ';
     return 301 https://$host$request_uri;
 }
 ');
