@@ -32,6 +32,16 @@
                                         {!! Form::label('Repository') !!}
                                         {!! Form::text('repository', $site->repository, ['class' => 'form-control']) !!}
                                     </div>
+                                    <div class="form-group checkbox">
+                                        <label>
+                                            {!! Form::hidden('zerotime_deployment', false) !!}
+                                            {!! Form::checkbox('zerotime_deployment', true, $site->zerotime_deployment) !!} Zerotime Deployment
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('Path') !!}
+                                        {!! Form::text('path', $site->path, ['class' => 'form-control']) !!}
+                                    </div>
                                     <div class="form-group">
                                         {!! Form::label('branch') !!}
                                         {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}

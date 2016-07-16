@@ -158,7 +158,7 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        return $this->serverService->getFile($site->server, $site->path . '/.env');
+        return $this->serverService->getFile($site->server, '/home/codepier/'.$site->path . '/.env');
     }
 
     /**
@@ -182,7 +182,7 @@ class SiteController extends Controller
 
         $this->siteService->installDaemon(
             $site,
-            $site->path . ($site->zerotime_deployment ? '/current' : null) .'/artisan queue:work '.\Request::get('connection').' --timeout='.\Request::get('timeout').' --sleep='.\Request::get('sleep').' --tries='.\Request::get('tries').' '.(\Request::get('daemon') ? '--daemon' : null),
+            '/home/codepier/'.$site->path . ($site->zerotime_deployment ? '/current' : null) .'/artisan queue:work '.\Request::get('connection').' --timeout='.\Request::get('timeout').' --sleep='.\Request::get('sleep').' --tries='.\Request::get('tries').' '.(\Request::get('daemon') ? '--daemon' : null),
             true,
             true,
             'codepier',

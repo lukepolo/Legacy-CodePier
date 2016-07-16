@@ -29,7 +29,7 @@ class PHP
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->path = $site->path;
+        $this->path = '/home/codepier/'.$site->path;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->release = Carbon::now()->format('YmdHis');

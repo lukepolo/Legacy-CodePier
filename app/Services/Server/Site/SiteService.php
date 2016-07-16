@@ -127,13 +127,15 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('mv ' . $site->path . ' /home/codepier/' . $domain);
+        $this->remoteTaskService->run('mv /home/codepier/' . $site->path . ' /home/codepier/' . $domain);
 
         $this->remove($site);
-        $this->create($site->server, $domain);
+
+
+        $this->create($site->server, $domain, $site->wildcard_domain);
 
         $site->domain = $domain;
-        $site->path = '/home/codepier/' . $domain;
+        $site->path = str_replace($site->domain, $domain, $site->path);
 
         $site->save();
     }
