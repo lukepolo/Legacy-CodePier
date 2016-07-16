@@ -45,6 +45,7 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/server');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $domain . '/server/listen', '
+server_name ' . ($wildCardDomain ? '.' : '') . $domain . ';
 listen 80' . ($domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80' . ($domain == 'default' ? 'default_server' : null) . ';
 ');
@@ -59,7 +60,6 @@ include codepier-conf/' . $domain . '/before/*;
 server {
     include codepier-conf/' . $domain . '/server/*;
     
-    server_name ' . ($wildCardDomain ? '.' : '' . $domain).'
     root /home/codepier/' . $domain . '/current/public;
 
     index index.html index.htm index.php;
@@ -127,15 +127,13 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('mv /home/codepier/' . $site->path . ' /home/codepier/' . $domain);
+        $this->remoteTaskService->run('mv /home/codepier/' . $site->domain . ' /home/codepier/' . $domain);
 
         $this->remove($site);
-
 
         $this->create($site->server, $domain, $site->wildcard_domain);
 
         $site->domain = $domain;
-        $site->path = str_replace($site->domain, $domain, $site->path);
 
         $site->save();
     }
@@ -164,7 +162,6 @@ include codepier-conf/' . $domain . '/after/*;
 
         $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/' . $site->domain);
         $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . ' -rf');
-
     }
 
     /**
@@ -177,8 +174,10 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
-                explode(',', $domains)));
+        $this->remoteTaskService->run(
+            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
+                explode(',', $domains))
+        );
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
@@ -198,6 +197,7 @@ include codepier-conf/' . $domain . '/after/*;
         $siteSSL->save();
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
@@ -220,11 +220,13 @@ add_header Strict-Transport-Security max-age=15768000;
 server {
     listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
     listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    server_name ' . ($site->wildcard_domain ? '.' : '' . $site->domain) . ';
     return 301 https://$host$request_uri;
 }
 ');
 
+        if ($site->hasSSL()) {
+            $site->ssl->delete();
+        }
         $this->remoteTaskService->run('service nginx restart');
     }
 
@@ -238,6 +240,7 @@ server {
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 ');

@@ -29,7 +29,7 @@ class PHP
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->path = '/home/codepier/'.$site->path;
+        $this->path = '/home/codepier/'.$site->domain;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->release = Carbon::now()->format('YmdHis');
@@ -48,9 +48,7 @@ class PHP
         $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; echo "!storage" >> .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; echo "!public/build" >> .git/info/sparse-checkout');
 
-        // TODO - having issues with this
         $this->remoteTaskService->run('([ -f ' . $this->path . '/.env ] && echo "Found") || cp ' . $this->path . '/' . $this->release . '/.env.example ' . $this->path . '/.env; cd ' . $this->path . '/' . $this->release);
-
         $this->remoteTaskService->run('ln -s ' . $this->path . '/.env ' . $this->path . '/' . $this->release . '/.env');
     }
 
