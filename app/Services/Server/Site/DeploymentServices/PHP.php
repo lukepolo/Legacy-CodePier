@@ -23,6 +23,7 @@ class PHP
      * ProvisionService constructor.
      * @param RemoteTaskService $remoteTaskService
      * @param Server $server
+     * @param Site $site
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
