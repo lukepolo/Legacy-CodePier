@@ -32,9 +32,10 @@ interface ProvisionSystemContract
 
     /**
      * Add the code pier user with a sudo password
+     * @param $sudoPassword
      * @return mixed
      */
-    public function addCodePierUser();
+    public function addCodePierUser($sudoPassword);
 
     /**
      * Set the servers locale to UTF8
@@ -129,15 +130,18 @@ interface ProvisionSystemContract
     /**
      * Installs MySQL and basic configurations with the database password
      * @param $databasePassword
+     * @param null $database
      * @return mixed
      */
-    public function installMySQL($databasePassword);
+    public function installMySQL($databasePassword, $database = null);
 
     /**
      * Installs MariaDB and basic configurations with the database password
+     * @param $databasePassword
+     * @param null $database
      * @return mixed
      */
-    public function installMariaDB();
+    public function installMariaDB($databasePassword, $database = null);
 
     /**
      * Installs Lets Encrypt's CertBot script

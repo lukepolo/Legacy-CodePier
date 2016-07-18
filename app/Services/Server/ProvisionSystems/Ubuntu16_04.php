@@ -35,10 +35,13 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
     }
 
-    public function addCodePierUser()
+    public function addCodePierUser($sudoPassword)
     {
+        $this->remoteTaskService->run('echo \'root:'.$sudoPassword.'\' | chpasswd');
+
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
-        $this->remoteTaskService->run('echo \'codepier:mypass\' | chpasswd');
+
+        $this->remoteTaskService->run('echo \'codepier:'.$sudoPassword.'\' | chpasswd');
         $this->remoteTaskService->run('adduser codepier sudo');
         $this->remoteTaskService->run('usermod -a -G www-data codepier');
 
@@ -161,7 +164,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('npm install -g bower');
     }
 
-    public function installMySQL($databasePassword)
+    public function installMySQL($databasePassword, $database = null)
     {
         $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password ' . $databasePassword . '\'');
         $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password ' . $databasePassword . '\'');
@@ -174,9 +177,13 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('service mysql restart');
 
         $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=' . $databasePassword . ' mysql');
+
+        if(!empty($database)) {
+            $this->remoteTaskService->run('mysql --user="root" --password="' . $databasePassword . '" -e "CREATE DATABASE '.$database.'"');
+        }
     }
 
-    public function installMariaDB()
+    public function installMariaDB($databasePassword, $database = null)
     {
 
     }

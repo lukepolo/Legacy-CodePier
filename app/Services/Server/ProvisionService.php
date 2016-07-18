@@ -90,10 +90,10 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installBeanstalk();
 
         $this->updateProgress('Installing MySQL');
-        $provisionSystem->installMySQL($databasePassword);
+        $provisionSystem->installMySQL($databasePassword, $server->options['database']);
 
         $this->updateProgress('Installing MariaDB');
-        $provisionSystem->installMariaDB($databasePassword);
+        $provisionSystem->installMariaDB($databasePassword, $server->options['database']);
 
         $this->updateProgress('Installing NodeJS');
         $provisionSystem->installNodeJs();

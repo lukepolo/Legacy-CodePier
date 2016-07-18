@@ -204,7 +204,6 @@ class DigitalOceanProvider implements ServerServiceContract
             $server->server_provider_id
         )->first()
         ) {
-            dd('check if expired');
             return $serverProvider->token;
         }
 
@@ -221,5 +220,10 @@ class DigitalOceanProvider implements ServerServiceContract
         return \Cache::rememberForever('server.provider.' . $this->providerName . '.id', function () {
             return ServerProvider::where('provider_name', $this->providerName)->first()->id;
         });
+    }
+
+    public function refreshToken()
+    {
+        dd('need to refresh token');
     }
 }

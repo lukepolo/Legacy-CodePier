@@ -46,10 +46,10 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $domain . '/server/listen', '
 server_name ' . ($wildCardDomain ? '.' : '') . $domain . ';
-listen 80' . ($domain == 'default' ? 'default_server' : null) . ';
-listen [::]:80' . ($domain == 'default' ? 'default_server' : null) . ';
+listen 80 ' . ($domain == 'default' ? 'default_server' : null) . ';
+listen [::]:80 ' . ($domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $webDirectory.'
+root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $webDirectory.';
 ');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/after');
@@ -201,7 +201,7 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.'
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.';
 
 ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
 ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
@@ -246,7 +246,7 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.'
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.';
 ');
 
         $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf');

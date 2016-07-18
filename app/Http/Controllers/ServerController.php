@@ -56,6 +56,7 @@ class ServerController extends Controller
             'features' => array_keys(\Request::get('features'))
         ]);
 
+
         $this->dispatch(new CreateServer(
             ServerProvider::findorFail(\Request::get('server_provider_id')),
             $server
