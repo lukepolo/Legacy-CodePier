@@ -148,7 +148,7 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->writeToFile('/home/codepier/' . $site->domain . '/.env ', $env);
+        $this->remoteTaskService->writeToFile('/home/codepier/' . $site->domain . '/.env ', str_replace("\r\n", PHP_EOL, $env));
     }
 
     /**

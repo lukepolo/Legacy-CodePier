@@ -25,6 +25,7 @@
     "jquery-confirm2": "^2.5.1",
     "bootstrap-sass": "^3.3.6",
     "moment-timezone": "^0.5.4",
-    "jcf-forms": "JCF-Forms#*"
+    "jcf-forms": "JCF-Forms#*",
+    "ace-build": "~1.2.3"
   }
 }

@@ -27,7 +27,7 @@ var paths = {
     moment : bower_path + 'moment/',
     moment_timezone : bower_path + 'moment-timezone/builds/',
     confirm2: bower_path + 'jquery-confirm2/dist/',
-    codemirror : bower_path + 'codemirror/',
+    ace : bower_path + 'ace-build/src-min/',
     jcf_forms : bower_path + 'jcf-forms/'
     
 };
@@ -50,7 +50,6 @@ elixir(function (mix) {
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
         .copy(paths.bootstrap + 'fonts', paths.fonts_build + 'bootstrap')
         .copy(paths.jcf_forms + 'dist/img/icons', paths.imgs_build + 'icons')
-        .copy(paths.codemirror + 'lib/codemirror.css', paths.sass_partials + '_codemirror.scss')
         .sass('app.scss')
         .scripts([
             paths.jquery + 'jquery.min.js',
@@ -59,8 +58,9 @@ elixir(function (mix) {
             paths.moment + 'moment.js',
             paths.moment_timezone + 'moment-timezone-with-data-2010-2020.min.js',
             paths.confirm2 + 'jquery-confirm.min.js',
-            paths.codemirror + 'lib/codemirror.js',
-            paths.codemirror + 'mode/shell/shell.js',
+            paths.ace + 'ace.js',
+            paths.ace + 'mode-sh.js',
+            paths.ace + 'ext-searchbox.js',
             paths.js_resources + 'laroute.js',
             paths.jcf_forms + 'assets/js/jcf_forms.js'
         ])

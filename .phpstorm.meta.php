@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-07-12.
+    * Generated on 2016-07-18.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -47,6 +47,9 @@ namespace PHPSTORM_META {
             'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
             'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
             'github.connection' instanceof \Github\Client,
+            'Lord\Laroute\Generators\GeneratorInterface' instanceof \Lord\Laroute\Generators\TemplateGenerator,
+            'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
+            'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -177,6 +180,9 @@ namespace PHPSTORM_META {
             'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
             'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
             'github.connection' instanceof \Github\Client,
+            'Lord\Laroute\Generators\GeneratorInterface' instanceof \Lord\Laroute\Generators\TemplateGenerator,
+            'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
+            'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -307,6 +313,9 @@ namespace PHPSTORM_META {
             'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
             'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
             'github.connection' instanceof \Github\Client,
+            'Lord\Laroute\Generators\GeneratorInterface' instanceof \Lord\Laroute\Generators\TemplateGenerator,
+            'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
+            'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -437,6 +446,9 @@ namespace PHPSTORM_META {
             'github.factory' instanceof \GrahamCampbell\GitHub\GitHubFactory,
             'github' instanceof \GrahamCampbell\GitHub\GitHubManager,
             'github.connection' instanceof \Github\Client,
+            'Lord\Laroute\Generators\GeneratorInterface' instanceof \Lord\Laroute\Generators\TemplateGenerator,
+            'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
+            'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,

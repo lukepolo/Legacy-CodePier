@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .editor {
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -49,10 +58,9 @@
                             </div>
                             <div class="tab-pane" id="environment">
                                 {!! Form::open(['action' => ['SiteController@postEnv', $site->server->id, $site->id]]) !!}
-                                <textarea name="env">
-
-                                </textarea>
-                                {!! Form::submit('Update Env') !!}
+                                    <div id="environment_editor" class="editor">Loading . . . </div>
+                                    <textarea class="hide" name="env"></textarea>
+                                    {!! Form::submit('Update Env') !!}
                                 {!! Form::close() !!}
                             </div>
                             <div class="tab-pane" id="workers">
@@ -122,22 +130,20 @@
 
 @push('scripts')
     <script type="text/javascript">
-        var editor = $('#environment').find('textarea');
+        var textarea = $('textarea[name="env"]');
+        var editor = ace.edit("environment_editor");
 
-        $(document).on('click', 'li a[href="#environment"]', function() {
-            renderEnvironmentEditor();
+        editor.getSession().setMode("ace/mode/sh");
+
+        editor.getSession().on('change', function(){
+            textarea.val(editor.getSession().getValue());
         });
-        function renderEnvironmentEditor() {
-            CodeMirror.fromTextArea(editor[0], {
-                mode: 'shell',
-                lineNumbers: true,
-                matchBrackets: true
-            });
-        }
+
+        editor.setOption("maxLines", 75);
 
         $.get('{{ action('SiteController@getEnv', [$site->server_id, $site->id]) }}', function(envFile) {
-            editor.html(envFile);
+            textarea.html(envFile);
+            editor.getSession().setValue(envFile);
         });
-
     </script>
 @endpush
