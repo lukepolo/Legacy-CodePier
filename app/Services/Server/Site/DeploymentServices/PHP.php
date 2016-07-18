@@ -33,7 +33,7 @@ class PHP
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->path = '/home/codepier/'.$site->domain;
-        $this->zerotimeDeployment = $site->zerotimeDeployment;
+        $this->zerotimeDeployment = $site->zerotime_deployment;
         $this->release = Carbon::now()->format('YmdHis');
     }
 

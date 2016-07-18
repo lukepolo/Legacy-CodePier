@@ -39,10 +39,6 @@
                                         </label>
                                     </div>
                                     <div class="form-group">
-                                        {!! Form::label('Path') !!}
-                                        {!! Form::text('path', $site->path, ['class' => 'form-control']) !!}
-                                    </div>
-                                    <div class="form-group">
                                         {!! Form::label('branch') !!}
                                         {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
                                     </div>

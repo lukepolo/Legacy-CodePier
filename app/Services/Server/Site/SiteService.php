@@ -131,7 +131,7 @@ include codepier-conf/' . $domain . '/after/*;
 
         $this->remove($site);
 
-        $this->create($site->server, $domain, $site->wildcard_domain);
+        $this->create($site->server, $domain, $site->wildcard_domain, $site->zerotime_deployment, $site->web_directory);
 
         $site->domain = $domain;
 
