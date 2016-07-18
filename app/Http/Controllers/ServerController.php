@@ -76,8 +76,8 @@ class ServerController extends Controller
     {
         $serverSshKey = ServerSshKey::create([
             'server_id' => $serverID,
-            'name' => str_replace(' ', '_', \Request::get('name')),
-            'ssh_key' => \Request::get('ssh_key')
+            'name' => \Request::get('name'),
+            'ssh_key' => trim(\Request::get('ssh_key'))
         ]);
 
         $this->serverService->installSshKey(Server::findOrFail($serverID), $serverSshKey->ssh_key);

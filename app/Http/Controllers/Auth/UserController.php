@@ -64,23 +64,24 @@ class UserController extends Controller
      */
     public function postAddSshKey()
     {
-        UserSshKey::create([
+        $userSshKey = UserSshKey::create([
             'user_id' => \Auth::user()->id,
-            'name' => str_replace(' ', '_', \Request::get('name')),
-            'ssh_key' => \Request::get('ssh_key')
+            'name' => \Request::get('name'),
+            'ssh_key' => trim(\Request::get('ssh_key'))
         ]);
 
         foreach (\Auth::user()->servers as $server) {
-            $this->serverService->installSshKey($server, \Request::get('ssh_key'));
+            $this->serverService->installSshKey($server, $userSshKey->ssh_key);
         }
 
         return back()->with('success', 'You added an ssh key to all your servers');
     }
 
+
     /**
      * Removes an ssh from the users account
      * @param $sshKeyID
-     * @return
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getRemoveSshKey($sshKeyID)
     {
