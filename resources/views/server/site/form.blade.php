@@ -8,6 +8,10 @@
                 {!! Form::open(['action' => ['SiteController@postCreateSite', $server->id]]) !!}
                     Domain
                     {!! Form::text('domain') !!}
+
+                    Web Directory
+                    {!! Form::text('web_directory', 'public') !!}
+
                     WildCard Domain
                     {!! Form::hidden('wildcard_domain', 0) !!}
                     {!! Form::checkbox('wildcard_domain', 1) !!}

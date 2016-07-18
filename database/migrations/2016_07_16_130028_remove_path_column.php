@@ -13,7 +13,7 @@ class RemovePathColumn extends Migration
     public function up()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->dropColumn('path');
+            $table->renameColumn('path', 'web_directory');
         });
     }
 
@@ -25,7 +25,7 @@ class RemovePathColumn extends Migration
     public function down()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->string('path');
+            $table->renameColumn('web_directory', 'path');
         });
     }
 }

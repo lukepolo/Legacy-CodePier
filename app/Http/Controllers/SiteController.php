@@ -60,7 +60,7 @@ class SiteController extends Controller
     {
         $server = Server::findOrFail($serverID);
 
-        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int) \Request::get('wildcard_domain')));
+        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int) \Request::get('wildcard_domain'), \Request::get('web_directory')));
 //            ->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');

@@ -30,9 +30,10 @@ class PHP
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->path = '/home/codepier/'.$site->domain;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
+        $this->path = '/home/codepier/'.$site->domain;
+        $this->zerotimeDeployment = $site->zerotimeDeployment;
         $this->release = Carbon::now()->format('YmdHis');
     }
 
@@ -70,7 +71,7 @@ class PHP
      */
     public function setupFolders()
     {
-        $this->remoteTaskService->run('ln -sfn ' . $this->path . '/' . $this->release . ' ' . $this->path . '/current');
+        $this->remoteTaskService->run('ln -sfn ' . $this->path . '/' . $this->release . ' ' . $this->path . ($this->zerotimeDeployment ? '/current' : null ));
     }
 
     /**
