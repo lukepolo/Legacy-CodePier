@@ -346,7 +346,6 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     public function getFile(Server $server, $filePath)
     {
         $key = new RSA();
-        $key->setPassword(env('SSH_KEY_PASSWORD'));
         $key->loadKey($server->private_ssh_key);
 
         $ssh = new SFTP($server->ip);
