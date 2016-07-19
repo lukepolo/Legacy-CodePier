@@ -168,6 +168,7 @@ return [
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
+        Mpociot\Teamwork\TeamworkServiceProvider::class,
 
         /*
          * Custom Service Providers

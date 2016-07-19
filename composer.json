@@ -20,7 +20,8 @@
         "phpseclib/phpseclib": "^2.0",
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
-        "lord/laroute" : "2.*"
+        "lord/laroute" : "2.*",
+        "mpociot/teamwork": "~3.0"
 
     },
     "require-dev": {

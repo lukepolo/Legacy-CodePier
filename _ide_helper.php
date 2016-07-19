@@ -14008,5 +14008,91 @@ if (! function_exists('with')) {
     }
 
 
+    class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork{
+        
+        /**
+         * Get the currently authenticated user or null.
+         *
+         * @static 
+         */
+        public static function user(){
+            return \Mpociot\Teamwork\Teamwork::user();
+        }
+        
+        /**
+         * Invite an email adress to a team.
+         * 
+         * Either provide a email address or an object with an email property.
+         * 
+         * If no team is given, the current_team_id will be used instead.
+         *
+         * @param string|\Mpociot\Teamwork\User $user
+         * @param null|\Mpociot\Teamwork\Team $team
+         * @param callable $success
+         * @throws \Exception
+         * @static 
+         */
+        public static function inviteToTeam($user, $team = null, $success = null){
+            return \Mpociot\Teamwork\Teamwork::inviteToTeam($user, $team, $success);
+        }
+        
+        /**
+         * Checks if the given email address has a pending invite for the
+         * provided Team
+         *
+         * @param $email
+         * @param \Mpociot\Teamwork\Team|array|integer $team
+         * @return bool 
+         * @static 
+         */
+        public static function hasPendingInvite($email, $team){
+            return \Mpociot\Teamwork\Teamwork::hasPendingInvite($email, $team);
+        }
+        
+        /**
+         * 
+         *
+         * @param $token
+         * @return mixed 
+         * @static 
+         */
+        public static function getInviteFromAcceptToken($token){
+            return \Mpociot\Teamwork\Teamwork::getInviteFromAcceptToken($token);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Mpociot\Teamwork\TeamInvite $invite
+         * @static 
+         */
+        public static function acceptInvite($invite){
+            return \Mpociot\Teamwork\Teamwork::acceptInvite($invite);
+        }
+        
+        /**
+         * 
+         *
+         * @param $token
+         * @return mixed 
+         * @static 
+         */
+        public static function getInviteFromDenyToken($token){
+            return \Mpociot\Teamwork\Teamwork::getInviteFromDenyToken($token);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Mpociot\Teamwork\TeamInvite $invite
+         * @static 
+         */
+        public static function denyInvite($invite){
+            return \Mpociot\Teamwork\Teamwork::denyInvite($invite);
+        }
+        
+    }
+
+
 }
 

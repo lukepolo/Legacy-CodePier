@@ -36,6 +36,7 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ action('Auth\UserController@getMyProfile') }}"><i class="fa fa-btn fa-user"></i> My Profile</a></li>
+                            <li><a href="{{ action('Teamwork\TeamController@index') }}"><i class="fa fa-btn fa-group"></i> Teams</a></li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </li>

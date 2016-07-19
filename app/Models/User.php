@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 /**
  * Class User
@@ -10,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
+    use UserHasTeams;
+
     /**
      * The attributes that are mass assignable.
      *
