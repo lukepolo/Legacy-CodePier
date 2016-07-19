@@ -189,7 +189,7 @@
                 </div>
                 <a href="{{ action('ServerController@getArchiveServer', $server->id) }}" class="btn btn-xs">Archive Server</a>
 
-                <a href="{{ action('ServerController@getRestartWebServerServices', $server->id) }}" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
+                <a href="{{ action('ServerController@getRestartWebServices', $server->id) }}" class="btn btn-xs">Restart Web Services</a>
                 <a href="{{ action('ServerController@getRestartServer', $server->id) }}" class="btn btn-xs">Restart Server</a>
                 <a href="{{ action('ServerController@getRestartDatabase', $server->id) }}" class="btn btn-xs">Restart Database</a>
                 <a href="{{ action('ServerController@getRestartWorkers', $server->id) }}" class="btn btn-xs">Restart Workers</a>

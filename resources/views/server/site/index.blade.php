@@ -127,7 +127,7 @@
                     </div>
                 </div>
 
-                <a href="{{ action('ServerController@getRestartWebServerServices', $site->server_id) }}" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
+                <a href="{{ action('ServerController@getRestartWebServices', $site->server_id) }}" class="btn btn-xs">Restart Web Services</a>
                 <a href="{{ action('ServerController@getRestartServer', $site->server_id) }}" class="btn btn-xs">Restart Server</a>
                 <a href="{{ action('ServerController@getRestartDatabase', $site->server_id) }}" class="btn btn-xs">Restart Database</a>
                 <a href="{{ action('ServerController@getRestartWorkers', $site->server_id) }}" class="btn btn-xs">Restart Workers</a>

@@ -111,6 +111,10 @@ class ServerController extends Controller
         return redirect()->action('LandingController@getIndex')->with('success', 'You have archived the server');
     }
 
+    /**
+     * Gets the list of archived servers
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getArchivedServers()
     {
         return view('server.archive_list', [
@@ -118,6 +122,11 @@ class ServerController extends Controller
         ]);
     }
 
+    /**
+     * Activates an arhcived server
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getActivateArchivedServer($serverID)
     {
         Server::onlyTrashed()->findOrFail($serverID)->restore();
@@ -257,24 +266,44 @@ class ServerController extends Controller
         $this->serverService->testSshConnection(Server::findOrFail($serverID));
     }
 
-    public function getRestartWebServerServices($serverID)
+    /**
+     * Restarts the web services on the server
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getRestartWebServices($serverID)
     {
-        $this->serverService->restartWebServerServices(Server::findOrFail($serverID));
+        $this->serverService->restartWebServices(Server::findOrFail($serverID));
         return back()->with('success', 'You have restarted the web server sercies');
     }
 
+    /**
+     * Restarts the entire server
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRestartServer($serverID)
     {
         $this->serverService->restartServer(Server::findOrFail($serverID));
         return back()->with('success', 'You have restarted the server');
     }
 
+    /**
+     * Restarts the datatbases
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRestartDatabase($serverID)
     {
         $this->serverService->restartDatabase(Server::findOrFail($serverID));
         return back()->with('success', 'You have restarted the databases');
     }
 
+    /**
+     * Restarts the workers
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRestartWorkers($serverID)
     {
         $this->serverService->restartWorkers(Server::findOrFail($serverID));

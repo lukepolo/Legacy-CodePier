@@ -392,7 +392,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         return $rsa->createKey();
     }
 
-    public function restartWebServerServices(Server $server)
+    public function restartWebServices(Server $server)
     {
         $this->remoteTaskService->ssh($server);
 
