@@ -32,6 +32,8 @@
                             <li class="active"><a href="#repository" data-toggle="tab">Repositories</a></li>
                             <li><a href="#environment" data-toggle="tab">Environment</a></li>
                             <li><a href="#workers" data-toggle="tab">Workers</a></li>
+                            
+                            <li><a href="#ssl-certs" data-toggle="tab">SSL Certificates</a></li>
                             <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
                         </ul>
                         <div id="my-tab-content" class="tab-content">
@@ -107,7 +109,7 @@
                                 </table>
 
                             </div>
-                            <div class="tab-pane" id="ssl_certs">
+                            <div class="tab-pane" id="ssl-certs">
 
                                 <a href="#" class="btn btn-xs">Create Signing Request</a>
                                 <a href="#" class="btn btn-xs">Install Certificate</a>

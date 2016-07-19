@@ -168,11 +168,11 @@ include codepier-conf/' . $domain . '/after/*;
                 explode(',', $domains))
         );
 
-        $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
-
         if (count($errors = $this->remoteTaskService->getErrors())) {
             return $errors;
         }
+
+        $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
         $siteSSL = SiteSslCertificate::firstOrCreate([
             'site_id' => $site->id,
