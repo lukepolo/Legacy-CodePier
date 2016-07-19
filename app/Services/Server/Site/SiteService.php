@@ -56,7 +56,7 @@ root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $w
 
         if (
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
-# codepier CONFIG (DOT NOT REMOVE!)
+# codepier CONFIG (DO NOT REMOVE!)
 include codepier-conf/' . $domain . '/before/*;
 
 server {
@@ -104,7 +104,7 @@ server {
     }
 }
 
-# codepier CONFIG (DOT NOT REMOVE!)
+# codepier CONFIG (DO NOT REMOVE!)
 include codepier-conf/' . $domain . '/after/*;
 ')
         ) {

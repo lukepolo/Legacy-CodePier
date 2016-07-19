@@ -32,7 +32,7 @@
                             <li class="active"><a href="#repository" data-toggle="tab">Repositories</a></li>
                             <li><a href="#environment" data-toggle="tab">Environment</a></li>
                             <li><a href="#workers" data-toggle="tab">Workers</a></li>
-                            <li><a href="#ssl_certs" data-toggle="tab">SSL Certificates</a></li>
+                            <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
                         </ul>
                         <div id="my-tab-content" class="tab-content">
                             <div class="tab-pane active" id="repository">
@@ -122,6 +122,21 @@
                                     <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">X</a>
                                 @endif
                             </div>
+
+                            <div class="tab-pane" id="edit-files">
+                                <div class="row">
+                                    {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
+                                        <div data-url="{{ action('ServerController@getFileFromServer', $site->server_id) }}" data-path="/etc/nginx/codepier-conf/{{ $site->domain }}/server/listen" class="editor">Loading . . . </div>
+                                        {!! Form::submit('Update Nginx Listen Config') !!}
+                                    {!! Form::close() !!}
+
+                                    {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
+                                        <div data-url="{{ action('ServerController@getFileFromServer', $site->server_id) }}" data-path="/etc/nginx/sites-enabled/{{ $site->domain }}" class="editor">Loading . . . </div>
+                                        {!! Form::submit('Update Nginx Config') !!}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -130,9 +145,6 @@
                 <a href="{{ action('ServerController@getRestartServer', $site->server_id) }}" class="btn btn-xs">Restart Server</a>
                 <a href="{{ action('ServerController@getRestartDatabase', $site->server_id) }}" class="btn btn-xs">Restart Database</a>
                 <a href="{{ action('ServerController@getRestartWorkers', $site->server_id) }}" class="btn btn-xs">Restart Workers</a>
-
-                <a href="#" class="btn btn-xs">Edit PHP Config</a>
-                <a href="#" class="btn btn-xs">Edit PHP CLI Config</a>
 
                 <a href="#" class="btn btn-xs">Edit Nginx Config</a>
 
