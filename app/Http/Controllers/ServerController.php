@@ -256,4 +256,28 @@ class ServerController extends Controller
     {
         $this->serverService->testSshConnection(Server::findOrFail($serverID));
     }
+
+    public function getRestartWebServerServices($serverID)
+    {
+        $this->serverService->restartWebServerServices(Server::findOrFail($serverID));
+        return back()->with('success', 'You have restarted the web server sercies');
+    }
+
+    public function getRestartServer($serverID)
+    {
+        $this->serverService->restartServer(Server::findOrFail($serverID));
+        return back()->with('success', 'You have restarted the server');
+    }
+
+    public function getRestartDatabase($serverID)
+    {
+        $this->serverService->restartDatabase(Server::findOrFail($serverID));
+        return back()->with('success', 'You have restarted the databases');
+    }
+
+    public function getRestartWorkers($serverID)
+    {
+        $this->serverService->restartWorkers(Server::findOrFail($serverID));
+        return back()->with('success', 'You have restarted the servers workers');
+    }
 }

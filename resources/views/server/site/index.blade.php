@@ -126,10 +126,11 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
-                <a href="#" class="btn btn-xs">Restart Server</a>
-                <a href="#" class="btn btn-xs">Restart Database</a>
-                <a href="#" class="btn btn-xs">Restart Workers</a>
+
+                <a href="{{ action('ServerController@getRestartWebServerServices', $site->server_id) }}" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
+                <a href="{{ action('ServerController@getRestartServer', $site->server_id) }}" class="btn btn-xs">Restart Server</a>
+                <a href="{{ action('ServerController@getRestartDatabase', $site->server_id) }}" class="btn btn-xs">Restart Database</a>
+                <a href="{{ action('ServerController@getRestartWorkers', $site->server_id) }}" class="btn btn-xs">Restart Workers</a>
 
                 <a href="#" class="btn btn-xs">Edit PHP Config</a>
                 <a href="#" class="btn btn-xs">Edit PHP CLI Config</a>

@@ -67,6 +67,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('server/{serverID}/daemon/add', 'ServerController@postAddDaemon');
     Route::get('server/{serverID}/daemon/{daemonID}/remove', 'ServerController@getRemoveDaemon');
 
+    Route::get('server/{serverID}/restart/database', 'ServerController@getRestartDatabase');
+    Route::get('server/{serverID}/restart/server', 'ServerController@getRestartServer');
+    Route::get('server/{serverID}/restart/web-server', 'ServerController@getRestartWebServerServices');
+    Route::get('server/{serverID}/restart/workers', 'ServerController@getRestartWorkers');
+
     /*
     |--------------------------------------------------------------------------
     | Site Routes

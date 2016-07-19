@@ -23,10 +23,11 @@ class RemoteTaskService implements RemoteTaskServiceContract
      *
      * @param $command
      * @param bool $read
+     * @param bool $expectedFailure
      * @return bool
      * @throws SshConnectionFailed
      */
-    public function run($command, $read = false)
+    public function run($command, $read = false, $expectedFailure = false)
     {
         if (!$this->server) {
             throw new SshConnectionFailed('No server set');
@@ -42,7 +43,15 @@ class RemoteTaskService implements RemoteTaskServiceContract
                 $this->ssh($this->server);
                 $this->run($command, $read);
             } else {
-                dd($e->getMessage());
+                if($expectedFailure) {
+                    set_error_handler(function($num, $str, $file, $line) {
+                        return true;
+                    });
+                }
+
+                \Log::critical($e->getMessage());
+
+                return false;
             }
         }
 

@@ -391,4 +391,34 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
         return $rsa->createKey();
     }
+
+    public function restartWebServerServices(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('service nginx restart');
+    }
+
+    public function restartDatabase(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('service mysql restart');
+
+    }
+
+    public function restartServer(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('reboot now', false, true);
+    }
+
+    public function restartWorkers(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('supervisorctl restart all');
+    }
+
 }
