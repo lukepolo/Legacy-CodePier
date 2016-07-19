@@ -13,7 +13,7 @@ class AddFromIpToFirewall extends Migration
     public function up()
     {
         Schema::table('server_firewall_rules', function (Blueprint $table) {
-            $table->string('from_ip');
+            $table->string('from_ip')->nullable();
         });
     }
 

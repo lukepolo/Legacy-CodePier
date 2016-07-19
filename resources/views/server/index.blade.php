@@ -5,7 +5,9 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Server {{ $server->name }} <small>{{ $server->ip }}</small></div>
+                    <div class="panel-heading">
+                        Server {{ $server->name }} <small>{{ $server->ip }}</small>
+                    </div>
                     <div class="panel-body">
                         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                             <li class="active"><a href="#sites" data-toggle="tab">Sites</a></li>
@@ -137,40 +139,63 @@
                                 </table>
                             </div>
                             <div class="tab-pane" id="firewall">
+                                <div class="row">
+                                    Connect to :
+                                    {!! Form::open(['action' => ['ServerController@postAddServerNetworkRules', $server->id]]) !!}
+                                        @foreach($servers as $server)
+                                             <div class="checkbox">
+                                                 <label>
+                                                     {!! Form::checkbox('servers[]', $server->id) !!} {{ $server->name }} - {{ $server->ip }}
+                                                 </label>
+                                             </div>
+                                        @endforeach
+                                        {!! Form::submit('Connect to Servers') !!}
+                                    {!! Form::close() !!}
+                                </div>
+                                <div class="row">
 
-                                {!! Form::open(['action' => ['ServerController@postAddFirewallRule', $server->id]]) !!}
-                                    description
-                                    {!! Form::text('description') !!}
-                                    from ip
-                                        {!! Form::text('from_ip') !!}
-                                    port
-                                    {!! Form::text('port') !!}
-                                {!! Form::submit('Create Rule') !!}
-                                {!! Form::close() !!}
+                                    {!! Form::open(['action' => ['ServerController@postAddFirewallRule', $server->id]]) !!}
+                                        description
+                                        {!! Form::text('description') !!}
+                                        from ip
+                                            {!! Form::text('from_ip') !!}
+                                        port
+                                        {!! Form::text('port') !!}
+                                    {!! Form::submit('Create Rule') !!}
+                                    {!! Form::close() !!}
 
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>From IP</th>
-                                        <th>Port</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($server->firewallRules as $firewallRule)
+                                    <table class="table">
+                                        <thead>
                                         <tr>
-                                            <td>{{ $firewallRule->description }}</td>
-                                            <td>{{ $firewallRule->port }}</td>
-                                            <td><a href="{{ action('ServerController@getRemoveFireWallRule', [$server->id, $firewallRule->id]) }}" class="fa fa-remove"></a></td>
+                                            <th>Name</th>
+                                            <th>From IP</th>
+                                            <th>Port</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-
+                                        </thead>
+                                        <tbody>
+                                        @foreach($server->firewallRules as $firewallRule)
+                                            <tr>
+                                                <td>{{ $firewallRule->description }}</td>
+                                                <td>{{ $firewallRule->port }}</td>
+                                                <td><a href="{{ action('ServerController@getRemoveFireWallRule', [$server->id, $firewallRule->id]) }}" class="fa fa-remove"></a></td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <a href="#" class="btn btn-xs">Archive Server</a>
+
+                <a href="#" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
+                <a href="#" class="btn btn-xs">Restart Server</a>
+                <a href="#" class="btn btn-xs">Restart Database</a>
+                <a href="#" class="btn btn-xs">Restart Workers</a>
+
+                <a href="#" class="btn btn-xs">Edit PHP Config</a>
+                <a href="#" class="btn btn-xs">Edit PHP CLI Config</a>
             </div>
         </div>
     </div>

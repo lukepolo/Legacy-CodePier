@@ -47,7 +47,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         if (!empty($error = $this->session->getStdError())) {
-            if (!str_contains($error, 'WARN') && !str_contains($error, 'Warning')) {
+            if (!str_contains($error, 'WARN') && !str_contains($error, 'Warning') && !str_contains($error, 'Generating DH parameters')) {
                 \Log::error($error);
                 $this->errors[] = $error;
                 return $error;

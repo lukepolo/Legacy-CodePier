@@ -109,6 +109,9 @@
 
                             </div>
                             <div class="tab-pane" id="ssl_certs">
+
+                                <a href="#" class="btn btn-xs">Create Signing Request</a>
+                                <a href="#" class="btn btn-xs">Install Certificate</a>
                                 {!! Form::open(['action' => ['SiteController@postRequestLetsEncryptSSLCert', $site->server_id, $site->id]]) !!}
                                     {!! Form::label('Domains') !!}
                                     {!! Form::text('domains', $site->domain) !!}
@@ -123,6 +126,17 @@
                         </div>
                     </div>
                 </div>
+                <a href="#" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
+                <a href="#" class="btn btn-xs">Restart Server</a>
+                <a href="#" class="btn btn-xs">Restart Database</a>
+                <a href="#" class="btn btn-xs">Restart Workers</a>
+
+                <a href="#" class="btn btn-xs">Edit PHP Config</a>
+                <a href="#" class="btn btn-xs">Edit PHP CLI Config</a>
+
+                <a href="#" class="btn btn-xs">Edit Nginx Config</a>
+
+                <a href="#" class="btn btn-xs">Delete Site</a>
             </div>
         </div>
     </div>

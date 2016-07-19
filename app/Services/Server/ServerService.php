@@ -12,6 +12,7 @@ use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
+use App\Models\ServerNetworkRule;
 use App\Models\ServerProvider;
 use App\Models\Site;
 use Illuminate\Bus\Dispatcher;
@@ -221,6 +222,24 @@ class ServerService implements ServerServiceContract
         } else {
             $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
         }
+
+        $this->rebuildFirewall($server);
+    }
+
+    public function addServerNetworkRule(Server $server, $serverIP)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $serverIP -j ACCEPT' /etc/opt/iptables");
+
+        $this->rebuildFirewall($server);
+    }
+
+    public function removeServerNetworkRule(Server $server, $serverIP)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -s $serverIP -j ACCEPT/d ' /etc/opt/iptables");
 
         $this->rebuildFirewall($server);
     }

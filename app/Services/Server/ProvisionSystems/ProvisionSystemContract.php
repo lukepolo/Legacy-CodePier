@@ -157,9 +157,10 @@ interface ProvisionSystemContract
 
     /**
      * Installs basic firewall rules
+     * @param Server $server
      * @return mixed
      */
-    public function installFirewallRules();
+    public function installFirewallRules(Server $server);
 
     /**
      * Gets the errors of the provisioning system

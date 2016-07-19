@@ -4,7 +4,7 @@
   "authors": [
     "Janice Falotico"
   ],
-  "description": "Simple, Beautiful, Easy to Use Forms",
+  "description": "Simple, Beautiful, Easy to Use Forms : IE10+, Chrome, Safari, Firefox",
   "keywords": [
     "forms"
   ],
@@ -21,8 +21,5 @@
     "test",
     "tests",
     "config.codekit"
-  ],
-  "dependencies": {
-    "jquery": "1.9.1 - 2"
-  }
+  ]
 }

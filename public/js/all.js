@@ -12509,26 +12509,36 @@ define("ace/ext/searchbox",["require","exports","module","ace/lib/dom","ace/lib/
 }).call(this);
 
 
-function determineFloat() {
-   $("input").each(function() {
-      if($(this).val().length === 0) {
-         $(this).removeClass('active');
-      }      
-      else {
-         $(this).addClass('active');
-      }
-   });
+var inputs = document.querySelectorAll('input');
+
+for (i = 0; i < inputs.length; i++) {
+    inputs[i].onkeyup = function() {
+        if(determineFloat(this)) {
+            this.classList.add('visited');   
+        }
+    };
 }
 
-$(document).on('keypress change', 'input', function() {
-   determineFloat();
-   
-   $(this).addClass("visited");
-});
+function determineFloat(input) {
+    if(input.value.length === 0) {        
+        input.classList.remove('active');
+        return false;
+    }
+    input.classList.add('active');
+    return true;
+}
 
-$(document).on('keypress', function(e) {
-   if (e.keyCode === 9) {
-      determineFloat(); 
-   }
-});
+
+function checkAutoFill(){
+    setTimeout(function() {
+        for (i = 0; i < inputs.length; i++) {
+            if(determineFloat(inputs[i])) {
+                inputs[i].classList.add('visited');   
+            }
+        }
+        checkAutoFill();
+    }, 100);
+}
+
+checkAutoFill();
 //# sourceMappingURL=all.js.map

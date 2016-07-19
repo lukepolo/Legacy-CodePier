@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/cron-job/{cronJobID}/remove', 'ServerController@getRemoveCronJob');
 
     Route::post('server/{serverID}/firewall-rule/add', 'ServerController@postAddFirewallRule');
+    Route::post('server/{serverID}/server-network-rules/add', 'ServerController@postAddServerNetworkRules');
     Route::get('server/{serverID}/firewall-rule/{fireWallID}/remove', 'ServerController@getRemoveFireWallRule');
 
     Route::post('server/{serverID}/daemon/add', 'ServerController@postAddDaemon');

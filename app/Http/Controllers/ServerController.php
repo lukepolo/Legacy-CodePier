@@ -8,6 +8,7 @@ use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
+use App\Models\ServerNetworkRule;
 use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
 
@@ -36,7 +37,8 @@ class ServerController extends Controller
     public function getServer($serverID)
     {
         return view('server.index', [
-            'server' => Server::with('sites')->findOrFail($serverID)
+            'server' => Server::with('sites')->findOrFail($serverID),
+            'servers' => Server::where('user_id', \Auth::user()->id)->where('id', '!=', $serverID)->get()
         ]);
     }
 
@@ -66,6 +68,31 @@ class ServerController extends Controller
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
+    public function postAddServerNetworkRules($serverID)
+    {
+        $server = Server::findOrFail($serverID);
+        $connectToServers = Server::whereIn('id', \Request::get('servers'))->whereDoesntHave('connectedServers')->get();
+
+        foreach($connectToServers as $connectToServer) {
+
+            ServerNetworkRule::create([
+                'server_id' => $connectToServer->id,
+                'connect_to_server_id' => $server->id,
+            ]);
+
+            $this->serverService->addServerNetworkRule($connectToServer, $server->ip);
+        }
+
+        $serverNetworkRules = ServerNetworkRule::with('server')->where('connect_to_server_id', $serverID)->whereNotIn('server_id',  \Request::get('servers', []))->get();
+
+        foreach($serverNetworkRules as $serverNetworkRule) {
+            $this->serverService->removeServerNetworkRule($serverNetworkRule->server, $server->ip);
+
+            $serverNetworkRule->delete();
+        }
+
+        return back()->withSuccess('you have updated your server network rules');
+    }
 
     /**
      * Installs a SSH key onto a server

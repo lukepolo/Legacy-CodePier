@@ -53,4 +53,9 @@ class Server extends Model
     {
         return $this->hasMany(ServerDaemon::class);
     }
+
+    public function connectedServers()
+    {
+        return $this->hasMany(ServerNetworkRule::class);
+    }
 }

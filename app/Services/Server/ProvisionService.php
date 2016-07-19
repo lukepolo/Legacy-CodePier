@@ -108,7 +108,7 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->installCertBot();
 
         $this->updateProgress('Installing Basic Firewall Rules');
-        $provisionSystem->installFirewallRules();
+        $provisionSystem->installFirewallRules($server);
 
         // TODO - having issues with the laravel installer and envoy installer
 //        $provisionSystem->installLaravelInstaller();

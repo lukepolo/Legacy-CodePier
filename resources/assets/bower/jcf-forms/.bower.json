@@ -4,7 +4,7 @@
   "authors": [
     "Janice Falotico"
   ],
-  "description": "Simple, Beautiful, Easy to Use Forms",
+  "description": "Simple, Beautiful, Easy to Use Forms : IE10+, Chrome, Safari, Firefox",
   "keywords": [
     "forms"
   ],
@@ -22,14 +22,11 @@
     "tests",
     "config.codekit"
   ],
-  "dependencies": {
-    "jquery": "1.9.1 - 2"
-  },
-  "_release": "0bc57e64fc",
+  "_release": "f30b821255",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "0bc57e64fc97a19b37c36bb685e685242d1fb69b"
+    "commit": "f30b8212556d437ace97ab6ca7f14831973ee6d2"
   },
   "_source": "https://github.com/jfalotico/JCF_Forms.git",
   "_target": "*",

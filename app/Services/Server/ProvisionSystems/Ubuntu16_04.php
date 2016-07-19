@@ -4,6 +4,7 @@ namespace App\Services\Server\ProvisionSystems;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Server;
+use App\Models\ServerFirewallRule;
 
 /**
  * Class Ubuntu16_04
@@ -210,9 +211,22 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->getErrors();
     }
 
-    public function installFirewallRules()
+    public function installFirewallRules(Server $server)
     {
-        
+        ServerFirewallRule::create([
+            'server_id' => $server->id,
+            'description' => 'HTTP',
+            'port' => '80',
+            'from_ip' => null
+        ]);
+
+        ServerFirewallRule::create([
+            'server_id' => $server->id,
+            'description' => 'HTTPS',
+            'port' => '443',
+            'from_ip' => null
+        ]);
+
         $this->remoteTaskService->writeToFile('/etc/opt/iptables','
 #!/bin/sh
 
@@ -234,17 +248,18 @@ iptables -I INPUT 1 -i lo -j ACCEPT
 
 # SSH
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-# WEB
-iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
-# WEB SSL 
-iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 # DO NOT REMOVE - Custom Rules
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 iptables -P INPUT DROP
         ');
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
         $this->remoteTaskService->run('/etc/opt/./iptables');
+
+
+
     }
 }
