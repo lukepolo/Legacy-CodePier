@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-
 /**
  * Class HomeController
  * @package App\Http\Controllers

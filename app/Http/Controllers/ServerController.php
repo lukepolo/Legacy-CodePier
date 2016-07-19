@@ -96,13 +96,33 @@ class ServerController extends Controller
             $serverNetworkRule->delete();
         }
 
-        return back()->withSuccess('you have updated your server network rules');
+        return redirect()->withSuccess('you have updated your server network rules');
     }
 
+    /**
+     * Archives a server
+     * @param $serverID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getArchiveServer($serverID)
     {
         Server::findOrFail($serverID)->delete();
-        return back()->with('success', 'You have archived the server');
+
+        return redirect()->action('LandingController@getIndex')->with('success', 'You have archived the server');
+    }
+
+    public function getArchivedServers()
+    {
+        return view('server.archive_list', [
+            'servers' => Server::onlyTrashed()->get()
+        ]);
+    }
+
+    public function getActivateArchivedServer($serverID)
+    {
+        Server::onlyTrashed()->findOrFail($serverID)->restore();
+
+        return redirect()->action('LandingController@getIndex')->with('success', 'You have restored the server');
     }
 
     /**

@@ -7,6 +7,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Create A Server
+                    <div class="pull-right">
+                        <a href="{{ action('ServerController@getArchivedServers') }}" class="btn btn-xs">Archived Servers</a>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
