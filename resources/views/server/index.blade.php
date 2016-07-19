@@ -187,7 +187,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-xs">Archive Server</a>
+                <a href="{{ action('ServerController@getArchiveServer', $server->id) }}" class="btn btn-xs">Archive Server</a>
 
                 <a href="#" class="btn btn-xs">Restart Nginx & PHP-FPM</a>
                 <a href="#" class="btn btn-xs">Restart Server</a>

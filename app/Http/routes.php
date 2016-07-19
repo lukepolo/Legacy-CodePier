@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('server/{serverID}', 'ServerController@getServer');
     Route::post('create-server', 'ServerController@postCreateServer');
+    Route::get('server/{serverID}/archive', 'ServerController@getArchiveServer');
 
     Route::get('server/{serverID}/check-connection', 'ServerController@getTestSshConnection');
 

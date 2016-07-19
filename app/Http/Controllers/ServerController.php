@@ -68,6 +68,11 @@ class ServerController extends Controller
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
     }
 
+    /**
+     * Adds a server network rule so they can talk to each other
+     * @param $serverID
+     * @return mixed
+     */
     public function postAddServerNetworkRules($serverID)
     {
         $server = Server::findOrFail($serverID);
@@ -92,6 +97,12 @@ class ServerController extends Controller
         }
 
         return back()->withSuccess('you have updated your server network rules');
+    }
+
+    public function getArchiveServer($serverID)
+    {
+        Server::findOrFail($serverID)->delete();
+        return back()->with('success', 'You have archived the server');
     }
 
     /**
