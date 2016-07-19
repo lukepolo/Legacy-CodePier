@@ -84,6 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('server/{serverID}/site/{siteID}', 'SiteController@getSite');
     Route::post('server/{serverID}/create-site', 'SiteController@postCreateSite');
+    Route::get('server/{serverID}/site/{siteID}/delete', 'SiteController@getDeleteSite');
 
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
 

@@ -334,4 +334,15 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
         $siteDaemon->delete();
     }
+
+    public function deleteSite(Site $site)
+    {
+        foreach($site->daemons as $daemon) {
+            $this->removeDaemon($site->server, $daemon);
+        }
+
+        $this->remove($site);
+
+        $site->delete();
+    }
 }

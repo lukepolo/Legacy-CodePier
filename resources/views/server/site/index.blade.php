@@ -146,9 +146,7 @@
                 <a href="{{ action('ServerController@getRestartDatabase', $site->server_id) }}" class="btn btn-xs">Restart Database</a>
                 <a href="{{ action('ServerController@getRestartWorkers', $site->server_id) }}" class="btn btn-xs">Restart Workers</a>
 
-                <a href="#" class="btn btn-xs">Edit Nginx Config</a>
-
-                <a href="#" class="btn btn-xs">Delete Site</a>
+                <a href="{{ action('SiteController@getDeleteSite', [$site->server_id, $site->id]) }}" class="btn btn-xs">Delete Site</a>
             </div>
         </div>
     </div>

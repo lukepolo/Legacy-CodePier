@@ -173,4 +173,15 @@ class SiteController extends Controller
         return back()->with('success', 'You have removed the worker');
     }
 
+    public function getDeleteSite($serverID, $siteID)
+    {
+        $site = Site::with([
+            'server',
+            'daemons'
+        ])->findOrFail($siteID);
+
+        $this->siteService->deleteSite($site);
+
+        return redirect()->action('ServerController@getServer', $serverID);
+    }
 }
