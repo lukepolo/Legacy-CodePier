@@ -57,9 +57,8 @@
                                 <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
                             </div>
                             <div class="tab-pane" id="environment">
-                                {!! Form::open(['action' => ['SiteController@postEnv', $site->server->id, $site->id]]) !!}
-                                    <div id="environment_editor" class="editor">Loading . . . </div>
-                                    <textarea class="hide" name="env"></textarea>
+                                {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
+                                    <div data-url="{{ action('ServerController@getFileFromServer', $site->server_id) }}" data-path="{{ '/home/codepier/'.$site->domain . '/.env' }}" class="editor">Loading . . . </div>
                                     {!! Form::submit('Update Env') !!}
                                 {!! Form::close() !!}
                             </div>
@@ -142,23 +141,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script type="text/javascript">
-        var textarea = $('textarea[name="env"]');
-        var editor = ace.edit("environment_editor");
-
-        editor.getSession().setMode("ace/mode/sh");
-
-        editor.getSession().on('change', function(){
-            textarea.val(editor.getSession().getValue());
-        });
-
-        editor.setOption("maxLines", 75);
-
-        $.get('{{ action('SiteController@getEnv', [$site->server_id, $site->id]) }}', function(envFile) {
-            textarea.html(envFile);
-            editor.getSession().setValue(envFile);
-        });
-    </script>
-@endpush

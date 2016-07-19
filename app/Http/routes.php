@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/restart/database', 'ServerController@getRestartDatabase');
     Route::get('server/{serverID}/restart/web-server', 'ServerController@getRestartWebServices');
 
+    Route::get('server/{serverID}/get-file', 'ServerController@getFileFromServer');
+    Route::post('server/{serverID}/file/save', 'ServerController@postSaveFile');
     /*
     |--------------------------------------------------------------------------
     | Site Routes

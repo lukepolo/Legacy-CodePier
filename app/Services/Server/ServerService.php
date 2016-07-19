@@ -217,7 +217,7 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->ssh($server);
 
-        if(empty($fromIP)) {
+        if (empty($fromIP)) {
             $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
         } else {
             $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
@@ -255,7 +255,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        if(empty($firewallRule->from_ip)) {
+        if (empty($firewallRule->from_ip)) {
             $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
         } else {
             $this->remoteTaskService->run("sed -i '/iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
@@ -373,11 +373,19 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
             exit('Login Failed');
         }
 
+
         if ($contents = $ssh->get($filePath)) {
             return trim($contents);
         }
 
         return null;
+    }
+
+    public function saveFile(Server $server, $filePath, $file)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
     }
 
     /**

@@ -62,7 +62,8 @@ elixir(function (mix) {
             paths.ace + 'mode-sh.js',
             paths.ace + 'ext-searchbox.js',
             paths.js_resources + 'laroute.js',
-            paths.jcf_forms + 'assets/js/jcf_forms.js'
+            paths.jcf_forms + 'assets/js/jcf_forms.js',
+            paths.js_resources + 'editors.js'
         ])
         .version([
             paths.css_public + "app.css",

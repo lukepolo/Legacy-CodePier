@@ -139,19 +139,6 @@ include codepier-conf/' . $domain . '/after/*;
     }
 
     /**
-     * Updates the environment file for the site
-     * @param Site $site
-     * @param $env
-     * @throws \App\Exceptions\SshConnectionFailed
-     */
-    public function updateEnv(Site $site, $env)
-    {
-        $this->remoteTaskService->ssh($site->server);
-
-        $this->remoteTaskService->writeToFile('/home/codepier/' . $site->domain . '/.env ', str_replace("\r\n", PHP_EOL, $env));
-    }
-
-    /**
      * Removes a site from the server
      * @param Site $site
      * @throws \App\Exceptions\SshConnectionFailed

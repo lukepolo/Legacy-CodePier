@@ -15,6 +15,8 @@
                             <li><a href="#cron_jobs" data-toggle="tab">Cron Jobs</a></li>
                             <li><a href="#daemons" data-toggle="tab">Daemons</a></li>
                             <li><a href="#firewall" data-toggle="tab">Firewall</a></li>
+
+                            <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
                         </ul>
                         <div id="my-tab-content" class="tab-content">
                             <div class="tab-pane active" id="sites">
@@ -184,6 +186,19 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="tab-pane" id="edit-files">
+                                <div class="row">
+                                    {!! Form::open(['action' => ['ServerController@postSaveFile', $server->id]]) !!}
+                                        <div data-url="{{ action('ServerController@getFileFromServer', $server->id) }}" data-path="/etc/php/7.0/fpm/php.ini" class="editor">Loading . . . </div>
+                                        {!! Form::submit('Update PHP Config') !!}
+                                    {!! Form::close() !!}
+
+                                    {!! Form::open(['action' => ['ServerController@postSaveFile', $server->id]]) !!}
+                                        <div data-url="{{ action('ServerController@getFileFromServer', $server->id) }}" data-path="/etc/php/7.0/cli/php.ini" class="editor">Loading . . . </div>
+                                        {!! Form::submit('Update PHP CLI Config') !!}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -193,9 +208,6 @@
                 <a href="{{ action('ServerController@getRestartServer', $server->id) }}" class="btn btn-xs">Restart Server</a>
                 <a href="{{ action('ServerController@getRestartDatabase', $server->id) }}" class="btn btn-xs">Restart Database</a>
                 <a href="{{ action('ServerController@getRestartWorkers', $server->id) }}" class="btn btn-xs">Restart Workers</a>
-
-                <a href="#" class="btn btn-xs">Edit PHP Config</a>
-                <a href="#" class="btn btn-xs">Edit PHP CLI Config</a>
             </div>
         </div>
     </div>

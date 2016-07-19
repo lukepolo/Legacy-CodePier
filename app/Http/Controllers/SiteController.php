@@ -134,34 +134,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Updates a sites environment file
-     * @param $serverID
-     * @param $siteID
-     * @return mixed
-     */
-    public function postEnv($serverID, $siteID)
-    {
-        $site = Site::with('server')->findOrFail($siteID);
-
-        $this->siteService->updateEnv($site, \Request::get('env'));
-
-        return back()->with('success', 'Updated Env');
-    }
-
-    /**
-     * Gets the env for a site
-     * @param $serverID
-     * @param $siteID
-     * @return mixed
-     */
-    public function getEnv($serverID, $siteID)
-    {
-        $site = Site::with('server')->findOrFail($siteID);
-
-        return $this->serverService->getFile($site->server, '/home/codepier/'.$site->domain . '/.env');
-    }
-
-    /**
      * Creates the deployment
      * @param $serverID
      * @param $siteID

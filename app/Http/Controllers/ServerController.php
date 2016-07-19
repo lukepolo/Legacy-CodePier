@@ -309,4 +309,30 @@ class ServerController extends Controller
         $this->serverService->restartWorkers(Server::findOrFail($serverID));
         return back()->with('success', 'You have restarted the servers workers');
     }
+
+    /**
+     * Gets a file from the server
+     * @param $serverID
+     * @return null|string
+     * @throws \Exception
+     */
+    public function getFileFromServer($serverID)
+    {
+        if(!\Request::has('path')) {
+            throw new \Exception('Must include the path parameter');
+        }
+
+        return $this->serverService->getFile(Server::findOrFail($serverID), \Request::get('path'));
+    }
+
+    public function postSaveFile($serverID)
+    {
+        if(!\Request::has('path')) {
+            throw new \Exception('Must include the path parameter');
+        }
+
+        $this->serverService->saveFile(Server::findOrFail($serverID), \Request::get('path'), \Request::get('file'));
+
+        return back()->with('success', 'You have saved updated the file');
+    }
 }
