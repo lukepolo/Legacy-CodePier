@@ -7,7 +7,6 @@ use App\Contracts\Server\Site\Repository\RepositoryServiceContract as Repository
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Jobs\CreateSite;
 use App\Models\Server;
-use App\Models\ServerDaemon;
 use App\Models\Site;
 use App\Models\SiteDaemon;
 
@@ -31,7 +30,8 @@ class SiteController extends Controller
         RepositoryService $repositoryService,
         ServerService $serverService,
         SiteService $siteService
-    ) {
+    )
+    {
         $this->siteService = $siteService;
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
@@ -60,7 +60,7 @@ class SiteController extends Controller
     {
         $server = Server::findOrFail($serverID);
 
-        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int) \Request::get('wildcard_domain'), \Request::get('web_directory')));
+        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int)\Request::get('wildcard_domain'), \Request::get('web_directory')));
 //            ->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
@@ -86,9 +86,10 @@ class SiteController extends Controller
 
         $this->repositoryService->importSshKey(\Auth::user()->userRepositoryProviders->first(), $repository, $sshKey);
 
+
         $site->repository = $repository;
         $site->branch = \Request::get('branch');
-
+        $site->zerotime_deployment = \Request::get('zerotime_deployment');
         $site->save();
 
         return back()->with('success', 'We have added the repository');
@@ -154,7 +155,7 @@ class SiteController extends Controller
 
         $this->siteService->installDaemon(
             $site,
-            '/home/codepier/'.$site->domain . ($site->zerotime_deployment ? '/current' : null) .'/artisan queue:work '.\Request::get('connection').' --timeout='.\Request::get('timeout').' --sleep='.\Request::get('sleep').' --tries='.\Request::get('tries').' '.(\Request::get('daemon') ? '--daemon' : null),
+            '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . \Request::get('connection') . ' --timeout=' . \Request::get('timeout') . ' --sleep=' . \Request::get('sleep') . ' --tries=' . \Request::get('tries') . ' ' . (\Request::get('daemon') ? '--daemon' : null),
             true,
             true,
             'codepier',

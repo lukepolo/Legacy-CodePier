@@ -37,12 +37,12 @@ class CreateSite extends Job implements ShouldQueue
         $this->webDirectory = '/'.$webDirectory;
         $this->wildcardDomain = $wildcardDomain;
 
-        Site::create([
+        $this->site = Site::create([
             'domain' => $domain,
             'server_id' => $server->id,
             'user_id' => $server->user_id,
-            'zerotime_deployment' => false,
-            'web_directory' => $this->webDirectory,
+            'zerotime_deployment' => true,
+            'web_directory' => '/'.$this->webDirectory,
             'wildcard_domain' => $this->wildcardDomain,
         ]);
     }
@@ -53,6 +53,6 @@ class CreateSite extends Job implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        $siteService->create($this->server, $this->domain, $this->wildcardDomain, $this->webDirectory);
+        $siteService->create($this->server, $this->domain, $this->wildcardDomain, true, $this->webDirectory);
     }
 }

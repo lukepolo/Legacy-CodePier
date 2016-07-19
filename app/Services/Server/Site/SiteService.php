@@ -34,10 +34,12 @@ class SiteService implements SiteServiceContract
      * Creates a site on the server
      * @param Server $server
      * @param string $domain
-     * @param $wildCardDomain
+     * @param bool $wildCardDomain
+     * @param bool $zerotimeDeployment
+     * @param null $webDirectory
      * @return bool
      */
-    public function create(Server $server, $domain = 'default', $wildCardDomain = false, $zerotimeDeployment = false, $webDirectory = null)
+    public function create(Server $server, $domain = 'default', $wildCardDomain = false, $zerotimeDeployment = true, $webDirectory = null)
     {
         $this->remoteTaskService->ssh($server);
 
