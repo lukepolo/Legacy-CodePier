@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
 /**
@@ -11,7 +12,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
  */
 class User extends Authenticatable
 {
-    use UserHasTeams;
+    use UserHasTeams, Billable;
 
     /**
      * The attributes that are mass assignable.

@@ -21,8 +21,9 @@
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
         "lord/laroute" : "2.*",
-        "mpociot/teamwork": "~3.0"
-
+        "mpociot/teamwork": "~3.0",
+        "laravel/cashier": "~6.0",
+        "dompdf/dompdf" : "~0.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

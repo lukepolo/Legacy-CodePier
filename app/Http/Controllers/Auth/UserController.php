@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\RepositoryProvider;
 use App\Models\ServerProvider;
 use App\Models\UserSshKey;
+use Stripe\Plan;
+use Stripe\Stripe;
 
 /**
  * Class UserController
@@ -31,9 +33,14 @@ class UserController extends Controller
      */
     public function getMyProfile()
     {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
         return view('auth.user.profile', [
             'serverProviders' => ServerProvider::all(),
-            'repositoryProviders' => RepositoryProvider::all()
+            'repositoryProviders' => RepositoryProvider::all(),
+            'plans' => \Cache::rememberForever('plans', function() {
+                return collect(Plan::all()->data)->sortBy('metadata.order');
+            })
         ]);
     }
 

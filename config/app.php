@@ -169,6 +169,7 @@ return [
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         Mpociot\Teamwork\TeamworkServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
         /*
          * Custom Service Providers

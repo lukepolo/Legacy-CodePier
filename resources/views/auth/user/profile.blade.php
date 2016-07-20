@@ -12,6 +12,7 @@
                             <li role="presentation" class=""><a href="#ssh-keys" role="tab" data-toggle="tab">SSH Keys</a></li>
                             <li role="presentation" class=""><a href="#server-providers" role="tab" data-toggle="tab">Server Providers</a></li>
                             <li role="presentation" class=""><a href="#repository-providers" role="tab" data-toggle="tab">Repository Providers</a></li>
+                            <li role="presentation" class=""><a href="#subscription" role="tab" data-toggle="tab">Subscription</a></li>
                         </ul>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="account-info">
@@ -90,7 +91,61 @@
                                     </p>
                                 @endforeach
                             </div>
+                            <div role="tabpanel" class="tab-pane fade" id="subscription">
 
+                                @if(\Auth::user()->subscription('primary')->cancelled())
+                                    Your subscription has been cancled and will end on {{ \Auth::user()->subscription('primary')->ends_at }}
+                                @else
+                                    Your next billing is on {{ \Auth::user()->subscription('primary')->ends_at }}
+                                @endif
+
+                                {!! Form::open(['action' => 'PaymentController@postSubscription']) !!}
+                                    <?php setlocale(LC_MONETARY, 'en_US.UTF-8'); ?>
+                                    @foreach($plans as $plan)
+                                        <div class="radio">
+                                            <label>
+                                                @if(!\Auth::user()->subscribedToPlan($plan->id, 'primary'))
+                                                    {!! Form::radio('plan', $plan->id) !!}
+                                                @else
+                                                    Current Plan -
+                                                @endif
+                                                {{ $plan->name }} ({{ money_format('%n', $plan->amount / 100) }} / {{ $plan->interval }}
+
+                                                @if(!empty($plan->metadata->save))
+                                                    <b>
+                                                        SAVE {{  money_format('%n', $plan->metadata->save) }} per {{ $plan->interval }}
+                                                    </b>
+                                                @endif
+                                            )
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    @if(!\Auth::user()->hasCardOnFile())
+                                        Number
+                                        {!! Form::text('number') !!}
+                                        Exp Month
+                                        {!! Form::text('exp_month') !!}
+                                        Exp Year
+                                        {!! Form::text('exp_year') !!}
+                                        CVC
+                                        {!! Form::password('cvc') !!}
+                                    @endif
+
+                                    {!! Form::submit('Subscribe') !!}
+                                {!! Form::close() !!}
+
+                                <a href="{{ action('PaymentController@getCancelSubscription') }}">Cancel Subscription</a>
+                            </div>
+
+                            <table>
+                                @foreach (\Auth::user()->invoices() as $invoice)
+                                    <tr>
+                                        <td>{{ $invoice->date()->toFormattedDateString() }}</td>
+                                        <td>{{ $invoice->total() }}</td>
+                                        <td><a href="{{ action('PaymentController@getUserInvoice', $invoice->id) }}">Download</a></td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
                 </div>
