@@ -429,4 +429,18 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->run('supervisorctl restart all');
     }
 
+    public function removeFolder(Server $server, $folder)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('rm -rf '.$folder);
+    }
+
+    public function createFolder(Server $server, $folder)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('mkdir -p '.$folder);
+    }
+
 }

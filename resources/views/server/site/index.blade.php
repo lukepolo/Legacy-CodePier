@@ -38,23 +38,27 @@
                         </ul>
                         <div id="my-tab-content" class="tab-content">
                             <div class="tab-pane active" id="repository">
-                                {!! Form::open(['action' => ['SiteController@postInstallRepository', $site->server->id, $site->id]]) !!}
-                                    <div class="form-group">
-                                        {!! Form::label('Repository') !!}
-                                        {!! Form::text('repository', $site->repository, ['class' => 'form-control']) !!}
-                                    </div>
-                                    <div class="form-group checkbox">
-                                        <label>
-                                            {!! Form::hidden('zerotime_deployment', false) !!}
-                                            {!! Form::checkbox('zerotime_deployment', true, $site->zerotime_deployment) !!} Zerotime Deployment
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        {!! Form::label('branch') !!}
-                                        {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
-                                    </div>
-                                    {!! Form::submit('Install Repository') !!}
-                                {!! Form::close() !!}
+                                @if(empty($site->repository))
+                                    {!! Form::open(['action' => ['SiteController@postInstallRepository', $site->server->id, $site->id]]) !!}
+                                        <div class="form-group">
+                                            {!! Form::label('Repository') !!}
+                                            {!! Form::text('repository', $site->repository, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="form-group checkbox">
+                                            <label>
+                                                {!! Form::hidden('zerotime_deployment', false) !!}
+                                                {!! Form::checkbox('zerotime_deployment', true, $site->zerotime_deployment) !!} Zerotime Deployment
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            {!! Form::label('branch') !!}
+                                            {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
+                                        </div>
+                                        {!! Form::submit('Install Repository') !!}
+                                    {!! Form::close() !!}
+                                @else
+                                    <a href="{{ action('SiteController@getRemoveRepository', [$site->server_id, $site->id]) }}">Remove Repoisotry</a>
+                                @endif
 
                                 <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
                             </div>

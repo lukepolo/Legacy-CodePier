@@ -174,6 +174,24 @@ class SiteController extends Controller
         return back()->with('success', 'You have removed the worker');
     }
 
+    public function getRemoveRepository($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->serverService->removeFolder($site->server, '/home/codepier/'.$site->domain);
+        $this->serverService->createFolder($site->server, '/home/codepier/'.$site->domain);
+
+        foreach($site->daemons as $daemon) {
+            $this->serverService->removeDaemon($site->server, $daemon);
+        }
+
+        $site->repository = null;
+        $site->branch = null;
+        $site->save();
+
+        return back()->with('success', 'deleted repo');
+    }
+
     public function getDeleteSite($serverID, $siteID)
     {
         $site = Site::with([
