@@ -165,8 +165,8 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/' . $site->domain);
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . ' -rf');
+        $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
+        $this->remoteTaskService->removeDirectory("/etc/nginx/codepier-conf/$site->domain");
     }
 
     /**
@@ -180,8 +180,7 @@ include codepier-conf/' . $domain . '/after/*;
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
-                explode(',', $domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d', explode(',', $domains))
         );
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
@@ -254,8 +253,7 @@ listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
 ');
 
-        $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf');
-
+        $this->remoteTaskService->removeFile("/etc/nginx/codepier-conf/$site->domain/before/ssl_redirect.conf");
         $this->remoteTaskService->run('service nginx restart');
 
         $site->ssl->delete();
@@ -344,7 +342,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/site-worker-' . $siteDaemon->id . '.conf');
+        $this->remoteTaskService->removeFile("/etc/supervisor/conf.d/site-worker-$siteDaemon->id.conf");
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
@@ -364,7 +362,6 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $site->delete();
     }
 
-
     /*
      * TODO - needs to be customized
      */
@@ -373,9 +370,10 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf',
-            'client_max_body_size ' . $megabytes . 'M;');
-        $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = ' . $megabytes . 'M/" /etc/php/7.0/fpm/php.ini');
-        $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = ' . $megabytes . 'M/" /etc/php/7.0/fpm/php.ini');
+'client_max_body_size ' . $megabytes . 'M;'
+);
+        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize = .*', 'upload_max_filesize = ' . $megabytes . 'M');
+        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'post_max_size = .*', 'post_max_size = ' . $megabytes . 'M');
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');

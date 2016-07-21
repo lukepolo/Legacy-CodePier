@@ -80,6 +80,37 @@ echo "Wrote" ', $read);
 
     }
 
+    public function appendTextToFile($file, $text)
+    {
+        $this->run("echo $text >> $file");
+    }
+
+    public function findTextAndAppend($file, $findText, $text)
+    {
+        $this->run("sed -i '/$findText/a $text' ".$file);
+    }
+
+    public function removeLineByText($file, $text)
+    {
+        $text = str_replace('/', '\/', $text);
+        $this->run("sed -i '/$text/d' ".$file);
+    }
+
+    public function makeDirectory($directory)
+    {
+        $this->run("mkdir -p $directory");
+    }
+
+    public function removeDirectory($directory)
+    {
+        $this->run("rm $directory -rf");
+    }
+
+    public function removeFile($file)
+    {
+        $this->run("rm $file");
+    }
+
     /**
      * Sets up the SSH connections
      *

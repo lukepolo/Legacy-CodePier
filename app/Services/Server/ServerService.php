@@ -115,7 +115,7 @@ class ServerService implements ServerServiceContract
     {
         try {
             $this->remoteTaskService->ssh($server);
-            $this->remoteTaskService->run('echo ' . $sshKey . ' >> /home/codepier/.ssh/authorized_keys');
+            $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
         } catch (SshConnectionFailed $e) {
             return false;
         }
@@ -132,8 +132,8 @@ class ServerService implements ServerServiceContract
         try {
             $this->remoteTaskService->ssh($server);
 
-            $sshKey = str_replace('/', '\/', $sshKey);
-            $this->remoteTaskService->run("sed -i '/$sshKey/d' /home/codepier/.ssh/authorized_keys");
+            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
+
         } catch (SshConnectionFailed $e) {
             return false;
         }
@@ -218,9 +218,9 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         if (empty($fromIP)) {
-            $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
+            $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT");
         } else {
-            $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT' /etc/opt/iptables");
+            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT");
         }
 
         $this->rebuildFirewall($server);
@@ -230,7 +230,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run("sed -i '/# DO NOT REMOVE - Custom Rules/a iptables -A INPUT -s $serverIP -j ACCEPT' /etc/opt/iptables");
+        $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         $this->rebuildFirewall($server);
     }
@@ -239,7 +239,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run("sed -i '/iptables -A INPUT -s $serverIP -j ACCEPT/d ' /etc/opt/iptables");
+        $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         $this->rebuildFirewall($server);
     }
@@ -256,11 +256,10 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         if (empty($firewallRule->from_ip)) {
-            $this->remoteTaskService->run("sed -i '/iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
+            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         } else {
-            $this->remoteTaskService->run("sed -i '/iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT/d ' /etc/opt/iptables");
+            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
-
 
         $firewallRule->delete();
 
@@ -434,13 +433,13 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('rm -rf '.$folder);
+        $this->remoteTaskService->removeDirectory($folder);
     }
 
     public function createFolder(Server $server, $folder)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mkdir -p '.$folder);
+        $this->remoteTaskService->makeDirectory($folder);
     }
 }

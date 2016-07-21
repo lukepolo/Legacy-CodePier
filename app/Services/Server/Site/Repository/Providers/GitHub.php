@@ -10,7 +10,7 @@ use Github\Exception\ValidationFailedException;
  * Class GitHub
  * @package App\Services\Server\Site\Repository\Providers
  */
-class GitHub
+class GitHub implements RepositoryContract
 {
     /**
      * Gets all the repositories for a user
@@ -64,7 +64,7 @@ class GitHub
      * @param $repository
      * @return mixed
      */
-    private function getRepositoryInfo($repository)
+    public function getRepositoryInfo($repository)
     {
         return GitHubService::api('repo')->show(
             $this->getRepositoryUser($repository),
@@ -78,7 +78,7 @@ class GitHub
      * @return mixed
      * @throws \Exception
      */
-    private function setToken(UserRepositoryProvider $userRepositoryProvider)
+    public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         return config(['github.connections.main.token' => $userRepositoryProvider->token]);
     }
@@ -88,7 +88,7 @@ class GitHub
      * @param $repository
      * @return mixed
      */
-    private function getRepositoryUser($repository)
+    public function getRepositoryUser($repository)
     {
         return explode('/', $repository)[0];
     }
@@ -98,7 +98,7 @@ class GitHub
      * @param $repository
      * @return mixed
      */
-    private function getRepositoryName($repository)
+    public function getRepositoryName($repository)
     {
         return explode('/', $repository)[1];
     }
