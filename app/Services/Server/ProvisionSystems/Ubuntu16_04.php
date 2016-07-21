@@ -83,6 +83,8 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
         $this->remoteTaskService->run('openssl dhparam -out /etc/nginx/dhparam.pem 2048');
 
+        $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
+
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
     }
@@ -102,8 +104,6 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('sed -i "s/listen\.owner.*/listen.owner = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
         $this->remoteTaskService->run('sed -i "s/listen\.group.*/listen.group = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
         $this->remoteTaskService->run('sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf');
-
-        $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
     }
 
     public function installSupervisor()

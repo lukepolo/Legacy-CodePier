@@ -18,10 +18,8 @@ class CreateSite extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, DispatchesJobs;
 
-    protected $domain;
+    protected $site;
     protected $server;
-    protected $webDirectory;
-    protected $wildcardDomain;
 
     /**
      * Create a new job instance.
@@ -33,17 +31,14 @@ class CreateSite extends Job implements ShouldQueue
     public function __construct(Server $server, $domain = 'default', $wildcardDomain = false, $webDirectory = null)
     {
         $this->server = $server;
-        $this->domain = $domain;
-        $this->webDirectory = '/'.$webDirectory;
-        $this->wildcardDomain = $wildcardDomain;
 
         $this->site = Site::create([
             'domain' => $domain,
             'server_id' => $server->id,
             'user_id' => $server->user_id,
             'zerotime_deployment' => true,
-            'web_directory' => $this->webDirectory,
-            'wildcard_domain' => $this->wildcardDomain,
+            'web_directory' => $webDirectory,
+            'wildcard_domain' => $wildcardDomain,
         ]);
     }
 
@@ -53,6 +48,6 @@ class CreateSite extends Job implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        $siteService->create($this->server, $this->domain, $this->wildcardDomain, true, $this->webDirectory);
+        $siteService->create($this->server, $this->site);
     }
 }

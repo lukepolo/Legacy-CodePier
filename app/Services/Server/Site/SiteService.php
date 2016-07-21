@@ -31,7 +31,6 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * Creates a site on the server
      * @param Server $server
      * @param Site $site
      * @return bool
@@ -43,18 +42,18 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/server");
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/after");
 
-        if ($errors = $this->createNginxSite($site->domain)) {
+        if (empty($this->remoteTaskService->getErrors()) && empty($this->createNginxSite($site->domain))) {
             $this->updateSiteNginxConfig($site, "/etc/nginx/codepier-conf/$site->domain/server/listen");
             return $this->remoteTaskService->run('service nginx restart');
         }
 
-        return $errors;
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Renames a domain
      * @param Site $site
      * @param $domain
+     * @return array
      * @throws \App\Exceptions\SshConnectionFailed
      */
     public function renameDomain(Site $site, $domain)
@@ -83,12 +82,13 @@ class SiteService implements SiteServiceContract
         $site->domain = $domain;
 
         $site->save();
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Removes a site from the server
      * @param Site $site
-     * @throws \App\Exceptions\SshConnectionFailed
+     * @return array
      */
     public function remove(Site $site)
     {
@@ -96,13 +96,15 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
         $this->remoteTaskService->removeDirectory("/etc/nginx/codepier-conf/$site->domain");
+
+        return $this->remoteTaskService->getErrors();
     }
 
+
     /**
-     * Installs an ssl certificate for the site
      * @param Site $site
+     * @param $domains
      * @return array
-     * @throws \App\Exceptions\SshConnectionFailed
      */
     public function installSSL(Site $site, $domains)
     {
@@ -135,12 +137,13 @@ class SiteService implements SiteServiceContract
             $site->ssl->delete();
         }
         $this->remoteTaskService->run('service nginx restart');
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Removes a ssl cert from a site
      * @param Site $site
-     * @throws \App\Exceptions\SshConnectionFailed
+     * @return array
      */
     public function removeSSL(Site $site)
     {
@@ -152,14 +155,16 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->removeFile("/etc/nginx/codepier-conf/$site->domain/before/ssl_redirect.conf");
         $this->remoteTaskService->run('service nginx restart');
+
+        return $this->remoteTaskService->getErrors();
     }
 
+
     /**
-     * Deploys a site on the server
      * @param Server $server
      * @param Site $site
      * @param bool $zeroDownTime
-     * @return bool
+     * @return array
      */
     public function deploy(Server $server, Site $site, $zeroDownTime = true)
     {
@@ -176,8 +181,8 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
+
     /**
-     * Gest the deployment service to execute the commands
      * @param Server $server
      * @param Site $site
      * @return mixed
@@ -188,14 +193,15 @@ class SiteService implements SiteServiceContract
         return new $this->deploymentServices[$deploymentService]($this->remoteTaskService, $server, $site);
     }
 
+
     /**
-     * Installs a daemon
      * @param Site $site
      * @param $command
      * @param $autoStart
      * @param $autoRestart
      * @param $user
      * @param $numberOfWorkers
+     * @return array
      */
     public function installDaemon(Site $site, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
     {
@@ -226,12 +232,15 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remoteTaskService->run('supervisorctl update');
         $this->remoteTaskService->run('supervisorctl start site-worker-' . $serverDaemon->id . ':*');
 
+        return $this->remoteTaskService->getErrors();
+
     }
 
+
     /**
-     * Removes a daemon
      * @param Server $server
      * @param SiteDaemon $siteDaemon
+     * @return array|bool
      */
     public function removeDaemon(Server $server, SiteDaemon $siteDaemon)
     {
@@ -242,23 +251,47 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
 
+        $errors = $this->remoteTaskService->getErrors();
 
-        $siteDaemon->delete();
+        if(empty($errors)) {
+            $siteDaemon->delete();
+            return true;
+        }
+
+        return $errors;
     }
 
+    /**
+     * @param Site $site
+     * @return array|bool
+     */
     public function deleteSite(Site $site)
     {
         foreach ($site->daemons as $daemon) {
             $this->removeDaemon($site->server, $daemon);
         }
 
-        $this->remove($site);
+        $errors = $this->remoteTaskService->getErrors();
 
-        $site->delete();
+        if(empty($errors)) {
+            $errors = $this->remove($site);
+        }
+
+        if(empty($errors)) {
+            $site->delete();
+            return true;
+        }
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /*
      * TODO - needs to be customized
+     */
+    /**
+     * @param Site $site
+     * @param $megabytes
+     * @return array
      */
     public function updateMaxUploadSize(Site $site, $megabytes)
     {
@@ -272,8 +305,14 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
+
+        return $this->remoteTaskService->getErrors();
     }
 
+    /**
+     * @param Site $site
+     * @return array
+     */
     public function updateSiteNginxConfig(Site $site)
     {
         if($site->hasSSL()) {
@@ -317,8 +356,14 @@ root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current'
 ');
         }
 
+
+        return $this->remoteTaskService->getErrors();
     }
 
+    /**
+     * @param $domain
+     * @return bool
+     */
     private function createNginxSite($domain)
     {
         return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '

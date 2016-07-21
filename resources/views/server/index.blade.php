@@ -144,10 +144,10 @@
                                 <div class="row">
                                     Connect to :
                                     {!! Form::open(['action' => ['ServerController@postAddServerNetworkRules', $server->id]]) !!}
-                                        @foreach($servers as $server)
+                                        @foreach($servers as $tempServer)
                                              <div class="checkbox">
                                                  <label>
-                                                     {!! Form::checkbox('servers[]', $server->id) !!} {{ $server->name }} - {{ $server->ip }}
+                                                     {!! Form::checkbox('servers[]', $tempServer->id) !!} {{ $tempServer->name }} - {{ $tempServer->ip }}
                                                  </label>
                                              </div>
                                         @endforeach

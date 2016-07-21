@@ -2,10 +2,8 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\Server;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
  * Class ServerProvisioned
@@ -24,12 +22,21 @@ class ServerProvisioned extends Event
      * @param Server $server
      * @param $sudoPassword
      * @param $databasePassword
+     * @param $errors
      */
-    public function __construct(Server $server, $sudoPassword, $databasePassword)
+    public function __construct(Server $server, $sudoPassword, $databasePassword, $errors)
     {
         $this->server = $server;
         $this->sudoPassword = $sudoPassword;
         $this->databasePassword = $databasePassword;
+        $this->errors = $errors;
+
+        \App\Models\Event::create([
+            'event_id' => $server->id,
+            'event_type' => Server::class,
+            'description' => 'Server Provisioned',
+            'data' => $errors
+        ]);
     }
 
     /**

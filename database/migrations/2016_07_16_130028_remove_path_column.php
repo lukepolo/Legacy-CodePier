@@ -15,6 +15,10 @@ class RemovePathColumn extends Migration
         Schema::table('sites', function (Blueprint $table) {
             $table->renameColumn('path', 'web_directory');
         });
+
+        Schema::table('sites', function (Blueprint $table) {
+            $table->string('web_directory')->nullable()->change();
+        });
     }
 
     /**

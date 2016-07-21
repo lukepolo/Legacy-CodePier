@@ -12,9 +12,7 @@ use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
-use App\Models\ServerNetworkRule;
 use App\Models\ServerProvider;
-use App\Models\Site;
 use Illuminate\Bus\Dispatcher;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -46,7 +44,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Creates a new server
      * @param ServerProvider $serverProvider
      * @param Server $server
      * @return mixed
@@ -57,7 +54,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Gets the server options available (ram, cpus , disk space, etc.)
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -67,7 +63,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Gets the servers regions available
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -77,7 +72,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Gets the status of the serer
      * @param Server $server
      * @return mixed
      */
@@ -96,7 +90,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Saves the server information into the database
      * @param Server $server
      * @return mixed
      */
@@ -106,23 +99,17 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Installs a SSH key onto a server
      * @param Server $server
      * @param $sshKey
      * @return bool
      */
     public function installSshKey(Server $server, $sshKey)
     {
-        try {
-            $this->remoteTaskService->ssh($server);
-            $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
-        } catch (SshConnectionFailed $e) {
-            return false;
-        }
+        $this->remoteTaskService->ssh($server);
+        return $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
     }
 
     /**
-     * Removes an SSH key from the server
      * @param Server $server
      * @param $sshKey
      * @return bool
@@ -140,7 +127,6 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Provisions a server
      * @param Server $server
      */
     public function provision(Server $server)
@@ -148,15 +134,14 @@ class ServerService implements ServerServiceContract
         $sudoPassword = str_random(32);
         $databasePassword = str_random(32);
 
-        $this->provisionService->provision($server, $sudoPassword, $databasePassword);
+        $errors = $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
         app(Dispatcher::class)->dispatchNow(new CreateSite($server));
 
-        event(new ServerProvisioned($server, $sudoPassword, $databasePassword));
+        event(new ServerProvisioned($server, $sudoPassword, $databasePassword, $errors));
     }
 
     /**
-     * Gets the provider passed in
      * @param ServerProvider $serverProvider
      * @return mixed
      */
@@ -166,9 +151,9 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * Installs a cron job
      * @param Server $server
      * @param $cronJob
+     * @return array
      * @throws SshConnectionFailed
      */
     public function installCron(Server $server, $cronJob)
@@ -181,29 +166,35 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ' && echo "found") || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Removes a cron job
      * @param Server $server
      * @param ServerCronJob $cronJob
+     * @return bool
      * @throws SshConnectionFailed
      * @throws \Exception
      */
     public function removeCron(Server $server, ServerCronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
+        $errors = $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
 
-        $cronJob->delete();
+        if(empty($errors)) {
+            $cronJob->delete();
+        }
+
+        return $errors;
     }
 
     /**
-     * Adds a firewall rule
      * @param Server $server
      * @param $fromIP
      * @param $port
      * @param $description
+     * @return array
      * @throws SshConnectionFailed
      */
     public function addFirewallRule(Server $server, $fromIP, $port, $description)
@@ -224,8 +215,15 @@ class ServerService implements ServerServiceContract
         }
 
         $this->rebuildFirewall($server);
+
+        return $this->remoteTaskService->getErrors();
     }
 
+    /**
+     * @param Server $server
+     * @param $serverIP
+     * @return array
+     */
     public function addServerNetworkRule(Server $server, $serverIP)
     {
         $this->remoteTaskService->ssh($server);
@@ -233,8 +231,15 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         $this->rebuildFirewall($server);
+
+        return $this->remoteTaskService->getErrors();
     }
 
+    /**
+     * @param Server $server
+     * @param $serverIP
+     * @return array
+     */
     public function removeServerNetworkRule(Server $server, $serverIP)
     {
         $this->remoteTaskService->ssh($server);
@@ -242,12 +247,14 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         $this->rebuildFirewall($server);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Removes a rule from the firewall
      * @param Server $server
      * @param ServerFirewallRule $firewallRule
+     * @return bool
      * @throws SshConnectionFailed
      * @throws \Exception
      */
@@ -256,35 +263,39 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         if (empty($firewallRule->from_ip)) {
-            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         } else {
-            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
 
-        $firewallRule->delete();
 
-        $this->rebuildFirewall($server);
+        if(empty($errors)) {
+            $firewallRule->delete();
+            return $this->rebuildFirewall($server);
+        }
+
+        return $errors;
     }
 
     /**
-     * Rebuilds the firewall
      * @param Server $server
+     * @return bool
      * @throws SshConnectionFailed
      */
     private function rebuildFirewall(Server $server)
     {
         $this->remoteTaskService->ssh($server);
-        $this->remoteTaskService->run('/etc/opt/./iptables');
+        return $this->remoteTaskService->run('/etc/opt/./iptables');
     }
 
     /**
-     * Installs a daemon
      * @param Server $server
      * @param $command
      * @param $autoStart
      * @param $autoRestart
      * @param $user
      * @param $numberOfWorkers
+     * @return array
      */
     public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
     {
@@ -315,12 +326,13 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->run('supervisorctl update');
         $this->remoteTaskService->run('supervisorctl start server-worker-' . $serverDaemon->id . ':*');
 
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * Removes a daemon
      * @param Server $server
      * @param ServerDaemon $serverDaemon
+     * @return array|bool
      */
     public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
     {
@@ -332,11 +344,17 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->run('supervisorctl update');
 
 
-        $serverDaemon->delete();
+        $errors = $this->remoteTaskService->getErrors();
+
+        if(empty($errors)) {
+            $serverDaemon->delete();
+            return true;
+        }
+
+        return $errors;
     }
 
     /**
-     * Tests the ssh connection from codepier to the server
      * @param Server $server
      * @return bool
      */
@@ -356,7 +374,6 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     }
 
     /**
-     * Gets a file on the server
      * @param Server $server
      * @param $filePath
      * @return null|string
@@ -380,15 +397,20 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         return null;
     }
 
+    /**
+     * @param Server $server
+     * @param $filePath
+     * @param $file
+     * @return bool
+     */
     public function saveFile(Server $server, $filePath, $file)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
+        return $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
     }
 
     /**
-     * Creates an ssh key for the server
      * @return array
      */
     private function createSshKey()
@@ -399,47 +421,75 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         return $rsa->createKey();
     }
 
+    /**
+     * @param Server $server
+     * @return array
+     */
     public function restartWebServices(Server $server)
     {
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
+
+        return $this->remoteTaskService->getErrors();
     }
 
+    /**
+     * @param Server $server
+     * @return bool
+     */
     public function restartDatabase(Server $server)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('service mysql restart');
+        return $this->remoteTaskService->run('service mysql restart');
 
     }
 
+    /**
+     * @param Server $server
+     * @return bool
+     */
     public function restartServer(Server $server)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('reboot now', false, true);
+        return $this->remoteTaskService->run('reboot now', false, true);
     }
 
+    /**
+     * @param Server $server
+     * @return bool
+     */
     public function restartWorkers(Server $server)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('supervisorctl restart all');
+        return $this->remoteTaskService->run('supervisorctl restart all');
     }
 
+    /**
+     * @param Server $server
+     * @param $folder
+     * @return bool
+     */
     public function removeFolder(Server $server, $folder)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->removeDirectory($folder);
+        return $this->remoteTaskService->removeDirectory($folder);
     }
 
+    /**
+     * @param Server $server
+     * @param $folder
+     * @return bool
+     */
     public function createFolder(Server $server, $folder)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->makeDirectory($folder);
+        return $this->remoteTaskService->makeDirectory($folder);
     }
 }
