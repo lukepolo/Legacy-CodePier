@@ -38,12 +38,14 @@ class PaymentController extends Controller
                     "cvc" => \Request::get('cvc')
                 ]
             ]);
+
+            $this->user->updateCard($cardToken->id);
         }
 
         if ($this->user->subscriptions()->count()) {
             $this->user->subscription('primary')->swap(\Request::get('plan'));
         } else {
-            $this->user->newSubscription('primary', \Request::get('plan'))->create(isset($cardToken) ? $cardToken->id : null);
+            $this->user->newSubscription('primary', \Request::get('plan'))->create();
         }
 
         return back();

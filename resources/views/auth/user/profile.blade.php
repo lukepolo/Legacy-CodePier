@@ -120,7 +120,13 @@
                                             </label>
                                         </div>
                                     @endforeach
-                                    @if(!\Auth::user()->hasCardOnFile())
+
+                                    @if(\Auth::user()->hasCardOnFile())
+                                        Use your {{ \Auth::user()->card_brand }} {{ \Auth::user()->card_last_four }}
+                                        <div class="btn btn-link new-card">new card</div>
+                                    @endif
+
+                                    <div id="card-info" class="@if(\Auth::user()->hasCardOnFile()) hide @endif">
                                         Number
                                         {!! Form::text('number') !!}
                                         Exp Month
@@ -129,7 +135,8 @@
                                         {!! Form::text('exp_year') !!}
                                         CVC
                                         {!! Form::password('cvc') !!}
-                                    @endif
+
+                                    </div>
 
                                     {!! Form::submit('Subscribe') !!}
                                 {!! Form::close() !!}
@@ -153,3 +160,11 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).on('click', '.new-card', function() {
+            $('#card-info').toggleClass('hide');
+        });
+    </script>
+@endpush
