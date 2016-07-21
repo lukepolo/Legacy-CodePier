@@ -139,6 +139,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('server/{serverID}/site/{siteID}/install-worker', 'SiteController@postInstallWorker');
     Route::get('server/{serverID}/site/{siteID}/remove-worker/{workerID}', 'SiteController@getRemoveWorker');
 
+    Route::post('server/{serverID}/site/{siteID}/custom-settings', 'SiteController@postSavePHPSettings');
+
 });
 
 /*

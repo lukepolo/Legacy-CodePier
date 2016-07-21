@@ -84,8 +84,6 @@ server {
 
     sendfile off;
 
-    client_max_body_size 100m;
-
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
@@ -346,5 +344,21 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remove($site);
 
         $site->delete();
+    }
+
+
+    /*
+     * TODO - needs to be customized
+     */
+    public function updateMaxUploadSize(Site $site, $megabytes)
+    {
+        $this->remoteTaskService->ssh($site->server);
+
+        $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf', 'client_max_body_size '. $megabytes.'M;');
+        $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = '.$megabytes.'M/" /etc/php/7.0/fpm/php.ini');
+        $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = '.$megabytes.'M/" /etc/php/7.0/fpm/php.ini');
+
+        $this->remoteTaskService->run('service nginx restart');
+        $this->remoteTaskService->run('service php7.0-fpm restart');
     }
 }

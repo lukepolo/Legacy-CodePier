@@ -34,6 +34,7 @@
                             <li><a href="#workers" data-toggle="tab">Workers</a></li>
                             
                             <li><a href="#ssl-certs" data-toggle="tab">SSL Certificates</a></li>
+                            <li><a href="#php-settings" data-toggle="tab">PHP Common Settings</a></li>
                             <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
                         </ul>
                         <div id="my-tab-content" class="tab-content">
@@ -127,6 +128,14 @@
                                     {{ $site->ssl->type }} : {{ $site->ssl->domains }}
                                     <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">X</a>
                                 @endif
+                            </div>
+
+                            <div class="tab-pane" id="php-settings">
+                                {!! Form::open(['action' => ['SiteController@postSavePHPSettings', $site->server_id, $site->id]]) !!}
+                                    Max Upload Size
+                                    {!! Form::text('max_upload_size', !empty($site->settings) && isset($site->settings->data['max_upload_size']) ? $site->settings->data['max_upload_size']: null) !!} MB
+                                    {!! Form::submit('Update') !!}
+                                {!! Form::close() !!}
                             </div>
 
                             <div class="tab-pane" id="edit-files">

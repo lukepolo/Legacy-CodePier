@@ -405,6 +405,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('service nginx restart');
+        $this->remoteTaskService->run('service php7.0-fpm restart');
     }
 
     public function restartDatabase(Server $server)
@@ -442,5 +443,4 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
         $this->remoteTaskService->run('mkdir -p '.$folder);
     }
-
 }

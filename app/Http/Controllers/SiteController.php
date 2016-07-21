@@ -9,6 +9,7 @@ use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
+use App\Models\SiteSettings;
 
 /**
  * Class SiteController
@@ -30,8 +31,7 @@ class SiteController extends Controller
         RepositoryService $repositoryService,
         ServerService $serverService,
         SiteService $siteService
-    )
-    {
+    ) {
         $this->siteService = $siteService;
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
@@ -60,7 +60,8 @@ class SiteController extends Controller
     {
         $server = Server::findOrFail($serverID);
 
-        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int)\Request::get('wildcard_domain'), \Request::get('web_directory')));
+        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int)\Request::get('wildcard_domain'),
+            \Request::get('web_directory')));
 //            ->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
@@ -178,10 +179,10 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        $this->serverService->removeFolder($site->server, '/home/codepier/'.$site->domain);
-        $this->serverService->createFolder($site->server, '/home/codepier/'.$site->domain);
+        $this->serverService->removeFolder($site->server, '/home/codepier/' . $site->domain);
+        $this->serverService->createFolder($site->server, '/home/codepier/' . $site->domain);
 
-        foreach($site->daemons as $daemon) {
+        foreach ($site->daemons as $daemon) {
             $this->serverService->removeDaemon($site->server, $daemon);
         }
 
@@ -202,5 +203,31 @@ class SiteController extends Controller
         $this->siteService->deleteSite($site);
 
         return redirect()->action('ServerController@getServer', $serverID);
+    }
+
+
+    /*
+     * TODO - these need to be somehow generated
+     */
+
+    public function postSavePHPSettings($serverID, $siteID)
+    {
+        $siteSettings = SiteSettings::firstOrCreate([
+            'site_id' => $siteID
+        ]);
+
+        $siteSettings->data = array_merge(
+            empty($siteSettings->data) ? [] : $siteSettings->data, [
+                'max_upload_size' => \Request::get('max_upload_size')
+            ]
+        );
+
+        $site = Site::with('settings')->findOrFail($siteID);
+
+        $this->siteService->updateMaxUploadSize($site, \Request::get('max_upload_size'));
+
+        $siteSettings->save();
+
+        return back()->with('success', 'You have updated your PHP settings');
     }
 }

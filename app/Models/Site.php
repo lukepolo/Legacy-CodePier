@@ -42,4 +42,9 @@ class Site extends Model
         return false;
     }
 
+    public function settings()
+    {
+        return $this->hasOne(SiteSettings::class);
+    }
+
 }
