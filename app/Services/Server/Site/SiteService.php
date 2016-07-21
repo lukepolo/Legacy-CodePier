@@ -39,8 +39,13 @@ class SiteService implements SiteServiceContract
      * @param null $webDirectory
      * @return bool
      */
-    public function create(Server $server, $domain = 'default', $wildCardDomain = false, $zerotimeDeployment = true, $webDirectory = null)
-    {
+    public function create(
+        Server $server,
+        $domain = 'default',
+        $wildCardDomain = false,
+        $zerotimeDeployment = true,
+        $webDirectory = null
+    ) {
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/before');
@@ -51,7 +56,7 @@ server_name ' . ($wildCardDomain ? '.' : '') . $domain . ';
 listen 80 ' . ($domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $webDirectory.';
+root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $webDirectory . ';
 ');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/after');
@@ -133,7 +138,7 @@ include codepier-conf/' . $domain . '/after/*;
 
         $this->create($site->server, $domain, $site->wildcard_domain, $site->zerotime_deployment, $site->web_directory);
 
-        foreach($site->daemons as $daemon) {
+        foreach ($site->daemons as $daemon) {
             $this->installDaemon(
                 $site,
                 str_replace($site->domain, $domain, $daemon->command),
@@ -201,7 +206,7 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.';
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
 
 ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
 ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
@@ -246,7 +251,7 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory.';
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
 ');
 
         $this->remoteTaskService->run('rm /etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf');
@@ -350,7 +355,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
     public function deleteSite(Site $site)
     {
-        foreach($site->daemons as $daemon) {
+        foreach ($site->daemons as $daemon) {
             $this->removeDaemon($site->server, $daemon);
         }
 
@@ -367,11 +372,25 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf', 'client_max_body_size '. $megabytes.'M;');
-        $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = '.$megabytes.'M/" /etc/php/7.0/fpm/php.ini');
-        $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = '.$megabytes.'M/" /etc/php/7.0/fpm/php.ini');
+        $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf',
+            'client_max_body_size ' . $megabytes . 'M;');
+        $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = ' . $megabytes . 'M/" /etc/php/7.0/fpm/php.ini');
+        $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = ' . $megabytes . 'M/" /etc/php/7.0/fpm/php.ini');
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
+    }
+
+    public function updateNginxConfig(Site $site)
+    {
+        dd('here, will work but needs some cleanup');
+        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
+listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory . ';
+');
+
     }
 }

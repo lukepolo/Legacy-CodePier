@@ -42,7 +42,7 @@ class CreateSite extends Job implements ShouldQueue
             'server_id' => $server->id,
             'user_id' => $server->user_id,
             'zerotime_deployment' => true,
-            'web_directory' => '/'.$this->webDirectory,
+            'web_directory' => $this->webDirectory,
             'wildcard_domain' => $this->wildcardDomain,
         ]);
     }

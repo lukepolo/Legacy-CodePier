@@ -141,6 +141,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('server/{serverID}/site/{siteID}/custom-settings', 'SiteController@postSavePHPSettings');
 
+    Route::post('server/{serverID}/site/{siteID}/update-web-directory', 'SiteController@postUpdateWebDirectory');
+
 });
 
 /*

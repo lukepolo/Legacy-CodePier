@@ -61,6 +61,11 @@
                                     <a href="{{ action('SiteController@getRemoveRepository', [$site->server_id, $site->id]) }}">Remove Repoisotry</a>
                                 @endif
 
+                                {!! Form::open(['action' => ['SiteController@postUpdateWebDirectory', $site->server->id, $site->id]]) !!}
+                                    {!! Form::text('web_directory', $site->web_directory) !!}
+                                    {!! Form::submit('Updated Web Directory') !!}
+                                {!! Form::close() !!}
+
                                 <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
                             </div>
                             <div class="tab-pane" id="environment">

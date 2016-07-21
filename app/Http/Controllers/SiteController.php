@@ -60,8 +60,12 @@ class SiteController extends Controller
     {
         $server = Server::findOrFail($serverID);
 
-        $this->dispatch(new CreateSite($server, \Request::get('domain'), (int)\Request::get('wildcard_domain'),
-            \Request::get('web_directory')));
+        $this->dispatch(new CreateSite(
+                $server, \Request::get('domain'),
+                (int)\Request::get('wildcard_domain'),
+                \Request::get('web_directory')
+            )
+        );
 //            ->onQueue('site_creations'));
 
         return back()->with('success', 'You have created a new server, we notify you when the provisioning is done');
@@ -173,6 +177,13 @@ class SiteController extends Controller
         $this->siteService->removeDaemon($site->server, SiteDaemon::findOrFail($workerID));
 
         return back()->with('success', 'You have removed the worker');
+    }
+
+    public function postUpdateWebDirectory($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        dd(\Request::get('web_directory'));
     }
 
     public function getRemoveRepository($serverID, $siteID)
