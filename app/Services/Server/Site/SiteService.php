@@ -36,7 +36,7 @@ class SiteService implements SiteServiceContract
      * @return bool
      */
     public function create(Server $server, Site $site) {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/before");
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/server");
@@ -315,6 +315,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
      */
     public function updateSiteNginxConfig(Site $site)
     {
+        $this->remoteTaskService->ssh($site->server);
         if($site->hasSSL()) {
 
             $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
@@ -352,10 +353,11 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory . ';
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) .'/'. $site->web_directory . ';
 ');
         }
 
+        $this->remoteTaskService->run('service nginx restart');
 
         return $this->remoteTaskService->getErrors();
     }

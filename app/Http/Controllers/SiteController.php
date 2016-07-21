@@ -38,7 +38,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Gets a site based on its id
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -53,7 +52,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Creates a new site
      * @return mixed
      */
     public function postCreateSite($serverID)
@@ -72,7 +70,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Installs a repository for a site
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -101,7 +98,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Requests a SSL certificate on a server
      * @param $serverID
      * @param $siteID
      * @return $this
@@ -125,7 +121,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Renames a sites domain
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -140,7 +135,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Creates the deployment
      * @param $serverID
      * @param $siteID
      * @return mixed
@@ -183,6 +177,9 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
+        $site->web_directory = \Request::get('web_directory');
+        $site->save();
+
         $this->siteService->updateSiteNginxConfig($site);
 
         return back()->with('success', 'You have updated the web directory');
@@ -192,8 +189,8 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        $this->serverService->removeFolder($site->server, '/home/codepier/' . $site->domain);
-        $this->serverService->createFolder($site->server, '/home/codepier/' . $site->domain);
+        $this->serverService->removeFolder($site->server, '/home/codepier/' . $site->domain, 'codepier');
+        $this->serverService->createFolder($site->server, '/home/codepier/' . $site->domain, 'codepier');
 
         foreach ($site->daemons as $daemon) {
             $this->serverService->removeDaemon($site->server, $daemon);

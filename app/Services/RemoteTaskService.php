@@ -14,13 +14,12 @@ use phpseclib\Net\SSH2;
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
+    private $user;
     private $server;
     private $session;
     private $errors = [];
 
     /**
-     * Runs a command on a remote server
-     *
      * @param $command
      * @param bool $read
      * @param bool $expectedFailure
@@ -40,7 +39,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         } catch (\ErrorException $e) {
             if ($e->getMessage() == "Unable to open channel") {
                 \Log::warning('retrying to connect to');
-                $this->ssh($this->server);
+                $this->ssh($this->server, $this->user);
                 $this->run($command, $read);
             } else {
                 if($expectedFailure) {
@@ -70,6 +69,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return true;
     }
 
+    /**
+     * @param $file
+     * @param $contents
+     * @param bool $read
+     * @return bool
+     */
     public function writeToFile($file, $contents, $read = false)
     {
         return $this->run('
@@ -80,46 +85,78 @@ echo "Wrote" ', $read);
 
     }
 
+    /**
+     * @param $file
+     * @param $text
+     * @return bool
+     */
     public function appendTextToFile($file, $text)
     {
         return $this->run("echo $text >> $file");
     }
 
+    /**
+     * @param $file
+     * @param $findText
+     * @param $text
+     * @return bool
+     */
     public function findTextAndAppend($file, $findText, $text)
     {
         return $this->run("sed -i '/$findText/a $text' ".$file);
     }
 
+    /**
+     * @param $file
+     * @param $text
+     * @return bool
+     */
     public function removeLineByText($file, $text)
     {
         $text = str_replace('/', '\/', $text);
         return $this->run("sed -i '/$text/d' ".$file);
     }
 
+    /**
+     * @param $directory
+     * @return bool
+     */
     public function makeDirectory($directory)
     {
         return $this->run("mkdir -p $directory");
     }
 
+    /**
+     * @param $directory
+     * @return bool
+     */
     public function removeDirectory($directory)
     {
         return $this->run("rm $directory -rf");
     }
 
+    /**
+     * @param $file
+     * @return bool
+     */
     public function removeFile($file)
     {
         return $this->run("rm $file");
     }
 
     /**
-     * Sets up the SSH connections
-     *
      * @param Server $server
      * @param string $user
+     * @return bool
      * @throws \Exception
      */
     public function ssh(Server $server, $user = 'root')
     {
+        // Check to see if we are already connected
+        if($this->server == $server && $user == $this->user) {
+            return true;
+        }
+        $this->user = $user;
         $this->server = $server;
 
         $key = new RSA();
@@ -144,10 +181,11 @@ echo "Wrote" ', $read);
         $ssh->setTimeout(0);
 
         $this->session = $ssh;
+
+        return true;
     }
 
     /**
-     * Gets the errors from the current sessions
      * @return array
      */
     public function getErrors()

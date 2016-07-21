@@ -101,23 +101,25 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $sshKey
+     * @param string $user
      * @return bool
      */
-    public function installSshKey(Server $server, $sshKey)
+    public function installSshKey(Server $server, $sshKey, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
         return $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
     }
 
     /**
      * @param Server $server
      * @param $sshKey
+     * @param string $user
      * @return bool
      */
-    public function removeSshKey(Server $server, $sshKey)
+    public function removeSshKey(Server $server, $sshKey, $user = 'root')
     {
         try {
-            $this->remoteTaskService->ssh($server);
+            $this->remoteTaskService->ssh($server, $user);
 
             $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
 
@@ -153,10 +155,10 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $cronJob
+     * @param string $user
      * @return array
-     * @throws SshConnectionFailed
      */
-    public function installCron(Server $server, $cronJob)
+    public function installCron(Server $server, $cronJob, $user = 'root')
     {
         ServerCronJob::create([
             'server_id' => $server->id,
@@ -164,7 +166,7 @@ class ServerService implements ServerServiceContract
             'user' => 'root'
         ]);
 
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
         $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ' && echo "found") || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
@@ -173,13 +175,12 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param ServerCronJob $cronJob
+     * @param string $user
      * @return bool
-     * @throws SshConnectionFailed
-     * @throws \Exception
      */
-    public function removeCron(Server $server, ServerCronJob $cronJob)
+    public function removeCron(Server $server, ServerCronJob $cronJob, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
         $errors = $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
 
         if(empty($errors)) {
@@ -194,10 +195,10 @@ class ServerService implements ServerServiceContract
      * @param $fromIP
      * @param $port
      * @param $description
+     * @param string $user
      * @return array
-     * @throws SshConnectionFailed
      */
-    public function addFirewallRule(Server $server, $fromIP, $port, $description)
+    public function addFirewallRule(Server $server, $fromIP, $port, $description, $user = 'root')
     {
         ServerFirewallRule::create([
             'description' => $description,
@@ -206,7 +207,7 @@ class ServerService implements ServerServiceContract
             'from_ip' => $fromIP
         ]);
 
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         if (empty($fromIP)) {
             $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT");
@@ -222,11 +223,12 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $serverIP
+     * @param string $user
      * @return array
      */
-    public function addServerNetworkRule(Server $server, $serverIP)
+    public function addServerNetworkRule(Server $server, $serverIP, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
@@ -238,11 +240,12 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $serverIP
+     * @param string $user
      * @return array
      */
-    public function removeServerNetworkRule(Server $server, $serverIP)
+    public function removeServerNetworkRule(Server $server, $serverIP, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
@@ -254,13 +257,12 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param ServerFirewallRule $firewallRule
+     * @param string $user
      * @return bool
-     * @throws SshConnectionFailed
-     * @throws \Exception
      */
-    public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule)
+    public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         if (empty($firewallRule->from_ip)) {
             $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
@@ -279,12 +281,12 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     * @param string $user
      * @return bool
-     * @throws SshConnectionFailed
      */
-    private function rebuildFirewall(Server $server)
+    private function rebuildFirewall(Server $server, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
         return $this->remoteTaskService->run('/etc/opt/./iptables');
     }
 
@@ -295,9 +297,10 @@ class ServerService implements ServerServiceContract
      * @param $autoRestart
      * @param $user
      * @param $numberOfWorkers
+     * @param string $sshUser
      * @return array
      */
-    public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
+    public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers, $sshUser = 'root')
     {
         $serverDaemon = ServerDaemon::create([
             'server_id' => $server->id,
@@ -308,7 +311,7 @@ class ServerService implements ServerServiceContract
             'number_of_workers' => $numberOfWorkers,
         ]);
 
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $sshUser);
 
         $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf ', '
 [program:server-worker-' . $serverDaemon->id . ']
@@ -332,11 +335,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     /**
      * @param Server $server
      * @param ServerDaemon $serverDaemon
+     * @param string $user
      * @return array|bool
      */
-    public function removeDaemon(Server $server, ServerDaemon $serverDaemon)
+    public function removeDaemon(Server $server, ServerDaemon $serverDaemon, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf');
 
@@ -356,12 +360,13 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
     /**
      * @param Server $server
+     * @param string $user
      * @return bool
      */
-    public function testSshConnection(Server $server)
+    public function testSshConnection(Server $server, $user = 'root')
     {
         try {
-            $this->remoteTaskService->ssh($server);
+            $this->remoteTaskService->ssh($server, $user);
 
             $server->ssh_connection = true;
             $server->save();
@@ -376,19 +381,19 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     /**
      * @param Server $server
      * @param $filePath
+     * @param string $user
      * @return null|string
      */
-    public function getFile(Server $server, $filePath)
+    public function getFile(Server $server, $filePath, $user = 'root')
     {
         $key = new RSA();
         $key->loadKey($server->private_ssh_key);
 
         $ssh = new SFTP($server->ip);
 
-        if (!$ssh->login('root', $key)) {
+        if (!$ssh->login($user, $key)) {
             exit('Login Failed');
         }
-
 
         if ($contents = $ssh->get($filePath)) {
             return trim($contents);
@@ -401,11 +406,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
      * @param Server $server
      * @param $filePath
      * @param $file
+     * @param string $user
      * @return bool
      */
-    public function saveFile(Server $server, $filePath, $file)
+    public function saveFile(Server $server, $filePath, $file, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
     }
@@ -423,11 +429,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
     /**
      * @param Server $server
+     * @param string $user
      * @return array
      */
-    public function restartWebServices(Server $server)
+    public function restartWebServices(Server $server, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
@@ -437,11 +444,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
     /**
      * @param Server $server
+     * @param string $user
      * @return bool
      */
-    public function restartDatabase(Server $server)
+    public function restartDatabase(Server $server, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->run('service mysql restart');
 
@@ -449,22 +457,24 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
     /**
      * @param Server $server
+     * @param string $user
      * @return bool
      */
-    public function restartServer(Server $server)
+    public function restartServer(Server $server, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->run('reboot now', false, true);
     }
 
     /**
      * @param Server $server
+     * @param string $user
      * @return bool
      */
-    public function restartWorkers(Server $server)
+    public function restartWorkers(Server $server, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->run('supervisorctl restart all');
     }
@@ -472,11 +482,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     /**
      * @param Server $server
      * @param $folder
+     * @param string $user
      * @return bool
      */
-    public function removeFolder(Server $server, $folder)
+    public function removeFolder(Server $server, $folder, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->removeDirectory($folder);
     }
@@ -484,11 +495,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     /**
      * @param Server $server
      * @param $folder
+     * @param string $user
      * @return bool
      */
-    public function createFolder(Server $server, $folder)
+    public function createFolder(Server $server, $folder, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, $user);
 
         return $this->remoteTaskService->makeDirectory($folder);
     }
