@@ -133,6 +133,19 @@ include codepier-conf/' . $domain . '/after/*;
 
         $this->create($site->server, $domain, $site->wildcard_domain, $site->zerotime_deployment, $site->web_directory);
 
+        foreach($site->daemons as $daemon) {
+            $this->installDaemon(
+                $site,
+                str_replace($site->domain, $domain, $daemon->command),
+                true,
+                true,
+                $daemon->user,
+                1
+            );
+
+            $this->removeDaemon($site->server, $daemon);
+        }
+
         $site->domain = $domain;
 
         $site->save();
