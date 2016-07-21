@@ -6,5 +6,5 @@
             localStorage.debug='socket.io-client:socket';
         }
     @endif
-    var socket = io.connect('{{ env('APP_URL', url('/')) }}:{{ env("NODE_SERVER_PORT") }}');
+    var socket = io.connect('{{ env('NODE_URL', url('/')) }}:{{ env("NODE_SERVER_PORT") }}');
 </script>
