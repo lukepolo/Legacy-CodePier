@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Events\Server\Site\DeploymentFailed;
+use App\Exceptions\FailedCommand;
 use App\Jobs\CreateSite;
 use App\Models\Server;
 use App\Models\Site;
@@ -113,6 +115,11 @@ class SiteController extends Controller
         return back()->with('success', 'You have successfully installed your ssl cert');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRemoveSSL($serverID, $siteID)
     {
         $this->siteService->removeSSL(Site::findOrFail($siteID));
@@ -143,11 +150,21 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        $this->siteService->deploy($site->server, $site);
+        try {
+            $this->siteService->deploy($site->server, $site);
+        } catch(FailedCommand $e) {
+            event(new DeploymentFailed($site, $e->getMessage()));
+            dd($e->getMessage());
+        }
 
         return back()->with('success', 'we are currently deploying');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postInstallWorker($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -164,6 +181,12 @@ class SiteController extends Controller
         return back()->with('success', 'You have added a worker');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @param $workerID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRemoveWorker($serverID, $siteID, $workerID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -173,6 +196,11 @@ class SiteController extends Controller
         return back()->with('success', 'You have removed the worker');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postUpdateWebDirectory($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -185,6 +213,11 @@ class SiteController extends Controller
         return back()->with('success', 'You have updated the web directory');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getRemoveRepository($serverID, $siteID)
     {
         $site = Site::with('server')->findOrFail($siteID);
@@ -203,6 +236,11 @@ class SiteController extends Controller
         return back()->with('success', 'deleted repo');
     }
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getDeleteSite($serverID, $siteID)
     {
         $site = Site::with([
@@ -220,6 +258,11 @@ class SiteController extends Controller
      * TODO - these need to be somehow generated
      */
 
+    /**
+     * @param $serverID
+     * @param $siteID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postSavePHPSettings($serverID, $siteID)
     {
         $siteSettings = SiteSettings::firstOrCreate([

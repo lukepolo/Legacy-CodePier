@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\RemoteTaskServiceContract;
+use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use App\Models\Server;
 use phpseclib\Crypt\RSA;
@@ -14,16 +15,26 @@ use phpseclib\Net\SSH2;
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
+    public $throwErrors;
+
     private $user;
     private $server;
     private $session;
     private $errors = [];
+
+    private $okErrors = [
+        'WARN',
+        'Warning',
+        'Generating DH parameters',
+        'Identity added'
+    ];
 
     /**
      * @param $command
      * @param bool $read
      * @param bool $expectedFailure
      * @return bool
+     * @throws FailedCommand
      * @throws SshConnectionFailed
      */
     public function run($command, $read = false, $expectedFailure = false)
@@ -55,7 +66,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         if (!empty($error = $this->session->getStdError())) {
-            if (!str_contains($error, 'WARN') && !str_contains($error, 'Warning') && !str_contains($error, 'Generating DH parameters')) {
+            if (!str_contains($error, $this->okErrors)) {
+
+                if($this->throwErrors) {
+                    throw new FailedCommand($error);
+                }
+
                 \Log::error($error);
                 $this->errors[] = $error;
                 return $error;
@@ -150,8 +166,10 @@ echo "Wrote" ', $read);
      * @return bool
      * @throws \Exception
      */
-    public function ssh(Server $server, $user = 'root')
+    public function ssh(Server $server, $user = 'root', $throwErrors = false)
     {
+        $this->throwErrors = $throwErrors;
+
         // Check to see if we are already connected
         if($this->server == $server && $user == $this->user) {
             return true;

@@ -17,6 +17,7 @@ class Events extends Migration
             $table->integer('event_id');
             $table->string('event_type');
             $table->string('description');
+            $table->string('internal_type');
             $table->longText('data')->nullable();
             $table->timestamps();
         });

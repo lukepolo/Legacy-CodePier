@@ -28,7 +28,7 @@ class PHP
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
         $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server, 'codepier');
+        $this->remoteTaskService->ssh($server, 'codepier', true);
 
         $this->branch = $site->branch;
         $this->repository = $site->repository;
@@ -43,9 +43,10 @@ class PHP
     public function updateRepository()
     {
         $this->remoteTaskService->run('mkdir -p ' . $this->path);
-        $this->remoteTaskService->run('ssh-keyscan -H github.com >> ~/.ssh/known_hosts');
+        $this->remoteTaskService->run('ssh-keyscan -H github.com >> ~/.ssh/known_hosts > /dev/null 2>&1');
 
-        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rs; cd ' . $this->path . '; git clone git@github.com:' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa; cd ' . $this->path . '; git clone git@github.com:' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+
         $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; echo "*" > .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; echo "!storage" >> .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; echo "!public/build" >> .git/info/sparse-checkout');
@@ -59,9 +60,9 @@ class PHP
      */
     public function installVendorPackages()
     {
-        $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; composer install --no-interaction');
+        $this->remoteTaskService->run('cd ' . $this->path . '/' . $this->release . '; composer install --no-interaction --no-ansi --no-progress --quiet');
 
-        $this->remoteTaskService->run('[ -f ' . $this->path . '/node_modules ] && echo "Found" || cd ' . $this->path . '/' . $this->release . '; npm install --production; mv ' . $this->path . '/' . $this->release . '/node_modules ' . $this->path . '/node_modules');
+        $this->remoteTaskService->run('([ -d ' . $this->path . '/node_modules ] && echo "Found") || cd ' . $this->path . '/' . $this->release . '; npm install --production; mv ' . $this->path . '/' . $this->release . '/node_modules ' . $this->path);
 
         $this->remoteTaskService->run('ln -s ' . $this->path . '/node_modules ' . $this->path . '/' . $this->release . '/node_modules');
     }

@@ -35,7 +35,8 @@ class ServerProvisioned extends Event
             'event_id' => $server->id,
             'event_type' => Server::class,
             'description' => 'Server Provisioned',
-            'data' => $errors
+            'data' => $errors,
+            'internal_type' => 'provision_status'
         ]);
     }
 
