@@ -183,7 +183,9 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        dd(\Request::get('web_directory'));
+        $this->siteService->updateSiteNginxConfig($site);
+
+        return back()->with('success', 'You have updated the web directory');
     }
 
     public function getRemoveRepository($serverID, $siteID)

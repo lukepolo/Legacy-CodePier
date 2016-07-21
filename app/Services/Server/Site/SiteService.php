@@ -33,93 +33,22 @@ class SiteService implements SiteServiceContract
     /**
      * Creates a site on the server
      * @param Server $server
-     * @param string $domain
-     * @param bool $wildCardDomain
-     * @param bool $zerotimeDeployment
-     * @param null $webDirectory
+     * @param Site $site
      * @return bool
      */
-    public function create(
-        Server $server,
-        $domain = 'default',
-        $wildCardDomain = false,
-        $zerotimeDeployment = true,
-        $webDirectory = null
-    ) {
+    public function create(Server $server, Site $site) {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/before');
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/server');
+        $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/before");
+        $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/server");
+        $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/after");
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $domain . '/server/listen', '
-server_name ' . ($wildCardDomain ? '.' : '') . $domain . ';
-listen 80 ' . ($domain == 'default' ? 'default_server' : null) . ';
-listen [::]:80 ' . ($domain == 'default' ? 'default_server' : null) . ';
-
-root /home/codepier/' . $domain . ($zerotimeDeployment ? '/current' : null) . $webDirectory . ';
-');
-
-        $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf/' . $domain . '/after');
-
-        if (
-        $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
-# codepier CONFIG (DO NOT REMOVE!)
-include codepier-conf/' . $domain . '/before/*;
-
-server {
-    include codepier-conf/' . $domain . '/server/*;
-
-    index index.html index.htm index.php;
-
-    charset utf-8;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location /.well-known/acme-challenge {
-        alias /home/codepier/.well-known/acme-challenge;
-    }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
-    access_log off;
-    error_log  /var/log/nginx/' . $domain . '-error.log error;
-
-    sendfile off;
-
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-
-        fastcgi_intercept_errors off;
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-        fastcgi_connect_timeout 300;
-        fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-}
-
-# codepier CONFIG (DO NOT REMOVE!)
-include codepier-conf/' . $domain . '/after/*;
-')
-        ) {
-
-            $this->remoteTaskService->run('service nginx restart');
-
-            return true;
+        if ($errors = $this->createNginxSite($site->domain)) {
+            $this->updateSiteNginxConfig($site, "/etc/nginx/codepier-conf/$site->domain/server/listen");
+            return $this->remoteTaskService->run('service nginx restart');
         }
 
-        return false;
+        return $errors;
     }
 
     /**
@@ -200,35 +129,7 @@ include codepier-conf/' . $domain . '/after/*;
 
         $siteSSL->save();
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
-
-ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
-ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
-ssl_trusted_certificate /etc/letsencrypt/live/codepier.io/fullchain.pem;
-
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-ssl_prefer_server_ciphers on;
-ssl_dhparam /etc/nginx/dhparam.pem;
-ssl_ciphers \'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA\';
-ssl_session_timeout 1d;
-ssl_session_cache shared:SSL:50m;
-ssl_stapling on;
-ssl_stapling_verify on;
-add_header Strict-Transport-Security max-age=15768000;
-');
-
-        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf', '
-server {
-    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    return 301 https://$host$request_uri;
-}
-');
+       $this->updateSiteNginxConfig($site);
 
         if ($site->hasSSL()) {
             $site->ssl->delete();
@@ -245,18 +146,12 @@ server {
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+        $site->ssl->delete();
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
-');
+        $this->updateSiteNginxConfig($site);
 
         $this->remoteTaskService->removeFile("/etc/nginx/codepier-conf/$site->domain/before/ssl_redirect.conf");
         $this->remoteTaskService->run('service nginx restart');
-
-        $site->ssl->delete();
     }
 
     /**
@@ -379,16 +274,102 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remoteTaskService->run('service php7.0-fpm restart');
     }
 
-    public function updateNginxConfig(Site $site)
+    public function updateSiteNginxConfig(Site $site)
     {
-        dd('here, will work but needs some cleanup');
-        $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
+        if($site->hasSSL()) {
+
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
+server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
+listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
+
+ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
+ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
+ssl_trusted_certificate /etc/letsencrypt/live/codepier.io/fullchain.pem;
+
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+ssl_prefer_server_ciphers on;
+ssl_dhparam /etc/nginx/dhparam.pem;
+ssl_ciphers \'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA\';
+ssl_session_timeout 1d;
+ssl_session_cache shared:SSL:50m;
+ssl_stapling on;
+ssl_stapling_verify on;
+add_header Strict-Transport-Security max-age=15768000;
+');
+
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf', '
+server {
+    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    return 301 https://$host$request_uri;
+}
+');
+        } else {
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
 server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
 root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . $site->web_directory . ';
 ');
+        }
 
+    }
+
+    private function createNginxSite($domain)
+    {
+        return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
+# codepier CONFIG (DO NOT REMOVE!)
+include codepier-conf/' . $domain . '/before/*;
+
+server {
+    include codepier-conf/' . $domain . '/server/*;
+
+    index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /.well-known/acme-challenge {
+        alias /home/codepier/.well-known/acme-challenge;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    access_log off;
+    error_log  /var/log/nginx/' . $domain . '-error.log error;
+
+    sendfile off;
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+        fastcgi_intercept_errors off;
+        fastcgi_buffer_size 16k;
+        fastcgi_buffers 4 16k;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+# codepier CONFIG (DO NOT REMOVE!)
+include codepier-conf/' . $domain . '/after/*;
+');
     }
 }
