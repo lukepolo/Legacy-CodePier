@@ -71,7 +71,6 @@ class PHP
     {
         $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ] && echo "Found") || cd ' . $this->release . '; npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder);
 
-        // TODO - if they want they can have theire node modules updated
         $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/node_modules ' . $this->release . '/node_modules');
     }
 

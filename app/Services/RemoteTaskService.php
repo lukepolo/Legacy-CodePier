@@ -46,7 +46,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         \Log::info('Running Command : ' . $command);
 
         try {
-            $this->session->exec($command . "; echo 'done';");
+            \Log::info($this->session->exec($command . "; echo 'done';"));
         } catch (\ErrorException $e) {
             if ($e->getMessage() == "Unable to open channel") {
                 \Log::warning('retrying to connect to');
