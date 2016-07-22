@@ -81,7 +81,7 @@ class OauthController extends Controller
                 $newUserServerProvider = $this->saveServerProvider($provider, $user);
             }
 
-            return back()->with('success', 'You have connected your ' . ucwords($provider) . ' account');
+            return redirect()->intended('/');
 
         } catch (\Exception $e) {
 
@@ -101,7 +101,7 @@ class OauthController extends Controller
                 $newUserServerProvider->delete();
             }
 
-            return back()->withErrors($e->getMessage());
+            return redirect('/login')->withErrors($e->getMessage());
         }
     }
 
