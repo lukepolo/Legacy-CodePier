@@ -8,6 +8,7 @@ use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Events\Server\Site\DeploymentCompleted;
 use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
+use App\Models\DeploymentStep;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
@@ -95,6 +96,58 @@ class SiteController extends Controller
         $site->branch = \Request::get('branch');
         $site->zerotime_deployment = \Request::get('zerotime_deployment');
         $site->save();
+
+        if($site->zerotime_deployment) {
+
+            // TODO - move to proper area
+
+            $defaultSteps = [
+                [
+                    'step' => 'Clone Repository',
+                    'order' => '1',
+                    'internal_deployment_function' => 'cloneRepository',
+                    'customizable' => false
+                ],
+                [
+                    'step' => 'Install PHP Dependencies',
+                    'order' => '2',
+                    'internal_deployment_function' => 'installPhpDependencies',
+                    'customizable' => true
+                ],
+                [
+                    'step' => 'Install Node Dependencies',
+                    'order' => '3',
+                    'internal_deployment_function' => 'installNodeDependencies',
+                    'customizable' => true
+                ],
+                [
+                    'step' => 'Run Migrations',
+                    'order' => '4',
+                    'internal_deployment_function' => 'runMigrations',
+                    'customizable' => true
+                ],
+                [
+                    'step' => 'Setup Release',
+                    'order' => '5',
+                    'internal_deployment_function' => 'setupFolders',
+                    'customizable' => false
+                ],
+                [
+                    'step' => 'Clean Up Old Releases',
+                    'order' => '6',
+                    'internal_deployment_function' => 'cleanup',
+                    'customizable' => true
+                ],
+            ];
+
+            foreach($defaultSteps as $defaultStep) {
+                DeploymentStep::create(
+                    array_merge(['site_id' => $site->id], $defaultStep)
+                );
+            }
+        } else {
+            dd('non zerotime deployment');
+        }
 
         return back()->with('success', 'We have added the repository');
     }

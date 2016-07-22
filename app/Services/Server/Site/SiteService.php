@@ -8,11 +8,15 @@ use App\Events\Server\Site\DeploymentEvents\FoldersSetup;
 use App\Events\Server\Site\DeploymentEvents\MigrationsRan;
 use App\Events\Server\Site\DeploymentEvents\RepositoryCloned;
 use App\Events\Server\Site\DeploymentEvents\VendorsInstalled;
+use App\Events\Server\Site\DeploymentStep;
+use App\Events\Server\Site\DeploymentStepCompleted;
+use App\Events\Server\Site\DeploymentStepStarted;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
 use App\Models\SiteDeployment;
 use App\Models\SiteSslCertificate;
+use App\Services\Server\Site\DeploymentServices\PHP;
 
 /**
  * Class SiteService
@@ -176,19 +180,17 @@ class SiteService implements SiteServiceContract
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
-        $deploymentService->updateRepository();
-        event(new RepositoryCloned($siteDeployment));
+        foreach($siteDeployment->events as $event) {
 
-        $deploymentService->installVendorPackages();
-        event(new VendorsInstalled($siteDeployment));
+            $start = microtime(true);
 
-        $deploymentService->runMigrations();
-        event(new MigrationsRan($siteDeployment));
+            event(new DeploymentStepStarted($site, $event));
 
-        $deploymentService->setupFolders();
-        event(new FoldersSetup($siteDeployment));
+            $internalFunction = $event->step->internal_deployment_function;
+            $log = $deploymentService->$internalFunction();
 
-        $deploymentService->cleanup();
+            event(new DeploymentStepCompleted($site, $event, $log, microtime(true) - $start));
+        }
 
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('service nginx restart');

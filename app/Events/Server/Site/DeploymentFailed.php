@@ -24,7 +24,6 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment, $data)
     {
-
         $siteDeployment->failed = true;
         $siteDeployment->error_log = $data;
         $siteDeployment->save();

@@ -47,4 +47,9 @@ class Site extends Model
         return $this->hasOne(SiteSettings::class);
     }
 
+    public function deploymentSteps()
+    {
+        return $this->hasMany(DeploymentStep::class)->orderBy('order');
+    }
+
 }

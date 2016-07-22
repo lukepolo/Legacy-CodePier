@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSiteDeploymentsTable extends Migration
+class CreateDeploymentStepsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,14 @@ class CreateSiteDeploymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('site_deployments', function (Blueprint $table) {
+        Schema::create('deployment_steps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('site_id');
-            $table->string('status');
-            $table->longText('log')->nullable();
+            $table->string('step');
+            $table->integer('order');
+            $table->longText('script')->nullable();
+            $table->string('internal_deployment_function')->nullable();
+            $table->boolean('customizable');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateSiteDeploymentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_deployments');
+        Schema::drop('deployment_steps');
     }
 }

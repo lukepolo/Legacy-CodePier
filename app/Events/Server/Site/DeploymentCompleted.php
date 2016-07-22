@@ -21,16 +21,14 @@ class DeploymentCompleted extends Event implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     * @param Site $site
-     * @param SiteDeployment $siteDeployment
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment)
     {
         $this->event = \App\Models\Event::create([
             'event_id' => $site->id,
             'event_type' => Site::class,
-            'description' => 'Deployment Completed',
-            'data' => 'Commit hash here',
+            'description' => 'Deployment Successful',
+            'data' => '',
             'internal_type' => 'deployment'
         ]);
 

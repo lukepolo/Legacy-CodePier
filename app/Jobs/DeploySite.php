@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Events\Server\Site\DeploymentCompleted;
-use App\Events\Server\Site\DeploymentEvents\VendorsInstalled;
 use App\Events\Server\Site\DeploymentFailed;
 use App\Events\Server\Site\NewSiteDeployment;
 use App\Exceptions\FailedCommand;
@@ -35,8 +34,10 @@ class DeploySite extends Job implements ShouldQueue
         $this->server = $site->server;
 
         $this->siteDeployment = SiteDeployment::create([
-            'side_id' => $site->id
+            'site_id' => $site->id
         ]);
+
+        $this->siteDeployment->createSteps();
 
         event(new NewSiteDeployment($site, $this->siteDeployment));
     }
@@ -49,7 +50,6 @@ class DeploySite extends Job implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         try {
-            event(new VendorsInstalled($this->siteDeployment));
             $siteService->deploy($this->server, $this->site, $this->siteDeployment);
             event(new DeploymentCompleted($this->site, $this->siteDeployment));
         } catch(FailedCommand $e) {
