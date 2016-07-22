@@ -63,7 +63,7 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->addCodePierUser($sudoPassword);
 
         $this->updateProgress('Installing GIT');
-        $provisionSystem->installGit();
+        $provisionSystem->installGit($server);
 
         $this->updateProgress('Installing PHP');
         $provisionSystem->installPHP();

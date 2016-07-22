@@ -69,9 +69,10 @@ interface ProvisionSystemContract
 
     /**
      * Installs Git
+     * @param Server $server
      * @return mixed
      */
-    public function installGit();
+    public function installGit(Server $server);
 
     /**
      * Installs Redis

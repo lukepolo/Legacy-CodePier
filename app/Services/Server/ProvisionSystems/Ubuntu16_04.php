@@ -5,6 +5,7 @@ namespace App\Services\Server\ProvisionSystems;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Server;
 use App\Models\ServerFirewallRule;
+use App\Models\Site;
 
 /**
  * Class Ubuntu16_04
@@ -114,9 +115,12 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('service supervisor start');
     }
 
-    public function installGit()
+    public function installGit(Server $server)
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y git');
+
+        $this->remoteTaskService->run('echo git config --global user.name "'.$server->user->name.'"');
+        $this->remoteTaskService->run('echo git config --global user.email '.$server->user->email.'');
     }
 
     public function installRedis()
