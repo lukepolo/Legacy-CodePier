@@ -52,4 +52,9 @@ class Site extends Model
         return $this->hasMany(DeploymentStep::class)->orderBy('order');
     }
 
+    public function lastDeployment()
+    {
+        return $this->hasOne(SiteDeployment::class)->orderBy('id');
+    }
+
 }

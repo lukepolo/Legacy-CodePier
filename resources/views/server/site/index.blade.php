@@ -169,5 +169,38 @@
                 <a href="{{ action('SiteController@getDeleteSite', [$site->server_id, $site->id]) }}" class="btn btn-xs">Delete Site</a>
             </div>
         </div>
+        @if(!empty($currentDeployment = $site->lastDeployment))
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ ucwords($currentDeployment->status) }}
+                        </div>
+                        <div class="panel-body">
+                            @foreach($currentDeployment->events as $event)
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        {{ $event->step->step }} -
+                                        @if($event->started && !$event->completed)
+                                            Running . . .
+                                        @else
+                                            @if($event->completed)
+                                                @if($event->failed)
+                                                    FAILED
+                                                @else
+                                                    Completed in {{ round($event->runtime, 2) }} seconds
+                                                @endif
+                                            @else
+                                                Pending
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection

@@ -26,9 +26,6 @@ class NewSiteDeployment extends Event implements ShouldBroadcastNow
     {
         $this->site = $site;
 
-        $siteDeployment->status = 'deploying';
-        $siteDeployment->save();
-
         $this->siteDeployment = $siteDeployment;
     }
 
