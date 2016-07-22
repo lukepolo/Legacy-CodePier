@@ -32,6 +32,9 @@ class DeploymentCompleted extends Event implements ShouldBroadcastNow
             'internal_type' => 'deployment'
         ]);
 
+        $siteDeployment->status = 'completed';
+        $siteDeployment->save();
+
         $this->siteDeployment = $siteDeployment;
     }
 

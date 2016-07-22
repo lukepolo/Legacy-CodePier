@@ -34,7 +34,8 @@ class DeploySite extends Job implements ShouldQueue
         $this->server = $site->server;
 
         $this->siteDeployment = SiteDeployment::create([
-            'site_id' => $site->id
+            'site_id' => $site->id,
+            'status' => 'queued for deployment'
         ]);
 
         $this->siteDeployment->createSteps();
