@@ -52,7 +52,12 @@ redisBroadcast.psubscribe('*', function (err, count) {});
 redisBroadcast.on('pmessage', function (fromSubscription, channel, message) {
     message = JSON.parse(message);
     console.log(message.event + ' to ' + channel);
-    io.to(channel).emit(message.event, message.data);
+
+    if(channel == '*') {
+        io.emit(message.event, message.data);
+    } else {
+        io.to(channel).emit(message.event, message.data);
+    }
 });
 
 io.use(function (socket, next) {

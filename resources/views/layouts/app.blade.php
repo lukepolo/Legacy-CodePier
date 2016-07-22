@@ -29,22 +29,50 @@
 
         <script type="text/javascript">
 
-            if (Notification) {
-                if (Notification.permission !== "granted") {
-                    Notification.requestPermission();
-                }
+            @if(env('NODE_ON'))
+                socket.on('{{ addslashes(\App\Events\Server\Site\DeploymentCompleted::class) }}', function(data) {
+                    if (Notification) {
+                        if (Notification.permission !== "granted") {
+                            Notification.requestPermission();
+                        }
 
-//                // https://developer.mozilla.org/en-US/docs/Web/API/notification
-//                var notification = new Notification('Server Provisioned', {
-//                    icon: 'https://www.dropbox.com/s/vq20qxb343qkqov/pasted_image_at_2016_07_21_04_03_pm.png?dl=0',
-//                    body : 'Get going!'
-//                });
-//
-//                notification.onclick = function(event) {
-//                    event.preventDefault(); // prevent the browser from focusing the Notification's tab
-//                    window.open('http://codepier.app/server/3', '_blank');
-//                };
-            }
+                        // https://github.com/realtime-framework/ChromePushNotifications
+                        // https://developer.mozilla.org/en-US/docs/Web/API/notification
+                        var notification = new Notification(data.event.description, {
+                            icon: 'https://s32.postimg.org/m0n5f5in9/pasted_image_at_2016_07_21_04_03_pm.png',
+                            body : data.event.data
+                        });
+
+                        notification.onclick = function(event) {
+                            event.preventDefault(); // prevent the browser from focusing the Notification's tab
+                            window.open('http://codepier.app/server/3', '_blank');
+                        };
+                    }
+                });
+
+                socket.on('{{ addslashes(\App\Events\Server\Site\DeploymentFailed::class) }}', function(data) {
+                    if (Notification) {
+                        if (Notification.permission !== "granted") {
+                            Notification.requestPermission();
+                        }
+
+                        // https://github.com/realtime-framework/ChromePushNotifications
+                        // https://developer.mozilla.org/en-US/docs/Web/API/notification
+                        var notification = new Notification(data.event.description, {
+                            icon: 'https://shortpolo.com/assets/screenshots/2z.png',
+                            body : data.event.data
+                        });
+
+                        notification.onclick = function(event) {
+                            event.preventDefault(); // prevent the browser from focusing the Notification's tab
+                            window.open('http://codepier.app/server/3', '_blank');
+                        };
+                    }
+                });
+
+            @endif
+
+
 
             var vue;
 

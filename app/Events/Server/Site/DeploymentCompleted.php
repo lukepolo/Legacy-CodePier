@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
  * Class ServerCreated
  * @package App\Events\Server
  */
-class DeploymentFailed extends Event implements ShouldBroadcastNow
+class DeploymentCompleted extends Event implements ShouldBroadcastNow
 {
     use SerializesModels;
 
@@ -20,13 +20,13 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(Site $site, $data)
+    public function __construct(Site $site)
     {
         $this->event = \App\Models\Event::create([
             'event_id' => $site->id,
             'event_type' => Site::class,
-            'description' => 'Deployment Failed',
-            'data' => $data,
+            'description' => 'Deployment Completed',
+            'data' => 'Commit hash here',
             'internal_type' => 'deployment'
         ]);
     }

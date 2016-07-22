@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
-use App\Events\Server\Site\DeploymentFailed;
-use App\Exceptions\FailedCommand;
+use App\Events\Server\Site\DeploymentCompleted;
 use App\Jobs\CreateSite;
+use App\Jobs\DeploySite;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
@@ -150,12 +150,7 @@ class SiteController extends Controller
     {
         $site = Site::with('server')->findOrFail($siteID);
 
-        try {
-            $this->siteService->deploy($site->server, $site);
-        } catch(FailedCommand $e) {
-            event(new DeploymentFailed($site, $e->getMessage()));
-            dd($e->getMessage());
-        }
+        $this->dispatch(new DeploySite($site));
 
         return back()->with('success', 'we are currently deploying');
     }
