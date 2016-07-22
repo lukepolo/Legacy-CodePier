@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('edit/{id}', 'TeamController@edit')->name('teams.edit');
         Route::put('edit/{id}', 'TeamController@update')->name('teams.update');
         Route::delete('destroy/{id}', 'TeamController@destroy')->name('teams.destroy');
-        Route::get('switch/{id}', 'TeamController@switchTeam')->name('teams.switch');
+        Route::get('switch/{id?}', 'TeamController@switchTeam')->name('teams.switch');
 
         Route::get('members/{id}', 'TeamMemberController@show')->name('teams.members.show');
         Route::get('members/resend/{invite_id}', 'TeamMemberController@resendInvite')->name('teams.members.resend_invite');

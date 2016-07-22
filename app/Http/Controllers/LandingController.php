@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Server;
+
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -17,7 +19,7 @@ class LandingController extends Controller
         if (\Auth::check()) {
             return view('codepier', [
                 'userServerProviders' => \Auth::user()->userServerProviders,
-                'servers' => \Auth::user()->servers->load('serverProvider')
+                'servers' => Server::get()
             ]);
         }
         return view('landing');

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\UserScope;
+use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Server extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, UsedByTeams;
 
     protected $guarded = ['id'];
 
@@ -20,18 +20,6 @@ class Server extends Model
         'options' => 'array',
         'features' => 'array',
     ];
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new UserScope());
-    }
 
     /*
     |--------------------------------------------------------------------------

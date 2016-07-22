@@ -59,10 +59,16 @@ class TeamController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function switchTeam($id)
+    public function switchTeam($id = null)
     {
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($id);
+
+        $team = null;
+
+        if(!empty($id)) {
+            $team = $teamModel::findOrFail($id);
+        }
+
         try {
             auth()->user()->switchTeam($team);
         } catch ( UserNotInTeamException $e ) {

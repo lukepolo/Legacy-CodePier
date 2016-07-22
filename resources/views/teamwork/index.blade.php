@@ -7,6 +7,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading clearfix">
                         Teams
+
+                        <a href="{{route('teams.switch')}}" class="btn btn-sm btn-default">
+                            <i class="fa fa-sign-in"></i> Go to my Account
+                        </a>
+
                         <a class="pull-right btn btn-default btn-sm" href="{{route('teams.create')}}">
                             <i class="fa fa-plus"></i> Create team
                         </a>
