@@ -7,6 +7,7 @@ use App\Models\Site;
 use App\Models\SiteDeployment;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class ServerCreated
@@ -35,6 +36,13 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
             'data' => $data,
             'internal_type' => 'deployment'
         ]);
+
+        $user = $site->server->user;
+
+        Mail::raw('Deployment Failed'. $data, function ($message) use($user) {
+            $message->to($user->email);
+            $message->subject('CodePier Server Provisioned');
+        });
 
         $this->siteDeployment = $siteDeployment;
     }
