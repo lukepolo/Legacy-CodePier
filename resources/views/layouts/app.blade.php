@@ -39,7 +39,7 @@
                         // https://github.com/realtime-framework/ChromePushNotifications
                         // https://developer.mozilla.org/en-US/docs/Web/API/notification
                         var notification = new Notification(data.event.description, {
-                            icon: 'https://s32.postimg.org/m0n5f5in9/pasted_image_at_2016_07_21_04_03_pm.png',
+                            icon: 'https://s32.postimg.org/coqhgycut/cp_notification_dark.jpg',
                             body : data.event.data
                         });
 
@@ -59,7 +59,7 @@
                         // https://github.com/realtime-framework/ChromePushNotifications
                         // https://developer.mozilla.org/en-US/docs/Web/API/notification
                         var notification = new Notification(data.event.description, {
-                            icon: 'https://shortpolo.com/assets/screenshots/2z.png',
+                            icon: 'https://s32.postimg.org/coqhgycut/cp_notification_dark.jpg',
                             body : data.event.data
                         });
 

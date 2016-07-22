@@ -4,9 +4,14 @@ namespace App\Services\Server\Site;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
+use App\Events\Server\Site\DeploymentEvents\FoldersSetup;
+use App\Events\Server\Site\DeploymentEvents\MigrationsRan;
+use App\Events\Server\Site\DeploymentEvents\RepositoryCloned;
+use App\Events\Server\Site\DeploymentEvents\VendorsInstalled;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
+use App\Models\SiteDeployment;
 use App\Models\SiteSslCertificate;
 
 /**
@@ -163,16 +168,26 @@ class SiteService implements SiteServiceContract
     /**
      * @param Server $server
      * @param Site $site
+     * @param SiteDeployment $siteDeployment
      * @param bool $zeroDownTime
      * @return array
      */
-    public function deploy(Server $server, Site $site, $zeroDownTime = true)
+    public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $zeroDownTime = true)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
+
         $deploymentService->updateRepository();
+        event(new RepositoryCloned($siteDeployment));
+
         $deploymentService->installVendorPackages();
+        event(new VendorsInstalled($siteDeployment));
+
         $deploymentService->runMigrations();
+        event(new MigrationsRan($siteDeployment));
+
         $deploymentService->setupFolders();
+        event(new FoldersSetup($siteDeployment));
+
         $deploymentService->cleanup();
 
         $this->remoteTaskService->ssh($server);
