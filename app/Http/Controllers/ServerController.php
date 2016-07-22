@@ -38,7 +38,7 @@ class ServerController extends Controller
     {
         return view('server.index', [
             'server' => Server::with('sites')->findOrFail($serverID),
-            'servers' => Server::where('user_id', \Auth::user()->id)->where('id', '!=', $serverID)->get()
+            'servers' => Server::where('id', '!=', $serverID)->get()
         ]);
     }
 
@@ -141,13 +141,15 @@ class ServerController extends Controller
      */
     public function postInstallSshKey($serverID)
     {
+        $server = Server::findOrFail($serverID);
+
         $serverSshKey = ServerSshKey::create([
             'server_id' => $serverID,
             'name' => \Request::get('name'),
             'ssh_key' => trim(\Request::get('ssh_key'))
         ]);
 
-        $this->serverService->installSshKey(Server::findOrFail($serverID), $serverSshKey->ssh_key);
+        $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
 
         return back()->with('success', 'You added an ssh key');
     }
@@ -160,9 +162,11 @@ class ServerController extends Controller
      */
     public function getRemoveSshKey($serverID, $serverSshKeyId)
     {
+        $server = Server::findOrFail($serverID);
+
         $serverSshKey = ServerSshKey::findOrFail($serverSshKeyId);
 
-        $this->serverService->removeSshKey(Server::findOrFail($serverID), $serverSshKey->ssh_key);
+        $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
 
         $serverSshKey->delete();
 

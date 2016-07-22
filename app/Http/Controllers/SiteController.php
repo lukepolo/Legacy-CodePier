@@ -313,6 +313,8 @@ class SiteController extends Controller
      */
     public function postSavePHPSettings($serverID, $siteID)
     {
+        $site = Site::with('settings')->findOrFail($siteID);
+
         $siteSettings = SiteSettings::firstOrCreate([
             'site_id' => $siteID
         ]);
@@ -322,8 +324,6 @@ class SiteController extends Controller
                 'max_upload_size' => \Request::get('max_upload_size')
             ]
         );
-
-        $site = Site::with('settings')->findOrFail($siteID);
 
         $this->siteService->updateMaxUploadSize($site, \Request::get('max_upload_size'));
 
