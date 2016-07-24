@@ -83,20 +83,22 @@
                                 @foreach($repositoryProviders as $repositoryProvider)
                                     <p>
                                         Integrate with {{ $repositoryProvider->name }} :
-                                        @if(!\Auth::user()->userRepositoryProviders->lists('id')->contains($repositoryProvider->id))
+                                        @if(!\Auth::user()->userRepositoryProviders->lists('repository_provider_id')->contains($repositoryProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            Connected
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', $repositoryProvider->id) }}">Disconnect</a>
                                         @endif
                                     </p>
                                 @endforeach
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="subscription">
 
-                                @if(\Auth::user()->subscription('primary')->cancelled())
-                                    Your subscription has been cancled and will end on {{ \Auth::user()->subscription('primary')->ends_at }}
-                                @else
-                                    Your next billing is on {{ \Auth::user()->subscription('primary')->ends_at }}
+                                @if(\Auth::user()->subscribed())
+                                    @if(\Auth::user()->subscription()->cancelled())
+                                        Your subscription has been cancled and will end on {{ \Auth::user()->subscription()->ends_at }}
+                                    @else
+                                        Your next billing is on {{ \Auth::user()->subscription()->ends_at }}
+                                    @endif
                                 @endif
 
                                 {!! Form::open(['action' => 'PaymentController@postSubscription']) !!}
@@ -104,7 +106,7 @@
                                     @foreach($plans as $plan)
                                         <div class="radio">
                                             <label>
-                                                @if(!\Auth::user()->subscribedToPlan($plan->id, 'primary'))
+                                                @if(!\Auth::user()->subscribedToPlan($plan->id))
                                                     {!! Form::radio('plan', $plan->id) !!}
                                                 @else
                                                     Current Plan -
@@ -144,15 +146,17 @@
                                 <a href="{{ action('PaymentController@getCancelSubscription') }}">Cancel Subscription</a>
                             </div>
 
-                            <table>
-                                @foreach (\Auth::user()->invoices() as $invoice)
-                                    <tr>
-                                        <td>{{ $invoice->date()->toFormattedDateString() }}</td>
-                                        <td>{{ $invoice->total() }}</td>
-                                        <td><a href="{{ action('PaymentController@getUserInvoice', $invoice->id) }}">Download</a></td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                            @if(\Auth::user()->subscribed())
+                                <table>
+                                    @foreach (\Auth::user()->invoices() as $invoice)
+                                        <tr>
+                                            <td>{{ $invoice->date()->toFormattedDateString() }}</td>
+                                            <td>{{ $invoice->total() }}</td>
+                                            <td><a href="{{ action('PaymentController@getUserInvoice', $invoice->id) }}">Download</a></td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            @endif
                         </div>
                     </div>
                 </div>

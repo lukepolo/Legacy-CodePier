@@ -23,7 +23,8 @@
         "lord/laroute" : "2.*",
         "mpociot/teamwork": "~3.0",
         "laravel/cashier": "~6.0",
-        "dompdf/dompdf" : "~0.6"
+        "dompdf/dompdf" : "~0.6",
+        "gentle/bitbucket-api": "^0.8.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -43,9 +43,9 @@ class PaymentController extends Controller
         }
 
         if ($this->user->subscriptions()->count()) {
-            $this->user->subscription('primary')->swap(\Request::get('plan'));
+            $this->user->subscription('default')->swap(\Request::get('plan'));
         } else {
-            $this->user->newSubscription('primary', \Request::get('plan'))->create();
+            $this->user->newSubscription('default', \Request::get('plan'))->create();
         }
 
         return back();
@@ -55,7 +55,7 @@ class PaymentController extends Controller
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $this->user->subscription('primary')->cancel();
+        $this->user->subscription('default')->cancel();
 
         return back();
     }

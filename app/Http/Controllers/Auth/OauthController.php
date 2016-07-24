@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\UserLoginProvider;
 use App\Models\UserRepositoryProvider;
 use App\Models\UserServerProvider;
+use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\Users;
 use Socialite;
 
 /**
@@ -64,12 +66,12 @@ class OauthController extends Controller
             $user = Socialite::driver($provider)->user();
 
             if (!\Auth::user()) {
-                if (!$userProvider = UserLoginProvider::where('provider_id', $user->getId())->first()) {
+                if (!$userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
                     $newLoginProvider = $this->createLoginProvider($provider, $user);
                     $newUserModel = $this->createUser($user, $newLoginProvider);
                     \Auth::loginUsingId($newUserModel->id);
                 } else {
-                    \Auth::loginUsingId($userProvider->id);
+                    \Auth::loginUsingId($userProvider->user->id);
                 }
             }
 
@@ -113,10 +115,19 @@ class OauthController extends Controller
      */
     private function createLoginProvider($provider, $user)
     {
-        $userLoginProvider = UserLoginProvider::create([
+        $userLoginProvider = UserLoginProvider::firstOrNew([
             'provider' => $provider,
-            'provider_id' => $user->getId()
+            'provider_id' => $user->getId(),
         ]);
+
+        $userLoginProvider->fill([
+            'token' => $user->token,
+            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
+            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
+            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+        ]);
+
+        $userLoginProvider->save();
 
         return $userLoginProvider;
     }
@@ -124,18 +135,64 @@ class OauthController extends Controller
     /**
      * Creates a new user
      * @param $user
-     * @param $userLoginProvider
+     * @param UserLoginProvider $userLoginProvider
      * @return mixed
+     * @throws \Exception
      */
-    public function createUser($user, $userLoginProvider)
+    public function createUser($user, UserLoginProvider $userLoginProvider)
     {
+        switch ($userLoginProvider->provider) {
+            case self::BITBUCKET :
+
+                $oauth_params = [
+                    'oauth_token' => $user->token,
+                    'oauth_token_secret' => $user->tokenSecret,
+                    'oauth_consumer_key' => env('OAUTH_BITBUCKET_CLIENT_ID'),
+                    'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
+                    'oauth_callback' => env('OAUTH_BITBUCKET_CALLBACK'),
+                ];
+
+                $users = new Users();
+                $users->getClient()->addListener(
+                    new OAuthListener($oauth_params)
+                );
+
+                // now you can access protected endpoints as consumer owner
+                $response = $users->emails()->all($user->id);
+
+                if ($response->getStatusCode() != '200') {
+                    throw new \Exception('Unable to get email from Bitbucket API');
+                }
+
+                $email = collect(json_decode($response->getContent(), true))->first(function ($key, $email) {
+                    return $email['primary'];
+                })['email'];
+
+                break;
+            case 'default':
+                $email = $user->getEmail();
+                break;
+        }
+
         $userModel = User::create([
-            'email' => $user->getEmail(),
+            'email' => $email,
             'name' => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id
         ]);
 
         return $userModel;
+    }
+
+    public function getDisconnectService(int $serviceID)
+    {
+        if(!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('repository_provider_id', $serviceID)->first())) {
+            $userRepositoryProvider->delete();
+        }
+        if(!empty($userServerProvider = \Auth::user()->userServerProviders->where('server_provider_id', $serviceID)->first())) {
+            $userServerProvider->delete();
+        }
+
+        return back()->with('success', 'You have disconnected the service');
     }
 
     /**
@@ -146,7 +203,7 @@ class OauthController extends Controller
      */
     private function saveRepositoryProvider($provider, $user)
     {
-        $userRepositoryProvider = UserRepositoryProvider::firstOrNew([
+        $userRepositoryProvider = UserRepositoryProvider::create([
             'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $user->getId()
         ]);
@@ -154,8 +211,8 @@ class OauthController extends Controller
         $userRepositoryProvider->fill([
             'token' => $user->token,
             'user_id' => \Auth::user()->id,
-            'expires_in' => $user->expiresIn,
-            'refresh_token' => $user->refreshToken,
+            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
+            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
             'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
         ]);
 
@@ -177,9 +234,13 @@ class OauthController extends Controller
             'provider_id' => $user->getId(),
         ]);
 
-        $token = $user->accessTokenResponseBody['access_token'];
-        $refreshToken = $user->accessTokenResponseBody['refresh_token'];
-        $expiresIn = $user->accessTokenResponseBody['expires_in'];
+        switch ($userServerProvider->serverProvider->provider_name) {
+            case self::DIGITAL_OCEAN :
+                $token = $user->accessTokenResponseBody['access_token'];
+                $refreshToken = $user->accessTokenResponseBody['refresh_token'];
+                $expiresIn = $user->accessTokenResponseBody['expires_in'];
+                break;
+        }
 
         $userServerProvider->fill([
             'token' => $token,
