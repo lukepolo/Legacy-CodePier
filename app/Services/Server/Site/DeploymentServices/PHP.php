@@ -17,6 +17,7 @@ class PHP
     private $release;
     private $repository;
     private $remoteTaskService;
+    private $repositoryProvider;
 
     /**
      * ProvisionService constructor.
@@ -26,6 +27,7 @@ class PHP
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
+
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier', true);
 
@@ -34,6 +36,9 @@ class PHP
         $this->site_folder = '/home/codepier/'.$site->domain;
         $this->zerotimeDeployment = $site->zerotime_deployment;
         $this->release = $this->site_folder.'/'.Carbon::now()->format('YmdHis');
+
+
+        $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
     }
 
     public function updateRepository()
@@ -47,9 +52,9 @@ class PHP
     public function cloneRepository()
     {
         $this->remoteTaskService->run('mkdir -p ' . $this->site_folder);
-        $this->remoteTaskService->run('ssh-keyscan -H github.com >> ~/.ssh/known_hosts > /dev/null 2>&1');
+        $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
 
-        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa; cd ' . $this->site_folder . '; git clone git@github.com:' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
 
         $this->remoteTaskService->run('cd ' . $this->release . '; echo "*" > .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd ' . $this->release . '; echo "!storage" >> .git/info/sparse-checkout');

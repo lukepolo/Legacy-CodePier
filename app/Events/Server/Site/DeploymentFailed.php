@@ -25,8 +25,7 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment, $data)
     {
-        $siteDeployment->failed = true;
-        $siteDeployment->error_log = $data;
+        $siteDeployment->log = $data;
         $siteDeployment->save();
 
         $this->event = \App\Models\Event::create([

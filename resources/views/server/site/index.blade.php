@@ -16,7 +16,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Domain : {{ $site->domain }}
-
                         {!! Form::open(['action' => ['SiteController@postRenameDomain', $site->server->id, $site->id]]) !!}
                             {!! Form::label('Domain') !!}
                             {!! Form::text('domain', $site->domain) !!}
@@ -54,6 +53,15 @@
                                         <div class="form-group">
                                             {!! Form::label('branch') !!}
                                             {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
+                                        </div>
+                                        <div class="form-group">
+                                            @foreach(\Auth::user()->userRepositoryProviders as $userRepositoryProvider)
+                                                <div class="radio">
+                                                    <label>
+                                                        {!! Form::radio('user_repository_provider_id', $userRepositoryProvider->id) !!} {{ $userRepositoryProvider->repositoryProvider->name }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                         {!! Form::submit('Install Repository') !!}
                                     {!! Form::close() !!}

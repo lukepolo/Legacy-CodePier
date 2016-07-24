@@ -13,6 +13,8 @@ class Site extends Model
 {
     use UsedByTeams;
 
+    static $teamworkUserModel = 'server';
+
     protected $guarded = ['id'];
 
     /*
@@ -58,6 +60,11 @@ class Site extends Model
     public function lastDeployment()
     {
         return $this->hasOne(SiteDeployment::class)->orderBy('id');
+    }
+
+    public function userRepositoryProvider()
+    {
+        return $this->belongsTo(UserRepositoryProvider::class);
     }
 
 }

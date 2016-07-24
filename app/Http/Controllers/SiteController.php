@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
-use App\Events\Server\Site\DeploymentCompleted;
 use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
 use App\Models\DeploymentStep;
@@ -47,8 +46,6 @@ class SiteController extends Controller
      */
     public function getSite($serverID, $siteID)
     {
-        $this->repositoryService->getUserRepositories(\Auth::user());
-
         return view('server.site.index', [
             'site' => Site::with('server')->findOrFail($siteID)
         ]);
@@ -89,15 +86,18 @@ class SiteController extends Controller
             return back()->withErrors('You seem to be missing a SSH key, please contact support.');
         }
 
-        $this->repositoryService->importSshKey(\Auth::user()->userRepositoryProviders->first(), $repository, $sshKey);
+        $site->fill([
+            'repository' => $repository,
+            'branch' => \Request::get('branch'),
+            'zerotime_deployment' => \Request::get('zerotime_deployment'),
+            'user_repository_provider_id' => \Request::get('user_repository_provider_id'),
+        ]);
 
+        $this->repositoryService->importSshKeyIfPrivate($site->userRepositoryProvider, $repository, $sshKey);
 
-        $site->repository = $repository;
-        $site->branch = \Request::get('branch');
-        $site->zerotime_deployment = \Request::get('zerotime_deployment');
         $site->save();
 
-        if($site->zerotime_deployment) {
+        if ($site->zerotime_deployment) {
 
             // TODO - move to proper area
 
@@ -140,7 +140,7 @@ class SiteController extends Controller
                 ],
             ];
 
-            foreach($defaultSteps as $defaultStep) {
+            foreach ($defaultSteps as $defaultStep) {
                 DeploymentStep::create(
                     array_merge(['site_id' => $site->id], $defaultStep)
                 );

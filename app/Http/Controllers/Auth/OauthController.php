@@ -153,6 +153,7 @@ class OauthController extends Controller
                 ];
 
                 $users = new Users();
+
                 $users->getClient()->addListener(
                     new OAuthListener($oauth_params)
                 );

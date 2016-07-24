@@ -3,28 +3,19 @@
 namespace App\Services\Server\Site\Repository\Providers;
 
 use App\Models\UserRepositoryProvider;
+use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\User;
+use Bitbucket\API\Users;
 use GitHub as GitHubService;
 use Github\Exception\ValidationFailedException;
 
 /**
- * Class GitHub
+ * Class BitBucket
  * @package App\Services\Server\Site\Repository\Providers
  */
-class GitHub implements RepositoryContract
+class BitBucket implements RepositoryContract
 {
-    /**
-     * Gets all the repositories for a user
-     *
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getRepositories(UserRepositoryProvider $userRepositoryProvider)
-    {
-        $this->setToken($userRepositoryProvider);
-
-        return GitHubService::api('repo')->all();
-    }
+    private $oauthParams;
 
     /**
      * Imports a deploy key so we can clone the repositories
@@ -34,42 +25,42 @@ class GitHub implements RepositoryContract
      * @param $sshKey
      * @throws \Exception
      */
-    public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
         $this->setToken($userRepositoryProvider);
 
-        $repositoryInfo = $this->getRepositoryInfo($repository);
+        $user = new User();
 
-        if ($repositoryInfo['private']) {
-            try {
-                GitHubService::api('repo')->keys()->create(
-                    $this->getRepositoryUser($repository),
-                    $this->getRepositoryName($repository),
-                    [
-                        'title' => 'CodePier',
-                        'key' => $sshKey,
-                    ]
-                );
-            } catch (ValidationFailedException $e) {
-                if (!$e->getMessage() == 'Validation Failed: key is already in use') {
-                    throw new \Exception($e->getMessage());
-                }
-            }
-        }
-    }
-
-    /**
-     * Gets the repository information
-     *
-     * @param $repository
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository)
-    {
-        return GitHubService::api('repo')->show(
-            $this->getRepositoryUser($repository),
-            $this->getRepositoryName($repository)
+        $user->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
         );
+
+        $slug = $this->getRepositorySlug($repository);
+
+        $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
+
+        $repositoryInfo = $repositories->first(function($key, $repository) use($slug) {
+            return $repository['slug'] == $slug;
+        });
+
+        if ($repositoryInfo['is_private']) {
+//            try {
+
+
+            $users = new Users();
+
+            $users->getClient()->addListener(
+                new OAuthListener($this->oauthParams)
+            );
+
+
+            $users->sshKeys()->create('CodePier', $sshKey, 'https://codepier.io');
+//            } catch (ValidationFailedException $e) {
+//                if (!$e->getMessage() == 'Validation Failed: key is already in use') {
+//                    throw new \Exception($e->getMessage());
+//                }
+//            }
+        }
     }
 
     /**
@@ -80,7 +71,13 @@ class GitHub implements RepositoryContract
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        return config(['github.connections.main.token' => $userRepositoryProvider->token]);
+        $this->oauthParams = [
+            'oauth_token' => $userRepositoryProvider->token,
+            'oauth_token_secret' => $userRepositoryProvider->tokenSecret,
+            'oauth_consumer_key' => env('OAUTH_BITBUCKET_CLIENT_ID'),
+            'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
+            'oauth_callback' => env('OAUTH_BITBUCKET_CALLBACK'),
+        ];
     }
 
     /**
@@ -98,7 +95,7 @@ class GitHub implements RepositoryContract
      * @param $repository
      * @return mixed
      */
-    public function getRepositoryName($repository)
+    public function getRepositorySlug($repository)
     {
         return explode('/', $repository)[1];
     }

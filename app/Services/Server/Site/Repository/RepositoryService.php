@@ -16,26 +16,9 @@ class RepositoryService implements RepositoryServiceContract
     protected $remoteTaskService;
 
     public $providers = [
-        'github' => Providers\GitHub::class
+        'github' => Providers\GitHub::class,
+        'bitbucket' => Providers\BitBucket::class
     ];
-
-    /**
-     * Gets a users repositires from the specific provider
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function getUserRepositories(User $user)
-    {
-        $repositories = [];
-
-        foreach ($user->userRepositoryProviders as $repositoryProvider) {
-            $providerName = $repositoryProvider->repositoryProvider->provider_name;
-            $repositories[$providerName] = $this->getProvider($providerName)->getRepositories($repositoryProvider);
-        }
-
-        return $repositories;
-    }
 
     /**
      * Imports a ssh key into the specific provider
@@ -44,9 +27,9 @@ class RepositoryService implements RepositoryServiceContract
      * @param $sshKey
      * @return mixed
      */
-    public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->importSshKey($userRepositoryProvider, $repository, $sshKey);
+        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->importSshKeyIfPrivate($userRepositoryProvider, $repository, $sshKey);
     }
 
     /**

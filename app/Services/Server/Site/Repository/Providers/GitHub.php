@@ -13,20 +13,6 @@ use Github\Exception\ValidationFailedException;
 class GitHub implements RepositoryContract
 {
     /**
-     * Gets all the repositories for a user
-     *
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getRepositories(UserRepositoryProvider $userRepositoryProvider)
-    {
-        $this->setToken($userRepositoryProvider);
-
-        return GitHubService::api('repo')->all();
-    }
-
-    /**
      * Imports a deploy key so we can clone the repositories
      *
      * @param UserRepositoryProvider $userRepositoryProvider
@@ -34,17 +20,15 @@ class GitHub implements RepositoryContract
      * @param $sshKey
      * @throws \Exception
      */
-    public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
         $this->setToken($userRepositoryProvider);
 
-        $repositoryInfo = $this->getRepositoryInfo($repository);
-
-        if ($repositoryInfo['private']) {
+        if($this->isRepositoryPrivate($repository)) {
             try {
                 GitHubService::api('repo')->keys()->create(
                     $this->getRepositoryUser($repository),
-                    $this->getRepositoryName($repository),
+                    $this->getRepositorySlug($repository),
                     [
                         'title' => 'CodePier',
                         'key' => $sshKey,
@@ -58,6 +42,16 @@ class GitHub implements RepositoryContract
         }
     }
 
+    public function isRepositoryPrivate($repository)
+    {
+        $repositoryInfo = $this->getRepositoryInfo($repository);
+
+        if(isset($repositoryInfo['private'])) {
+            return $repositoryInfo['private'];
+        }
+        return false;
+    }
+
     /**
      * Gets the repository information
      *
@@ -68,7 +62,7 @@ class GitHub implements RepositoryContract
     {
         return GitHubService::api('repo')->show(
             $this->getRepositoryUser($repository),
-            $this->getRepositoryName($repository)
+            $this->getRepositorySlug($repository)
         );
     }
 
@@ -98,7 +92,7 @@ class GitHub implements RepositoryContract
      * @param $repository
      * @return mixed
      */
-    public function getRepositoryName($repository)
+    public function getRepositorySlug($repository)
     {
         return explode('/', $repository)[1];
     }

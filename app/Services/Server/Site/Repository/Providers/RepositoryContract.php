@@ -11,15 +11,6 @@ use App\Models\UserRepositoryProvider;
 interface RepositoryContract
 {
     /**
-     * Gets all the repositories for a user
-     *
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getRepositories(UserRepositoryProvider $userRepositoryProvider);
-
-    /**
      * Imports a deploy key so we can clone the repositories
      *
      * @param UserRepositoryProvider $userRepositoryProvider
@@ -27,15 +18,7 @@ interface RepositoryContract
      * @param $sshKey
      * @throws \Exception
      */
-    public function importSshKey(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey);
-
-    /**
-     * Gets the repository information
-     *
-     * @param $repository
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository);
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey);
 
     /**
      * Sets the token so we can connect to the users account
@@ -53,9 +36,9 @@ interface RepositoryContract
     public function getRepositoryUser($repository);
 
     /**
-     * Gets the users repositories name
+     * Gets the users repositories slug
      * @param $repository
      * @return mixed
      */
-    public function getRepositoryName($repository);
+    public function getRepositorySlug($repository);
 }
