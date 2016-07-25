@@ -13,7 +13,7 @@ class AddLogColumnToEvents extends Migration
     public function up()
     {
         Schema::table('events', function(Blueprint $table) {
-           $table->json('log');
+            $table->json('log')->nullable();
         });
     }
 

@@ -12,6 +12,10 @@ class SiteDeployment extends Model
 {
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'log' => 'array',
+    ];
+
     public function site()
     {
         return $this->belongsTo(Site::class);

@@ -16,7 +16,7 @@ class CreateSiteDeploymentsTable extends Migration
             $table->increments('id');
             $table->integer('site_id');
             $table->string('status');
-            $table->longText('log')->nullable();
+            $table->json('log')->nullable();
             $table->timestamps();
         });
     }
