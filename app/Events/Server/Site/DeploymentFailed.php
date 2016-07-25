@@ -22,23 +22,28 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     * @param Site $site
+     * @param SiteDeployment $siteDeployment
+     * @param $log
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment, $data)
+    public function __construct(Site $site, SiteDeployment $siteDeployment, $log)
     {
-        $siteDeployment->log = $data;
+        $output = json_decode($log)->output;
+        $siteDeployment->log = json_encode($output);
         $siteDeployment->save();
 
         $this->event = \App\Models\Event::create([
             'event_id' => $site->id,
             'event_type' => Site::class,
             'description' => 'Deployment Failed',
-            'data' => $data,
+            'data' => 'View the log here : ',
+            'log' => $log,
             'internal_type' => 'deployment'
         ]);
 
         $user = $site->server->user;
 
-        Mail::raw('Deployment Failed'. $data, function ($message) use($user) {
+        Mail::raw('Deployment Failed'. print_r($output), function ($message) use($user) {
             $message->to($user->email);
             $message->subject('CodePier Server Provisioned');
         });

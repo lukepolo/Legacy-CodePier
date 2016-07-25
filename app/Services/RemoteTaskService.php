@@ -22,19 +22,16 @@ class RemoteTaskService implements RemoteTaskServiceContract
     private $session;
     private $errors = [];
 
-    private $okErrors = [
-        'WARN',
-        'Generating DH parameters',
-        'Identity added'
-    ];
+    private $output = [];
 
     /**
      * @param $command
      * @param bool $read
      * @param bool $expectedFailure
-     * @return bool
+     * @return array
      * @throws FailedCommand
      * @throws SshConnectionFailed
+     * @throws \Exception
      */
     public function run($command, $read = false, $expectedFailure = false)
     {
@@ -45,9 +42,15 @@ class RemoteTaskService implements RemoteTaskServiceContract
         \Log::info('Running Command : ' . $command);
 
         try {
-            \Log::info($this->session->exec($command . " && echo done;"));
+            $output = $this->session->exec(rtrim($command, ';') . " && echo codepier-done;");
+            if(!str_contains($output, 'codepier-done')) {
+                \Log::info($output);
+                $this->output[] = $output;
+            }
         } catch (\ErrorException $e) {
             if ($e->getMessage() == "Unable to open channel") {
+                echo $this->session->getLog();
+                die;
                 \Log::warning('retrying to connect to');
                 $this->ssh($this->server, $this->user);
                 $this->run($command, $read);
@@ -58,31 +61,35 @@ class RemoteTaskService implements RemoteTaskServiceContract
                     });
                 }
 
-                \Log::critical($e->getMessage());
-
-                return false;
+                \Log::critical('SSH failed to login to the server');
+                throw new \Exception('SSH failed');
             }
         }
 
-        if (!empty($error = $this->session->getStdError())) {
-            if (!str_contains($error, $this->okErrors)) {
+        \Log::debug($this->session->getExitStatus());
 
-                \Log::error($error);
-                $this->errors[] = $error;
 
-                if ($this->throwErrors) {
-                    dump($this->session->getExitStatus());
-                }
+        if ($this->session->getExitStatus() != 0) {
 
-                return $error;
+            \Log::error($output);
+
+            $this->errors[] = $output;
+
+            $data = [
+                'output' => $this->output,
+                'errors' => $this->errors,
+            ];
+
+            if($this->throwErrors) {
+                throw new FailedCommand(json_encode($data));
             }
+
+            return $data;
         }
 
-        if ($read) {
-            return $this->session->read();
-        }
+        $this->output[] = $output;
 
-        return true;
+        return $output;
     }
 
     /**
@@ -163,8 +170,9 @@ echo "Wrote" ', $read);
     /**
      * @param Server $server
      * @param string $user
+     * @param bool $throwErrors
      * @return bool
-     * @throws \Exception
+     * @throws SshConnectionFailed
      */
     public function ssh(Server $server, $user = 'root', $throwErrors = false)
     {
@@ -181,8 +189,6 @@ echo "Wrote" ', $read);
         $key->loadKey($server->private_ssh_key);
 
         $ssh = new SSH2($this->server->ip);
-
-        $ssh->enableQuietMode();
 
         try {
             if (!$ssh->login($user, $key)) {
@@ -209,5 +215,10 @@ echo "Wrote" ', $read);
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
     }
 }

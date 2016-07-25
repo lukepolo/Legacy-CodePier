@@ -4,11 +4,7 @@ namespace App\Services\Server\Site;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
-use App\Events\Server\Site\DeploymentEvents\FoldersSetup;
-use App\Events\Server\Site\DeploymentEvents\MigrationsRan;
-use App\Events\Server\Site\DeploymentEvents\RepositoryCloned;
-use App\Events\Server\Site\DeploymentEvents\VendorsInstalled;
-use App\Events\Server\Site\DeploymentStep;
+use App\Events\Server\Site\DeploymentCompleted;
 use App\Events\Server\Site\DeploymentStepCompleted;
 use App\Events\Server\Site\DeploymentStepStarted;
 use App\Models\Server;
@@ -44,7 +40,8 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @return bool
      */
-    public function create(Server $server, Site $site) {
+    public function create(Server $server, Site $site)
+    {
         $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/before");
@@ -120,7 +117,8 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d', explode(',', $domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
+                explode(',', $domains))
         );
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
@@ -140,7 +138,7 @@ class SiteService implements SiteServiceContract
 
         $siteSSL->save();
 
-       $this->updateSiteNginxConfig($site);
+        $this->updateSiteNginxConfig($site);
 
         if ($site->hasSSL()) {
             $site->ssl->delete();
@@ -174,13 +172,12 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @param SiteDeployment $siteDeployment
      * @param bool $zeroDownTime
-     * @return array
      */
     public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $zeroDownTime = true)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
-        foreach($siteDeployment->events as $event) {
+        foreach ($siteDeployment->events as $event) {
 
             $start = microtime(true);
 
@@ -195,7 +192,7 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('service nginx restart');
 
-        return $this->remoteTaskService->getErrors();
+        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
     }
 
 
@@ -270,7 +267,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
         $errors = $this->remoteTaskService->getErrors();
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $siteDaemon->delete();
             return true;
         }
@@ -290,11 +287,11 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
         $errors = $this->remoteTaskService->getErrors();
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $errors = $this->remove($site);
         }
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $site->delete();
             return true;
         }
@@ -315,10 +312,12 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf',
-'client_max_body_size ' . $megabytes . 'M;'
-);
-        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize = .*', 'upload_max_filesize = ' . $megabytes . 'M');
-        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'post_max_size = .*', 'post_max_size = ' . $megabytes . 'M');
+            'client_max_body_size ' . $megabytes . 'M;'
+        );
+        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize = .*',
+            'upload_max_filesize = ' . $megabytes . 'M');
+        $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'post_max_size = .*',
+            'post_max_size = ' . $megabytes . 'M');
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
@@ -333,7 +332,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
     public function updateSiteNginxConfig(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
-        if($site->hasSSL()) {
+        if ($site->hasSSL()) {
 
             $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
 server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
@@ -370,7 +369,7 @@ server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
 listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) .'/'. $site->web_directory . ';
+root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
 ');
         }
 

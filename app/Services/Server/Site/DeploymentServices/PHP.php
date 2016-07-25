@@ -54,13 +54,13 @@ class PHP
         $this->remoteTaskService->run('mkdir -p ' . $this->site_folder);
         $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
 
-        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
 
-        $this->remoteTaskService->run('cd ' . $this->release . '; echo "*" > .git/info/sparse-checkout');
-        $this->remoteTaskService->run('cd ' . $this->release . '; echo "!storage" >> .git/info/sparse-checkout');
-        $this->remoteTaskService->run('cd ' .$this->release . '; echo "!public/build" >> .git/info/sparse-checkout');
+        $this->remoteTaskService->run('echo "*" > '.$this->release.'/.git/info/sparse-checkout');
+        $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');
+        $this->remoteTaskService->run('echo "!public/build" >> '.$this->release.'/.git/info/sparse-checkout');
 
-        $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env; cd ' . $this->release);
+        $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env');
         $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');
     }
 

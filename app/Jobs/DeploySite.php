@@ -52,7 +52,6 @@ class DeploySite extends Job implements ShouldQueue
     {
         try {
             $siteService->deploy($this->server, $this->site, $this->siteDeployment);
-            event(new DeploymentCompleted($this->site, $this->siteDeployment));
         } catch(FailedCommand $e) {
             event(new DeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }
