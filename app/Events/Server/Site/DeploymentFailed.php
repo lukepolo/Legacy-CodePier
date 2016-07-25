@@ -29,7 +29,10 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
     public function __construct(Site $site, SiteDeployment $siteDeployment, $log)
     {
         $siteDeployment->log = $log;
+        $siteDeployment->status = 'failed';
         $siteDeployment->save();
+
+        $this->siteDeployment = $siteDeployment;
 
         $this->event = \App\Models\Event::create([
             'event_id' => $site->id,
@@ -47,7 +50,7 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
             $message->subject('Deployment Failed');
         });
 
-        $this->siteDeployment = $siteDeployment;
+
     }
 
     /**

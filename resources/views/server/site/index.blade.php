@@ -225,5 +225,12 @@
                 </div>
             </div>
         @endif
+
+
+        @foreach($site->deployments as $deployment)
+            <div class="panel-heading">
+                {{ ucwords($deployment->status) }} - <a href="#" target="_blank">{{ $deployment->git_commit }}</a> <a href="#">(Revert)</a>
+            </div>
+        @endforeach
     </div>
 @endsection

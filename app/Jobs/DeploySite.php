@@ -19,17 +19,22 @@ class DeploySite extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    public $sha;
     public $site;
     public $server;
     public $siteDeployment;
 
     /**
      * Create a new job instance.
+     * @param Site $site
+     * @param null $sha
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, $sha = null)
     {
+        $this->sha = $sha;
         $this->site = $site;
         $this->server = $site->server;
+
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
@@ -49,7 +54,7 @@ class DeploySite extends Job implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         try {
-            $siteService->deploy($this->server, $this->site, $this->siteDeployment);
+            $siteService->deploy($this->server, $this->site, $this->siteDeployment, $this->sha);
         } catch(\App\Exceptions\DeploymentFailed $e) {
             event(new DeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }

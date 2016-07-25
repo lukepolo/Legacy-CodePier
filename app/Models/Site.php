@@ -38,14 +38,6 @@ class Site extends Model
         return $this->hasMany(SiteDaemon::class);
     }
 
-    public function hasSSL()
-    {
-        if(!empty($this->ssl)) {
-            return true;
-        }
-
-        return false;
-    }
 
     public function settings()
     {
@@ -57,9 +49,9 @@ class Site extends Model
         return $this->hasMany(DeploymentStep::class)->orderBy('order');
     }
 
-    public function lastDeployment()
+    public function deployments()
     {
-        return $this->hasOne(SiteDeployment::class)->orderBy('id' ,'desc');
+        return $this->hasMany(SiteDeployment::class)->orderBy('id' ,'desc');
     }
 
     public function userRepositoryProvider()
@@ -67,4 +59,23 @@ class Site extends Model
         return $this->belongsTo(UserRepositoryProvider::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function hasSSL()
+    {
+        if(!empty($this->ssl)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function lastDeployment()
+    {
+        return $this->hasOne(SiteDeployment::class)->orderBy('id' ,'desc');
+    }
 }

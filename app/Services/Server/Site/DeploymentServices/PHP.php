@@ -48,14 +48,18 @@ class PHP
     /**
      * Updates the repository from the provider
      */
-    public function cloneRepository()
+    public function cloneRepository($sha = null)
     {
         $output = [];
 
         $output[] = $this->remoteTaskService->run('mkdir -p ' . $this->site_folder);
         $output[] = $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
 
-        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . (empty($sha) ? ' --depth=1 ' : ' ') . $this->release);
+
+        if(!empty($sha)) {
+            $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
+        }
 
         $output[] = $this->remoteTaskService->run('echo "*" > '.$this->release.'/.git/info/sparse-checkout');
         $output[] = $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');

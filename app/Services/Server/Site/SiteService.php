@@ -182,29 +182,29 @@ class SiteService implements SiteServiceContract
      * @param Server $server
      * @param Site $site
      * @param SiteDeployment $siteDeployment
-     * @param bool $zeroDownTime
+     * @param null $sha
      * @throws DeploymentFailed
      */
-    public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $zeroDownTime = true)
+    public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $sha = null)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
-        $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
-
-        if(!empty($lastCommit)) {
-            $siteDeployment->git_commit = $lastCommit;
-            $siteDeployment->save();
+        if(empty($lastCommit = $sha)) {
+            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
         }
 
-        foreach ($siteDeployment->events as $event) {
+        $siteDeployment->git_commit = $lastCommit;
+        $siteDeployment->save();
 
+        foreach ($siteDeployment->events as $event) {
             try {
                 $start = microtime(true);
 
                 event(new DeploymentStepStarted($site, $event));
 
                 $internalFunction = $event->step->internal_deployment_function;
-                $log = $deploymentService->$internalFunction();
+
+                $log = $deploymentService->$internalFunction($sha);
 
                 event(new DeploymentStepCompleted($site, $event, $log, microtime(true) - $start));
             } catch(FailedCommand $e) {
