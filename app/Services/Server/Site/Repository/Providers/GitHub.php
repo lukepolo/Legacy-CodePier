@@ -96,4 +96,17 @@ class GitHub implements RepositoryContract
     {
         return explode('/', $repository)[1];
     }
+
+    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
+    {
+        $this->setToken($userRepositoryProvider);
+
+        $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
+
+        if(!empty($lastCommit)) {
+            return $lastCommit['sha'];
+        }
+
+        return null;
+    }
 }

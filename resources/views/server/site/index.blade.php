@@ -182,7 +182,7 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            {{ ucwords($currentDeployment->status) }}
+                            {{ ucwords($currentDeployment->status) }} - <a href="#" target="_blank">{{ $currentDeployment->git_commit }}</a>
                         </div>
                         <div class="panel-body">
                             @foreach($currentDeployment->events as $event)

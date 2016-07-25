@@ -3,6 +3,7 @@
 namespace App\Services\Server\Site;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Events\Server\Site\DeploymentCompleted;
 use App\Events\Server\Site\DeploymentStepCompleted;
@@ -24,6 +25,7 @@ use App\Services\Server\Site\DeploymentServices\PHP;
 class SiteService implements SiteServiceContract
 {
     protected $remoteTaskService;
+    protected $repositoryService;
 
     public $deploymentServices = [
         'php' => DeploymentServices\PHP::class
@@ -32,10 +34,12 @@ class SiteService implements SiteServiceContract
     /**
      * SiteService constructor.
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
      */
-    public function __construct(RemoteTaskService $remoteTaskService)
+    public function __construct(RemoteTaskService $remoteTaskService, RepositoryService $repositoryService)
     {
         $this->remoteTaskService = $remoteTaskService;
+        $this->repositoryService = $repositoryService;
     }
 
     /**
@@ -184,6 +188,13 @@ class SiteService implements SiteServiceContract
     public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $zeroDownTime = true)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
+
+        $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
+
+        if(!empty($lastCommit)) {
+            $siteDeployment->git_commit = $lastCommit;
+            $siteDeployment->save();
+        }
 
         foreach ($siteDeployment->events as $event) {
 
