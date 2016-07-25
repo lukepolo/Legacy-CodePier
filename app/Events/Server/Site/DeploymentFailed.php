@@ -29,7 +29,7 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
     public function __construct(Site $site, SiteDeployment $siteDeployment, $log)
     {
         $output = json_decode($log)->output;
-        $siteDeployment->log = json_encode($output);
+        $siteDeployment->log = $output;
         $siteDeployment->save();
 
         $this->event = \App\Models\Event::create([
@@ -43,7 +43,7 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
 
         $user = $site->server->user;
 
-        Mail::raw('Deployment Failed'. print_r($output), function ($message) use($user) {
+        Mail::raw('Deployment Failed' . print_r($output), function ($message) use ($user) {
             $message->to($user->email);
             $message->subject('CodePier Server Provisioned');
         });

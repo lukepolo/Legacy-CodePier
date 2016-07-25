@@ -24,7 +24,7 @@ class ServerProvisioned extends Event
      * @param $databasePassword
      * @param $errors
      */
-    public function __construct(Server $server, $sudoPassword, $databasePassword, $errors)
+    public function __construct(Server $server, $sudoPassword, $databasePassword, $log, $errors)
     {
         $this->server = $server;
         $this->sudoPassword = $sudoPassword;
@@ -36,6 +36,7 @@ class ServerProvisioned extends Event
             'event_type' => Server::class,
             'description' => 'Server Provisioned',
             'data' => $errors,
+            'log' => $log,
             'internal_type' => 'provision_status'
         ]);
     }

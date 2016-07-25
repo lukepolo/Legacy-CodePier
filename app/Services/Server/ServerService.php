@@ -140,7 +140,7 @@ class ServerService implements ServerServiceContract
 
         app(Dispatcher::class)->dispatchNow(new CreateSite($server));
 
-        event(new ServerProvisioned($server, $sudoPassword, $databasePassword, $errors));
+        event(new ServerProvisioned($server, $sudoPassword, $databasePassword, 'Click here to find out more', $errors));
     }
 
     /**
@@ -183,7 +183,7 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server, $user);
         $errors = $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $cronJob->delete();
         }
 
@@ -210,9 +210,11 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server, $user);
 
         if (empty($fromIP)) {
-            $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT");
+            $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
+                "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT");
         } else {
-            $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT");
+            $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
+                "iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT");
         }
 
         $this->rebuildFirewall($server);
@@ -230,7 +232,8 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
+        $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
+            "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         $this->rebuildFirewall($server);
 
@@ -265,13 +268,15 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server, $user);
 
         if (empty($firewallRule->from_ip)) {
-            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
+                "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         } else {
-            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
+                "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
 
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $firewallRule->delete();
             return $this->rebuildFirewall($server);
         }
@@ -300,8 +305,15 @@ class ServerService implements ServerServiceContract
      * @param string $sshUser
      * @return array
      */
-    public function installDaemon(Server $server, $command, $autoStart, $autoRestart, $user, $numberOfWorkers, $sshUser = 'root')
-    {
+    public function installDaemon(
+        Server $server,
+        $command,
+        $autoStart,
+        $autoRestart,
+        $user,
+        $numberOfWorkers,
+        $sshUser = 'root'
+    ) {
         $serverDaemon = ServerDaemon::create([
             'server_id' => $server->id,
             'command' => $command,
@@ -350,7 +362,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
         $errors = $this->remoteTaskService->getErrors();
 
-        if(empty($errors)) {
+        if (empty($errors)) {
             $serverDaemon->delete();
             return true;
         }
