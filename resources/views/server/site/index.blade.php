@@ -198,6 +198,16 @@
                                                 @else
                                                     Completed in {{ round($event->runtime, 2) }} seconds
                                                 @endif
+                                                <br>
+                                                @if(is_array($event->log))
+                                                    @foreach($event->log as $logItem)
+                                                        @if(!empty($logItem = trim(preg_replace('/codepier-done/', '', $logItem))))
+                                                                {!! nl2br($logItem) !!}
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    {!! str_replace('\n', '<br>', trim(nl2br($event->log), '"')) !!}
+                                                @endif
                                             @else
                                                 Pending
                                             @endif
@@ -208,7 +218,9 @@
                         </div>
                     </div>
                     <div>
-                    <pre>@foreach($currentDeployment->log as $logItem) @if(!empty($logItem = trim(preg_replace('/codepier-done/', '', $logItem)))){!! $logItem !!}<br>@endif @endforeach</pre>
+                    @if(is_array($currentDeployment->log ))
+                        <pre>@foreach($currentDeployment->log as $logItem) @if(!empty($logItem = trim(preg_replace('/codepier-done/', '', $logItem)))){!! $logItem !!}<br>@endif @endforeach</pre>
+                    @endif
                     </div>
                 </div>
             </div>

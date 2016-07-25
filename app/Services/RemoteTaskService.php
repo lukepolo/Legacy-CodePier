@@ -15,8 +15,6 @@ use phpseclib\Net\SSH2;
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
-    public $throwErrors;
-
     private $user;
     private $server;
     private $session;
@@ -40,6 +38,8 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         \Log::info('Running Command : ' . $command);
+
+        $output = null;
 
         try {
             $output = $this->session->exec(rtrim($command, ';') . " && echo codepier-done;");
@@ -66,6 +66,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         \Log::debug($this->session->getExitStatus());
 
+        $this->output[] = $output;
 
         if ($this->session->getExitStatus() != 0) {
 
@@ -73,19 +74,8 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
             $this->errors[] = $output;
 
-            $data = [
-                'output' => $this->output,
-                'errors' => $this->errors,
-            ];
-
-            if($this->throwErrors) {
-                throw new FailedCommand(json_encode($data));
-            }
-
-            return $data;
+            throw new FailedCommand(json_encode($output));
         }
-
-        $this->output[] = $output;
 
         return $output;
     }
@@ -172,10 +162,8 @@ echo "Wrote" ', $read);
      * @return bool
      * @throws SshConnectionFailed
      */
-    public function ssh(Server $server, $user = 'root', $throwErrors = false)
+    public function ssh(Server $server, $user = 'root')
     {
-        $this->throwErrors = $throwErrors;
-
         // Check to see if we are already connected
         if ($this->server == $server && $user == $this->user) {
             return true;

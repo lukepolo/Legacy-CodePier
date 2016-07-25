@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddGitService extends Migration
+class AddGitCommitToSiteDeployments extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddGitService extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
-            $table->integer('user_repository_provider_id');
+        Schema::table('site_deployments', function(Blueprint $table) {
+            $table->string('git_commit')->nullable();
         });
     }
 
@@ -24,8 +24,8 @@ class AddGitService extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
-            $table->dropColumn('user_repository_provider_id');
+        Schema::table('site_deployments', function(Blueprint $table) {
+            $table->dropColumn('git_commit');
         });
     }
 }

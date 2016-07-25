@@ -6,7 +6,10 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\SiteServiceContract;
 use App\Events\Server\Site\DeploymentCompleted;
 use App\Events\Server\Site\DeploymentStepCompleted;
+use App\Events\Server\Site\DeploymentStepFailed;
 use App\Events\Server\Site\DeploymentStepStarted;
+use App\Exceptions\DeploymentFailed;
+use App\Exceptions\FailedCommand;
 use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
@@ -176,6 +179,7 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @param SiteDeployment $siteDeployment
      * @param bool $zeroDownTime
+     * @throws DeploymentFailed
      */
     public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $zeroDownTime = true)
     {
@@ -183,14 +187,19 @@ class SiteService implements SiteServiceContract
 
         foreach ($siteDeployment->events as $event) {
 
-            $start = microtime(true);
+            try {
+                $start = microtime(true);
 
-            event(new DeploymentStepStarted($site, $event));
+                event(new DeploymentStepStarted($site, $event));
 
-            $internalFunction = $event->step->internal_deployment_function;
-            $log = $deploymentService->$internalFunction();
+                $internalFunction = $event->step->internal_deployment_function;
+                $log = $deploymentService->$internalFunction();
 
-            event(new DeploymentStepCompleted($site, $event, $log, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $event, $log, microtime(true) - $start));
+            } catch(FailedCommand $e) {
+                event(new DeploymentStepFailed($site, $event, $e->getMessage()));
+                throw new DeploymentFailed($e->getMessage());
+            }
         }
 
         $this->remoteTaskService->ssh($server);

@@ -27,7 +27,6 @@ class PHP
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
-
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier', true);
 
@@ -51,17 +50,21 @@ class PHP
      */
     public function cloneRepository()
     {
-        $this->remoteTaskService->run('mkdir -p ' . $this->site_folder);
-        $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
+        $output = [];
 
-        $this->remoteTaskService->run('eval `ssh-agent -s`; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
+        $output[] = $this->remoteTaskService->run('mkdir -p ' . $this->site_folder);
+        $output[] = $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
 
-        $this->remoteTaskService->run('echo "*" > '.$this->release.'/.git/info/sparse-checkout');
-        $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');
-        $this->remoteTaskService->run('echo "!public/build" >> '.$this->release.'/.git/info/sparse-checkout');
+        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd ' . $this->site_folder . '; git clone '.$this->repositoryProvider->git_url.':' . $this->repository . ' --branch=' . $this->branch . ' --depth=1 ' . $this->release);
 
-        $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env');
-        $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');
+        $output[] = $this->remoteTaskService->run('echo "*" > '.$this->release.'/.git/info/sparse-checkout');
+        $output[] = $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');
+        $output[] = $this->remoteTaskService->run('echo "!public/build" >> '.$this->release.'/.git/info/sparse-checkout');
+
+        $output[] = $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env');
+        $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');
+
+        return $output;
     }
 
     /**
@@ -69,13 +72,17 @@ class PHP
      */
     public function installPHPDependencies()
     {
-        $this->remoteTaskService->run('cd ' . $this->release . '; composer install --no-interaction --no-ansi');
+        return $this->remoteTaskService->run('cd ' . $this->release . '; composer install --no-interaction --no-ansi');
     }
 
     public function installNodeDependencies()
     {
-        $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ]) || (' . $this->release . '/npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder.')');
-        $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/node_modules ' . $this->release . '/node_modules');
+        $output = [];
+
+        $output[] = $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ]) || (cd ' . $this->release . '; npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder.')');
+        $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/node_modules ' . $this->release . '/node_modules');
+
+        return $output;
     }
 
     /**
@@ -83,7 +90,7 @@ class PHP
      */
     public function setupFolders()
     {
-        $this->remoteTaskService->run('ln -sfn ' . $this->release . ' ' . $this->site_folder . ($this->zerotimeDeployment ? '/current' : null ));
+        return $this->remoteTaskService->run('ln -sfn ' . $this->release . ' ' . $this->site_folder . ($this->zerotimeDeployment ? '/current' : null ));
     }
 
     /**
@@ -91,8 +98,11 @@ class PHP
      */
     public function runMigrations()
     {
-        $this->remoteTaskService->run('cd ' . $this->release . '; php artisan migrate --force --no-interaction');
-        $this->remoteTaskService->run('cd ' . $this->release . '; php artisan queue:restart');
+        $output = [];
+        $output[] = $this->remoteTaskService->run('cd ' . $this->release . '; php artisan migrate --force --no-interaction');
+        $output[] = $this->remoteTaskService->run('cd ' . $this->release . '; php artisan queue:restart');
+
+        return $output;
     }
 
     /**
@@ -100,6 +110,6 @@ class PHP
      */
     public function cleanup()
     {
-        $this->remoteTaskService->run('cd ' . $this->site_folder . '; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf');
+        return $this->remoteTaskService->run('cd ' . $this->site_folder . '; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf');
     }
 }

@@ -3,10 +3,8 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
-use App\Events\Server\Site\DeploymentCompleted;
 use App\Events\Server\Site\DeploymentFailed;
 use App\Events\Server\Site\NewSiteDeployment;
-use App\Exceptions\FailedCommand;
 use App\Models\Site;
 use App\Models\SiteDeployment;
 use Illuminate\Queue\SerializesModels;
@@ -52,7 +50,7 @@ class DeploySite extends Job implements ShouldQueue
     {
         try {
             $siteService->deploy($this->server, $this->site, $this->siteDeployment);
-        } catch(FailedCommand $e) {
+        } catch(\App\Exceptions\DeploymentFailed $e) {
             event(new DeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }
     }

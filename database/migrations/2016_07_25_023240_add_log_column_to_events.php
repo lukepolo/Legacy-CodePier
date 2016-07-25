@@ -15,6 +15,14 @@ class AddLogColumnToEvents extends Migration
         Schema::table('events', function(Blueprint $table) {
             $table->json('log')->nullable();
         });
+
+        Schema::table('deployment_events', function(Blueprint $table) {
+            $table->dropColumn('log');
+        });
+
+        Schema::table('deployment_events', function(Blueprint $table) {
+            $table->json('log')->nullable();
+        });
     }
 
     /**
@@ -25,6 +33,10 @@ class AddLogColumnToEvents extends Migration
     public function down()
     {
         Schema::table('events', function(Blueprint $table) {
+            $table->dropColumn('log');
+        });
+
+        Schema::table('deployment_events', function(Blueprint $table) {
             $table->dropColumn('log');
         });
     }

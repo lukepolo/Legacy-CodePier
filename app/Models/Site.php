@@ -59,7 +59,7 @@ class Site extends Model
 
     public function lastDeployment()
     {
-        return $this->hasOne(SiteDeployment::class)->orderBy('id');
+        return $this->hasOne(SiteDeployment::class)->orderBy('id' ,'desc');
     }
 
     public function userRepositoryProvider()
