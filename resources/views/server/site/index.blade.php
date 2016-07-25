@@ -208,11 +208,7 @@
                         </div>
                     </div>
                     <div>
-                    <pre>
-                        @foreach($currentDeployment->log as $logItem)
-                            {!! $logItem !!}
-                        @endforeach
-                    </pre>
+                    <pre>@foreach($currentDeployment->log as $logItem) @if(!empty($logItem = trim(preg_replace('/codepier-done/', '', $logItem)))){!! $logItem !!}<br>@endif @endforeach</pre>
                     </div>
                 </div>
             </div>
