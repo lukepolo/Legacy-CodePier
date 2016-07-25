@@ -127,7 +127,7 @@ class SiteService implements SiteServiceContract
             return $errors;
         }
 
-        $this->remoteTaskService->run('crontab -l | (grep letsencrypt && echo "found") || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
         $siteSSL = SiteSslCertificate::firstOrCreate([
             'site_id' => $site->id,

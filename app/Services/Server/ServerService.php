@@ -167,7 +167,7 @@ class ServerService implements ServerServiceContract
         ]);
 
         $this->remoteTaskService->ssh($server, $user);
-        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ' && echo "found") || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }

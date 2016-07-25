@@ -60,7 +60,7 @@ class PHP
         $this->remoteTaskService->run('cd ' . $this->release . '; echo "!storage" >> .git/info/sparse-checkout');
         $this->remoteTaskService->run('cd ' .$this->release . '; echo "!public/build" >> .git/info/sparse-checkout');
 
-        $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ] && echo "Found") || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env; cd ' . $this->release);
+        $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env; cd ' . $this->release);
         $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');
     }
 
@@ -69,13 +69,12 @@ class PHP
      */
     public function installPHPDependencies()
     {
-        $this->remoteTaskService->run('cd ' . $this->release . '; composer install --no-interaction --no-ansi --no-progress --quiet');
+        $this->remoteTaskService->run('cd ' . $this->release . '; composer install --no-interaction --no-ansi');
     }
 
     public function installNodeDependencies()
     {
-        $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ] && echo "Found") || cd ' . $this->release . '; npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder);
-
+        $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ]) || (' . $this->release . '/npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder.')');
         $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/node_modules ' . $this->release . '/node_modules');
     }
 
@@ -92,7 +91,8 @@ class PHP
      */
     public function runMigrations()
     {
-        $this->remoteTaskService->run('cd ' . $this->release . '; php artisan migrate --force --no-interaction; php artisan queue:restart');
+        $this->remoteTaskService->run('cd ' . $this->release . '; php artisan migrate --force --no-interaction');
+        $this->remoteTaskService->run('cd ' . $this->release . '; php artisan queue:restart');
     }
 
     /**
