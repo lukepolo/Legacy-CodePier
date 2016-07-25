@@ -49,8 +49,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
             }
         } catch (\ErrorException $e) {
             if ($e->getMessage() == "Unable to open channel") {
-                echo $this->session->getLog();
-                die;
                 \Log::warning('retrying to connect to');
                 $this->ssh($this->server, $this->user);
                 $this->run($command, $read);

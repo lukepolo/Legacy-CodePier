@@ -178,7 +178,6 @@
             </div>
         </div>
         @if(!empty($currentDeployment = $site->lastDeployment))
-            {{ dump($currentDeployment) }}
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="panel panel-default">
@@ -207,6 +206,13 @@
                                 </div>
                             @endforeach
                         </div>
+                    </div>
+                    <div>
+                    <pre>
+                        @foreach($currentDeployment->log as $logItem)
+                            {!! $logItem !!}
+                        @endforeach
+                    </pre>
                     </div>
                 </div>
             </div>
