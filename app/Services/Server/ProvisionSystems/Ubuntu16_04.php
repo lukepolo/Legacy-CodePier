@@ -173,26 +173,34 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
     public function installMySQL($databasePassword, $database = null)
     {
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password password ' . $databasePassword . '\'');
-        $this->remoteTaskService->run('debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password ' . $databasePassword . '\'');
+        $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password password $databasePassword'");
+        $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password_again password $databasePassword'");
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server');
 
-        $this->remoteTaskService->run('sed -i \'/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/\' /etc/mysql/mysql.conf.d/mysqld.cnf');
+        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
 
-        $this->remoteTaskService->run('mysql --user="root" --password="' . $databasePassword . '" -e "GRANT ALL ON *.* TO root@\'%\' IDENTIFIED BY \'' . $databasePassword . '````\' WITH GRANT OPTION;"');
-        $this->remoteTaskService->run('service mysql restart');
-
-        $this->remoteTaskService->run('mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=' . $databasePassword . ' mysql');
+        $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
         if(!empty($database)) {
-            $this->remoteTaskService->run('mysql --user="root" --password="' . $databasePassword . '" -e "CREATE DATABASE '.$database.'"');
+            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"CREATE DATABASE $database\"");
         }
     }
 
     public function installMariaDB($databasePassword, $database = null)
     {
+        $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password password $databasePassword'");
+        $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password_again password $databasePassword'");
 
+        $this->remoteTaskService->run('apt-get install -y mariadb-server');
+
+        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
+
+        $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
+
+        if(!empty($database)) {
+            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"CREATE DATABASE $database\"");
+        }
     }
 
     public function installCertBot()

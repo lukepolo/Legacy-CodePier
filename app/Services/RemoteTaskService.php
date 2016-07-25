@@ -192,12 +192,12 @@ echo "Wrote" ', $read);
             if (!$ssh->login($user, $key)) {
                 $server->ssh_connection = false;
                 $server->save();
-                throw new SshConnectionFailed('Failed to login');
+                throw new SshConnectionFailed('Failed to login to'. $server->ip);
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
             $server->save();
-            throw new SshConnectionFailed('Failed to login');
+            throw new SshConnectionFailed('Failed to login to'. $server->ip);
         }
 
         $ssh->setTimeout(0);

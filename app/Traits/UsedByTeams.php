@@ -24,32 +24,35 @@ trait UsedByTeams
      */
     protected static function bootUsedByTeams()
     {
-        $teamworkUserModel = null;
-        if(isset(static::$teamworkUserModel)) {
-            $teamworkUserModel = static::$teamworkUserModel;
+        if(\Auth::check()) {
+            $teamworkUserModel = null;
+            if(isset(static::$teamworkUserModel)) {
+                $teamworkUserModel = static::$teamworkUserModel;
+            }
+
+            if (empty(auth()->user()->currentTeam)) {
+                static::addGlobalScope('team', function (Builder $builder) use($teamworkUserModel) {
+                    if(!empty($teamworkUserModel)) {
+                        $builder->whereHas($teamworkUserModel, function($query) {
+                            $query->where('user_id', auth()->user()->id);
+                        });
+                    } else {
+                        $builder->where('user_id', auth()->user()->id);
+                    }
+                });
+            } else {
+                static::addGlobalScope('team', function (Builder $builder) {
+                    $builder->where('team_id', auth()->user()->currentTeam->getKey());
+                });
+
+                static::saving(function (Model $model) {
+                    if (!isset($model->team_id)) {
+                        $model->team_id = auth()->user()->currentTeam->getKey();
+                    }
+                });
+            }
         }
 
-        if (empty(auth()->user()->currentTeam)) {
-            static::addGlobalScope('team', function (Builder $builder) use($teamworkUserModel) {
-                if(!empty($teamworkUserModel)) {
-                    $builder->whereHas($teamworkUserModel, function($query) {
-                        $query->where('user_id', auth()->user()->id);
-                    });
-                } else {
-                    $builder->where('user_id', auth()->user()->id);
-                }
-            });
-        } else {
-            static::addGlobalScope('team', function (Builder $builder) {
-                $builder->where('team_id', auth()->user()->currentTeam->getKey());
-            });
-
-            static::saving(function (Model $model) {
-                if (!isset($model->team_id)) {
-                    $model->team_id = auth()->user()->currentTeam->getKey();
-                }
-            });
-        }
     }
 
     /**

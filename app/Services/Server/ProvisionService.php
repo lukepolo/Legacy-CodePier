@@ -45,7 +45,7 @@ class ProvisionService implements ProvisionServiceContract
 
         $provisionSystem = $this->getProvisionRepository($server);
 
-        $this->totalActions = count(get_class_methods($provisionSystem)) - 3;
+        $this->totalActions = count(get_class_methods($provisionSystem)) - 4;
 
         $this->updateProgress('Updating system');
         $provisionSystem->updateSystem();
@@ -89,11 +89,14 @@ class ProvisionService implements ProvisionServiceContract
         $this->updateProgress('Installing Beanstalk');
         $provisionSystem->installBeanstalk();
 
-        $this->updateProgress('Installing MySQL');
-        $provisionSystem->installMySQL($databasePassword, $server->options['database']);
+        if($server->hasFeature('mariaDB')) {
+            $this->updateProgress('Installing MariaDB');
+            $provisionSystem->installMariaDB($databasePassword, $server->options['database']);
 
-        $this->updateProgress('Installing MariaDB');
-        $provisionSystem->installMariaDB($databasePassword, $server->options['database']);
+        } else {
+            $this->updateProgress('Installing MySQL');
+            $provisionSystem->installMySQL($databasePassword, $server->options['database']);
+        }
 
         $this->updateProgress('Installing NodeJS');
         $provisionSystem->installNodeJs();

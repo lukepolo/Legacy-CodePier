@@ -42,7 +42,7 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, Site $site)
     {
-        $this->remoteTaskService->ssh($server, 'codepier');
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/before");
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/server");
@@ -52,6 +52,10 @@ class SiteService implements SiteServiceContract
             $this->updateSiteNginxConfig($site, "/etc/nginx/codepier-conf/$site->domain/server/listen");
             return $this->remoteTaskService->run('service nginx restart');
         }
+
+        $this->remoteTaskService->ssh($server, 'codepier');
+
+        $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
         return $this->remoteTaskService->getErrors();
     }

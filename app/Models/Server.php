@@ -66,4 +66,20 @@ class Server extends Model
     {
         return $this->hasMany(ServerNetworkRule::class);
     }
+
+    public function getFeatures()
+    {
+        $features = [];
+
+        foreach ($this->features as $featureID) {
+            $features[] = ServerProviderFeatures::findOrFail($featureID);
+        }
+
+        return collect($features);
+    }
+
+    public function hasFeature($feature)
+    {
+        return $this->getFeatures()->pluck('option')->contains($feature);
+    }
 }
