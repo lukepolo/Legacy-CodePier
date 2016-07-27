@@ -83,7 +83,7 @@ class PHP
     {
         $output = [];
 
-        $output[] = $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ]) || (cd ' . $this->release . '; npm install --production; mv ' . $this->release . '/node_modules ' . $this->site_folder.')');
+        $output[] = $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/node_modules ]) || (cd ' . $this->release . '; npm install --no-progress --production; mv ' . $this->release . '/node_modules ' . $this->site_folder.')');
         $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/node_modules ' . $this->release . '/node_modules');
 
         return $output;
