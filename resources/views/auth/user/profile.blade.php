@@ -71,10 +71,13 @@
                                 <p>
                                     @foreach($serverProviders as $serverProvider)
                                         Integrate with {{ $serverProvider->name }} :
-                                        @if(!\Auth::user()->userServerProviders->lists('id')->contains($serverProvider->id))
+
+                                        @if(!\Auth::user()->userServerProviders->lists('server_provider_id')->contains($serverProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $serverProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            Connected
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserServerProvider::class, \Auth::user()->userServerProviders->first(function($key, $userServerProvider) use ($serverProvider) {
+                                                return $userServerProvider->server_provider_id == $serverProvider->id;
+                                            })->id]) }}">Disconnect</a>
                                         @endif
                                     @endforeach
                                 </p>
@@ -86,7 +89,9 @@
                                         @if(!\Auth::user()->userRepositoryProviders->lists('repository_provider_id')->contains($repositoryProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            <a href="{{ action('Auth\OauthController@getDisconnectService', $repositoryProvider->id) }}">Disconnect</a>
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userRepositoryProviders->first(function($key, $userRepositoryProvider) use ($repositoryProvider) {
+                                                return $userRepositoryProvider->repository_provider_id == $repositoryProvider->id;
+                                            })->id]) }}">Disconnect</a>
                                         @endif
                                     </p>
                                 @endforeach

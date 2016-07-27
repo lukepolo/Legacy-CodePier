@@ -184,13 +184,18 @@ class OauthController extends Controller
         return $userModel;
     }
 
-    public function getDisconnectService(int $serviceID)
+    public function getDisconnectService($providerType, int $serviceID)
     {
-        if(!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('repository_provider_id', $serviceID)->first())) {
-            $userRepositoryProvider->delete();
+        if(UserRepositoryProvider::class == $providerType) {
+            if(!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id', $serviceID)->first())) {
+                $userRepositoryProvider->delete();
+            }
         }
-        if(!empty($userServerProvider = \Auth::user()->userServerProviders->where('server_provider_id', $serviceID)->first())) {
-            $userServerProvider->delete();
+
+        if(UserServerProvider::class == $providerType) {
+            if (!empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
+                $userServerProvider->delete();
+            }
         }
 
         return back()->with('success', 'You have disconnected the service');
@@ -204,7 +209,7 @@ class OauthController extends Controller
      */
     private function saveRepositoryProvider($provider, $user)
     {
-        $userRepositoryProvider = UserRepositoryProvider::create([
+        $userRepositoryProvider = UserRepositoryProvider::firstOrNew([
             'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $user->getId()
         ]);

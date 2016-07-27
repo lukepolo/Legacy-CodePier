@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------
     |
     */
-    Route::get('/provider/disconnect/{serviceID}', 'Auth\OauthController@getDisconnectService');
+    Route::get('/provider/disconnect/{serverProviderID}/{serviceID}', 'Auth\OauthController@getDisconnectService');
 
     /*
     |--------------------------------------------------------------------------
