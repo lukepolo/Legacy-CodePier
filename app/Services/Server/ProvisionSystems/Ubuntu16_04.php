@@ -51,6 +51,9 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh && chmod 600 /home/codepier/.ssh/authorized_keys');
 
         $this->remoteTaskService->run('ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa');
+
+        $this->remoteTaskService->updateText('/etc/ssh/sshd_config', '#PasswordAuthentication', 'PasswordAuthentication no');
+        $this->remoteTaskService->updateText('/etc/ssh/sshd_config', 'PermitRootLogin', 'PermitRootLogin no');
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
     }
 

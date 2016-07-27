@@ -141,7 +141,7 @@ class SiteController extends Controller
             ];
 
             foreach ($defaultSteps as $defaultStep) {
-                DeploymentStep::create(
+                DeploymentStep::firstOrCreate(
                     array_merge(['site_id' => $site->id], $defaultStep)
                 );
             }

@@ -155,6 +155,11 @@ echo "Wrote" ', $read);
         return $this->run("rm $file");
     }
 
+    public function updateText($file, $text, $replaceWithText)
+    {
+        return $this->run('sed -i "s/'.$text.' .*/'.$replaceWithText.'/" '.$file);
+    }
+
     /**
      * @param Server $server
      * @param string $user
