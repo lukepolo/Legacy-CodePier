@@ -170,7 +170,7 @@ class OauthController extends Controller
                 })['email'];
 
                 break;
-            case 'default':
+            default:
                 $email = $user->getEmail();
                 break;
         }

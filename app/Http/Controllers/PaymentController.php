@@ -42,7 +42,7 @@ class PaymentController extends Controller
             $this->user->updateCard($cardToken->id);
         }
 
-        if ($this->user->subscriptions()->count()) {
+        if ($this->user->subscribed()) {
             $this->user->subscription('default')->swap(\Request::get('plan'));
         } else {
             $this->user->newSubscription('default', \Request::get('plan'))->create();
