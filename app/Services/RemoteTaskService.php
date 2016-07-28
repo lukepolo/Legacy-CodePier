@@ -77,7 +77,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             throw new FailedCommand(json_encode($output));
         }
 
-        return $output;
+        return $this->cleanResponse($output);
     }
 
     /**
@@ -211,5 +211,10 @@ echo "Wrote" ', $read);
     public function getOutput()
     {
         return $this->output;
+    }
+
+    private function cleanResponse($response)
+    {
+        return str_replace('codepier-done', '', $response);
     }
 }

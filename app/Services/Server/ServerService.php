@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Classes\DiskSpace;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
@@ -516,4 +517,16 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
         return $this->remoteTaskService->makeDirectory($folder);
     }
+
+    public function checkDiskSpace(Server $server)
+    {
+        $this->remoteTaskService->ssh($server);
+        $results = $this->remoteTaskService->run("df / | grep / | awk '{print $2} {print $3} {print $4}'");
+
+        $results = array_filter(explode(PHP_EOL, $results));
+
+
+        return new DiskSpace($results[0], $results[1], $results[2]);
+    }
+
 }

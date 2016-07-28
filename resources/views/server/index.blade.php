@@ -7,6 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Server {{ $server->name }} <small>{{ $server->ip }}</small>
+                        -- {{ $diskspace }}
                     </div>
                     <div class="panel-body">
                         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
