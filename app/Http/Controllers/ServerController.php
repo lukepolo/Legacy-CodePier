@@ -37,8 +37,6 @@ class ServerController extends Controller
      */
     public function getServer($serverID)
     {
-        event(new ServerProvisionStatusChanged( Server::with('sites')->findOrFail($serverID), 'testing 2', '50'));
-        dd('test');
         $server = Server::with('sites')->findOrFail($serverID);
 
         return view('server.index', [

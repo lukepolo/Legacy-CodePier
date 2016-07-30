@@ -23,57 +23,9 @@
 
         <script src="{{ elixir('js/all.js') }}"></script>
 
-        @if(env('NODE_ON', false))
-            @include('layouts.core.socketio')
-        @endif
+        @include('layouts.core.notifications')
 
         <script type="text/javascript">
-
-            @if(env('NODE_ON'))
-                socket.on('{{ addslashes(\App\Events\Server\Site\DeploymentCompleted::class) }}', function(data) {
-                    if (Notification) {
-                        if (Notification.permission !== "granted") {
-                            Notification.requestPermission();
-                        }
-
-                        // https://github.com/realtime-framework/ChromePushNotifications
-                        // https://developer.mozilla.org/en-US/docs/Web/API/notification
-                        var notification = new Notification(data.event.description, {
-                            icon: 'https://s32.postimg.org/coqhgycut/cp_notification_dark.jpg',
-                            body : data.event.data
-                        });
-
-                        notification.onclick = function(event) {
-                            event.preventDefault(); // prevent the browser from focusing the Notification's tab
-                            window.open('http://codepier.app/server/3', '_blank');
-                        };
-                    }
-                });
-
-                socket.on('{{ addslashes(\App\Events\Server\Site\DeploymentFailed::class) }}', function(data) {
-                    if (Notification) {
-                        if (Notification.permission !== "granted") {
-                            Notification.requestPermission();
-                        }
-
-                        // https://github.com/realtime-framework/ChromePushNotifications
-                        // https://developer.mozilla.org/en-US/docs/Web/API/notification
-                        var notification = new Notification(data.event.description, {
-                            icon: 'https://s32.postimg.org/coqhgycut/cp_notification_dark.jpg',
-                            body : data.event.data
-                        });
-
-                        notification.onclick = function(event) {
-                            event.preventDefault(); // prevent the browser from focusing the Notification's tab
-                            window.open('http://codepier.app/server/3', '_blank');
-                        };
-                    }
-                });
-
-            @endif
-
-
-
             var vue;
 
             moment.tz.setDefault("UTC");

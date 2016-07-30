@@ -56,6 +56,6 @@ class DeploymentCompleted extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ['user.'.$this->user->id];
+        return ['user.'.$this->user->user_id];
     }
 }
