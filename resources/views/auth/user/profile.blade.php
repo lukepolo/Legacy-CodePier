@@ -100,9 +100,8 @@
                             <div role="tabpanel" class="tab-pane fade" id="notification-providers">
                                 @foreach($notificationProviders as $notificationProvider)
                                     <p>
-                                        {{ dump(Auth::user()->userNotificationProviders) }}
                                         Integrate with {{ $notificationProvider->name }} :
-                                        @if(!\Auth::user()->userNotificationProviders->lists('repository_provider_id')->contains($notificationProvider->id))
+                                        @if(!\Auth::user()->userNotificationProviders->lists('notification_provider_id')->contains($notificationProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $notificationProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
                                             <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userNotificationProviders->first(function($key, $userNotificationProvider) use ($notificationProvider) {
