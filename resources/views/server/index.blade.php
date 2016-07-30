@@ -190,7 +190,11 @@
                             <div class="tab-pane" id="monitoring">
                                 <div class="btn">Integrate With Slack</div>
                                 <div class="btn">Integrate With HipChat</div>
-                                <div class="btn">Install Blackfire</div>
+                                {!! Form::open(['action' => ['ServerController@postInstallBlackfire', $server->id]]) !!}
+                                    {!! Form::text('server_id') !!}
+                                    {!! Form::text('server_token') !!}
+                                    {!! Form::submit('Install Blackfire') !!}
+                                {!! Form::close() !!}
                             </div>
                             <div class="tab-pane" id="edit-files">
                                 <div class="row">

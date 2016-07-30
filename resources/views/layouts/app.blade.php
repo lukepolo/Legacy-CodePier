@@ -23,7 +23,9 @@
 
         <script src="{{ elixir('js/all.js') }}"></script>
 
-        @include('layouts.core.notifications')
+        @if(\Auth::check())
+            @include('layouts.core.notifications')
+        @endif
 
         <script type="text/javascript">
             var vue;

@@ -129,6 +129,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/get-file', 'ServerController@getFileFromServer');
     Route::post('server/{serverID}/file/save', 'ServerController@postSaveFile');
 
+    Route::post('server/{serverID}/install/blackfire', 'ServerController@postInstallBlackfire');
+
     /*
     |--------------------------------------------------------------------------
     | Site Routes
