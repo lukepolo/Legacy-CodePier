@@ -81,7 +81,7 @@ class OauthController extends Controller
                 case self::SLACK :
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
 
-                    $newUserNotificationProvider = $this->saveNotificationProvider($provider, new TokenData($tokenData['user_id'], $tokenData['access_token']));
+                    $newUserNotificationProvider = $this->saveNotificationProvider($provider, new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default :
                     $user = Socialite::driver($provider)->user();
@@ -224,6 +224,12 @@ class OauthController extends Controller
         if(UserServerProvider::class == $providerType) {
             if (!empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
                 $userServerProvider->delete();
+            }
+        }
+
+        if(UserNotificationProvider::class == $providerType) {
+            if (!empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id', $serviceID)->first())) {
+                $userNotificationProvider->delete();
             }
         }
 

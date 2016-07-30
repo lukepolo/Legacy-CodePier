@@ -29,7 +29,8 @@
         "maknz/slack": "^1.7",
         "socialiteproviders/slack": "^2.0",
         "tomschlick/laravel-http2-server-push": "^0.1.2",
-        "pusher/pusher-php-server": "^2.4"
+        "pusher/pusher-php-server": "^2.4",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

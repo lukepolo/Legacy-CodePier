@@ -12,6 +12,7 @@ use App\Models\ServerFirewallRule;
 use App\Models\ServerNetworkRule;
 use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
+use Maknz\Slack\Client;
 
 /**
  * Class ServerController
@@ -37,6 +38,15 @@ class ServerController extends Controller
      */
     public function getServer($serverID)
     {
+        // TODO - move this into notifications once 5.3 is released
+//        $client = new \Guzzle\Http\Client();
+//
+//        $response = $client->post('https://slack.com/api/chat.postMessage', [], [
+//            'token' => \Auth::user()->userNotificationProviders->first()->token,
+//            'channel' => 'general',
+//            'text' => 'HI FROM CODE PIER!'
+//        ])->send();
+
         $server = Server::with('sites')->findOrFail($serverID);
 
         return view('server.index', [
