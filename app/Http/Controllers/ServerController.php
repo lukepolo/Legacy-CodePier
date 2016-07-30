@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Events\Server\ServerProvisionStatusChanged;
 use App\Jobs\CreateServer;
 use App\Models\Server;
 use App\Models\ServerCronJob;
@@ -36,6 +37,8 @@ class ServerController extends Controller
      */
     public function getServer($serverID)
     {
+        event(new ServerProvisionStatusChanged( Server::with('sites')->findOrFail($serverID), 'testing 2', '50'));
+        dd('test');
         $server = Server::with('sites')->findOrFail($serverID);
 
         return view('server.index', [

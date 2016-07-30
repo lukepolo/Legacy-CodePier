@@ -14,6 +14,8 @@ class ServerCreated extends Event
 {
     use SerializesModels;
 
+    private $user;
+
     /**
      * Create a new event instance.
      */
@@ -29,6 +31,6 @@ class ServerCreated extends Event
      */
     public function broadcastOn()
     {
-        return [];
+        return ['user.'.$this->user->id];
     }
 }

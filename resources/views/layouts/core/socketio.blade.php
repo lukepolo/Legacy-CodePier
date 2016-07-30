@@ -1,10 +1,19 @@
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+
 <script type="text/javascript">
+
     @if(env('APP_ENV') == 'local')
-        if (localStorage.debug != 'socket.io-client:socket') {
-            console.log('You must reload to see socket.io messages!');
-            localStorage.debug='socket.io-client:socket';
-        }
+        Pusher.logToConsole = true;
     @endif
-    var socket = io.connect('{{ env('APP_URL', url('/')) }}:{{ env("NODE_SERVER_PORT") }}');
+
+    var pusher = new Pusher('{{ env('PUSHER_KEY') }}', {
+        encrypted: true
+    });
+
+    var channel = pusher.subscribe('test_channel');
+
+    channel.bind('my_event', function(data) {
+        alert(data.message);
+    });
+
 </script>

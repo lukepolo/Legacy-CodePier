@@ -19,11 +19,15 @@ class NewSiteDeployment extends Event implements ShouldBroadcastNow
     public $site;
     public $siteDeployment;
 
+    private $user;
+
     /**
      * Create a new event instance.
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment)
     {
+        $this->user = $site->server->user;
+
         $this->site = $site;
 
         $this->siteDeployment = $siteDeployment;
@@ -36,8 +40,6 @@ class NewSiteDeployment extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return [
-            '*'
-        ];
+        return ['user.'.$this->user->id];
     }
 }

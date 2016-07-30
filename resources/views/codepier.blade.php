@@ -115,14 +115,13 @@
     <script type="text/javascript">
         var servers = {!! $servers->keyBy('id') !!};
 
-        @if(env('NODE_ON'))
-           socket.on('{{ addslashes(\App\Events\Server\ServerProvisionStatusChanged::class) }}', function(data) {
+        this.pusherChannel = this.pusher.subscribe('user.{{ \Auth::user()->id }}');
+
+        this.pusherChannel.bind('{{ addslashes(\App\Events\Server\ServerProvisionStatusChanged::class) }}', function(data) {
             var server = 'servers['+ data.serverID +']';
             vue.$set(server+'.status', data.status);
             vue.$set(server+'.progress', data.progress);
-
         });
-        @endif
 
     </script>
     <script src="{{ asset('/js/app.js') }}"></script>

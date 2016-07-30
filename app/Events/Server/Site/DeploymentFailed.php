@@ -20,6 +20,8 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
     public $event;
     public $siteDeployment;
 
+    private $user;
+
     /**
      * Create a new event instance.
      * @param Site $site
@@ -28,6 +30,8 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment, $log)
     {
+        $this->user = $site->server->user;
+
         $siteDeployment->log = $log;
         $siteDeployment->status = 'failed';
         $siteDeployment->save();
@@ -60,8 +64,6 @@ class DeploymentFailed extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return [
-            '*'
-        ];
+        return ['user.'.$this->user->id];
     }
 }

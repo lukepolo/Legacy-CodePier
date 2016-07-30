@@ -1,6 +1,6 @@
 <?php
 
-namespace App\SoicalProviders\Slack;
+namespace App\SocialProviders\Slack;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;

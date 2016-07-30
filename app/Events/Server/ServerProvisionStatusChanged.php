@@ -20,6 +20,7 @@ class ServerProvisionStatusChanged extends Event implements ShouldBroadcastNow
     public $serverID;
     public $progress;
 
+    private $user;
     /**
      * Create a new event instance.
      * @param Server $server
@@ -28,6 +29,8 @@ class ServerProvisionStatusChanged extends Event implements ShouldBroadcastNow
      */
     public function __construct(Server $server, $status, $progress)
     {
+        $this->user = $server->user;
+
         $this->serverID = $server->id;
         $this->progress = $server->progress = $progress;
         $this->status = $server->status = $status;
@@ -41,8 +44,6 @@ class ServerProvisionStatusChanged extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return [
-            url('/')
-        ];
+        return ['user.'.$this->user->id];
     }
 }

@@ -171,6 +171,7 @@ return [
         Mpociot\Teamwork\TeamworkServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        TomSchlick\ServerPush\ServiceProvider::class,
 
         /*
          * Custom Service Providers

@@ -18,11 +18,15 @@ class DeploymentStepCompleted extends Event implements ShouldBroadcastNow
 
     public $deploymentEvent;
 
+    private $user;
+
     /**
      * Create a new event instance.
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
+        $this->user = $site->server->user;
+
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;
         $deploymentEvent->runtime = $runtime;
@@ -38,8 +42,6 @@ class DeploymentStepCompleted extends Event implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return [
-            '*'
-        ];
+        return ['user.'.$this->user->id];
     }
 }
