@@ -20,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite@handle',
             'App\SocialProviders\Slack\SlackExtendSocialite@handle',
+
         ],
         \App\Events\ServerProvisioned::class => [
             \App\Listeners\EmailSudoAndDatabasePasswords::class,

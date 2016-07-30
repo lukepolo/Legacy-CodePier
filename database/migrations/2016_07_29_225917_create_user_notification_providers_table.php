@@ -15,7 +15,7 @@ class CreateUserNotificationProvidersTable extends Migration
         Schema::create('user_notification_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('server_provider_id');
+            $table->integer('notification_provider_id');
             $table->string('provider_id');
             $table->string('service');
             $table->string('token');

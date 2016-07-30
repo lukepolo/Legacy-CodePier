@@ -11,6 +11,7 @@ use App\Models\UserLoginProvider;
 use App\Models\UserNotificationProvider;
 use App\Models\UserRepositoryProvider;
 use App\Models\UserServerProvider;
+use App\SocialProviders\TokenData;
 use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Users;
 use Socialite;
@@ -75,63 +76,64 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback($provider)
     {
-//        try {
-            $user = Socialite::driver($provider)->user();
+        try {
+            switch ($provider) {
+                case self::SLACK :
+                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
 
-            dd($user);
+                    $newUserNotificationProvider = $this->saveNotificationProvider($provider, new TokenData($tokenData['user_id'], $tokenData['access_token']));
+                    break;
+                default :
+                    $user = Socialite::driver($provider)->user();
 
-            if (!\Auth::user()) {
-                if (!$userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
-                    $newLoginProvider = $this->createLoginProvider($provider, $user);
-                    $newUserModel = $this->createUser($user, $newLoginProvider);
-                    \Auth::loginUsingId($newUserModel->id);
-                } else {
-                    \Auth::loginUsingId($userProvider->user->id);
-                }
-            }
+                    if (!\Auth::user()) {
+                        if (!$userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
+                            $newLoginProvider = $this->createLoginProvider($provider, $user);
+                            $newUserModel = $this->createUser($user, $newLoginProvider);
+                            \Auth::loginUsingId($newUserModel->id);
+                        } else {
+                            \Auth::loginUsingId($userProvider->user->id);
+                        }
+                    }
 
-            if (in_array($provider, static::$repositoryProviders)) {
-                $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $user);
-            }
+                    if (in_array($provider, static::$repositoryProviders)) {
+                        $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $user);
+                    }
 
-            if (in_array($provider, static::$serverProviders)) {
-                $newUserServerProvider = $this->saveServerProvider($provider, $user);
-            }
+                    if (in_array($provider, static::$serverProviders)) {
+                        $newUserServerProvider = $this->saveServerProvider($provider, $user);
+                    }
 
-            dump($user);
-            dd($provider);
-            if (in_array($provider, static::$notificationProviders)) {
-                dd('test');
-                $newUserNotificationProvider = $this->saveNotificationProvider($provider, $user);
+                    break;
             }
 
             return redirect()->intended('/');
 
-//        } catch (\Exception $e) {
-//
-//            if (!empty($newLoginProvider)) {
-//                $newLoginProvider->delete();
-//            }
-//
-//            if (!empty($newUserModel)) {
-//                $newUserModel->delete();
-//            }
-//
-//            if (!empty($newUserRepositoryProvider)) {
-//                $newUserRepositoryProvider->delete();
-//            }
-//
-//            if (!empty($newUserServerProvider)) {
-//                $newUserServerProvider->delete();
-//            }
-//
-//
-//            if (!empty($newUserNotificationProvider)) {
-//                $newUserNotificationProvider->delete();
-//            }
-//
-//            return redirect('/login')->withErrors($e->getMessage());
-//        }
+        } catch (\Exception $e) {
+
+            if (!empty($newLoginProvider)) {
+                $newLoginProvider->delete();
+            }
+
+            if (!empty($newUserModel)) {
+                $newUserModel->delete();
+            }
+
+            if (!empty($newUserRepositoryProvider)) {
+                $newUserRepositoryProvider->delete();
+            }
+
+            if (!empty($newUserServerProvider)) {
+                $newUserServerProvider->delete();
+            }
+
+
+            if (!empty($newUserNotificationProvider)) {
+                $newUserNotificationProvider->delete();
+            }
+
+            return redirect(\Auth::check() ? action('Auth\UserController@getMyProfile') : '/login')->withErrors($e->getMessage());
+        }
     }
 
     /**
@@ -288,19 +290,19 @@ class OauthController extends Controller
         return $userServerProvider;
     }
 
-    private function saveNotificationProvider($provider, $user)
+    private function saveNotificationProvider($provider, TokenData $tokenData)
     {
         $userNotificationProvider = UserNotificationProvider::firstOrNew([
-            'repository_provider_id' => NotificationProvider::where('provider_name', $provider)->first()->id,
-            'provider_id' => $user->getId()
+            'notification_provider_id' => NotificationProvider::where('provider_name', $provider)->first()->id,
+            'provider_id' => $tokenData->userID
         ]);
 
         $userNotificationProvider->fill([
-            'token' => $user->token,
+            'token' => $tokenData->token,
             'user_id' => \Auth::user()->id,
-            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
-            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+            'expires_in' => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
+            'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
+            'tokenSecret' => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null
         ]);
 
         $userNotificationProvider->save();

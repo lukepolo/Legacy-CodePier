@@ -4,6 +4,10 @@ namespace App\SocialProviders\Slack;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
+/**
+ * Class SlackExtendSocialite
+ * @package App\SocialProviders\Slack
+ */
 class SlackExtendSocialite
 {
     /**
