@@ -231,7 +231,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
     public function installFirewallRules(Server $server)
     {
 
-        $this->remoteTaskService->run('apt-get install -y iptables-persistent');
+        $this->remoteTaskService->run('apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
             'server_id' => $server->id,

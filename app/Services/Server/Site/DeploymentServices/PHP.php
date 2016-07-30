@@ -36,7 +36,6 @@ class PHP
         $this->zerotimeDeployment = $site->zerotime_deployment;
         $this->release = $this->site_folder.'/'.Carbon::now()->format('YmdHis');
 
-
         $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
     }
 

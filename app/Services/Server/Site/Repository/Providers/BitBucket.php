@@ -4,10 +4,10 @@ namespace App\Services\Server\Site\Repository\Providers;
 
 use App\Models\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\User;
 use Bitbucket\API\Users;
 use GitHub as GitHubService;
-use Github\Exception\ValidationFailedException;
 
 /**
  * Class BitBucket
@@ -44,8 +44,6 @@ class BitBucket implements RepositoryContract
         });
 
         if ($repositoryInfo['is_private']) {
-//            try {
-
 
             $users = new Users();
 
@@ -53,13 +51,7 @@ class BitBucket implements RepositoryContract
                 new OAuthListener($this->oauthParams)
             );
 
-
-            $users->sshKeys()->create('CodePier', $sshKey, 'https://codepier.io');
-//            } catch (ValidationFailedException $e) {
-//                if (!$e->getMessage() == 'Validation Failed: key is already in use') {
-//                    throw new \Exception($e->getMessage());
-//                }
-//            }
+            $users->sshKeys()->create($this->getRepositoryUser($repository), $sshKey, 'https://codepier.io');
         }
     }
 
@@ -98,5 +90,28 @@ class BitBucket implements RepositoryContract
     public function getRepositorySlug($repository)
     {
         return explode('/', $repository)[1];
+    }
+
+    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
+    {
+        $this->setToken($userRepositoryProvider);
+
+        $commits = new Commits();
+
+        $commits->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $commits = $commits->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), [
+            'branch' => $branch
+        ]);
+
+        $lastCommit = collect(json_decode($commits->getContent())->values)->first();
+
+        if(!empty($lastCommit)) {
+            return $lastCommit->hash;
+        }
+
+        return null;
     }
 }

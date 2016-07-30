@@ -14,6 +14,7 @@ use App\Models\UserServerProvider;
 use App\SocialProviders\TokenData;
 use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Users;
+use Laravel\Socialite\One\BitbucketProvider;
 use Socialite;
 use SocialiteProviders\Slack\Provider;
 
@@ -51,7 +52,6 @@ class OauthController extends Controller
     {
         $scopes = null;
 
-        /** @var Provider $providerDriver */
         $providerDriver = Socialite::driver($provider);
 
         switch ($provider) {
