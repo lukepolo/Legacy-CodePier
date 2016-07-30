@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->hasMany(UserRepositoryProvider::class);
     }
 
+    public function userNotificationProviders()
+    {
+        return $this->hasMany(UserNotificationProvider::class);
+    }
+
     public function sshKeys()
     {
         return $this->hasMany(UserSshKey::class);

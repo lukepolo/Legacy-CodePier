@@ -67,6 +67,18 @@ class Server extends Model
         return $this->hasMany(ServerNetworkRule::class);
     }
 
+    public function hasFeature($feature)
+    {
+        return $this->getFeatures()->pluck('option')->contains($feature);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
     public function getFeatures()
     {
         $features = [];
@@ -78,8 +90,13 @@ class Server extends Model
         return collect($features);
     }
 
-    public function hasFeature($feature)
+    public function encode()
     {
-        return $this->getFeatures()->pluck('option')->contains($feature);
+        return \Hashids::encode($this->id);
+    }
+
+    public function decode($hash)
+    {
+        return $this->findOrFail(\Hashids::decode($hash));
     }
 }

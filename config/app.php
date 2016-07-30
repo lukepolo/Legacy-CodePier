@@ -170,6 +170,7 @@ return [
         Lord\Laroute\LarouteServiceProvider::class,
         Mpociot\Teamwork\TeamworkServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
 
         /*
          * Custom Service Providers
@@ -178,6 +179,7 @@ return [
         App\Providers\RemoteTaskServiceProvider::class,
         App\Providers\ServerServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
+
     ],
 
     /*
@@ -232,7 +234,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
-        'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class
+        'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class,
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class
     ],
 
 ];

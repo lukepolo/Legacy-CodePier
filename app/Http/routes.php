@@ -14,6 +14,15 @@ Route::get('/', 'LandingController@getIndex');
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
 
+Route::group(['prefix' => 'webhook'], function() {
+    Route::get('/diskspace', function() {
+
+        $server = \App\Models\Server::findOrFail(\Hashids::decode(\Request::get('key')));
+
+        dd($server);
+    });
+});
+
 Route::group(['middleware' => 'auth'], function () {
 
     /*

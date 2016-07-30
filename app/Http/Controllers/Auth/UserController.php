@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Models\NotificationProvider;
 use App\Models\RepositoryProvider;
 use App\Models\ServerProvider;
 use App\Models\UserSshKey;
@@ -38,6 +39,7 @@ class UserController extends Controller
         return view('auth.user.profile', [
             'serverProviders' => ServerProvider::all(),
             'repositoryProviders' => RepositoryProvider::all(),
+            'notificationProviders' => NotificationProvider::all(),
             'plans' => \Cache::rememberForever('plans', function() {
                 return collect(Plan::all()->data)->sortBy('metadata.order');
             })

@@ -37,6 +37,7 @@ class ServerController extends Controller
     public function getServer($serverID)
     {
         $server = Server::with('sites')->findOrFail($serverID);
+
         return view('server.index', [
             'server' => $server,
             'servers' => Server::where('id', '!=', $serverID)->get(),

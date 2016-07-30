@@ -518,6 +518,11 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         return $this->remoteTaskService->makeDirectory($folder);
     }
 
+    public function installCheckDiskSpaceCron(Server $server)
+    {
+        $this->provisionService->installDiskMonitorScript($server);
+    }
+
     public function checkDiskSpace(Server $server)
     {
         $this->remoteTaskService->ssh($server);

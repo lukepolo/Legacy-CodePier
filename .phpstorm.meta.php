@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-07-25.
+    * Generated on 2016-07-29.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -52,6 +52,9 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -122,7 +125,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Contracts\Pipeline\Hub' instanceof \Illuminate\Pipeline\Hub,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\DatabaseQueue,
+            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
             'command.queue.work' instanceof \Illuminate\Queue\Console\WorkCommand,
             'command.queue.restart' instanceof \Illuminate\Queue\Console\RestartCommand,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
@@ -187,6 +190,9 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -257,7 +263,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Contracts\Pipeline\Hub' instanceof \Illuminate\Pipeline\Hub,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\DatabaseQueue,
+            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
             'command.queue.work' instanceof \Illuminate\Queue\Console\WorkCommand,
             'command.queue.restart' instanceof \Illuminate\Queue\Console\RestartCommand,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
@@ -322,6 +328,9 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -392,7 +401,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Contracts\Pipeline\Hub' instanceof \Illuminate\Pipeline\Hub,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\DatabaseQueue,
+            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
             'command.queue.work' instanceof \Illuminate\Queue\Console\WorkCommand,
             'command.queue.restart' instanceof \Illuminate\Queue\Console\RestartCommand,
             'queue.worker' instanceof \Illuminate\Queue\Worker,
@@ -457,6 +466,9 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
+            'hashids' instanceof \Vinkla\Hashids\HashidsManager,
+            'hashids.connection' instanceof \Hashids\Hashids,
             'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -527,7 +539,7 @@ namespace PHPSTORM_META {
             'mailer' instanceof \Illuminate\Mail\Mailer,
             'Illuminate\Contracts\Pipeline\Hub' instanceof \Illuminate\Pipeline\Hub,
             'queue' instanceof \Illuminate\Queue\QueueManager,
-            'queue.connection' instanceof \Illuminate\Queue\DatabaseQueue,
+            'queue.connection' instanceof \Illuminate\Queue\SyncQueue,
             'command.queue.work' instanceof \Illuminate\Queue\Console\WorkCommand,
             'command.queue.restart' instanceof \Illuminate\Queue\Console\RestartCommand,
             'queue.worker' instanceof \Illuminate\Queue\Worker,

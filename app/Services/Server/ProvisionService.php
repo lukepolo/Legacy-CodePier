@@ -117,6 +117,10 @@ class ProvisionService implements ProvisionServiceContract
 //        $provisionSystem->installLaravelInstaller();
 //        $provisionSystem->installEnvoy();
 
+
+        $this->updateProgress('Installing disk monitor script');
+        $provisionSystem->addDiskMonitoringScript($server);
+
         return $provisionSystem->errors();
     }
 
@@ -136,5 +140,12 @@ class ProvisionService implements ProvisionServiceContract
         $operatingSystem = 'ubuntu 16.04';
 
         return new $this->provisionSystems[$operatingSystem]($this->remoteTaskService, $server);
+    }
+
+    public function installDiskMonitorScript(Server $server)
+    {
+        $provisionSystem = $this->getProvisionRepository($server);
+
+        $provisionSystem->addDiskMonitoringScript($server);
     }
 }

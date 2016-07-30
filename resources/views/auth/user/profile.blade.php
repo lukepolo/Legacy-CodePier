@@ -12,6 +12,7 @@
                             <li role="presentation" class=""><a href="#ssh-keys" role="tab" data-toggle="tab">SSH Keys</a></li>
                             <li role="presentation" class=""><a href="#server-providers" role="tab" data-toggle="tab">Server Providers</a></li>
                             <li role="presentation" class=""><a href="#repository-providers" role="tab" data-toggle="tab">Repository Providers</a></li>
+                            <li role="presentation" class=""><a href="#notification-providers" role="tab" data-toggle="tab">Notification Providers</a></li>
                             <li role="presentation" class=""><a href="#subscription" role="tab" data-toggle="tab">Subscription</a></li>
                         </ul>
                         <div class="tab-content">
@@ -95,6 +96,22 @@
                                         @endif
                                     </p>
                                 @endforeach
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="notification-providers">
+                                @foreach($notificationProviders as $notificationProvider)
+                                    <p>
+                                        {{ dump(Auth::user()->userNotificationProviders) }}
+                                        Integrate with {{ $notificationProvider->name }} :
+                                        @if(!\Auth::user()->userNotificationProviders->lists('repository_provider_id')->contains($notificationProvider->id))
+                                            <a href="{{ action('Auth\OauthController@newProvider', $notificationProvider->provider_name) }}" class="btn btn-default">Integrate</a>
+                                        @else
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userNotificationProviders->first(function($key, $userNotificationProvider) use ($notificationProvider) {
+                                                return $userNotificationProvider->notification_provider_id == $notificationProvider->id;
+                                            })->id]) }}">Disconnect</a>
+                                        @endif
+                                    </p>
+                                @endforeach
+
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="subscription">
 

@@ -24,7 +24,10 @@
         "mpociot/teamwork": "~3.0",
         "laravel/cashier": "~6.0",
         "dompdf/dompdf" : "~0.6",
-        "gentle/bitbucket-api": "^0.8.1"
+        "gentle/bitbucket-api": "^0.8.1",
+        "vinkla/hashids": "^2.4",
+        "maknz/slack": "^1.7",
+        "socialiteproviders/slack": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
