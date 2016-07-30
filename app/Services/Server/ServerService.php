@@ -287,13 +287,12 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param string $user
      * @return bool
      */
-    private function rebuildFirewall(Server $server, $user = 'root')
+    private function rebuildFirewall(Server $server)
     {
-        $this->remoteTaskService->ssh($server, $user);
-        return $this->remoteTaskService->run('/etc/opt/./iptables');
+        $this->remoteTaskService->ssh($server);
+        return $this->remoteTaskService->run('/etc/opt/./iptables; service iptables-persistent save');
     }
 
     /**
