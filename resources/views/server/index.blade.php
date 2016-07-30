@@ -16,7 +16,7 @@
                             <li><a href="#cron_jobs" data-toggle="tab">Cron Jobs</a></li>
                             <li><a href="#daemons" data-toggle="tab">Daemons</a></li>
                             <li><a href="#firewall" data-toggle="tab">Firewall</a></li>
-
+                            <li><a href="#monitoring" data-toggle="tab">Monitoring</a></li>
                             <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
                         </ul>
                         <div id="my-tab-content" class="tab-content">
@@ -186,6 +186,11 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                            <div class="tab-pane" id="monitoring">
+                                <div class="btn">Integrate With Slack</div>
+                                <div class="btn">Integrate With HipChat</div>
+                                <div class="btn">Install Blackfire</div>
                             </div>
                             <div class="tab-pane" id="edit-files">
                                 <div class="row">

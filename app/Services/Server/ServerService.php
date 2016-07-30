@@ -533,4 +533,24 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         return new DiskSpace($results[0], $results[1], $results[2]);
     }
 
+
+    // TODO - how to deal with this one off requests?
+    public function installBlackFire(Server $server, $serverID, $serverToken)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
+        $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
+        $this->remoteTaskService->run('apt-get update');
+        $this->remoteTaskService->run('apt-get install blackfire-agent blackfire-php');
+
+        $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-id', $serverID);
+        $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-token', $serverToken);
+
+        $this->remoteTaskService->run('blackfire-agent -register');
+        $this->remoteTaskService->run('/etc/init.d/blackfire-agent restart');
+
+        $this->restartWebServices($server);
+
+    }
 }

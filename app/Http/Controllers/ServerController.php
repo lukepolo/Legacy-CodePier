@@ -353,4 +353,11 @@ class ServerController extends Controller
 
         return back()->with('success', 'You have saved updated the file');
     }
+
+    public function postInstallBlackfire($serverID)
+    {
+        $this->serverService->installBlackFire(Server::findOrFail($serverID), \Request::get('serverID'), \Request::get('serverToken'));
+
+        return back()->with('success', 'You have saved updated the file');
+    }
 }
