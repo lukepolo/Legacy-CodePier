@@ -19,7 +19,7 @@ class LandingController extends Controller
         if (\Auth::check()) {
             return view('codepier', [
                 'userServerProviders' => \Auth::user()->userServerProviders,
-                'servers' => Server::get()
+                'servers' => Server::with('serverProvider')->get()
             ]);
         }
         return view('landing');
