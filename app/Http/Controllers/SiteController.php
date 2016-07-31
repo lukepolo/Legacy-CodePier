@@ -217,6 +217,15 @@ class SiteController extends Controller
         return back();
     }
 
+    public function getDeleteDeployHook($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->deleteDeployHook($site);
+
+        return back();
+    }
+
     /**
      * @param $serverID
      * @param $siteID

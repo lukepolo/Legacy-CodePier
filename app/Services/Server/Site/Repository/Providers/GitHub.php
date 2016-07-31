@@ -136,15 +136,15 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $webhook = GitHubService::api('repo')->hooks()->remove(
+        GitHubService::api('repo')->hooks()->remove(
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository),
             $site->automatic_deployment_id
         );
 
-        dd($webhook);
         $site->automatic_deployment_id = null;
         $site->save();
+
     }
 
 

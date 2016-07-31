@@ -471,4 +471,11 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->repositoryService->createDeployHook($site);
     }
+
+    public function deleteDeployHook(Site $site)
+    {
+        $this->repositoryService->deleteDeployHook($site);
+    }
+
+
 }

@@ -152,6 +152,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
     Route::get('server/{serverID}/site/{siteID}/deploy/hook', 'SiteController@getCreateDeployHook');
+    Route::get('server/{serverID}/site/{siteID}/deploy/hook/delete', 'SiteController@getDeleteDeployHook');
 
     Route::get('server/{serverID}/site/{siteID}/env-file', 'SiteController@getEnv');
 

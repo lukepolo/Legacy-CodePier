@@ -79,8 +79,7 @@
                                 @if(empty($site->automatic_deployment_id))
                                     <a href="{{ action('SiteController@getCreateDeployHook', [$site->server_id, $site->id]) }}" class="btn btn-primary">Automatic Deployments</a>
                                 @else
-                                    Delete Hook
-                                    {{ $site->automatic_deployment_id }}
+                                    <a href="{{ action('SiteController@getDeleteDeployHook', [$site->server_id, $site->id]) }}" class="btn btn-primary">Stop Automatic Deployments</a>
                                 @endif
 
                             </div>

@@ -52,4 +52,9 @@ class RepositoryService implements RepositoryServiceContract
     {
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name)->createDeployHook($site);
     }
+
+    public function deleteDeployHook(Site $site)
+    {
+        return $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name)->deleteDeployHook($site);
+    }
 }
