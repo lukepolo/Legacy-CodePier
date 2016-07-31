@@ -43,7 +43,8 @@ class DeploySite extends Job implements ShouldQueue
 
         $this->siteDeployment->createSteps();
 
-        event(new NewSiteDeployment($site, $this->siteDeployment));
+//        event(new NewSiteDeployment($site, $this->siteDeployment));
+
     }
 
     /**
@@ -53,6 +54,7 @@ class DeploySite extends Job implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
+        dump('test 2');
         try {
             $siteService->deploy($this->server, $this->site, $this->siteDeployment, $this->sha);
         } catch(\App\Exceptions\DeploymentFailed $e) {

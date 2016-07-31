@@ -2,6 +2,7 @@
 
 namespace App\Services\Server\Site\Repository\Providers;
 
+use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 use GitHub as GitHubService;
 use Github\Exception\ValidationFailedException;
@@ -109,4 +110,42 @@ class GitHub implements RepositoryContract
 
         return null;
     }
+
+    public function createDeployHook(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $webhook = GitHubService::api('repo')->hooks()->create($this->getRepositoryUser($site->repository), $this->getRepositorySlug($site->repository), [
+            'name'   => 'web',
+            'active' => true,
+            'events' => array(
+                'push',
+                'pull_request'
+            ),
+            'config' => array(
+                'url'          => route('webhook/deploy', $site->encode()),
+                'content_type' => 'json'
+            )
+        ]);
+
+        $site->automatic_deployment_id = $webhook['id'];
+        $site->save();
+    }
+
+    public function deleteDeployHook(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $webhook = GitHubService::api('repo')->hooks()->remove(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository),
+            $site->automatic_deployment_id
+        );
+
+        dd($webhook);
+        $site->automatic_deployment_id = null;
+        $site->save();
+    }
+
+
 }

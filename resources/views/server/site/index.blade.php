@@ -75,6 +75,14 @@
                                 {!! Form::close() !!}
 
                                 <a href="{{ action('SiteController@getDeploy', [$site->server_id, $site->id]) }}" class="btn btn-primary">Deploy</a>
+
+                                @if(empty($site->automatic_deployment_id))
+                                    <a href="{{ action('SiteController@getCreateDeployHook', [$site->server_id, $site->id]) }}" class="btn btn-primary">Automatic Deployments</a>
+                                @else
+                                    Delete Hook
+                                    {{ $site->automatic_deployment_id }}
+                                @endif
+
                             </div>
                             <div class="tab-pane" id="environment">
                                 {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}

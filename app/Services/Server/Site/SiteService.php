@@ -466,4 +466,9 @@ include codepier-conf/' . $domain . '/after/*;
 //        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate
 
     }
+
+    public function createDeployHook(Site $site)
+    {
+        $this->repositoryService->createDeployHook($site);
+    }
 }

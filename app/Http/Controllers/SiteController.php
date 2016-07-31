@@ -208,6 +208,15 @@ class SiteController extends Controller
         return back()->with('success', 'we are currently deploying');
     }
 
+    public function getCreateDeployHook($serverID, $siteID)
+    {
+        $site = Site::with('server')->findOrFail($siteID);
+
+        $this->siteService->createDeployHook($site);
+
+        return back();
+    }
+
     /**
      * @param $serverID
      * @param $siteID

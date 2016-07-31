@@ -3,7 +3,7 @@
 namespace App\Services\Server\Site\Repository;
 
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract;
-use App\Models\User;
+use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 
 /**
@@ -46,5 +46,10 @@ class RepositoryService implements RepositoryServiceContract
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->getLatestCommit($userRepositoryProvider, $repository, $branch);
+    }
+
+    public function createDeployHook(Site $site)
+    {
+        return $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name)->createDeployHook($site);
     }
 }

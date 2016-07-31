@@ -21,6 +21,14 @@ Route::group(['prefix' => 'webhook'], function() {
 
         dd($server);
     });
+
+
+    Route::get('/deploy/{siteHashID}', function($siteHashID) {
+        dispatch(new \App\Jobs\DeploySite(
+            App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
+        ));
+    })->name('webhook/deploy');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -143,6 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/site/{siteID}/delete', 'SiteController@getDeleteSite');
 
     Route::get('server/{serverID}/site/{siteID}/deploy', 'SiteController@getDeploy');
+    Route::get('server/{serverID}/site/{siteID}/deploy/hook', 'SiteController@getCreateDeployHook');
 
     Route::get('server/{serverID}/site/{siteID}/env-file', 'SiteController@getEnv');
 
@@ -171,7 +180,4 @@ Route::group(['middleware' => 'auth'], function () {
 |
 */
 
-Route::post(
-    'stripe/webhook',
-    '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-);
+Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook');
