@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class UserRepositoryProvider
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserRepositoryProvider extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = ['id'];
 
     /*

@@ -14,9 +14,7 @@ use App\Models\UserServerProvider;
 use App\SocialProviders\TokenData;
 use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Users;
-use Laravel\Socialite\One\BitbucketProvider;
 use Socialite;
-use SocialiteProviders\Slack\Provider;
 
 /**
  * Class OauthController
@@ -81,13 +79,16 @@ class OauthController extends Controller
                 case self::SLACK :
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
 
-                    $newUserNotificationProvider = $this->saveNotificationProvider($provider, new TokenData($tokenData['access_token'], $tokenData['user_id']));
+                    $newUserNotificationProvider = $this->saveNotificationProvider($provider,
+                        new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default :
                     $user = Socialite::driver($provider)->user();
 
                     if (!\Auth::user()) {
-                        if (!$userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
+                        if (!$userProvider = UserLoginProvider::has('user')->where('provider_id',
+                            $user->getId())->first()
+                        ) {
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
                             $newUserModel = $this->createUser($user, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id);
@@ -134,31 +135,6 @@ class OauthController extends Controller
 
             return redirect(\Auth::check() ? action('Auth\UserController@getMyProfile') : '/login')->withErrors($e->getMessage());
         }
-    }
-
-    /**
-     * Creates a login provider
-     * @param $provider
-     * @param $user
-     * @return mixed
-     */
-    private function createLoginProvider($provider, $user)
-    {
-        $userLoginProvider = UserLoginProvider::firstOrNew([
-            'provider' => $provider,
-            'provider_id' => $user->getId(),
-        ]);
-
-        $userLoginProvider->fill([
-            'token' => $user->token,
-            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
-            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
-        ]);
-
-        $userLoginProvider->save();
-
-        return $userLoginProvider;
     }
 
     /**
@@ -215,25 +191,56 @@ class OauthController extends Controller
 
     public function getDisconnectService($providerType, int $serviceID)
     {
-        if(UserRepositoryProvider::class == $providerType) {
-            if(!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id', $serviceID)->first())) {
+        if (UserRepositoryProvider::class == $providerType) {
+            if (!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id',
+                $serviceID)->first())
+            ) {
                 $userRepositoryProvider->delete();
             }
         }
 
-        if(UserServerProvider::class == $providerType) {
+        if (UserServerProvider::class == $providerType) {
             if (!empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
                 $userServerProvider->delete();
             }
         }
 
-        if(UserNotificationProvider::class == $providerType) {
-            if (!empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id', $serviceID)->first())) {
+        if (UserNotificationProvider::class == $providerType) {
+            if (!empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
+                $serviceID)->first())
+            ) {
                 $userNotificationProvider->delete();
             }
         }
 
         return back()->with('success', 'You have disconnected the service');
+    }
+
+    /**
+     * Creates a login provider
+     * @param $provider
+     * @param $user
+     * @return mixed
+     */
+    private function createLoginProvider($provider, $user)
+    {
+        $userLoginProvider = UserLoginProvider::withTrashed()->firstOrNew([
+            'provider' => $provider,
+            'provider_id' => $user->getId(),
+        ]);
+
+        $userLoginProvider->fill([
+            'token' => $user->token,
+            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
+            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
+            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+        ]);
+
+        $userLoginProvider->save();
+
+        $userLoginProvider->restore();
+
+        return $userLoginProvider;
     }
 
     /**
@@ -244,7 +251,7 @@ class OauthController extends Controller
      */
     private function saveRepositoryProvider($provider, $user)
     {
-        $userRepositoryProvider = UserRepositoryProvider::firstOrNew([
+        $userRepositoryProvider = UserRepositoryProvider::withTrashed()->firstOrNew([
             'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $user->getId()
         ]);
@@ -259,6 +266,8 @@ class OauthController extends Controller
 
         $userRepositoryProvider->save();
 
+        $userRepositoryProvider->restore();
+
         return $userRepositoryProvider;
     }
 
@@ -270,7 +279,7 @@ class OauthController extends Controller
      */
     private function saveServerProvider($provider, $user)
     {
-        $userServerProvider = UserServerProvider::firstOrNew([
+        $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
             'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $user->getId(),
         ]);
@@ -293,12 +302,14 @@ class OauthController extends Controller
 
         $userServerProvider->save();
 
+        $userServerProvider->restore();
+
         return $userServerProvider;
     }
 
     private function saveNotificationProvider($provider, TokenData $tokenData)
     {
-        $userNotificationProvider = UserNotificationProvider::firstOrNew([
+        $userNotificationProvider = UserNotificationProvider::withTrashed()->firstOrNew([
             'notification_provider_id' => NotificationProvider::where('provider_name', $provider)->first()->id,
             'provider_id' => $tokenData->userID
         ]);
@@ -312,6 +323,8 @@ class OauthController extends Controller
         ]);
 
         $userNotificationProvider->save();
+
+        $userNotificationProvider->restore();
 
         return $userNotificationProvider;
     }
