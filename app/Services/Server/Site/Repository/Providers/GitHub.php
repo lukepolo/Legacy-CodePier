@@ -118,14 +118,14 @@ class GitHub implements RepositoryContract
         $webhook = GitHubService::api('repo')->hooks()->create($this->getRepositoryUser($site->repository), $this->getRepositorySlug($site->repository), [
             'name'   => 'web',
             'active' => true,
-            'events' => array(
+            'events' => [
                 'push',
                 'pull_request'
-            ),
-            'config' => array(
+            ],
+            'config' => [
                 'url'          => route('webhook/deploy', $site->encode()),
                 'content_type' => 'json'
-            )
+            ]
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];
@@ -146,6 +146,4 @@ class GitHub implements RepositoryContract
         $site->save();
 
     }
-
-
 }

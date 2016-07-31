@@ -2,9 +2,12 @@
 
 namespace App\Services\Server\Site\Repository\Providers;
 
+use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Repositories\Commits;
+use Bitbucket\API\Repositories\Deploykeys;
+use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\User;
 use Bitbucket\API\Users;
 use GitHub as GitHubService;
@@ -45,13 +48,13 @@ class BitBucket implements RepositoryContract
 
         if ($repositoryInfo['is_private']) {
 
-            $users = new Users();
+            $deployKey = new Deploykeys();
 
-            $users->getClient()->addListener(
+            $deployKey->getClient()->addListener(
                 new OAuthListener($this->oauthParams)
             );
 
-            $users->sshKeys()->create($this->getRepositoryUser($repository), $sshKey, 'https://codepier.io');
+            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey, 'https://codepier.io');
         }
     }
 
@@ -113,5 +116,52 @@ class BitBucket implements RepositoryContract
         }
 
         return null;
+    }
+
+    public function createDeployHook(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $hook = new Hooks();
+
+        $hook->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $response = $hook->create(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository), [
+            'description' => 'CodePier',
+            'url' => route('webhook/deploy', $site->encode()),
+            'active' => true,
+            'events' => [
+                'repo:push',
+                'pullrequest:fulfilled'
+            ]
+        ]);
+
+        $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
+        $site->save();
+    }
+
+    public function deleteDeployHook(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $hook = new Hooks();
+
+        $hook->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $hook->delete(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository),
+            trim($site->automatic_deployment_id, '{,}')
+        );
+
+        $site->automatic_deployment_id = null;
+        $site->save();
+
     }
 }

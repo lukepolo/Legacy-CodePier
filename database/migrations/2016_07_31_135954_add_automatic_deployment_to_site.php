@@ -13,7 +13,7 @@ class AddAutomaticDeploymentToSite extends Migration
     public function up()
     {
         Schema::table('sites', function(Blueprint $table) {
-            $table->integer('automatic_deployment_id')->nullable();
+            $table->string('automatic_deployment_id')->nullable();
         });
     }
 
