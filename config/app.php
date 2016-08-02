@@ -172,6 +172,7 @@ return [
         Laravel\Cashier\CashierServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         TomSchlick\ServerPush\ServiceProvider::class,
+        Vinkla\GitLab\GitLabServiceProvider::class,
 
         /*
          * Custom Service Providers
@@ -236,6 +237,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
         'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class,
+        'GitLab' => Vinkla\GitLab\Facades\GitLab::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class
     ],
 

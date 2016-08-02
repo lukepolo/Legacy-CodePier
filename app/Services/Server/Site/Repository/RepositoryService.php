@@ -17,6 +17,7 @@ class RepositoryService implements RepositoryServiceContract
 
     public $providers = [
         'github' => Providers\GitHub::class,
+        'gitlab' => Providers\GitLab::class,
         'bitbucket' => Providers\BitBucket::class
     ];
 

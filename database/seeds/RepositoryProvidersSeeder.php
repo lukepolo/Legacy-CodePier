@@ -24,6 +24,11 @@ class RepositoryProvidersSeeder extends Seeder
                 'name' => 'Bitbucket',
                 'url' => 'bitbucket.org',
                 'git_url' => 'git@bitbucket.org'
+            ],
+            \App\Http\Controllers\Auth\OauthController::GITLAB => [
+                'name' => 'GitLab',
+                'url' => 'gitlab.com',
+                'git_url' => 'git@gitlab.com'
             ]
         ];
 

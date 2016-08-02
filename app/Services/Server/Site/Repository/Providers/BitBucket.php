@@ -9,8 +9,6 @@ use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\Repositories\Deploykeys;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\User;
-use Bitbucket\API\Users;
-use GitHub as GitHubService;
 
 /**
  * Class BitBucket
@@ -42,7 +40,7 @@ class BitBucket implements RepositoryContract
 
         $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
 
-        $repositoryInfo = $repositories->first(function($key, $repository) use($slug) {
+        $repositoryInfo = $repositories->first(function ($key, $repository) use ($slug) {
             return $repository['slug'] == $slug;
         });
 
@@ -54,7 +52,8 @@ class BitBucket implements RepositoryContract
                 new OAuthListener($this->oauthParams)
             );
 
-            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey, 'https://codepier.io');
+            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey,
+                'https://codepier.io');
         }
     }
 
@@ -111,7 +110,7 @@ class BitBucket implements RepositoryContract
 
         $lastCommit = collect(json_decode($commits->getContent())->values)->first();
 
-        if(!empty($lastCommit)) {
+        if (!empty($lastCommit)) {
             return $lastCommit->hash;
         }
 

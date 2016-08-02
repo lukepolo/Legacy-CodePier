@@ -25,6 +25,7 @@ class OauthController extends Controller
 
     CONST SLACK = 'slack';
     CONST GITHUB = 'github';
+    CONST GITLAB = 'gitlab';
     CONST BITBUCKET = 'bitbucket';
     CONST DIGITAL_OCEAN = 'digitalocean';
 
@@ -34,6 +35,7 @@ class OauthController extends Controller
 
     public static $repositoryProviders = [
         self::GITHUB,
+        self::GITLAB,
         self::BITBUCKET
     ];
 
@@ -84,6 +86,7 @@ class OauthController extends Controller
                     break;
                 default :
                     $user = Socialite::driver($provider)->user();
+
 
                     if (!\Auth::user()) {
                         if (!$userProvider = UserLoginProvider::has('user')->where('provider_id',
