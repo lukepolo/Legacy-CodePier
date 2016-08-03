@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.41 on 2016-08-02.
+ * Generated for Laravel 5.2.41 on 2016-08-03.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -2522,6 +2522,17 @@ if (! function_exists('with')) {
         /**
          * Determine if the current user is authenticated.
          *
+         * @return \App\Models\User 
+         * @throws \Illuminate\Auth\AuthenticationException
+         * @static 
+         */
+        public static function authenticate(){
+            return \Illuminate\Auth\SessionGuard::authenticate();
+        }
+        
+        /**
+         * Determine if the current user is authenticated.
+         *
          * @return bool 
          * @static 
          */
@@ -2537,17 +2548,6 @@ if (! function_exists('with')) {
          */
         public static function guest(){
             return \Illuminate\Auth\SessionGuard::guest();
-        }
-        
-        /**
-         * Determine if the current user is authenticated.
-         *
-         * @return \App\Models\User 
-         * @throws \Illuminate\Auth\AuthenticationException
-         * @static 
-         */
-        public static function authenticate(){
-            return \Illuminate\Auth\SessionGuard::authenticate();
         }
         
     }

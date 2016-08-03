@@ -31,7 +31,7 @@
         "tomschlick/laravel-http2-server-push": "^0.1.2",
         "pusher/pusher-php-server": "^2.4",
         "guzzlehttp/guzzle": "~6.0",
-        "vinkla/gitlab": "^2.5"
+        "m4tthumphrey/php-gitlab-api": "^7.13"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

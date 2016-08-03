@@ -146,6 +146,7 @@ class ProvisionService implements ProvisionServiceContract
     {
         $provisionSystem = $this->getProvisionRepository($server);
 
+        event(new ServerProvisionStatusChanged($server, 'Provisioned', 100));
         $provisionSystem->addDiskMonitoringScript($server);
     }
 }

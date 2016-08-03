@@ -38,6 +38,7 @@ class ServerController extends Controller
      */
     public function getServer($serverID)
     {
+        $server = Server::with('sites')->findOrFail($serverID);
         // TODO - move this into notifications once 5.3 is released
 //        $client = new \Guzzle\Http\Client();
 //
@@ -47,7 +48,7 @@ class ServerController extends Controller
 //            'text' => 'HI FROM CODE PIER!'
 //        ])->send();
 
-        $server = Server::with('sites')->findOrFail($serverID);
+
 
         return view('server.index', [
             'server' => $server,

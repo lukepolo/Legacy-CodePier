@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a83df52edc37be6cf0af053f3f7b497",
-    "content-hash": "704aad89fd76a9acd9ce1f0063c49b18",
+    "hash": "d56c9dbf78ddb7f5db5a89e3bc3f3ea1",
+    "content-hash": "0b28c7c2c292bc98f1638df16dd66d40",
     "packages": [
         {
             "name": "authy/php",
@@ -4388,62 +4388,6 @@
             "time": "2016-07-30 04:38:32"
         },
         {
-            "name": "vinkla/gitlab",
-            "version": "2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vinkla/laravel-gitlab.git",
-                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/laravel-gitlab/zipball/73ba391e0861b11d3094d5871b0c4d1e063255a0",
-                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0",
-                "shasum": ""
-            },
-            "require": {
-                "graham-campbell/manager": "^2.4",
-                "illuminate/contracts": "5.1.* || 5.2.* || 5.3.*",
-                "illuminate/support": "5.1.* || 5.2.* || 5.3.*",
-                "m4tthumphrey/php-gitlab-api": "^7.13",
-                "php": "^5.6.4 || ^7.0"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "^3.2",
-                "mockery/mockery": "^0.9.5",
-                "phpunit/phpunit": "^5.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Vinkla\\GitLab\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Vincent Klaiber",
-                    "email": "hello@vinkla.com"
-                }
-            ],
-            "description": "A GitLab bridge for Laravel",
-            "keywords": [
-                "api",
-                "git",
-                "gitlab",
-                "laravel"
-            ],
-            "time": "2016-07-11 19:13:00"
-        },
-        {
             "name": "vinkla/hashids",
             "version": "2.4.0",
             "source": {
@@ -5914,6 +5858,62 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-07-17 14:02:08"
+        },
+        {
+            "name": "vinkla/gitlab",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vinkla/laravel-gitlab.git",
+                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vinkla/laravel-gitlab/zipball/73ba391e0861b11d3094d5871b0c4d1e063255a0",
+                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0",
+                "shasum": ""
+            },
+            "require": {
+                "graham-campbell/manager": "^2.4",
+                "illuminate/contracts": "5.1.* || 5.2.* || 5.3.*",
+                "illuminate/support": "5.1.* || 5.2.* || 5.3.*",
+                "m4tthumphrey/php-gitlab-api": "^7.13",
+                "php": "^5.6.4 || ^7.0"
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "^3.2",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^5.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vinkla\\GitLab\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@vinkla.com"
+                }
+            ],
+            "description": "A GitLab bridge for Laravel",
+            "keywords": [
+                "api",
+                "git",
+                "gitlab",
+                "laravel"
+            ],
+            "time": "2016-07-11 19:13:00"
         },
         {
             "name": "webmozart/assert",
