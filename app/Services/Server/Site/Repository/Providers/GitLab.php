@@ -4,7 +4,6 @@ namespace App\Services\Server\Site\Repository\Providers;
 
 use App\Models\Site;
 use App\Models\UserRepositoryProvider;
-use Github\Exception\ValidationFailedException;
 use Gitlab\Api\Repositories;
 
 /**

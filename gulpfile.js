@@ -28,7 +28,8 @@ var paths = {
     moment_timezone : bower_path + 'moment-timezone/builds/',
     confirm2: bower_path + 'jquery-confirm2/dist/',
     ace : bower_path + 'ace-build/src-min/',
-    jcf_forms : bower_path + 'jcf-forms/'
+    jcf_forms : bower_path + 'jcf-forms/',
+    jquery_cron : bower_path + 'jquery-cron/cron/'
     
 };
 
@@ -63,7 +64,8 @@ elixir(function (mix) {
             paths.ace + 'ext-searchbox.js',
             paths.js_resources + 'laroute.js',
             paths.jcf_forms + 'assets/js/jcf_forms.js',
-            paths.js_resources + 'editors.js'
+            paths.js_resources + 'editors.js',
+            paths.jquery_cron + 'jquery-cron-min.js'
         ])
         .version([
             paths.css_public + "app.css",

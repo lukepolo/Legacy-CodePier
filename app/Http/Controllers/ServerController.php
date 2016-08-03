@@ -195,7 +195,7 @@ class ServerController extends Controller
      */
     public function postInstallCronJob($serverID)
     {
-        $this->serverService->installCron(Server::findOrFail($serverID), \Request::get('cron'));
+        $this->serverService->installCron(Server::findOrFail($serverID), \Request::get('cron_timing').\Request::get('cron'));
 
         return back()->with('success', 'You added a cron job');
     }

@@ -26,6 +26,7 @@
     "bootstrap-sass": "^3.3.6",
     "moment-timezone": "^0.5.4",
     "jcf-forms": "JCF-Forms#*",
-    "ace-build": "~1.2.3"
+    "ace-build": "~1.2.3",
+    "jquery-cron": "^0.1.4"
   }
 }

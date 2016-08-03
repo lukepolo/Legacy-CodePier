@@ -78,8 +78,10 @@
                                 </table>
                             </div>
                             <div class="tab-pane" id="cron_jobs">
-                                {!! Form::open(['action' => ['ServerController@postInstallCronJob', $server->id]]) !!}
-                                    {!! Form::text('cron') !!}
+                                <span id="cron-preview"></span>{!! Form::open(['action' => ['ServerController@postInstallCronJob', $server->id]]) !!}
+                                {!! Form::text('cron') !!}
+                                {!! Form::hidden('cron_timing') !!}
+                                <div id="cron-maker"></div>
                                     {!! Form::submit('Create cron') !!}
                                 {!! Form::close() !!}
 
@@ -222,3 +224,16 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $('#cron-maker').cron({
+            onChange: function() {
+                var cronTiming = $(this).cron("value");
+
+                $('#cron-preview').text(cronTiming);
+                $('input[name="cron_timing"]').val(cronTiming);
+            }
+        });
+    </script>
+@endpush
