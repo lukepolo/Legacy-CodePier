@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d56c9dbf78ddb7f5db5a89e3bc3f3ea1",
-    "content-hash": "0b28c7c2c292bc98f1638df16dd66d40",
+    "hash": "030b7752649b316acbc288b64749ea78",
+    "content-hash": "910bd131980dbb26fd56353eeee195ee",
     "packages": [
         {
             "name": "authy/php",
@@ -2062,16 +2062,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.25",
+            "version": "1.0.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
+                "reference": "fb3b30dca320b36931ea878fea17ebe136fba1b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/fb3b30dca320b36931ea878fea17ebe136fba1b0",
+                "reference": "fb3b30dca320b36931ea878fea17ebe136fba1b0",
                 "shasum": ""
             },
             "require": {
@@ -2141,7 +2141,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-07-18 12:22:57"
+            "time": "2016-08-03 09:49:11"
         },
         {
             "name": "league/oauth1-client",
@@ -2424,16 +2424,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.20.0",
+            "version": "1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037"
+                "reference": "f42fbdfd53e306bda545845e4dbfd3e72edb4952"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/55841909e2bcde01b5318c35f2b74f8ecc86e037",
-                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f42fbdfd53e306bda545845e4dbfd3e72edb4952",
+                "reference": "f42fbdfd53e306bda545845e4dbfd3e72edb4952",
                 "shasum": ""
             },
             "require": {
@@ -2498,7 +2498,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-07-02 14:02:10"
+            "time": "2016-07-29 03:23:52"
         },
         {
             "name": "mpociot/teamwork",
@@ -3253,17 +3253,54 @@
             "time": "2016-03-30 07:04:35"
         },
         {
-            "name": "socialiteproviders/manager",
-            "version": "v2.1.5",
+            "name": "socialiteproviders/gitlab",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/SocialiteProviders/Manager.git",
-                "reference": "388851f850418941ea6e220d0d82fc20cca2c2e7"
+                "url": "https://github.com/SocialiteProviders/GitLab.git",
+                "reference": "b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/388851f850418941ea6e220d0d82fc20cca2c2e7",
-                "reference": "388851f850418941ea6e220d0d82fc20cca2c2e7",
+                "url": "https://api.github.com/repos/SocialiteProviders/GitLab/zipball/b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2",
+                "reference": "b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\GitLab\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Martinsen",
+                    "email": "christoffermartinsen@gmail.com"
+                }
+            ],
+            "description": "GitLab OAuth2 Provider for Laravel Socialite",
+            "time": "2016-06-18 03:29:12"
+        },
+        {
+            "name": "socialiteproviders/manager",
+            "version": "v2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Manager.git",
+                "reference": "eeda3e2033cfc778f43deb0afd1db71a085e7844"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/eeda3e2033cfc778f43deb0afd1db71a085e7844",
+                "reference": "eeda3e2033cfc778f43deb0afd1db71a085e7844",
                 "shasum": ""
             },
             "require": {
@@ -3292,7 +3329,7 @@
                 }
             ],
             "description": "Easily add new or override built-in providers in Laravel Socialite.",
-            "time": "2016-06-22 18:09:37"
+            "time": "2016-08-02 18:07:30"
         },
         {
             "name": "socialiteproviders/slack",
@@ -4345,24 +4382,26 @@
         },
         {
             "name": "tomschlick/laravel-http2-server-push",
-            "version": "v0.1.2",
+            "version": "v0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tomschlick/laravel-http2-server-push.git",
-                "reference": "065cd4012ba65194daf536abeaa9dc74f0b04af1"
+                "reference": "fb68a690d8bb118e3dde08e674fec4da2332d5c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tomschlick/laravel-http2-server-push/zipball/065cd4012ba65194daf536abeaa9dc74f0b04af1",
-                "reference": "065cd4012ba65194daf536abeaa9dc74f0b04af1",
+                "url": "https://api.github.com/repos/tomschlick/laravel-http2-server-push/zipball/fb68a690d8bb118e3dde08e674fec4da2332d5c6",
+                "reference": "fb68a690d8bb118e3dde08e674fec4da2332d5c6",
                 "shasum": ""
             },
             "require": {
-                "illuminate/http": "^5.2",
-                "illuminate/support": "^5.2",
+                "illuminate/contracts": "5.1.*|5.2.*|5.3.*",
+                "illuminate/http": "5.1.*|5.2.*|5.3.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*",
                 "php": ">=7.0"
             },
             "require-dev": {
+                "graham-campbell/testbench": "^3.1",
                 "phpunit/phpunit": "^5.4"
             },
             "type": "library",
@@ -4385,7 +4424,7 @@
                 }
             ],
             "description": "A middleware package for Laravel 5 to enable server push for your script, style, and image assets.",
-            "time": "2016-07-30 04:38:32"
+            "time": "2016-08-01 14:56:56"
         },
         {
             "name": "vinkla/hashids",
@@ -5665,43 +5704,6 @@
             "time": "2015-06-21 13:59:46"
         },
         {
-            "name": "socialiteproviders/gitlab",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SocialiteProviders/GitLab.git",
-                "reference": "b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/GitLab/zipball/b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2",
-                "reference": "b75e585ce3b794bd2b998fb5fc95c6fc15c33cd2",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "socialiteproviders/manager": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SocialiteProviders\\GitLab\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christoffer Martinsen",
-                    "email": "christoffermartinsen@gmail.com"
-                }
-            ],
-            "description": "GitLab OAuth2 Provider for Laravel Socialite",
-            "time": "2016-06-18 03:29:12"
-        },
-        {
             "name": "symfony/css-selector",
             "version": "v3.0.9",
             "source": {
@@ -5858,62 +5860,6 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-07-17 14:02:08"
-        },
-        {
-            "name": "vinkla/gitlab",
-            "version": "2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vinkla/laravel-gitlab.git",
-                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/laravel-gitlab/zipball/73ba391e0861b11d3094d5871b0c4d1e063255a0",
-                "reference": "73ba391e0861b11d3094d5871b0c4d1e063255a0",
-                "shasum": ""
-            },
-            "require": {
-                "graham-campbell/manager": "^2.4",
-                "illuminate/contracts": "5.1.* || 5.2.* || 5.3.*",
-                "illuminate/support": "5.1.* || 5.2.* || 5.3.*",
-                "m4tthumphrey/php-gitlab-api": "^7.13",
-                "php": "^5.6.4 || ^7.0"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "^3.2",
-                "mockery/mockery": "^0.9.5",
-                "phpunit/phpunit": "^5.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Vinkla\\GitLab\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Vincent Klaiber",
-                    "email": "hello@vinkla.com"
-                }
-            ],
-            "description": "A GitLab bridge for Laravel",
-            "keywords": [
-                "api",
-                "git",
-                "gitlab",
-                "laravel"
-            ],
-            "time": "2016-07-11 19:13:00"
         },
         {
             "name": "webmozart/assert",
