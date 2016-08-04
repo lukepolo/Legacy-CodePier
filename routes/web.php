@@ -162,7 +162,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('server/{serverID}/site/{siteID}/install-repository', 'SiteController@postInstallRepository');
     Route::get('server/{serverID}/site/{siteID}/repository/remove', 'SiteController@getRemoveRepository');
 
-    Route::get('server/{serverID}/site/{siteID}/ssl/remove', 'SiteController@getRemoveSSL');
+    Route::get('server/{serverID}/site/{siteID}/ssl/deactivate', 'SiteController@getDeactivateSSL');
+    Route::get('server/{serverID}/site/{siteID}/ssl/remove/{siteSslID}', 'SiteController@getDeleteSSL');
+    Route::get('server/{serverID}/site/{siteID}/ssl/activate/{siteSslID}', 'SiteController@getActivateSSL');
+
     Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
     Route::post('server/{serverID}/site/{siteID}/ssl/lets-encrypt', 'SiteController@postRequestLetsEncryptSSLCert');
 

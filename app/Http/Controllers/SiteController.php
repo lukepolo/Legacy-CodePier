@@ -12,6 +12,7 @@ use App\Models\Server;
 use App\Models\Site;
 use App\Models\SiteDaemon;
 use App\Models\SiteSettings;
+use App\Models\SiteSslCertificate;
 
 /**
  * Class SiteController
@@ -168,6 +169,31 @@ class SiteController extends Controller
         return back()->with('success', 'You have successfully installed your ssl cert');
     }
 
+    public function getActivateSSL($serverID, $siteID, $siteSllID)
+    {
+        $errors = $this->siteService->activateSSL(Site::with('server')->findOrFail($siteID), SiteSslCertificate::findOrFail($siteSllID));
+
+        if (is_array($errors)) {
+            return back()->withErrors($errors);
+        }
+
+        return back()->with('success', 'You have successfully installed your ssl cert');
+    }
+
+    public function getDeactivateSSL($serverID, $siteID)
+    {
+        $this->siteService->deactivateSSL(Site::findOrFail($siteID));
+
+        return back()->with('success', 'You have disabled your SSL certificate');
+    }
+
+    public function getDeleteSSL($serverID, $siteID, $siteSllID)
+    {
+        $this->siteService->removeSSL(SiteSslCertificate::findOrFail($siteSllID));
+
+        return back()->with('success', 'You have deleted your SSL certificate');
+    }
+
     public function postAddSSLCert()
     {
 
@@ -176,18 +202,6 @@ class SiteController extends Controller
     public function postGenerateCSR()
     {
 
-    }
-
-    /**
-     * @param $serverID
-     * @param $siteID
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function getRemoveSSL($serverID, $siteID)
-    {
-        $this->siteService->removeSSL(Site::findOrFail($siteID));
-
-        return back()->with('success', 'You have disabled your SSL certificate');
     }
 
     /**

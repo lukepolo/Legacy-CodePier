@@ -148,12 +148,12 @@
                                     <p>
                                         {{ $ssl->type }} : {{ $ssl->domains }}
                                         @if($ssl->active)
-                                            <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">Deactivate</a>
+                                            <a href="{{ action('SiteController@getDeactivateSSL', [$site->server_id, $site->id]) }}">Deactivate</a>
                                         @else
-                                            <a href="#">Activate</a>
+                                            <a href="{{ action('SiteController@getActivateSSL', [$site->server_id, $site->id, $ssl->id]) }}">Activate</a>
                                         @endif
 
-                                        <a href="#">Delete</a>
+                                        <a href="{{ action('SiteController@getDeleteSSL', [$site->server_id, $site->id, $ssl->id]) }}">Delete</a>
                                     </p>
                                 @endforeach
                             </div>

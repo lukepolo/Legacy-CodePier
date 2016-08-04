@@ -163,11 +163,23 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
-    /**
-     * @param Site $site
-     * @return array
-     */
-    public function removeSSL(Site $site)
+
+    public function mapSSL(Site $site)
+    {
+        $this->remoteTaskService->ssh($site->server);
+
+        $activeSSL = $site->load('activeSSL')->activeSSL;
+
+        $sslCertPath = '/etc/nginx/ssl/'.$site->domain.'/'.$activeSSL->id;
+
+        $this->remoteTaskService->makeDirectory($sslCertPath);
+
+        $this->remoteTaskService->run("ln -f -s $activeSSL->key_path $sslCertPath/server.key");
+        $this->remoteTaskService->run("ln -f -s $activeSSL->cert_path $sslCertPath/server.crt");
+
+    }
+
+    public function deactivateSSL(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
 
@@ -182,29 +194,37 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
-    public function mapSSL(Site $site)
+    public function removeSSL(SiteSslCertificate $siteSslCertificate)
     {
-        $activeSSL = $site->activeSSL;
+        $this->remoteTaskService->ssh($siteSslCertificate->site->server);
 
-        dd($activeSSL);
+        switch($siteSslCertificate->type) {
+            case 'Let\'s Encrypt' :
+                // leave it be we don't want to erase them cause they aren't unique
+                break;
+            default :
+                $this->remoteTaskService->removeFile($siteSslCertificate->key_path);
+                $this->remoteTaskService->removeFile($siteSslCertificate->cert_path);
+                break;
+        }
 
-        $sslCertPath = '/etc/nginx/ssl/'.$site->domain.'/'.$activeSSL->id;
-
-        $this->remoteTaskService->makeDirectory($sslCertPath);
-
-        $this->remoteTaskService->run("ln -s $activeSSL->key_path $sslCertPath/server.key");
-        $this->remoteTaskService->run("ln -s $activeSSL->cert_path $sslCertPath/server.crt");
-
+        $siteSslCertificate->delete();
     }
 
-    public function deactivate()
+    public function activateSSL(Site $site, SiteSslCertificate $siteSslCertificate)
     {
+        if($site->hasActiveSSL()) {
+            $site->activeSSL->active = false;
+            $site->activeSSL->save();
+        }
 
-    }
+        $siteSslCertificate->active = true;
+        $siteSslCertificate->save();
 
-    public function activate()
-    {
+        $site->load('activeSSL');
 
+        $this->mapSSL($site);
+        $this->updateSiteNginxConfig($site);
     }
 
     /**
@@ -384,6 +404,8 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
      */
     public function updateSiteNginxConfig(Site $site)
     {
+        $site->load('activeSSL');
+
         $this->remoteTaskService->ssh($site->server);
 
         if ($site->hasActiveSSL()) {
