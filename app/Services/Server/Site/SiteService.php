@@ -55,8 +55,9 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/server");
         $this->remoteTaskService->makeDirectory("/etc/nginx/codepier-conf/$site->domain/after");
 
-        if (empty($this->remoteTaskService->getErrors()) && empty($this->createNginxSite($site->domain))) {
-            $this->updateSiteNginxConfig($site, "/etc/nginx/codepier-conf/$site->domain/server/listen");
+        if (empty($this->remoteTaskService->getErrors())) {
+            $this->createNginxSite($site->domain);
+            $this->updateSiteNginxConfig($site);
             return $this->remoteTaskService->run('service nginx restart');
         }
 
@@ -138,22 +139,28 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
-        $siteSSL = SiteSslCertificate::firstOrCreate([
+        if ($site->hasActiveSSL()) {
+            $activeSSL = $site->activeSSL;
+            $activeSSL->active = false;
+            $activeSSL->save();
+        }
+
+        $siteSSLCertificate = SiteSslCertificate::create([
             'site_id' => $site->id,
-        ]);
-
-        $siteSSL->fill([
             'domains' => $domains,
-            'type' => 'Let\'s Encrypt'
+            'type' => 'Let\'s Encrypt',
+            'active' => true
         ]);
 
-        $siteSSL->save();
+        $sslDir = '/etc/nginx/ssl/'.$site->domain.'/'.$siteSSLCertificate->id;
+
+        $this->remoteTaskService->makeDirectory($sslDir);
+
+        $this->remoteTaskService->run("ln -s /etc/letsencrypt/live/codepier.io/privkey.pem $sslDir/server.key");
+        $this->remoteTaskService->run("ln -s /etc/letsencrypt/live/codepier.io/fullchain.pem $sslDir/server.crt");
 
         $this->updateSiteNginxConfig($site);
 
-        if ($site->hasSSL()) {
-            $site->ssl->delete();
-        }
         $this->remoteTaskService->run('service nginx restart');
 
         return $this->remoteTaskService->getErrors();
@@ -167,7 +174,8 @@ class SiteService implements SiteServiceContract
     {
         $this->remoteTaskService->ssh($site->server);
 
-        $site->ssl->delete();
+        $site->activeSSL->active = false;
+        $site->activeSSL->save();
 
         $this->updateSiteNginxConfig($site);
 
@@ -356,7 +364,8 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
     public function updateSiteNginxConfig(Site $site)
     {
         $this->remoteTaskService->ssh($site->server);
-        if ($site->hasSSL()) {
+
+        if ($site->hasActiveSSL()) {
 
             $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
 server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
@@ -365,9 +374,9 @@ listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : n
 
 root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
 
-ssl_certificate /etc/letsencrypt/live/' . $site->domain . '/cert.pem;
-ssl_certificate_key /etc/letsencrypt/live/codepier.io/privkey.pem;
-ssl_trusted_certificate /etc/letsencrypt/live/codepier.io/fullchain.pem;
+
+ssl_certificate_key /etc/nginx/ssl/' . $site->domain . '/'.$site->activeSSL->id.'/server.key;
+ssl_certificate /etc/nginx/ssl/' . $site->domain . '/'.$site->activeSSL->id.'/server.crt;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;

@@ -28,9 +28,9 @@ class Site extends Model
         return $this->belongsTo(Server::class);
     }
 
-    public function ssl()
+    public function activeSSL()
     {
-        return $this->hasOne(SiteSslCertificate::class);
+        return $this->hasOne(SiteSslCertificate::class)->where('active', true);
     }
 
     public function daemons()
@@ -65,9 +65,9 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function hasSSL()
+    public function hasActiveSSL()
     {
-        if(!empty($this->ssl)) {
+        if(!empty($this->activeSSL)) {
             return true;
         }
 

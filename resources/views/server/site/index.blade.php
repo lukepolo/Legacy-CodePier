@@ -144,7 +144,7 @@
                                     {!! Form::submit('Request SSL') !!}
                                 {!! Form::close() !!}
 
-                                @if($site->hasSsl())
+                                @if($site->hasActiveSSL())
                                     {{ $site->ssl->type }} : {{ $site->ssl->domains }}
                                     <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">X</a>
                                 @endif

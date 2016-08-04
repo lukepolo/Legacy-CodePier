@@ -168,6 +168,16 @@ class SiteController extends Controller
         return back()->with('success', 'You have successfully installed your ssl cert');
     }
 
+    public function postAddSSLCert()
+    {
+
+    }
+
+    public function postGenerateCSR()
+    {
+
+    }
+
     /**
      * @param $serverID
      * @param $siteID
