@@ -40,7 +40,7 @@
                                             <td>{{ $site->zerotime_deployment }}</td>
                                             <td>0</td>
                                             <td>{{ $site->wildcard_domain }}</td>
-                                            <td>{{ $site->hasActiveSSL() ? $site->ssl->type : false }}</td>
+                                            <td>{{ $site->hasActiveSSL() ? $site->activeSSL->type : false }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
