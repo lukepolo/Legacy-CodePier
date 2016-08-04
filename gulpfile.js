@@ -10,6 +10,14 @@ require('laravel-elixir-vue');
 var bower_path = './resources/assets/bower/';
 
 var paths = {
+
+    /*
+     |--------------------------------------------------------------------------
+     | Directory Paths
+     |--------------------------------------------------------------------------
+     |
+     */
+
     public_build: './public/build/',
     fonts_build: './public/build/fonts/',
     imgs_build: './public/build/img/',
@@ -20,7 +28,13 @@ var paths = {
 
     sass_partials : './resources/assets/sass/partials/',
 
-    /* Vendor Files */
+    /*
+     |--------------------------------------------------------------------------
+     | Vendors
+     |--------------------------------------------------------------------------
+     |
+     */
+
     bootstrap: bower_path + 'bootstrap-sass/assets/',
     fontawesome: bower_path + 'font-awesome/',
     jquery: bower_path + 'jquery/dist/',
@@ -38,10 +52,6 @@ var paths = {
  |--------------------------------------------------------------------------
  | Elixir Asset Management
  |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
  |
  */
 
