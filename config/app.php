@@ -169,7 +169,7 @@ return [
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
-//        Lord\Laroute\LarouteServiceProvider::class,
+        Lord\Laroute\LarouteServiceProvider::class,
         Mpociot\Teamwork\TeamworkServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,

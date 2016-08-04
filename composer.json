@@ -4,6 +4,10 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/lukepolo/laroute"
+    }],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
@@ -31,7 +35,8 @@
         "pusher/pusher-php-server": "^2.4",
         "guzzlehttp/guzzle": "~6.0",
         "m4tthumphrey/php-gitlab-api": "^7.13",
-        "socialiteproviders/gitlab": "^2.0"
+        "socialiteproviders/gitlab": "^2.0",
+        "lord/laroute" : "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
