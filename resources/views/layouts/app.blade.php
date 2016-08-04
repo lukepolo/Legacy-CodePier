@@ -11,15 +11,17 @@
 
          <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     </head>
-    <body id="app-layout">
-        @include('layouts.core.navigation')
+    <body>
+        <span id="app-layout">
+            @include('layouts.core.navigation')
 
-        @include('layouts.core.alerts')
-        @include('layouts.core.errors')
+            @include('layouts.core.alerts')
+            @include('layouts.core.errors')
 
-        @yield('content')
+            @yield('content')
 
-        @include('layouts.core.footer')
+            @include('layouts.core.footer')
+        </span>
 
         <script src="{{ elixir('js/all.js') }}"></script>
 
