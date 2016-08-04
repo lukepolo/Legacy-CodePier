@@ -166,8 +166,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('server/{serverID}/site/{siteID}/ssl/remove/{siteSslID}', 'SiteController@getDeleteSSL');
     Route::get('server/{serverID}/site/{siteID}/ssl/activate/{siteSslID}', 'SiteController@getActivateSSL');
 
+
+
     Route::post('server/{serverID}/site/{siteID}/domain/rename', 'SiteController@postRenameDomain');
     Route::post('server/{serverID}/site/{siteID}/ssl/lets-encrypt', 'SiteController@postRequestLetsEncryptSSLCert');
+
+    Route::post('server/{serverID}/site/{siteID}/ssl/existing', 'SiteController@postInstallExistingSSL');
 
     Route::post('server/{serverID}/site/{siteID}/env', 'SiteController@postEnv');
 

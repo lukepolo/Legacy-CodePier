@@ -144,6 +144,14 @@
                                     {!! Form::submit('Request SSL') !!}
                                 {!! Form::close() !!}
 
+
+                                {!! Form::open(['action' => ['SiteController@postAddSSLCert', $site->server_id, $site->id]]) !!}
+                                    {!! Form::label('Domains') !!}
+                                    {!! Form::text('domains', $site->domain) !!}
+                                    {!! Form::submit('Request SSL') !!}
+                                {!! Form::close() !!}
+
+
                                 @foreach($site->ssls as $ssl)
                                     <p>
                                         {{ $ssl->type }} : {{ $ssl->domains }}

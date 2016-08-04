@@ -194,9 +194,11 @@ class SiteController extends Controller
         return back()->with('success', 'You have deleted your SSL certificate');
     }
 
-    public function postAddSSLCert()
+    public function postInstallExistingSSL($serverID, $siteID)
     {
+        $this->siteService->installExistingSSL(Site::with('server')->findOrFail($siteID), \Request::get('key'), \Request::get('cert'));
 
+        return back()->with('success', 'You have successfully installed your ssl cert');
     }
 
     public function postGenerateCSR()

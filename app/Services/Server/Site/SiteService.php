@@ -27,6 +27,8 @@ class SiteService implements SiteServiceContract
     protected $remoteTaskService;
     protected $repositoryService;
 
+    const LETS_ENCRYPT = 'Let\'s Encrypt';
+
     public $deploymentServices = [
         'php' => DeploymentServices\PHP::class
     ];
@@ -148,7 +150,7 @@ class SiteService implements SiteServiceContract
         SiteSslCertificate::create([
             'site_id' => $site->id,
             'domains' => $domains,
-            'type' => 'Let\'s Encrypt',
+            'type' => self::LETS_ENCRYPT,
             'active' => true,
             'key_path' => "/etc/letsencrypt/live/$site->domain/privkey.pem",
             'cert_path' => "/etc/letsencrypt/live/$site->domain/fullchain.pem",
@@ -163,6 +165,39 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
+    public function installExistingSSL(Site $site, $key, $cert)
+    {
+        $this->remoteTaskService->ssh($site->server);
+
+        if ($site->hasActiveSSL()) {
+            $activeSSL = $site->activeSSL;
+            $activeSSL->active = false;
+            $activeSSL->save();
+        }
+
+        $siteSLL = SiteSslCertificate::create([
+            'site_id' => $site->id,
+            'domains' => null,
+            'type' => self::LETS_ENCRYPT,
+            'active' => true,
+        ]);
+
+        $sslCertPath = '/etc/nginx/ssl/'.$site->domain.'/'.$siteSLL->id;
+
+        $siteSLL->key_path =$sslCertPath.'/server.key';
+        $siteSLL->cert_path =$sslCertPath.'/server.crt';
+        $siteSLL->save();
+
+
+        $this->remoteTaskService->writeToFile($siteSLL->key_path, $key);
+        $this->remoteTaskService->writeToFile($siteSLL->cert_path, $cert);
+
+        $this->updateSiteNginxConfig($site);
+
+        $this->remoteTaskService->run('service nginx restart');
+
+        return $this->remoteTaskService->getErrors();
+    }
 
     public function mapSSL(Site $site)
     {
@@ -199,7 +234,7 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($siteSslCertificate->site->server);
 
         switch($siteSslCertificate->type) {
-            case 'Let\'s Encrypt' :
+            case self::LETS_ENCRYPT :
                 // leave it be we don't want to erase them cause they aren't unique
                 break;
             default :
@@ -223,7 +258,10 @@ class SiteService implements SiteServiceContract
 
         $site->load('activeSSL');
 
-        $this->mapSSL($site);
+        if($siteSslCertificate->type == self::LETS_ENCRYPT) {
+            $this->mapSSL($site);
+        }
+
         $this->updateSiteNginxConfig($site);
     }
 
