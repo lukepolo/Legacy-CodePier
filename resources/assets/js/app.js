@@ -14,6 +14,26 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 
+Vue.mixin({
+    methods : {
+        now : function() {
+            return moment();
+        },
+        parseDate : function(date, timezone) {
+            if (timezone) {
+                return moment(date).tz(timezone);
+            }
+            return moment(date);
+        },
+        dateHumanize : function(date, timezone) {
+            return moment(date).tz(timezone).fromNow();
+        },
+        action: function (action, parameters) {
+            return laroute.action(action, parameters);
+        }
+    }
+});
+
 new Vue({
     components: {
 
@@ -35,23 +55,3 @@ new Vue({
 
     }
 }).$mount('#app-layout');
-
-Vue.mixin({
-    methods : {
-        now : function() {
-            return moment();
-        },
-        parseDate : function(date, timezone) {
-            if (timezone) {
-                return moment(date).tz(timezone);
-            }
-            return moment(date);
-        },
-        dateHumanize : function(date, timezone) {
-            return moment(date).tz(timezone).fromNow();
-        },
-        action: function (action, parameters) {
-            return laroute.action(action, parameters);
-        }
-    }
-});

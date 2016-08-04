@@ -90,13 +90,13 @@
                         </thead>
                         <tbody>
                             <tr v-for="server in servers">
-                                <td><a href="@{{ action('ServerController@getServer', { serverID : server.id }) }}">@{{ server.name }}</a></td>
+                                <td><a :href="action('ServerController@getServer', { serverID : server.id })">@{{ server.name }}</a></td>
                                 <td>@{{ server.server_provider.name }}</td>
                                 <td>@{{ server.ip }}</td>
                                 <td>
                                     @{{ server.status }}
                                     <div class="progress" v-if="server.progress < 99">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="@{{ server.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: @{{ server.progress }}%;">
+                                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{ width: server.progress + '%' }">
                                             @{{ server.progress }}% Complete
                                         </div>
                                     </div>
