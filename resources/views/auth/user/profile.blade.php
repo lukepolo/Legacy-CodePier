@@ -73,10 +73,10 @@
                                     @foreach($serverProviders as $serverProvider)
                                         Integrate with {{ $serverProvider->name }} :
 
-                                        @if(!\Auth::user()->userServerProviders->lists('server_provider_id')->contains($serverProvider->id))
+                                        @if(!\Auth::user()->userServerProviders->pluck('server_provider_id')->contains($serverProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $serverProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserServerProvider::class, \Auth::user()->userServerProviders->first(function($key, $userServerProvider) use ($serverProvider) {
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserServerProvider::class, \Auth::user()->userServerProviders->first(function($userServerProvider) use ($serverProvider) {
                                                 return $userServerProvider->server_provider_id == $serverProvider->id;
                                             })->id]) }}">Disconnect</a>
                                         @endif
@@ -87,10 +87,10 @@
                                 @foreach($repositoryProviders as $repositoryProvider)
                                     <p>
                                         Integrate with {{ $repositoryProvider->name }} :
-                                        @if(!\Auth::user()->userRepositoryProviders->lists('repository_provider_id')->contains($repositoryProvider->id))
+                                        @if(!\Auth::user()->userRepositoryProviders->pluck('repository_provider_id')->contains($repositoryProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userRepositoryProviders->first(function($key, $userRepositoryProvider) use ($repositoryProvider) {
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userRepositoryProviders->first(function($userRepositoryProvider) use ($repositoryProvider) {
                                                 return $userRepositoryProvider->repository_provider_id == $repositoryProvider->id;
                                             })->id]) }}">Disconnect</a>
                                         @endif
@@ -101,10 +101,10 @@
                                 @foreach($notificationProviders as $notificationProvider)
                                     <p>
                                         Integrate with {{ $notificationProvider->name }} :
-                                        @if(!\Auth::user()->userNotificationProviders->lists('notification_provider_id')->contains($notificationProvider->id))
+                                        @if(!\Auth::user()->userNotificationProviders->pluck('notification_provider_id')->contains($notificationProvider->id))
                                             <a href="{{ action('Auth\OauthController@newProvider', $notificationProvider->provider_name) }}" class="btn btn-default">Integrate</a>
                                         @else
-                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserNotificationProvider::class, \Auth::user()->userNotificationProviders->first(function($key, $userNotificationProvider) use ($notificationProvider) {
+                                            <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserNotificationProvider::class, \Auth::user()->userNotificationProviders->first(function($userNotificationProvider) use ($notificationProvider) {
                                                 return $userNotificationProvider->notification_provider_id == $notificationProvider->id;
                                             })->id]) }}">Disconnect</a>
                                         @endif
