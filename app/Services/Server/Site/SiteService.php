@@ -145,19 +145,16 @@ class SiteService implements SiteServiceContract
             $activeSSL->save();
         }
 
-        $siteSSLCertificate = SiteSslCertificate::create([
+        SiteSslCertificate::create([
             'site_id' => $site->id,
             'domains' => $domains,
             'type' => 'Let\'s Encrypt',
-            'active' => true
+            'active' => true,
+            'key_path' => "/etc/letsencrypt/live/$site->domain/privkey.pem",
+            'cert_path' => "/etc/letsencrypt/live/$site->domain/fullchain.pem",
         ]);
 
-        $sslDir = '/etc/nginx/ssl/'.$site->domain.'/'.$siteSSLCertificate->id;
-
-        $this->remoteTaskService->makeDirectory($sslDir);
-
-        $this->remoteTaskService->run("ln -s /etc/letsencrypt/live/codepier.io/privkey.pem $sslDir/server.key");
-        $this->remoteTaskService->run("ln -s /etc/letsencrypt/live/codepier.io/fullchain.pem $sslDir/server.crt");
+        $this->mapSSL($site);
 
         $this->updateSiteNginxConfig($site);
 
@@ -185,6 +182,30 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
+    public function mapSSL(Site $site)
+    {
+        $activeSSL = $site->activeSSL;
+
+        dd($activeSSL);
+
+        $sslCertPath = '/etc/nginx/ssl/'.$site->domain.'/'.$activeSSL->id;
+
+        $this->remoteTaskService->makeDirectory($sslCertPath);
+
+        $this->remoteTaskService->run("ln -s $activeSSL->key_path $sslCertPath/server.key");
+        $this->remoteTaskService->run("ln -s $activeSSL->cert_path $sslCertPath/server.crt");
+
+    }
+
+    public function deactivate()
+    {
+
+    }
+
+    public function activate()
+    {
+
+    }
 
     /**
      * @param Server $server

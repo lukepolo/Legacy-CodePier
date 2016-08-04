@@ -33,6 +33,11 @@ class Site extends Model
         return $this->hasOne(SiteSslCertificate::class)->where('active', true);
     }
 
+    public function ssls()
+    {
+        return $this->hasMany(SiteSslCertificate::class)->orderBy('id', 'desc');
+    }
+
     public function daemons()
     {
         return $this->hasMany(SiteDaemon::class);

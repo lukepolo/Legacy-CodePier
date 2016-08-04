@@ -144,10 +144,18 @@
                                     {!! Form::submit('Request SSL') !!}
                                 {!! Form::close() !!}
 
-                                @if($site->hasActiveSSL())
-                                    {{ $site->activeSSL->type }} : {{ $site->activeSSL->domains }}
-                                    <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">X</a>
-                                @endif
+                                @foreach($site->ssls as $ssl)
+                                    <p>
+                                        {{ $ssl->type }} : {{ $ssl->domains }}
+                                        @if($ssl->active)
+                                            <a href="{{ action('SiteController@getRemoveSSL', [$site->server_id, $site->id]) }}">Deactivate</a>
+                                        @else
+                                            <a href="#">Activate</a>
+                                        @endif
+
+                                        <a href="#">Delete</a>
+                                    </p>
+                                @endforeach
                             </div>
 
                             <div class="tab-pane" id="php-settings">

@@ -14,6 +14,8 @@ class AddActiveFlagToSslCerts extends Migration
     {
         Schema::table('site_ssl_certificates', function(Blueprint $table) {
             $table->boolean('active')->default(0);
+            $table->string('key_path');
+            $table->string('cert_path');
         });
     }
 
@@ -26,6 +28,8 @@ class AddActiveFlagToSslCerts extends Migration
     {
         Schema::table('site_ssl_certificates', function(Blueprint $table) {
             $table->dropColumn('active');
+            $table->dropColumn('key_path');
+            $table->dropColumn('cert_path');
         });
     }
 }
