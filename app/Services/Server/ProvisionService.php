@@ -124,6 +124,38 @@ class ProvisionService implements ProvisionServiceContract
         return $provisionSystem->errors();
     }
 
+    public function provisionLoadBalancer(Server $server, $sudoPassword, $databasePassword)
+    {
+        $this->server = $server;
+
+        $provisionSystem = $this->getProvisionRepository($server);
+
+        $this->updateProgress('Updating system');
+        $provisionSystem->updateSystem();
+
+        $this->updateProgress('Settings Timezone to UTC');
+        $provisionSystem->setTimezoneToUTC();
+
+        $this->updateProgress('Settings Locale to UTF8');
+        $provisionSystem->setLocaleToUTF8();
+
+        $this->updateProgress('Creating Swap');
+        $provisionSystem->createSwap();
+
+        $this->updateProgress('Adding CodePier User');
+        $provisionSystem->addCodePierUser($sudoPassword);
+
+        $this->updateProgress('Installing Nginx');
+        $provisionSystem->installNginx();
+
+        $this->updateProgress('Installing LetsEncrypt - Cert Bot');
+        $provisionSystem->installCertBot();
+
+        $this->updateProgress('Installing Basic Firewall Rules');
+        $provisionSystem->installFirewallRules($server);
+
+    }
+
     private function updateProgress($status)
     {
         $progress = floor((++$this->doneActions / $this->totalActions) * 100);
