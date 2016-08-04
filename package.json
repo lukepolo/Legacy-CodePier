@@ -4,16 +4,22 @@
     "prod": "gulp --production",
     "dev": "gulp watch"
   },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "laravel-elixir": "^5.0.0",
-    "bootstrap-sass": "^3.3.0"
-  },
   "dependencies": {
-    "cookie": "^0.3.1",
+    "vue": "^v2.0.0-beta.6",
+    "laravel-echo": "^0.0.18"
+  },
+  "devDependencies": {
     "dotenv": "^2.0.0",
-    "ioredis": "^2.0.1",
-    "laravel-elixir-vueify": "^1.0.3",
-    "php-serialize": "^1.2.0"
+    "gulp": "^3.9.1",
+    "jquery": "^3.1.0",
+    "js-cookie": "^2.1.2",
+    "laravel-elixir": "^6.0.0-9",
+    "laravel-elixir-browsersync-official": "^1.0.0",
+    "laravel-elixir-vue": "^0.1.4",
+    "laravel-elixir-webpack-official": "^1.0.2",
+    "lodash": "^4.14.0",
+    "vue": "v2.0.0-beta.6",
+    "vue-resource": "^0.9.3",
+    "vue-router": "^v2.0.0-rc.1"
   }
 }

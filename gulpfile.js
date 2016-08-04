@@ -2,10 +2,11 @@ require('dotenv').config({
     path: __dirname + '/.env'
 });
 
-require('laravel-elixir-vueify');
-
 var env = process.env;
 var elixir = require('laravel-elixir');
+
+require('laravel-elixir-vue');
+
 var bower_path = './resources/assets/bower/';
 
 var paths = {
@@ -44,8 +45,6 @@ var paths = {
  |
  */
 
-elixir.config.js.browserify.watchify.options.poll = true;
-
 elixir(function (mix) {
     mix
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
@@ -71,7 +70,7 @@ elixir(function (mix) {
             paths.css_public + "app.css",
             paths.js_public + "all.js"
         ])
-        .browserify('app.js',  paths.js_public + 'app.js')
+        .webpack('app.js')
         .browserSync({
             proxy: env.APP_URL
         });
