@@ -173,7 +173,7 @@ class OauthController extends Controller
                     throw new \Exception('Unable to get email from Bitbucket API');
                 }
 
-                $email = collect(json_decode($response->getContent(), true))->first(function ($key, $email) {
+                $email = collect(json_decode($response->getContent(), true))->first(function ($email) {
                     return $email['primary'];
                 })['email'];
 

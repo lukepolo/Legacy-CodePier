@@ -40,7 +40,7 @@ class BitBucket implements RepositoryContract
 
         $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
 
-        $repositoryInfo = $repositories->first(function ($key, $repository) use ($slug) {
+        $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
             return $repository['slug'] == $slug;
         });
 

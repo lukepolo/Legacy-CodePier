@@ -2,6 +2,9 @@
 
 Route::auth();
 
+// TODO - make this a post
+Route::get('logout', 'Auth\LoginController@logout');
+
 Route::get('/', 'LandingController@getIndex');
 
 /*

@@ -6,13 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.3.*",
         "predis/predis": "^1.1",
         "barryvdh/laravel-debugbar": "^2.2",
         "filp/whoops": "^2.1",
         "barryvdh/laravel-ide-helper": "^2.1",
         "doctrine/dbal": "^2.5",
-        "laravelcollective/html": "5.2.*",
+        "laravelcollective/html": "5.3.*",
         "laravel/socialite": "^2.0",
         "socialiteproviders/digitalocean": "^2.0",
         "graham-campbell/digitalocean": "^3.1",
@@ -20,7 +20,6 @@
         "phpseclib/phpseclib": "^2.0",
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
-        "lord/laroute" : "2.*",
         "mpociot/teamwork": "~3.0",
         "laravel/cashier": "~6.0",
         "dompdf/dompdf" : "~0.6",
@@ -74,5 +73,6 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
+    },
+    "minimum-stability": "dev"
 }
