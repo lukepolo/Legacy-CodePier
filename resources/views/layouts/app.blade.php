@@ -19,7 +19,7 @@
                 @yield('content')
             </div>
 
-            <footer></footer>
+            <app-footer></app-footer>
         </span>
 
         <script src="{{ elixir('js/all.js') }}"></script>

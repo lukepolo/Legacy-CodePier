@@ -26,11 +26,13 @@ Vue.mixin({
         dateHumanize : function(date, timezone) {
             return moment(date).tz(timezone).fromNow();
         },
-        action: function (action, parameters) {
-            return laroute.action(action, parameters);
-        },
-        test: function() {
-          return this.user;
+        getCookie(name, defaultValue) {
+            var value = window.Cookies.get(name);
+            if(value) {
+                return value;
+            }
+
+            return defaultValue;
         }
     }
 });
@@ -42,7 +44,7 @@ Vue.mixin({
  */
 
 Vue.component('Navigation', require('./core/Navigation.vue'));
-Vue.component('Footer', require('./core/Footer.vue'));
+Vue.component('AppFooter', require('./core/Footer.vue'));
 
 /*
  |--------------------------------------------------------------------------

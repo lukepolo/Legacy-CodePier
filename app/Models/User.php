@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pile;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -71,5 +72,10 @@ class User extends Authenticatable
     public function sshKeys()
     {
         return $this->hasMany(UserSshKey::class);
+    }
+
+    public function piles()
+    {
+        return $this->hasMany(Pile::class);
     }
 }

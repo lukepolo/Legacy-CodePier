@@ -87,7 +87,6 @@ class OauthController extends Controller
                 default :
                     $user = Socialite::driver($provider)->user();
 
-
                     if (!\Auth::user()) {
                         if (!$userProvider = UserLoginProvider::has('user')->where('provider_id',
                             $user->getId())->first()
@@ -188,6 +187,8 @@ class OauthController extends Controller
             'name' => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id
         ]);
+
+
 
         return $userModel;
     }

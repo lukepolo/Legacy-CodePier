@@ -8,62 +8,36 @@
                 <p class="info">Piles are groupings for your servers. We've built defaults for you, but you can edit them to fit your needs.</p>
 
                 <div class="group-container">
-                    <div class="group">
-                        <div class="group-heading">
-                            <h4>Dev</h4>
-                        </div>
 
-                        <div class="group-content">
-                            <h4>Servers</h4>
+                    <template v-for="pile in user.piles">
+                        <div class="group">
+                            <div class="group-heading">
+                                <h4>{{ pile.name }}</h4>
+                            </div>
 
-                            <div class="server-list">
-                                <a class="server">
-                                    <div class="server-name">CodePier 9.0</div>
-                                </a>
-                                <a class="server">
-                                    <div class="server-name">Switchblade.io</div>
-                                </a>
+                            <template v-if="pile.servers.length">
+                                <div class="group-content">
+                                    <h4>Servers</h4>
+
+                                    <div class="server-list">
+                                        <a class="server">
+                                            <div class="server-name">CodePier 9.0</div>
+                                        </a>
+                                        <a class="server">
+                                            <div class="server-name">Switchblade.io</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </template>
+
+
+                            <div class="btn-footer text-center">
+                                <button class="btn">Edit</button>
+                                <button class="btn">Delete</button>
+                                <a class="btn btn-primary" href="create-server.html">Create Server</a>
                             </div>
                         </div>
-
-                        <div class="btn-footer text-center">
-                            <button class="btn">Edit</button>
-                            <button class="btn">Delete</button>
-                            <a class="btn btn-primary" href="create-server.html">Create Server</a>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="group-heading">
-                            <h4>QA</h4>
-                        </div>
-
-                        <div class="group-content">
-                            <h4>No Servers</h4>
-                        </div>
-
-                        <div class="btn-footer text-center">
-                            <button class="btn">Edit</button>
-                            <button class="btn">Delete</button>
-                            <button class="btn btn-primary">Create Server</button>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="group-heading">
-                            <h4>Prod</h4>
-                        </div>
-
-                        <div class="group-content">
-                            <h4>No Servers</h4>
-                        </div>
-
-                        <div class="btn-footer text-center">
-                            <button class="btn">Edit</button>
-                            <button class="btn">Delete</button>
-                            <button class="btn btn-primary">Create Server</button>
-                        </div>
-                    </div>
+                    </template>
 
                     <div class="group">
                         <a class="add-pile">
