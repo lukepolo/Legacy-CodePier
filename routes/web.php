@@ -8,7 +8,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/', function() {
     if(\Auth::check()) {
         return view('codepier', [
-            'user' => \Auth::user()
+            'user' => \Auth::user()->load('teams')
         ]);
     }
     return view('landing');
