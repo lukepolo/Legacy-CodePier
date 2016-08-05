@@ -13,14 +13,13 @@
     </head>
     <body>
         <span id="app-layout">
-            @include('layouts.core.navigation')
+            <navigation></navigation>
 
-            @include('layouts.core.alerts')
-            @include('layouts.core.errors')
+            <div class="main">
+                @yield('content')
+            </div>
 
-            @yield('content')
-
-            @include('layouts.core.footer')
+            <footer></footer>
         </span>
 
         <script src="{{ elixir('js/all.js') }}"></script>
@@ -30,17 +29,10 @@
         @endif
 
         <script type="text/javascript">
-            var vue;
-
             moment.tz.setDefault("UTC");
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
         </script>
 
         @stack('scripts')
+        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>

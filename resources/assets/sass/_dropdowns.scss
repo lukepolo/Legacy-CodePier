@@ -1,0 +1,41 @@
+// DROPDOWN STYLES =========================================
+// =========================================================
+.dropdown-menu {
+    background-color: $black;
+    border-radius: 0px; 
+    margin: 0px;
+    padding: 0px;
+    
+    li {
+        > a, 
+        > span {
+            font-size: 14px;
+            padding: ($spacing/2) ($spacing) !important;
+            
+            [class^="icon-"], [class*=" icon-"] {
+                font-size: 1.4em;
+                line-height: 19px; 
+                position: relative;
+                top: 2px;
+                right: 5px;
+            }
+        }    
+                
+        > a:hover, 
+        > a:focus,
+        > a:active, 
+        .selected {
+            background-color: $gray;
+            color: $blue; 
+        }    
+    }
+    
+    .dropdown-heading {
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: .5px;
+        border-bottom: 1px solid rgba($color-text-primary, .1);   
+        color: $color-text-primary;
+        text-align: center;
+    }
+}

@@ -12,8 +12,6 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
 Vue.mixin({
     methods : {
         now : function() {
@@ -30,28 +28,47 @@ Vue.mixin({
         },
         action: function (action, parameters) {
             return laroute.action(action, parameters);
+        },
+        test: function() {
+          return this.user;
         }
     }
 });
+/*
+ |--------------------------------------------------------------------------
+ | Core
+ |--------------------------------------------------------------------------
+ |
+ */
 
-new Vue({
-    components: {
+Vue.component('Navigation', require('./core/Navigation.vue'));
+Vue.component('Footer', require('./core/Footer.vue'));
 
-    },
+/*
+ |--------------------------------------------------------------------------
+ | Pages
+ |--------------------------------------------------------------------------
+ |
+ */
+import Dashboard from './pages/Dashboard.vue';
 
-    computed: {
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
 
-    },
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        { path: '/', component: Dashboard },
+        { path: '/foo', component: Foo },
+        { path: '/bar', component: Bar }
+    ]
+})
 
-    data: {
-        servers : servers
-    },
-
-    events: {
-
-    },
-
-    methods: {
-
+window.vue = new Vue({
+    router,
+    data() {
+        return {
+            user : user
+        }
     }
 }).$mount('#app-layout');

@@ -1,0 +1,122 @@
+// FOUNDATION STYLES =======================================
+// =========================================================
+
+* {
+   box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; 
+}
+
+body {
+   background-color: $color-background;
+   font-family: $font-body; 
+   font-weight: 300;
+   color: $color-text-primary;
+}
+
+// BASICS
+a {
+    display: inline-block;
+    color: $color-primary;
+    
+    &:hover, 
+    &:focus,
+    &:active {
+        color: mix($white, $blue, 50%);
+        text-decoration: none;
+        cursor: pointer;
+    } 
+}
+
+p {
+    &.info {
+        font-size: 1.2em;
+    }
+}
+
+.primary {
+    color: $color-primary;
+}
+
+.accent {
+    color: $color-accent;
+}
+
+[data-toggle="tooltip"] {
+    cursor: pointer;
+}
+
+.floatingHeader {
+    position: fixed;
+    top: 0;
+    visibility: hidden;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left; 
+}
+
+.text-right {
+    text-align: right;
+}
+
+
+// HEADINGS ------------------------------------------------
+// ---------------------------------------------------------
+
+h1, h2, h3, h4, h5, h6 {
+   font-family: $font-heading;
+   font-weight: 400;
+   text-transform: uppercase;
+   color: rgba($color-text-primary, .5);
+   margin: 0px;
+   
+   &.primary {
+       font-weight: 700;
+   }
+}
+
+
+
+// LAYOUT --------------------------------------------------
+// ---------------------------------------------------------
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header,
+footer {
+    flex: 0 0 auto;
+}
+
+#main {
+    flex: 1 1 auto;
+    display: flex;
+    overflow: hidden
+}
+
+#left {
+    flex: 0 1 auto;
+}
+
+#middle, 
+#right {
+    flex: 1 1 1em;
+}
+
+
+
+// FORMS OVERRIDE ------------------------------------------
+// ---------------------------------------------------------
+.container {
+    .jcf-form-wrap {
+        padding: 0px;
+    }
+}

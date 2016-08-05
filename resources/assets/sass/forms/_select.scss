@@ -1,0 +1,21 @@
+// SELECT BOX STYLES =======================================
+// =========================================================
+.jcf-form-wrap {
+    select { 
+        box-shadow: none; 
+        background-color: transparent;
+        background-image: none; 
+        appearance: none;
+        
+        border: 1px solid $jcf-color-divider;
+        border-radius: 0px;
+        font-family: $jcf-font;
+        font-size: $jcf-font-size;
+        padding: ($jcf-form-padding/4);
+        width: 100%;
+        
+        &:focus {
+            outline: none;
+        }
+    }
+}

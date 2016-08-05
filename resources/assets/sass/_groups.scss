@@ -1,0 +1,55 @@
+// GROUP STYLES ============================================
+// =========================================================
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.group {
+    flex: 0 1 380px;
+    display: flex;
+    flex-direction: column;
+    @include card(1);
+    border: 1px solid mix($black, $gray, 60%);
+    margin: $spacing;
+    padding: $spacing;
+    
+    .group-heading  {
+        background-color: mix($white, $gray, 10%);
+        border-bottom: 1px solid mix($black, $gray, 10%);
+        margin: (-$spacing) (-$spacing) ($spacing);
+        padding: $spacing;
+    }
+    
+    .group-content {
+        flex: 1 0 auto;
+        position: relative;
+    }
+    
+    .btn-footer {
+        margin: ($spacing) (-$spacing) (-$spacing);
+        padding: $spacing;
+    }
+    
+    .add-pile {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        margin: -$spacing;
+        padding: $spacing;
+        
+        .icon-layers {
+            display: block;
+            text-align: center;
+            font-size: 80px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+
+// LEFT SIDE STYLES ----------------------------------------
+// ---------------------------------------------------------
