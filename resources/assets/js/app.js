@@ -13,26 +13,32 @@ require('./bootstrap');
  */
 
 Vue.mixin({
-    methods : {
-        now : function() {
+    methods: {
+        now: function () {
             return moment();
         },
-        parseDate : function(date, timezone) {
+        parseDate: function (date, timezone) {
             if (timezone) {
                 return moment(date).tz(timezone);
             }
             return moment(date);
         },
-        dateHumanize : function(date, timezone) {
+        dateHumanize: function (date, timezone) {
             return moment(date).tz(timezone).fromNow();
         },
         getCookie(name, defaultValue) {
             var value = window.Cookies.get(name);
-            if(value) {
+            if (value) {
                 return value;
             }
 
             return defaultValue;
+        },
+        action: function (action, parameters) {
+            return laroute.action(action, parameters);
+        },
+        route : function(route, parameters) {
+            return laroute.route(route, { planet : 'world' });
         }
     }
 });
@@ -52,25 +58,25 @@ Vue.component('AppFooter', require('./core/Footer.vue'));
  |--------------------------------------------------------------------------
  |
  */
-import Dashboard from './pages/Dashboard.vue';
+import Dashboard from "./pages/Dashboard.vue";
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Foo = {template: '<div>foo</div>'};
+const Bar = {template: '<div>bar</div>'};
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Dashboard },
-        { path: '/foo', component: Foo },
-        { path: '/bar', component: Bar }
+        {path: '/', component: Dashboard},
+        {path: '/foo', component: Foo},
+        {path: '/bar', component: Bar}
     ]
-})
+});
 
 window.vue = new Vue({
     router,
     data() {
         return {
-            user : user
+            user: user
         }
     }
 }).$mount('#app-layout');

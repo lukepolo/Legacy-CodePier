@@ -74,8 +74,6 @@ class TeamController extends Controller
         } catch ( UserNotInTeamException $e ) {
             abort(403);
         }
-
-        return redirect(route('teams.index'));
     }
 
     /**

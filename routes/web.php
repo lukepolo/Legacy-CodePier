@@ -42,11 +42,22 @@ Route::group(['prefix' => 'webhook'], function() {
 
 Route::group(['middleware' => 'auth'], function () {
 
+    /*
+    |--------------------------------------------------------------------------
+    | Teamwork Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
+    {
+        Route::post('switch/{id?}', 'TeamController@switchTeam')->name('teams.switch');
+    });
 });
 
 /*
 |--------------------------------------------------------------------------
-| Stripe Webhooks
+| Stripe Web Hooks
 |--------------------------------------------------------------------------
 |
 */
