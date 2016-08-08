@@ -82,6 +82,14 @@ elixir(function (mix) {
         ])
         .webpack('app.js')
         .browserSync({
-            proxy: env.APP_URL
+            proxy: env.APP_URL,
+            files : [
+                elixir.config.appPath + '/**/*.php',
+                elixir.config.get('public.css.outputFolder') + '/**/*.css',
+                elixir.config.get('public.js.outputFolder') + '/**/*.js',
+                elixir.config.get('public.versioning.buildFolder') + '/rev-manifest.json',
+                elixir.config.viewPath + '/**/*.php',
+                elixir.config.publicPath + '/js/app.js'
+            ]
         });
 });

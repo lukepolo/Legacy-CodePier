@@ -5,8 +5,9 @@
     "dev": "gulp watch"
   },
   "dependencies": {
+    "laravel-echo": "^0.0.18",
     "vue": "^v2.0.0-beta.6",
-    "laravel-echo": "^0.0.18"
+    "vue-hot-reload-api": "^2.0.5"
   },
   "devDependencies": {
     "babel-preset-es2015": "6.9.0",
