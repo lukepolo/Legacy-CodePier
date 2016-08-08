@@ -19,7 +19,7 @@
                                 <user-info :user="user"></user-info>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="ssh-keys">
-                                <!--<user-ssh-keys></user-ssh-keys>-->
+                                <user-ssh-keys :user="user"></user-ssh-keys>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="server-providers">
                                 <!--<user-server-providers></user-server-providers>-->
@@ -48,10 +48,12 @@
 <script>
 
     import UserInfo from './components/UserInfo.vue';
+    import UserSshKeys from './components/UserSSHKeys.vue';
 
     export default {
         components: {
-            UserInfo
+            UserInfo,
+            UserSshKeys
         },
         data() {
             return {
