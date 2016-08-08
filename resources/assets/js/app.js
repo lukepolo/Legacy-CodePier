@@ -39,6 +39,16 @@ Vue.mixin({
         },
         route : function(route, parameters) {
             return laroute.route(route, { planet : 'world' });
+        },
+        getFormData : function(el) {
+
+            var data = {};
+
+            $.map($(el).serializeArray(), function(data_object){
+                data[data_object['name']] = data_object['value'];
+            });
+
+            return data;
         }
     }
 });

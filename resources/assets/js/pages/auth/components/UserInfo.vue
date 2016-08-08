@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label>Email</label>
-            <input type="email" :value="user.email">
+            <input name="email" type="email" :value="user.email">
         </div>
         <div class="form-group">
             <label>New Password</label>
@@ -30,11 +30,11 @@
         props : ['user'],
         methods : {
             onSubmit: function() {
-                Vue.http.post(laroute.action('Auth\UserController@postMyProfile'), {
-                    name : 'Luke Policinski',
-                    email : 'luke@lukepolo.com'
+                Vue.http.post(laroute.action('Auth\UserController@postMyProfile'), this.getFormData(this.$el), {
                 }).then((response) => {
-                    Vue.set('user', response.data);
+                    // TOOD - we need to find a better way
+                    // this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 }) works in 1.0 but 2.0 nope
+                    vue.user.name = response.json().name;
                 }, (errors) => {
                     alert(error);
                 });

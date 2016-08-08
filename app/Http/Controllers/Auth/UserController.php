@@ -65,7 +65,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response($user);
+        return response()->json($user);
     }
 
     /**

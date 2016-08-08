@@ -54,7 +54,7 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link to="/profile"><span class="icon-person"></span> My Profile</router-link>
+                        <router-link to="/profile"><span class="icon-person"></span>My Profile</router-link>
                     </li>
                     <li>
                         <a href="#"><span class="icon-people"></span> Manage Teams</a>

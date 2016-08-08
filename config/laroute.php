@@ -23,7 +23,7 @@ return [
      *
      * Set the Application URL in config/app.php
      */
-    'absolute' => true,
+    'absolute' => false,
 
     /*
      * The Filter Method
