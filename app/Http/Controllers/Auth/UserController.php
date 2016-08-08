@@ -65,7 +65,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Profile Updated');
+        return response($user);
     }
 
     /**

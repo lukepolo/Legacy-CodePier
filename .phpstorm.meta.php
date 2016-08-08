@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-08-04.
+    * Generated on 2016-08-08.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -63,7 +63,8 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
-            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
+            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
+            'redis' instanceof \Illuminate\Redis\Database,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
@@ -137,7 +138,6 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
-            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -205,7 +205,8 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
-            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
+            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
+            'redis' instanceof \Illuminate\Redis\Database,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
@@ -279,7 +280,6 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
-            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -347,7 +347,8 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
-            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
+            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
+            'redis' instanceof \Illuminate\Redis\Database,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
@@ -421,7 +422,6 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
-            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
@@ -489,7 +489,8 @@ namespace PHPSTORM_META {
             'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
-            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
+            'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\RedisBroadcaster,
+            'redis' instanceof \Illuminate\Redis\Database,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
@@ -563,7 +564,6 @@ namespace PHPSTORM_META {
             'command.queue.listen' instanceof \Illuminate\Queue\Console\ListenCommand,
             'queue.listener' instanceof \Illuminate\Queue\Listener,
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
-            'redis' instanceof \Illuminate\Redis\Database,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,

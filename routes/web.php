@@ -42,6 +42,12 @@ Route::group(['prefix' => 'webhook'], function() {
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/{any}', function ($any) {
+        return view('codepier', [
+            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+        ]);
+    })->where('any', '.*');
+
     /*
     |--------------------------------------------------------------------------
     | Teamwork Routes
@@ -53,6 +59,15 @@ Route::group(['middleware' => 'auth'], function () {
     {
         Route::post('switch/{id?}', 'TeamController@switchTeam')->name('teams.switch');
     });
+
+   /*
+   |--------------------------------------------------------------------------
+   | User Routes
+   |--------------------------------------------------------------------------
+   |
+   */
+
+    Route::post('/my-profile', 'Auth\UserController@postMyProfile');
 });
 
 /*

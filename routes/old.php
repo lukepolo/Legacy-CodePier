@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     */
 
     Route::get('/my-profile', 'Auth\UserController@getMyProfile');
-    Route::post('/my-profile', 'Auth\UserController@postMyProfile');
+
     Route::post('/my-profile/add-ssh-key', 'Auth\UserController@postAddSshKey');
     Route::get('/my-profile/remove-ssh-key/{sshKeyID}', 'Auth\UserController@getRemoveSshKey');
 

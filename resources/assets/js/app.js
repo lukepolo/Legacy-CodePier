@@ -59,16 +59,13 @@ Vue.component('AppFooter', require('./core/Footer.vue'));
  |
  */
 import Dashboard from "./pages/Dashboard.vue";
-
-const Foo = {template: '<div>foo</div>'};
-const Bar = {template: '<div>bar</div>'};
+import Profile from "./pages/auth/Profile.vue";
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/', component: Dashboard},
-        {path: '/foo', component: Foo},
-        {path: '/bar', component: Bar}
+        {path: '/profile', component: Profile},
     ]
 });
 
