@@ -20,7 +20,7 @@ class PileController extends Controller
      */
     public function index()
     {
-        return response()->json(Pile::with('servers')->all());
+        return response()->json(Pile::with('servers')->get());
     }
 
     /**

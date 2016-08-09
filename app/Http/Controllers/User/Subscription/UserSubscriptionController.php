@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Subscription;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
@@ -11,7 +12,7 @@ use Stripe\Token;
  */
 class UserSubscriptionController extends Controller
 {
-    protected $user;
+    public $user;
 
     /**
      * UserSubscriptionController constructor.
@@ -19,7 +20,6 @@ class UserSubscriptionController extends Controller
     public function __construct()
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $this->user = \Auth::user();
     }
 
     /**

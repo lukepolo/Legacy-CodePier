@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Features;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Http\Controllers\Controller;
 use App\Models\UserSshKey;
 use Illuminate\Http\Request;
 

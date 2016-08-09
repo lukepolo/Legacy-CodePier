@@ -25,7 +25,7 @@ class UserTeamMemberController extends Controller
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($id);
 
-        return view('teamwork.members.list')->withTeam($team);
+        return response()->json($team->users);
     }
 
     /**
@@ -51,8 +51,6 @@ class UserTeamMemberController extends Controller
         }
 
         $user->detachTeam($team);
-
-        return redirect(route('teams.index'));
     }
 
     /**
@@ -78,7 +76,6 @@ class UserTeamMemberController extends Controller
                 'email' => 'The email address is already invited to the team.'
             ]);
         }
-
         return redirect(route('teams.members.show', $team->id));
     }
 

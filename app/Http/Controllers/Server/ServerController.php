@@ -35,7 +35,7 @@ class ServerController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::all());
+        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::get());
     }
 
     /**
