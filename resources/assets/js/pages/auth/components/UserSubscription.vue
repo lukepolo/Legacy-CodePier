@@ -1,83 +1,92 @@
 <template>
     <div>
-        @if(\Auth::user()->subscribed())
-            @if(\Auth::user()->subscription()->cancelled())
-                Your subscription has been cancled and will end on {{ \Auth::user()->subscription()->ends_at }}
-                @else
-                Your next billing is on {{ \Auth::user()->subscription()->ends_at }}
-            @endif
-        @endif
+        <template v-if="validSubscription">
+            \Auth::user()->subscription()->cancelled()
+            Your subscription has been cancled and will end on \Auth::user()->subscription()->ends_at
+            Your next billing is on \Auth::user()->subscription()->ends_at
+        </template>
 
-        {!! Form::open(['action' => 'PaymentController@postSubscription']) !!}
-        <?php setlocale(LC_MONETARY, 'en_US.UTF-8'); ?>
-        @foreach($plans as $plan)
-        <div class="radio">
-            <label>
-                @if(!\Auth::user()->subscribedToPlan($plan->id))
-                {!! Form::radio('plan', $plan->id) !!}
-                @else
-                Current Plan -
-                @endif
-                {{ $plan->name }} ({{ money_format('%n', $plan->amount / 100) }} / {{ $plan->interval }}
+        <form v-on:submit.prevent="onSubmit">
+            <div class="radio" v-for="plan in plans">
+                <label>
+                    <template v-if="subscribedToPlan(plan.id)">
+                        Current Plan -
+                    </template>
+                    <template v-else>
+                        <input type="radio" name="plan" :value="plan.id">
+                    </template>
 
-                @if(!empty($plan->metadata->save))
-                <b>
-                    SAVE {{  money_format('%n', $plan->metadata->save) }} per {{ $plan->interval }}
-                </b>
-                @endif
-                )
-            </label>
-        </div>
-        @endforeach
+                    <p>
+                        {{ plan.name }} ({{ plan.amount }} / {{ plan.interval }}
+                    </p>
 
-        @if(\Auth::user()->hasCardOnFile())
-        Use your {{ \Auth::user()->card_brand }} {{ \Auth::user()->card_last_four }}
-        <div class="btn btn-link new-card">new card</div>
-        @endif
+                    <b v-if="plan.metadata.save">
+                        SAVE {{ plan.metadata.save }} per {{ plan.interval }}
+                    </b>
+                </label>
+            </div>
 
-        <div id="card-info" class="@if(\Auth::user()->hasCardOnFile()) hide @endif">
-            Number
-            {!! Form::text('number') !!}
-            Exp Month
-            {!! Form::text('exp_month') !!}
-            Exp Year
-            {!! Form::text('exp_year') !!}
-            CVC
-            {!! Form::password('cvc') !!}
+            <template v-if="user.card_brand">
+                Use your {{ user.card_brand }} {{ user.card_last_four }}
+                <div class="btn btn-link new-card">new card</div>
+            </template>
 
-        </div>
+            <div id="card-info" :class="{hide : user.card_brand}">
+                <label>Number</label>
+                <input type="text" name="number">
 
-        {!! Form::submit('Subscribe') !!}
-        {!! Form::close() !!}
+                <label>Exp Month</label>
+                <input type="text" name="exp_month">
 
-        <a href="{{ action('PaymentController@getCancelSubscription') }}">Cancel Subscription</a>
-    </div>
+                <label>Exp Year</label>
+                <input type="text" name="exp_year">
 
-    @if(\Auth::user()->subscribed())
-    <table>
-        @foreach (\Auth::user()->invoices() as $invoice)
-        <tr>
-            <td>{{ $invoice->date()->toFormattedDateString() }}</td>
-            <td>{{ $invoice->total() }}</td>
-            <td><a href="{{ action('PaymentController@getUserInvoice', $invoice->id) }}">Download</a></td>
-        </tr>
-        @endforeach
-    </table>
-    @endif
+                <label>CVC</label>
+                <input type="password" name="cvc">
+            </div>
+
+            <button type="submit">Save Subscription</button>
+        </form>
+
+        <a href="#" v-if="validSubscription">Cancel Subscription</a>
+
+        <template v-if="invoices">
+            <table>
+                <tr v-for="invoice in invoices">
+                    <td> {{ invoice.date }}</td>
+                    <td> {{ invoice.total }}</td>
+                    <td><a href="#">Download</a></td>
+                </tr>
+            </table>
+        </template>
     </div>
 </template>
 
 
 <script>
     export default {
+        props: ["user"],
         data() {
             return {
-                ssh_keys : []
+                plans: [],
+                subscription: null,
+                invoices : []
             }
         },
-        methods : {
-            onSubmit: function() {
-                Vue.http.post(laroute.action('User\Features\UserSshKeyController@store'), this.getFormData(this.$el)).then((response) => {
+        computed : {
+            validSubscription : function() {
+                return this.subscription != null;
+            }
+        },
+        methods: {
+            subscribedToPlan: function (plan_id) {
+                if (this.validSubscription && this.subscription.plan_id == plan_id) {
+                    return true;
+                }
+                return false;
+            },
+            onSubmit: function () {
+                Vue.http.post(laroute.action('User\Subscription\UserSubscriptionController@store'), this.getFormData(this.$el)).then((response) => {
                     this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
@@ -85,11 +94,11 @@
             }
         },
         mounted () {
-//            Vue.http.get(laroute.action('User\Features\UserSshKeyController@index')).then((response) => {
-//                this.ssh_keys = response.json();
-//            }, (errors) => {
-//                alert(error);
-//            })
+            Vue.http.get(laroute.action('SubscriptionController@index')).then((response) => {
+                this.plans = response.json();
+            }, (errors) => {
+                alert(error);
+            })
         },
     }
 </script>

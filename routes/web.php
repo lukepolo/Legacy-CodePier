@@ -39,6 +39,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
     |
     */
 
+    Route::resource('subscription/plans', 'SubscriptionController');
+
+
     Route::group(['prefix' => 'me', 'namespace' => 'User'], function() {
         Route::resource('/', 'UserController');
     });
