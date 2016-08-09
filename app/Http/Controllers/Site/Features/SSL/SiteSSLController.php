@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site\Features\SSL;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
+use App\Models\Site;
 use App\Models\SiteSslCertificate;
 use Illuminate\Http\Request;
 
@@ -54,5 +56,30 @@ class SiteSSLController extends Controller
     public function destroy($id)
     {
         $this->siteService->removeSSL(SiteSslCertificate::findOrFail($id));
+    }
+
+    /**
+     * Activates a ssl certificate
+     *
+     * @param Request $request
+     * @return $this
+     */
+    public function activateSSL(Request $request)
+    {
+        $errors = $this->siteService->activateSSL(SiteSslCertificate::findOrFail($request->get('site_ssl_certificate_id')));
+
+        if (is_array($errors)) {
+            return back()->withErrors($errors);
+        }
+    }
+
+    /**
+     * Deactivates a ssl certificate
+     *
+     * @param Request $request
+     */
+    public function deactivateSSL(Request $request)
+    {
+        $this->siteService->deactivateSSL(Site::findOrFail($request->get('site_id')));
     }
 }

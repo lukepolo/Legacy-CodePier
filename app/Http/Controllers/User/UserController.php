@@ -66,6 +66,4 @@ class UserController extends Controller
 
         $user->delete();
     }
-
-
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site\Repository;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
+use App\Http\Controllers\Controller;
 use App\Models\DeploymentStep;
 use App\Models\Site;
 use Illuminate\Http\Request;

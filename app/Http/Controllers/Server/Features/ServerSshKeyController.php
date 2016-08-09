@@ -82,4 +82,14 @@ class ServerSshKeyController extends Controller
         $serverSshKey->delete();
 
     }
+
+    /**
+     * Tests a ssh connection to server
+     *
+     * @param Request $request
+     */
+    public function testSSHConnection(Request $request)
+    {
+        $this->serverService->testSSHConnection(Server::findOrFail($request->get('server_id')));
+    }
 }

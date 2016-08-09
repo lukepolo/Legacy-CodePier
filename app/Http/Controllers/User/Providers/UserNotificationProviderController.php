@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserNotificationProvider;
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
+/**
+ * Class UserNotificationProviderController
+ * @package App\Http\Controllers
+ */
 class UserNotificationProviderController extends Controller
 {
     /**
@@ -22,7 +23,7 @@ class UserNotificationProviderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)

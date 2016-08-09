@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User\Team;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Mpociot\Teamwork\Facades\Teamwork;
+use Mpociot\Teamwork\TeamInvite;
 
-use App\Http\Requests;
-
+/**
+ * Class UserTeamMemberController
+ * @package App\Http\Controllers\User\Team
+ */
 class UserTeamMemberController extends Controller
 {
     /**
@@ -59,13 +65,12 @@ class UserTeamMemberController extends Controller
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
 
-        if( !Teamwork::hasPendingInvite( $request->email, $team) )
-        {
-            Teamwork::inviteToTeam( $request->email, $team, function( $invite )
-            {
-                Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite], function ($m) use ($invite) {
-                    $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
-                });
+        if (!Teamwork::hasPendingInvite($request->email, $team)) {
+            Teamwork::inviteToTeam($request->email, $team, function ($invite) {
+                Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite],
+                    function ($m) use ($invite) {
+                        $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
+                    });
                 // Send email to user
             });
         } else {
@@ -86,9 +91,10 @@ class UserTeamMemberController extends Controller
     public function resendInvite($invite_id)
     {
         $invite = TeamInvite::findOrFail($invite_id);
-        Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite], function ($m) use ($invite) {
-            $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
-        });
+        Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite],
+            function ($m) use ($invite) {
+                $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
+            });
 
         return redirect(route('teams.members.show', $invite->team));
     }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
 use App\Jobs\CreateSite;
+use App\Jobs\DeploySite;
 use App\Models\Server;
 use App\Models\Site;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class SiteController extends Controller
 {
@@ -36,7 +36,7 @@ class SiteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,7 +55,7 @@ class SiteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,8 +66,8 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -91,7 +91,7 @@ class SiteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -102,6 +102,18 @@ class SiteController extends Controller
         ])->findOrFail($id);
 
         $this->siteService->deleteSite($site);
+    }
+
+    /**
+     * Deploys a site
+     *
+     * @param Request $request
+     */
+    public function deploy(Request $request)
+    {
+        $site = Site::with('server')->findOrFail($request->get('site_id'));
+
+        $this->dispatch(new DeploySite($site));
     }
 }
 

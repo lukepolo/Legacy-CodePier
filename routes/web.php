@@ -2,11 +2,8 @@
 
 Route::auth();
 
-// TODO - make this a post
-Route::get('logout', 'Auth\LoginController@logout');
-
-Route::get('/', function() {
-    if(\Auth::check()) {
+Route::get('/', function () {
+    if (\Auth::check()) {
         return view('codepier', [
             'user' => \Auth::user()->load(['teams', 'piles.servers'])
         ]);
@@ -20,24 +17,116 @@ Route::get('/', function() {
 |--------------------------------------------------------------------------
 |
 */
+Route::get('teams/accept/{token}', 'UserTeamController@acceptInvite')->name('teams.accept_invite');
 
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
 
-Route::group(['prefix' => 'webhook'], function() {
-    Route::get('/diskspace', function() {
-
-        $server = \App\Models\Server::findOrFail(\Hashids::decode(\Request::get('key')));
-
-        dd($server);
-    });
-
-    Route::get('/deploy/{siteHashID}', function($siteHashID) {
+Route::group(['prefix' => 'webhook'], function () {
+    Route::get('/deploy/{siteHashID}', function ($siteHashID) {
         dispatch(new \App\Jobs\DeploySite(
             App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
         ));
     })->name('webhook/deploy');
+});
 
+Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'user', 'namespace' => 'User'], function()
+    {
+        Route::resource('/', 'UserController');
+        Route::resource('subscription', 'Subscription\UserSubscriptionController');
+        Route::get('subscription/invoice/{invoice_id}', 'Subscription\UserSubscriptionController@downloadInvoice');
+
+        Route::resource('server/provider', 'Providers\UserServerProviderController');
+        Route::resource('repository/provider', 'Providers\UserRepositoryProviderController');
+        Route::resource('notification/provider', 'Providers\UserNotificationProviderController');
+
+        Route::resource('ssh-keys', 'Features\UserSshKeyController');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Teamwork Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::group(['prefix' => 'teams', 'namespace' => 'User\Team'], function()
+    {
+        Route::resource('/', 'UserTeamController');
+        Route::get('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
+
+
+        Route::resource('members', 'UserTeamMemberController');
+        Route::get('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+        Route::post('members/{id}', 'UserTeamMemberController@invite')->name('teams.members.invite');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Piles Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function()
+    {
+        Route::resource('/', 'PileController');
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Server Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function()
+    {
+        Route::resource('server', 'ServerController');
+        Route::post('restore/{server_id}', 'ServerController@restore');
+        Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
+        Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
+        Route::post('save/file/{server_id}', 'ServerController@saveFile');
+        Route::post('provider/{server_provider_id}/option-regions', 'ServerController@getServerOptionsAndRegions');
+        Route::post('restart-server/{server_id}', 'ServerController@restartServer');
+        Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
+        Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
+
+        Route::resource('cron-jobs', 'Features\ServerCronJobController');
+        Route::resource('daemons', 'Features\ServerDaemonController');
+        Route::resource('firewall', 'Features\ServerFirewallController');
+        Route::resource('network', 'Features\ServerNetworkController');
+        Route::resource('ssh-keys', 'Features\ServerSshKeyController');
+        Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Site Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function()
+    {
+        Route::resource('/', 'SiteController');
+        Route::post('deploy', 'SiteController@deploy');
+
+        Route::resource('ssl', 'Features\SSL\SiteSSLController');
+        Route::resource('ssl-existing', 'Features\SSL\SiteSSLExistingController');
+        Route::resource('ssl-lets-encrypt', 'Features\SSL\SiteSSLLetsEncryptController');
+
+        Route::resource('workers', 'Features\SiteWorkerController');
+
+        Route::resource('hooks', 'Repository\Features\RepositoryHookController');
+        Route::resource('repository', 'Repository\SiteRepositoryController');
+    });
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -47,27 +136,6 @@ Route::group(['middleware' => 'auth'], function () {
             'user' => \Auth::user()->load(['teams', 'piles.servers'])
         ]);
     })->where('any', '.*');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Teamwork Routes
-    |--------------------------------------------------------------------------
-    |
-    */
-
-    Route::group(['prefix' => 'teams', 'namespace' => 'Teamwork'], function()
-    {
-        Route::post('switch/{id?}', 'TeamController@switchTeam')->name('teams.switch');
-    });
-
-   /*
-   |--------------------------------------------------------------------------
-   | User Routes
-   |--------------------------------------------------------------------------
-   |
-   */
-
-    Route::post('/my-profile', 'Auth\UserController@postMyProfile');
 });
 
 /*

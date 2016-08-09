@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site\Features\SSL;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
+/**
+ * Class SiteSSLExistingController
+ * @package App\Http\Controllers\Site\Features\SSL
+ */
 class SiteSSLExistingController extends Controller
+
 {
     private $siteService;
 

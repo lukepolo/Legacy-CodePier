@@ -40,14 +40,14 @@ class UserSubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        if (\Request::has('number') && \Request::has('exp_month') && \Request::has('exp_year') && \Request::has('cvc')) {
+        if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
 
             $cardToken = Token::create([
                 "card" => [
-                    "number" => \Request::get('number'),
-                    "exp_month" => \Request::get('exp_month'),
-                    "exp_year" => \Request::get('exp_year'),
-                    "cvc" => \Request::get('cvc')
+                    "number" => $request->get('number'),
+                    "exp_month" => $request->get('exp_month'),
+                    "exp_year" => $request->get('exp_year'),
+                    "cvc" => $request->get('cvc')
                 ]
             ]);
 
@@ -55,26 +55,36 @@ class UserSubscriptionController extends Controller
         }
 
         if ($this->user->subscribed()) {
-            $this->user->subscription('default')->swap(\Request::get('plan'));
+            $this->user->subscription('default')->swap($request->get('plan'));
         } else {
-            $this->user->newSubscription('default', \Request::get('plan'))->create();
+            $this->user->newSubscription('default', $request->get('plan'))->create();
         }
-
-        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $this->user->subscription('default')->cancel();
+    }
 
-        return back();
+    /**
+     * Downloads an invoice from stripe
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function downloadInvoice($id)
+    {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        return \Auth::user()->downloadInvoice($id, [
+            'vendor' => 'CodePier',
+            'product' => 'Server Management',
+        ]);
     }
 }

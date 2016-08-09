@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site\Features;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Http\Controllers\Controller;
 use App\Models\Site;
 use App\Models\SiteDaemon;
 use Illuminate\Http\Request;

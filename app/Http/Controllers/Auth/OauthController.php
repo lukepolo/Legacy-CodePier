@@ -45,6 +45,7 @@ class OauthController extends Controller
 
     /**
      * Handles provider requests
+     *
      * @param $provider
      * @return mixed
      */
@@ -71,6 +72,7 @@ class OauthController extends Controller
 
     /**
      * Handles the request from the provider
+     *
      * @param $provider
      * @return mixed
      */
@@ -141,6 +143,7 @@ class OauthController extends Controller
 
     /**
      * Creates a new user
+     *
      * @param $user
      * @param UserLoginProvider $userLoginProvider
      * @return mixed
@@ -193,6 +196,13 @@ class OauthController extends Controller
         return $userModel;
     }
 
+    /**
+     * Disconnects a service provider
+     *
+     * @param $providerType
+     * @param int $serviceID
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function getDisconnectService($providerType, int $serviceID)
     {
         if (UserRepositoryProvider::class == $providerType) {
@@ -222,6 +232,7 @@ class OauthController extends Controller
 
     /**
      * Creates a login provider
+     *
      * @param $provider
      * @param $user
      * @return mixed
@@ -249,6 +260,7 @@ class OauthController extends Controller
 
     /**
      * Saves the users repository provider
+     *
      * @param $provider
      * @param $user
      * @return mixed
@@ -277,6 +289,7 @@ class OauthController extends Controller
 
     /**
      * Saves the users server provider
+     *
      * @param $provider
      * @param $user
      * @return mixed
@@ -311,6 +324,13 @@ class OauthController extends Controller
         return $userServerProvider;
     }
 
+    /**
+     * Saves the users notification provider
+     *
+     * @param $provider
+     * @param TokenData $tokenData
+     * @return mixed
+     */
     private function saveNotificationProvider($provider, TokenData $tokenData)
     {
         $userNotificationProvider = UserNotificationProvider::withTrashed()->firstOrNew([
