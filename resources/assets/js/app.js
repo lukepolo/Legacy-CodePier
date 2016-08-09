@@ -42,6 +42,9 @@ Vue.mixin({
         },
         getFormData : function(el) {
 
+            if(!$(el).is('form')) {
+                el = $(el).find('form');
+            }
             var data = {};
 
             $.map($(el).serializeArray(), function(data_object){

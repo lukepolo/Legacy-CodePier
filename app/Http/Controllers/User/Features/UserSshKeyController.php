@@ -48,9 +48,11 @@ class UserSshKeyController extends Controller
             'ssh_key' => trim(\Request::get('ssh_key'))
         ]);
 
-        foreach (\Auth::user()->servers as $server) {
-            $this->serverService->installSshKey($server, $userSshKey->ssh_key);
-        }
+//        foreach (\Auth::user()->servers as $server) {
+//            $this->serverService->installSshKey($server, $userSshKey->ssh_key);
+//        }
+
+        return response()->json($userSshKey);
     }
 
     /**

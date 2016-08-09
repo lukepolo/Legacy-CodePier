@@ -28,9 +28,6 @@ Route::group(['prefix' => 'webhook'], function () {
             App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
         ));
     })->name('webhook/deploy');
-
-
-
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
@@ -44,7 +41,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
     Route::group(['prefix' => 'me', 'namespace' => 'User'], function() {
         Route::resource('/', 'UserController');
-
     });
 
     Route::group(['prefix' => 'my', 'namespace' => 'User'], function() {
@@ -134,6 +130,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         });
     });
 
+    Route::group(['prefix' => 'auth'], function() {
+        Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function() {
+            Route::resource('server', 'ServerProvidersController');
+            Route::resource('repository', 'RepositoryProvidersController');
+            Route::resource('notification', 'NotificationProvidersController');
+        });
+    });
 
 });
 

@@ -11,19 +11,20 @@
             </div>
             <input type="submit" value="Install SSH Key">
         </form>
-
         <table class="table">
             <thead>
             <tr>
                 <th>Key Name</th>
+                <th>key info</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>key nam here</td>
-                <td><a href="#" class="fa fa-remove"> Auth\UserController@getRemoveSshKey </a></td>
-            </tr>
+                <tr v-for="key in ssh_keys">
+                    <td>{{ key.name }}</td>
+                    <td>{{ key.ssh_key }}</td>
+                    <td><a href="#" class="fa fa-remove">x</a></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -31,7 +32,6 @@
 
 <script>
     export default {
-        props : ['user'],
         data() {
             return {
                 ssh_keys : []
@@ -39,19 +39,19 @@
         },
         methods : {
             onSubmit: function() {
-
-                Vue.http.post(laroute.action('Auth\UserController@postAddSshKey'), this.getFormData(this.$el), {
-                }).then((response) => {
-                    // TOOD - we need to find a better way
-                    // this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 }) works in 1.0 but 2.0 nope
-                    vue.user.name = response.json().name;
+                Vue.http.post(laroute.action('User\Features\UserSshKeyController@store'), this.getFormData(this.$el)).then((response) => {
+                   this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             }
         },
         mounted () {
-            console.info('get ssh keys');
+            Vue.http.get(laroute.action('User\Features\UserSshKeyController@index')).then((response) => {
+                this.ssh_keys = response.json();
+            }, (errors) => {
+                alert(error);
+            })
         },
     }
 </script>

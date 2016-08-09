@@ -1,14 +1,60 @@
 <template>
-    @foreach($repositoryProviders as $repositoryProvider)
-    <p>
-        Integrate with {{ $repositoryProvider->name }} :
-        @if(!\Auth::user()->userRepositoryProviders->pluck('repository_provider_id')->contains($repositoryProvider->id))
-        <a href="{{ action('Auth\OauthController@newProvider', $repositoryProvider->provider_name) }}" class="btn btn-default">Integrate</a>
-        @else
-        <a href="{{ action('Auth\OauthController@getDisconnectService', [App\Models\UserRepositoryProvider::class, \Auth::user()->userRepositoryProviders->first(function($userRepositoryProvider) use ($repositoryProvider) {
-                                                return $userRepositoryProvider->repository_provider_id == $repositoryProvider->id;
-                                            })->id]) }}">Disconnect</a>
-        @endif
-    </p>
-    @endforeach
+    <div>
+        <p v-for="provider in repository_providers">
+            <template v-if="isConnected(provider.id)">
+                Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
+            </template>
+            <template v-else>
+                Integrate : <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})" class="btn btn-default">{{ provider.name}}</a>
+            </template>
+        </p>
+    </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                repository_providers: [],
+                user_repository_providers: []
+            }
+        },
+        methods: {
+            isConnected: function (repository_provider_id) {
+                if (_.some(this.user_repository_providers, {'repository_provider_id': repository_provider_id})) {
+                    return true;
+                }
+
+                return false;
+            },
+            disconnectProvider: function (repository_provider_id) {
+                var user_repository_provider_id = _.find(this.user_repository_providers, function(repository_provider) {
+                    return repository_provider.repository_provider_id == repository_provider_id;
+                }).id;
+
+                Vue.http.delete(laroute.action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
+                    this.getUserRepositoryProviders();
+                }, (errors) => {
+                    alert('we had an error');
+                })
+            },
+            getUserRepositoryProviders: function () {
+                Vue.http.get(laroute.action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
+                    this.user_repository_providers = response.json();
+                }, (errors) => {
+                    alert('we had an error');
+                })
+            }
+        },
+        mounted () {
+
+            Vue.http.get(laroute.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
+                this.repository_providers = response.json();
+            }, (errors) => {
+                alert(error);
+            });
+
+            this.getUserRepositoryProviders();
+        },
+    }
+</script>

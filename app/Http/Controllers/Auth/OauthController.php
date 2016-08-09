@@ -137,7 +137,7 @@ class OauthController extends Controller
                 $newUserNotificationProvider->delete();
             }
 
-            return redirect(\Auth::check() ? action('Auth\UserController@getMyProfile') : '/login')->withErrors($e->getMessage());
+            return redirect(\Auth::check() ? url('/') : '/login')->withErrors($e->getMessage());
         }
     }
 

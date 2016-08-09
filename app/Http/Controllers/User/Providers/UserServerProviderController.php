@@ -18,7 +18,7 @@ class UserServerProviderController extends Controller
      */
     public function index()
     {
-        return response(UserServerProvider::where('user_id', \Auth::user()->id)->get());
+        return response(UserServerProvider::with('serverProvider')->where('user_id', \Auth::user()->id)->get());
     }
 
     /**
@@ -29,6 +29,17 @@ class UserServerProviderController extends Controller
      */
     public function show($id)
     {
-        return response(UserServerProvider::findOrFail($id));
+        return response(UserServerProvider::with('serverProvider')->findOrFail($id));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        UserServerProvider::findOrFail($id)->delete();
     }
 }

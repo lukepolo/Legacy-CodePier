@@ -30,7 +30,7 @@
         props : ['user'],
         methods : {
             onSubmit: function() {
-                Vue.http.post(laroute.action('Auth\UserController@postMyProfile'), this.getFormData(this.$el), {
+                Vue.http.put(laroute.action('User\UserController@update'), this.getFormData(this.$el), {
                 }).then((response) => {
                     // TOOD - we need to find a better way
                     // this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 }) works in 1.0 but 2.0 nope
