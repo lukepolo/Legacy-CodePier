@@ -246,8 +246,9 @@ class SiteService implements SiteServiceContract
         $siteSslCertificate->delete();
     }
 
-    public function activateSSL(Site $site, SiteSslCertificate $siteSslCertificate)
+    public function activateSSL(SiteSslCertificate $siteSslCertificate)
     {
+        $site = $siteSslCertificate->site;
         if($site->hasActiveSSL()) {
             $site->activeSSL->active = false;
             $site->activeSSL->save();
@@ -363,13 +364,12 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
 
 
     /**
-     * @param Server $server
      * @param SiteDaemon $siteDaemon
      * @return array|bool
      */
-    public function removeDaemon(Server $server, SiteDaemon $siteDaemon)
+    public function removeDaemon(SiteDaemon $siteDaemon)
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($siteDaemon->site->server);
 
         $this->remoteTaskService->removeFile("/etc/supervisor/conf.d/site-worker-$siteDaemon->id.conf");
 

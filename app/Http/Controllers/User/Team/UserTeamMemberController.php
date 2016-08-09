@@ -1,20 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Teamwork;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Mail;
-use Mpociot\Teamwork\Facades\Teamwork;
-use Mpociot\Teamwork\TeamInvite;
 
-class TeamMemberController extends Controller
+use App\Http\Requests;
+
+class UserTeamMemberController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the members of the given team.
      *
@@ -80,13 +73,13 @@ class TeamMemberController extends Controller
                 'email' => 'The email address is already invited to the team.'
             ]);
         }
-        
+
         return redirect(route('teams.members.show', $team->id));
     }
 
     /**
      * Resend an invitation mail.
-     * 
+     *
      * @param $invite_id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -99,5 +92,4 @@ class TeamMemberController extends Controller
 
         return redirect(route('teams.members.show', $invite->team));
     }
-
 }

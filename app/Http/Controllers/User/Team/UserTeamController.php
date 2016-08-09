@@ -1,16 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Teamwork;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
 
-class TeamController extends Controller
+use App\Http\Requests;
+
+class UserTeamController extends Controller
 {
-    public function __construct()
+    /**
+     * Accept the given invite
+     * @param $token
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function acceptInvite($token)
     {
-        $this->middleware('auth');
+        $invite = Teamwork::getInviteFromAcceptToken($token);
+        if (!$invite) {
+            abort(404);
+        }
+
+        if (auth()->check()) {
+            Teamwork::acceptInvite($invite);
+            return redirect()->route('teams.index');
+        } else {
+            session(['invite_token' => $token]);
+            return redirect()->to('login');
+        }
     }
 
     /**
@@ -20,8 +36,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return view('teamwork.index')
-            ->with('teams', auth()->user()->teams);
+        //
     }
 
     /**
@@ -31,13 +46,13 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('teamwork.create');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,6 +64,70 @@ class TeamController extends Controller
             'owner_id' => $request->user()->getKey()
         ]);
         $request->user()->attachTeam($team);
+
+        return redirect(route('teams.index'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $teamModel = config('teamwork.team_model');
+
+        $team = $teamModel::findOrFail($id);
+        $team->name = $request->name;
+        $team->save();
+
+        return redirect(route('teams.index'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $teamModel = config('teamwork.team_model');
+
+        $team = $teamModel::findOrFail($id);
+        if (!auth()->user()->isOwnerOfTeam($team)) {
+            abort(403);
+        }
+
+        $team->delete();
+
+        $userModel = config('teamwork.user_model');
+        $userModel::where('current_team_id', $id)
+            ->update(['current_team_id' => null]);
 
         return redirect(route('teams.index'));
     }
@@ -75,65 +154,4 @@ class TeamController extends Controller
             abort(403);
         }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($id);
-
-        if (!auth()->user()->isOwnerOfTeam($team)) {
-            abort(403);
-        }
-
-        return view('teamwork.edit')->withTeam($team);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $teamModel = config('teamwork.team_model');
-
-        $team = $teamModel::findOrFail($id);
-        $team->name = $request->name;
-        $team->save();
-
-        return redirect(route('teams.index'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $teamModel = config('teamwork.team_model');
-
-        $team = $teamModel::findOrFail($id);
-        if (!auth()->user()->isOwnerOfTeam($team)) {
-            abort(403);
-        }
-
-        $team->delete();
-
-        $userModel = config('teamwork.user_model');
-        $userModel::where('current_team_id', $id)
-                    ->update(['current_team_id' => null]);
-
-        return redirect(route('teams.index'));
-    }
-
 }

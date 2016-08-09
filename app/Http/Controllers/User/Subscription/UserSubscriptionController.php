@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Stripe\Token;
 
 /**
- * Class PaymentController
+ * Class UserSubscriptionController
  * @package App\Http\Controllers
  */
-class PaymentController extends Controller
+class UserSubscriptionController extends Controller
 {
-    public $user;
+    protected $user;
 
     /**
-     * PaymentController constructor.
+     * UserSubscriptionController constructor.
      */
     public function __construct()
     {
@@ -22,11 +23,22 @@ class PaymentController extends Controller
     }
 
     /**
-     * Handles the subscriptions for the user
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function postSubscription()
+    public function index()
+    {
+        return response()->json(\Auth::user()->subscription());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         if (\Request::has('number') && \Request::has('exp_month') && \Request::has('exp_year') && \Request::has('cvc')) {
 
@@ -51,20 +63,18 @@ class PaymentController extends Controller
         return back();
     }
 
-    public function getCancelSubscription()
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $this->user->subscription('default')->cancel();
 
         return back();
-    }
-
-    public function getUserInvoice($invoiceId)
-    {
-        return \Auth::user()->downloadInvoice($invoiceId, [
-            'vendor'  => 'CodePier',
-            'product' => 'Server Management',
-        ]);
     }
 }

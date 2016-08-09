@@ -14,6 +14,7 @@ use App\Models\ServerCronJob;
 use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
+use App\Models\ServerSshKey;
 use Illuminate\Bus\Dispatcher;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -112,17 +113,16 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param $sshKey
+     * @param ServerSshKey $serverSshKey
      * @param string $user
      * @return bool
      */
-    public function removeSshKey(Server $server, $sshKey, $user = 'root')
+    public function removeSshKey(ServerSshKey $serverSshKey, $user = 'root')
     {
         try {
-            $this->remoteTaskService->ssh($server, $user);
+            $this->remoteTaskService->ssh($serverSshKey->server, $user);
 
-            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
+            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $serverSshKey->sshKey);
 
         } catch (SshConnectionFailed $e) {
             return false;
@@ -174,14 +174,13 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
      * @param ServerCronJob $cronJob
      * @param string $user
      * @return bool
      */
-    public function removeCron(Server $server, ServerCronJob $cronJob, $user = 'root')
+    public function removeCron(ServerCronJob $cronJob, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($cronJob->server, $user);
         $errors = $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
 
         if (empty($errors)) {
@@ -259,13 +258,13 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
      * @param ServerFirewallRule $firewallRule
      * @param string $user
      * @return bool
      */
-    public function removeFirewallRule(Server $server, ServerFirewallRule $firewallRule, $user = 'root')
+    public function removeFirewallRule(ServerFirewallRule $firewallRule, $user = 'root')
     {
+        $server = $firewallRule->server;
         $this->remoteTaskService->ssh($server, $user);
 
         if (empty($firewallRule->from_ip)) {
@@ -275,7 +274,6 @@ class ServerService implements ServerServiceContract
             $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
                 "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
-
 
         if (empty($errors)) {
             $firewallRule->delete();
@@ -345,14 +343,13 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
     }
 
     /**
-     * @param Server $server
      * @param ServerDaemon $serverDaemon
      * @param string $user
      * @return array|bool
      */
-    public function removeDaemon(Server $server, ServerDaemon $serverDaemon, $user = 'root')
+    public function removeDaemon(ServerDaemon $serverDaemon, $user = 'root')
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($serverDaemon->server, $user);
 
         $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf');
 
@@ -375,7 +372,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
      * @param string $user
      * @return bool
      */
-    public function testSshConnection(Server $server, $user = 'root')
+    public function testSSHConnection(Server $server, $user = 'root')
     {
         try {
             $this->remoteTaskService->ssh($server, $user);
