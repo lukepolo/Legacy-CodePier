@@ -14,14 +14,9 @@
         <template v-if="pile.servers && pile.servers.length">
             <div class="group-content">
                 <h4>Servers</h4>
-
+                    <server></server>
                 <div class="server-list">
-                    <a class="server">
-                        <div class="server-name">CodePier 9.0</div>
-                    </a>
-                    <a class="server">
-                        <div class="server-name">Switchblade.io</div>
-                    </a>
+
                 </div>
             </div>
         </template>
@@ -33,13 +28,22 @@
         <div v-else>
             <button v-on:click="edit" class="btn">Edit</button>
             <button v-on:click="deletePile()" class="btn">Delete</button>
-            <a class="btn btn-primary" href="create-server.html">Create Server</a>
+
+            <router-link to="/create-server" class="btn btn-primary">
+                Create Server
+            </router-link>
+
         </div>
     </div>
 </template>
 
 <script>
+    import Server from './Server.vue';
+
     export default {
+        components : {
+            Server,
+        },
         props : ['pile', 'index'],
         data() {
             return {

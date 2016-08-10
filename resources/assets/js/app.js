@@ -45,10 +45,20 @@ Vue.mixin({
             if(!$(el).is('form')) {
                 el = $(el).find('form');
             }
+
             var data = {};
 
-            $.map($(el).serializeArray(), function(data_object){
-                data[data_object['name']] = data_object['value'];
+            $.each($(el).serializeArray(), function() {
+
+                this.name = this.name.replace('[]', '');
+                if (data[this.name]) {
+                    if (!data[this.name].push) {
+                        data[this.name] = [data[this.name]];
+                    }
+                    data[this.name].push(this.value || '');
+                } else {
+                    data[this.name] = this.value || '';
+                }
             });
 
             return data;
@@ -66,7 +76,10 @@ Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('AppFooter', require('./core/Footer.vue'));
 
 
+
+import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";
+import ServerForm from "./pages/server/ServerForm.vue";
 
 /*
  |--------------------------------------------------------------------------
@@ -84,13 +97,18 @@ import UserNotificationProviders from './pages/auth/UserNotificationProviders.vu
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {path: '/', component: Dashboard},
+        {path: '/', component : Dashboard},
+        {path: '/server/create', component : ServerForm},
+
+        {path: '/piles', component: Piles},
+
         {path: '/my-profile', component: UserInfo},
         {path: '/my-profile/ssh-keys', component: UserSshKeys},
         {path: '/my-profile/subscription', component: UserSubscription},
         {path: '/my-profile/server-providers', component: UserServerProviders},
         {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
         {path: '/my-profile/notification-providers', component: UserNotificationProviders},
+
     ]
 });
 
@@ -100,5 +118,5 @@ window.vue = new Vue({
         return {
             user: user
         }
-    }
+    },
 }).$mount('#app-layout');

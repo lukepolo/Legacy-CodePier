@@ -53,15 +53,17 @@ class ServerController extends Controller
             'status' => 'Queued For Creation',
             'progress' => '0',
             'options' => \Request::except(['_token', 'service', 'features']),
-            'features' => array_keys(\Request::get('features'))
+            'features' => \Request::get('features'),
+            'pile_id' => \Request::get('pile_id')
         ]);
-
 
         $this->dispatch(new CreateServer(
             ServerProvider::findorFail(\Request::get('server_provider_id')),
             $server
         ));
 //            ->onQueue('server_creations'));
+
+        return response()->json($server);
 
     }
 
@@ -139,18 +141,6 @@ class ServerController extends Controller
     {
         $this->serverService->saveFile(Server::findOrFail($request->get('server_id')), $request->get('path'),
             $request->get('file'));
-    }
-
-    /**
-     * Gets all server regions and options for a server provider
-     *
-     * @param Request $request
-     */
-    public function getServerOptionsAndRegions(Request $request)
-    {
-        $serverProvider = ServerProvider::findOrFail($request->get('serverProviderID'));
-        $this->serverService->getServerOptions($serverProvider);
-        $this->serverService->getServerRegions($serverProvider);
     }
 
     /**

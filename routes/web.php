@@ -163,6 +163,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         });
     });
 
+    Route::group(['prefix' => 'server/provider'], function() {
+        Route::group(['prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN, 'namespace' => 'Server\Providers\DigitalOcean'], function() {
+            Route::resource('options', 'DigitalOceanServerOptionsController');
+            Route::resource('regions', 'DigitalOceanServerRegionsController');
+            Route::resource('features', 'DigitalOceanServerFeaturesController');
+        });
+    });
+
 });
 
 Route::group(['middleware' => 'auth'], function () {

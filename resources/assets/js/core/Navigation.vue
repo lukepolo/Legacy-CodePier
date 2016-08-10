@@ -16,7 +16,7 @@
                 <ul class="dropdown-menu" aria-labelledby="drop1">
                     <template v-for="pile in user.piles">
                         <li>
-                            <a href="#" :class="{ selected : currentPile.id == pile.id }"><span class="icon-layers"></span> {{ pile.name }}</a>
+                            <a v-on:click="changePile(pile.id)" :class="{ selected : currentPile.id == pile.id }"><span class="icon-layers"></span> {{ pile.name }}</a>
                         </li>
                     </template>
                 </ul>
@@ -61,7 +61,7 @@
                         <a href="#"><span class="icon-people"></span> Manage Teams</a>
                     </li>
                     <li>
-                        <a href="#"><span class="icon-layers"></span> My Piles</a>
+                        <router-link to="/piles"><span class="icon-layers"></span>My Piles</router-link>
                     </li>
                     <li>
                         <a href="#"><span class="icon-power"></span> Logout</a>
@@ -76,7 +76,8 @@
     export default {
         data() {
             return {
-                user: user
+                user: user,
+                current_pile_id : localStorage.getItem('current_pile_id')
             }
         },
         computed: {
@@ -93,10 +94,16 @@
                 return currentTeam;
             },
             currentPile: function () {
-                return this.getCookie('pile', {
+                var current_pile_id = this.current_pile_id;
+
+                var current_pile = _.find(this.user.piles, function(pile) {
+                    return pile.id == current_pile_id;
+                });
+
+               return current_pile ? current_pile : {
                     'id': null,
                     'name': '-'
-                });
+                };
             }
         },
         methods: {
@@ -110,7 +117,15 @@
                 });
             },
             getPiles : function() {
-                alert('need to get piles http request');
+                Vue.http.get(this.action('Pile\PileController@index')).then((response) => {
+                    vue.user.piles = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            },
+            changePile : function(pile_id) {
+                localStorage.setItem('current_pile_id', pile_id);
+                this.current_pile_id = pile_id;
             }
         }
     }

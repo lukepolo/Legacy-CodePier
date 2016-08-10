@@ -1520,7 +1520,7 @@ footer {
   -webkit-box-flex: 0;
   flex: 0 0 auto; }
 
-#main {
+#main, .view {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
   display: -webkit-box;
