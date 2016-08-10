@@ -2,7 +2,7 @@
     <div class="group">
         <div class="group-heading">
             <h4>
-                <template v-if="pile.editing">
+                <template v-if="editing">
                     <input v-model="name" type="text" :value="pile.name">
                 </template>
                 <template v-else>
@@ -11,7 +11,7 @@
             </h4>
         </div>
 
-        <template v-if="pile.servers.length">
+        <template v-if="pile.servers && pile.servers.length">
             <div class="group-content">
                 <h4>Servers</h4>
 
@@ -26,14 +26,14 @@
             </div>
         </template>
 
-        <div class="btn-footer text-center" v-if="!pile.editing">
+        <div class="btn-footer text-center" v-if="editing">
+            <button v-on:click="cancel" class="btn">Cancel</button>
+            <button v-on:click="savePile" class="btn btn-primary">Save</button>
+        </div>
+        <div v-else>
             <button v-on:click="edit" class="btn">Edit</button>
             <button v-on:click="deletePile()" class="btn">Delete</button>
             <a class="btn btn-primary" href="create-server.html">Create Server</a>
-        </div>
-        <div v-else>
-            <button v-on:click="cancel" class="btn">Cancel</button>
-            <button v-on:click="savePile" class="btn btn-primary">Save</button>
         </div>
     </div>
 </template>
@@ -44,36 +44,46 @@
         data() {
             return {
                 name: this.pile.name,
+                editing : this.pile.editing
             }
         },
         methods : {
             cancel : function() {
-                this.pile.editing = false;
+                this.editing = false;
             },
             edit : function() {
-                this.pile.editing = true;
+                this.editing = true;
             },
             deletePile :function() {
                 if(this.pile.id) {
-                    alert('we gotta delete it from the server');
+                    Vue.http.delete(this.action('Pile\PileController@destroy', { pile : this.pile.id })).then((response) => {
+                        vue.user.piles.splice(this.index, 1);
+                    }, (errors) => {
+                        alert(error);
+                    })
                 }
-                vue.user.piles.splice(this.index, 1);
             },
             savePile : function() {
-                alert(this.index);
                 if(this.pile.id) {
-                    // update
+                    Vue.http.put(this.action('Pile\PileController@update', { pile : this.pile.id }), {
+                        name : this.name
+                    }).then((response) => {
+                        vue.user.piles.splice(this.index, 1);
+                        vue.user.piles.push(response.json());
+                    }, (errors) => {
+                        alert(error);
+                    })
                 } else {
-//                    Vue.http.post(this.action('Pile\PileController@store'), {
-//                        name : this.name
-//                    }).then((response) => {
-//
-//                        alert(this.index);
-//                        vue.user.piles[this.index].name = response.json().name;
-//                    }, (errors) => {
-//                        alert(error);
-//                    })
+                    Vue.http.post(this.action('Pile\PileController@store'), {
+                        name : this.name
+                    }).then((response) => {
+                        vue.user.piles.splice(this.index, 1);
+                        vue.user.piles.push(response.json());
+                    }, (errors) => {
+                        alert(error);
+                    })
                 }
+                this.editing = false;
             }
         }
     }

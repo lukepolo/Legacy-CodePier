@@ -17,7 +17,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::get('teams/accept/{token}', 'UserTeamController@acceptInvite')->name('teams.accept_invite');
+Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
@@ -43,7 +43,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
 
     Route::group(['prefix' => 'me', 'namespace' => 'User'], function() {
-        Route::resource('/', 'UserController');
+        Route::resource('/', 'UserController', [
+            'parameters' => [
+                '' => 'user'
+            ]
+        ]);
     });
 
     Route::group(['prefix' => 'my', 'namespace' => 'User'], function() {
@@ -66,7 +70,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         |
         */
         Route::group(['prefix' => 'teams',  'namespace' => 'User\Team'], function() {
-            Route::resource('/', 'UserTeamController');
+            Route::resource('/', 'UserTeamController', [
+                'parameters' => [
+                    '' => 'team'
+                ]
+            ]);
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
         });
 
@@ -83,7 +91,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         |
         */
         Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function() {
-            Route::resource('/', 'PileController');
+            Route::resource('/', 'PileController', [
+               'parameters' => [
+                   '' => 'pile'
+               ]
+            ]);
         });
 
         /*
@@ -94,7 +106,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
        */
 
         Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function() {
-            Route::resource('/', 'ServerController');
+            Route::resource('/', 'ServerController', [
+                'parameters' => [
+                    '' => 'server'
+                ]
+            ]);
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
             Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
@@ -120,7 +136,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         */
 
         Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function() {
-            Route::resource('/', 'SiteController');
+            Route::resource('/', 'SiteController', [
+                'parameters' => [
+                    '' => 'site'
+                ]
+            ]);
+
             Route::post('deploy', 'SiteController@deploy');
 
             Route::resource('ssl', 'Features\SSL\SiteSSLController');

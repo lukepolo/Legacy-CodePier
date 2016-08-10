@@ -16,8 +16,7 @@
                 <ul class="dropdown-menu" aria-labelledby="drop1">
                     <template v-for="pile in user.piles">
                         <li>
-                            <a href="#" :class="{ selected : currentPile.id == pile.id }"><span
-                                    class="icon-layers"></span> {{ pile.name }}</a>
+                            <a href="#" :class="{ selected : currentPile.id == pile.id }"><span class="icon-layers"></span> {{ pile.name }}</a>
                         </li>
                     </template>
                 </ul>
