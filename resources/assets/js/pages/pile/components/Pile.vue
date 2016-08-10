@@ -29,7 +29,7 @@
             <button v-on:click="edit" class="btn">Edit</button>
             <button v-on:click="deletePile()" class="btn">Delete</button>
 
-            <router-link to="/create-server" class="btn btn-primary">
+            <router-link to="/server/create" class="btn btn-primary">
                 Create Server
             </router-link>
 

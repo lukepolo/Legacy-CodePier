@@ -16,7 +16,7 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        Broadcast::auth('App.User.*', function ($user, $userId) {
+        Broadcast::channel('App.User.*', function ($user, $userId) {
             return (int) $user->id === (int) $userId;
         });
     }

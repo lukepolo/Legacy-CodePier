@@ -5,7 +5,9 @@
             <server :server="server" v-for="server in servers"></server>
             <div class="section-content">
                 <div class="server text-center">
-                    <button class="btn btn-primary">Create Server</button>
+                    <router-link to="/server/create" class="btn btn-primary">
+                        Create Server
+                    </router-link>
                 </div>
             </div>
         </section>
