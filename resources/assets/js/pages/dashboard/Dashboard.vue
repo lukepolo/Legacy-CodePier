@@ -2,26 +2,37 @@
     <section>
         <section id="left" class="section-column">
             <h3 class="section-header">Servers</h3>
-
+            <server :server="server" v-for="server in servers"></server>
             <div class="section-content">
                 <div class="server text-center">
                     <button class="btn btn-primary">Create Server</button>
                 </div>
             </div>
         </section>
-
         <section id="middle" class="section-column">
-            Topology View?
+
        </section>
     </section>
 </template>
 
 <script>
+    import Server from './components/Server.vue';
+
     export default {
+        components : {
+            Server
+        },
         data() {
             return {
-                 pile : localStorage.getItem('current_pile_id')
+                 servers : null
             }
-        }
+        },
+        mounted () {
+            Vue.http.get(this.action('Server\ServerController@index', { pile_id : localStorage.getItem('current_pile_id') })).then((response) => {
+                this.servers = response.json();
+            }, (errors) => {
+                alert('we had an error');
+            });
+        },
     }
 </script>
