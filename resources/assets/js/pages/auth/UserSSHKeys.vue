@@ -44,7 +44,7 @@
         },
         methods : {
             onSubmit: function() {
-                Vue.http.post(laroute.action('User\Features\UserSshKeyController@store'), this.getFormData(this.$el)).then((response) => {
+                Vue.http.post(this.action('User\Features\UserSshKeyController@store'), this.getFormData(this.$el)).then((response) => {
                    this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
@@ -52,7 +52,7 @@
             }
         },
         mounted () {
-            Vue.http.get(laroute.action('User\Features\UserSshKeyController@index')).then((response) => {
+            Vue.http.get(this.action('User\Features\UserSshKeyController@index')).then((response) => {
                 this.ssh_keys = response.json();
             }, (errors) => {
                 alert(error);

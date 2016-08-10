@@ -103,7 +103,7 @@
         methods: {
             changeTeam: function (teamID) {
                 var user = this.user;
-                Vue.http.post('teams/switch/' + (teamID ? teamID : "")).then((response) => {
+                Vue.http.post(this.action('User\Team\UserTeamController@switchTeam', { team : (teamID ? '/'+teamID : "") })).then((response) => {
                     user.current_team_id = teamID;
                     this.getPiles();
                 }, (errors) => {

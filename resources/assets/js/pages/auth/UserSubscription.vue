@@ -102,18 +102,18 @@
                 return false;
             },
             onSubmit: function () {
-                Vue.http.post(laroute.action('User\Subscription\UserSubscriptionController@store'), this.getFormData(this.$el)).then((response) => {
+                Vue.http.post(this.action('User\Subscription\UserSubscriptionController@store'), this.getFormData(this.$el)).then((response) => {
                     this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
             getSubscription() {
-                Vue.http.get(laroute.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
+                Vue.http.get(this.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
                     this.subscription = response.json();
 
                     if (this.validSubscription && !this.isCanceled) {
-                        Vue.http.get(laroute.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
+                        Vue.http.get(this.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
                             this.upcomingSubscription = response.json();
                         }, (errors) => {
                             alert(error);
@@ -124,7 +124,7 @@
                 })
             },
             cancelSubscription() {
-                Vue.http.delete(laroute.action('User\Subscription\UserSubscriptionController@destroy', {subscription: this.subscription.id})).then((response) => {
+                Vue.http.delete(this.action('User\Subscription\UserSubscriptionController@destroy', {subscription: this.subscription.id})).then((response) => {
                     this.getSubscription();
                 }, (errors) => {
                     alert(error);
@@ -132,7 +132,7 @@
             }
         },
         mounted () {
-            Vue.http.get(laroute.action('SubscriptionController@index')).then((response) => {
+            Vue.http.get(this.action('SubscriptionController@index')).then((response) => {
                 this.plans = response.json();
             }, (errors) => {
                 alert(error);

@@ -37,14 +37,14 @@
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
-                Vue.http.delete(laroute.action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
+                Vue.http.delete(this.action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
                     this.getUserRepositoryProviders();
                 }, (errors) => {
                     alert('we had an error');
                 })
             },
             getUserRepositoryProviders: function () {
-                Vue.http.get(laroute.action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
+                Vue.http.get(this.action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
                     this.user_repository_providers = response.json();
                 }, (errors) => {
                     alert('we had an error');
@@ -53,7 +53,7 @@
         },
         mounted () {
 
-            Vue.http.get(laroute.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
+            Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
                 this.repository_providers = response.json();
             }, (errors) => {
                 alert(error);

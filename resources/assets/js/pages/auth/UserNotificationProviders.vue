@@ -37,7 +37,7 @@
                     return notification_provider.notification_provider_id == notification_provider_id;
                 }).id;
 
-                Vue.http.delete(laroute.action('User\Providers\UserNotificationProviderController@destroy', { provider : user_notification_provider_id })).then((response) => {
+                Vue.http.delete(this.action('User\Providers\UserNotificationProviderController@destroy', { provider : user_notification_provider_id })).then((response) => {
                     this.getUserNotificationProviders();
                 }, (errors) => {
                     alert('we had an error');
@@ -45,7 +45,7 @@
             },
             getUserNotificationProviders : function()
             {
-                Vue.http.get(laroute.action('User\Providers\UserNotificationProviderController@index')).then((response) => {
+                Vue.http.get(this.action('User\Providers\UserNotificationProviderController@index')).then((response) => {
                     this.user_notification_providers = response.json();
                 }, (errors) => {
                     alert(error);
@@ -54,7 +54,7 @@
         },
         mounted () {
 
-            Vue.http.get(laroute.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
+            Vue.http.get(this.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
                 this.notification_providers = response.json();
             }, (errors) => {
                 alert('we had an error');
