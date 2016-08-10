@@ -9,7 +9,7 @@
 
                 <div class="group-container">
 
-                    <pile :pile="pile" index:="$index" v-for="pile in piles"></pile>
+                    <pile :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
 
                     <div class="group">
                         <a v-on:click="newPile()" class="add-pile">
@@ -44,7 +44,7 @@
         methods : {
             newPile : function() {
                 this.piles.push({
-                    name : 'new',
+                    name : 'New Pile',
                     servers: [],
                     editing : true
                 });

@@ -49,6 +49,7 @@ class PileController extends Controller
     {
         $pile = Pile::findOrFail($id);
         $pile->fill([
+            'user_id' => \Auth::user()->id,
             'name' => $request->get('name')
         ]);
 

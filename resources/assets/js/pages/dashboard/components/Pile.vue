@@ -3,7 +3,7 @@
         <div class="group-heading">
             <h4>
                 <template v-if="pile.editing">
-                    <input type="text" :value="pile.name">
+                    <input v-model="name" type="text" :value="pile.name">
                 </template>
                 <template v-else>
                     {{ pile.name }}
@@ -33,7 +33,7 @@
         </div>
         <div v-else>
             <button v-on:click="cancel" class="btn">Cancel</button>
-            <button class="btn btn-primary">Save</button>
+            <button v-on:click="savePile" class="btn btn-primary">Save</button>
         </div>
     </div>
 </template>
@@ -41,6 +41,11 @@
 <script>
     export default {
         props : ['pile', 'index'],
+        data() {
+            return {
+                name: this.pile.name,
+            }
+        },
         methods : {
             cancel : function() {
                 this.pile.editing = false;
@@ -53,6 +58,22 @@
                     alert('we gotta delete it from the server');
                 }
                 vue.user.piles.splice(this.index, 1);
+            },
+            savePile : function() {
+                alert(this.index);
+                if(this.pile.id) {
+                    // update
+                } else {
+//                    Vue.http.post(this.action('Pile\PileController@store'), {
+//                        name : this.name
+//                    }).then((response) => {
+//
+//                        alert(this.index);
+//                        vue.user.piles[this.index].name = response.json().name;
+//                    }, (errors) => {
+//                        alert(error);
+//                    })
+                }
             }
         }
     }
