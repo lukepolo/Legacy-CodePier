@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers\User\Subscription;
+
+use App\Http\Controllers\Controller;
+
+/**
+ * Class UserSubscriptionController
+ * @package App\Http\Controllers
+ */
+class UserSubscriptionUpcomingInvoiceController extends Controller
+{
+    /**
+     * UserSubscriptionController constructor.
+     */
+    public function __construct()
+    {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return response()->json(\Auth::user()->upcomingInvoice()->asStripeInvoice());
+    }
+}

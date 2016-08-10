@@ -48,7 +48,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
     Route::group(['prefix' => 'my', 'namespace' => 'User'], function() {
         Route::resource('subscription', 'Subscription\UserSubscriptionController');
-        Route::post('subscription/invoice/{invoice_id}', 'Subscription\UserSubscriptionController@downloadInvoice'); // TODO - convert this to its own resource
+        Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
+        Route::resource('subscription/invoice/upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
         Route::resource('server/providers', 'Providers\UserServerProviderController');
         Route::resource('repository/providers', 'Providers\UserRepositoryProviderController');

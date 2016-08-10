@@ -1,9 +1,14 @@
 <template>
     <div>
         <template v-if="validSubscription">
-            \Auth::user()->subscription()->cancelled()
-            Your subscription has been cancled and will end on \Auth::user()->subscription()->ends_at
-            Your next billing is on \Auth::user()->subscription()->ends_at
+            <p v-if="isCanceled">
+                Your subscription has been canceled and will end on {{ subscription.ends_at }}
+            </p>
+            <p v-else>
+                <template v-if="upcomingSubscription">
+                    Your next billing is on {{ upcomingSubscription.date }}
+                </template>
+            </p>
         </template>
 
         <form v-on:submit.prevent="onSubmit">
@@ -48,7 +53,7 @@
             <button type="submit">Save Subscription</button>
         </form>
 
-        <a href="#" v-if="validSubscription">Cancel Subscription</a>
+        <a v-on:click="cancelSubscription" v-if="validSubscription">Cancel Subscription</a>
 
         <template v-if="invoices">
             <table>
@@ -70,17 +75,24 @@
             return {
                 plans: [],
                 subscription: null,
+                upcomingSubscription : null,
                 invoices : []
             }
         },
         computed : {
             validSubscription : function() {
-                return this.subscription != null;
+                if(this.subscription != null) {
+                    return true;
+                }
+                return false;
+            },
+            isCanceled :function() {
+                return this.subscription.ends_at != null;
             }
         },
         methods: {
-            subscribedToPlan: function (plan_id) {
-                if (this.validSubscription && this.subscription.plan_id == plan_id) {
+            subscribedToPlan: function (plan) {
+                if (this.validSubscription && this.subscription.stripe_plan == plan) {
                     return true;
                 }
                 return false;
@@ -91,6 +103,28 @@
                 }, (errors) => {
                     alert(error);
                 });
+            },
+            getSubscription() {
+                Vue.http.get(laroute.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
+                    this.subscription = response.json();
+
+                    if(this.validSubscription && !this.isCanceled) {
+                        Vue.http.get(laroute.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
+                            this.upcomingSubscription = response.json();
+                        }, (errors) => {
+                            alert(error);
+                        });
+                    }
+                }, (errors) => {
+                    alert(error);
+                })
+            },
+            cancelSubscription() {
+                Vue.http.delete(laroute.action('User\Subscription\UserSubscriptionController@destroy', { subscription : this.subscription.id })).then((response) => {
+                    this.getSubscription();
+                }, (errors) => {
+                    alert(error);
+                });
             }
         },
         mounted () {
@@ -98,7 +132,9 @@
                 this.plans = response.json();
             }, (errors) => {
                 alert(error);
-            })
-        },
+            });
+
+            this.getSubscription();
+        }
     }
 </script>

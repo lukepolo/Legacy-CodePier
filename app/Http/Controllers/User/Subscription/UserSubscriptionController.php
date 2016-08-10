@@ -12,8 +12,6 @@ use Stripe\Token;
  */
 class UserSubscriptionController extends Controller
 {
-    public $user;
-
     /**
      * UserSubscriptionController constructor.
      */
@@ -40,6 +38,7 @@ class UserSubscriptionController extends Controller
      */
     public function store(Request $request)
     {
+        $user = \Auth::user();
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
 
             $cardToken = Token::create([
@@ -51,13 +50,13 @@ class UserSubscriptionController extends Controller
                 ]
             ]);
 
-            $this->user->updateCard($cardToken->id);
+            $user->updateCard($cardToken->id);
         }
 
-        if ($this->user->subscribed()) {
-            $this->user->subscription('default')->swap($request->get('plan'));
+        if ($user->subscribed()) {
+            $user->subscription('default')->swap($request->get('plan'));
         } else {
-            $this->user->newSubscription('default', $request->get('plan'))->create();
+            $user->newSubscription('default', $request->get('plan'))->create();
         }
     }
 
@@ -66,25 +65,10 @@ class UserSubscriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $this->user->subscription('default')->cancel();
-    }
-
-    /**
-     * Downloads an invoice from stripe
-     *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function downloadInvoice($id)
-    {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        return \Auth::user()->downloadInvoice($id, [
-            'vendor' => 'CodePier',
-            'product' => 'Server Management',
-        ]);
+        \Auth::user()->subscription('default')->cancel();
     }
 }
