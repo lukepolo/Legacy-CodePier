@@ -66,7 +66,7 @@ Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('AppFooter', require('./core/Footer.vue'));
 
 
-import Dashboard from "./pages/Dashboard.vue";
+import Dashboard from "./pages/dashboard/Dashboard.vue";
 
 /*
  |--------------------------------------------------------------------------
