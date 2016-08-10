@@ -65,20 +65,32 @@ Vue.mixin({
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('AppFooter', require('./core/Footer.vue'));
 
+
+import Dashboard from "./pages/Dashboard.vue";
+
 /*
  |--------------------------------------------------------------------------
- | Pages
+ | Profile Pages
  |--------------------------------------------------------------------------
  |
  */
-import Dashboard from "./pages/Dashboard.vue";
-import Profile from "./pages/auth/Profile.vue";
+import UserInfo from './pages/auth/UserInfo.vue';
+import UserSshKeys from './pages/auth/UserSSHKeys.vue';
+import UserSubscription from './pages/auth/UserSubscription.vue';
+import UserServerProviders from './pages/auth/UserServerProviders.vue';
+import UserRepositoryProviders from './pages/auth/UserRepositoryProvders.vue';
+import UserNotificationProviders from './pages/auth/UserNotificationProviders.vue';
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/', component: Dashboard},
-        {path: '/profile', component: Profile},
+        {path: '/my-profile', component: UserInfo},
+        {path: '/my-profile/ssh-keys', component: UserSshKeys},
+        {path: '/my-profile/subscription', component: UserSubscription},
+        {path: '/my-profile/server-providers', component: UserServerProviders},
+        {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
+        {path: '/my-profile/notification-providers', component: UserNotificationProviders},
     ]
 });
 

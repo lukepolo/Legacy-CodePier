@@ -1554,6 +1554,8 @@ header {
   -webkit-box-flex: 0;
   flex: 0 0 265px;
   padding: 5px 10px; }
+  .logo-container a {
+    width: 100%; }
 
 .nav {
   display: -webkit-box;
@@ -1626,7 +1628,7 @@ header {
     .nav-tabs li a {
       border-bottom: 3px solid transparent;
       padding: 10px 20px; }
-    .nav-tabs li.active a {
+    .nav-tabs li.router-link-active a {
       border-bottom-color: #48ACF0; }
 
 .search-container {

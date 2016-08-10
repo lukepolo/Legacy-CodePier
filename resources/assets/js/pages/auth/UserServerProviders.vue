@@ -1,5 +1,6 @@
 <template>
     <div>
+        <profile-nav></profile-nav>
         <p v-for="provider in server_providers">
             <template v-if="isConnected(provider.id)">
 
@@ -14,7 +15,11 @@
 </template>
 
 <script>
+    import ProfileNav from './components/ProfileNav.vue';
     export default {
+        components : {
+            ProfileNav
+        },
         data() {
             return {
                 server_providers: [],

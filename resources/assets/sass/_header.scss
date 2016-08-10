@@ -16,7 +16,11 @@ header {
 
 .logo-container {
     flex: 0 0 265px;
-    padding: ($spacing/4) ($spacing/2); 
+    padding: ($spacing/4) ($spacing/2);
+
+    a {
+        width : 100%;
+    }
 }
 
 
@@ -109,7 +113,7 @@ header {
             padding: ($spacing/2) $spacing;
         } 
               
-        &.active {
+        &.router-link-active {
             a {
                 border-bottom-color: $color-primary;
             }   

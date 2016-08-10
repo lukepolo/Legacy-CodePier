@@ -1,5 +1,6 @@
 <template>
     <div>
+        <profile-nav></profile-nav>
         <template v-if="validSubscription">
             <p v-if="isCanceled">
                 Your subscription has been canceled and will end on {{ subscription.ends_at }}
@@ -67,25 +68,29 @@
     </div>
 </template>
 <script>
+    import ProfileNav from './components/ProfileNav.vue';
     export default {
-        props: ["user"],
+        components: {
+            ProfileNav
+        },
         data() {
             return {
+                user: user,
                 showCardForm: false,
                 plans: [],
                 subscription: null,
-                upcomingSubscription : null,
-                invoices : []
+                upcomingSubscription: null,
+                invoices: []
             }
         },
-        computed : {
-            validSubscription : function() {
-                if(this.subscription != null) {
+        computed: {
+            validSubscription: function () {
+                if (this.subscription != null) {
                     return true;
                 }
                 return false;
             },
-            isCanceled :function() {
+            isCanceled: function () {
                 return this.subscription.ends_at != null;
             }
         },
@@ -107,7 +112,7 @@
                 Vue.http.get(laroute.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
                     this.subscription = response.json();
 
-                    if(this.validSubscription && !this.isCanceled) {
+                    if (this.validSubscription && !this.isCanceled) {
                         Vue.http.get(laroute.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
                             this.upcomingSubscription = response.json();
                         }, (errors) => {
@@ -119,7 +124,7 @@
                 })
             },
             cancelSubscription() {
-                Vue.http.delete(laroute.action('User\Subscription\UserSubscriptionController@destroy', { subscription : this.subscription.id })).then((response) => {
+                Vue.http.delete(laroute.action('User\Subscription\UserSubscriptionController@destroy', {subscription: this.subscription.id})).then((response) => {
                     this.getSubscription();
                 }, (errors) => {
                     alert(error);

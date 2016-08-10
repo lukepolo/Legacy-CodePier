@@ -1,7 +1,9 @@
 <template>
     <header>
         <div class="logo-container">
-            <img src="/assets/img/kodi_h.svg" alt="CodePier">
+            <router-link to="/">
+                <img src="/assets/img/kodi_h.svg" alt="CodePier">
+            </router-link>
         </div>
 
         <ul class="nav nav-left nav-piles">
@@ -54,7 +56,7 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link to="/profile"><span class="icon-person"></span>My Profile</router-link>
+                        <router-link to="/my-profile"><span class="icon-person"></span>My Profile</router-link>
                     </li>
                     <li>
                         <a href="#"><span class="icon-people"></span> Manage Teams</a>

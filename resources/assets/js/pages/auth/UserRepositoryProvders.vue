@@ -1,5 +1,6 @@
 <template>
     <div>
+        <profile-nav></profile-nav>
         <p v-for="provider in repository_providers">
             <template v-if="isConnected(provider.id)">
                 Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
@@ -12,7 +13,11 @@
 </template>
 
 <script>
+    import ProfileNav from './components/ProfileNav.vue';
     export default {
+        components : {
+            ProfileNav
+        },
         data() {
             return {
                 repository_providers: [],
