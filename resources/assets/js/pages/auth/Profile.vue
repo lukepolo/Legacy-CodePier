@@ -38,9 +38,6 @@
                 </div>
             </div>
         </div>
-        $(document).on('click', '.new-card', function() {
-            $('#card-info').toggleClass('hide');
-        });
     </div>
 </template>
 

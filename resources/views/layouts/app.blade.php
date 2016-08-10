@@ -12,15 +12,15 @@
          <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <span id="app-layout">
+        <div id="app-layout">
             <navigation></navigation>
 
-            <div class="main">
+            <div id="main">
                 @yield('content')
             </div>
 
             <app-footer></app-footer>
-        </span>
+        </div>
 
         <script src="{{ elixir('js/all.js') }}"></script>
 

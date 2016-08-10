@@ -33,10 +33,10 @@
 
             <template v-if="user.card_brand">
                 Use your {{ user.card_brand }} {{ user.card_last_four }}
-                <div class="btn btn-link new-card">new card</div>
+                <div v-on:click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
             </template>
 
-            <div id="card-info" :class="{hide : user.card_brand}">
+            <div id="card-info" :class="{hide : !showCardForm}">
                 <label>Number</label>
                 <input type="text" name="number">
 
@@ -66,13 +66,12 @@
         </template>
     </div>
 </template>
-
-
 <script>
     export default {
         props: ["user"],
         data() {
             return {
+                showCardForm: false,
                 plans: [],
                 subscription: null,
                 upcomingSubscription : null,

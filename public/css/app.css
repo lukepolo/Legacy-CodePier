@@ -1456,7 +1456,7 @@ tbody.collapse.in {
 * {
   box-sizing: border-box; }
 
-html, body {
+html, body, #app-layout {
   height: 100%; }
 
 body {
@@ -1508,7 +1508,7 @@ h1, h2, h3, h4, h5, h6 {
   h1.primary, h2.primary, h3.primary, h4.primary, h5.primary, h6.primary {
     font-weight: 700; }
 
-body {
+#app-layout {
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
