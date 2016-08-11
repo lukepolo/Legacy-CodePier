@@ -14,13 +14,16 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('path');
             $table->string('domain');
-            $table->integer('user_id');
             $table->integer('server_id');
+            $table->string('branch')->nullable();
             $table->text('repository')->nullable();
-            $table->boolean('zerotime_deployment')->default(0);
+            $table->text('web_directory')->nullable();
+            $table->integer('user_repository_provider_id');
             $table->boolean('wildcard_domain')->default(0);
+            $table->boolean('zerotime_deployment')->default(0);
+            $table->string('automatic_deployment_id')->nullable();
+
             $table->timestamps();
         });
     }

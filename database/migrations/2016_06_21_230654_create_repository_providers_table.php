@@ -15,6 +15,8 @@ class CreateRepositoryProvidersTable extends Migration
         Schema::create('repository_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('url');
+            $table->string('git_url');
             $table->string('provider_name');
             $table->timestamps();
         });

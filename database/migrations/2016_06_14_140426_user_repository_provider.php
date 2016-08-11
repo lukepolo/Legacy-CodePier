@@ -23,6 +23,7 @@ class UserRepositoryProvider extends Migration
             $table->string('expires_in')->nullable();
             $table->string('tokenSecret')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

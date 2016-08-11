@@ -17,6 +17,7 @@ class CreateServerFirewallRulesTable extends Migration
             $table->integer('server_id');
             $table->string('description');
             $table->integer('port');
+            $table->string('from_ip')->nullable();
             $table->timestamps();
         });
     }

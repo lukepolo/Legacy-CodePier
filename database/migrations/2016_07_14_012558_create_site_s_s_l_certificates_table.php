@@ -17,6 +17,9 @@ class CreateSiteSSLCertificatesTable extends Migration
             $table->integer('site_id');
             $table->string('type');
             $table->string('domains');
+            $table->boolean('active')->default(0);
+            $table->string('key_path');
+            $table->string('cert_path');
             $table->timestamps();
         });
     }
