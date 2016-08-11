@@ -20,7 +20,7 @@ window.VueRouter = require('vue-router');
 window.VueResource = require('vue-resource');
 
 /**
- * We'll register a HTTP interceptor to attach the "XSRF" header to each of
+ * We'll register a HTTP interceptor to attach the "CSRF" header to each of
  * the outgoing requests issued by this application. The CSRF middleware
  * included with Laravel will automatically verify the header's value.
  */
@@ -36,6 +36,6 @@ Vue.http.interceptors.push(function (request, next) {
 import Echo from "laravel-echo"
 
 window.Echo = new Echo({
-    connector: 'pusher',
-    pusherKey: '92790f94d685df8a2c16'
+    broadcaster: 'pusher',
+    key: '92790f94d685df8a2c16'
 });

@@ -45,7 +45,6 @@ class DigitalOceanServerOptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $serverProvider = ServerProvider::findOrFail($request->get('serverProviderID'));
-        return response()->json($this->serverService->getServerOptions($serverProvider));
+        return response()->json($this->serverService->getServerOptions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()));
     }
 }

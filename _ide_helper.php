@@ -7382,18 +7382,6 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Handle a queued e-mail message job.
-         *
-         * @param \Illuminate\Contracts\Queue\Job $job
-         * @param array $data
-         * @return void 
-         * @static 
-         */
-        public static function handleQueuedMessage($job, $data){
-            \Illuminate\Mail\Mailer::handleQueuedMessage($job, $data);
-        }
-        
-        /**
          * Get the view factory instance.
          *
          * @return \Illuminate\Contracts\View\Factory 
@@ -8357,7 +8345,7 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Get a subset of the items from the input data.
+         * Get a subset containing the provided keys with values from the input data.
          *
          * @param array|mixed $keys
          * @return array 
