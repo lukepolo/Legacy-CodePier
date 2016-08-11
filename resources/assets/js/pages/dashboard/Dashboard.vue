@@ -29,16 +29,24 @@
                  servers : null
             }
         },
+        methods : {
+            attachServerStatus() {
+                _(this.servers).forEach(function(server) {
+                    Echo.private('Server.Status.' + server.id)
+                        .listen('Server\\ServerProvisionStatusChanged', (data) => {
+                            server.status = data.status;
+                            server.progress = data.progress;
+                        });
+                });
+            }
+        },
         mounted () {
             Vue.http.get(this.action('Server\ServerController@index', { pile_id : localStorage.getItem('current_pile_id') })).then((response) => {
                 this.servers = response.json();
+                this.attachServerStatus();
             }, (errors) => {
-                alert('we had an error');
+
             });
-
-
-            Echo.private('server-status')
-                    .listen('Server\ServerProvisionStatusChanged');
         },
     }
 </script>

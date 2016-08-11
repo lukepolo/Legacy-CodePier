@@ -21,7 +21,7 @@ class BroadcastServiceProvider extends ServiceProvider
             return (int) $user->id === (int) $userId;
         });
 
-        Broadcast::channel('server-status.*', function ($user, $serverID) {
+        Broadcast::channel('Server.Status.*', function ($user, $serverID) {
             return $user->id === Server::findOrFail($serverID)->user_id;
         });
     }

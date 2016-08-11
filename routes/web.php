@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::get('/test', function() {
+   event(new \App\Events\Server\ServerProvisionStatusChanged(\App\Models\Server::findOrFail(11), 'MORE DONE', '70'));
+});
+
 /*
 |--------------------------------------------------------------------------
 | OAuth Routes

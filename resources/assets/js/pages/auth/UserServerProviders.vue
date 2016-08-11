@@ -42,7 +42,7 @@
                 Vue.http.delete(this.action('User\Providers\UserServerProviderController@destroy', { provider : user_server_provider_id })).then((response) => {
                     this.getUserServerProviders();
                 }, (errors) => {
-                    alert('we had an error');
+                    alert('Trying to destory server');
                 })
             },
             getUserServerProviders : function()
@@ -50,7 +50,7 @@
                 Vue.http.get(this.action('User\Providers\UserServerProviderController@index')).then((response) => {
                     this.user_server_providers = response.json();
                 }, (errors) => {
-                    alert('we had an error');
+                    alert('trying to get servers');
                 })
             }
         },

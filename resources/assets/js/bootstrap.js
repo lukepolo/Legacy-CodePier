@@ -1,6 +1,5 @@
 
 window._ = require('lodash');
-window.Cookies = require('js-cookie');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -17,9 +16,8 @@ window.$ = window.jQuery = require('jquery');
  */
 
 window.Vue = require('vue/dist/vue');
-
-window.VueResource = require('vue-resource');
 window.VueRouter = require('vue-router');
+window.VueResource = require('vue-resource');
 
 /**
  * We'll register a HTTP interceptor to attach the "XSRF" header to each of
@@ -29,11 +27,11 @@ window.VueRouter = require('vue-router');
 
 Vue.use(VueRouter);
 
-Vue.http.interceptors.push(function (request, next) {
-    request.headers['X-XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
-
-    next();
-});
+// Vue.http.interceptors.push(function (request, next) {
+//     request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
+//
+//     next();
+// });
 
 import Echo from "laravel-echo"
 

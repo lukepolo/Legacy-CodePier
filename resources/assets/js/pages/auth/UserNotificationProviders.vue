@@ -40,7 +40,7 @@
                 Vue.http.delete(this.action('User\Providers\UserNotificationProviderController@destroy', { provider : user_notification_provider_id })).then((response) => {
                     this.getUserNotificationProviders();
                 }, (errors) => {
-                    alert('we had an error');
+                    alert('Trying to destroy notification');
                 })
             },
             getUserNotificationProviders : function()
@@ -57,7 +57,7 @@
             Vue.http.get(this.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
                 this.notification_providers = response.json();
             }, (errors) => {
-                alert('we had an error');
+                alert('Trying to get notifications');
             });
 
             this.getUserNotificationProviders();

@@ -2,7 +2,6 @@
 
 namespace App\Events\Server;
 
-use App\Events\Event;
 use App\Models\Server;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -17,9 +16,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
  * Class ServerCreated
  * @package App\Events\Server
  */
-class ServerProvisionStatusChanged extends Event implements ShouldBroadcastNow
+class ServerProvisionStatusChanged implements ShouldBroadcastNow
 {
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $status;
     public $serverID;
@@ -43,12 +42,12 @@ class ServerProvisionStatusChanged extends Event implements ShouldBroadcastNow
     }
 
     /**
-     * Get the channels the event should be broadcast on.
+     * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('server-status.'.$this->serverID);
+        return new PrivateChannel('Server.Status.'.$this->serverID);
     }
 }

@@ -40,14 +40,14 @@
                 Vue.http.delete(this.action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
                     this.getUserRepositoryProviders();
                 }, (errors) => {
-                    alert('we had an error');
+                    alert('Trying to delete user repository');
                 })
             },
             getUserRepositoryProviders: function () {
                 Vue.http.get(this.action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
                     this.user_repository_providers = response.json();
                 }, (errors) => {
-                    alert('we had an error');
+                    alert('Trying to get user repositories');
                 })
             }
         },

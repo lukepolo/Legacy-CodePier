@@ -55,7 +55,10 @@ return [
     |
     */
 
-    'from' => ['address' => 'server@codepier.io', 'name' => 'CodePier'],
+    'from' => [
+        'address' => 'server@codepier.io',
+        'name' => 'CodePier'
+    ],
 
     /*
     |--------------------------------------------------------------------------
