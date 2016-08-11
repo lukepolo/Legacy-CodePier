@@ -27,11 +27,11 @@ window.VueResource = require('vue-resource');
 
 Vue.use(VueRouter);
 
-// Vue.http.interceptors.push(function (request, next) {
-//     request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
-//
-//     next();
-// });
+Vue.http.interceptors.push(function (request, next) {
+    request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
+
+    next();
+});
 
 import Echo from "laravel-echo"
 
