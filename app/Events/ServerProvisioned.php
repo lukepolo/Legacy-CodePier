@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
  * Class ServerProvisioned
  * @package App\Events
  */
-class ServerProvisioned extends Event
+class ServerProvisioned
 {
     use SerializesModels;
 

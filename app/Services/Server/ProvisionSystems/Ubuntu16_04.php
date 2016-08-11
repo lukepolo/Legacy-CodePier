@@ -230,8 +230,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
     public function installFirewallRules(Server $server)
     {
-
-        $this->remoteTaskService->run('apt-get install -y fail2ban iptables-persistent');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
             'server_id' => $server->id,
@@ -278,7 +277,8 @@ iptables -P INPUT DROP
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
         $this->remoteTaskService->run('/etc/opt/./iptables');
-        $this->remoteTaskService->run('service iptables-persistent save');
+        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
+        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
     }
 
     public function addDiskMonitoringScript(Server $server)

@@ -119,8 +119,8 @@ class ProvisionService implements ProvisionServiceContract
 //        $provisionSystem->installEnvoy();
 
 
-        $this->updateProgress('Installing disk monitor script');
-        $provisionSystem->addDiskMonitoringScript($server);
+//        $this->updateProgress('Installing disk monitor script');
+//        $provisionSystem->addDiskMonitoringScript($server);
 
         return $provisionSystem->errors();
     }

@@ -217,9 +217,7 @@ class ServerService implements ServerServiceContract
                 "iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT");
         }
 
-        $this->rebuildFirewall($server);
-
-        return $this->remoteTaskService->getErrors();
+        return $this->rebuildFirewall($server);
     }
 
     /**
@@ -235,9 +233,7 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
             "iptables -A INPUT -s $serverIP -j ACCEPT");
 
-        $this->rebuildFirewall($server);
-
-        return $this->remoteTaskService->getErrors();
+        return $this->rebuildFirewall($server);
     }
 
     /**
@@ -252,9 +248,7 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
-        $this->rebuildFirewall($server);
-
-        return $this->remoteTaskService->getErrors();
+        return $this->rebuildFirewall($server);
     }
 
     /**
@@ -290,7 +284,12 @@ class ServerService implements ServerServiceContract
     private function rebuildFirewall(Server $server)
     {
         $this->remoteTaskService->ssh($server);
-        return $this->remoteTaskService->run('/etc/opt/./iptables; service iptables-persistent save');
+
+        $this->remoteTaskService->run('/etc/opt/./iptables');
+        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
+        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
