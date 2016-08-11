@@ -101,12 +101,16 @@
                 if(pile) {
                     return pile;
                 }
+
+                return {
+                    id : null
+                }
             }
         },
         methods : {
             onSubmit: function() {
                 Vue.http.post(this.action('Server\ServerController@store'), this.getFormData($(this.$el))).then((response) => {
-                    alert('go to codepier.app');
+                    window.location = '/';
                 }, (errors) => {
                     alert(error);
                 });

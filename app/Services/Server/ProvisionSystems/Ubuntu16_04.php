@@ -186,7 +186,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
         if(!empty($database)) {
-            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"CREATE DATABASE $database\"");
+            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
 
@@ -202,7 +202,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
         if(!empty($database)) {
-            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"CREATE DATABASE $database\"");
+            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
 

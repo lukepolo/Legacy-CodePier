@@ -89,7 +89,7 @@ class ProvisionService implements ProvisionServiceContract
         $this->updateProgress('Installing Beanstalk');
         $provisionSystem->installBeanstalk();
 
-        $database = isset($server->options['database']) ? $server->options['database'] : $server->name;
+        $database = isset($server->options['database']) ? $server->options['database'] : null;
 
         if($server->hasFeature('mariaDB')) {
             $this->updateProgress('Installing MariaDB');

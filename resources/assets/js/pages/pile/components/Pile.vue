@@ -14,9 +14,10 @@
         <template v-if="pile.servers && pile.servers.length">
             <div class="group-content">
                 <h4>Servers</h4>
-                    <server></server>
-                <div class="server-list">
-
+                <div class="server-list" v-for="server in pile.servers">
+                    <a class="server">
+                        <div class="server-name">{{ server.name }}</div>
+                    </a>
                 </div>
             </div>
         </template>
@@ -32,18 +33,12 @@
             <router-link to="/server/create" class="btn btn-primary">
                 Create Server
             </router-link>
-
         </div>
     </div>
 </template>
 
 <script>
-    import Server from './Server.vue';
-
     export default {
-        components : {
-            Server,
-        },
         props : ['pile', 'index'],
         data() {
             return {

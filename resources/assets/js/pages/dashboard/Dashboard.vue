@@ -37,7 +37,7 @@
                             server.status = data.status;
                             server.progress = data.progress;
                             server.ip = data.ip;
-                            server.ssh_connection = data.connection;
+                            server.ssh_connection = data.connected;
                         });
                 });
             }

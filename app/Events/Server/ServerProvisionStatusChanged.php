@@ -23,6 +23,8 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     public $status;
     public $serverID;
     public $progress;
+    public $ip;
+    public $connected;
 
     private $user;
     /**
@@ -38,6 +40,9 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
         $this->serverID = $server->id;
         $this->progress = $server->progress = $progress;
         $this->status = $server->status = $status;
+        $this->ip = $server->ip;
+        $this->connected = $server->ssh_connection;
+
         $server->save();
     }
 
