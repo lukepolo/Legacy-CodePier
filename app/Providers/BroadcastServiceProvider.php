@@ -21,6 +21,10 @@ class BroadcastServiceProvider extends ServiceProvider
             return (int) $user->id === (int) $userId;
         });
 
+        Broadcast::channel('App.Team.*', function ($user, $teamID) {
+            return (int) $user->teams->contains((int) $teamID);
+        });
+
         Broadcast::channel('Server.Status.*', function ($user, $serverID) {
             return $user->id === Server::findOrFail($serverID)->user_id;
         });

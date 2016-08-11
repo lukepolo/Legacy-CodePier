@@ -31,18 +31,17 @@
             <app-footer></app-footer>
         </div>
 
+        <!-- Scripts -->
         <script src="{{ elixir('js/all.js') }}"></script>
-
-        @if(\Auth::check())
-            @include('layouts.core.notifications')
-        @endif
 
         <script type="text/javascript">
             moment.tz.setDefault("UTC");
         </script>
 
-        <!-- Scripts -->
         @stack('scripts')
-        <script src="{{ asset('/js/app.js') }}"></script>
+        @if(\Auth::check())
+            <script src="{{ asset('/js/app.js') }}"></script>
+            @include('layouts.core.notifications')
+        @endif
     </body>
 </html>
