@@ -61,7 +61,7 @@
                                         <div class="input-question">Server Options</div>
                                         <template v-for="feature in features">
                                             <label>
-                                                <input type="checkbox" name="features[]" :value="feature.option">
+                                                <input type="checkbox" name="features[]" :value="feature.id">
                                                 <span class="icon"></span>{{ 'Enable ' + feature.feature }} <small>{{ feature.cost }}</small>
                                             </label>
                                         </template>

@@ -34,3 +34,10 @@ Vue.http.interceptors.push(function (request, next) {
 
     next();
 });
+
+import Echo from "laravel-echo"
+
+window.Echo = new Echo({
+    connector: 'pusher',
+    pusherKey: '92790f94d685df8a2c16'
+});

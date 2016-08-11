@@ -35,6 +35,10 @@
             }, (errors) => {
                 alert('we had an error');
             });
+
+
+            Echo.private('server-status')
+                    .listen('Server\ServerProvisionStatusChanged');
         },
     }
 </script>
