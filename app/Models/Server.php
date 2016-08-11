@@ -72,7 +72,10 @@ class Server extends Model
         return $this->getFeatures()->pluck('option')->contains($feature);
     }
 
-
+    public function features()
+    {
+        return $this->hasMany(ServerProviderFeatures::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | Helpers
@@ -84,7 +87,7 @@ class Server extends Model
         $features = [];
 
         foreach ($this->features as $featureID) {
-            $features[] = ServerProviderFeatures::findOrFail($featureID);
+            $features[] = ServerProviderFeatures::findOrFail((int) $featureID);
         }
 
         return collect($features);

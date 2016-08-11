@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
  * Class ServerCreated
  * @package App\Events\Server
  */
-class ServerCreated extends Event
+class ServerCreated
 {
     use SerializesModels;
 
@@ -31,6 +31,5 @@ class ServerCreated extends Event
      */
     public function broadcastOn()
     {
-        return ['user.'.$this->user->id];
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
  * Class ServerCreated
  * @package App\Events\Server
  */
-class DeploymentCompleted extends Event implements ShouldBroadcastNow
+class DeploymentCompleted implements ShouldBroadcastNow
 {
     use SerializesModels;
 

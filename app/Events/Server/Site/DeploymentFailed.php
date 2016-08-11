@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
  * Class ServerCreated
  * @package App\Events\Server
  */
-class DeploymentFailed extends Event implements ShouldBroadcastNow
+class DeploymentFailed implements ShouldBroadcastNow
 {
     use SerializesModels;
 
