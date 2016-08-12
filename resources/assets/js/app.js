@@ -106,8 +106,8 @@ const router = new VueRouter({
     routes: [
         {path: '/', component : Dashboard},
 
-        {path: '/server/:server_id', component : Server},
         {path: '/server/create', component : ServerForm},
+        {path: '/server/:server_id', component : Server},
 
         {path: '/piles', component: Piles},
 
