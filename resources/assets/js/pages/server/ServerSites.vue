@@ -1,6 +1,6 @@
 <template>
     <section>
-        <server-nav></server-nav>
+        <left-nav></left-nav>
         <section id="middle" class="section-column">
             <template v-if="server">
                 <div class="container">
@@ -12,15 +12,7 @@
                                     -- (DISK SPACE?)
                                 </div>
                                 <div class="panel-body">
-                                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                                        <li class="active"><a href="#sites" data-toggle="tab">Sites</a></li>
-                                        <li><a href="#ssh_keys" data-toggle="tab">SSH Keys</a></li>
-                                        <li><a href="#cron_jobs" data-toggle="tab">Cron Jobs</a></li>
-                                        <li><a href="#daemons" data-toggle="tab">Daemons</a></li>
-                                        <li><a href="#firewall" data-toggle="tab">Firewall</a></li>
-                                        <li><a href="#monitoring" data-toggle="tab">Monitoring</a></li>
-                                        <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
-                                    </ul>
+                                    <server-nav></server-nav>
                                     <div id="my-tab-content" class="tab-content">
                                         <div class="tab-pane active" id="sites">
                                             <table class="table">
@@ -221,9 +213,12 @@
 </template>
 
 <script>
-    import ServerNav from './../../core/ServerNav.vue';
+    import ServerNav from './components/ServerNav.vue';
+    import LeftNav from './../../core/LeftNav.vue';
+
     export default {
         components : {
+            LeftNav,
             ServerNav
         },
         data() {

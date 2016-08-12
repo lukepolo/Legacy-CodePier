@@ -1,6 +1,6 @@
 <template>
     <section>
-        <server-nav></server-nav>
+        <left-nav></left-nav>
         <section id="middle" class="section-column">
 
        </section>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-    import ServerNav from './../../core/ServerNav.vue';
+    import LeftNav from './../../core/LeftNav.vue';
     export default {
         components : {
-            ServerNav
+            LeftNav
         }
     }
 </script>

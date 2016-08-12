@@ -25,7 +25,7 @@
                         {{ server.status }}
                     </div>
                 </div>
-                <router-link :to="{ path: '/server/'+server.id }" class="btn btn-primary">-></router-link>
+                <router-link :to="{ path: '/server/'+server.id+'/sites' }" class="btn btn-primary">-></router-link>
             </div>
         </div>
         <div class="section-content">

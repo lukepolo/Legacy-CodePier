@@ -1,6 +1,6 @@
 <template>
     <div>
-        <profile-nav></profile-nav>
+        <user-nav></user-nav>
         <template v-if="validSubscription">
             <p v-if="isCanceled">
                 Your subscription has been canceled and will end on {{ subscription.ends_at }}
@@ -68,10 +68,10 @@
     </div>
 </template>
 <script>
-    import ProfileNav from './components/ProfileNav.vue';
+    import UserNav from './components/UserNav.vue';
     export default {
-        components: {
-            ProfileNav
+        components : {
+            UserNav
         },
         data() {
             return {

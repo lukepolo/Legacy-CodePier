@@ -84,12 +84,12 @@ import Piles from "./pages/pile/Piles.vue";
  |--------------------------------------------------------------------------
  |
  */
-import UserInfo from './pages/auth/UserInfo.vue';
-import UserSshKeys from './pages/auth/UserSSHKeys.vue';
-import UserSubscription from './pages/auth/UserSubscription.vue';
-import UserServerProviders from './pages/auth/UserServerProviders.vue';
-import UserRepositoryProviders from './pages/auth/UserRepositoryProvders.vue';
-import UserNotificationProviders from './pages/auth/UserNotificationProviders.vue';
+import UserInfo from './pages/user/UserInfo.vue';
+import UserSshKeys from './pages/user/UserSSHKeys.vue';
+import UserSubscription from './pages/user/UserSubscription.vue';
+import UserServerProviders from './pages/user/UserServerProviders.vue';
+import UserRepositoryProviders from './pages/user/UserRepositoryProvders.vue';
+import UserNotificationProviders from './pages/user/UserNotificationProviders.vue';
 
 /*
  |--------------------------------------------------------------------------
@@ -98,8 +98,8 @@ import UserNotificationProviders from './pages/auth/UserNotificationProviders.vu
  |
  */
 
-import Server from "./pages/server/Server.vue";
 import ServerForm from "./pages/server/ServerForm.vue";
+import ServerSites from "./pages/server/ServerSites.vue";
 
 const router = new VueRouter({
     mode: 'history',
@@ -107,7 +107,7 @@ const router = new VueRouter({
         {path: '/', component : Dashboard},
 
         {path: '/server/create', component : ServerForm},
-        {path: '/server/:server_id', component : Server},
+        {path: '/server/:server_id/sites', component : ServerSites},
 
         {path: '/piles', component: Piles},
 

@@ -5,7 +5,7 @@
 </style>
 <template>
     <div>
-        <profile-nav></profile-nav>
+        <user-nav></user-nav>
         <form v-on:submit.prevent="onSubmit">
             <div class="form-group">
                 <label>Name</label>
@@ -29,10 +29,10 @@
 </template>
 
 <script>
-    import ProfileNav from './components/ProfileNav.vue';
+    import UserNav from './components/UserNav.vue';
     export default {
         components : {
-            ProfileNav
+            UserNav
         },
         data() {
             return {

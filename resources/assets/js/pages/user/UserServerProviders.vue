@@ -1,6 +1,6 @@
 <template>
     <div>
-        <profile-nav></profile-nav>
+        <user-nav></user-nav>
         <p v-for="provider in server_providers">
             <template v-if="isConnected(provider.id)">
 
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-    import ProfileNav from './components/ProfileNav.vue';
+    import UserNav from './components/UserNav.vue';
     export default {
         components : {
-            ProfileNav
+            UserNav
         },
         data() {
             return {
