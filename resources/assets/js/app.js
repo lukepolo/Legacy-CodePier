@@ -75,11 +75,8 @@ Vue.mixin({
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('AppFooter', require('./core/Footer.vue'));
 
-
-
-import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";
-import ServerForm from "./pages/server/ServerForm.vue";
+import Piles from "./pages/pile/Piles.vue";
 
 /*
  |--------------------------------------------------------------------------
@@ -94,10 +91,22 @@ import UserServerProviders from './pages/auth/UserServerProviders.vue';
 import UserRepositoryProviders from './pages/auth/UserRepositoryProvders.vue';
 import UserNotificationProviders from './pages/auth/UserNotificationProviders.vue';
 
+/*
+ |--------------------------------------------------------------------------
+ | Server Pages
+ |--------------------------------------------------------------------------
+ |
+ */
+
+import Server from "./pages/server/Server.vue";
+import ServerForm from "./pages/server/ServerForm.vue";
+
 const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/', component : Dashboard},
+
+        {path: '/server/:server_id', component : Server},
         {path: '/server/create', component : ServerForm},
 
         {path: '/piles', component: Piles},
