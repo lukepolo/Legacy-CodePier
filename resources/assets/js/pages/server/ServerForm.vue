@@ -1,15 +1,6 @@
 <template>
     <section>
-        <section id="left" class="section-column">
-            <h3 class="section-header">Servers</h3>
-
-            <div class="section-content">
-                <div class="server text-center">
-                    <button class="btn btn-primary">Create Server</button>
-                </div>
-            </div>
-        </section>
-
+        <server-nav></server-nav>
         <section id="middle" class="section-column" >
             <h3 class="section-header primary">Create New Server</h3>
 
@@ -83,7 +74,11 @@
 </template>
 
 <script>
+    import ServerNav from './../../core/ServerNav.vue';
     export default {
+        components : {
+            ServerNav
+        },
         data() {
             return {
                 options : null,
