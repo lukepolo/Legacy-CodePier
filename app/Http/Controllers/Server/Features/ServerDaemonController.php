@@ -35,7 +35,7 @@ class ServerDaemonController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(Server::findOrFail($request->get('server_id')->daemons));
+        return response()->json(Server::findOrFail($request->get('server_id'))->daemons);
     }
 
     /**
@@ -46,14 +46,21 @@ class ServerDaemonController extends Controller
      */
     public function store(Request $request)
     {
-        $this->serverService->installDaemon(
-            Server::findOrFail($request->get('server_id')),
-            $request->get('command'),
-            $request->get('auto_start'),
-            $request->get('auto_restart'),
-            $request->get('user'),
-            $request->get('number_of_workers')
-        );
+
+        $server = Server::findOrFail($request->get('server_id'));
+
+        $serverDaemon = ServerDaemon::create([
+            'server_id' => $server->id,
+            'command' => $request->get('command'),
+            'auto_start' => $request->get('auto_start', 0),
+            'auto_restart' => $request->get('auto_restart', 0),
+            'user' => $request->get('user'),
+            'number_of_workers' => $request->get('number_of_workers'),
+        ]);
+
+        $this->serverService->installDaemon($serverDaemon);
+
+        return response()->json($serverDaemon);
     }
 
     /**

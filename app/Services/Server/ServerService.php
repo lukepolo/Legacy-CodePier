@@ -172,7 +172,7 @@ class ServerService implements ServerServiceContract
     public function removeCron(ServerCronJob $cronJob)
     {
         $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
+        $this->remoteTaskService->run('crontab -l | grep -v "' . $cronJob->job . ' >/dev/null 2>&1" | crontab -');
 
         $cronJob->delete();
 
@@ -282,43 +282,22 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param $command
-     * @param $autoStart
-     * @param $autoRestart
-     * @param $user
-     * @param $numberOfWorkers
+     * @param ServerDaemon $serverDaemon
      * @param string $sshUser
      * @return array
      */
-    public function installDaemon(
-        Server $server,
-        $command,
-        $autoStart,
-        $autoRestart,
-        $user,
-        $numberOfWorkers,
-        $sshUser = 'root'
-    ) {
-        $serverDaemon = ServerDaemon::create([
-            'server_id' => $server->id,
-            'command' => $command,
-            'auto_start' => $autoStart,
-            'auto_restart' => $autoRestart,
-            'user' => $user,
-            'number_of_workers' => $numberOfWorkers,
-        ]);
-
-        $this->remoteTaskService->ssh($server, $sshUser);
+    public function installDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
+    {
+        $this->remoteTaskService->ssh($serverDaemon->server, $sshUser);
 
         $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf ', '
 [program:server-worker-' . $serverDaemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
-command=' . $command . '
-autostart=' . $autoStart . '
-autorestart=' . $autoRestart . '
-user=' . $user . '
-numprocs=' . $numberOfWorkers . '
+command=' . $serverDaemon->command . '
+autostart=' . ($serverDaemon->auto_start ? "true" : "false") . '
+autorestart=' . ($serverDaemon->auto_restart ? "true" : "false") . '
+user=' . $serverDaemon->user . '
+numprocs=' . $serverDaemon->number_of_workers . '
 redirect_stderr=true
 stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.log
 ');
@@ -528,7 +507,7 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install blackfire-agent blackfire-php');
 
-        $this->remoteTaskService->writeToFile('/etc/blackfire/agent'," 
+        $this->remoteTaskService->writeToFile('/etc/blackfire/agent', " 
 [blackfire]
 ca-cert=
 collector=https://blackfire.io
