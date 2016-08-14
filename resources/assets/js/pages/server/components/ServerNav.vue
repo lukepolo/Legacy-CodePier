@@ -1,11 +1,17 @@
 <template>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#sites" data-toggle="tab">Sites</a></li>
-        <li><a href="#ssh_keys" data-toggle="tab">SSH Keys</a></li>
-        <li><a href="#cron_jobs" data-toggle="tab">Cron Jobs</a></li>
-        <li><a href="#daemons" data-toggle="tab">Daemons</a></li>
-        <li><a href="#firewall" data-toggle="tab">Firewall</a></li>
-        <li><a href="#monitoring" data-toggle="tab">Monitoring</a></li>
-        <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
+        <router-link :to="{ path: '/server/'+server_id+'/sites' }" role="presentation" tag="li" ><a>Sites</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/ssh-keys' }" role="presentation" tag="li" ><a>SSH Keys</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/cron-jobs' }" role="presentation" tag="li" ><a>Cron Jobs</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/daemons' }" role="presentation" tag="li" ><a>Daemons</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/firewall-rules' }" role="presentation" tag="li" ><a>Firewall Rules</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/monitoring' }" role="presentation" tag="li" ><a>Monitoring</a></router-link>
+        <router-link :to="{ path: '/server/'+server_id+'/files' }" role="presentation" tag="li" ><a>Files</a></router-link>
     </ul>
 </template>
+
+<script>
+    export default {
+        props : ['server_id']
+    }
+</script>

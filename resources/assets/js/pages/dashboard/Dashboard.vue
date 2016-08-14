@@ -3,7 +3,7 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
 
-       </section>
+        </section>
     </section>
 </template>
 

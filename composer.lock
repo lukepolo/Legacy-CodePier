@@ -1828,12 +1828,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8769e25b09e7c38c852a2764ba238f3cd9d9f5d2"
+                "reference": "e973b7a043309cde6413e1ff07bcd31a52ae0028"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8769e25b09e7c38c852a2764ba238f3cd9d9f5d2",
-                "reference": "8769e25b09e7c38c852a2764ba238f3cd9d9f5d2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e973b7a043309cde6413e1ff07bcd31a52ae0028",
+                "reference": "e973b7a043309cde6413e1ff07bcd31a52ae0028",
                 "shasum": ""
             },
             "require": {
@@ -1938,7 +1938,7 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylor@laravel.com"
                 }
             ],
             "description": "The Laravel Framework.",
@@ -1947,7 +1947,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-08-11 21:06:15"
+            "time": "2016-08-14 09:26:11"
         },
         {
             "name": "laravel/socialite",

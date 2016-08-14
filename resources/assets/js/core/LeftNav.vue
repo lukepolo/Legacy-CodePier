@@ -26,6 +26,12 @@
                     </div>
                 </div>
                 <router-link :to="{ path: '/server/'+server.id+'/sites' }" class="btn btn-primary">-></router-link>
+
+                <a href="#" class="btn btn-xs">Archive Server</a>
+                <a href="#" class="btn btn-xs">Restart Web Services</a>
+                <a href="#" class="btn btn-xs">Restart Server</a>
+                <a href="#" class="btn btn-xs">Restart Database</a>
+                <a href="#" class="btn btn-xs">Restart Workers</a>
             </div>
         </div>
         <div class="section-content">

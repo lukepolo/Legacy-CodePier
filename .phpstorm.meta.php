@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-08-11.
+    * Generated on 2016-08-14.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -97,6 +97,7 @@ namespace PHPSTORM_META {
             'command.middleware.make' instanceof \Illuminate\Routing\Console\MiddlewareMakeCommand,
             'command.model.make' instanceof \Illuminate\Foundation\Console\ModelMakeCommand,
             'command.notification.make' instanceof \Illuminate\Foundation\Console\NotificationMakeCommand,
+            'command.notification.table' instanceof \Illuminate\Notifications\Console\NotificationTableCommand,
             'command.policy.make' instanceof \Illuminate\Foundation\Console\PolicyMakeCommand,
             'command.provider.make' instanceof \Illuminate\Foundation\Console\ProviderMakeCommand,
             'command.queue.failed-table' instanceof \Illuminate\Queue\Console\FailedTableCommand,
@@ -239,6 +240,7 @@ namespace PHPSTORM_META {
             'command.middleware.make' instanceof \Illuminate\Routing\Console\MiddlewareMakeCommand,
             'command.model.make' instanceof \Illuminate\Foundation\Console\ModelMakeCommand,
             'command.notification.make' instanceof \Illuminate\Foundation\Console\NotificationMakeCommand,
+            'command.notification.table' instanceof \Illuminate\Notifications\Console\NotificationTableCommand,
             'command.policy.make' instanceof \Illuminate\Foundation\Console\PolicyMakeCommand,
             'command.provider.make' instanceof \Illuminate\Foundation\Console\ProviderMakeCommand,
             'command.queue.failed-table' instanceof \Illuminate\Queue\Console\FailedTableCommand,
@@ -381,6 +383,7 @@ namespace PHPSTORM_META {
             'command.middleware.make' instanceof \Illuminate\Routing\Console\MiddlewareMakeCommand,
             'command.model.make' instanceof \Illuminate\Foundation\Console\ModelMakeCommand,
             'command.notification.make' instanceof \Illuminate\Foundation\Console\NotificationMakeCommand,
+            'command.notification.table' instanceof \Illuminate\Notifications\Console\NotificationTableCommand,
             'command.policy.make' instanceof \Illuminate\Foundation\Console\PolicyMakeCommand,
             'command.provider.make' instanceof \Illuminate\Foundation\Console\ProviderMakeCommand,
             'command.queue.failed-table' instanceof \Illuminate\Queue\Console\FailedTableCommand,
@@ -523,6 +526,7 @@ namespace PHPSTORM_META {
             'command.middleware.make' instanceof \Illuminate\Routing\Console\MiddlewareMakeCommand,
             'command.model.make' instanceof \Illuminate\Foundation\Console\ModelMakeCommand,
             'command.notification.make' instanceof \Illuminate\Foundation\Console\NotificationMakeCommand,
+            'command.notification.table' instanceof \Illuminate\Notifications\Console\NotificationTableCommand,
             'command.policy.make' instanceof \Illuminate\Foundation\Console\PolicyMakeCommand,
             'command.provider.make' instanceof \Illuminate\Foundation\Console\ProviderMakeCommand,
             'command.queue.failed-table' instanceof \Illuminate\Queue\Console\FailedTableCommand,
