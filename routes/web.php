@@ -129,8 +129,17 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
             Route::resource('network', 'Features\ServerNetworkController');
             Route::resource('ssh-keys', 'Features\ServerSshKeyController');
             Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
+
         });
 
+        // TODO - go fuck yourself route
+        Route::group(['prefix' => 'server', 'namespace' => 'Server'], function() {
+            Route::resource('sites', 'ServerSiteController', [
+                'parameters' => [
+                    'sites' => 'server'
+                ]
+            ]);
+        });
         /*
         |--------------------------------------------------------------------------
         | Site Routes
