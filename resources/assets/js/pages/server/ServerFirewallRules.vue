@@ -1,8 +1,8 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <server-nav :server_id="this.$route.params.server_id"></server-nav>
+        <section id="middle" class="section-column" v-if="server">
+            <server-nav :server="server"></server-nav>
             <div class="row">
                 Connect to :
                 <form>

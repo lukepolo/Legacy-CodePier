@@ -109,11 +109,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
        */
 
         Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function() {
-            Route::resource('/', 'ServerController', [
-                'parameters' => [
-                    '' => 'server'
-                ]
-            ]);
+
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
             Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
@@ -130,9 +126,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
             Route::resource('ssh-keys', 'Features\ServerSshKeyController');
             Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
 
+
+            Route::resource('/', 'ServerController', [
+                'parameters' => [
+                    '' => 'server'
+                ]
+            ]);
+
         });
 
-        // TODO - go fuck yourself route
         Route::group(['prefix' => 'server', 'namespace' => 'Server'], function() {
             Route::resource('sites', 'ServerSiteController', [
                 'parameters' => [
@@ -148,11 +150,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         */
 
         Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function() {
-            Route::resource('/', 'SiteController', [
-                'parameters' => [
-                    '' => 'site'
-                ]
-            ]);
 
             Route::post('deploy', 'SiteController@deploy');
 
@@ -164,6 +161,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
             Route::resource('hooks', 'Repository\Features\RepositoryHookController');
             Route::resource('repository', 'Repository\SiteRepositoryController');
+
+            Route::resource('/', 'SiteController', [
+                'parameters' => [
+                    '' => 'site'
+                ]
+            ]);
         });
     });
 

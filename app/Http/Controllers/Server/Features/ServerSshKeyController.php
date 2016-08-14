@@ -54,6 +54,8 @@ class ServerSshKeyController extends Controller
         ]);
 
         $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
+
+        return response()->json($serverSshKey);
     }
 
     /**

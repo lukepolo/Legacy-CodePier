@@ -122,7 +122,7 @@ class ServerService implements ServerServiceContract
         try {
             $this->remoteTaskService->ssh($serverSshKey->server, $user);
 
-            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $serverSshKey->sshKey);
+            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $serverSshKey->ssh_key);
 
         } catch (SshConnectionFailed $e) {
             return false;
