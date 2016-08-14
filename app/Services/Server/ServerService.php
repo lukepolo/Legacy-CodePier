@@ -154,40 +154,29 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param $cronJob
-     * @param string $user
+     * @param ServerCronJob $serverCronJob
      * @return array
      */
-    public function installCron(Server $server, $cronJob, $user = 'root')
+    public function installCron(ServerCronJob $serverCronJob)
     {
-        ServerCronJob::create([
-            'server_id' => $server->id,
-            'job' => $cronJob,
-            'user' => 'root'
-        ]);
-
-        $this->remoteTaskService->ssh($server, $user);
-        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->ssh($serverCronJob->server, $serverCronJob->user);
+        $this->remoteTaskService->run('crontab -l | (grep ' . $serverCronJob->job . ') || ((crontab -l; echo "' . $serverCronJob->job . ' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param ServerCronJob $cronJob
-     * @param string $user
      * @return bool
      */
-    public function removeCron(ServerCronJob $cronJob, $user = 'root')
+    public function removeCron(ServerCronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($cronJob->server, $user);
-        $errors = $this->remoteTaskService->run('crontab -l | grep -v "* * * * * date >/dev/null 2>&1" | crontab -');
+        $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
+        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
 
-        if (empty($errors)) {
-            $cronJob->delete();
-        }
+        $cronJob->delete();
 
-        return $errors;
+        return $this->remoteTaskService->getErrors();
     }
 
     /**

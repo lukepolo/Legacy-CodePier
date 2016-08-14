@@ -49,9 +49,6 @@
                 ssh_keys : []
             }
         },
-        computed : {
-
-        },
         methods : {
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerSshKeyController@store'), this.getFormData($(this.$el))).then((response) => {

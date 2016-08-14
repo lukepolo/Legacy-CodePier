@@ -35,7 +35,7 @@ class ServerCronJobController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(Server::findOrFail($request->get('server_id')->cronJobs));
+        return response()->json(Server::with('cronJobs')->findOrFail($request->get('server_id'))->cronJobs);
     }
 
     /**
@@ -46,10 +46,15 @@ class ServerCronJobController extends Controller
      */
     public function store(Request $request)
     {
-        $this->serverService->installCron(
-            Server::findOrFail($request->get('server_id')),
-            $request->get('cron_timing') . ' ' .$request->get('cron')
-        );
+        $serverCronJob = ServerCronJob::create([
+            'server_id' => $request->get('server_id'),
+            'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
+            'user' => $request->get('user')
+        ]);
+
+        $this->serverService->installCron($serverCronJob);
+
+        return response()->json($serverCronJob);
     }
 
     /**
