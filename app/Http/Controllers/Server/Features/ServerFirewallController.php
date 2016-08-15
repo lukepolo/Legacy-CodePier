@@ -76,6 +76,9 @@ class ServerFirewallController extends Controller
      */
     public function destroy($id)
     {
-        $this->serverService->removeFirewallRule(ServerFirewallRule::findOrFail($id));
+        $firewallRule = ServerFirewallRule::findOrFail($id);
+        $this->serverService->removeFirewallRule($firewallRule);
+
+        $firewallRule->delete();
     }
 }

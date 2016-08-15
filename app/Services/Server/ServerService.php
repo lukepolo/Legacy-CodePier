@@ -248,7 +248,6 @@ class ServerService implements ServerServiceContract
         }
 
         if (empty($errors)) {
-            $firewallRule->delete();
             return $this->rebuildFirewall($server);
         }
 

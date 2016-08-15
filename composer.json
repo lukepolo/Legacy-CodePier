@@ -36,7 +36,8 @@
         "guzzlehttp/guzzle": "~6.0",
         "m4tthumphrey/php-gitlab-api": "^7.13",
         "socialiteproviders/gitlab": "^2.0",
-        "lord/laroute" : "dev-master"
+        "lord/laroute" : "dev-master",
+        "laravel/passport": "^1.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

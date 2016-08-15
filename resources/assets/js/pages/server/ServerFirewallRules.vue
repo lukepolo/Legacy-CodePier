@@ -5,7 +5,7 @@
             <server-nav :server="server"></server-nav>
             <div class="row">
                 Connect to :
-                <form v-on:submit.prevent="onSubmit">
+                <form @submit.prevent="onSubmit">
                     <div class="checkbox">
                         <label>
                             <input type="servers[]"> server name - ip
@@ -15,7 +15,8 @@
                 </form>
             </div>
             <div class="row">
-                <form>
+                <form @submit.prevent="onSubmitFirewallRules">
+                    <input type="hidden" name="server_id" :value="server.id">
                     description
                     <input type="text" name="description">
                     from ip
@@ -65,15 +66,15 @@
             }
         },
         methods : {
-            onSubmit() {
+            onSubmitFirewallRules() {
                 Vue.http.post(this.action('Server\Features\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.firewall_rules.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
-            deleteDaemon(daemon_id) {
-                Vue.http.delete(this.action('Server\Features\ServerFirewallController@destroy', { daemon : daemon_id })).then((response) => {
+            deleteFirewallRule(firewall_rule_id) {
+                Vue.http.delete(this.action('Server\Features\ServerFirewallController@destroy', { firewall : firewall_rule_id })).then((response) => {
                     this.getFirewallRules();
                 }, (errors) => {
                     alert(error);

@@ -172,6 +172,7 @@ return [
         Lord\Laroute\LarouteServiceProvider::class,
         Mpociot\Teamwork\TeamworkServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         TomSchlick\ServerPush\ServiceProvider::class,
 
