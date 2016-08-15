@@ -180,33 +180,22 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param $fromIP
-     * @param $port
-     * @param $description
-     * @param string $user
+     * @param ServerFirewallRule $serverFirewallRule
      * @return array
      */
-    public function addFirewallRule(Server $server, $fromIP, $port, $description, $user = 'root')
+    public function addFirewallRule(ServerFirewallRule $serverFirewallRule)
     {
-        ServerFirewallRule::create([
-            'description' => $description,
-            'server_id' => $server->id,
-            'port' => $port,
-            'from_ip' => $fromIP
-        ]);
+        $this->remoteTaskService->ssh($serverFirewallRule->server);
 
-        $this->remoteTaskService->ssh($server, $user);
-
-        if (empty($fromIP)) {
+        if (empty($serverFirewallRule->from_ip)) {
             $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
-                "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT");
+                "iptables -A INPUT -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT");
         } else {
             $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
-                "iptables -A INPUT -s $fromIP -p tcp -m tcp --dport $port -j ACCEPT");
+                "iptables -A INPUT -s $serverFirewallRule->from_ip -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT");
         }
 
-        return $this->rebuildFirewall($server);
+        return $this->rebuildFirewall($serverFirewallRule->server);
     }
 
     /**

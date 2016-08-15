@@ -45,11 +45,16 @@ class ServerFirewallController extends Controller
      */
     public function store(Request $request)
     {
-        $this->serverService->addFirewallRule(
-            Server::findOrFail($request->get('server_id')),
-            $request->get('port'),
-            $request->get('from_ip'),
-            $request->get('description'));
+        $serverFirewallRule = ServerFirewallRule::create([
+            'description' => $request->get('description'),
+            'server_id' => $request->get('server_id'),
+            'port' => $request->get('port'),
+            'from_ip' => $request->get('from_ip')
+        ]);
+
+        $this->serverService->addFirewallRule($serverFirewallRule);
+
+        return response()->json($serverFirewallRule);
     }
 
     /**

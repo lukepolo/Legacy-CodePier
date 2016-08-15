@@ -25,7 +25,7 @@
                     <button type="submit">Add Firewall Rule</button>
                 </form>
 
-                <table class="table">
+                <table class="table" v-if="firewall_rules" v-for="firewall_rule in firewall_rules">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -36,10 +36,10 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>description</td>
-                        <td>port</td>
-                        <td>from ip</td>
-                        <td><a href="#" class="fa fa-remove"></a></td>
+                        <td>{{ firewall_rule.description }}</td>
+                        <td>{{ firewall_rule.port }}</td>
+                        <td>{{ firewall_rule.from_ip }}</td>
+                        <td><a href="#" class="fa fa-remove" v-on:click="deleteFirewallRule(firewall_rule.id)">remove</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -47,6 +47,7 @@
         </section>
     </section>
 </template>
+
 
 <script>
     import ServerNav from './components/ServerNav.vue';
@@ -59,13 +60,32 @@
         },
         data() {
             return {
-                server : null
+                server : null,
+                firewall_rules : []
             }
         },
-        computed : {
-
-        },
         methods : {
+            onSubmit() {
+                Vue.http.post(this.action('Server\Features\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
+                    this.firewall_rules.push(response.json());
+                }, (errors) => {
+                    alert(error);
+                });
+            },
+            deleteDaemon(daemon_id) {
+                Vue.http.delete(this.action('Server\Features\ServerFirewallController@destroy', { daemon : daemon_id })).then((response) => {
+                    this.getFirewallRules();
+                }, (errors) => {
+                    alert(error);
+                });
+            },
+            getFirewallRules() {
+                Vue.http.get(this.action('Server\Features\ServerFirewallController@index', {server_id : this.$route.params.server_id})).then((response) => {
+                    this.firewall_rules = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            }
 
         },
         mounted() {
@@ -74,6 +94,9 @@
             }, (errors) => {
                 alert(error);
             });
+
+            this.getFirewallRules();
+
         }
     }
 </script>
