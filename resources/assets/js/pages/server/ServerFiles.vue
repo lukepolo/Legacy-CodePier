@@ -5,11 +5,11 @@
             <server-nav :server="server"></server-nav>
             <div class="row">
                 <form>
-                    <!--<div data-url="" data-path="/etc/php/7.0/fpm/php.ini" class="editor">Loading . . . </div>-->
+                    <div :data-server_id="this.$route.params.server_id" data-path="/etc/php/7.0/fpm/php.ini" class="editor">Loading . . . </div>
                     <button type="submit">Update PHP Config</button>
                 </form>
                 <form>
-                    <div data-url="#" data-path="/etc/php/7.0/cli/php.ini" class="editor">Loading . . . </div>
+                    <div :data-server_id="this.$route.params.server_id" data-path="/etc/php/7.0/cli/php.ini" class="editor">Loading . . . </div>
                     <button type="submit">Update PHP CLI Config</button>
                 </form>
             </div>

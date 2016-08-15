@@ -5,7 +5,7 @@
             <server-nav :server="server"></server-nav>
             <div class="row">
                 Connect to :
-                <form>
+                <form v-on:submit.prevent="onSubmit">
                     <div class="checkbox">
                         <label>
                             <input type="servers[]"> server name - ip

@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
             Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
+            Route::post('save/file/{server_id}', 'ServerController@getFile');
             Route::post('save/file/{server_id}', 'ServerController@saveFile');
             Route::post('provider/{server_provider_id}/option-regions', 'ServerController@getServerOptionsAndRegions');
             Route::post('restart-server/{server_id}', 'ServerController@restartServer');

@@ -116,6 +116,8 @@ class ServerController extends Controller
      */
     public function installBlackfire(Request $request)
     {
+
+        // TODO - should be a plugin
         $this->serverService->installBlackFire(
             Server::findOrFail($request->get('server_id')),
             \Request::get('server_id'),
@@ -131,6 +133,16 @@ class ServerController extends Controller
     public function getDiskSpace(Request $request)
     {
         return $this->serverService->checkDiskSpace($request->get('server_id'));
+    }
+
+    /**
+     * Saves a file to a server
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getFile(Request $request)
+    {
+        return response()->json($this->serverService->getFile(Server::findOrFail($request->get('server_id')), $request->get('path')));
     }
 
     /**

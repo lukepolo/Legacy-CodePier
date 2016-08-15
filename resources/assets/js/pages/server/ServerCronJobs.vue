@@ -81,6 +81,14 @@
             });
 
             this.getCronJobs();
+
+            $('#cron-maker').cron({
+                onChange: function() {
+                    var cronTiming = $(this).cron("value");
+                    $('#cron-preview').text(cronTiming);
+                    $('input[name="cron_timing"]').val(cronTiming);
+                }
+            });
         }
     }
 </script>

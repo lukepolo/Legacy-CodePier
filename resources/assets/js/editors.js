@@ -12,7 +12,7 @@ $('.editor').each(function() {
         form.find('textarea[name="file"]').val(editor.getSession().getValue());
     });
 
-    $.get($(this).data('url') + '?path='  + $(this).data('path'), function(envFile) {
+    $.get(laroute.action('Server\ServerController@getFile', {server : $(this).data('server_id'), path : $(this).data('path')}), function(envFile) {
         editor.getSession().setValue(envFile);
     });
 });
