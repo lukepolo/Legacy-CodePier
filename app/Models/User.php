@@ -6,6 +6,7 @@ use App\Models\Pile;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
 /**
@@ -14,7 +15,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
  */
 class User extends Authenticatable
 {
-    use Notifiable, UserHasTeams, Billable;
+    use Notifiable, UserHasTeams, Billable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
