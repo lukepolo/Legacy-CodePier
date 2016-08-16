@@ -126,6 +126,8 @@
             changePile : function(pile_id) {
                 localStorage.setItem('current_pile_id', pile_id);
                 this.current_pile_id = pile_id;
+
+
             }
         }
     }

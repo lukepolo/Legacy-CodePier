@@ -46,9 +46,9 @@
 
 <script>
     export default {
-        data() {
-            return {
-                servers : null
+        computed: {
+            servers () {
+                return store.state.servers;
             }
         },
         methods : {
@@ -64,13 +64,8 @@
                 });
             }
         },
-        mounted () {
-            Vue.http.get(this.action('Server\ServerController@index', { pile_id : localStorage.getItem('current_pile_id') })).then((response) => {
-                this.servers = response.json();
-                this.attachServerStatus();
-            }, (errors) => {
-
-            });
-        },
+        beforeMount () {
+            store.dispatch('getServers');
+        }
     }
 </script>
