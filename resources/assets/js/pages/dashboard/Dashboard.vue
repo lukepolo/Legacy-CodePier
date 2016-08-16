@@ -19,7 +19,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div><!-- end group-container -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -37,8 +37,12 @@
         },
         data () {
             return {
-                sites : [],
-                current_pile_id : localStorage.getItem('current_pile_id')
+                current_pile_id : pileStore.state.current_pile_id
+            }
+        },
+        computed : {
+            sites : () => {
+                return siteStore.state.sites;
             }
         },
         methods : {
@@ -52,11 +56,7 @@
             }
         },
         mounted() {
-            Vue.http.get(this.action('Pile\PileSitesController@show', {pile : this.current_pile_id})).then((response) => {
-                this.sites = response.json();
-            }, (errors) => {
-                alert(error);
-            });
+            siteStore.dispatch('getSites');
         }
     }
 </script>

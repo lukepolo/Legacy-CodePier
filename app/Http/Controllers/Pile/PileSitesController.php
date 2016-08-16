@@ -7,9 +7,8 @@ use App\Models\Pile;
 use Illuminate\Http\Request;
 
 /**
- * Class PileController
- *
- * @package App\Http\Controllers\Server
+ * Class PileSitesController
+ * @package App\Http\Controllers\Pile
  */
 class PileSitesController extends Controller
 {

@@ -72,8 +72,21 @@ Vue.mixin({
  |--------------------------------------------------------------------------
  |
  */
-import store from './store'
-window.store = store;
+import userStore from './stores/UserStore'
+window.userStore = userStore;
+
+import userTeamStore from './stores/UserTeamStore'
+window.userTeamStore = userTeamStore;
+
+import serverStore from './stores/ServerStore'
+window.serverStore = serverStore;
+
+import siteStore from './stores/SiteStore'
+window.siteStore = siteStore;
+
+import pileStore from './stores/PileStore'
+window.pileStore = pileStore;
+
 
 /*
  |--------------------------------------------------------------------------
@@ -146,7 +159,10 @@ const router = new VueRouter({
 
 window.vue = new Vue({
     router,
-    store,
+    siteStore,
+    userStore,
+    serverStore,
+    userTeamStore,
     data() {
         return {
             user: user,

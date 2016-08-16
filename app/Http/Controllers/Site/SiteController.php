@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
-use App\Models\Server;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
@@ -41,15 +39,17 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        $server = Server::findOrFail(\Request::get('server_id'));
+        $site = Site::create([
+            'pile_id' => \Request::get('pile_id'),
+            'domain' => \Request::get('domain'),
+            'zerotime_deployment' => true,
+            'web_directory' => \Request::get('web_directory'),
+            'wildcard_domain' => (int)\Request::get('wildcard_domain'),
+        ]);
 
-        $this->dispatch(new CreateSite(
-                $server, \Request::get('domain'),
-                (int)\Request::get('wildcard_domain'),
-                \Request::get('web_directory')
-            )
-        );
-//            ->onQueue('site_creations'));
+        $site->servers()->sync(\Request::get('servers', []));
+
+        return response()->json($site);
     }
 
     /**
@@ -60,7 +60,7 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        return response(Site::with('server')->findOrFail($id));
+        return response(Site::with('servers')->findOrFail($id));
     }
 
     /**
@@ -96,12 +96,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        $site = Site::with([
-            'server',
-            'daemons'
-        ])->findOrFail($id);
+        Site::findOrFail($id)->delete();
 
-        $this->siteService->deleteSite($site);
+        // TODO - dispatch deletling of site
     }
 
     /**
