@@ -1,13 +1,13 @@
 import Vue from "vue/dist/vue";
 import Vuex from "vuex";
-import { action } from "./helpers";
+import {action} from "./helpers";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
         user: null,
-        servers : [],
+        servers: [],
         current_pile_id: localStorage.getItem('current_pile_id')
     },
     actions: {
@@ -20,21 +20,20 @@ const store = new Vuex.Store({
         },
         getCurrentPile: () => {
             return localStorage.getItem('current_pile_id');
-        }
-    },
-    mutations : {
-        SET_SERVERS : (state, servers) => {
-            state.servers = servers;
-        }
-    },
-    setters: {
-        setCurrentPile: (pile_id) => {
+        },
+        setCurrentPile: ({commit}, pile_id) => {
             localStorage.setItem('current_pile_id', pile_id);
-            this.current_pile_id = pile_id;
+            commit('SET_CURRENT_PILE', pile_id);
         }
     },
-
-    getters: {}
+    mutations: {
+        SET_SERVERS: (state, servers) => {
+            state.servers = servers;
+        },
+        SET_CURRENT_PILE: (state, pile_id) => {
+            state.current_pile_id = pile_id;
+        }
+    }
 });
 
 export default store

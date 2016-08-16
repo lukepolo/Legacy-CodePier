@@ -76,11 +76,13 @@
     export default {
         data() {
             return {
-                user: user,
-                current_pile_id : localStorage.getItem('current_pile_id')
+                user: user
             }
         },
         computed: {
+            current_pile_id : function() {
+              return store.state.current_pile_id;
+            },
             currentTeam: function () {
                 var currentTeam = 'Private';
                 var currentTeamID = this.user.current_team_id;
@@ -124,11 +126,8 @@
                 });
             },
             changePile : function(pile_id) {
-                localStorage.setItem('current_pile_id', pile_id);
-                this.current_pile_id = pile_id;
-
+                store.dispatch('setCurrentPile', pile_id);
                 store.dispatch('getServers');
-
             }
         }
     }
