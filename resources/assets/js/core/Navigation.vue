@@ -127,6 +127,7 @@
                 localStorage.setItem('current_pile_id', pile_id);
                 this.current_pile_id = pile_id;
 
+                store.dispatch('getServers');
 
             }
         }

@@ -39,7 +39,11 @@
             return {
                 name: this.site.name,
                 editing : this.site.editing,
-                servers : this.$root.servers,
+            }
+        },
+        computed: {
+            servers () {
+                return store.state.servers;
             }
         },
         methods : {
