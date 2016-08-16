@@ -10,13 +10,21 @@
             <li class="dropdown arrow">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    <span class="icon-layers"></span> {{ currentPile.name }}
+                    <span class="icon-layers"></span>
+                    <template v-if="currentPile">
+                        {{ currentPile.name }}
+                    </template>
+                    <template v-else>
+                        -
+                    </template>
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="drop1">
-                    <template v-for="pile in user.piles">
+                    <template v-for="pile in piles">
                         <li>
-                            <a v-on:click="changePile(pile.id)" :class="{ selected : currentPile.id == pile.id }"><span class="icon-layers"></span> {{ pile.name }}</a>
+                            <a v-on:click="changePile(pile.id)"
+                               :class="{ selected : (currentPile && currentPile.id == pile.id) }"><span
+                                    class="icon-layers"></span> {{ pile.name }}</a>
                         </li>
                     </template>
                 </ul>
@@ -27,7 +35,14 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="true">
-                    <span class="muted">Team:</span> {{ currentTeam }} <span class="icon-arrow-down"></span>
+                    <span class="muted">Team:</span>
+                    <template v-if="currentTeam">
+                        {{ currentTeam.name }}
+                    </template>
+                    <template v-else>
+                        Private
+                    </template>
+                    <span class="icon-arrow-down"></span>
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="drop2">
@@ -36,12 +51,12 @@
                     </li>
                     <li>
                         <a href="#" v-on:click="changeTeam()"
-                           :class="{selected : user.current_team_id == null}">Private</a>
+                           :class="{selected : currentTeam == null}">Private</a>
                     </li>
                     <template v-for="team in user.teams">
                         <li>
                             <a href="#" v-on:click="changeTeam(team.id)"
-                               :class="{selected : user.current_team_id == team.id}">{{ team.name }}</a>
+                               :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
                         </li>
                     </template>
                 </ul>
@@ -74,61 +89,35 @@
 
 <script>
     export default {
-        data() {
-            return {
-                user: user
-            }
-        },
         computed: {
-            current_pile_id : function() {
-              return store.state.current_pile_id;
+            piles: () => {
+                return pileStore.state.piles;
+            },
+            current_pile_id: function () {
+                return pileStore.state.current_pile_id;
             },
             currentTeam: function () {
-                var currentTeam = 'Private';
-                var currentTeamID = this.user.current_team_id;
-
-                $.each(user.teams, function (index, team) {
-                    if (currentTeamID == team.id) {
-                        currentTeam = team.name;
-                    }
-                });
-
-                return currentTeam;
+                return userTeamStore.state.currentTeam;
             },
             currentPile: function () {
-                var current_pile_id = this.current_pile_id;
-
-                var current_pile = _.find(this.user.piles, function(pile) {
-                    return pile.id == current_pile_id;
-                });
-
-               return current_pile ? current_pile : {
-                    'id': null,
-                    'name': '-'
-                };
+                return pileStore.state.currentPile;
+            },
+            user: () => {
+                return userStore.state.user;
             }
         },
         methods: {
             changeTeam: function (teamID) {
-                var user = this.user;
-                Vue.http.post(this.action('User\Team\UserTeamController@switchTeam', { team : (teamID ? '/'+teamID : "") })).then((response) => {
-                    user.current_team_id = teamID;
-                    this.getPiles();
-                }, (errors) => {
-                    alert(error);
-                });
+                userTeamStore.dispatch('changeTeams', teamID);
             },
-            getPiles : function() {
-                Vue.http.get(this.action('Pile\PileController@index')).then((response) => {
-                    vue.user.piles = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
-            },
-            changePile : function(pile_id) {
-                store.dispatch('setCurrentPile', pile_id);
-                store.dispatch('getServers');
+            changePile: function (pile_id) {
+                pileStore.dispatch('setCurrentPileID', pile_id);
+                serverStore.dispatch('getServers');
             }
+        },
+        mounted() {
+            pileStore.dispatch('getPiles');
+            userTeamStore.dispatch('getUserTeam');
         }
     }
 </script>

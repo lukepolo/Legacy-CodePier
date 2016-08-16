@@ -13,7 +13,7 @@ class Site extends Model
 {
     use UsedByTeams;
 
-    static $teamworkUserModel = 'server';
+    static $teamworkUserModel = 'servers';
 
     protected $guarded = ['id'];
 
@@ -23,7 +23,7 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function server()
+    public function servers()
     {
         return $this->belongsToMany(Server::class);
     }

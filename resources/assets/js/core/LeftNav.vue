@@ -48,7 +48,7 @@
     export default {
         computed: {
             servers () {
-                return store.state.servers;
+                return serverStore.state.servers;
             }
         },
         methods : {
@@ -65,7 +65,7 @@
             }
         },
         beforeMount () {
-            store.dispatch('getServers');
+            serverStore.dispatch('getServers');
         }
     }
 </script>
