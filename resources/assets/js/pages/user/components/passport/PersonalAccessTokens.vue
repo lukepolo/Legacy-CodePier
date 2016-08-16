@@ -17,10 +17,6 @@
                         <span>
                             Personal Access Tokens
                         </span>
-
-                        <a class="action-link" @click="showCreateTokenForm">
-                            Create New Token
-                        </a>
                     </div>
                 </div>
 
@@ -31,7 +27,7 @@
                     </p>
 
                     <!-- Personal Access Tokens -->
-                    <table class="table table-borderless m-b-none" v-if="tokens.length > 0">
+                    <table v-if="tokens.length > 0">
                         <thead>
                             <th>Name</th>
                             <th></th>
@@ -55,14 +51,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-        <div class="modal-header">
-            <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
-            <h4 class="modal-title">
-                Create Token
-            </h4>
         </div>
 
         <div class="modal-body">
@@ -111,8 +99,6 @@
 
         <!-- Modal Actions -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
             <button type="button" class="btn btn-primary" @click="store">
                 Create
             </button>
@@ -122,8 +108,6 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
                         <h4 class="modal-title">
                             Personal Access Token
                         </h4>
@@ -136,11 +120,6 @@
                         </p>
 
                         <pre><code>{{ accessToken }}</code></pre>
-                    </div>
-
-                    <!-- Modal Actions -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -171,7 +150,7 @@
         /**
          * Prepare the component.
          */
-        ready() {
+        mounted() {
             this.getTokens();
             this.getScopes();
 
@@ -187,7 +166,7 @@
             getTokens() {
                 this.$http.get('/oauth/personal-access-tokens')
                         .then(response => {
-                            this.tokens = response.data;
+                            this.tokens = response.json();
                         });
             },
 
@@ -197,15 +176,8 @@
             getScopes() {
                 this.$http.get('/oauth/scopes')
                         .then(response => {
-                            this.scopes = response.data;
+                            this.scopes = response.json();
                         });
-            },
-
-            /**
-             * Show the form for creating new tokens.
-             */
-            showCreateTokenForm() {
-                $('#modal-create-token').modal('show');
             },
 
             /**
@@ -222,13 +194,14 @@
                             this.form.scopes = [];
                             this.form.errors = [];
 
-                            this.tokens.push(response.data.token);
+                            this.tokens.push(response.json().token);
 
-                            this.showAccessToken(response.data.accessToken);
+                            this.showAccessToken(response.json().accessToken);
                         })
                         .catch(response => {
-                            if (typeof response.data === 'object') {
-                                this.form.errors = _.flatten(_.toArray(response.data));
+                            console.log(response);
+                            if (typeof response.json() === 'object') {
+                                this.form.errors = _.flatten(_.toArray(response.json()));
                             } else {
                                 this.form.errors = ['Something went wrong. Please try again.'];
                             }
@@ -257,11 +230,7 @@
              * Show the given access token to the user.
              */
             showAccessToken(accessToken) {
-                $('#modal-create-token').modal('hide');
-
                 this.accessToken = accessToken;
-
-                $('#modal-access-token').modal('show');
             },
 
             /**
@@ -269,9 +238,9 @@
              */
             revoke(token) {
                 this.$http.delete('/oauth/personal-access-tokens/' + token.id)
-                        .then(response => {
-                            this.getTokens();
-                        });
+                    .then(response => {
+                        this.getTokens();
+                    });
             }
         }
     }
