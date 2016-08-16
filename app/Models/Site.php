@@ -25,7 +25,12 @@ class Site extends Model
 
     public function server()
     {
-        return $this->belongsTo(Server::class);
+        return $this->belongsToMany(Server::class);
+    }
+
+    public function pile()
+    {
+        return $this->belongsTo(Site::class);
     }
 
     public function activeSSL()

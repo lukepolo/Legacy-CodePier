@@ -15,7 +15,6 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
             $table->string('domain');
-            $table->integer('server_id');
             $table->string('branch')->nullable();
             $table->text('repository')->nullable();
             $table->text('web_directory')->nullable();
@@ -23,7 +22,6 @@ class CreateSitesTable extends Migration
             $table->boolean('wildcard_domain')->default(0);
             $table->boolean('zerotime_deployment')->default(0);
             $table->string('automatic_deployment_id')->nullable();
-
             $table->timestamps();
         });
     }

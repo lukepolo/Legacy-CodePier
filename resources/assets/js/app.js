@@ -65,6 +65,16 @@ Vue.mixin({
         }
     }
 });
+
+/*
+ |--------------------------------------------------------------------------
+ | Stores
+ |--------------------------------------------------------------------------
+ |
+ */
+import store from './store'
+window.store = store;
+
 /*
  |--------------------------------------------------------------------------
  | Core
@@ -129,15 +139,16 @@ const router = new VueRouter({
         {path: '/my-profile/server-providers', component: UserServerProviders},
         {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
         {path: '/my-profile/notification-providers', component: UserNotificationProviders},
-
     ]
 });
 
 window.vue = new Vue({
     router,
+    store,
     data() {
         return {
-            user: user
+            user: user,
+            servers : []
         }
     },
 }).$mount('#app-layout');

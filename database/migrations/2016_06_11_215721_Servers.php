@@ -16,7 +16,6 @@ class Servers extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('pile_id');
-            $table->integer('server_id');
             $table->string('name');
             $table->string('status');
             $table->integer('server_provider_id');

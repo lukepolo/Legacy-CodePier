@@ -11,8 +11,8 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/test', function() {
-   event(new \App\Events\Server\ServerProvisionStatusChanged(\App\Models\Server::findOrFail(1), 'MORE DONE', '70'));
+Route::get('/test', function () {
+    event(new \App\Events\Server\ServerProvisionStatusChanged(\App\Models\Server::findOrFail(1), 'MORE DONE', '70'));
 });
 
 /*
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'webhook'], function () {
     })->name('webhook/deploy');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
+Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
     Route::resource('subscription/plans', 'SubscriptionController');
 
-    Route::group(['prefix' => 'me', 'namespace' => 'User'], function() {
+    Route::group(['prefix' => 'me', 'namespace' => 'User'], function () {
         Route::resource('/', 'UserController', [
             'parameters' => [
                 '' => 'user'
@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         ]);
     });
 
-    Route::group(['prefix' => 'my', 'namespace' => 'User'], function() {
+    Route::group(['prefix' => 'my', 'namespace' => 'User'], function () {
         Route::resource('subscription', 'Subscription\UserSubscriptionController');
         Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
         Route::resource('subscription/invoice/upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
@@ -65,14 +65,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         Route::resource('ssh-keys', 'Features\UserSshKeyController');
     });
 
-    Route::group(['prefix' => 'my'], function() {
+    Route::group(['prefix' => 'my'], function () {
         /*
         |--------------------------------------------------------------------------
         | Teamwork Routes
         |--------------------------------------------------------------------------
         |
         */
-        Route::group(['prefix' => 'teams',  'namespace' => 'User\Team'], function() {
+        Route::group(['prefix' => 'teams', 'namespace' => 'User\Team'], function () {
             Route::resource('/', 'UserTeamController', [
                 'parameters' => [
                     '' => 'team'
@@ -81,10 +81,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
         });
 
-        Route::group(['prefix' => 'team',  'namespace' => 'User\Team'], function() {
+        Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
             Route::resource('members', 'UserTeamMemberController');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+            Route::post('members/resend/{invite_id}',
+                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
 
         /*
@@ -93,12 +94,19 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         |--------------------------------------------------------------------------
         |
         */
-        Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function() {
+        Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function () {
             Route::resource('/', 'PileController', [
-               'parameters' => [
-                   '' => 'pile'
-               ]
+                'parameters' => [
+                    '' => 'pile'
+                ]
             ]);
+
+            Route::resource('sites', 'PileSitesController', [
+                'parameters' => [
+                    'sites' => 'pile'
+                ]
+            ]);
+
         });
 
         /*
@@ -108,7 +116,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
        |
        */
 
-        Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function() {
+        Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function () {
 
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
@@ -136,7 +144,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
 
         });
 
-        Route::group(['prefix' => 'server', 'namespace' => 'Server'], function() {
+        Route::group(['prefix' => 'server', 'namespace' => 'Server'], function () {
             Route::resource('sites', 'ServerSiteController', [
                 'parameters' => [
                     'sites' => 'server'
@@ -150,7 +158,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         |
         */
 
-        Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function() {
+        Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function () {
 
             Route::post('deploy', 'SiteController@deploy');
 
@@ -171,16 +179,19 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function() {
         });
     });
 
-    Route::group(['prefix' => 'auth'], function() {
-        Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function() {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
             Route::resource('server', 'ServerProvidersController');
             Route::resource('repository', 'RepositoryProvidersController');
             Route::resource('notification', 'NotificationProvidersController');
         });
     });
 
-    Route::group(['prefix' => 'server/provider'], function() {
-        Route::group(['prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN, 'namespace' => 'Server\Providers\DigitalOcean'], function() {
+    Route::group(['prefix' => 'server/provider'], function () {
+        Route::group([
+            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'namespace' => 'Server\Providers\DigitalOcean'
+        ], function () {
             Route::resource('options', 'DigitalOceanServerOptionsController');
             Route::resource('regions', 'DigitalOceanServerRegionsController');
             Route::resource('features', 'DigitalOceanServerFeaturesController');
