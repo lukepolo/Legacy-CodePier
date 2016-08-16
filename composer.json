@@ -4,10 +4,6 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/lukepolo/laroute"
-    }],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
@@ -16,7 +12,6 @@
         "filp/whoops": "^2.1",
         "barryvdh/laravel-ide-helper": "^2.1",
         "doctrine/dbal": "^2.5",
-        "laravelcollective/html": "5.3.*",
         "laravel/socialite": "^2.0",
         "socialiteproviders/digitalocean": "^2.0",
         "graham-campbell/digitalocean": "^3.1",
@@ -25,7 +20,7 @@
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
         "mpociot/teamwork": "~3.0",
-        "laravel/cashier": "~6.0",
+        "laravel/cashier": "~7.0",
         "dompdf/dompdf" : "~0.6",
         "gentle/bitbucket-api": "^0.8.1",
         "vinkla/hashids": "^2.4",
@@ -36,7 +31,7 @@
         "guzzlehttp/guzzle": "~6.0",
         "m4tthumphrey/php-gitlab-api": "^7.13",
         "socialiteproviders/gitlab": "^2.0",
-        "lord/laroute" : "dev-master",
+        "lord/laroute" : "^2.3.0",
         "laravel/passport": "^1.0@dev"
     },
     "require-dev": {

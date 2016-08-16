@@ -165,7 +165,6 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
@@ -235,8 +234,6 @@ return [
          * Third Party Facades
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
         'GitHub' => GrahamCampbell\GitHub\Facades\GitHub::class,
