@@ -1,6 +1,6 @@
 $('.editor').each(function() {
-    var editor = ace.edit(this);
-    var form = $(this).closest('form');
+    const editor = ace.edit(this);
+    const form = $(this).closest('form');
 
     $(this).after('<input type="hidden" name="path" value="'+ $(this).data('path') +'">')
     $(this).after('<textarea class="hide" name="file">Loading . . .</textarea>');

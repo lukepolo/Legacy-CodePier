@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-08-15.
+    * Generated on 2016-08-16.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -55,6 +55,8 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -200,6 +202,8 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -345,6 +349,8 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -490,6 +496,8 @@ namespace PHPSTORM_META {
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
             'make.teamwork' instanceof \Mpociot\Teamwork\Commands\MakeTeamwork,
+            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
+            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,

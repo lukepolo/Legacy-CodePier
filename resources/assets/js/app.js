@@ -27,7 +27,7 @@ Vue.mixin({
             return moment(date).tz(timezone).fromNow();
         },
         getCookie(name, defaultValue) {
-            var value = window.Cookies.get(name);
+            const value = window.Cookies.get(name);
             if (value) {
                 return value;
             }
@@ -46,7 +46,7 @@ Vue.mixin({
                 el = $(el).find('form');
             }
 
-            var data = {};
+            const data = {};
 
             $.each($(el).serializeArray(), function() {
 
@@ -95,6 +95,7 @@ import Piles from "./pages/pile/Piles.vue";
  |
  */
 import UserInfo from './pages/user/UserInfo.vue';
+import UserOauth from './pages/user/UserOauth.vue';
 import UserSshKeys from './pages/user/UserSSHKeys.vue';
 import UserSubscription from './pages/user/UserSubscription.vue';
 import UserServerProviders from './pages/user/UserServerProviders.vue';
@@ -139,6 +140,7 @@ const router = new VueRouter({
         {path: '/my-profile/server-providers', component: UserServerProviders},
         {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
         {path: '/my-profile/notification-providers', component: UserNotificationProviders},
+        {path: '/my-profile/oauth', component: UserOauth},
     ]
 });
 
