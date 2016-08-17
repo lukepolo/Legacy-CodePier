@@ -87,7 +87,6 @@ window.siteStore = siteStore;
 import pileStore from './stores/PileStore'
 window.pileStore = pileStore;
 
-
 /*
  |--------------------------------------------------------------------------
  | Core
@@ -157,7 +156,7 @@ const router = new VueRouter({
     ]
 });
 
-window.vue = new Vue({
+const app = new Vue({
     router,
     siteStore,
     userStore,
