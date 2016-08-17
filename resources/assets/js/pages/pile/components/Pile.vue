@@ -11,7 +11,7 @@
             </h4>
         </div>
 
-        <template v-if="pile.servers && pile.servers.length">
+        <template v-if="pile.servers">
             <div class="group-content">
                 <h4>Servers</h4>
                 <div class="server-list" v-for="server in pile.servers">
@@ -48,6 +48,10 @@
         },
         methods : {
             cancel : function() {
+                if(!this.pile.id) {
+                    pileStore.state.piles.splice(this.index, 1);
+                }
+
                 this.editing = false;
             },
             edit : function() {
@@ -56,7 +60,7 @@
             deletePile :function() {
                 if(this.pile.id) {
                     Vue.http.delete(this.action('Pile\PileController@destroy', { pile : this.pile.id })).then((response) => {
-                        vue.user.piles.splice(this.index, 1);
+                        pileStore.dispatch('getPiles');
                     }, (errors) => {
                         alert(error);
                     })
@@ -67,8 +71,8 @@
                     Vue.http.put(this.action('Pile\PileController@update', { pile : this.pile.id }), {
                         name : this.name
                     }).then((response) => {
-                        vue.user.piles.splice(this.index, 1);
-                        vue.user.piles.push(response.json());
+                        pileStore.dispatch('getPiles');
+                        this.editing = false;
                     }, (errors) => {
                         alert(error);
                     })
@@ -76,13 +80,12 @@
                     Vue.http.post(this.action('Pile\PileController@store'), {
                         name : this.name
                     }).then((response) => {
-                        vue.user.piles.splice(this.index, 1);
-                        vue.user.piles.push(response.json());
+                        pileStore.dispatch('getPiles');
+                        this.editing = false;
                     }, (errors) => {
                         alert(error);
                     })
                 }
-                this.editing = false;
             }
         }
     }

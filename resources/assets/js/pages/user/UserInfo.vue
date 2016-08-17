@@ -36,7 +36,7 @@
         },
         data() {
             return {
-                user: user
+                user: userStore.state.user
             }
         },
         methods : {
