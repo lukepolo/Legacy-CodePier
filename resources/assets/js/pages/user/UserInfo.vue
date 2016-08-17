@@ -41,11 +41,9 @@
         },
         methods : {
             onSubmit: function() {
-                Vue.http.put(this.action('User\UserController@update'), this.getFormData(this.$el), {
+                Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.getFormData(this.$el), {
                 }).then((response) => {
-                    // TOOD - we need to find a better way
-                    // this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 }) works in 1.0 but 2.0 nope
-                    vue.user.name = response.json().name;
+                    userStore.state.user = response.json();
                 }, (errors) => {
                     alert(error);
                 });
