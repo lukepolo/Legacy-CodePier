@@ -24,6 +24,7 @@ trait UsedByTeams
      */
     protected static function bootUsedByTeams()
     {
+        return true;
         if(\Auth::check()) {
             $teamworkUserModel = null;
             if(isset(static::$teamworkUserModel)) {

@@ -30,7 +30,7 @@ class Site extends Model
 
     public function pile()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Pile::class);
     }
 
     public function activeSSL()

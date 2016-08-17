@@ -12,13 +12,30 @@
         </div>
 
         Web Directory
-        <input name="web_directory" v-model="web_directory" :value="web_directory">
+        <template v-if="editing">
+            <input name="web_directory" v-model="web_directory" :value="web_directory">
+        </template>
+        <template v-else>
+            {{ site.web_directory }}
+        </template>
+
 
         WildCard Domain
-        <input type="checkbox" v-model="wildcard_domain" name="wildcard_domain" value="1" :checked="wildcard_domain">
+        <template v-if="editing">
+            <input type="checkbox" v-model="wildcard_domain" name="wildcard_domain" value="1">
+        </template>
+        <template v-else>
+            {{ site.wildcard_domain }}
+        </template>
 
-        <template v-for="server in servers">
+        <template v-for="server in servers" v-if="editing">
             <input type="checkbox" v-model="selectedServers" name="selectedServers[]" :value="server.id">{{ server.name }} ({{ server.ip }})
+        </template>
+        <template v-else>
+            Connected To :
+            <p v-for="server in site.servers">
+                {{ server.name }} - {{ server.ip }}
+            </p>
         </template>
 
         <div class="btn-footer text-center" v-if="editing">
@@ -39,9 +56,11 @@
             return {
                 domain: this.site.domain,
                 web_directory : this.site.web_directory,
-                wildcard_domain : this.site.wildcard_domain,
-                selectedServers : [],
-                editing : this.site.editing,
+                wildcard_domain : this.site.wildcard_domain ? true : false,
+                selectedServers : this.site.servers ? _.map(this.site.servers, function(server) {
+                        return server.id
+                    }) : [],
+                editing : this.site.editing
             }
         },
         computed: {
@@ -51,6 +70,10 @@
         },
         methods : {
             cancel : function() {
+                if(!this.site.id) {
+                    siteStore.state.sites.splice(this.index, 1);
+                }
+
                 this.editing = false;
             },
             edit : function() {
@@ -67,14 +90,17 @@
             },
             saveSite : function() {
                 if(this.site.id) {
-//                    Vue.http.put(this.action('Site\SiteController@update', { site : this.site.id }), {
-//                        name : this.name
-//                    }).then((response) => {
-//                        vue.user.sites.splice(this.index, 1);
-//                        vue.user.sites.push(response.json());
-//                    }, (errors) => {
-//                        alert(error);
-//                    })
+                    Vue.http.put(this.action('Site\SiteController@update', { site : this.site.id }), {
+                        pile_id : pileStore.state.current_pile_id,
+                        domain : this.domain,
+                        web_directory : this.web_directory,
+                        wildcard_domain : this.wildcard_domain,
+                        servers : this.selectedServers
+                    }).then((response) => {
+                        siteStore.dispatch('getSites');
+                    }, (errors) => {
+                        alert(error);
+                    })
                 } else {
                     Vue.http.post(this.action('Site\SiteController@store'), {
                         pile_id : pileStore.state.current_pile_id,
@@ -83,12 +109,12 @@
                         wildcard_domain : this.wildcard_domain,
                         servers : this.selectedServers
                     }).then((response) => {
-                        siteStore.state.sites.push(response.json());
+                        siteStore.dispatch('getSites');
                     }, (errors) => {
                         alert(error);
                     })
                 }
-//                this.editing = false;
+                this.editing = false;
             }
         }
     }

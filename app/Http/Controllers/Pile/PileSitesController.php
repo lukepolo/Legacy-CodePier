@@ -19,6 +19,6 @@ class PileSitesController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Pile::with('sites')->findOrFail($id)->sites);
+        return response()->json(Pile::with('sites.servers')->findOrFail($id)->sites);
     }
 }

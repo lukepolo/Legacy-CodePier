@@ -8,7 +8,7 @@ const pileStore = new Vuex.Store({
     state: {
         piles: [],
         currentPile: null,
-        current_pile_id: localStorage.getItem('current_pile_id')
+        current_pile_id: parseInt(localStorage.getItem('current_pile_id'))
     },
     actions: {
         getPiles: ({commit}) => {
@@ -39,7 +39,7 @@ const pileStore = new Vuex.Store({
             state.currentPile = pile;
         },
         SET_CURRENT_PILE_ID: (state, pile_id) => {
-            state.current_pile_id = pile_id;
+            state.current_pile_id = parseInt(pile_id);
             pileStore.dispatch('setCurrentPile');
         }
     }

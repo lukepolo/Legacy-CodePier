@@ -8,6 +8,10 @@ use App\Jobs\DeploySite;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
+/**
+ * Class SiteController
+ * @package App\Http\Controllers\Site
+ */
 class SiteController extends Controller
 {
     private $siteService;
@@ -72,17 +76,24 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd('has 2 functions in it possibly depending on whats changing');
-        $site = Site::with('server')->findOrFail($id);
+        $site = Site::with('servers')->findOrFail($id);
 
-        $site->web_directory = \Request::get('web_directory');
+        $site->fill([
+            'pile_id' => \Request::get('pile_id'),
+            'domain' => \Request::get('domain'),
+            'zerotime_deployment' => true,
+            'web_directory' => \Request::get('web_directory'),
+            'wildcard_domain' => (int)\Request::get('wildcard_domain'),
+        ]);
+
+        $site->servers()->sync(\Request::get('servers', []));
+
         $site->save();
 
+        return response()->json($site);
+
+        // TODO things need to be dispatched to the servers
         $this->siteService->updateSiteNginxConfig($site);
-
-
-        $site = Site::with('server')->findOrFail($id);
-
         $this->siteService->renameDomain($site, \Request::get('domain'));
 
         return back()->with('success', 'Updated name');
