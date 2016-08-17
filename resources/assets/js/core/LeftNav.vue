@@ -51,21 +51,18 @@
                 return serverStore.state.servers;
             }
         },
-        methods : {
-            attachServerStatus() {
-                _(this.servers).forEach(function(server) {
-                    Echo.private('Server.Status.' + server.id)
-                            .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                                server.status = data.status;
-                                server.progress = data.progress;
-                                server.ip = data.ip;
-                                server.ssh_connection = data.connected;
-                            });
-                });
-            }
-        },
         beforeMount () {
-            serverStore.dispatch('getServers');
+            serverStore.dispatch('getServers', function() {
+                _(serverStore.state.servers).forEach(function(server) {
+                    Echo.private('Server.Status.' + server.id)
+                        .listen('Server\\ServerProvisionStatusChanged', (data) => {
+                            server.status = data.status;
+                            server.progress = data.progress;
+                            server.ip = data.ip;
+                            server.ssh_connection = data.connected;
+                        });
+                });
+            });
         }
     }
 </script>

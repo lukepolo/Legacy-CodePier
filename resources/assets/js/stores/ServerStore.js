@@ -9,9 +9,10 @@ const serverStore = new Vuex.Store({
         servers: []
     },
     actions: {
-        getServers: ({commit}) => {
+        getServers: ({commit}, callback) => {
             Vue.http.get(action('Server\ServerController@index', {pile_id: pileStore.state.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.json());
+                typeof callback === 'function' && callback();
             }, (errors) => {
                 alert('handle some error')
             });
