@@ -55,7 +55,7 @@ var paths = {
  |
  */
 
-elixir(function (mix) {
+elixir((mix) => {
     mix
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
         .copy(paths.bootstrap + 'fonts', paths.fonts_build + 'bootstrap')
