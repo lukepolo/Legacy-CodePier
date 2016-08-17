@@ -8,12 +8,12 @@
                     <site-nav :site="site"></site-nav>
 
                     {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
-                    <div data-url="{{ action('ServerController@getFileFromServer', $site->server_id) }}" data-path="/etc/nginx/codepier-conf/{{ $site->domain }}/server/listen" class="editor">Loading . . . </div>
+                    <div data-url="#" data-path="/etc/nginx/codepier-conf/$site->domain }}/server/listen" class="editor">Loading . . . </div>
                     {!! Form::submit('Update Nginx Listen Config') !!}
                     {!! Form::close() !!}
 
                     {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
-                    <div data-url="{{ action('ServerController@getFileFromServer', $site->server_id) }}" data-path="/etc/nginx/sites-enabled/{{ $site->domain }}" class="editor">Loading . . . </div>
+                    <div data-url="#" data-path="/etc/nginx/sites-enabled/$site->domain }}" class="editor">Loading . . . </div>
                     {!! Form::submit('Update Nginx Config') !!}
                     {!! Form::close() !!}
                 </div>
