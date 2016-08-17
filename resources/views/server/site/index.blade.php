@@ -28,13 +28,7 @@
                     </div>
                     <div class="panel-body">
                         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                            <li class="active"><a href="#repository" data-toggle="tab">Repositories</a></li>
-                            <li><a href="#environment" data-toggle="tab">Environment</a></li>
-                            <li><a href="#workers" data-toggle="tab">Workers</a></li>
-                            
-                            <li><a href="#ssl-certs" data-toggle="tab">SSL Certificates</a></li>
-                            <li><a href="#php-settings" data-toggle="tab">PHP Common Settings</a></li>
-                            <li><a href="#edit-files" data-toggle="tab">Edit Files</a></li>
+
                         </ul>
                         <div id="my-tab-content" class="tab-content">
                             <div class="tab-pane active" id="repository">
