@@ -6,6 +6,11 @@
             <div class="section-content" v-if="site">
                 <div class="container">
                     <site-nav :site="site"></site-nav>
+
+                    {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
+                    <div data-url="#" data-path="'/home/codepier/'.$site->domain . '/.env'" class="editor">Loading . . . </div>
+                    {!! Form::submit('Update Env') !!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </section>
