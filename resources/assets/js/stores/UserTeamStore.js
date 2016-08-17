@@ -13,7 +13,9 @@ const userTeamStore = new Vuex.Store({
         changeTeams: ({commit}, teamID) => {
             Vue.http.post(action('User\Team\UserTeamController@switchTeam', { team : (teamID ? '/'+teamID : "") })).then((response) => {
                 userStore.state.user.current_team_id = teamID;
-                pileStore.dispatch('getPiles');
+                pileStore.dispatch('getPiles').then(function() {
+                    serverStore.dispatch('getServers');
+                });
             }, (errors) => {
                 alert(error);
             });
