@@ -25,6 +25,7 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
      */
     public function index()
     {
-        return response()->json(\Auth::user()->upcomingInvoice()->asStripeInvoice());
+        $invoice = \Auth::user()->upcomingInvoice();
+        return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }
