@@ -12,7 +12,7 @@
                     <option value="root">Root User</option>
                     <option value="codepier">CodePier User</option>
                 </select>
-                <div id="cron-maker"></div>
+                <div v-cronjob></div>
                 <button type="submit">Create Cron</button>
             </form>
 
@@ -49,6 +49,19 @@
                 cron_jobs : [],
             }
         },
+        directives: {
+            cronjob: {
+                bind: function (el) {
+                    $(el).cron({
+                        onChange: function () {
+                            var cronTiming = $(this).cron("value");
+                            $('#cron-preview').text(cronTiming);
+                            $('input[name="cron_timing"]').val(cronTiming);
+                        }
+                    });
+                }
+            }
+        },
         methods : {
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerCronJobController@store'), this.getFormData($(this.$el))).then((response) => {
@@ -71,7 +84,6 @@
                     alert(error);
                 });
             }
-
         },
         mounted() {
             Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
@@ -81,14 +93,6 @@
             });
 
             this.getCronJobs();
-
-            $('#cron-maker').cron({
-                onChange: function() {
-                    var cronTiming = $(this).cron("value");
-                    $('#cron-preview').text(cronTiming);
-                    $('input[name="cron_timing"]').val(cronTiming);
-                }
-            });
         }
     }
 </script>
