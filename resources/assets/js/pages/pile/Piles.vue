@@ -9,7 +9,7 @@
 
                 <div class="group-container">
 
-                    <pile :pile="pile" :index="index" v-for="(pile, index) in user.piles"></pile>
+                    <pile :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
 
                     <div class="group">
                         <a v-on:click="newPile()" class="add-pile">
@@ -35,16 +35,15 @@
         components : {
             Pile,
         },
-        data() {
-            return {
-                user : user
+        computed : {
+            piles: () => {
+                return pileStore.state.piles;
             }
         },
         methods : {
             newPile : function() {
-                this.user.piles.push({
+                pileStore.state.piles.push({
                     name : 'New Pile',
-                    servers: [],
                     editing : true
                 });
             }

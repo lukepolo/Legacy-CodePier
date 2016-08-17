@@ -75,7 +75,6 @@
         },
         data() {
             return {
-                user: userStore.state.user,
                 showCardForm: false,
                 plans: [],
                 subscription: null,
@@ -84,6 +83,9 @@
             }
         },
         computed: {
+            user: () => {
+                return userStore.state.user;
+            },
             validSubscription: function () {
                 if (this.subscription != null) {
                     return true;

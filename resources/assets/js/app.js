@@ -162,11 +162,5 @@ window.vue = new Vue({
     siteStore,
     userStore,
     serverStore,
-    userTeamStore,
-    data() {
-        return {
-            user: user,
-            servers : []
-        }
-    },
+    userTeamStore
 }).$mount('#app-layout');

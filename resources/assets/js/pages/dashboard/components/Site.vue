@@ -98,6 +98,7 @@
                         servers : this.selectedServers
                     }).then((response) => {
                         siteStore.dispatch('getSites');
+                        this.editing = false;
                     }, (errors) => {
                         alert(error);
                     })
@@ -110,11 +111,11 @@
                         servers : this.selectedServers
                     }).then((response) => {
                         siteStore.dispatch('getSites');
+                        this.editing = false;
                     }, (errors) => {
                         alert(error);
                     })
                 }
-                this.editing = false;
             }
         }
     }
