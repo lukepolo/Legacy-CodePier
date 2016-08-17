@@ -45,7 +45,7 @@ class ProvisionService implements ProvisionServiceContract
 
         $provisionSystem = $this->getProvisionRepository($server);
 
-        $this->totalActions = count(get_class_methods($provisionSystem)) - 4;
+        $this->totalActions = count(get_class_methods($provisionSystem)) - 5;
 
         $this->updateProgress('Updating system');
         $provisionSystem->updateSystem();

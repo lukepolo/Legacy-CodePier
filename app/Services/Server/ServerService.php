@@ -15,6 +15,7 @@ use App\Models\ServerDaemon;
 use App\Models\ServerFirewallRule;
 use App\Models\ServerProvider;
 use App\Models\ServerSshKey;
+use App\Models\Site;
 use Illuminate\Bus\Dispatcher;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
@@ -139,7 +140,8 @@ class ServerService implements ServerServiceContract
 
         $errors = $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
-        app(Dispatcher::class)->dispatchNow(new CreateSite($server));
+        // TODO - decide if we should create sites
+//        app(Dispatcher::class)->dispatchNow(new CreateSite($server, $site));
 
         event(new ServerProvisioned($server, $sudoPassword, $databasePassword, 'Click here to find out more', $errors));
     }
