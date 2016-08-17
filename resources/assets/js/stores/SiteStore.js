@@ -6,9 +6,17 @@ Vue.use(Vuex);
 
 const siteStore = new Vuex.Store({
     state: {
-        sites: []
+        sites: [],
+        site : null
     },
     actions: {
+        getSite: ({commit}, site_id) => {
+            Vue.http.get(action('Site\SiteController@show', {site: site_id})).then((response) => {
+                commit('SET_SITE', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
         getSites: ({commit}) => {
             Vue.http.get(action('Pile\PileSitesController@show', {pile: pileStore.state.current_pile_id})).then((response) => {
                 commit('SET_SITES', response.json());
@@ -18,6 +26,9 @@ const siteStore = new Vuex.Store({
         }
     },
     mutations: {
+        SET_SITE: (state, site) => {
+            state.site = site;
+        },
         SET_SITES: (state, sites) => {
             state.sites = sites;
         }

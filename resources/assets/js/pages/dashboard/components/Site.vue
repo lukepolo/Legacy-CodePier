@@ -6,7 +6,7 @@
                     <input v-model="domain" type="text" :value="domain">
                 </template>
                 <template v-else>
-                    {{ site.domain }}
+                    {{ site.domain }} <router-link :to="{ path : 'site/' + site.id}" class="btn btn-primary">-></router-link>
                 </template>
             </h4>
         </div>
@@ -18,7 +18,6 @@
         <template v-else>
             {{ site.web_directory }}
         </template>
-
 
         WildCard Domain
         <template v-if="editing">

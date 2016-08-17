@@ -97,8 +97,8 @@ window.pileStore = pileStore;
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('AppFooter', require('./core/Footer.vue'));
 
-import Dashboard from "./pages/dashboard/Dashboard.vue";
 import Piles from "./pages/pile/Piles.vue";
+import Dashboard from "./pages/dashboard/Dashboard.vue";
 
 /*
  |--------------------------------------------------------------------------
@@ -130,6 +130,21 @@ import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
 import ServerMonitoring from "./pages/server/ServerMonitoring.vue";
 import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
 
+/*
+ |--------------------------------------------------------------------------
+ | Site Pages
+ |--------------------------------------------------------------------------
+ |
+ */
+
+import SiteFiles from "./pages/site/SiteFiles.vue";
+import SiteWorkers from "./pages/site/SiteWorkers.vue";
+import SiteRepository from "./pages/site/SiteRepository.vue";
+import SitePHPSettings from "./pages/site/SitePHPSettings.vue";
+import SiteEnvironment from "./pages/site/SiteEnvironment.vue";
+import SiteSSLCertificates from "./pages/site/SiteSSLCertificates.vue";
+
+
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -145,6 +160,13 @@ const router = new VueRouter({
         {path: '/server/:server_id/firewall-rules', component : ServerFirewallRules},
 
         {path: '/piles', component: Piles},
+
+        {path: '/site/:site_id', component: SiteRepository},
+        {path: '/site/:site_id/files', component: SiteFiles},
+        {path: '/site/:site_id/workers', component: SiteWorkers},
+        {path: '/site/:site_id/environment', component: SiteEnvironment},
+        {path: '/site/:site_id/php-settings', component: SitePHPSettings},
+        {path: '/site/:site_id/ssl-certificates', component: SiteSSLCertificates},
 
         {path: '/my-profile', component: UserInfo},
         {path: '/my-profile/ssh-keys', component: UserSshKeys},
