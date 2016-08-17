@@ -75,7 +75,7 @@
         },
         data() {
             return {
-                user: user,
+                user: userStore.state.user,
                 showCardForm: false,
                 plans: [],
                 subscription: null,
