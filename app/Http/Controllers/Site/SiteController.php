@@ -44,14 +44,14 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $site = Site::create([
-            'pile_id' => \Request::get('pile_id'),
-            'domain' => \Request::get('domain'),
-            'zerotime_deployment' => true,
-            'web_directory' => \Request::get('web_directory'),
-            'wildcard_domain' => (int)\Request::get('wildcard_domain'),
+            'pile_id' => $request->get('pile_id'),
+            'domain' => $request->get('domain'),
+            'web_directory' => $request->get('web_directory'),
+            'wildcard_domain' => (int)$request->get('wildcard_domain'),
+            'zerotime_deployment' => $request->get('zerotime_deployment')
         ]);
 
-        $site->servers()->sync(\Request::get('servers', []));
+        $site->servers()->sync($request->get('servers', []));
 
         return response()->json($site);
     }
@@ -76,17 +76,22 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $site = Site::with('servers')->findOrFail($id);
+        $site = Site::findOrFail($id);
 
         $site->fill([
-            'pile_id' => \Request::get('pile_id'),
-            'domain' => \Request::get('domain'),
-            'zerotime_deployment' => true,
-            'web_directory' => \Request::get('web_directory'),
-            'wildcard_domain' => (int)\Request::get('wildcard_domain'),
+            'branch' => $request->get('branch'),
+            'domain' =>  $request->get('domain'),
+            'pile_id' => $request->get('pile_id'),
+            'repository' => $request->get('repository'),
+            'web_directory' => $request->get('web_directory'),
+            'wildcard_domain' => (int)$request->get('wildcard_domain'),
+            'zerotime_deployment' => $request->get('zerotime_deployment'),
+            'user_repository_provider_id' => $request->get('user_repository_provider_id')
         ]);
 
-        $site->servers()->sync(\Request::get('servers', []));
+        if($request->has('servers')) {
+            $site->servers()->sync($request->get('servers', []));
+        }
 
         $site->save();
 
@@ -94,7 +99,7 @@ class SiteController extends Controller
 
         // TODO things need to be dispatched to the servers
         $this->siteService->updateSiteNginxConfig($site);
-        $this->siteService->renameDomain($site, \Request::get('domain'));
+        $this->siteService->renameDomain($site, $request->get('domain'));
 
         return back()->with('success', 'Updated name');
     }

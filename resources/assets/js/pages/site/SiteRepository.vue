@@ -7,56 +7,40 @@
                 <div class="container">
                     <site-nav :site="site"></site-nav>
 
-                    {!! Form::open(['action' => ['SiteController@postRenameDomain', $site->server->id, $site->id]]) !!}
-                    {!! Form::label('Domain') !!}
-                    {!! Form::text('domain', $site->domain) !!}
-                    {!! Form::submit('Rename') !!}
-                    {!! Form::close() !!}
+                    <form @submit.prevent="updateSite">
+                        <label>Repository</label>
+                        <input type="text" v-model="repository" name="repository">
 
-                    {!! Form::open(['action' => ['SiteController@postInstallRepository', $site->server->id, $site->id]]) !!}
-                    <div class="form-group">
-                        {!! Form::label('Repository') !!}
-                        {!! Form::text('repository', $site->repository, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group checkbox">
+                        <label>Branch</label>
+                        <input type="text" v-model="branch" name="branch">
+
+                        <label>Web Directory</label>
+                        <input type="text" name="web_directory" v-model="web_directory">
                         <label>
-                            {!! Form::hidden('zerotime_deployment', false) !!}
-                            {!! Form::checkbox('zerotime_deployment', true, $site->zerotime_deployment) !!} Zerotime Deployment
+                            <input type="checkbox" v-model="zerotime_deployment" name="zerotime_deployment" value="1">
+                            Zerotime Deployment
                         </label>
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('branch') !!}
-                        {!! Form::text('branch', $site->branch, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        @foreach(\Auth::user()->userRepositoryProviders as $userRepositoryProvider)
-                        <div class="radio">
-                            <label>
-                                {!! Form::radio('user_repository_provider_id', $userRepositoryProvider->id) !!}  $userRepositoryProvider->repositoryProvider->name
-                            </label>
+
+                        <div class="form-group">
+                            <div class="radio" v-for="user_repository_provider in user_repository_providers">
+                                <label>
+                                    <input name="user_repository_provider_id" type="radio"
+                                           v-model="user_repository_provider_id" :value="user_repository_provider.id">
+                                    {{ user_repository_provider.repository_provider.name }}
+                                </label>
+                            </div>
                         </div>
-                        @endforeach
-                    </div>
-                    {!! Form::submit('Install Repository') !!}
-                    {!! Form::close() !!}
 
+                        <button type="submit">Update Repository</button>
+                    </form>
 
-
-                    <a href="#">Remove Repoisotry</a>
-
-
-                    {!! Form::open(['action' => ['SiteController@postUpdateWebDirectory', $site->server->id, $site->id]]) !!}
-                    {!! Form::text('web_directory', $site->web_directory) !!}
-                    {!! Form::submit('Updated Web Directory') !!}
-                    {!! Form::close() !!}
+                    <a href="#">Remove Repository</a>
 
                     <a href="#" class="btn btn-primary">Deploy</a>
 
-                    @if(empty($site->automatic_deployment_id))
-                    <a href="#" class="btn btn-primary">Automatic Deployments</a>
-                    @else
-                    <a href="#" class="btn btn-primary">Stop Automatic Deployments</a>
-                    @endif
+                    <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
+                        Deployments</a>
+                    <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
 
                     <a href="#" class="btn btn-xs">Delete Site</a>
                 </div>
@@ -69,16 +53,56 @@
     import LeftNav from './../../core/LeftNav.vue';
     import SiteNav from './components/SiteNav.vue';
     export default {
-        components : {
+        components: {
             SiteNav,
             LeftNav,
         },
-        computed : {
-            site : () => {
-                return siteStore.state.site;
+        data() {
+            return {
+                branch: null,
+                repository: null,
+                web_directory: null,
+                zerotime_deployment: null,
+                user_repository_provider_id: null
+            }
+        },
+        computed: {
+            site: function () {
+                var site = siteStore.state.site;
+
+                if (site) {
+                    this.branch = site.branch;
+                    this.repository = site.repository;
+                    this.web_directory = site.web_directory;
+                    this.zerotime_deployment = (site.zerotime_deployment ? true : false);
+                    this.user_repository_provider_id = site.user_repository_provider_id;
+                }
+
+                return site;
+            },
+            user_repository_providers: () => {
+                return userStore.state.repository_providers;
+            }
+        },
+        methods: {
+            updateSite: function () {
+                siteStore.dispatch('updateSite', {
+                    site_id: this.site.id,
+                    data: {
+                        branch: this.branch,
+                        domain : this.site.domain,
+                        pile_id : this.site.pile_id,
+                        repository: this.repository,
+                        web_directory: this.web_directory,
+                        wildcard_domain : this.wildcard_domain,
+                        zerotime_deployment: this.zerotime_deployment,
+                        user_repository_provider_id: this.user_repository_provider_id
+                    }
+                });
             }
         },
         mounted() {
+            userStore.dispatch('getUserRepositoryProviders');
             siteStore.dispatch('getSite', this.$route.params.site_id);
         }
     }

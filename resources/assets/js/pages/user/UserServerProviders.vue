@@ -22,8 +22,12 @@
         },
         data() {
             return {
-                server_providers: [],
-                user_server_providers: []
+                server_providers: []
+            }
+        },
+        computed : {
+            user_server_providers : () => {
+                return userStore.state.server_providers;
             }
         },
         methods: {
@@ -39,19 +43,7 @@
                     return server_provider.server_provider_id == server_provider_id;
                 }).id;
 
-                Vue.http.delete(this.action('User\Providers\UserServerProviderController@destroy', { provider : user_server_provider_id })).then((response) => {
-                    this.getUserServerProviders();
-                }, (errors) => {
-                    alert('Trying to destory server');
-                })
-            },
-            getUserServerProviders : function()
-            {
-                Vue.http.get(this.action('User\Providers\UserServerProviderController@index')).then((response) => {
-                    this.user_server_providers = response.json();
-                }, (errors) => {
-                    alert('trying to get servers');
-                })
+                userStore.dispatch('deleteUserServerProvider', user_server_provider_id);
             }
         },
         mounted () {
@@ -62,7 +54,7 @@
                 alert(error);
             });
 
-            this.getUserServerProviders();
+            userStore.dispatch('getUserServerProviders');
         },
     }
 </script>

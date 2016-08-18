@@ -20,8 +20,12 @@
         },
         data() {
             return {
-                repository_providers: [],
-                user_repository_providers: []
+                repository_providers: []
+            }
+        },
+        computed : {
+            user_repository_providers : () => {
+                return userStore.state.repository_providers;
             }
         },
         methods: {
@@ -37,21 +41,10 @@
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
-                Vue.http.delete(this.action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
-                    this.getUserRepositoryProviders();
-                }, (errors) => {
-                    alert('Trying to delete user repository');
-                })
-            },
-            getUserRepositoryProviders: function () {
-                Vue.http.get(this.action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
-                    this.user_repository_providers = response.json();
-                }, (errors) => {
-                    alert('Trying to get user repositories');
-                })
+               userStore.dispatch('deleteUserRepositoryProvider', user_repository_provider_id);
             }
         },
-        mounted () {
+        mounted() {
 
             Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
                 this.repository_providers = response.json();
@@ -59,7 +52,7 @@
                 alert(error);
             });
 
-            this.getUserRepositoryProviders();
-        },
+            userStore.dispatch('getUserRepositoryProviders');
+        }
     }
 </script>

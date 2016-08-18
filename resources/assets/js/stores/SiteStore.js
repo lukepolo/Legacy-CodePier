@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const siteStore = new Vuex.Store({
     state: {
         sites: [],
-        site : null
+        site: null
     },
     actions: {
         getSite: ({commit}, site_id) => {
@@ -23,7 +23,17 @@ const siteStore = new Vuex.Store({
             }, (errors) => {
                 alert(error);
             });
-        }
+        },
+        updateSite: ({commit}, payload) => {
+
+            console.log(payload);
+
+            Vue.http.put(action('Site\SiteController@update', {site: payload.site_id}), payload.data).then((response) => {
+                commit('SET_SITE', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
     },
     mutations: {
         SET_SITE: (state, site) => {
