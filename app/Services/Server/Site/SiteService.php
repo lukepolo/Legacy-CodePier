@@ -321,42 +321,28 @@ class SiteService implements SiteServiceContract
 
 
     /**
-     * @param Site $site
-     * @param $command
-     * @param $autoStart
-     * @param $autoRestart
-     * @param $user
-     * @param $numberOfWorkers
+     * @param SiteDaemon $siteDaemon
      * @return array
      */
-    public function installDaemon(Site $site, $command, $autoStart, $autoRestart, $user, $numberOfWorkers)
+    public function installDaemon(SiteDaemon $siteDaemon)
     {
-        $serverDaemon = SiteDaemon::create([
-            'site_id' => $site->id,
-            'command' => $command,
-            'auto_start' => $autoStart,
-            'auto_restart' => $autoRestart,
-            'user' => $user,
-            'number_of_workers' => $numberOfWorkers,
-        ]);
+        $this->remoteTaskService->ssh($siteDaemon->site->server);
 
-        $this->remoteTaskService->ssh($site->server);
-
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-' . $serverDaemon->id . '.conf ', '
-[program:site-worker-' . $serverDaemon->id . ']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-' . $siteDaemon->id . '.conf ', '
+[program:site-worker-' . $siteDaemon->id . ']
 process_name=%(program_name)s_%(process_num)02d
-command=' . $command . '
-autostart=' . $autoStart . '
-autorestart=' . $autoRestart . '
-user=' . $user . '
-numprocs=' . $numberOfWorkers . '
+command=' . $siteDaemon->command . '
+autostart=' . $siteDaemon->auto_start . '
+autorestart=' . $siteDaemon->auto_restart . '
+user=' . $siteDaemon->user . '
+numprocs=' . $siteDaemon->number_of_workers . '
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/site-worker-' . $serverDaemon->id . '.log
+stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start site-worker-' . $serverDaemon->id . ':*');
+        $this->remoteTaskService->run('supervisorctl start site-worker-' . $siteDaemon->id . ':*');
 
         return $this->remoteTaskService->getErrors();
 

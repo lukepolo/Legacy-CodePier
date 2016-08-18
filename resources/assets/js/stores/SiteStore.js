@@ -7,7 +7,8 @@ Vue.use(Vuex);
 const siteStore = new Vuex.Store({
     state: {
         sites: [],
-        site: null
+        site: null,
+        workers: []
     },
     actions: {
         getSite: ({commit}, site_id) => {
@@ -34,6 +35,27 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
+        getWorkers : ({commit}, site_id) => {
+            Vue.http.get(action('Site\Features\SiteWorkerController@show', {site: site_id})).then((response) => {
+                commit('SET_WORKERS', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        installWorker : ({commit}, payload) => {
+            Vue.http.post(action('Site\Features\SiteWorkerController@store', {site: payload.site_id}), payload).then((response) => {
+                siteStore.dispatch('getWorkers', payload.site_id);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        deleteWorker : ({commit}, worker_id) => {
+            Vue.http.delete(action('Site\Features\SiteWorkerController@destroy', {worker: worker_id})).then((response) => {
+                siteStore.dispatch('getWorkers', siteStore.state.site.id);
+            }, (errors) => {
+                alert(error);
+            });
+        }
     },
     mutations: {
         SET_SITE: (state, site) => {
@@ -41,6 +63,9 @@ const siteStore = new Vuex.Store({
         },
         SET_SITES: (state, sites) => {
             state.sites = sites;
+        },
+        SET_WORKERS: (state, workers) => {
+            state.workers = workers;
         }
     }
 });
