@@ -20,8 +20,12 @@
         },
         data() {
             return {
-                notification_providers: [],
-                user_notification_providers: []
+                notification_providers: []
+            }
+        },
+        computed : {
+            user_notification_providers : () => {
+                return userStore.state.notification_providers;
             }
         },
         methods: {
@@ -37,19 +41,7 @@
                     return notification_provider.notification_provider_id == notification_provider_id;
                 }).id;
 
-                Vue.http.delete(this.action('User\Providers\UserNotificationProviderController@destroy', { provider : user_notification_provider_id })).then((response) => {
-                    this.getUserNotificationProviders();
-                }, (errors) => {
-                    alert('Trying to destroy notification');
-                })
-            },
-            getUserNotificationProviders : function()
-            {
-                Vue.http.get(this.action('User\Providers\UserNotificationProviderController@index')).then((response) => {
-                    this.user_notification_providers = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
+                userStore.dispatch('deleteUserNotificationProvider', user_notification_provider_id);
             }
         },
         mounted () {
@@ -60,7 +52,7 @@
                 alert('Trying to get notifications');
             });
 
-            this.getUserNotificationProviders();
+            userStore.dispatch('getUserNotificationProviders');
         },
     }
 </script>

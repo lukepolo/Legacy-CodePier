@@ -18,7 +18,7 @@ class UserRepositoryProviderController extends Controller
      */
     public function index()
     {
-        return response(UserRepositoryProvider::where('user_id', \Auth::user()->id)->get());
+        return response(UserRepositoryProvider::with('repositoryProvider')->where('user_id', \Auth::user()->id)->get());
     }
 
     /**
