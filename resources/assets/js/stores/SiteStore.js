@@ -8,7 +8,8 @@ const siteStore = new Vuex.Store({
     state: {
         sites: [],
         site: null,
-        workers: []
+        workers: [],
+        ssl_certificates: []
     },
     actions: {
         getSite: ({commit}, site_id) => {
@@ -35,23 +36,44 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        getWorkers : ({commit}, site_id) => {
+        getWorkers: ({commit}, site_id) => {
             Vue.http.get(action('Site\Features\SiteWorkerController@show', {site: site_id})).then((response) => {
                 commit('SET_WORKERS', response.json());
             }, (errors) => {
                 alert(error);
             });
         },
-        installWorker : ({commit}, payload) => {
+        installWorker: ({commit}, payload) => {
             Vue.http.post(action('Site\Features\SiteWorkerController@store', {site: payload.site_id}), payload).then((response) => {
                 siteStore.dispatch('getWorkers', payload.site_id);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteWorker : ({commit}, worker_id) => {
+        deleteWorker: ({commit}, worker_id) => {
             Vue.http.delete(action('Site\Features\SiteWorkerController@destroy', {worker: worker_id})).then((response) => {
                 siteStore.dispatch('getWorkers', siteStore.state.site.id);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getSslCertificates: ({commit}, site_id) => {
+            Vue.http.get(action('Site\Features\SSL\SiteSSLController@index', {site: site_id})).then((response) => {
+                commit('SET_SSL_CERTIFICATES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        installLetsEncryptSslCertificate: ({commit}, payload) => {
+            Vue.http.post(action('Site\Features\SSL\SiteSSLLetsEncryptController@store', {site: payload.site_id}), payload).then((response) => {
+                siteStore.dispatch('getSslCertificates', payload.site_id);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        deleteSslCertificate: ({commit}, ssl_certificate_id) => {
+            Vue.http.delete(action('Site\Features\SSL\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
+                siteStore.dispatch('getSslCertificates', siteStore.state.site.id);
             }, (errors) => {
                 alert(error);
             });
@@ -66,6 +88,9 @@ const siteStore = new Vuex.Store({
         },
         SET_WORKERS: (state, workers) => {
             state.workers = workers;
+        },
+        SET_SSL_CERTIFICATES: (state, ssl_certificates) => {
+            state.ssl_certificates = ssl_certificates;
         }
     }
 });
