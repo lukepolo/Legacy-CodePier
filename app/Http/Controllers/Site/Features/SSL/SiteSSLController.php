@@ -33,7 +33,7 @@ class SiteSSLController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(SiteSslCertificate::where('site_id', $request->get('site_id'))->get());
+        return response()->json(SiteSslCertificate::where('site_id', $request->get('site'))->get());
     }
 
     /**
@@ -55,7 +55,9 @@ class SiteSSLController extends Controller
      */
     public function destroy($id)
     {
-        $this->siteService->removeSSL(SiteSslCertificate::findOrFail($id));
+        SiteSslCertificate::findOrFail($id)->delete();
+        return;
+        $this->siteService->removeSSL();
     }
 
     /**

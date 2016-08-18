@@ -122,17 +122,16 @@ class SiteService implements SiteServiceContract
 
 
     /**
-     * @param Site $site
-     * @param $domains
+     * @param SiteSslCertificate $siteSslCertificate
      * @return array
      */
-    public function installSSL(Site $site, $domains)
+    public function installSSL(SiteSslCertificate $siteSslCertificate)
     {
+        $site =  $siteSslCertificate->site;
         $this->remoteTaskService->ssh($site->server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email ' . $site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
-                explode(',', $domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email ' .$site->server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d', explode(',', $siteSslCertificate->domains))
         );
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
@@ -141,20 +140,11 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
-        if ($site->hasActiveSSL()) {
+        if ($siteSslCertificate->hasActiveSSL()) {
             $activeSSL = $site->activeSSL;
             $activeSSL->active = false;
             $activeSSL->save();
         }
-
-        SiteSslCertificate::create([
-            'site_id' => $site->id,
-            'domains' => $domains,
-            'type' => self::LETS_ENCRYPT,
-            'active' => true,
-            'key_path' => "/etc/letsencrypt/live/$site->domain/privkey.pem",
-            'cert_path' => "/etc/letsencrypt/live/$site->domain/fullchain.pem",
-        ]);
 
         $this->mapSSL($site);
 

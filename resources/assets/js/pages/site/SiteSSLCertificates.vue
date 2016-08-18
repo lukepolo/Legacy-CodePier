@@ -6,58 +6,60 @@
             <div class="section-content" v-if="site">
                 <div class="container">
                     <site-nav :site="site"></site-nav>
+                    <form @submit.prevent="installLetsEncryptCertificate">
+                        Domains
+                        <input type="text" v-model="domains" name="domains">
+                        <button type="submit">Install Let's Encrypt Certificate</button>
+                    </form>
 
-                    <a href="#" class="btn btn-xs">Create Signing Request</a>
-                    <a href="#" class="btn btn-xs">Install Certificate</a>
-                    {!! Form::open(['action' => ['SiteController@postRequestLetsEncryptSSLCert', $site->server_id, $site->id]]) !!}
-                    {!! Form::label('Domains') !!}
-                    {!! Form::text('domains', $site->domain) !!}
-                    {!! Form::submit('Request SSL') !!}
-                    {!! Form::close() !!}
-
-
-                    {!! Form::open(['action' => ['SiteController@postAddSSLCert', $site->server_id, $site->id]]) !!}
-                    {!! Form::label('Domains') !!}
-                    {!! Form::text('domains', $site->domain) !!}
-                    {!! Form::submit('Request SSL') !!}
-                    {!! Form::close() !!}
-
-
-                    @foreach($site->ssls as $ssl)
-                    <p>
-                        $ssl->type }} : $ssl->domains }}
-                        @if($ssl->active)
-                        <a href="#">Deactivate</a>
-                        @else
-                        <a href="#">Activate</a>
-                        @endif
-
-                        <a href="#">Delete</a>
+                    <p v-for="ssl_certificate in ssl_certificates">
+                        {{ ssl_certificate.type }} : {{ ssl_certificate.domains }}
+                        <a href="#" v-if="ssl_certificate.active">Deactivate</a>
+                        <a href="#" v-else>Activate</a>
+                        <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
                     </p>
-                    @endforeach
-
                 </div>
             </div>
         </section>
-
     </section>
 </template>
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
     import SiteNav from './components/SiteNav.vue';
+
     export default {
-        components : {
+        components: {
             SiteNav,
             LeftNav,
         },
-        computed : {
-            site : () => {
+        data () {
+            return {
+                domains: null,
+            }
+        },
+        computed: {
+            site: () => {
                 return siteStore.state.site;
+            },
+            ssl_certificates: () => {
+                return siteStore.state.ssl_certificates;
+            }
+        },
+        methods: {
+            installLetsEncryptCertificate: function () {
+                siteStore.dispatch('installLetsEncryptSslCertificate', {
+                    site_id: this.site.id,
+                    domains: this.domains
+                })
+            },
+            deleteSslCertivicate: function (ssl_certificate_id) {
+                siteStore.dispatch('deleteSslCertificate', ssl_certificate_id)
             }
         },
         mounted() {
             siteStore.dispatch('getSite', this.$route.params.site_id);
+            siteStore.dispatch('getSslCertificates', this.$route.params.site_id);
         }
     }
 </script>

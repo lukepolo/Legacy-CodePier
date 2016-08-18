@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site\Features\SSL;;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
+use App\Models\SiteSslCertificate;
 use Illuminate\Http\Request;
 
 class SiteSSLLetsEncryptController extends Controller
@@ -28,6 +29,19 @@ class SiteSSLLetsEncryptController extends Controller
      */
     public function store(Request $request)
     {
+        $site = Site::findOrfail($request->get('site_id'));
+
+        SiteSslCertificate::create([
+            'site_id' => $request->get('site_id'),
+            'domains' => $request->get('domains'),
+            'type' => \App\Services\Server\Site\SiteService::LETS_ENCRYPT,
+            'active' => false,
+            'key_path' => "/etc/letsencrypt/live/$site->domain/privkey.pem",
+            'cert_path' => "/etc/letsencrypt/live/$site->domain/fullchain.pem",
+        ]);
+
+        return;
+
         $errors = $this->siteService->installSSL(
             Site::with('server')->findOrFail($request->get('site_id')),
             \Request::get('domains')
