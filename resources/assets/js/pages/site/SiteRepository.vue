@@ -36,7 +36,7 @@
 
                     <a href="#">Remove Repository</a>
 
-                    <a href="#" class="btn btn-primary">Deploy</a>
+                    <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
 
                     <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
                         Deployments</a>
@@ -85,6 +85,9 @@
             }
         },
         methods: {
+            deploySite : function(site_id) {
+                Vue.http.post(this.action('Site\SiteController@deploy', {site : site_id }));
+            },
             updateSite: function () {
                 siteStore.dispatch('updateSite', {
                     site_id: this.site.id,

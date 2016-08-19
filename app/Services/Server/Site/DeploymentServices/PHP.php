@@ -64,7 +64,7 @@ class PHP
         $output[] = $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');
         $output[] = $this->remoteTaskService->run('echo "!public/build" >> '.$this->release.'/.git/info/sparse-checkout');
 
-        $output[] = $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || cp ' . $this->release . '/.env.example ' . $this->site_folder . '/.env');
+        $output[] = $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || echo >> ' . $this->site_folder . '/.env');
         $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');
 
         return $output;

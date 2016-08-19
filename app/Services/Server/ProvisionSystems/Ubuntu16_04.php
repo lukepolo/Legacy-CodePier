@@ -37,7 +37,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
     }
 
-    public function addCodePierUser($sudoPassword)
+    public function addCodePierUser(Server $server, $sudoPassword)
     {
         $this->remoteTaskService->run('echo \'root:'.$sudoPassword.'\' | chpasswd');
 
@@ -50,7 +50,8 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('mkdir /home/codepier/.ssh && cp -a ~/.ssh/authorized_keys /home/codepier/.ssh/authorized_keys');
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh && chmod 600 /home/codepier/.ssh/authorized_keys');
 
-        $this->remoteTaskService->run('ssh-keygen -t rsa -N "" -f /home/codepier/.ssh/id_rsa');
+        $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa', $server->private_ssh_key);
+        $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa.pub', $server->public_ssh_key);
 
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', '#PasswordAuthentication', 'PasswordAuthentication no');
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', 'PermitRootLogin', 'PermitRootLogin no');

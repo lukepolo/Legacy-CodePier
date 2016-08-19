@@ -28,7 +28,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;

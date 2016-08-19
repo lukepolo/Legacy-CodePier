@@ -23,14 +23,19 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * Imports a ssh key into the specific provider
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $sshKey
+     * @param Site $site
      * @return mixed
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->importSshKeyIfPrivate($userRepositoryProvider, $repository, $sshKey);
+        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name);
+        foreach ($site->servers as $server) {
+            $providerService->importSshKeyIfPrivate(
+                $site->userRepositoryProvider,
+                $site->repository,
+                $server->public_ssh_key
+            );
+        }
     }
 
     /**
@@ -46,7 +51,8 @@ class RepositoryService implements RepositoryServiceContract
 
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->getLatestCommit($userRepositoryProvider, $repository, $branch);
+        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->getLatestCommit($userRepositoryProvider,
+            $repository, $branch);
     }
 
     public function createDeployHook(Site $site)

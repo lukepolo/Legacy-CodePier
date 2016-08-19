@@ -60,7 +60,7 @@ class ProvisionService implements ProvisionServiceContract
         $provisionSystem->createSwap();
 
         $this->updateProgress('Adding CodePier User');
-        $provisionSystem->addCodePierUser($sudoPassword);
+        $provisionSystem->addCodePierUser($server, $sudoPassword);
 
         $this->updateProgress('Installing GIT');
         $provisionSystem->installGit($server);
