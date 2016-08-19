@@ -12,6 +12,30 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
+Vue.directive('file-editor', {
+    bind: function (element) {
+        const editor = ace.edit(element);
+        const form = $(element).closest('form');
+
+        $(element).after('<input type="hidden" name="path" value="' + $(element).data('path') + '">')
+        $(element).after('<textarea class="hide" name="file">Loading . . .</textarea>');
+
+        editor.getSession().setMode("ace/mode/sh");
+        editor.setOption("maxLines", 45);
+
+        editor.getSession().on('change', function () {
+            form.find('textarea[name="file"]').val(editor.getSession().getValue());
+        });
+
+        $.get(laroute.action('Server\ServerController@getFile', {
+            server_id: $(element).data('server_id'),
+            path: $(element).data('path')
+        }), function (envFile) {
+            editor.getSession().setValue(envFile);
+        });
+    }
+});
+
 Vue.mixin({
     methods: {
         now: function () {
