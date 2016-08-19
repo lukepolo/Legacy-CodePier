@@ -48,7 +48,7 @@ class SiteController extends Controller
             'domain' => $request->get('domain'),
             'web_directory' => $request->get('web_directory'),
             'wildcard_domain' => (int)$request->get('wildcard_domain'),
-            'zerotime_deployment' => $request->get('zerotime_deployment')
+            'zerotime_deployment' => $request->get('zerotime_deployment', true)
         ]);
 
         $site->servers()->sync($request->get('servers', []));
