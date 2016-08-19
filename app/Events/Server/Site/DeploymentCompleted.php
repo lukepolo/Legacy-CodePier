@@ -29,7 +29,7 @@ class DeploymentCompleted implements ShouldBroadcastNow
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment, $data, $log)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $siteDeployment->status = 'completed';
         $siteDeployment->log = $log;

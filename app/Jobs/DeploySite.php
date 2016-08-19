@@ -21,7 +21,7 @@ class DeploySite extends Job implements ShouldQueue
 
     public $sha;
     public $site;
-    public $server;
+    public $servers = [];
     public $siteDeployment;
 
     /**
@@ -33,7 +33,7 @@ class DeploySite extends Job implements ShouldQueue
     {
         $this->sha = $sha;
         $this->site = $site;
-        $this->server = $site->server;
+        $this->servers = $site->servers;
 
 
         $this->siteDeployment = SiteDeployment::create([
@@ -55,7 +55,9 @@ class DeploySite extends Job implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         try {
-            $siteService->deploy($this->server, $this->site, $this->siteDeployment, $this->sha);
+            foreach($this->servers as $server) {
+                $siteService->deploy($server, $this->site, $this->siteDeployment, $this->sha);
+            }
         } catch(\App\Exceptions\DeploymentFailed $e) {
             event(new DeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }

@@ -32,10 +32,11 @@ interface ProvisionSystemContract
 
     /**
      * Add the code pier user with a sudo password
+     * @param Server $server
      * @param $sudoPassword
      * @return mixed
      */
-    public function addCodePierUser($sudoPassword);
+    public function addCodePierUser(Server $server, $sudoPassword);
 
     /**
      * Set the servers locale to UTF8

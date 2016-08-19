@@ -22,10 +22,14 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     * @param Site $site
+     * @param DeploymentEvent $deploymentEvent
+     * @param $log
+     * @param $runtime
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;

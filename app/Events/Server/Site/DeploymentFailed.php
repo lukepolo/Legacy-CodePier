@@ -30,7 +30,7 @@ class DeploymentFailed implements ShouldBroadcastNow
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment, $log)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $siteDeployment->log = $log;
         $siteDeployment->status = 'failed';
@@ -47,7 +47,7 @@ class DeploymentFailed implements ShouldBroadcastNow
             'internal_type' => 'deployment'
         ]);
 
-        $user = $site->server->user;
+        $user = $this->user;
 
         Mail::raw('Deployment Failed' . print_r($log), function ($message) use ($user) {
             $message->to($user->email);

@@ -23,10 +23,12 @@ class NewSiteDeployment implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     * @param Site $site
+     * @param SiteDeployment $siteDeployment
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $this->site = $site;
 

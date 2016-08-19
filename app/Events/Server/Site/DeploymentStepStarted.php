@@ -25,7 +25,7 @@ class DeploymentStepStarted implements ShouldBroadcastNow
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent)
     {
-        $this->user = $site->server->user;
+        $this->user = $site->pile->user;
 
         $deploymentEvent->started = true;
         $deploymentEvent->save();

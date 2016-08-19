@@ -87,7 +87,7 @@ class SiteController extends Controller
             'repository' => $request->get('repository'),
             'web_directory' => $request->get('web_directory'),
             'wildcard_domain' => (int)$request->get('wildcard_domain'),
-            'zerotime_deployment' => $request->get('zerotime_deployment'),
+            'zerotime_deployment' => true,
             'user_repository_provider_id' => $request->get('user_repository_provider_id')
         ]);
 
@@ -105,12 +105,6 @@ class SiteController extends Controller
         $site->save();
 
         return response()->json($site);
-
-        // TODO things need to be dispatched to the servers
-        $this->siteService->updateSiteNginxConfig($site);
-        $this->siteService->renameDomain($site, $request->get('domain'));
-
-        return back()->with('success', 'Updated name');
     }
 
     /**
@@ -133,7 +127,7 @@ class SiteController extends Controller
      */
     public function deploy(Request $request)
     {
-        $site = Site::with('server')->findOrFail($request->get('site_id'));
+        $site = Site::with('servers')->findOrFail($request->get('site'));
 
         $this->dispatch(new DeploySite($site));
     }

@@ -320,8 +320,9 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->run('service nginx restart');
+        $this->remoteTaskService->run('service php7.0-fpm restart');
 
-        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
+//        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
     }
 
 

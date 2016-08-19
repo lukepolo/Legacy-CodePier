@@ -90,11 +90,15 @@
             saveSite : function() {
                 if(this.site.id) {
                     Vue.http.put(this.action('Site\SiteController@update', { site : this.site.id }), {
-                        pile_id : pileStore.state.current_pile_id,
                         domain : this.domain,
-                        web_directory : this.web_directory,
+                        branch: this.site.branch,
+                        servers : this.selectedServers,
+                        repository: this.site.repository,
+                        web_directory: this.web_directory,
                         wildcard_domain : this.wildcard_domain,
-                        servers : this.selectedServers
+                        pile_id : pileStore.state.current_pile_id,
+                        zerotime_deployment: this.site.zerotime_deployment,
+                        user_repository_provider_id: this.site.user_repository_provider_id
                     }).then((response) => {
                         siteStore.dispatch('getSites');
                         this.editing = false;
@@ -103,11 +107,15 @@
                     })
                 } else {
                     Vue.http.post(this.action('Site\SiteController@store'), {
-                        pile_id : pileStore.state.current_pile_id,
                         domain : this.domain,
-                        web_directory : this.web_directory,
+                        branch: this.site.branch,
+                        servers : this.selectedServers,
+                        repository: this.site.repository,
+                        web_directory: this.web_directory,
                         wildcard_domain : this.wildcard_domain,
-                        servers : this.selectedServers
+                        pile_id : pileStore.state.current_pile_id,
+                        zerotime_deployment: this.site.zerotime_deployment,
+                        user_repository_provider_id: this.site.user_repository_provider_id
                     }).then((response) => {
                         siteStore.dispatch('getSites');
                         this.editing = false;

@@ -120,18 +120,20 @@ class DigitalOceanProvider implements ServerServiceContract
      * @param Server $server
      * @param Droplet $droplet
      * @param $sshKey
-     * @return Server $server
+     * @return Server
      * @throws \Exception
      */
     public function saveServer(Server $server, Droplet $droplet, $sshKey)
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        return $server->fill([
+        $server->fill([
             'server_id' => $droplet->id,
             'public_ssh_key' => $sshKey['publickey'],
             'private_ssh_key' => $sshKey['privatekey']
-        ]);
+        ])->save();
+
+        return $server;
     }
 
     /**

@@ -21,4 +21,9 @@ class Pile extends Model
     {
         return $this->hasMany(Site::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
