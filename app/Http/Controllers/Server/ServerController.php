@@ -140,9 +140,9 @@ class ServerController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFile(Request $request)
+    public function getFile(Request $request, $serverID)
     {
-        return response()->json($this->serverService->getFile(Server::findOrFail($request->get('server_id')), $request->get('path')));
+        return response()->json($this->serverService->getFile(Server::findOrFail($serverID), $request->get('path')));
     }
 
     /**

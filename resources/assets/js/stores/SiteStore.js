@@ -9,6 +9,7 @@ const siteStore = new Vuex.Store({
         sites: [],
         site: null,
         workers: [],
+        site_servers : [],
         ssl_certificates: []
     },
     actions: {
@@ -77,7 +78,14 @@ const siteStore = new Vuex.Store({
             }, (errors) => {
                 alert(error);
             });
-        }
+        },
+        getSiteServers: ({commit}, site_id) => {
+            Vue.http.get(action('Site\SiteServerController@index', {site: site_id})).then((response) => {
+                commit('SET_SITE_SERVERS', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
     },
     mutations: {
         SET_SITE: (state, site) => {
@@ -91,6 +99,9 @@ const siteStore = new Vuex.Store({
         },
         SET_SSL_CERTIFICATES: (state, ssl_certificates) => {
             state.ssl_certificates = ssl_certificates;
+        },
+        SET_SITE_SERVERS: (state, servers) => {
+            state.site_servers = servers;
         }
     }
 });

@@ -6,11 +6,10 @@
             <div class="section-content" v-if="site">
                 <div class="container">
                     <site-nav :site="site"></site-nav>
-
-                    {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
-                    <div data-url="#" data-path="'/home/codepier/'.$site->domain . '/.env'" class="editor">Loading . . . </div>
-                    {!! Form::submit('Update Env') !!}
-                    {!! Form::close() !!}
+                    <form @submit.prevent="updateEnvironmentFile" v-for="server in site_servers">
+                        <div :data-server_id="server.id" v-file-editor :data-path="'/home/codepier/' + site.domain + '/.env'" class="editor">Loading . . . </div>
+                        <button type="submit">Update Environment File</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -29,10 +28,19 @@
         computed : {
             site : () => {
                 return siteStore.state.site;
+            },
+            site_servers : () => {
+                return siteStore.state.site_servers;
+            }
+        },
+        methods : {
+            updateEnvironmentFile : function() {
+                alert('yay');
             }
         },
         mounted() {
             siteStore.dispatch('getSite', this.$route.params.site_id);
+            siteStore.dispatch('getSiteServers', this.$route.params.site_id);
         }
     }
 </script>

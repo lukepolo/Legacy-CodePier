@@ -132,8 +132,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
             Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
-            Route::post('save/file/{server_id}', 'ServerController@getFile');
-            Route::post('save/file/{server_id}', 'ServerController@saveFile');
+            Route::get('server/file/{server_id}', 'ServerController@getFile');
+            Route::post('server/file/{server_id}', 'ServerController@saveFile');
             Route::post('restart-server/{server_id}', 'ServerController@restartServer');
             Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
             Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
@@ -172,14 +172,17 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
             Route::post('deploy', 'SiteController@deploy');
 
+            Route::resource('servers', 'SiteServerController', [
+                'parameters' => [
+                    'server' => 'site'
+                ]
+            ]);
             Route::resource('ssl', 'Features\SSL\SiteSSLController');
+            Route::resource('workers', 'Features\SiteWorkerController');
+            Route::resource('repository', 'Repository\SiteRepositoryController');
+            Route::resource('hooks', 'Repository\Features\RepositoryHookController');
             Route::resource('ssl-existing', 'Features\SSL\SiteSSLExistingController');
             Route::resource('ssl-lets-encrypt', 'Features\SSL\SiteSSLLetsEncryptController');
-
-            Route::resource('workers', 'Features\SiteWorkerController');
-
-            Route::resource('hooks', 'Repository\Features\RepositoryHookController');
-            Route::resource('repository', 'Repository\SiteRepositoryController');
 
             Route::resource('/', 'SiteController', [
                 'parameters' => [
