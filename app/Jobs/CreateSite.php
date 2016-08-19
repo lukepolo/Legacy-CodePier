@@ -38,7 +38,6 @@ class CreateSite extends Job implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        dd('dont do this yet!');
         $siteService->create($this->server, $this->site);
     }
 }

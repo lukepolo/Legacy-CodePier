@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
+use App\Models\Server;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
@@ -90,7 +92,14 @@ class SiteController extends Controller
         ]);
 
         if($request->has('servers')) {
-            $site->servers()->sync($request->get('servers', []));
+            $changes = $site->servers()->sync($request->get('servers', []));
+            foreach($changes['attached'] as $serverID) {
+                $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
+            }
+
+            foreach($changes['detached'] as $serverID) {
+                dd('site needs to be deleted');
+            }
         }
 
         $site->save();

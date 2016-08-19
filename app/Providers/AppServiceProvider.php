@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Site;
 use App\Models\User;
-use App\Models\Pile;
+use App\Observers\SiteObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -19,20 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        User::created(function ($user) {
-            // lets create some piles for them
-            $defaultPiles = [
-                'dev',
-                'qa',
-                'production'
-            ];
-            foreach($defaultPiles as $defaultPile) {
-                Pile::create([
-                    'name' => $defaultPile,
-                    'user_id' => $user->id
-                ]);
-            }
-        });
+        User::observe(UserObserver::class);
+        Site::observe(SiteObserver::class);
     }
 
     /**
