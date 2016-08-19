@@ -140,9 +140,6 @@ class ServerService implements ServerServiceContract
 
         $errors = $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
-        // TODO - decide if we should create sites
-//        app(Dispatcher::class)->dispatchNow(new CreateSite($server, $site));
-
         event(new ServerProvisioned($server, $sudoPassword, $databasePassword, 'Click here to find out more', $errors));
     }
 
