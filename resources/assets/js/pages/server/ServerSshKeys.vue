@@ -49,7 +49,22 @@
                 ssh_keys : []
             }
         },
-        methods : {
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                this.getSshKeys();
+            },
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerSshKeyController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.ssh_keys.push(response.json());
@@ -71,16 +86,6 @@
                     alert(error);
                 });
             }
-
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            this.getSshKeys();
 
         }
     }

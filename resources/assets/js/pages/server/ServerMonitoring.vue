@@ -34,10 +34,20 @@
                 server : null
             }
         },
-        computed : {
-
+        created() {
+            this.fetchData();
         },
-        methods : {
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            },
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.firewall_rules.push(response.json());
@@ -45,13 +55,6 @@
                     alert(error);
                 });
             }
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
         }
     }
 </script>

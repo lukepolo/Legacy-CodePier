@@ -150,7 +150,7 @@
         /**
          * Prepare the component.
          */
-        mounted() {
+        created() {
             this.getTokens();
             this.getScopes();
 

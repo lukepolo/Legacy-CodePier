@@ -87,7 +87,17 @@
                 number_of_workers: null
             }
         },
-        methods: {
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods : {
+            fetchData : function() {
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+                siteStore.dispatch('getWorkers', this.$route.params.site_id);
+            },
             installWorker: function () {
                 siteStore.dispatch('installWorker', {
                     sleep: this.sleep,
@@ -113,10 +123,6 @@
             workers: () => {
                 return siteStore.state.workers;
             }
-        },
-        mounted() {
-            siteStore.dispatch('getSite', this.$route.params.site_id);
-            siteStore.dispatch('getWorkers', this.$route.params.site_id);
         }
     }
 </script>

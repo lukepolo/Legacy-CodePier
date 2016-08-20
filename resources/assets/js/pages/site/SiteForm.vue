@@ -38,16 +38,13 @@
         },
         methods: {
             saveSite: function () {
-                Vue.http.post(this.action('Site\SiteController@store'), {
+                siteStore.dispatch('createSite', {
                     domain: this.domain,
                     servers: this.selectedServers,
                     wildcard_domain: this.wildcard_domain,
-                    pile_id: pileStore.state.current_pile_id
-                }).then((response) => {
-                    this.$router.push('/site/ ' + response.json().id);
-                }, (errors) => {
+                }).then(function(response) {
 
-                })
+                });
             }
         }
     }

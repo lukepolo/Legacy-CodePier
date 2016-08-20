@@ -61,7 +61,22 @@
                 daemons : []
             }
         },
-        methods : {
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                this.getDaemons();
+            },
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerDaemonController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.daemons.push(response.json());
@@ -83,16 +98,6 @@
                     alert(error);
                 });
             }
-
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            this.getDaemons();
 
         }
     }

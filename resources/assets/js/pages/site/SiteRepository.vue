@@ -42,7 +42,7 @@
                         Deployments</a>
                     <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
 
-                    <a href="#" class="btn btn-xs">Delete Site</a>
+                    <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
                 </div>
             </div>
         </section>
@@ -66,6 +66,39 @@
                 user_repository_provider_id: null
             }
         },
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData : function() {
+                userStore.dispatch('getUserRepositoryProviders');
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+            },
+            deploySite : function(site_id) {
+                Vue.http.post(this.action('Site\SiteController@deploy', {site : site_id }));
+            },
+            updateSite: function () {
+                siteStore.dispatch('updateSite', {
+                    site_id: this.site.id,
+                    data: {
+                        branch: this.branch,
+                        domain : this.site.domain,
+                        pile_id : this.site.pile_id,
+                        repository: this.repository,
+                        web_directory: this.web_directory,
+                        wildcard_domain : this.wildcard_domain,
+                        zerotime_deployment: this.zerotime_deployment,
+                        user_repository_provider_id: this.user_repository_provider_id
+                    }
+                });
+            },
+            deleteSite: function (site_id) {
+                siteStore.dispatch('deleteSite', site_id);
+            }
+        },
         computed: {
             site: function () {
                 var site = siteStore.state.site;
@@ -84,29 +117,5 @@
                 return userStore.state.repository_providers;
             }
         },
-        methods: {
-            deploySite : function(site_id) {
-                Vue.http.post(this.action('Site\SiteController@deploy', {site : site_id }));
-            },
-            updateSite: function () {
-                siteStore.dispatch('updateSite', {
-                    site_id: this.site.id,
-                    data: {
-                        branch: this.branch,
-                        domain : this.site.domain,
-                        pile_id : this.site.pile_id,
-                        repository: this.repository,
-                        web_directory: this.web_directory,
-                        wildcard_domain : this.wildcard_domain,
-                        zerotime_deployment: this.zerotime_deployment,
-                        user_repository_provider_id: this.user_repository_provider_id
-                    }
-                });
-            }
-        },
-        mounted() {
-            userStore.dispatch('getUserRepositoryProviders');
-            siteStore.dispatch('getSite', this.$route.params.site_id);
-        }
     }
 </script>

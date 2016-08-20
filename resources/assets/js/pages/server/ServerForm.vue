@@ -87,6 +87,46 @@
                 user_server_providers: null
             }
         },
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@index')).then((response) => {
+                    this.options = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@index')).then((response) => {
+                    this.regions = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@index')).then((response) => {
+                    this.features = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                Vue.http.get(this.action('User\Providers\UserServerProviderController@index')).then((response) => {
+                    this.user_server_providers = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            },
+            onSubmit: function() {
+                Vue.http.post(this.action('Server\ServerController@store'), this.getFormData($(this.$el))).then((response) => {
+                    this.$router.push('/');
+                }, (errors) => {
+                    alert(error);
+                });
+            }
+        },
         computed : {
             pile : function() {
                 var pile = _.find(user.piles, function(pile) {
@@ -101,40 +141,6 @@
                     id : null
                 }
             }
-        },
-        methods : {
-            onSubmit: function() {
-                Vue.http.post(this.action('Server\ServerController@store'), this.getFormData($(this.$el))).then((response) => {
-                    this.$router.push('/');
-                }, (errors) => {
-                    alert(error);
-                });
-            }
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@index')).then((response) => {
-                this.options = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@index')).then((response) => {
-                this.regions = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            Vue.http.get(this.action('Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@index')).then((response) => {
-                this.features = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            Vue.http.get(this.action('User\Providers\UserServerProviderController@index')).then((response) => {
-                this.user_server_providers = response.json();
-            }, (errors) => {
-                alert(error);
-            });
         }
     }
 </script>
