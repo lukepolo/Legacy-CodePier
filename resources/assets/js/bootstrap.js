@@ -31,8 +31,9 @@ Vue.http.interceptors.push((request, next) => {
 */
 
 import Echo from "laravel-echo";
+import Config from "./.config";
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '92790f94d685df8a2c16'
+    key: Config.PUSHER_KEY
 });
