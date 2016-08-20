@@ -34,7 +34,7 @@ const siteStore = new Vuex.Store({
                 wildcard_domain: payload.wildcard_domain,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
-                this.router.push('/site/ ' + response.json().id);
+                app.$router.push('/site/ ' + response.json().id);
             }, (errors) => {
                 alert(error);
             })
@@ -49,7 +49,7 @@ const siteStore = new Vuex.Store({
         deleteSite: ({commit}, site_id) => {
             Vue.http.delete(action('Site\SiteController@destroy', {site: site_id})).then((response) => {
                 siteStore.dispatch('getSites');
-                this.router.push('/');
+                app.$router.push('/');
             }, (errors) => {
                 alert(error);
             })
