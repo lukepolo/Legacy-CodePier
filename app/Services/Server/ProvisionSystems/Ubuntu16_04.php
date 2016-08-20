@@ -56,6 +56,8 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', '#PasswordAuthentication', 'PasswordAuthentication no');
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', 'PermitRootLogin', 'PermitRootLogin no');
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
+
+        $this->remoteTaskService->run('service sshd restart');
     }
 
     public function setLocaleToUTF8()
