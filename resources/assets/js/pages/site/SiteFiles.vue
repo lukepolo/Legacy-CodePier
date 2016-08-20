@@ -31,13 +31,21 @@
             SiteNav,
             LeftNav,
         },
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+            }
+        },
         computed : {
             site : () => {
                 return siteStore.state.site;
             }
-        },
-        mounted() {
-            siteStore.dispatch('getSite', this.$route.params.site_id);
         }
     }
 </script>

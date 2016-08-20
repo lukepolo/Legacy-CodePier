@@ -23,7 +23,7 @@
                 return siteStore.state.sites;
             }
         },
-        beforeMount () {
+        created() {
             siteStore.dispatch('getSites');
         }
     }

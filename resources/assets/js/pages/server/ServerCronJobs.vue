@@ -62,7 +62,21 @@
                 }
             }
         },
-        methods : {
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+                this.getCronJobs();
+            },
             onSubmit() {
                 Vue.http.post(this.action('Server\Features\ServerCronJobController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.cron_jobs.push(response.json());
@@ -84,15 +98,6 @@
                     alert(error);
                 });
             }
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            this.getCronJobs();
         }
     }
 </script>

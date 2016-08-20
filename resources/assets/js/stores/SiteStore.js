@@ -9,7 +9,7 @@ const siteStore = new Vuex.Store({
         sites: [],
         site: null,
         workers: [],
-        site_servers : [],
+        site_servers: [],
         ssl_certificates: []
     },
     actions: {
@@ -27,15 +27,32 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
+        createSite : ({commit}, payload) => {
+            Vue.http.post(action('Site\SiteController@store'), {
+                domain: payload.domain,
+                servers: payload.selectedServers,
+                wildcard_domain: payload.wildcard_domain,
+                pile_id: pileStore.state.current_pile_id
+            }).then((response) => {
+                this.router.push('/site/ ' + response.json().id);
+            }, (errors) => {
+                alert(error);
+            })
+        },
         updateSite: ({commit}, payload) => {
-
-            console.log(payload);
-
             Vue.http.put(action('Site\SiteController@update', {site: payload.site_id}), payload.data).then((response) => {
                 commit('SET_SITE', response.json());
             }, (errors) => {
                 alert(error);
             });
+        },
+        deleteSite: ({commit}, site_id) => {
+            Vue.http.delete(action('Site\SiteController@destroy', {site: site_id})).then((response) => {
+                siteStore.dispatch('getSites');
+                this.router.push('/');
+            }, (errors) => {
+                alert(error);
+            })
         },
         getWorkers: ({commit}, site_id) => {
             Vue.http.get(action('Site\Features\SiteWorkerController@show', {site: site_id})).then((response) => {

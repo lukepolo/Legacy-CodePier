@@ -44,7 +44,7 @@
                userStore.dispatch('deleteUserRepositoryProvider', user_repository_provider_id);
             }
         },
-        mounted() {
+        created() {
 
             Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
                 this.repository_providers = response.json();

@@ -38,15 +38,17 @@
                 domains: null,
             }
         },
-        computed: {
-            site: () => {
-                return siteStore.state.site;
-            },
-            ssl_certificates: () => {
-                return siteStore.state.ssl_certificates;
-            }
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
         },
         methods: {
+            fetchData: function () {
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+                siteStore.dispatch('getSslCertificates', this.$route.params.site_id);
+            },
             installLetsEncryptCertificate: function () {
                 siteStore.dispatch('installLetsEncryptSslCertificate', {
                     site_id: this.site.id,
@@ -57,9 +59,13 @@
                 siteStore.dispatch('deleteSslCertificate', ssl_certificate_id)
             }
         },
-        mounted() {
-            siteStore.dispatch('getSite', this.$route.params.site_id);
-            siteStore.dispatch('getSslCertificates', this.$route.params.site_id);
+        computed: {
+            site: () => {
+                return siteStore.state.site;
+            },
+            ssl_certificates: () => {
+                return siteStore.state.ssl_certificates;
+            }
         }
     }
 </script>

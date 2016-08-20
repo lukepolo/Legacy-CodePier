@@ -5,7 +5,7 @@
             <h3 class="section-header primary">Site Repository</h3>
             <div class="section-content" v-if="site">
                 <div class="container">
-                    <site-nav></site-nav>
+                    <site-nav :site="site"></site-nav>
                     <form @submit.prevent="updateEnvironmentFile" v-for="server in site_servers">
                         <div :data-server_id="server.id" v-file-editor :data-path="'/home/codepier/' + site.domain + '/.env'" class="editor">Loading . . . </div>
                         <button type="submit">Update Environment File</button>
@@ -25,6 +25,20 @@
             SiteNav,
             LeftNav,
         },
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods : {
+            fetchData : function() {
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+            },
+            updateEnvironmentFile : function() {
+                alert('yay');
+            }
+        },
         computed : {
             site : () => {
                 return siteStore.state.site;
@@ -32,15 +46,6 @@
             site_servers : () => {
                 return siteStore.state.site_servers;
             }
-        },
-        methods : {
-            updateEnvironmentFile : function() {
-                alert('yay');
-            }
-        },
-        mounted() {
-            siteStore.dispatch('getSite', this.$route.params.site_id);
-            siteStore.dispatch('getSiteServers', this.$route.params.site_id);
         }
     }
 </script>

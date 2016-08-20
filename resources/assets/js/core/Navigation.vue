@@ -122,7 +122,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             pileStore.dispatch('getPiles');
             userTeamStore.dispatch('getUserTeam');
         }

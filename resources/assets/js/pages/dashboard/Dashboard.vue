@@ -49,7 +49,7 @@
                 return serverStore.state.servers;
             }
         },
-        mounted() {
+        created() {
             serverStore.dispatch('getServers');
         }
     }

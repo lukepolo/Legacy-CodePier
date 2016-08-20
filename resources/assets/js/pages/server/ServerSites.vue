@@ -63,10 +63,26 @@
                 sites : []
             }
         },
-        computed : {
-
+        created() {
+            this.fetchData();
         },
-        methods : {
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+
+                Vue.http.get(this.action('Server\ServerSiteController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.sites = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            },
             isZerotimeDeployment(site) {
               if(site.zerotime_deployment) {
                   return true;
@@ -79,19 +95,6 @@
                 }
                 return false;
             }
-        },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
-
-            Vue.http.get(this.action('Server\ServerSiteController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.sites = response.json();
-            }, (errors) => {
-                alert(error);
-            });
         }
     }
 </script>

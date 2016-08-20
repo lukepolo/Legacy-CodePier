@@ -31,18 +31,20 @@
                 server : null
             }
         },
-        computed : {
-
+        created() {
+            this.fetchData();
         },
-        methods : {
-
+        watch: {
+            '$route': 'fetchData'
         },
-        mounted() {
-            Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                this.server = response.json();
-            }, (errors) => {
-                alert(error);
-            });
+        methods: {
+            fetchData: function () {
+                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
+                    this.server = response.json();
+                }, (errors) => {
+                    alert(error);
+                });
+            }
         }
     }
 </script>

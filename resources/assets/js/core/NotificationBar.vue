@@ -8,9 +8,9 @@
                 return serverStore.state.servers;
             }
         },
-        beforeMount () {
-            serverStore.dispatch('getServers', function() {
-                _(serverStore.state.servers).forEach(function(server) {
+        created () {
+            serverStore.dispatch('getServers', function () {
+                _(serverStore.state.servers).forEach(function (server) {
                     Echo.private('Server.Status.' + server.id)
                             .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                 server.status = data.status;
