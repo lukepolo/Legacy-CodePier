@@ -34,6 +34,7 @@
         methods : {
             fetchData : function() {
                 siteStore.dispatch('getSite', this.$route.params.site_id);
+                siteStore.dispatch('getSiteServers', this.$route.params.site_id);
             },
             updateEnvironmentFile : function() {
                 alert('yay');
