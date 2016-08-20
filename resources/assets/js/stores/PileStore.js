@@ -37,6 +37,9 @@ const pileStore = new Vuex.Store({
         },
         SET_CURRENT_PILE: (state, pile) => {
             state.currentPile = pile;
+            console.info('TODO - we need to redirect them to the dashboard');
+            serverStore.dispatch('getServers');
+            siteStore.dispatch('getSites');
         },
         SET_CURRENT_PILE_ID: (state, pile_id) => {
             state.current_pile_id = parseInt(pile_id);

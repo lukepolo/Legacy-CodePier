@@ -105,7 +105,7 @@
         methods : {
             onSubmit: function() {
                 Vue.http.post(this.action('Server\ServerController@store'), this.getFormData($(this.$el))).then((response) => {
-                    window.location = '/';
+                    this.$router.push('/');
                 }, (errors) => {
                     alert(error);
                 });
