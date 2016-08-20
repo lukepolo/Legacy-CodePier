@@ -112,6 +112,14 @@
             },
             changePile: function (pile_id) {
                 pileStore.dispatch('setCurrentPileID', pile_id);
+
+                if(this.$route.path == '/') {
+                    serverStore.dispatch('getServers');
+                    siteStore.dispatch('getSites');
+                } else {
+                    this.$router.push('/');
+
+                }
             }
         },
         mounted() {
