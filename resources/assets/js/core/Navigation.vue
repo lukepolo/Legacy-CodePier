@@ -112,7 +112,6 @@
             },
             changePile: function (pile_id) {
                 pileStore.dispatch('setCurrentPileID', pile_id);
-                serverStore.dispatch('getServers');
             }
         },
         mounted() {

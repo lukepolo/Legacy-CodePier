@@ -144,7 +144,6 @@ import UserNotificationProviders from './pages/user/UserNotificationProviders.vu
  |--------------------------------------------------------------------------
  |
  */
-
 import ServerForm from "./pages/server/ServerForm.vue";
 import ServerSites from "./pages/server/ServerSites.vue";
 import ServerFiles from "./pages/server/ServerFiles.vue";
@@ -160,7 +159,7 @@ import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
  |--------------------------------------------------------------------------
  |
  */
-
+import SiteForm from "./pages/site/SiteForm.vue";
 import SiteFiles from "./pages/site/SiteFiles.vue";
 import SiteWorkers from "./pages/site/SiteWorkers.vue";
 import SiteRepository from "./pages/site/SiteRepository.vue";
@@ -185,6 +184,7 @@ const router = new VueRouter({
 
         {path: '/piles', component: Piles},
 
+        {path: '/site/create', component : SiteForm},
         {path: '/site/:site_id', component: SiteRepository},
         {path: '/site/:site_id/files', component: SiteFiles},
         {path: '/site/:site_id/workers', component: SiteWorkers},
@@ -199,6 +199,7 @@ const router = new VueRouter({
         {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
         {path: '/my-profile/notification-providers', component: UserNotificationProviders},
         {path: '/my-profile/oauth', component: UserOauth},
+        {path: '*', redirect: '/'}
     ]
 });
 
@@ -209,3 +210,5 @@ const app = new Vue({
     serverStore,
     userTeamStore
 }).$mount('#app-layout');
+
+window.app = app;

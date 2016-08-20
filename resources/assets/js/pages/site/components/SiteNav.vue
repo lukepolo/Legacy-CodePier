@@ -13,6 +13,17 @@
 
 <script>
     export default {
-        props : ['site']
+        props : ['site'],
+        methods : {
+            deleteSite :function() {
+                if(this.site.id) {
+                    Vue.http.delete(this.action('Site\SiteController@destroy', { site : this.site.id })).then((response) => {
+                        siteStore.dispatch('getSites');
+                    }, (errors) => {
+                        alert(error);
+                    })
+                }
+            },
+        }
     }
 </script>
