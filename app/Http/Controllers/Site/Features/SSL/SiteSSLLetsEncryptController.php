@@ -31,24 +31,20 @@ class SiteSSLLetsEncryptController extends Controller
     {
         $site = Site::findOrfail($request->get('site_id'));
 
-        SiteSslCertificate::create([
+        $folder = explode(',', $request->get('domains'))[0];
+        $siteSSLCertificate = SiteSslCertificate::create([
             'site_id' => $request->get('site_id'),
             'domains' => $request->get('domains'),
             'type' => \App\Services\Server\Site\SiteService::LETS_ENCRYPT,
             'active' => false,
-            'key_path' => "/etc/letsencrypt/live/$site->domain/privkey.pem",
-            'cert_path' => "/etc/letsencrypt/live/$site->domain/fullchain.pem",
+            'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
+            'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
         ]);
 
-        return;
-
-        $errors = $this->siteService->installSSL(
-            Site::with('server')->findOrFail($request->get('site_id')),
-            \Request::get('domains')
-        );
-
-        if (is_array($errors)) {
-            return response()->withErrors($errors);
+        foreach($site->servers as $server) {
+            $this->siteService->installSSL($server, $siteSSLCertificate);
         }
+
+        return response()->json();
     }
 }
