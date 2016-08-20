@@ -5,7 +5,7 @@
             <h3 class="section-header primary">Site Repository</h3>
             <div class="section-content" v-if="site">
                 <div class="container">
-                    <site-nav :site="site"></site-nav>
+                    <site-nav></site-nav>
                     <form @submit.prevent="updateEnvironmentFile" v-for="server in site_servers">
                         <div :data-server_id="server.id" v-file-editor :data-path="'/home/codepier/' + site.domain + '/.env'" class="editor">Loading . . . </div>
                         <button type="submit">Update Environment File</button>

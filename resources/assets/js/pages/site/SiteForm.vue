@@ -24,7 +24,6 @@
         components: {
             LeftNav
         },
-        props: ['site', 'index'],
         data() {
             return {
                 domain: null,

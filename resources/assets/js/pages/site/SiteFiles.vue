@@ -5,7 +5,7 @@
             <h3 class="section-header primary">Site Repository</h3>
             <div class="section-content" v-if="site">
                 <div class="container">
-                    <site-nav :site="site"></site-nav>
+                    <site-nav></site-nav>
 
                     {!! Form::open(['action' => ['ServerController@postSaveFile', $site->server_id]]) !!}
                     <div data-url="#" data-path="/etc/nginx/codepier-conf/$site->domain }}/server/listen" class="editor">Loading . . . </div>

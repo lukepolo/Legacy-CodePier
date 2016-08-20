@@ -5,7 +5,7 @@
             <h3 class="section-header primary">Site Repository</h3>
             <div class="section-content" v-if="site">
                 <div class="container">
-                    <site-nav :site="site"></site-nav>
+                    <site-nav></site-nav>
 
                     {!! Form::open(['action' => ['SiteController@postSavePHPSettings', $site->server_id, $site->id]]) !!}
                     Max Upload Size
