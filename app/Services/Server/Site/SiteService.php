@@ -129,7 +129,8 @@ class SiteService implements SiteServiceContract
      */
     public function installSSL(Server $server, SiteSslCertificate $siteSslCertificate)
     {
-        $site =  $siteSslCertificate->site;
+        /** @var Site $site */
+        $site = $siteSslCertificate->site;
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
@@ -142,11 +143,14 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
-        if ($siteSslCertificate->hasActiveSSL()) {
+        if ($site->hasActiveSSL()) {
             $activeSSL = $site->activeSSL;
             $activeSSL->active = false;
             $activeSSL->save();
         }
+
+        $siteSslCertificate->active = true;
+        $siteSslCertificate->save();
 
         $this->mapSSL($server, $site);
 
