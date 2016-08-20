@@ -31,14 +31,14 @@ class SiteObserver
 
     public function saved(Site $site)
     {
-        $this->repositoryService->importSshKeyIfPrivate($site);
+        if (!empty($site->repository)) {
+            $this->repositoryService->importSshKeyIfPrivate($site);
+        }
 
 //        $this->siteService->updateSiteNginxConfig($site);
 //        $this->siteService->renameDomain($site, $request->get('domain'));
 
         if ($site->deploymentSteps->count() == 0) {
-
-            dd("DONT RENDER AGAIN");
             $defaultSteps = [
                 [
                     'step' => 'Clone Repository',
@@ -52,12 +52,12 @@ class SiteObserver
                     'internal_deployment_function' => 'installPhpDependencies',
                     'customizable' => true
                 ],
-                [
-                    'step' => 'Install Node Dependencies',
-                    'order' => '3',
-                    'internal_deployment_function' => 'installNodeDependencies',
-                    'customizable' => true
-                ],
+//                [
+//                    'step' => 'Install Node Dependencies',
+//                    'order' => '3',
+//                    'internal_deployment_function' => 'installNodeDependencies',
+//                    'customizable' => true
+//                ],
                 [
                     'step' => 'Run Migrations',
                     'order' => '4',
@@ -83,11 +83,7 @@ class SiteObserver
                     array_merge(['site_id' => $site->id], $defaultStep)
                 );
             }
-
-            dd("DONE");
-        } else {
         }
-
     }
 
 }
