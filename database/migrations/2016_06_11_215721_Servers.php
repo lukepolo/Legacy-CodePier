@@ -27,7 +27,7 @@ class Servers extends Migration
             $table->text('private_ssh_key');
             $table->boolean('ssh_connection')->default(0);
             $table->json('options');
-            $table->json('features');
+            $table->json('features')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

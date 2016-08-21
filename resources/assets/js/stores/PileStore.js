@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const pileStore = new Vuex.Store({
     state: {
         piles: [],
+        user_piles: [],
         currentPile: null,
         current_pile_id: parseInt(localStorage.getItem('current_pile_id'))
     },
@@ -14,6 +15,13 @@ const pileStore = new Vuex.Store({
         getPiles: ({commit}) => {
             Vue.http.get(action('Pile\PileController@index')).then((response) => {
                 commit('SET_PILES', response.json());
+            }, (errors) => {
+                alert('handle some error')
+            });
+        },
+        getUserPiles: ({commit}) => {
+            Vue.http.get(action('Pile\PileController@index', { all : true })).then((response) => {
+                commit('SET_USER_PILES', response.json());
             }, (errors) => {
                 alert('handle some error')
             });
@@ -31,6 +39,9 @@ const pileStore = new Vuex.Store({
         }
     },
     mutations: {
+        SET_USER_PILES: (state, piles) => {
+            state.user_piles = piles;
+        },
         SET_PILES: (state, piles) => {
             state.piles = piles;
             pileStore.dispatch('setCurrentPile');

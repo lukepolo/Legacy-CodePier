@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,7 +11,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Pile extends Model
 {
+    use UsedByTeams;
+
     protected $guarded = ['id'];
+
+    static $teamworkModel = 'teams';
+    public $teamworkSync = true;
 
     public function servers()
     {
@@ -27,7 +33,7 @@ class Pile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function team()
+    public function teams()
     {
         return $this->belongsToMany(Team::class);
     }

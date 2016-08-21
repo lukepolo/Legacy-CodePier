@@ -16,6 +16,9 @@ class Server extends Model
 
     protected $guarded = ['id'];
 
+    static $teamworkModel = 'pile.teams';
+    public $teamworkSync = false;
+
     protected $casts = [
         'options' => 'array',
         'features' => 'array',
@@ -75,6 +78,11 @@ class Server extends Model
     public function features()
     {
         return $this->hasMany(ServerProviderFeatures::class);
+    }
+
+    public function pile()
+    {
+        return $this->belongsTo(Pile::class);
     }
     /*
     |--------------------------------------------------------------------------

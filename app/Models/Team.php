@@ -12,6 +12,6 @@ class Team extends TeamworkTeam
 {
     public function piles()
     {
-        return $this->belongsToMany(Pile::class);
+        return $this->belongsToMany(Pile::class)->withoutGlobalScope('team');
     }
 }
