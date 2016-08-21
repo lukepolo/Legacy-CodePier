@@ -21,6 +21,7 @@
                                 {{ server.name }}
                             </router-link>
                         </td>
+                        <td>{{ server.ip }}</td>
                         <td>{{ server.server_provider.name }}</td>
                         <td>REGION TODO</td>
                         <td>{{ server.status }}</td>
