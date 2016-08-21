@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePilesTable extends Migration
+class CreatePileTeamRelationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreatePilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('piles', function (Blueprint $table) {
+        Schema::create('pile_team', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('user_id');
-            $table->timestamps();
+            $table->integer('pile_id');
+            $table->integer('team_id');
         });
     }
 
@@ -28,6 +27,6 @@ class CreatePilesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('piles');
+        Schema::drop('pile_team');
     }
 }

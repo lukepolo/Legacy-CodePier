@@ -20,6 +20,7 @@ class UserTeamController extends Controller
      */
     public function index()
     {
+        \Auth::user()->load('teams.piles');
         return response()->json(\Auth::user()->teams);
     }
 
@@ -53,6 +54,9 @@ class UserTeamController extends Controller
         ]);
         $request->user()->attachTeam($team);
 
+        $team->piles()->sync($request->get('piles', []));
+        $team->save();
+
         return response()->json($team);
     }
 
@@ -69,6 +73,10 @@ class UserTeamController extends Controller
 
         $team = $teamModel::findOrFail($id);
         $team->name = $request->name;
+
+        $team->piles()->sync($request->get('piles', []));
+        $team->save();
+
         $team->save();
 
         return response()->json($team);
@@ -111,7 +119,7 @@ class UserTeamController extends Controller
         $team = null;
 
         if (!empty($id)) {
-            $team = $teamModel::findOrFail($id);
+            $team = $teamModel::with('piles')->findOrFail($id);
         }
         try {
             auth()->user()->switchTeam($team);
