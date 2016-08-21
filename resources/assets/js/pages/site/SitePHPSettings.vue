@@ -2,7 +2,7 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-            <h3 class="section-header primary">Site Repository</h3>
+            <site-header></site-header>
             <div class="section-content" v-if="site">
                 <div class="container">
                     <site-nav></site-nav>
@@ -16,17 +16,21 @@
                 </div>
             </div>
         </section>
-
+        <servers></servers>
     </section>
 </template>
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
     import SiteNav from './components/SiteNav.vue';
+    import Servers from './components/Servers.vue';
+    import SiteHeader from './components/SiteHeader.vue';
     export default {
-        components : {
+        components: {
+            SiteHeader,
             SiteNav,
             LeftNav,
+            Servers
         },
         created() {
             this.fetchData();

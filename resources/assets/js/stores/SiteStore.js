@@ -34,7 +34,7 @@ const siteStore = new Vuex.Store({
                 wildcard_domain: payload.wildcard_domain,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
-                app.$router.push('/site/ ' + response.json().id);
+                app.$router.push('/site/' + response.json().id);
             }, (errors) => {
                 alert(error);
             })

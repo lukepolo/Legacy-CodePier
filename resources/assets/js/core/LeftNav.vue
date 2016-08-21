@@ -6,25 +6,46 @@
                 {{ site.domain }}
             </router-link>
         </div>
+
+        <form @submit.prevent="saveSite" v-if="adding_site">
+            Domain
+            <input v-model="domain" type="text" :value="domain">
+            <button class="btn btn-primary">Save</button>
+        </form>
+
         <div class="section-content">
             <div class="server text-center">
-                <router-link to="/site/create" class="btn btn-primary">
-                    Create Site
-                </router-link>
+                <div @click="adding_site = !adding_site" class="btn btn-primary">Create Site</div>
             </div>
         </div>
+
     </section>
 </template>
 
 <script>
     export default {
+        created() {
+            siteStore.dispatch('getSites');
+        },
+        data() {
+            return {
+                adding_site : false,
+                domain: null
+            }
+        },
+        methods: {
+            saveSite: function () {
+                siteStore.dispatch('createSite', {
+                    domain: this.domain
+                }).then(function(response) {
+
+                });
+            }
+        },
         computed: {
             sites () {
                 return siteStore.state.sites;
             }
-        },
-        created() {
-            siteStore.dispatch('getSites');
         }
     }
 </script>

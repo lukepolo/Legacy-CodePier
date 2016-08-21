@@ -1,21 +1,26 @@
 <template>
-    <div>
-        <user-nav></user-nav>
-        <p v-for="provider in repository_providers">
-            <template v-if="isConnected(provider.id)">
-                Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
-            </template>
-            <template v-else>
-                Integrate : <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})" class="btn btn-default">{{ provider.name}}</a>
-            </template>
-        </p>
-    </div>
+    <section>
+        <left-nav></left-nav>
+        <section id="middle" class="section-column">
+            <user-nav></user-nav>
+            <p v-for="provider in repository_providers">
+                <template v-if="isConnected(provider.id)">
+                    Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
+                </template>
+                <template v-else>
+                    Integrate : <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})" class="btn btn-default">{{ provider.name}}</a>
+                </template>
+            </p>
+        </section>
+    </section>
 </template>
 
 <script>
     import UserNav from './components/UserNav.vue';
+    import LeftNav from './../../core/LeftNav.vue';
     export default {
         components : {
+            LeftNav,
             UserNav
         },
         data() {

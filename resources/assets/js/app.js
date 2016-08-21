@@ -159,8 +159,6 @@ import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
  |--------------------------------------------------------------------------
  |
  */
-import SiteForm from "./pages/site/SiteForm.vue";
-import SiteFiles from "./pages/site/SiteFiles.vue";
 import SiteWorkers from "./pages/site/SiteWorkers.vue";
 import SiteRepository from "./pages/site/SiteRepository.vue";
 import SitePHPSettings from "./pages/site/SitePHPSettings.vue";
@@ -184,9 +182,7 @@ const router = new VueRouter({
 
         {path: '/piles', component: Piles},
 
-        {path: '/site/create', component : SiteForm},
         {path: '/site/:site_id', component: SiteRepository},
-        {path: '/site/:site_id/files', component: SiteFiles},
         {path: '/site/:site_id/workers', component: SiteWorkers},
         {path: '/site/:site_id/environment', component: SiteEnvironment},
         {path: '/site/:site_id/php-settings', component: SitePHPSettings},
