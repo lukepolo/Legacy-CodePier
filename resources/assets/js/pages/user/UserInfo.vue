@@ -17,14 +17,16 @@
                     <label>Email</label>
                     <input name="email" type="email" :value="user.email">
                 </div>
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input name="new-password" type="password">
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input name="confirm-password" type="password">
-                </div>
+                <section v-if="user.password">
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input name="new-password" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input name="confirm-password" type="password">
+                    </div>
+                </section>
                 <button type="submit">Update Profile</button>
             </form>
         </section>
