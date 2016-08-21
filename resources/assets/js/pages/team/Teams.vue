@@ -5,7 +5,8 @@
                 <div class="container">
                     <div class="panel-heading clearfix">
                         Teams
-                        <a class="pull-right btn btn-default btn-sm" href="#" @click.prevent="creating_team = !creating_team" v-if="!creating_team">
+                        <a class="pull-right btn btn-default btn-sm" href="#"
+                           @click.prevent="creating_team = !creating_team" v-if="!creating_team">
                             <i class="fa fa-plus"></i> Create team
                         </a>
 
@@ -14,6 +15,14 @@
                                 Team Name :
                                 <input v-model="team_name" name="team_name" type="text">
                                 <button type="submit">Create Team</button>
+                            </form>
+                        </div>
+
+                        <div class="pull-right btn btn-default btn-sm" v-if="updating_team">
+                            <form @submit.prevent="updateTeam()">
+                                Team Name :
+                                <input v-model="new_team_name" name="new_team_name" type="text">
+                                <button type="submit">Update Team</button>
                             </form>
                         </div>
                     </div>
@@ -27,21 +36,30 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="team in teams">
-                                    <td>{{ team.name }}</td>
-                                    <td>
-                                        <span class="label label-success" v-if="isOwnerOfTeam(team)">Owner</span>
-                                        <span class="label label-primary" v-else>Member</span>
-                                    </td>
-                                    <td>
-                                        <router-link :to="{ path : '/my/team/' + team.id + '/members' }" class="btn btn-sm btn-default"> <i class="fa fa-users"></i> Members</router-link>
-                                        <section v-if="isOwnerOfTeam(team)">
-                                            <a href="#" class="btn btn-sm btn-default">
-                                                <i class="fa fa-trash-o"></i> Delete
-                                            </a>
-                                        </section>
-                                    </td>
-                                </tr>
+                            <tr v-for="team in teams">
+                                <td>{{ team.name }}</td>
+                                <td>
+                                    <span class="label label-success" v-if="isOwnerOfTeam(team)">Owner</span>
+                                    <span class="label label-primary" v-else>Member</span>
+                                </td>
+                                <td>
+                                    <router-link :to="{ path : '/my/team/' + team.id + '/members' }"
+                                                 class="btn btn-sm btn-default"><i class="fa fa-users"></i> Members
+                                    </router-link>
+
+                                    <section v-if="isOwnerOfTeam(team)">
+                                        <a @click.prevent="editTeam(team)" href="#" class="btn btn-sm btn-default">
+                                            <i class="fa fa-pencil"></i> Edit
+                                        </a>
+                                    </section>
+
+                                    <section v-if="isOwnerOfTeam(team)">
+                                        <a @click.prevent="deleteTeam(team.id)" href="#" class="btn btn-sm btn-default">
+                                            <i class="fa fa-trash-o"></i> Delete
+                                        </a>
+                                    </section>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,23 +72,41 @@
 <script>
     export default {
         data() {
-          return {
-              team_name : null,
-              creating_team : false
-          }
+            return {
+                team_name: null,
+                new_team_name: null,
+                updating_team: false,
+                creating_team: false,
+                editing_team_id : null
+            }
         },
-        methods : {
-          createTeam : function() {
-              userTeamStore.dispatch('createTeam', {
-                 name : this.team_name
-              });
-          },
-          isOwnerOfTeam : function(team) {
-              return team.owner_id == userStore.state.user.id;
-          }
+        methods: {
+            createTeam: function () {
+                userTeamStore.dispatch('createTeam', {
+                    name: this.team_name
+                });
+            },
+            isOwnerOfTeam: function (team) {
+                return team.owner_id == userStore.state.user.id;
+            },
+            deleteTeam: function (team_id) {
+                userTeamStore.dispatch('deleteTeam', team_id);
+            },
+            updateTeam: function () {
+                userTeamStore.dispatch('updateTeam', {
+                    name : this.new_team_name,
+                    team_id : this.editing_team_id
+                });
+            },
+            editTeam : function(team) {
+                this.editing_team_id = team.id;
+                this.new_team_name = team.name;
+                this.updating_team = true;
+                this.creating_team = false;
+            }
         },
-        computed : {
-            teams : () => {
+        computed: {
+            teams: () => {
                 return userTeamStore.state.teams;
             }
         }
