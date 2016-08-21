@@ -8,7 +8,7 @@
                     Your subscription has been canceled and will end on {{ subscription.ends_at }}
                 </p>
                 <p v-else>
-                    <template v-if="upcomingSubscription">
+                    <template v-if="!_.isEmpty(upcomingSubscription)">
                         Your next billing is on {{ upcomingSubscription.date }}
                     </template>
                 </p>
@@ -80,11 +80,11 @@
         },
         data() {
             return {
-                showCardForm: false,
                 plans: [],
+                invoices: [],
                 subscription: null,
-                upcomingSubscription: null,
-                invoices: []
+                showCardForm: user.card_brand ? false : true,
+                upcomingSubscription: null
             }
         },
         computed: {
@@ -92,7 +92,7 @@
                 return userStore.state.user;
             },
             validSubscription: function () {
-                if (this.subscription != null) {
+                if (!_.isEmpty(this.subscription)) {
                     return true;
                 }
                 return false;
@@ -121,6 +121,7 @@
 
                     if (this.validSubscription && !this.isCanceled) {
                         Vue.http.get(this.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
+                            console.info(response.json());
                             this.upcomingSubscription = response.json();
                         }, (errors) => {
                             alert(error);
