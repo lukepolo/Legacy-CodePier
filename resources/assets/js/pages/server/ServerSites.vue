@@ -43,13 +43,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="col-md-5">
-                <a href="#" class="btn btn-xs">Archive Server</a>
-                <a href="#" class="btn btn-xs">Restart Web Services</a>
-                <a href="#" class="btn btn-xs">Restart Server</a>
-                <a href="#" class="btn btn-xs">Restart Database</a>
-                <a href="#" class="btn btn-xs">Restart Workers</a>
-            </div>
         </section>
     </section>
 </template>
