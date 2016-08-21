@@ -79,7 +79,7 @@
                         <router-link to="/piles"><span class="icon-layers"></span>My Piles</router-link>
                     </li>
                     <li>
-                        <a href="#"><span class="icon-power"></span> Logout</a>
+                        <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
                     </li>
                 </ul>
             </li>
@@ -107,6 +107,11 @@
             }
         },
         methods: {
+            logout : function() {
+                Vue.http.post(this.action('Auth\LoginController@logout')).then(function() {
+                    window.location = '/';
+                });
+            },
             changeTeam: function (teamID) {
                 userTeamStore.dispatch('changeTeams', teamID);
             },
