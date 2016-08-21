@@ -140,6 +140,16 @@ import UserNotificationProviders from './pages/user/UserNotificationProviders.vu
 
 /*
  |--------------------------------------------------------------------------
+ | Team Pages
+ |--------------------------------------------------------------------------
+ |
+ */
+import Teams from './pages/team/Teams.vue';
+import TeamMembers from './pages/team/TeamMembers.vue';
+
+
+/*
+ |--------------------------------------------------------------------------
  | Server Pages
  |--------------------------------------------------------------------------
  |
@@ -193,6 +203,10 @@ const router = new VueRouter({
         {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
         {path: '/my-profile/notification-providers', component: UserNotificationProviders},
         {path: '/my-profile/oauth', component: UserOauth},
+
+        {path: '/my/teams', component: Teams},
+        {path: '/my/team/:team_id/members', component: TeamMembers},
+
         {path: '*', redirect: '/'}
     ]
 });

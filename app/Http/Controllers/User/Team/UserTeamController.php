@@ -24,6 +24,20 @@ class UserTeamController extends Controller
     }
 
     /**
+     * Show the members of the given team.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $teamModel = config('teamwork.team_model');
+        $team = $teamModel::with('invites')->findOrFail($id);
+
+        return response()->json($team);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -35,9 +49,11 @@ class UserTeamController extends Controller
 
         $team = $teamModel::create([
             'name' => $request->name,
-            'owner_id' => $request->user()->getKey()
+            'owner_id' => \Auth::user()->id
         ]);
         $request->user()->attachTeam($team);
+
+        return response()->json($team);
     }
 
     /**
@@ -54,6 +70,8 @@ class UserTeamController extends Controller
         $team = $teamModel::findOrFail($id);
         $team->name = $request->name;
         $team->save();
+
+        return response()->json($team);
     }
 
     /**
@@ -76,6 +94,8 @@ class UserTeamController extends Controller
         $userModel = config('teamwork.user_model');
         $userModel::where('current_team_id', $id)
             ->update(['current_team_id' => null]);
+
+        return response()->json();
     }
 
     /**
@@ -99,6 +119,8 @@ class UserTeamController extends Controller
         } catch (UserNotInTeamException $e) {
             abort(403);
         }
+
+        return response()->json();
     }
 
     /**
@@ -115,7 +137,7 @@ class UserTeamController extends Controller
 
         if (auth()->check()) {
             Teamwork::acceptInvite($invite);
-            return redirect()->route('teams.index');
+            return redirect()->to('/my/teams');
         } else {
             session(['invite_token' => $token]);
             return redirect()->to('login');

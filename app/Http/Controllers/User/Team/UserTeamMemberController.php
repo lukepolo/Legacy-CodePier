@@ -20,7 +20,7 @@ class UserTeamMemberController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function index($id)
     {
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($id);
@@ -51,32 +51,34 @@ class UserTeamMemberController extends Controller
         }
 
         $user->detachTeam($team);
+
+        return response()->json();
     }
 
     /**
      * @param Request $request
-     * @param int $team_id
      * @return $this
      */
-    public function invite(Request $request, $team_id)
+    public function invite(Request $request)
     {
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($team_id);
+        $team = $teamModel::findOrFail($request->get('team_id'));
 
         if (!Teamwork::hasPendingInvite($request->email, $team)) {
             Teamwork::inviteToTeam($request->email, $team, function ($invite) {
-                Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite],
+                Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
                     function ($m) use ($invite) {
                         $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
                     });
                 // Send email to user
             });
         } else {
-            return redirect()->back()->withErrors([
+            return response()->json([
                 'email' => 'The email address is already invited to the team.'
             ]);
         }
-        return redirect(route('teams.members.show', $team->id));
+
+        return response()->json();
     }
 
     /**
@@ -88,11 +90,12 @@ class UserTeamMemberController extends Controller
     public function resendInvite($invite_id)
     {
         $invite = TeamInvite::findOrFail($invite_id);
-        Mail::send('teamwork.emails.invite', ['team' => $invite->team, 'invite' => $invite],
+
+        Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
             function ($m) use ($invite) {
                 $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
             });
 
-        return redirect(route('teams.members.show', $invite->team));
+        return response()->json();
     }
 }
