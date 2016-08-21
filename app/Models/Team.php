@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Mpociot\Teamwork\Teamwork;
+use Mpociot\Teamwork\TeamworkTeam;
 
 /**
  * Class User
  * @package App\Models
  */
-class Team extends Teamwork
+class Team extends TeamworkTeam
 {
-
+    public function piles()
+    {
+        return $this->belongsToMany(Pile::class);
+    }
 }

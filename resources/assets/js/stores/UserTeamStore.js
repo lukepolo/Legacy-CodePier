@@ -21,7 +21,8 @@ const userTeamStore = new Vuex.Store({
         },
         createTeam: ({commit}, data) => {
             Vue.http.post(action('User\Team\UserTeamController@store'), {
-                name: data.name
+                name: data.name,
+                piles : data.piles
             }).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
@@ -30,7 +31,8 @@ const userTeamStore = new Vuex.Store({
         },
         updateTeam : ({commit}, data) => {
             Vue.http.put(action('User\Team\UserTeamController@update', {team : data.team_id }), {
-                name: data.name
+                name: data.name,
+                piles : data.piles
             }).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
