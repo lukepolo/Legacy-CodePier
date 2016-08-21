@@ -46,6 +46,7 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $site = Site::create([
+            'user_id' => \Auth::user()->id,
             'pile_id' => $request->get('pile_id'),
             'domain' => $request->get('domain'),
             'web_directory' => $request->get('web_directory'),

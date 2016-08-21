@@ -27,6 +27,7 @@ class ServerProvisioned
     public function __construct(Server $server, $sudoPassword, $databasePassword, $log, $errors)
     {
         $this->server = $server;
+        $this->user = $server->user;
         $this->sudoPassword = $sudoPassword;
         $this->databasePassword = $databasePassword;
         $this->errors = $errors;
@@ -48,6 +49,8 @@ class ServerProvisioned
      */
     public function broadcastOn()
     {
-        return [];
+        return [
+            'App.User.'
+        ];
     }
 }

@@ -15,6 +15,7 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
             $table->string('domain');
+            $table->integer('user_id');
             $table->string('branch')->nullable();
             $table->text('repository')->nullable();
             $table->text('web_directory')->nullable();
