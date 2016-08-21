@@ -16,7 +16,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="#">{{ site.domain }}</a></td>
+                        <td>
+                            <router-link :to="{ path: '/site/'+site.id }">
+                                {{ site.domain }}
+                            </router-link>
+                        </td>
                         <td>{{ site.repository }}</td>
                         <td>
                              <span v-if="isZerotimeDeployment(site)">
@@ -39,12 +43,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="col-md-5">
+                <a href="#" class="btn btn-xs">Archive Server</a>
+                <a href="#" class="btn btn-xs">Restart Web Services</a>
+                <a href="#" class="btn btn-xs">Restart Server</a>
+                <a href="#" class="btn btn-xs">Restart Database</a>
+                <a href="#" class="btn btn-xs">Restart Workers</a>
+            </div>
         </section>
-        <!--<a href="#" class="btn btn-xs">Archive Server</a>-->
-        <!--<a href="#" class="btn btn-xs">Restart Web Services</a>-->
-        <!--<a href="#" class="btn btn-xs">Restart Server</a>-->
-        <!--<a href="#" class="btn btn-xs">Restart Database</a>-->
-        <!--<a href="#" class="btn btn-xs">Restart Workers</a>-->
     </section>
 </template>
 
