@@ -37,4 +37,18 @@ class Pile extends Model
     {
         return $this->belongsToMany(Team::class);
     }
+
+    public function delete()
+    {
+        $this->teams()->detach();
+        foreach($this->servers as $server) {
+            $server->pile_id = 0;
+        }
+
+        foreach($this->sites as $site) {
+            $site->pile_id = 0;
+        }
+
+        return parent::delete();
+    }
 }

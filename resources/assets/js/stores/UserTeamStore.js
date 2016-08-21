@@ -35,6 +35,8 @@ const userTeamStore = new Vuex.Store({
                 piles : data.piles
             }).then((response) => {
                 userTeamStore.dispatch('getTeams');
+                pileStore.dispatch('getPiles');
+                siteStore.dispatch('getSites');
             }, (errors) => {
                 alert(error);
             });
