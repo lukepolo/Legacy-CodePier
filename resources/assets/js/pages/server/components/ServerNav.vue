@@ -36,7 +36,6 @@
             <router-link :to="{ path: '/server/'+server.id+'/daemons' }" role="presentation" tag="li" ><a>Daemons</a></router-link>
             <router-link :to="{ path: '/server/'+server.id+'/firewall-rules' }" role="presentation" tag="li" ><a>Firewall Rules</a></router-link>
             <router-link :to="{ path: '/server/'+server.id+'/monitoring' }" role="presentation" tag="li" ><a>Monitoring</a></router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/files' }" role="presentation" tag="li" ><a>Files</a></router-link>
         </ul>
     </section>
 </template>

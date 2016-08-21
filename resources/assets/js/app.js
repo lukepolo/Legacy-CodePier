@@ -146,7 +146,6 @@ import UserNotificationProviders from './pages/user/UserNotificationProviders.vu
  */
 import ServerForm from "./pages/server/ServerForm.vue";
 import ServerSites from "./pages/server/ServerSites.vue";
-import ServerFiles from "./pages/server/ServerFiles.vue";
 import ServerDaemons from "./pages/server/ServerDaemons.vue";
 import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
 import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
@@ -173,7 +172,6 @@ const router = new VueRouter({
 
         {path: '/server/create', component : ServerForm},
         {path: '/server/:server_id/sites', component : ServerSites},
-        {path: '/server/:server_id/files', component : ServerFiles},
         {path: '/server/:server_id/daemons', component : ServerDaemons},
         {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
         {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},
