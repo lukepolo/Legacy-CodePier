@@ -93,10 +93,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         });
 
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::resource('members', 'UserTeamMemberController');
+            Route::resource('team.members', 'UserTeamMemberController');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}',
-                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
 
         /*

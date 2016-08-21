@@ -53,7 +53,7 @@
                         <a href="#" v-on:click="changeTeam()"
                            :class="{selected : currentTeam == null}">Private</a>
                     </li>
-                    <template v-for="team in user.teams">
+                    <template v-for="team in teams">
                         <li>
                             <a href="#" v-on:click="changeTeam(team.id)"
                                :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
@@ -73,7 +73,7 @@
                         <router-link to="/my-profile"><span class="icon-person"></span>My Profile</router-link>
                     </li>
                     <li>
-                        <a href="#"><span class="icon-people"></span> Manage Teams</a>
+                        <router-link to="/my/teams"><span class="icon-people"></span>Manage Teams</router-link>
                     </li>
                     <li>
                         <router-link to="/piles"><span class="icon-layers"></span>My Piles</router-link>
@@ -104,6 +104,9 @@
             },
             user: () => {
                 return userStore.state.user;
+            },
+            teams : () => {
+                return userTeamStore.state.teams;
             }
         },
         methods: {
@@ -129,6 +132,7 @@
         },
         created() {
             pileStore.dispatch('getPiles');
+            userTeamStore.dispatch('getTeams');
             userTeamStore.dispatch('getUserTeam');
         }
     }
