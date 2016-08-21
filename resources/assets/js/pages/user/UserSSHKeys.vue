@@ -9,7 +9,7 @@
                     <input name="name" type="text" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>Public Key0</label>
+                    <label>Public Key</label>
                     <textarea name="ssh_key" class="form-control"></textarea>
                 </div>
                 <input type="submit" value="Install SSH Key">
@@ -25,7 +25,6 @@
                 <tbody>
                     <tr v-for="key in ssh_keys">
                         <td>{{ key.name }}</td>
-                        <td>{{ key.ssh_key }}</td>
                         <td><a href="#" class="fa fa-remove">x</a></td>
                     </tr>
                 </tbody>
