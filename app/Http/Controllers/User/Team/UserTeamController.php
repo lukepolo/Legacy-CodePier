@@ -113,14 +113,13 @@ class UserTeamController extends Controller
         if (!empty($id)) {
             $team = $teamModel::findOrFail($id);
         }
-
         try {
             auth()->user()->switchTeam($team);
         } catch (UserNotInTeamException $e) {
             abort(403);
         }
 
-        return response()->json();
+        return response()->json($team);
     }
 
     /**
