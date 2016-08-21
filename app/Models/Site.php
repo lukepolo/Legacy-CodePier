@@ -13,9 +13,10 @@ class Site extends Model
 {
     use UsedByTeams;
 
-    static $teamworkUserModel = 'servers';
-
     protected $guarded = ['id'];
+
+    static $teamworkModel = 'pile.teams';
+    public $teamworkSync = false;
 
     /*
     |--------------------------------------------------------------------------

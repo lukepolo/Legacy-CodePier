@@ -70,7 +70,7 @@
                 Team Name :
                 <input v-model="new_team_name" name="new_team_name" type="text">
 
-                <template v-for="pile in piles">
+                <template v-for="pile in user_piles">
                     <input v-model="updated_connected_piles" name="updated_connected_piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
                 </template>
 
@@ -86,6 +86,9 @@
         components: {
             LeftNav,
         },
+        created() {
+            this.fetchData();
+        },
         data() {
             return {
                 team_name: null,
@@ -94,10 +97,13 @@
                 updated_connected_piles: [],
                 updating_team: false,
                 creating_team: false,
-                editing_team_id: null
+                editing_team: null
             }
         },
         methods: {
+            fetchData : function() {
+                pileStore.dispatch('getUserPiles');
+            },
             createTeam: function () {
                 userTeamStore.dispatch('createTeam', {
                     name: this.team_name,
@@ -113,7 +119,7 @@
             updateTeam: function () {
                 userTeamStore.dispatch('updateTeam', {
                     name: this.new_team_name,
-                    team_id: this.editing_team_id,
+                    team_id: this.editing_team.id,
                     piles : this.updated_connected_piles
                 });
             },
@@ -122,7 +128,7 @@
                 this.updating_team = false;
             },
             editTeam: function (team) {
-                this.editing_team_id = team.id;
+                this.editing_team = team;
                 this.new_team_name = team.name;
                 this.updated_connected_piles = _.map(team.piles, 'id');
                 this.updating_team = true;
@@ -133,8 +139,8 @@
             teams: () => {
                 return userTeamStore.state.teams;
             },
-            piles: () => {
-                return pileStore.state.piles;
+            user_piles: () => {
+                return pileStore.state.user_piles;
             }
         }
     }

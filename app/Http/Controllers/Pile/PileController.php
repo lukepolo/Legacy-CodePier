@@ -16,11 +16,17 @@ class PileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Pile::with('servers')->get());
+        $piles = Pile::with('servers');
+        if($request->has('all')) {
+            $piles = $piles->allTeams();
+        }
+
+        return response()->json($piles->get());
     }
 
     /**
