@@ -119,7 +119,7 @@ window.pileStore = pileStore;
  */
 
 Vue.component('Navigation', require('./core/Navigation.vue'));
-Vue.component('AppFooter', require('./core/Footer.vue'));
+Vue.component('NotificationBar', require('./core/NotificationBar.vue'));
 
 import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";

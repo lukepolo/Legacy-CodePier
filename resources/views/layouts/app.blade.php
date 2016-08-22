@@ -21,6 +21,7 @@
         </script>
     </head>
     <body>
+
         <div id="app-layout">
             <navigation></navigation>
 
@@ -28,7 +29,7 @@
                 @yield('content')
             </div>
 
-            <app-footer></app-footer>
+            <notification-bar></notification-bar>
         </div>
 
         <!-- Scripts -->
