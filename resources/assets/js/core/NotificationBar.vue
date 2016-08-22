@@ -1,6 +1,11 @@
 <template>
-
+    <footer>
+        some kind of filter bar / Deployments / Regular Events
+        NOTIFICATION BAR HERE
+        never ending scroll here
+    </footer>
 </template>
+
 <script>
     export default {
         computed: {

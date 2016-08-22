@@ -59,7 +59,7 @@
                 Team Name :
                 <input v-model="team_name" name="team_name" type="text">
 
-                <template v-for="pile in piles">
+                <template v-for="pile in user_piles">
                     <input v-model="connected_piles" name="connected_piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
                 </template>
 

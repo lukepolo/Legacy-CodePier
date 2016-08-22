@@ -3,7 +3,7 @@
         <h3 class="section-header">Sites</h3>
         <div class="server selected" v-for="site in sites">
             <router-link :to="{ path: '/site/'+site.id }">
-                {{ site.domain }}
+                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top" data-container="body" title="Site Health"></span> {{ site.domain }}
             </router-link>
         </div>
 
