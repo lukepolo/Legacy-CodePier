@@ -8,7 +8,7 @@
     <footer v-watch-scroll="events_pagination">
         some kind of filter bar / Deployments / Regular Events
         <p v-for="event in events">
-            {{ event.id }} - {{ event.event_type }}
+            {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{ event.data }} - {{ event.log }} - {{ event.created_at }}
         </p>
         never ending scroll here
     </footer>
