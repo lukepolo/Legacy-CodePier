@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,7 +19,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return response()->json(Event::paginate(5));
+        return response()->json();
     }
 
 
