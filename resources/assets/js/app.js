@@ -111,6 +111,9 @@ window.siteStore = siteStore;
 import pileStore from './stores/PileStore'
 window.pileStore = pileStore;
 
+import eventStore from './stores/EventStore'
+window.eventStore = eventStore;
+
 /*
  |--------------------------------------------------------------------------
  | Core
@@ -215,6 +218,7 @@ const app = new Vue({
     router,
     siteStore,
     userStore,
+    eventStore,
     serverStore,
     userTeamStore
 }).$mount('#app-layout');

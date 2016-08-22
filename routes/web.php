@@ -210,6 +210,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         });
     });
 
+    Route::resource('events', 'EventController');
 });
 
 Route::group(['middleware' => 'auth'], function () {
