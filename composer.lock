@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3eb20ab2cbfcc0e412ba8d68d9328a62",
-    "content-hash": "579ea8063a003d38e2789255e98ba359",
+    "hash": "a87d476243977330b2e314997d665ac7",
+    "content-hash": "002a25fcbfaa9489b8dd75ec37d13306",
     "packages": [
         {
             "name": "authy/php",
@@ -55,7 +55,7 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "dev-master",
+            "version": "V2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
@@ -881,16 +881,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v3.0.0",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1"
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
-                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
                 "shasum": ""
             },
             "require": {
@@ -920,7 +920,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2015-07-22 18:31:08"
+            "time": "2016-07-18 04:51:16"
         },
         {
             "name": "gentle/bitbucket-api",
@@ -1867,16 +1867,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.3.0-RC1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6b76cecef3fcbad07eb1ab7b15a05563a18d3e0a"
+                "reference": "7d116dc5a008e69c97f864af79ac46ab6a8d5895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6b76cecef3fcbad07eb1ab7b15a05563a18d3e0a",
-                "reference": "6b76cecef3fcbad07eb1ab7b15a05563a18d3e0a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7d116dc5a008e69c97f864af79ac46ab6a8d5895",
+                "reference": "7d116dc5a008e69c97f864af79ac46ab6a8d5895",
                 "shasum": ""
             },
             "require": {
@@ -1990,24 +1990,24 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-08-17 15:05:00"
+            "time": "2016-08-23 13:04:04"
         },
         {
             "name": "laravel/passport",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "ee63ae81a437c560e7b1a36a92e1c59ba2140a11"
+                "reference": "55fb99f5feb3572634b6d37a8aa43bd8a7148960"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/ee63ae81a437c560e7b1a36a92e1c59ba2140a11",
-                "reference": "ee63ae81a437c560e7b1a36a92e1c59ba2140a11",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/55fb99f5feb3572634b6d37a8aa43bd8a7148960",
+                "reference": "55fb99f5feb3572634b6d37a8aa43bd8a7148960",
                 "shasum": ""
             },
             "require": {
-                "firebase/php-jwt": "~3.0",
+                "firebase/php-jwt": "~4.0",
                 "guzzlehttp/guzzle": "~6.0",
                 "illuminate/auth": "~5.3",
                 "illuminate/console": "~5.3",
@@ -2054,7 +2054,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2016-08-21 12:37:55"
+            "time": "2016-08-23 12:49:27"
         },
         {
             "name": "laravel/socialite",
@@ -3361,16 +3361,16 @@
         },
         {
             "name": "pusher/pusher-php-server",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pusher/pusher-http-php.git",
-                "reference": "04535a46f8133fbeef656646846e1a4c43eeaa6f"
+                "reference": "cdc11530c6f97eab76850d8ead6c513eeeccc37a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/04535a46f8133fbeef656646846e1a4c43eeaa6f",
-                "reference": "04535a46f8133fbeef656646846e1a4c43eeaa6f",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/cdc11530c6f97eab76850d8ead6c513eeeccc37a",
+                "reference": "cdc11530c6f97eab76850d8ead6c513eeeccc37a",
                 "shasum": ""
             },
             "require": {
@@ -3401,7 +3401,7 @@
                 "rest",
                 "trigger"
             ],
-            "time": "2016-08-15 16:34:36"
+            "time": "2016-08-23 09:07:29"
         },
         {
             "name": "ramsey/uuid",
@@ -6525,11 +6525,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "laravel/passport": 20
-    },
-    "prefer-stable": true,
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6.4"

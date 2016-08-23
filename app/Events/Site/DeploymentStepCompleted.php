@@ -5,6 +5,7 @@ namespace App\Events\Site;
 use App\Models\DeploymentEvent;
 use App\Models\DeploymentStep;
 use App\Models\Site;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -46,10 +47,10 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     /**
      * Get the channels the event should be broadcast on.
      *
-     * @return array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('Site.' . $this->siteId);
+        return new PrivateChannel('App.Models.Site.' . $this->siteId);
     }
 }

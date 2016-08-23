@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -13,9 +14,9 @@ use Illuminate\Queue\SerializesModels;
  * Class ProvisionServer
  * @package App\Jobs
  */
-class ProvisionServer extends Job implements ShouldQueue
+class ProvisionServer implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 
@@ -41,5 +42,7 @@ class ProvisionServer extends Job implements ShouldQueue
         }
 
         event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+
+        // TODO - notify the users that their server was provisioned
     }
 }

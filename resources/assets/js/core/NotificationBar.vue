@@ -45,7 +45,7 @@
                 serverStore.dispatch('getServers', function () {
                     _(serverStore.state.servers).forEach(function (server) {
                         if(server.progress != 100) {
-                            Echo.private('Server.' + server.id)
+                            Echo.private('App.Models.Server.' + server.id)
                                     .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                         server.status = data.status;
                                         server.progress = data.progress;
@@ -59,7 +59,7 @@
 
                 siteStore.dispatch('getSites', function () {
                     _(siteStore.state.sites).forEach(function (site) {
-                        Echo.private('Site.' + site.id)
+                        Echo.private('App.Models.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
                                     console.info(data.step+' started');
                                 })

@@ -4,10 +4,10 @@ namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\Server\ServerCreated;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Models\ServerProvider;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,9 +17,9 @@ use Illuminate\Queue\SerializesModels;
  * Class CreateServer
  * @package App\Jobs
  */
-class CreateServer extends Job implements ShouldQueue
+class CreateServer implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels, DispatchesJobs;
+    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
 
     protected $server;
     protected $options;
@@ -54,12 +54,12 @@ class CreateServer extends Job implements ShouldQueue
             sleep(5);
             $serverStatus = $serverService->getStatus($server);
         }
-        event(new ServerCreated($server));
+
+        event(new ServerProvisionStatusChanged($server, 'Server Created', 0));
 
         $serverService->saveInfo($server);
 
         $sshConnection = false;
-
 
         while ($sshConnection == false) {
             sleep(5);

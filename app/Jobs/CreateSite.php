@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Models\Server;
 use App\Models\Site;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,9 +15,9 @@ use Illuminate\Queue\SerializesModels;
  * Class CreateSite
  * @package App\Jobs
  */
-class CreateSite extends Job implements ShouldQueue
+class CreateSite implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels, DispatchesJobs;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $site;
     protected $server;
