@@ -27,7 +27,7 @@ trait UsedByTeams
         if (\Auth::check()) {
             $teamworkModel = static::$teamworkModel;
 
-            if (empty(auth()->user()->currentTeam)) {
+            if (empty(auth()->user()->current_team_id)) {
                 static::addGlobalScope('team', function (Builder $builder) use($teamworkModel) {
                     $builder->doesntHave($teamworkModel);
                 });

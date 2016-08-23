@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Events\Server\Site;
+namespace App\Events\Site;
 
 use App\Models\DeploymentEvent;
+use App\Models\DeploymentStep;
 use App\Models\Site;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -17,6 +18,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
+    public $step;
     public $deploymentEvent;
 
     private $siteId;
@@ -28,7 +30,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      * @param $log
      * @param $runtime
      */
-    public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log, $runtime)
+    public function __construct(Site $site, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
     {
         $this->siteId = $site->id;
 
@@ -38,6 +40,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
         $deploymentEvent->save();
 
         $this->deploymentEvent = $deploymentEvent;
+        $this->step = $deploymentStep->step;
     }
 
     /**

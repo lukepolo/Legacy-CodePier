@@ -5,10 +5,9 @@ namespace App\Services\Server\Site;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\Site\SiteServiceContract;
-use App\Events\Server\Site\DeploymentCompleted;
-use App\Events\Server\Site\DeploymentStepCompleted;
-use App\Events\Server\Site\DeploymentStepFailed;
-use App\Events\Server\Site\DeploymentStepStarted;
+use App\Events\Site\DeploymentStepCompleted;
+use App\Events\Site\DeploymentStepFailed;
+use App\Events\Site\DeploymentStepStarted;
 use App\Exceptions\DeploymentFailed;
 use App\Exceptions\FailedCommand;
 use App\Models\Server;
@@ -309,13 +308,13 @@ class SiteService implements SiteServiceContract
             try {
                 $start = microtime(true);
 
-                event(new DeploymentStepStarted($site, $event));
+                event(new DeploymentStepStarted($site, $event, $event->step));
 
                 $internalFunction = $event->step->internal_deployment_function;
 
                 $log = $deploymentService->$internalFunction($sha);
 
-                event(new DeploymentStepCompleted($site, $event, $log, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $event, $event->step, $log, microtime(true) - $start));
             } catch(FailedCommand $e) {
                 event(new DeploymentStepFailed($site, $event, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
@@ -326,6 +325,7 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
 
+        // TODO - should be a notification
 //        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
     }
 
