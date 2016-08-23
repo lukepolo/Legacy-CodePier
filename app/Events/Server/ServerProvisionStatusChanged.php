@@ -4,12 +4,10 @@ namespace App\Events\Server;
 
 use App\Models\Server;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 
 /**
@@ -27,6 +25,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     public $connected;
 
     private $user;
+
     /**
      * Create a new event instance.
      * @param Server $server
@@ -53,6 +52,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('Server.Status.'.$this->serverID);
+        return new PrivateChannel('Server.' . $this->serverID);
     }
 }

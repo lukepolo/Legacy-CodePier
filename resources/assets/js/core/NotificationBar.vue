@@ -8,7 +8,8 @@
     <footer v-watch-scroll="events_pagination">
         some kind of filter bar / Deployments / Regular Events
         <p v-for="event in events">
-            {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{ event.data }} - {{ event.log }} - {{ event.created_at }}
+            {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{
+            event.data }} - {{ event.log }} - {{ event.created_at }}
         </p>
         never ending scroll here
     </footer>
@@ -24,7 +25,7 @@
             var pagination = bindings.value;
 
             var nextPage = pagination.current_page + 1;
-            if(nextPage <= pagination.last_page) {
+            if (nextPage <= pagination.last_page) {
                 $(el).bind('scroll', function () {
                     var $el = $(el);
                     if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
@@ -41,16 +42,21 @@
         },
         methods: {
             fetchData: function () {
-
                 serverStore.dispatch('getServers', function () {
                     _(serverStore.state.servers).forEach(function (server) {
-                        Echo.private('Server.Status.' + server.id)
-                                .listen('Server\\Se=rverProvisionStatusChanged', (data) => {
+                        Echo.private('Server.' + server.id)
+                                .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     server.status = data.status;
                                     server.progress = data.progress;
                                     server.ip = data.ip;
                                     server.ssh_connection = data.connected;
                                 });
+                    });
+                });
+
+                siteStore.dispatch('getSites', function () {
+                    _(siteStore.state.sites).forEach(function (site) {
+                        Echo.private('Site.' + site.id)
                     });
                 });
 
@@ -64,7 +70,7 @@
             events: () => {
                 return eventStore.state.events;
             },
-            events_pagination : () => {
+            events_pagination: () => {
                 return eventStore.state.events_pagination;
             }
         },

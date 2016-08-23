@@ -20,9 +20,10 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        getSites: ({commit}) => {
+        getSites: ({commit}, callback) => {
             Vue.http.get(action('Pile\PileSitesController@show', {pile: pileStore.state.current_pile_id})).then((response) => {
                 commit('SET_SITES', response.json());
+                typeof callback === 'function' && callback();
             }, (errors) => {
                 alert(error);
             });

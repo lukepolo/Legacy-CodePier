@@ -2,9 +2,10 @@
 
 namespace App\Events\Server\Site;
 
-use App\Events\Event;
 use App\Models\DeploymentEvent;
 use App\Models\Site;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
@@ -14,11 +15,11 @@ use Illuminate\Queue\SerializesModels;
  */
 class DeploymentStepCompleted implements ShouldBroadcastNow
 {
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $deploymentEvent;
 
-    private $user;
+    private $siteId;
 
     /**
      * Create a new event instance.
@@ -29,7 +30,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log, $runtime)
     {
-        $this->user = $site->pile->user;
+        $this->siteId = $site->id;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;
@@ -46,6 +47,6 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ['user.'.$this->user->id];
+        return new PrivateChannel('Site.' . $this->siteId);
     }
 }
