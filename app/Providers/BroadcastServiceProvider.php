@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Server;
+use App\Models\Site;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -25,8 +26,12 @@ class BroadcastServiceProvider extends ServiceProvider
             return (int) $user->teams->contains((int) $teamID);
         });
 
-        Broadcast::channel('Server.Status.*', function ($user, $serverID) {
+        Broadcast::channel('Server.*', function ($user, $serverID) {
             return $user->id === Server::findOrFail($serverID)->user_id;
+        });
+
+        Broadcast::channel('Site.*', function ($user, $siteID) {
+            return $user->id === Site::findOrFail($siteID)->user_id;
         });
     }
 }
