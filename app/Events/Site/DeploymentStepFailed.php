@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Server\Site;
+namespace App\Events\Site;
 
 use App\Models\DeploymentEvent;
 use App\Models\Site;

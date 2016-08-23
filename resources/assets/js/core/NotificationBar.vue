@@ -44,19 +44,32 @@
             fetchData: function () {
                 serverStore.dispatch('getServers', function () {
                     _(serverStore.state.servers).forEach(function (server) {
-                        Echo.private('Server.' + server.id)
-                                .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                                    server.status = data.status;
-                                    server.progress = data.progress;
-                                    server.ip = data.ip;
-                                    server.ssh_connection = data.connected;
-                                });
+                        if(server.progress != 100) {
+                            Echo.private('Server.' + server.id)
+                                    .listen('Server\\ServerProvisionStatusChanged', (data) => {
+                                        server.status = data.status;
+                                        server.progress = data.progress;
+                                        server.ip = data.ip;
+                                        server.ssh_connection = data.connected;
+                                    });
+                        }
+
                     });
                 });
 
                 siteStore.dispatch('getSites', function () {
                     _(siteStore.state.sites).forEach(function (site) {
                         Echo.private('Site.' + site.id)
+                                .listen('Site\\DeploymentStepStarted', (data) => {
+                                    console.info(data.step+' started');
+                                })
+                                .listen('Site\\DeploymentStepCompleted', (data) => {
+                                    console.log(data);
+                                    console.info(data.step+' completed in ' + data.deploymentEvent.runtime + ' seconds');
+                                })
+                                .listen('Site\\DeploymentStepFailed', (data) => {
+                                    console.info(data.step+' failed');
+                                })
                     });
                 });
 

@@ -3,8 +3,6 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
-use App\Events\Server\Site\DeploymentFailed;
-use App\Events\Server\Site\NewSiteDeployment;
 use App\Models\Site;
 use App\Models\SiteDeployment;
 use Illuminate\Queue\SerializesModels;
@@ -35,7 +33,6 @@ class DeploySite extends Job implements ShouldQueue
         $this->site = $site;
         $this->servers = $site->servers;
 
-
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
             'status' => 'queued for deployment'
@@ -43,7 +40,8 @@ class DeploySite extends Job implements ShouldQueue
 
         $this->siteDeployment->createSteps();
 
-        event(new NewSiteDeployment($site, $this->siteDeployment));
+        // TODO - notifications here
+//        event(new NewSiteDeployment($site, $this->siteDeployment));
 
     }
 
@@ -59,7 +57,8 @@ class DeploySite extends Job implements ShouldQueue
                 $siteService->deploy($server, $this->site, $this->siteDeployment, $this->sha);
             }
         } catch(\App\Exceptions\DeploymentFailed $e) {
-            event(new DeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
+            // TODO - notifications here
+//            event(new DeploymentFailedEvent($this->site, $this->siteDeployment, $e->getMessage()));
         }
     }
 }
