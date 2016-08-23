@@ -60,9 +60,11 @@ class PHP
             $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
         }
 
-        $output[] = $this->remoteTaskService->run('echo "*" > '.$this->release.'/.git/info/sparse-checkout');
-        $output[] = $this->remoteTaskService->run('echo "!storage" >> '.$this->release.'/.git/info/sparse-checkout');
-        $output[] = $this->remoteTaskService->run('echo "!public/build" >> '.$this->release.'/.git/info/sparse-checkout');
+        $output[] = $this->remoteTaskService->run('([ -d ' . $this->site_folder . '/public ]) || (mv ' . $this->release . '/storage ' . $this->site_folder.')');
+        $output[] = $this->remoteTaskService->run('rsyn -au '.$this->site_folder . '/storage '.$this->site_folder.'/storage; rm '.$this->site_folder.' -rf');
+
+        // TODO - test to make sure this works , public directory should not be sym linked
+        $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/storage ' . $this->release . '/storage');
 
         $output[] = $this->remoteTaskService->run('([ -f ' . $this->site_folder . '/.env ]) || echo >> ' . $this->site_folder . '/.env');
         $output[] = $this->remoteTaskService->run('ln -s ' . $this->site_folder . '/.env ' . $this->release . '/.env');

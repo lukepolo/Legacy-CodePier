@@ -7,6 +7,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
+/**
+ * Class ServerProvisioned
+ * @package App\Notifications
+ */
 class ServerProvisioned extends Notification
 {
     use Queueable;

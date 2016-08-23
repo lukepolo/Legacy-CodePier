@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\ServerProvider;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -12,9 +13,9 @@ use Illuminate\Queue\SerializesModels;
  * Class GetServerOptions
  * @package App\Jobs
  */
-class GetServerOptions extends Job implements ShouldQueue
+class GetServerOptions implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 

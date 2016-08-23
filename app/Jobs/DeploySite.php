@@ -3,21 +3,24 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Exceptions\DeploymentFailed;
 use App\Models\Site;
 use App\Models\SiteDeployment;
-use App\Models\User;
 use App\Notifications\NewSiteDeployment;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Notifications\SiteDeploymentFailed;
+use App\Notifications\SiteDeploymentSuccessful;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class DeploySite
  * @package App\Jobs
  */
-class DeploySite extends Job implements ShouldQueue
+class DeploySite implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     public $sha;
     public $site;
@@ -42,10 +45,7 @@ class DeploySite extends Job implements ShouldQueue
 
         $this->siteDeployment->createSteps();
 
-        $site->notify(new NewSiteDeployment());
-
-//        event(new NewSiteDeployment($site, $this->siteDeployment));
-
+        $site->notify(new NewSiteDeployment($site, $this->siteDeployment));
     }
 
     /**
@@ -56,12 +56,12 @@ class DeploySite extends Job implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         try {
-            foreach($this->servers as $server) {
+            foreach ($this->servers as $server) {
                 $siteService->deploy($server, $this->site, $this->siteDeployment, $this->sha);
+                $this->site->notify(new SiteDeploymentSuccessful($this->site, $this->siteDeployment));
             }
-        } catch(\App\Exceptions\DeploymentFailed $e) {
-            // TODO - notifications here
-//            event(new DeploymentFailedEvent($this->site, $this->siteDeployment, $e->getMessage()));
+        } catch (DeploymentFailed $e) {
+            $this->site->notify(new SiteDeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }
     }
 }

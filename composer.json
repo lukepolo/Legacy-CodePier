@@ -32,7 +32,7 @@
         "m4tthumphrey/php-gitlab-api": "^7.13",
         "socialiteproviders/gitlab": "^2.0",
         "lord/laroute" : "^2.3.0",
-        "laravel/passport": "^1.0@dev"
+        "laravel/passport": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -74,7 +74,5 @@
     },
     "config": {
         "preferred-install": "dist"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

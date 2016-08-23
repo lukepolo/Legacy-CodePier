@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.0-RC1 on 2016-08-21.
+ * Generated for Laravel 5.3.0 on 2016-08-23.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3836,13 +3836,14 @@ if (! function_exists('with')) {
          * Execute a Closure within a transaction.
          *
          * @param \Closure $callback
+         * @param int $attempts
          * @return mixed 
          * @throws \Exception|\Throwable
          * @static 
          */
-        public static function transaction($callback){
+        public static function transaction($callback, $attempts = 1){
             //Method inherited from \Illuminate\Database\Connection            
-            return \Illuminate\Database\MySqlConnection::transaction($callback);
+            return \Illuminate\Database\MySqlConnection::transaction($callback, $attempts);
         }
         
         /**
@@ -7790,7 +7791,7 @@ if (! function_exists('with')) {
          * @static 
          */
         public static function size($queue = null){
-            return \Illuminate\Queue\DatabaseQueue::size($queue);
+            return \Illuminate\Queue\SyncQueue::size($queue);
         }
         
         /**
@@ -7800,10 +7801,11 @@ if (! function_exists('with')) {
          * @param mixed $data
          * @param string $queue
          * @return mixed 
+         * @throws \Exception|\Throwable
          * @static 
          */
         public static function push($job, $data = '', $queue = null){
-            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
+            return \Illuminate\Queue\SyncQueue::push($job, $data, $queue);
         }
         
         /**
@@ -7816,7 +7818,7 @@ if (! function_exists('with')) {
          * @static 
          */
         public static function pushRaw($payload, $queue = null, $options = array()){
-            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
+            return \Illuminate\Queue\SyncQueue::pushRaw($payload, $queue, $options);
         }
         
         /**
@@ -7826,37 +7828,11 @@ if (! function_exists('with')) {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return void 
+         * @return mixed 
          * @static 
          */
         public static function later($delay, $job, $data = '', $queue = null){
-            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
-        }
-        
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array $jobs
-         * @param mixed $data
-         * @param string $queue
-         * @return mixed 
-         * @static 
-         */
-        public static function bulk($jobs, $data = '', $queue = null){
-            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
-        }
-        
-        /**
-         * Release a reserved job back onto the queue.
-         *
-         * @param string $queue
-         * @param \StdClass $job
-         * @param int $delay
-         * @return mixed 
-         * @static 
-         */
-        public static function release($queue, $job, $delay){
-            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
+            return \Illuminate\Queue\SyncQueue::later($delay, $job, $data, $queue);
         }
         
         /**
@@ -7867,29 +7843,7 @@ if (! function_exists('with')) {
          * @static 
          */
         public static function pop($queue = null){
-            return \Illuminate\Queue\DatabaseQueue::pop($queue);
-        }
-        
-        /**
-         * Delete a reserved job from the queue.
-         *
-         * @param string $queue
-         * @param string $id
-         * @return void 
-         * @static 
-         */
-        public static function deleteReserved($queue, $id){
-            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
-        }
-        
-        /**
-         * Get the underlying database instance.
-         *
-         * @return \Illuminate\Database\Connection 
-         * @static 
-         */
-        public static function getDatabase(){
-            return \Illuminate\Queue\DatabaseQueue::getDatabase();
+            return \Illuminate\Queue\SyncQueue::pop($queue);
         }
         
         /**
@@ -7903,7 +7857,7 @@ if (! function_exists('with')) {
          */
         public static function pushOn($queue, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
+            return \Illuminate\Queue\SyncQueue::pushOn($queue, $job, $data);
         }
         
         /**
@@ -7918,7 +7872,21 @@ if (! function_exists('with')) {
          */
         public static function laterOn($queue, $delay, $job, $data = ''){
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
+            return \Illuminate\Queue\SyncQueue::laterOn($queue, $delay, $job, $data);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */
+        public static function bulk($jobs, $data = '', $queue = null){
+            //Method inherited from \Illuminate\Queue\Queue            
+            return \Illuminate\Queue\SyncQueue::bulk($jobs, $data, $queue);
         }
         
         /**
@@ -7930,7 +7898,7 @@ if (! function_exists('with')) {
          */
         public static function setContainer($container){
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\DatabaseQueue::setContainer($container);
+            \Illuminate\Queue\SyncQueue::setContainer($container);
         }
         
     }
@@ -10344,7 +10312,7 @@ if (! function_exists('with')) {
          * @param string $class
          * @param \Closure|null $callback
          * @return void 
-         * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
          * @static 
          */
         public static function model($key, $class, $callback = null){
@@ -11525,6 +11493,33 @@ if (! function_exists('with')) {
          */
         public static function put($path, $contents, $visibility = null){
             return \Illuminate\Filesystem\FilesystemAdapter::put($path, $contents, $visibility);
+        }
+        
+        /**
+         * Store the uploaded file on the disk.
+         *
+         * @param string $path
+         * @param \Illuminate\Http\UploadedFile $file
+         * @param string $visibility
+         * @return string|false 
+         * @static 
+         */
+        public static function putFile($path, $file, $visibility = null){
+            return \Illuminate\Filesystem\FilesystemAdapter::putFile($path, $file, $visibility);
+        }
+        
+        /**
+         * Store the uploaded file on the disk with a given name.
+         *
+         * @param string $path
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
+         * @param string $name
+         * @param string $visibility
+         * @return string|false 
+         * @static 
+         */
+        public static function putFileAs($path, $file, $name, $visibility = null){
+            return \Illuminate\Filesystem\FilesystemAdapter::putFileAs($path, $file, $name, $visibility);
         }
         
         /**

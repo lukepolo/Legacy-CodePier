@@ -2,60 +2,56 @@
 
 namespace App\Notifications;
 
+use App\Models\Site;
+use App\Models\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
+/**
+ * Class NewSiteDeployment
+ * @package App\Notifications
+ */
 class NewSiteDeployment extends Notification
 {
     use Queueable;
 
+    public $site;
+    public $siteDeployment;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Site $site
+     * @param SiteDeployment $siteDeployment
      */
-    public function __construct()
+    public function __construct(Site $site, SiteDeployment $siteDeployment)
     {
-        //
+        $this->site = $site;
+        $this->siteDeployment = $siteDeployment;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        return ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', 'https://laravel.com')
-                    ->line('Thank you for using our application!');
+        return ['database', 'broadcast'];
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
+            'site' => $this->site,
+            'siteDeployment' => $this->siteDeployment
         ];
     }
 }

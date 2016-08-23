@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 /**
  * Class Site
@@ -104,5 +105,23 @@ class Site extends Model
     public function decode($hash)
     {
         return $this->findOrFail(\Hashids::decode($hash));
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        $emails = collect($this->user->email);
+
+        $this->load('pile.teams.users');
+
+        foreach($this->pile->teams as $team) {
+            $emails->merge($team->users->pluck('email'));
+        }
+
+        return $emails->toArray();
     }
 }
