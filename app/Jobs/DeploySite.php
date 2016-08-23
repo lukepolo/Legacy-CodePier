@@ -5,6 +5,8 @@ namespace App\Jobs;
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Models\Site;
 use App\Models\SiteDeployment;
+use App\Models\User;
+use App\Notifications\NewSiteDeployment;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,7 +42,8 @@ class DeploySite extends Job implements ShouldQueue
 
         $this->siteDeployment->createSteps();
 
-        // TODO - notifications here
+        $site->notify(new NewSiteDeployment());
+
 //        event(new NewSiteDeployment($site, $this->siteDeployment));
 
     }
