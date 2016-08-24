@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site\Features\SSL;;
+namespace App\Http\Controllers\Site\Certificate;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;

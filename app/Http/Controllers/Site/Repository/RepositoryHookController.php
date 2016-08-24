@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site\Repository\Features;
+namespace App\Http\Controllers\Site\Repository;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;

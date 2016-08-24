@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Features;
+namespace App\Http\Controllers\User;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;

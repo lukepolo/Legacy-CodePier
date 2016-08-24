@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::resource('subscription.invoices', 'Subscription\UserSubscriptionInvoiceController');
         Route::resource('subscription.invoice.upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
-        Route::resource('ssh-keys', 'Features\UserSshKeyController');
+        Route::resource('ssh-keys', 'UserSshKeyController');
         Route::resource('user.server-providers', 'Providers\UserServerProviderController');
         Route::resource('user.repository-providers', 'Providers\UserRepositoryProviderController');
         Route::resource('user.notification-providers', 'Providers\UserNotificationProviderController');
@@ -123,18 +123,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::get('server/file/{server_id}', 'ServerController@getFile');
                 Route::post('server/file/{server_id}', 'ServerController@saveFile');
                 Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
+                Route::post('ssh-connection', 'ServerSshKeyController@testSSHConnection');
                 Route::post('restart-server/{server_id}', 'ServerController@restartServer');
                 Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
-                Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
                 Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
                 Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
             });
 
-            Route::resource('servers.cron-jobs', 'Features\ServerCronJobController');
-            Route::resource('servers.daemons', 'Features\ServerDaemonController');
-            Route::resource('servers.firewall', 'Features\ServerFirewallController');
-            Route::resource('servers.network', 'Features\ServerNetworkController');
-            Route::resource('servers.ssh-keys', 'Features\ServerSshKeyController');
+            Route::resource('servers.cron-jobs', 'ServerCronJobController');
+            Route::resource('servers.daemons', 'ServerDaemonController');
+            Route::resource('servers.firewall', 'ServerFirewallController');
+            Route::resource('servers.network', 'ServerNetworkController');
+            Route::resource('servers.ssh-keys', 'ServerSshKeyController');
 
             Route::resource('servers.sites', 'ServerSiteController');
 
@@ -157,12 +157,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             });
 
             Route::resource('site.servers', 'SiteServerController');
-            Route::resource('site.ssl', 'Features\SSL\SiteSSLController');
-            Route::resource('site.workers', 'Features\SiteWorkerController');
+            Route::resource('site.workers', 'SiteWorkerController');
+            Route::resource('site.hooks', 'Repository\RepositoryHookController');
+            Route::resource('site.certificate', 'Certificate\SiteSSLController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
-            Route::resource('site.hooks', 'Repository\Features\RepositoryHookController');
-            Route::resource('site.ssl-existing', 'Features\SSL\SiteSSLExistingController');
-            Route::resource('site.ssl-lets-encrypt', 'Features\SSL\SiteSSLLetsEncryptController');
+            Route::resource('site.certificate/existing', 'Certificate\SiteSSLExistingController');
+            Route::resource('site.certificate/lets-encrypt/', 'Certificate\SiteSSLLetsEncryptController');
         });
 
     });
