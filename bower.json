@@ -20,13 +20,13 @@
   "dependencies": {
     "font-awesome": "fontawesome#^4.6.3",
     "jquery": "^2.0.0",
-    "select2": "^4.0.3",
     "moment": "^2.13.0",
     "jquery-confirm2": "^2.5.1",
-    "bootstrap-sass": "^3.3.6",
+    "bootstrap": "^3.3.6",
     "moment-timezone": "^0.5.4",
     "jcf-forms": "JCF-Forms#*",
     "ace-build": "~1.2.5",
-    "jquery-cron": "^0.1.4"
+    "jquery-cron": "^0.1.4",
+    "select2": "^4.0.3"
   }
 }
