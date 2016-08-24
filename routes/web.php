@@ -13,6 +13,12 @@
 
 Route::auth();
 
+/*
+|--------------------------------------------------------------------------
+| Catch All Routes
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/', function () {
     if (\Auth::check()) {
         return view('codepier', [
@@ -22,8 +28,12 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/test', function () {
-    event(new \App\Events\Server\ServerProvisionStatusChanged(\App\Models\Server::findOrFail(1), 'MORE DONE', '70'));
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/{any}', function ($any) {
+        return view('codepier', [
+            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+        ]);
+    })->where('any', '.*');
 });
 
 /*
@@ -32,18 +42,8 @@ Route::get('/test', function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
-
 Route::get('/provider/{provider}/link', 'Auth\OauthController@newProvider');
 Route::get('/provider/{provider}/callback', 'Auth\OauthController@getHandleProviderCallback');
-
-Route::group(['prefix' => 'webhook'], function () {
-    Route::get('/deploy/{siteHashID}', function ($siteHashID) {
-        dispatch(new \App\Jobs\DeploySite(
-            App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
-        ));
-    })->name('webhook/deploy');
-});
 
 Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
@@ -53,42 +53,41 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-
-    Route::resource('subscription/plans', 'SubscriptionController');
-
-    Route::group(['prefix' => 'me', 'namespace' => 'User'], function () {
-        Route::resource('/', 'UserController', [
-            'parameters' => [
-                '' => 'user'
-            ]
-        ]);
-    });
+    Route::resource('me', 'User\UserController');
 
     Route::group(['prefix' => 'my', 'namespace' => 'User'], function () {
-        Route::resource('subscription', 'Subscription\UserSubscriptionController');
-        Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
-        Route::resource('subscription/invoice/upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
-        Route::resource('server/providers', 'Providers\UserServerProviderController');
-        Route::resource('repository/providers', 'Providers\UserRepositoryProviderController');
-        Route::resource('notification/providers', 'Providers\UserNotificationProviderController');
+        Route::resource('subscription', 'Subscription\UserSubscriptionController');
+        Route::resource('subscription.invoices', 'Subscription\UserSubscriptionInvoiceController');
+        Route::resource('subscription.invoice.upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
         Route::resource('ssh-keys', 'Features\UserSshKeyController');
+        Route::resource('user.server-providers', 'Providers\UserServerProviderController');
+        Route::resource('user.repository-providers', 'Providers\UserRepositoryProviderController');
+        Route::resource('user.notification-providers', 'Providers\UserNotificationProviderController');
     });
 
     Route::group(['prefix' => 'my'], function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Events Routes
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        Route::resource('events', 'EventController');
+
         /*
         |--------------------------------------------------------------------------
         | Teamwork Routes
         |--------------------------------------------------------------------------
         |
         */
+
+        Route::resource('team', 'User\Team\UserTeamController');
+
         Route::group(['prefix' => 'teams', 'namespace' => 'User\Team'], function () {
-            Route::resource('/', 'UserTeamController', [
-                'parameters' => [
-                    '' => 'team'
-                ]
-            ]);
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
         });
 
@@ -104,20 +103,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |--------------------------------------------------------------------------
         |
         */
-        Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function () {
-            Route::resource('/', 'PileController', [
-                'parameters' => [
-                    '' => 'pile'
-                ]
-            ]);
 
-            Route::resource('sites', 'PileSitesController', [
-                'parameters' => [
-                    'sites' => 'pile'
-                ]
-            ]);
-
-        });
+        Route::resource('piles', 'Pile\PileController');
+        Route::resource('pile/sites', 'Pile\PileSitesController');
 
         /*
        |--------------------------------------------------------------------------
@@ -126,40 +114,33 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
        |
        */
 
-        Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function () {
+        Route::resource('servers', 'Server\ServerController');
 
-            Route::post('restore/{server_id}', 'ServerController@restore');
-            Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
-            Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
-            Route::get('server/file/{server_id}', 'ServerController@getFile');
-            Route::post('server/file/{server_id}', 'ServerController@saveFile');
-            Route::post('restart-server/{server_id}', 'ServerController@restartServer');
-            Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
-            Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
+        Route::group(['namespace' => 'Server'], function () {
 
-            Route::resource('cron-jobs', 'Features\ServerCronJobController');
-            Route::resource('daemons', 'Features\ServerDaemonController');
-            Route::resource('firewall', 'Features\ServerFirewallController');
-            Route::resource('network', 'Features\ServerNetworkController');
-            Route::resource('ssh-keys', 'Features\ServerSshKeyController');
-            Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
+            Route::group(['prefix' => 'server'], function () {
+                Route::post('restore/{server_id}', 'ServerController@restore');
+                Route::get('server/file/{server_id}', 'ServerController@getFile');
+                Route::post('server/file/{server_id}', 'ServerController@saveFile');
+                Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
+                Route::post('restart-server/{server_id}', 'ServerController@restartServer');
+                Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
+                Route::post('ssh-connection', 'Features\ServerSshKeyController@testSSHConnection');
+                Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
+                Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
+            });
 
+            Route::resource('servers.cron-jobs', 'Features\ServerCronJobController');
+            Route::resource('servers.daemons', 'Features\ServerDaemonController');
+            Route::resource('servers.firewall', 'Features\ServerFirewallController');
+            Route::resource('servers.network', 'Features\ServerNetworkController');
+            Route::resource('servers.ssh-keys', 'Features\ServerSshKeyController');
 
-            Route::resource('/', 'ServerController', [
-                'parameters' => [
-                    '' => 'server'
-                ]
-            ]);
+            Route::resource('servers.sites', 'ServerSiteController');
 
         });
 
-        Route::group(['prefix' => 'server', 'namespace' => 'Server'], function () {
-            Route::resource('sites', 'ServerSiteController', [
-                'parameters' => [
-                    'sites' => 'server'
-                ]
-            ]);
-        });
+
         /*
         |--------------------------------------------------------------------------
         | Site Routes
@@ -167,39 +148,34 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function () {
+        Route::resource('sites', 'Site\SiteController');
 
-            Route::post('deploy', 'SiteController@deploy');
+        Route::group(['namespace' => 'Site'], function () {
 
-            Route::resource('servers', 'SiteServerController', [
-                'parameters' => [
-                    'server' => 'site'
-                ]
-            ]);
-            Route::resource('ssl', 'Features\SSL\SiteSSLController');
-            Route::resource('workers', 'Features\SiteWorkerController');
-            Route::resource('repository', 'Repository\SiteRepositoryController');
-            Route::resource('hooks', 'Repository\Features\RepositoryHookController');
-            Route::resource('ssl-existing', 'Features\SSL\SiteSSLExistingController');
-            Route::resource('ssl-lets-encrypt', 'Features\SSL\SiteSSLLetsEncryptController');
+            Route::group(['prefix' => 'sites'], function () {
+                Route::post('deploy', 'SiteController@deploy');
+            });
 
-            Route::resource('/', 'SiteController', [
-                'parameters' => [
-                    '' => 'site'
-                ]
-            ]);
+            Route::resource('site.servers', 'SiteServerController');
+            Route::resource('site.ssl', 'Features\SSL\SiteSSLController');
+            Route::resource('site.workers', 'Features\SiteWorkerController');
+            Route::resource('site.repository', 'Repository\SiteRepositoryController');
+            Route::resource('site.hooks', 'Repository\Features\RepositoryHookController');
+            Route::resource('site.ssl-existing', 'Features\SSL\SiteSSLExistingController');
+            Route::resource('site.ssl-lets-encrypt', 'Features\SSL\SiteSSLLetsEncryptController');
         });
+
     });
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
-            Route::resource('server', 'ServerProvidersController');
-            Route::resource('repository', 'RepositoryProvidersController');
-            Route::resource('notification', 'NotificationProvidersController');
+            Route::resource('server-providers', 'ServerProvidersController');
+            Route::resource('repository-providers', 'RepositoryProvidersController');
+            Route::resource('notification-providers', 'NotificationProvidersController');
         });
     });
 
-    Route::group(['prefix' => 'server/provider'], function () {
+    Route::group(['prefix' => 'server/providers'], function () {
         Route::group([
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean'
@@ -209,16 +185,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('features', 'DigitalOceanServerFeaturesController');
         });
     });
-
-    Route::resource('events', 'EventController');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', function ($any) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
-        ]);
-    })->where('any', '.*');
 });
 
 /*
@@ -229,3 +195,35 @@ Route::group(['middleware' => 'auth'], function () {
 */
 
 Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook');
+
+/*
+|--------------------------------------------------------------------------
+| Resource Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::resource('subscription/plans', 'SubscriptionController');
+
+/*
+|--------------------------------------------------------------------------
+| Webhook Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::group(['prefix' => 'webhook'], function () {
+    Route::get('/deploy/{siteHashID}', function ($siteHashID) {
+        dispatch(new \App\Jobs\DeploySite(
+            App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
+        ));
+    })->name('webhook/deploy');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Accept Team Request Route
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
