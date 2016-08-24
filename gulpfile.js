@@ -35,7 +35,7 @@ var paths = {
      |
      */
 
-    bootstrap: bower_path + 'bootstrap-sass/assets/',
+    bootstrap: bower_path + 'bootstrap/dist/',
     fontawesome: bower_path + 'font-awesome/',
     jquery: bower_path + 'jquery/dist/',
     select2: bower_path + 'select2/dist/',
@@ -58,12 +58,11 @@ var paths = {
 elixir((mix) => {
     mix
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
-        .copy(paths.bootstrap + 'fonts', paths.fonts_build + 'bootstrap')
         .copy(paths.jcf_forms + 'dist/img/icons', paths.imgs_build + 'icons')
         .sass('app.scss')
         .scripts([
             paths.jquery + 'jquery.min.js',
-            paths.bootstrap + 'javascripts/bootstrap.js',
+            paths.bootstrap + 'js/bootstrap.js',
             paths.select2 + 'js/select2.js',
             paths.moment + 'moment.js',
             paths.moment_timezone + 'moment-timezone-with-data-2010-2020.min.js',
@@ -81,14 +80,6 @@ elixir((mix) => {
         ])
         .webpack('app.js')
         .browserSync({
-            proxy: env.APP_URL,
-            files : [
-                elixir.config.appPath + '/**/*.php',
-                elixir.config.get('public.css.outputFolder') + '/**/*.css',
-                elixir.config.get('public.js.outputFolder') + '/**/*.js',
-                elixir.config.get('public.versioning.buildFolder') + '/rev-manifest.json',
-                elixir.config.viewPath + '/**/*.php',
-                elixir.config.publicPath + '/js/app.js'
-            ]
+            proxy: env.APP_URL
         });
 });
