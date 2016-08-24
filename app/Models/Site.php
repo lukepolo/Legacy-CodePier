@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Auth\OauthController;
 use App\Traits\UsedByTeams;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 /**
  * Class Site
@@ -123,5 +124,25 @@ class Site extends Model
         }
 
         return $emails->toArray();
+    }
+
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        $slackProvider = $this->user->userNotificationProviders->first(function($userNotificationProvider) {
+            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+        });
+
+        return $slackProvider ? $slackProvider->token : null;
+    }
+
+    public function getSlackChannel()
+    {
+        return 'general';
     }
 }

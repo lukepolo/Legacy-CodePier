@@ -212,7 +212,7 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Gest the server provider ID
+     * Gets the server provider ID
      * @return mixed
      */
     private function getServerProviderID()

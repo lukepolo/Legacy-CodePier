@@ -17,7 +17,6 @@ class CreateUserNotificationProvidersTable extends Migration
             $table->integer('user_id');
             $table->integer('notification_provider_id');
             $table->string('provider_id');
-            $table->string('service');
             $table->string('token');
             $table->string('refresh_token')->nullable();
             $table->string('expires_in')->nullable();

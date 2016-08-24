@@ -140,16 +140,7 @@ class ServerService implements ServerServiceContract
 
         $errors = $this->provisionService->provision($server, $sudoPassword, $databasePassword);
 
-        event(new ServerProvisioned($server, $sudoPassword, $databasePassword, 'Click here to find out more', $errors));
-    }
-
-    /**
-     * @param ServerProvider $serverProvider
-     * @return mixed
-     */
-    private function getProvider(ServerProvider $serverProvider)
-    {
-        return new $this->providers[$serverProvider->provider_name]();
+        event(new ServerProvisioned($server, $sudoPassword, $databasePassword));
     }
 
     /**
@@ -513,4 +504,14 @@ spec=");
         $this->restartWebServices($server);
 
     }
+
+    /**
+     * @param ServerProvider $serverProvider
+     * @return mixed
+     */
+    private function getProvider(ServerProvider $serverProvider)
+    {
+        return new $this->providers[$serverProvider->provider_name]();
+    }
+
 }
