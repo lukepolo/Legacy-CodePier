@@ -46,7 +46,10 @@
                     return notification_provider.notification_provider_id == notification_provider_id;
                 }).id;
 
-                userStore.dispatch('deleteUserNotificationProvider', user_notification_provider_id);
+                userStore.dispatch('deleteUserNotificationProvider', {
+                    user_id : userStore.state.user.id,
+                    user_notification_provider_id : user_notification_provider_id
+                });
             }
         },
         mounted () {

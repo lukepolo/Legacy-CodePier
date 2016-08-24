@@ -44,13 +44,10 @@ class ServerDaemonController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $serverId)
     {
-
-        $server = Server::findOrFail($request->get('server_id'));
-
         $serverDaemon = ServerDaemon::create([
-            'server_id' => $server->id,
+            'server_id' => $serverId,
             'command' => $request->get('command'),
             'auto_start' => $request->get('auto_start', 0),
             'auto_restart' => $request->get('auto_restart', 0),
@@ -66,10 +63,11 @@ class ServerDaemonController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serverId, $id)
     {
         return response()->json(ServerDaemon::findOrFail($id));
     }
@@ -77,10 +75,11 @@ class ServerDaemonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($serverId, $id)
     {
         $this->serverService->removeDaemon(ServerDaemon::findOrFail($id));
     }

@@ -12,43 +12,43 @@ const userStore = new Vuex.Store({
         notification_providers: []
     },
     actions: {
-        getUserServerProviders: ({commit}) => {
-            Vue.http.get(action('User\Providers\UserServerProviderController@index')).then((response) => {
+        getUserServerProviders: ({commit}, user_id) => {
+            Vue.http.get(action('User\Providers\UserServerProviderController@index', { user : user_id })).then((response) => {
                 commit('SET_SERVER_PROVIDERS', response.json());
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteUserServerProvider: ({commit}, user_server_provider_id) => {
-            Vue.http.delete(action('User\Providers\UserServerProviderController@destroy', { provider : user_server_provider_id })).then((response) => {
+        deleteUserServerProvider: ({commit}, data) => {
+            Vue.http.delete(action('User\Providers\UserServerProviderController@destroy', { user : data.user_id,  server_provider : data.user_server_provider_id })).then((response) => {
                 userStore.dispatch('getUserServerProviders');
             }, (errors) => {
                 alert('Trying to destory server');
             })
         },
-        getUserRepositoryProviders: ({commit}) => {
-            Vue.http.get(action('User\Providers\UserRepositoryProviderController@index')).then((response) => {
+        getUserRepositoryProviders: ({commit}, user_id) => {
+            Vue.http.get(action('User\Providers\UserRepositoryProviderController@index', { user : user_id})).then((response) => {
                 commit('SET_REPOSITORY_PROVIDERS', response.json());
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteUserRepositoryProvider: ({commit}, user_repository_provider_id) => {
-            Vue.http.delete(action('User\Providers\UserRepositoryProviderController@destroy', {provider: user_repository_provider_id})).then((response) => {
+        deleteUserRepositoryProvider: ({commit}, data) => {
+            Vue.http.delete(action('User\Providers\UserRepositoryProviderController@destroy', {user : data.user_id, repository_provider: data.user_repository_provider_id})).then((response) => {
                 userStore.dispatch('getUserRepositoryProviders');
             }, (errors) => {
                 alert('Trying to delete user repository');
             })
         },
-        getUserNotificationProviders: ({commit}) => {
-            Vue.http.get(action('User\Providers\UserNotificationProviderController@index')).then((response) => {
+        getUserNotificationProviders: ({commit}, user_id) => {
+            Vue.http.get(action('User\Providers\UserNotificationProviderController@index', { user : user_id})).then((response) => {
                 commit('SET_NOTIFICATION_PROVIDERS', response.json());
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteUserNotificationProvider: ({commit}, user_notification_provider_id) => {
-            Vue.http.delete(action('User\Providers\UserNotificationProviderController@destroy', { provider : user_notification_provider_id })).then((response) => {
+        deleteUserNotificationProvider: ({commit}, data) => {
+            Vue.http.delete(action('User\Providers\UserNotificationProviderController@destroy', { user : data.user_id, notification_provider : data.user_notification_provider_id })).then((response) => {
                 userStore.dispatch('getUserNotificationProviders');
             }, (errors) => {
                 alert('Trying to destroy notification');

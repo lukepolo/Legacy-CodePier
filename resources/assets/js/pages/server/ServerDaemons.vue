@@ -78,21 +78,21 @@
                 this.getDaemons();
             },
             onSubmit() {
-                Vue.http.post(this.action('Server\Features\ServerDaemonController@store'), this.getFormData($(this.$el))).then((response) => {
+                Vue.http.post(this.action('Server\ServerDaemonController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.daemons.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
             deleteDaemon(daemon_id) {
-                Vue.http.delete(this.action('Server\Features\ServerDaemonController@destroy', { daemon : daemon_id })).then((response) => {
+                Vue.http.delete(this.action('Server\ServerDaemonController@destroy', { daemon : daemon_id })).then((response) => {
                     this.getDaemons();
                 }, (errors) => {
                     alert(error);
                 });
             },
             getDaemons() {
-                Vue.http.get(this.action('Server\Features\ServerDaemonController@index', {server_id : this.$route.params.server_id})).then((response) => {
+                Vue.http.get(this.action('Server\ServerDaemonController@index', {server_id : this.$route.params.server_id})).then((response) => {
                     this.daemons = response.json();
                 }, (errors) => {
                     alert(error);

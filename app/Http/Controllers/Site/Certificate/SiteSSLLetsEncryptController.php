@@ -25,15 +25,16 @@ class SiteSSLLetsEncryptController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $siteId)
     {
-        $site = Site::findOrfail($request->get('site_id'));
+        $site = Site::findOrfail($siteId);
 
         $folder = explode(',', $request->get('domains'))[0];
         $siteSSLCertificate = SiteSslCertificate::create([
-            'site_id' => $request->get('site_id'),
+            'site_id' => $siteId,
             'domains' => $request->get('domains'),
             'type' => \App\Services\Server\Site\SiteService::LETS_ENCRYPT,
             'active' => false,

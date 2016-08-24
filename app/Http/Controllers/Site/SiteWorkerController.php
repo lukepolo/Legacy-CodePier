@@ -28,22 +28,25 @@ class SiteWorkerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $siteId)
     {
-        return response()->json(SiteDaemon::where('site_id', $request->get('site'))->get());
+        return response()->json(SiteDaemon::where('site_id', $siteId)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $siteId)
     {
-        $site = Site::findOrFail($request->get('site'));
+        $site = Site::findOrFail($siteId);
 
         // MOVE TO LARAVEL SPECIFIC AREA , front end can decide show / hide certain framework features that you can do from the site vue!
         $serverDaemon = SiteDaemon::create([
@@ -59,10 +62,11 @@ class SiteWorkerController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($siteId, $id)
     {
         return response()->json(SiteDaemon::findOrFail($id));
     }
@@ -70,10 +74,11 @@ class SiteWorkerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($siteId, $id)
     {
         SiteDaemon::findOrFail($id)->delete();
     }

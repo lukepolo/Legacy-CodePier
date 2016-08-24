@@ -82,21 +82,21 @@
                 this.getFirewallRules();
             },
             onSubmitFirewallRules() {
-                Vue.http.post(this.action('Server\Features\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
+                Vue.http.post(this.action('Server\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.firewall_rules.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
             deleteFirewallRule(firewall_rule_id) {
-                Vue.http.delete(this.action('Server\Features\ServerFirewallController@destroy', { firewall : firewall_rule_id })).then((response) => {
+                Vue.http.delete(this.action('Server\ServerFirewallController@destroy', { firewall : firewall_rule_id })).then((response) => {
                     this.getFirewallRules();
                 }, (errors) => {
                     alert(error);
                 });
             },
             getFirewallRules() {
-                Vue.http.get(this.action('Server\Features\ServerFirewallController@index', {server_id : this.$route.params.server_id})).then((response) => {
+                Vue.http.get(this.action('Server\ServerFirewallController@index', {server_id : this.$route.params.server_id})).then((response) => {
                     this.firewall_rules = response.json();
                 }, (errors) => {
                     alert(error);

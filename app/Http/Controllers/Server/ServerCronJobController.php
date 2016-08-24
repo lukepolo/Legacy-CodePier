@@ -31,23 +31,25 @@ class ServerCronJobController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $serverId)
     {
-        return response()->json(Server::with('cronJobs')->findOrFail($request->get('server_id'))->cronJobs);
+        return response()->json(Server::with('cronJobs')->findOrFail($serverId)->cronJobs);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $serverId)
     {
         $serverCronJob = ServerCronJob::create([
-            'server_id' => $request->get('server_id'),
+            'server_id' => $serverId,
             'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
             'user' => $request->get('user')
         ]);
@@ -60,10 +62,11 @@ class ServerCronJobController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serverId, $id)
     {
         return response()->json(ServerCronJob::findOrFail($id));
     }
@@ -71,10 +74,11 @@ class ServerCronJobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($serverId, $id)
     {
         $this->serverService->removeCron(ServerCronJob::findorFail($id));
     }

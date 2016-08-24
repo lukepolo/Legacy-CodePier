@@ -66,21 +66,21 @@
                 this.getSshKeys();
             },
             onSubmit() {
-                Vue.http.post(this.action('Server\Features\ServerSshKeyController@store'), this.getFormData($(this.$el))).then((response) => {
+                Vue.http.post(this.action('Server\ServerSshKeyController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
             deleteKey(ssh_key_id) {
-                Vue.http.delete(this.action('Server\Features\ServerSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
+                Vue.http.delete(this.action('Server\ServerSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
                     this.getSshKeys();
                 }, (errors) => {
                     alert(error);
                 });
             },
             getSshKeys() {
-                Vue.http.get(this.action('Server\Features\ServerSshKeyController@index', {server_id : this.$route.params.server_id})).then((response) => {
+                Vue.http.get(this.action('Server\ServerSshKeyController@index', {server_id : this.$route.params.server_id})).then((response) => {
                     this.ssh_keys = response.json();
                 }, (errors) => {
                     alert(error);

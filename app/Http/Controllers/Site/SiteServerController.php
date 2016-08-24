@@ -27,11 +27,13 @@ class SiteServerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $siteId)
     {
-        return response()->json(Site::where('id', $request->get('site'))->firstorFail()->servers);
+        return response()->json(Site::where('id', $siteId)->firstorFail()->servers);
     }
 
 }

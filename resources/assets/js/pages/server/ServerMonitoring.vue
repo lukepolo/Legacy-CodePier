@@ -49,7 +49,7 @@
                 });
             },
             onSubmit() {
-                Vue.http.post(this.action('Server\Features\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
+                Vue.http.post(this.action('Server\ServerFirewallController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.firewall_rules.push(response.json());
                 }, (errors) => {
                     alert(error);

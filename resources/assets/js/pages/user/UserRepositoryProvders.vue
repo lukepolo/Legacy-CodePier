@@ -46,7 +46,10 @@
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
-               userStore.dispatch('deleteUserRepositoryProvider', user_repository_provider_id);
+               userStore.dispatch('deleteUserRepositoryProvider', {
+                   user_id : userStore.state.user.id,
+                   user_repository_provider_id : user_repository_provider_id
+               });
             }
         },
         created() {

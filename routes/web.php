@@ -15,29 +15,6 @@ Route::auth();
 
 /*
 |--------------------------------------------------------------------------
-| Catch All Routes
-|--------------------------------------------------------------------------
-|
-*/
-Route::get('/', function () {
-    if (\Auth::check()) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
-        ]);
-    }
-    return view('landing');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', function ($any) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
-        ]);
-    })->where('any', '.*');
-});
-
-/*
-|--------------------------------------------------------------------------
 | OAuth Routes
 |--------------------------------------------------------------------------
 |
@@ -58,8 +35,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     Route::group(['prefix' => 'my', 'namespace' => 'User'], function () {
 
         Route::resource('subscription', 'Subscription\UserSubscriptionController');
-        Route::resource('subscription.invoices', 'Subscription\UserSubscriptionInvoiceController');
-        Route::resource('subscription.invoice.upcoming', 'Subscription\UserSubscriptionUpcomingInvoiceController');
+        Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
+        Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
         Route::resource('ssh-keys', 'UserSshKeyController');
         Route::resource('user.server-providers', 'Providers\UserServerProviderController');
@@ -105,7 +82,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         */
 
         Route::resource('piles', 'Pile\PileController');
-        Route::resource('pile/sites', 'Pile\PileSitesController');
+        Route::resource('pile.sites', 'Pile\PileSitesController');
 
         /*
        |--------------------------------------------------------------------------
@@ -227,3 +204,27 @@ Route::group(['prefix' => 'webhook'], function () {
 |
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
+
+
+/*
+|--------------------------------------------------------------------------
+| Catch All Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::get('/', function () {
+    if (\Auth::check()) {
+        return view('codepier', [
+            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+        ]);
+    }
+    return view('landing');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/{any}', function ($any) {
+        return view('codepier', [
+            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+        ]);
+    })->where('any', '.*');
+});
