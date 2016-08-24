@@ -78,21 +78,21 @@
                 this.getCronJobs();
             },
             onSubmit() {
-                Vue.http.post(this.action('Server\Features\ServerCronJobController@store'), this.getFormData($(this.$el))).then((response) => {
+                Vue.http.post(this.action('Server\ServerCronJobController@store'), this.getFormData($(this.$el))).then((response) => {
                     this.cron_jobs.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
             getCronJobs() {
-                Vue.http.get(this.action('Server\Features\ServerCronJobController@index', {server_id : this.$route.params.server_id})).then((response) => {
+                Vue.http.get(this.action('Server\ServerCronJobController@index', {server_id : this.$route.params.server_id})).then((response) => {
                     this.cron_jobs = response.json();
                 }, (errors) => {
                     alert(error);
                 });
             },
             deleteCronJob(cron_job_id) {
-                Vue.http.delete(this.action('Server\Features\ServerCronJobController@destroy', {cron_job : cron_job_id})).then((response) => {
+                Vue.http.delete(this.action('Server\ServerCronJobController@destroy', {cron_job : cron_job_id})).then((response) => {
                     this.getCronJobs();
                 }, (errors) => {
                     alert(error);

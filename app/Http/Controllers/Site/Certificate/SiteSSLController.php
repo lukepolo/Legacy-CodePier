@@ -29,20 +29,22 @@ class SiteSSLController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $siteId)
     {
-        return response()->json(SiteSslCertificate::where('site_id', $request->get('site'))->get());
+        return response()->json(SiteSslCertificate::where('site_id', $siteId)->get());
     }
 
     /**
      * Display the specified resource.
      *
+     * @param $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($siteId, $id)
     {
         return response()->json(SiteSslCertificate::findOrFail($id));
     }
@@ -50,10 +52,11 @@ class SiteSSLController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($siteId, $id)
     {
         SiteSslCertificate::findOrFail($id)->delete();
         return;
@@ -79,9 +82,10 @@ class SiteSSLController extends Controller
      * Deactivates a ssl certificate
      *
      * @param Request $request
+     * @param $siteId
      */
-    public function deactivateSSL(Request $request)
+    public function deactivateSSL(Request $request, $siteId)
     {
-        $this->siteService->deactivateSSL(Site::findOrFail($request->get('site_id')));
+        $this->siteService->deactivateSSL(Site::findOrFail($siteId));
     }
 }

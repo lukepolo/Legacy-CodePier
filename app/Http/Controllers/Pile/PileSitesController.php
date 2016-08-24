@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pile;
-use Illuminate\Http\Request;
 
 /**
  * Class PileSitesController
@@ -17,8 +16,8 @@ class PileSitesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function index($pileId)
     {
-        return response()->json(Pile::with('sites.servers')->findOrFail($id)->sites);
+        return response()->json(Pile::with('sites.servers')->findOrFail($pileId)->sites);
     }
 }

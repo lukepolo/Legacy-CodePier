@@ -113,7 +113,7 @@
                     alert(error);
                 });
 
-                Vue.http.get(this.action('User\Providers\UserServerProviderController@index')).then((response) => {
+                Vue.http.get(this.action('User\Providers\UserServerProviderController@index', { user : userStore.state.user.id })).then((response) => {
                     this.user_server_providers = response.json();
                 }, (errors) => {
                     alert(error);

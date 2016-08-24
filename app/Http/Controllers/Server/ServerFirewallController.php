@@ -30,24 +30,27 @@ class ServerFirewallController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $serverId)
     {
-        return response()->json(ServerFirewallRule::where('server_id', $request->get('server_id'))->get());
+        return response()->json(ServerFirewallRule::where('server_id', $serverId)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $serverId)
     {
         $serverFirewallRule = ServerFirewallRule::create([
             'description' => $request->get('description'),
-            'server_id' => $request->get('server_id'),
+            'server_id' => $serverId,
             'port' => $request->get('port'),
             'from_ip' => $request->get('from_ip')
         ]);
@@ -60,10 +63,11 @@ class ServerFirewallController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serverId, $id)
     {
         return response()->json(ServerFirewallRule::findOrFail($id));
     }
@@ -71,10 +75,11 @@ class ServerFirewallController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($serverId, $id)
     {
         $firewallRule = ServerFirewallRule::findOrFail($id);
         $this->serverService->removeFirewallRule($firewallRule);

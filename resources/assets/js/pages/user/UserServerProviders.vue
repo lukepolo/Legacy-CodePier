@@ -48,7 +48,10 @@
                     return server_provider.server_provider_id == server_provider_id;
                 }).id;
 
-                userStore.dispatch('deleteUserServerProvider', user_server_provider_id);
+                userStore.dispatch('deleteUserServerProvider', {
+                    user_id : userStore.state.user.id,
+                    user_server_provider_id : user_server_provider_id
+                });
             }
         },
         mounted () {
@@ -59,7 +62,7 @@
                 alert(error);
             });
 
-            userStore.dispatch('getUserServerProviders');
+            userStore.dispatch('getUserServerProviders', userStore.state.user.id);
         },
     }
 </script>

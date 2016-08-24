@@ -30,25 +30,28 @@ class ServerSshKeyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $serverId)
     {
-        return response()->json(ServerSshKey::where('server_id', $request->get('server_id'))->get());
+        return response()->json(ServerSshKey::where('server_id', $serverId)->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $serverId)
     {
-        $server = Server::findOrFail($request->get('server_id'));
+        $server = Server::findOrFail($serverId);
 
         $serverSshKey = ServerSshKey::create([
-            'server_id' => $server->id,
+            'server_id' => $serverId,
             'name' => $request->get('name'),
             'ssh_key' => trim($request->get('ssh_key'))
         ]);
@@ -61,10 +64,11 @@ class ServerSshKeyController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serverId, $id)
     {
         return response()->json(ServerSshKey::findOrFail($id));
     }
@@ -72,10 +76,11 @@ class ServerSshKeyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($serverId, $id)
     {
         $serverSshKey = ServerSshKey::findOrFail($id);
 
@@ -89,9 +94,10 @@ class ServerSshKeyController extends Controller
      * Tests a ssh connection to server
      *
      * @param Request $request
+     * @param $serverId
      */
-    public function testSSHConnection(Request $request)
+    public function testSSHConnection(Request $request, $serverId)
     {
-        $this->serverService->testSSHConnection(Server::findOrFail($request->get('server_id')));
+        $this->serverService->testSSHConnection(Server::findOrFail($serverId));
     }
 }

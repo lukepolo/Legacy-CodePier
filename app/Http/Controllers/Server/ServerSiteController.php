@@ -31,10 +31,11 @@ class ServerSiteController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $serverId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($serverId, $id)
     {
         return response()->json(Server::with(['sites' => function($query) {
             $query->with([

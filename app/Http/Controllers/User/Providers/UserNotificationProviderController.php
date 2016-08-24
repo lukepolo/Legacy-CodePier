@@ -24,10 +24,11 @@ class UserNotificationProviderController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $userId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($userId, $id)
     {
         return response(UserNotificationProvider::findOrFail($id));
     }
@@ -35,10 +36,11 @@ class UserNotificationProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $userId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($userId, $id)
     {
         UserNotificationProvider::findOrFail($id)->delete();
     }
