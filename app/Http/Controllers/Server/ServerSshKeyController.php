@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Server\Features;
+namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
-use App\Models\ServerCronJob;
+use App\Models\ServerSshKey;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerCronJobController
+ * Class ServerSshKeyController
  *
  * @package App\Http\Controllers\Server\Features
  */
-class ServerCronJobController extends Controller
+class ServerSshKeyController extends Controller
 {
     private $serverService;
 
@@ -30,12 +30,11 @@ class ServerCronJobController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        return response()->json(Server::with('cronJobs')->findOrFail($request->get('server_id'))->cronJobs);
+        return response()->json(ServerSshKey::where('server_id', $request->get('server_id'))->get());
     }
 
     /**
@@ -46,15 +45,17 @@ class ServerCronJobController extends Controller
      */
     public function store(Request $request)
     {
-        $serverCronJob = ServerCronJob::create([
-            'server_id' => $request->get('server_id'),
-            'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
-            'user' => $request->get('user')
+        $server = Server::findOrFail($request->get('server_id'));
+
+        $serverSshKey = ServerSshKey::create([
+            'server_id' => $server->id,
+            'name' => $request->get('name'),
+            'ssh_key' => trim($request->get('ssh_key'))
         ]);
 
-        $this->serverService->installCron($serverCronJob);
+        $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
 
-        return response()->json($serverCronJob);
+        return response()->json($serverSshKey);
     }
 
     /**
@@ -65,7 +66,7 @@ class ServerCronJobController extends Controller
      */
     public function show($id)
     {
-        return response()->json(ServerCronJob::findOrFail($id));
+        return response()->json(ServerSshKey::findOrFail($id));
     }
 
     /**
@@ -76,6 +77,21 @@ class ServerCronJobController extends Controller
      */
     public function destroy($id)
     {
-        $this->serverService->removeCron(ServerCronJob::findorFail($id));
+        $serverSshKey = ServerSshKey::findOrFail($id);
+
+        $this->serverService->removeSshKey($serverSshKey);
+
+        $serverSshKey->delete();
+
+    }
+
+    /**
+     * Tests a ssh connection to server
+     *
+     * @param Request $request
+     */
+    public function testSSHConnection(Request $request)
+    {
+        $this->serverService->testSSHConnection(Server::findOrFail($request->get('server_id')));
     }
 }

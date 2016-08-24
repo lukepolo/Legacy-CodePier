@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site\Features;
+namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
