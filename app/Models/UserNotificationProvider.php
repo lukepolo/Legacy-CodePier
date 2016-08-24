@@ -21,7 +21,7 @@ class UserNotificationProvider extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function notoificationProvider()
+    public function notificationProvider()
     {
         return $this->belongsTo(NotificationProvider::class);
     }

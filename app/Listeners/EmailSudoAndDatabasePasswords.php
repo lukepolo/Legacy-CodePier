@@ -19,7 +19,7 @@ class EmailSudoAndDatabasePasswords
      */
     public function handle(ServerProvisioned $event)
     {
-        $user = $event->server->user;
+        $user = $event->user;
 
         \Mail::queue('emails.sudoAndDatabasePasswords', [
             'serverIp' => $event->server->ip,

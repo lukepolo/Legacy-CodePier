@@ -24,7 +24,6 @@
         "dompdf/dompdf" : "~0.6",
         "gentle/bitbucket-api": "^0.8.1",
         "vinkla/hashids": "^2.4",
-        "maknz/slack": "^1.7",
         "socialiteproviders/slack": "^2.0",
         "tomschlick/laravel-http2-server-push": "^0.1.2",
         "pusher/pusher-php-server": "^2.4",

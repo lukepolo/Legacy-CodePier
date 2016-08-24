@@ -4,8 +4,10 @@ namespace App\Notifications;
 
 use App\Models\Site;
 use App\Models\SiteDeployment;
+use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
 /**
@@ -17,6 +19,8 @@ class SiteDeploymentFailed extends Notification
     use Queueable;
 
     public $site;
+    public $domain;
+    public $pile;
     public $errorMessage;
     public $siteDeployment;
 
@@ -30,6 +34,8 @@ class SiteDeploymentFailed extends Notification
     public function __construct(Site $site, SiteDeployment $siteDeployment, $errorMessage)
     {
         $this->site = $site;
+        $this->pile = $this->site->pile->name;
+        $this->domain = $this->site->domain;
         $this->errorMessage = $errorMessage;
         $this->siteDeployment = $siteDeployment;
     }
@@ -43,7 +49,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast'];
+        return ['mail', 'database', 'broadcast', SlackMessageChannel::class];
     }
 
     /**
@@ -55,7 +61,7 @@ class SiteDeploymentFailed extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('('.$this->site->pile->name.') '. $this->site->domain.' Deployment Failed')
+            ->subject('('.$this->pile.') '. $this->domain.' Deployment Failed')
             ->line('Your site failed to deploy because : ')
             ->line($this->errorMessage)
             ->action('Go to your site', url('site/'.$this->site->id))
@@ -76,5 +82,29 @@ class SiteDeploymentFailed extends Notification
             'errorMessage' => $this->errorMessage,
             'siteDeployment' => $this->siteDeployment
         ];
+    }
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        $pile = $this->pile;
+        $domain = $this->domain;
+        $error = $this->errorMessage;
+        $url = url('site/'.$this->site->id);
+
+        return (new SlackMessage())
+            ->error()
+            ->content('Deployment Failed')
+            ->attachment(function ($attachment) use ($url, $error, $pile, $domain) {
+                $attachment->title('('.$pile.') '. $domain, $url)
+                    ->fields([
+                        'Error' => $error
+                    ]);
+            });
     }
 }

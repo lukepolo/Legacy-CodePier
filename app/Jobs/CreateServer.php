@@ -55,8 +55,6 @@ class CreateServer implements ShouldQueue
             $serverStatus = $serverService->getStatus($server);
         }
 
-        event(new ServerProvisionStatusChanged($server, 'Server Created', 0));
-
         $serverService->saveInfo($server);
 
         $sshConnection = false;
