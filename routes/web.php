@@ -30,21 +30,29 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-    Route::resource('me', 'User\UserController');
+    Route::resource('me', 'User\UserController', [ // VERIFIED
+        'only' => [
+            'index'
+        ]
+    ]);
 
-    Route::group(['prefix' => 'my', 'namespace' => 'User'], function () {
-
-        Route::resource('subscription', 'Subscription\UserSubscriptionController');
-        Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
-        Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
-
-        Route::resource('ssh-keys', 'UserSshKeyController');
-        Route::resource('user.server-providers', 'Providers\UserServerProviderController');
-        Route::resource('user.repository-providers', 'Providers\UserRepositoryProviderController');
-        Route::resource('user.notification-providers', 'Providers\UserNotificationProviderController');
-    });
+    Route::resource('user', 'User\UserController', [
+        'except' => 'index' // VERIFIED
+    ]);
 
     Route::group(['prefix' => 'my'], function () {
+
+        Route::group(['namespace' => 'User'], function () {
+
+            Route::resource('subscription', 'Subscription\UserSubscriptionController');
+            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
+            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
+
+            Route::resource('ssh-keys', 'UserSshKeyController'); // VERIFIED
+            Route::resource('server-providers', 'Providers\UserServerProviderController');
+            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
+            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
+        });
 
         /*
         |--------------------------------------------------------------------------
@@ -64,12 +72,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
         Route::resource('team', 'User\Team\UserTeamController');
 
-        Route::group(['prefix' => 'teams', 'namespace' => 'User\Team'], function () {
-            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
-        });
-
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
             Route::resource('team.members', 'UserTeamMemberController');
+            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
             Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
@@ -116,7 +121,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('servers.sites', 'ServerSiteController');
 
         });
-
 
         /*
         |--------------------------------------------------------------------------

@@ -59,8 +59,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
                     });
                 }
 
-                \Log::critical('SSH failed to login to the server');
-                throw new \Exception('SSH failed');
+                throw new SshConnectionFailed('We were unbale to connect to you server '.$this->server->name.'.');
             }
         }
 
@@ -163,16 +162,15 @@ echo "Wrote" ', $read);
     /**
      * @param Server $server
      * @param string $user
-     * @param bool $throwErrors
      * @return bool
      * @throws SshConnectionFailed
      */
     public function ssh(Server $server, $user = 'root')
     {
-        // Check to see if we are already connected
         if ($this->server == $server && $user == $this->user) {
             return true;
         }
+
         $this->user = $user;
         $this->server = $server;
 
@@ -185,15 +183,16 @@ echo "Wrote" ', $read);
             if (!$ssh->login($user, $key)) {
                 $server->ssh_connection = false;
                 $server->save();
-                throw new SshConnectionFailed('Failed to login to'. $server->ip);
+
+                throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
             $server->save();
-            throw new SshConnectionFailed('Failed to login to'. $server->ip);
+            throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
         }
 
-        $ssh->setTimeout(0);
+        $ssh->setTimeout(2);
 
         $this->session = $ssh;
 

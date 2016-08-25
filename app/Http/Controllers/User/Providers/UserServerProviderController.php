@@ -24,11 +24,10 @@ class UserServerProviderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $userId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($userId, $id)
+    public function show($id)
     {
         return response(UserServerProvider::with('serverProvider')->findOrFail($id));
     }
@@ -36,11 +35,10 @@ class UserServerProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $userID
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userID, $id)
+    public function destroy($id)
     {
         UserServerProvider::findOrFail($id)->delete();
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
@@ -23,22 +24,25 @@ class UserSubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        return response()->json(\Auth::user()->subscription());
+        return response()->json(User::findOrFail($userId)->subscription());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $userId)
     {
-        $user = \Auth::user();
+        $user = User::findOrFail($userId);
+
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
 
             $cardToken = Token::create([
@@ -63,12 +67,14 @@ class UserSubscriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $userId
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($userId, $id)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        \Auth::user()->subscription('default')->cancel();
+        User::findOrFail($userId)->subscription('default')->cancel();
     }
 }
