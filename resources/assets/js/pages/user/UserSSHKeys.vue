@@ -3,14 +3,14 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
             <user-nav></user-nav>
-            <form v-on:submit.prevent="onSubmit">
+            <form v-on:submit.prevent="createSshkey">
                 <div class="form-group">
                     <label>Name</label>
-                    <input name="name" type="text" class="form-control">
+                    <input v-model="name" name="name" type="text" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Public Key</label>
-                    <textarea name="ssh_key" class="form-control"></textarea>
+                    <textarea v-model="ssh_key" name="ssh_key" class="form-control"></textarea>
                 </div>
                 <input type="submit" value="Install SSH Key">
             </form>
@@ -23,9 +23,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="key in ssh_keys">
+                    <tr v-for="key in user_ssh_keys">
                         <td>{{ key.name }}</td>
-                        <td><a href="#" class="fa fa-remove">x</a></td>
+                        <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -43,24 +43,31 @@
         },
         data() {
             return {
-                ssh_keys : []
+                name : null,
+                ssh_key : null
             }
+        },
+        created () {
+            this.fetchData();
         },
         methods : {
-            onSubmit: function() {
-                Vue.http.post(this.action('User\UserSshKeyController@store'), this.getFormData(this.$el)).then((response) => {
-                   this.ssh_keys.push(response.json());
-                }, (errors) => {
-                    alert(error);
+            fetchData : function() {
+                userSshKeyStore.dispatch('getUserSshKeys');
+            },
+            createSshkey: function() {
+                userSshKeyStore.dispatch('createUserSshKey', {
+                    name : this.name,
+                    ssh_key : this.ssh_key
                 });
+            },
+            deleteSshKey : function(sshKeyId) {
+                userSshKeyStore.dispatch('deleteUserSshKey', sshKeyId);
             }
         },
-        mounted () {
-            Vue.http.get(this.action('User\UserSshKeyController@index')).then((response) => {
-                this.ssh_keys = response.json();
-            }, (errors) => {
-                alert(error);
-            })
+        computed : {
+            user_ssh_keys : function() {
+                return userSshKeyStore.state.user_ssh_keys;
+            }
         },
     }
 </script>

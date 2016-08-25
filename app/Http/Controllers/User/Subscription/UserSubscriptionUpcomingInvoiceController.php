@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 /**
  * Class UserSubscriptionController
@@ -21,11 +22,12 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        $invoice = \Auth::user()->upcomingInvoice();
+        $invoice = User::findOrFail($userId)->upcomingInvoice();
         return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }

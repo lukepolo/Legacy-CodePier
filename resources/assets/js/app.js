@@ -50,66 +50,57 @@ Vue.mixin({
         dateHumanize: function (date, timezone) {
             return moment(date).tz(timezone).fromNow();
         },
-        getCookie(name, defaultValue) {
-            const value = window.Cookies.get(name);
-            if (value) {
-                return value;
-            }
-
-            return defaultValue;
-        },
         action: function (action, parameters) {
             return laroute.action(action, parameters);
-        },
-        route : function(route, parameters) {
-            return laroute.route(route, { planet : 'world' });
-        },
-        getFormData : function(el) {
-
-            if(!$(el).is('form')) {
-                el = $(el).find('form');
-            }
-
-            const data = {};
-
-            $.each($(el).serializeArray(), function() {
-
-                this.name = this.name.replace('[]', '');
-                if (data[this.name]) {
-                    if (!data[this.name].push) {
-                        data[this.name] = [data[this.name]];
-                    }
-                    data[this.name].push(this.value || '');
-                } else {
-                    data[this.name] = this.value || '';
-                }
-            });
-
-            return data;
         }
     }
 });
 
 /*
  |--------------------------------------------------------------------------
- | Stores
+ | User Stores
  |--------------------------------------------------------------------------
  |
  */
-import userStore from './stores/UserStore'
+import userStore from './stores/User/UserStore'
 window.userStore = userStore;
 
-import userTeamStore from './stores/UserTeamStore'
+import userTeamStore from './stores/User/UserTeamStore'
 window.userTeamStore = userTeamStore;
+
+import userSshKeyStore from './stores/User/UserSshKeyStore'
+window.userSshKeyStore = userSshKeyStore;
+
+/*
+ |--------------------------------------------------------------------------
+ | Server Stores
+ |--------------------------------------------------------------------------
+ |
+ */
 
 import serverStore from './stores/ServerStore'
 window.serverStore = serverStore;
 
+
+/*
+ |--------------------------------------------------------------------------
+ | Site Stores
+ |--------------------------------------------------------------------------
+ |
+ */
 import siteStore from './stores/SiteStore'
 window.siteStore = siteStore;
 
+
+/*
+ |--------------------------------------------------------------------------
+ | Pile Stores
+ |--------------------------------------------------------------------------
+ |
+ */
 import pileStore from './stores/PileStore'
 window.pileStore = pileStore;
+
 
 import eventStore from './stores/EventStore'
 window.eventStore = eventStore;

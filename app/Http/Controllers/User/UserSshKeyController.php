@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Exceptions\FailedCommand;
+use App\Exceptions\SshConnectionFailed;
 use App\Http\Controllers\Controller;
 use App\Models\UserSshKey;
 use Illuminate\Http\Request;
@@ -76,10 +78,17 @@ class UserSshKeyController extends Controller
     {
         $sshKey = UserSshKey::findOrFail($id);
 
+        $errors = [];
         foreach (\Auth::user()->servers as $server) {
-            $this->serverService->removeSshKey($server, $sshKey->ssh_key);
+            $errors[] = $this->runOnServer($server, function() use($server, $sshKey) {
+                if($server->ssh_connection) {
+                    $this->serverService->removeSshKey($server, $sshKey->ssh_key);
+                }
+            });
+
+            $sshKey->delete();
         }
 
-        $sshKey->delete();
+        return $this->remoteResponse();
     }
 }

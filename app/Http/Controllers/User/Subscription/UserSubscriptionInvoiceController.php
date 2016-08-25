@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
@@ -23,23 +24,25 @@ class UserSubscriptionInvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        return response()->json(\Auth::user()->invoices());
+        return response()->json(User::findOrfail($userId)->invoices());
     }
 
     /**
      * Display the specified resource.
      *
+     * @param $userId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($userId, $id)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        return \Auth::user()->downloadInvoice($id, [
+        return User::findOrfail($userId)->downloadInvoice($id, [
             'vendor' => 'CodePier',
             'product' => 'Server Management',
         ]);

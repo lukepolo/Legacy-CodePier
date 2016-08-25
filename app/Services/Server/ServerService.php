@@ -7,6 +7,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Events\ServerProvisioned;
+use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use App\Jobs\CreateSite;
 use App\Models\Server;
@@ -110,24 +111,21 @@ class ServerService implements ServerServiceContract
     public function installSshKey(Server $server, $sshKey, $user = 'root')
     {
         $this->remoteTaskService->ssh($server, $user);
+
         return $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
     }
 
     /**
-     * @param ServerSshKey $serverSshKey
+     * @param Server $server
+     * @param $sshKey
      * @param string $user
      * @return bool
      */
-    public function removeSshKey(ServerSshKey $serverSshKey, $user = 'root')
+    public function removeSshKey(Server $server, $sshKey, $user = 'root')
     {
-        try {
-            $this->remoteTaskService->ssh($serverSshKey->server, $user);
+        $this->remoteTaskService->ssh($server, $user);
 
-            $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $serverSshKey->ssh_key);
-
-        } catch (SshConnectionFailed $e) {
-            return false;
-        }
+        $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
     }
 
     /**
