@@ -1,0 +1,30 @@
+.card {
+    @include card(1);    
+    
+    hr {
+        border: none; 
+        border-bottom: 1px solid $jcf-color-divider;
+        margin: $jcf-form-padding (-$jcf-form-padding);
+    }
+    
+    .heading {
+        @include card(1);
+        background-color: $jcf-color-primary;
+        color: rgba($white, .5); 
+        border-top: 10px solid $jcf-color-primary-dark;
+        padding: ($jcf-form-padding/2) $jcf-form-padding;
+        margin: (-$jcf-form-padding) (-$jcf-form-padding) ($jcf-form-padding);
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: $jcf-color-text-inverse;
+            margin: 0px; 
+            padding: 0px;
+        }
+        
+        p {
+            font-size: .8em;
+            margin: 10px 0px 0px; 
+            padding: 0px;       
+        }
+    }
+}
