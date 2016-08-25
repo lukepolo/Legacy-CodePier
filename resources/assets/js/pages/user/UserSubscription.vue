@@ -87,6 +87,10 @@
                 upcomingSubscription: null
             }
         },
+        created() {
+            this.dispatch('getSubscriptions');
+            this.getSubscription();
+        },
         computed: {
             user: () => {
                 return userStore.state.user;
@@ -108,45 +112,19 @@
                 }
                 return false;
             },
-            onSubmit: function () {
+            createSubscription: function () {
                 Vue.http.post(this.action('User\Subscription\UserSubscriptionController@store'), this.getFormData(this.$el)).then((response) => {
                     this.ssh_keys.push(response.json());
                 }, (errors) => {
                     alert(error);
                 });
             },
-            getSubscription() {
-                Vue.http.get(this.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
-                    this.subscription = response.json();
-
-                    if (this.validSubscription && !this.isCanceled) {
-                        Vue.http.get(this.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
-                            console.info(response.json());
-                            this.upcomingSubscription = response.json();
-                        }, (errors) => {
-                            alert(error);
-                        });
-                    }
-                }, (errors) => {
-                    alert(error);
-                })
-            },
             cancelSubscription() {
-                Vue.http.delete(this.action('User\Subscription\UserSubscriptionController@destroy', {subscription: this.subscription.id})).then((response) => {
-                    this.getSubscription();
-                }, (errors) => {
-                    alert(error);
-                });
+                cancelSubscription();
             }
         },
         mounted () {
-            Vue.http.get(this.action('SubscriptionController@index')).then((response) => {
-                this.plans = response.json();
-            }, (errors) => {
-                alert(error);
-            });
 
-            this.getSubscription();
         }
     }
 </script>

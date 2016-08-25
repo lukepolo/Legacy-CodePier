@@ -71,6 +71,9 @@ window.userTeamStore = userTeamStore;
 import userSshKeyStore from './stores/User/UserSshKeyStore'
 window.userSshKeyStore = userSshKeyStore;
 
+import userSubscriptionStore from './stores/User/UserSubscriptionStore'
+window.userSubscriptionStore = userSubscriptionStore;
+
 /*
  |--------------------------------------------------------------------------
  | Server Stores
@@ -101,6 +104,8 @@ window.siteStore = siteStore;
 import pileStore from './stores/PileStore'
 window.pileStore = pileStore;
 
+import subscriptionStore from './stores/subscriptionStore'
+window.subscriptionStore = subscriptionStore;
 
 import eventStore from './stores/EventStore'
 window.eventStore = eventStore;
