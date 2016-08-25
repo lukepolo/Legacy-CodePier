@@ -52,9 +52,13 @@ trait ServerErrorTrait
 
     public function remoteResponse($errors = true)
     {
-        return response()->json([
-            'errors' => $this->remoteErrors
-        ]);
+        if(count($this->remoteErrors)) {
+            return response()->json([
+                'errors' => $this->remoteErrors
+            ]);
+        }
+
+        return response()->json();
     }
 
 }
