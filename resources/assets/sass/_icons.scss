@@ -26,6 +26,39 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+
+// EXTRA PADDING
+.icon-browser, 
+.icon-server,
+.icon-play {
+    padding-right: 4px;
+}
+
+
+.icon-warning:before {
+  content: "\e900";
+}
+.icon-browser:before {
+  content: "\e902";
+}
+.icon-server:before {
+  content: "\e903";
+}
+.icon-arrow-up:before {
+  content: "\f106";
+}
+.icon-arrow-right:before {
+  content: "\f105";
+}
+.icon-arrow-down:before {
+  content: "\f107";
+}
+.icon-arrow-left:before {
+  content: "\f104";
+}
+.icon-play:before {
+  content: "\e901";
+}
 .icon-layers:before {
   content: "\e53b";
 }
@@ -44,7 +77,7 @@
 .icon-backup:before {
   content: "\e864";
 }
-.icon-power:before {
+.icon-power_settings_new:before {
   content: "\e8ac";
 }
 .icon-settings:before {
@@ -73,16 +106,4 @@
 }
 .icon-cancel:before {
   content: "\e5c9";
-}
-.icon-arrow-up:before {
-  content: "\f106";
-}
-.icon-arrow-right:before {
-  content: "\f105";
-}
-.icon-arrow-down:before {
-  content: "\f107";
-}
-.icon-arrow-left:before {
-  content: "\f104";
 }

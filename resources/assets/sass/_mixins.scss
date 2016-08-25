@@ -56,3 +56,30 @@
 
     @return 0 $primary-offset $blur $color;
 }
+
+
+@mixin status($status) {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    float: right;
+    border-radius: 50%;
+    position: relative;
+    top: 2px;
+    
+    @if $status == success {
+        background-color: $green;
+    }
+    
+    @else if $status == error {
+        background-color: $red;
+    }
+    
+    @else if $status == warning {
+        background-color: $yellow;
+    }
+    
+    @else {
+        background-color: $grayLight;
+    }
+}
