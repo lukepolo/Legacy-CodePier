@@ -6,20 +6,20 @@ Vue.use(Vuex);
 
 const subscriptionStore = new Vuex.Store({
     state: {
-        subscriptions: [],
+        plans: [],
     },
     actions: {
-        getSubscriptions: ({commit}) => {
+        getPlans: ({commit}) => {
             Vue.http.get(action('SubscriptionController@index')).then((response) => {
-                commit('SET_SUBSCRIPTIONS', response.json());
+                commit('SET_PLANS', response.json());
             }, (errors) => {
                 alert(error);
             });
         }
     },
     mutations: {
-        SET_SUBSCRIPTIONS: (state, subscriptions) => {
-            state.subscriptions = subscriptions;
+        SET_PLANS: (state, plans) => {
+            state.plans = plans;
         }
     }
 });

@@ -14,7 +14,7 @@
                 </p>
             </template>
 
-            <form v-on:submit.prevent="onSubmit">
+            <form v-on:submit.prevent="createSubscription">
                 <div class="radio" v-for="plan in plans">
                     <label>
                         <template v-if="subscribedToPlan(plan.id)">
@@ -41,16 +41,16 @@
 
                 <div id="card-info" :class="{hide : !showCardForm}">
                     <label>Number</label>
-                    <input type="text" name="number">
+                    <input v-model="form.number" type="text" name="number">
 
                     <label>Exp Month</label>
-                    <input type="text" name="exp_month">
+                    <input v-model="form.exp_month" type="text" name="exp_month">
 
                     <label>Exp Year</label>
-                    <input type="text" name="exp_year">
+                    <input v-model="form.exp_year" type="text" name="exp_year">
 
                     <label>CVC</label>
-                    <input type="password" name="cvc">
+                    <input v-model="form.cvc" type="password" name="cvc">
                 </div>
 
                 <button type="submit">Save Subscription</button>
@@ -82,42 +82,61 @@
             return {
                 plans: [],
                 invoices: [],
-                subscription: null,
                 showCardForm: user.card_brand ? false : true,
-                upcomingSubscription: null
+                upcomingSubscription: null,
+                form : {
+                    cvc : null,
+                    number : null,
+                    exp_year: null,
+                    exp_month : null
+                }
             }
         },
         created() {
-            this.dispatch('getSubscriptions');
-            this.getSubscription();
+            subscriptionStore.dispatch('getPlans');
+            userSubscriptionStore.dispatch('getUserSubscription').then(() => {
+                console.info(this.validSubscription);
+                if(this.validSubscription) {
+                    alert('test');
+                }
+
+
+                console.info(this.$options.data());
+
+            });
         },
         computed: {
             user: () => {
                 return userStore.state.user;
             },
+            plans : () => {
+                return subscriptionStore.state.plans;
+            },
+            user_subscription : () => {
+              return userSubscriptionStore.state.user_subscription;
+            },
             validSubscription: function () {
-                if (!_.isEmpty(this.subscription)) {
+                if (!_.isEmpty(this.user_subscription)) {
                     return true;
                 }
                 return false;
             },
             isCanceled: function () {
-                return this.subscription.ends_at != null;
+                return this.user_subscription.ends_at != null;
             }
         },
         methods: {
             subscribedToPlan: function (plan) {
-                if (this.validSubscription && this.subscription.stripe_plan == plan) {
+                if (this.validSubscription && this.user_subscription.stripe_plan == plan) {
                     return true;
                 }
                 return false;
             },
             createSubscription: function () {
-                Vue.http.post(this.action('User\Subscription\UserSubscriptionController@store'), this.getFormData(this.$el)).then((response) => {
-                    this.ssh_keys.push(response.json());
-                }, (errors) => {
-                    alert(error);
+                userSubscriptionStore.dispatch('createUserSubscription', this.form).then(() => {
+
                 });
+
             },
             cancelSubscription() {
                 cancelSubscription();
