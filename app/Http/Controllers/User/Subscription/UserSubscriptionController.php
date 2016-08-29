@@ -27,9 +27,11 @@ class UserSubscriptionController extends Controller
      * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index($userId)
+    public function index($userId = null)
     {
-        return response()->json(User::findOrFail($userId)->subscription());
+        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
+
+        return response()->json($user->subscription());
     }
 
     /**
@@ -39,9 +41,9 @@ class UserSubscriptionController extends Controller
      * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId)
+    public function store(Request $request, $userId = null)
     {
-        $user = User::findOrFail($userId);
+        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
 
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
 
@@ -71,10 +73,12 @@ class UserSubscriptionController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId, $id)
+    public function destroy($userId = null, $id)
     {
+        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
+
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        User::findOrFail($userId)->subscription('default')->cancel();
+        $user->subscription('default')->cancel();
     }
 }

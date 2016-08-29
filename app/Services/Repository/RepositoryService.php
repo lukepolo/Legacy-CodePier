@@ -46,6 +46,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     private function getProvider($provider)
     {
+        // TODO - should have morph abilities
         return new $this->providers[$provider]();
     }
 

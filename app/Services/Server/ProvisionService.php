@@ -170,6 +170,7 @@ class ProvisionService implements ProvisionServiceContract
      */
     private function getProvisionRepository(Server $server)
     {
+        // TODO - should have morph abilities
         $operatingSystem = 'ubuntu 16.04';
 
         return new $this->provisionSystems[$operatingSystem]($this->remoteTaskService, $server);
