@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
@@ -24,26 +23,22 @@ class UserSubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index($userId = null)
+    public function index()
     {
-        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
-
-        return response()->json($user->subscription());
+        return response()->json(\Auth::user()->subscription());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId = null)
+    public function store(Request $request)
     {
-        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
+        $user = \Auth::user();
 
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
 
@@ -56,29 +51,28 @@ class UserSubscriptionController extends Controller
                 ]
             ]);
 
-            $user->updateCard($cardToken->id);
+            if($user->hasStripeId()) {
+                $user->updateCard($cardToken->id);
+            }
         }
 
         if ($user->subscribed()) {
             $user->subscription('default')->swap($request->get('plan'));
         } else {
-            $user->newSubscription('default', $request->get('plan'))->create();
+            $user->newSubscription('default', $request->get('plan'))->create(isset($cardToken) ? $cardToken->id : null);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param $userId
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId = null, $id)
+    public function destroy($id)
     {
-        $user = empty($userId) ? \Auth::user() : User::findOrFail($userId);
-
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $user->subscription('default')->cancel();
+        \Auth::user()->subscription('default')->cancel();
     }
 }

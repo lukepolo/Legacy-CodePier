@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-08-25.
+    * Generated on 2016-08-30.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -61,11 +61,9 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
-            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -206,11 +204,9 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
-            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -351,11 +347,9 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
-            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -496,11 +490,9 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Server\Site\Repository\RepositoryServiceContract' instanceof \App\Services\Server\Site\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Server\ProvisionServiceContract' instanceof \App\Services\Server\ProvisionService,
-            'App\Contracts\Server\Site\SiteServiceContract' instanceof \App\Services\Server\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
