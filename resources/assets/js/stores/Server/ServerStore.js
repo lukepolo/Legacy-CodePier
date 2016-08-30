@@ -1,6 +1,6 @@
 import Vue from "vue/dist/vue";
 import Vuex from "vuex";
-import {action} from "./helpers";
+import {action} from "./../helpers";
 
 Vue.use(Vuex);
 
@@ -15,6 +15,13 @@ const serverStore = new Vuex.Store({
                 typeof callback === 'function' && callback();
             }, (errors) => {
                 alert('handle some error')
+            });
+        },
+        createServer: ({commit}, data) => {
+            Vue.http.post(action('Server\ServerController@store'), data).then((response) => {
+                alert('open events tab');
+            }, (errors) => {
+                alert(error);
             });
         }
     },

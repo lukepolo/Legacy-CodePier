@@ -81,9 +81,11 @@ window.userSubscriptionStore = userSubscriptionStore;
  |
  */
 
-import serverStore from './stores/ServerStore'
+import serverStore from './stores/Server/ServerStore';
 window.serverStore = serverStore;
 
+import serverProviderStore from './stores/Server/ServerProviderStore';
+window.serverProviderStore = serverProviderStore;
 
 /*
  |--------------------------------------------------------------------------
@@ -216,7 +218,8 @@ const app = new Vue({
     userStore,
     eventStore,
     serverStore,
-    userTeamStore
+    userTeamStore,
+    serverProviderStore
 }).$mount('#app-layout');
 
 window.app = app;

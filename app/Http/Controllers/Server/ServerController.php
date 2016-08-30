@@ -52,9 +52,10 @@ class ServerController extends Controller
             'server_provider_id' => (int)\Request::get('server_provider_id'),
             'status' => 'Queued For Creation',
             'progress' => '0',
-            'options' => \Request::except(['_token', 'service', 'features']),
-            'features' => \Request::get('features'),
-            'pile_id' => \Request::get('pile_id')
+            'options' => \Request::except(['_token', 'service', 'server_features']),
+            'features' => \Request::get('server_features'),
+            'pile_id' => \Request::get('pile_id'),
+            'system_class' => 'ubuntu 16.04',
         ]);
 
         $this->dispatch(new CreateServer(
