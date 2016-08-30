@@ -36,6 +36,27 @@ const pileStore = new Vuex.Store({
         setCurrentPileID: ({commit}, pile_id) => {
             localStorage.setItem('current_pile_id', pile_id);
             commit('SET_CURRENT_PILE_ID', pile_id);
+        },
+        createPile : ({commit}, data) => {
+            Vue.http.post(action('Pile\PileController@store'), data).then((response) => {
+                pileStore.dispatch('getPiles');
+            }, (errors) => {
+                alert(error);
+            })
+        },
+        updatePile: ({commit}, data) => {
+            Vue.http.put(action('Pile\PileController@update', { pile : data.pile.id }), data).then((response) => {
+                pileStore.dispatch('getPiles');
+            }, (errors) => {
+                alert(error);
+            })
+        },
+        deletePile: ({commit}, pile) => {
+            Vue.http.delete(action('Pile\PileController@destroy', { pile : pile })).then((response) => {
+                pileStore.dispatch('getPiles');
+            }, (errors) => {
+                alert(error);
+            })
         }
     },
     mutations: {
