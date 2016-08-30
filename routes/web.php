@@ -49,9 +49,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
 
             Route::resource('ssh-keys', 'UserSshKeyController'); // VERIFIED
-            Route::resource('server-providers', 'Providers\UserServerProviderController');
-            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
-            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
+            Route::resource('server-providers', 'Providers\UserServerProviderController');  // VERIFIED
+            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');  // VERIFIED
+            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');  // VERIFIED
         });
 
         /*
@@ -70,13 +70,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::resource('team', 'User\Team\UserTeamController');
+        Route::resource('team', 'User\Team\UserTeamController');  // VERIFIED
 
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::resource('team.members', 'UserTeamMemberController');
-            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
-            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+            Route::resource('team.members', 'UserTeamMemberController'); // VERIFIED
+            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch'); // VERIFIED
+            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite'); // VERIFIED
+            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite'); // VERIFIED
         });
 
         /*
@@ -86,8 +86,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::resource('piles', 'Pile\PileController');
-        Route::resource('pile.sites', 'Pile\PileSitesController');
+        Route::resource('piles', 'Pile\PileController'); // VERIFIED
+        Route::resource('pile.sites', 'Pile\PileSitesController'); // VERIFIED
 
         /*
        |--------------------------------------------------------------------------
@@ -150,9 +150,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
-            Route::resource('server-providers', 'ServerProvidersController');
-            Route::resource('repository-providers', 'RepositoryProvidersController');
-            Route::resource('notification-providers', 'NotificationProvidersController');
+            Route::resource('server-providers', 'ServerProvidersController'); // VERIFIED
+            Route::resource('repository-providers', 'RepositoryProvidersController'); // VERIFIED
+            Route::resource('notification-providers', 'NotificationProvidersController'); // VERIFIED
         });
     });
 
@@ -161,9 +161,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean'
         ], function () {
-            Route::resource('options', 'DigitalOceanServerOptionsController');
-            Route::resource('regions', 'DigitalOceanServerRegionsController');
-            Route::resource('features', 'DigitalOceanServerFeaturesController');
+            Route::resource('options', 'DigitalOceanServerOptionsController'); // VERIFIED
+            Route::resource('regions', 'DigitalOceanServerRegionsController'); // VERIFIED
+            Route::resource('features', 'DigitalOceanServerFeaturesController'); // VERIFIED
         });
     });
 });
@@ -183,7 +183,7 @@ Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookControll
 |--------------------------------------------------------------------------
 |
 */
-Route::resource('subscription/plans', 'SubscriptionController');
+Route::resource('subscription/plans', 'SubscriptionController'); // VERIFIED
 
 /*
 |--------------------------------------------------------------------------
