@@ -158,7 +158,7 @@ class ServerService implements ServerServiceContract
      */
     public function restartWebServices(Server $server, $user = 'root')
     {
-
+        dd('HERE WE GO');
     }
 
     /**
@@ -168,7 +168,7 @@ class ServerService implements ServerServiceContract
      */
     public function restartDatabase(Server $server, $user = 'root')
     {
-
+        dd('HERE WE GO');
     }
 
     /**
@@ -178,7 +178,7 @@ class ServerService implements ServerServiceContract
      */
     public function restartWorkers(Server $server, $user = 'root')
     {
-
+        dd('HERE WE GO');
     }
 
     /**
@@ -271,13 +271,16 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
     }
 
+    /**
+     * @param Server $server
+     * @return DiskSpace
+     */
     public function checkDiskSpace(Server $server)
     {
         $this->remoteTaskService->ssh($server);
         $results = $this->remoteTaskService->run("df / | grep / | awk '{print $2} {print $3} {print $4}'");
 
         $results = array_filter(explode(PHP_EOL, $results));
-
 
         return new DiskSpace($results[0], $results[1], $results[2]);
     }
@@ -302,8 +305,6 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
         $this->remoteTaskService->run('crontab -l | grep -v "' . $cronJob->job . ' >/dev/null 2>&1" | crontab -');
-
-        $cronJob->delete();
 
         return $this->remoteTaskService->getErrors();
     }

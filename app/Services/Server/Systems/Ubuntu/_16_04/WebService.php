@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\ProvisionSystems;
+namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
 class WebService
 {
@@ -21,7 +21,6 @@ class WebService
         $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
 
         $this->remoteTaskService->run('service nginx restart');
-        $this->remoteTaskService->run('service php7.0-fpm restart');
     }
 
     public function installCertBot()
@@ -39,7 +38,6 @@ class WebService
         $this->remoteTaskService->ssh($server, $user);
 
         $this->remoteTaskService->run('service nginx restart');
-        $this->remoteTaskService->run('service php7.0-fpm restart');
 
         return $this->remoteTaskService->getErrors();
     }
