@@ -130,7 +130,9 @@
                 return false;
             },
             createSubscription: function () {
-                userSubscriptionStore.dispatch('createUserSubscription', this.form);
+                userSubscriptionStore.dispatch('createUserSubscription', this.form).then(() => {
+                    this.form = this.$options.data().form;
+                });
             },
             cancelSubscription : function() {
                 userSubscriptionStore.dispatch('cancelSubscription', this.user_subscription.id);
