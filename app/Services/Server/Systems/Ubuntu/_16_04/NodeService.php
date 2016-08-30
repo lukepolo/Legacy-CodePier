@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\ProvisionSystems;
+namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
 class NodeService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\ProvisionSystems;
+namespace App\Services\Server\Systems\Ubuntu\V_16_04\Languages;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Server;

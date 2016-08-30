@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\ProvisionSystems;
+namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
 class SystemService
 {
@@ -44,6 +44,14 @@ class SystemService
         $this->remoteTaskService->run('locale-gen en_US.UTF-8');
     }
 
+
+    public function installDiskMonitorScript(Server $server)
+    {
+        $provisionSystem = $this->getProvisionRepository($server);
+
+        event(new ServerProvisionStatusChanged($server, 'Provisioned', 100));
+        $provisionSystem->addDiskMonitoringScript($server);
+    }
 
     public function createSwap()
     {

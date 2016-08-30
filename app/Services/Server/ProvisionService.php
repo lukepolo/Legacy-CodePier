@@ -20,7 +20,7 @@ class ProvisionService implements ProvisionServiceContract
     protected $remoteTaskService;
 
     protected $provisionSystems = [
-        'ubuntu 16.04' => Ubuntu16_04::class
+        'ubuntu 16.04' => 'Ubuntu/16_04'
     ];
 
     /**
@@ -45,7 +45,8 @@ class ProvisionService implements ProvisionServiceContract
 
         $provisionSystem = $this->getProvisionRepository($server);
 
-        $this->totalActions = count(get_class_methods($provisionSystem)) - 5;
+        // TODO - need to figure this out
+        $this->totalActions = 0;
 
         $this->updateProgress('Updating system');
         $provisionSystem->updateSystem();
@@ -65,29 +66,8 @@ class ProvisionService implements ProvisionServiceContract
         $this->updateProgress('Installing GIT');
         $provisionSystem->installGit($server);
 
-        $this->updateProgress('Installing PHP');
-        $provisionSystem->installPHP();
-
-        $this->updateProgress('Installing PHP-FPM');
-        $provisionSystem->installPhpFpm();
-
-        $this->updateProgress('Installing Composer');
-        $provisionSystem->installComposer();
-
         $this->updateProgress('Installing Nginx');
         $provisionSystem->installNginx();
-
-        $this->updateProgress('Installing Redis');
-        $provisionSystem->installRedis();
-
-        $this->updateProgress('Installing Memcached');
-        $provisionSystem->installMemcached();
-
-        $this->updateProgress('Installing Supervisor');
-        $provisionSystem->installSupervisor();
-
-        $this->updateProgress('Installing Beanstalk');
-        $provisionSystem->installBeanstalk();
 
         $database = isset($server->options['database']) ? $server->options['database'] : null;
 
@@ -99,62 +79,44 @@ class ProvisionService implements ProvisionServiceContract
             $provisionSystem->installMySQL($databasePassword, $database);
         }
 
-        $this->updateProgress('Installing NodeJS');
-        $provisionSystem->installNodeJs();
+        // SHOULD BE A Checkboxes
+            $this->updateProgress('Installing Redis');
+            $provisionSystem->installRedis();
 
-        $this->updateProgress('Installing Gulp');
-        $provisionSystem->installGulp();
+            $this->updateProgress('Installing Memcached');
+            $provisionSystem->installMemcached();
 
-        $this->updateProgress('Installing Bower');
-        $provisionSystem->installBower();
+            $this->updateProgress('Installing Supervisor');
+            $provisionSystem->installSupervisor();
 
-        $this->updateProgress('Installing LetsEncrypt - Cert Bot');
-        $provisionSystem->installCertBot();
+            $this->updateProgress('Installing Beanstalk');
+            $provisionSystem->installBeanstalk();
+
+            $this->updateProgress('Installing LetsEncrypt - Cert Bot');
+            $provisionSystem->installCertBot();
+        // end of checkboxes
 
         $this->updateProgress('Installing Basic Firewall Rules');
         $provisionSystem->installFirewallRules($server);
+
+        // PHP - should be based on site ? , checkbox
+        $this->updateProgress('Installing PHP');
+        $provisionSystem->installPHP();
+
+        $this->updateProgress('Installing PHP-FPM');
+        $provisionSystem->installPhpFpm();
+
+        $this->updateProgress('Installing Composer');
+        $provisionSystem->installComposer();
 
         // TODO - having issues with the laravel installer and envoy installer
 //        $provisionSystem->installLaravelInstaller();
 //        $provisionSystem->installEnvoy();
 
-
 //        $this->updateProgress('Installing disk monitor script');
 //        $provisionSystem->addDiskMonitoringScript($server);
 
         return $provisionSystem->errors();
-    }
-
-    public function provisionLoadBalancer(Server $server, $sudoPassword, $databasePassword)
-    {
-        $this->server = $server;
-
-        $provisionSystem = $this->getProvisionRepository($server);
-
-        $this->updateProgress('Updating system');
-        $provisionSystem->updateSystem();
-
-        $this->updateProgress('Settings Timezone to UTC');
-        $provisionSystem->setTimezoneToUTC();
-
-        $this->updateProgress('Settings Locale to UTF8');
-        $provisionSystem->setLocaleToUTF8();
-
-        $this->updateProgress('Creating Swap');
-        $provisionSystem->createSwap();
-
-        $this->updateProgress('Adding CodePier User');
-        $provisionSystem->addCodePierUser($sudoPassword);
-
-        $this->updateProgress('Installing Nginx');
-        $provisionSystem->installNginx();
-
-        $this->updateProgress('Installing LetsEncrypt - Cert Bot');
-        $provisionSystem->installCertBot();
-
-        $this->updateProgress('Installing Basic Firewall Rules');
-        $provisionSystem->installFirewallRules($server);
-
     }
 
     private function updateProgress($status)
@@ -170,17 +132,8 @@ class ProvisionService implements ProvisionServiceContract
      */
     private function getProvisionRepository(Server $server)
     {
-        // TODO - should have morph abilities
-        $operatingSystem = 'ubuntu 16.04';
+        $systemFolder = $this->provisionSystems['ubuntu 16.04'];
 
         return new $this->provisionSystems[$operatingSystem]($this->remoteTaskService, $server);
-    }
-
-    public function installDiskMonitorScript(Server $server)
-    {
-        $provisionSystem = $this->getProvisionRepository($server);
-
-        event(new ServerProvisionStatusChanged($server, 'Provisioned', 100));
-        $provisionSystem->addDiskMonitoringScript($server);
     }
 }
