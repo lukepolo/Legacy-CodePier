@@ -3,7 +3,7 @@
         <div class="group-heading">
             <h4>
                 <template v-if="editing">
-                    <input v-model="name" type="text" :value="pile.name">
+                    <input v-model="form.name" type="text" :value="pile.name">
                 </template>
                 <template v-else>
                     {{ pile.name }}
@@ -42,7 +42,9 @@
         props : ['pile', 'index'],
         data() {
             return {
-                name: this.pile.name,
+                form : {
+                    name: this.pile.name
+                },
                 editing : this.pile.editing
             }
         },
@@ -58,34 +60,19 @@
                 this.editing = true;
             },
             deletePile :function() {
-                if(this.pile.id) {
-                    Vue.http.delete(this.action('Pile\PileController@destroy', { pile : this.pile.id })).then((response) => {
-                        pileStore.dispatch('getPiles');
-                    }, (errors) => {
-                        alert(error);
-                    })
-                }
+                pileStore.dispatch('deletePile', this.pile.id);
             },
             savePile : function() {
                 if(this.pile.id) {
-                    Vue.http.put(this.action('Pile\PileController@update', { pile : this.pile.id }), {
-                        name : this.name
-                    }).then((response) => {
-                        pileStore.dispatch('getPiles');
-                        this.editing = false;
-                    }, (errors) => {
-                        alert(error);
-                    })
+
+                    this.form['pile'] = this.pile;
+
+                    pileStore.dispatch('updatePile', this.form);
+
                 } else {
-                    Vue.http.post(this.action('Pile\PileController@store'), {
-                        name : this.name
-                    }).then((response) => {
-                        pileStore.dispatch('getPiles');
-                        this.editing = false;
-                    }, (errors) => {
-                        alert(error);
-                    })
+                    pileStore.dispatch('createPile', this.form);
                 }
+                this.editing = false;
             }
         }
     }

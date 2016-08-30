@@ -14,6 +14,7 @@ class PileSitesController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $pileId
      * @return \Illuminate\Http\Response
      */
     public function index($pileId)
