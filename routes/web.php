@@ -44,9 +44,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
         Route::group(['namespace' => 'User'], function () {
 
-            Route::resource('subscription', 'Subscription\UserSubscriptionController');
-            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
-            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
+            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController'); // VERIFIED
+            Route::resource('subscription', 'Subscription\UserSubscriptionController'); // VERIFIED
+            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
 
             Route::resource('ssh-keys', 'UserSshKeyController'); // VERIFIED
             Route::resource('server-providers', 'Providers\UserServerProviderController');

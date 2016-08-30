@@ -25,9 +25,10 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
      * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index($userId)
+    public function index()
     {
-        $invoice = User::findOrFail($userId)->upcomingInvoice();
+        $invoice = \Auth::user()->upcomingInvoice();
+
         return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }
