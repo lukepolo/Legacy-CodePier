@@ -48,15 +48,22 @@ class ServerCronJobController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-        $serverCronJob = ServerCronJob::create([
+        $serverCronJob = ServerCronJob::firstOrCreate([
             'server_id' => $serverId,
             'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
             'user' => $request->get('user')
         ]);
 
-        $this->serverService->installCron($serverCronJob);
+        $server = Server::findOrFail($serverId);
 
-        return response()->json($serverCronJob);
+        $this->runOnServer($server, function () use ($server, $serverCronJob) {
+            if($server->ssh_connection) {
+                $this->serverService->installCron($serverCronJob);
+                $serverCronJob->save();
+            }
+        });
+
+        return $this->remoteResponse();
     }
 
     /**
@@ -80,6 +87,17 @@ class ServerCronJobController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $this->serverService->removeCron(ServerCronJob::findorFail($id));
+        $serverCronJob = ServerCronJob::findorFail($id);
+
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server, $serverCronJob) {
+            if($server->ssh_connection) {
+                $this->serverService->installCron($serverCronJob);
+                $serverCronJob->delete();
+            }
+        });
+
+        return $this->remoteResponse();
     }
 }
