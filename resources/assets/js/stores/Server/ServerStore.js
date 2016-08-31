@@ -6,9 +6,18 @@ Vue.use(Vuex);
 
 const serverStore = new Vuex.Store({
     state: {
-        servers: []
+        servers: [],
+        server: null,
+        server_sites: null
     },
     actions: {
+        getServer : ({commit}, server_id) => {
+            Vue.http.get(action('Server\ServerController@show', {server : server_id})).then((response) => {
+                commit('SET_SERVER', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
         getServers: ({commit}, callback) => {
             Vue.http.get(action('Server\ServerController@index', {pile_id: pileStore.state.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.json());
@@ -23,11 +32,24 @@ const serverStore = new Vuex.Store({
             }, (errors) => {
                 alert(error);
             });
+        },
+        getServerSites: ({commit}, server_id) => {
+            Vue.http.get(action('Server\ServerSiteController@index', {server : server_id})).then((response) => {
+                commit('SET_SERVER_SITES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
         }
     },
     mutations: {
+        SET_SERVER: (state, server) => {
+            state.server = server;
+        },
         SET_SERVERS: (state, servers) => {
             state.servers = servers;
+        },
+        SET_SERVER_SITES: (state, server_sites) => {
+            state.server_sites = server_sites;
         }
     }
 });
