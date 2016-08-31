@@ -88,19 +88,19 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-            $(el).unbind('scroll');
-
-            var pagination = bindings.value;
-
-            var nextPage = pagination.current_page + 1;
-            if (nextPage <= pagination.last_page) {
-                $(el).bind('scroll', function () {
-                    var $el = $(el);
-                    if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
-                        eventStore.dispatch('getEvents', nextPage);
-                    }
-                });
-            }
+//            $(el).unbind('scroll');
+//
+//            var pagination = bindings.value;
+//
+//            var nextPage = pagination.current_page + 1;
+//            if (nextPage <= pagination.last_page) {
+//                $(el).bind('scroll', function () {
+//                    var $el = $(el);
+//                    if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
+//                        eventStore.dispatch('getEvents', nextPage);
+//                    }
+//                });
+//            }
         }
     });
 
