@@ -2,12 +2,28 @@
 
 namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
+use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+
 class DatabaseService
 {
+    use ServiceConstructorTrait;
+
+    public function installDatabases()
+    {
+        $databasePassword = decrypt($this->server->database_password);
+
+        $database = isset($this->server->options['database']) ? $this->server->options['database'] : null;
+
+        if($this->server->hasFeature('mariaDB')) {
+            $this->installMariaDB($databasePassword, $database);
+        } else {
+            $this->installMySQL($databasePassword, $database);
+        }
+    }
+
     public function installRedis()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
-
     }
 
     public function installMemcached()
@@ -47,17 +63,8 @@ class DatabaseService
         }
     }
 
-    /**
-     * @param Server $server
-     * @param string $user
-     * @return bool
-     */
-    public function restartDatabase(Server $server, $user = 'root')
+    public function restartDatabase()
     {
-        $this->remoteTaskService->ssh($server, $user);
-
-        // TODO - restart maria db
         return $this->remoteTaskService->run('service mysql restart');
-
     }
 }

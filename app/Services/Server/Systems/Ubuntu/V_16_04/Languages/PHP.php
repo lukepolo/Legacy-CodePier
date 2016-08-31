@@ -2,27 +2,17 @@
 
 namespace App\Services\Server\Systems\Ubuntu\V_16_04\Languages;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Models\Server;
+use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
 
 /**
  * Class Ubuntu16_04
  * @package App\Services\Server\ProvisionRepositories
  */
-class Ubuntu16_04
+class PHP
 {
-    private $remoteTaskService;
+    use ServiceConstructorTrait;
 
-    /**
-     * ProvisionService constructor.
-     * @param RemoteTaskService $remoteTaskService
-     * @param Server $server
-     */
-    public function __construct(RemoteTaskService $remoteTaskService, Server $server)
-    {
-        $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server);
-    }
+    private $remoteTaskService;
 
     public function installPHP()
     {
@@ -56,10 +46,8 @@ class Ubuntu16_04
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y composer');
     }
 
-    public function installBlackFire(Server $server, $serverID, $serverToken)
+    public function installBlackFire($serverID, $serverToken)
     {
-        $this->remoteTaskService->ssh($server);
-
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
         $this->remoteTaskService->run('apt-get update');
@@ -71,8 +59,5 @@ class Ubuntu16_04
         $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-token', $serverToken);
 
         $this->remoteTaskService->run('/etc/init.d/blackfire-agent restart');
-
-        $this->restartWebServices($server);
-
     }
 }

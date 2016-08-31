@@ -2,21 +2,26 @@
 
 namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
-class Firewall
+use App\Models\ServerFirewallRule;
+use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+
+class FirewallService
 {
-    public function installFirewallRules(Server $server)
+    use ServiceConstructorTrait;
+
+    public function installFirewallRules()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
-            'server_id' => $server->id,
+            'server_id' => $this->server->id,
             'description' => 'HTTP',
             'port' => '80',
             'from_ip' => null
         ]);
 
         ServerFirewallRule::create([
-            'server_id' => $server->id,
+            'server_id' => $this->server->id,
             'description' => 'HTTPS',
             'port' => '443',
             'from_ip' => null
@@ -57,14 +62,8 @@ iptables -P INPUT DROP
         $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
     }
 
-    /**
-     * @param ServerFirewallRule $serverFirewallRule
-     * @return array
-     */
     public function addFirewallRule(ServerFirewallRule $serverFirewallRule)
     {
-        $this->remoteTaskService->ssh($serverFirewallRule->server);
-
         if (empty($serverFirewallRule->from_ip)) {
             $this->remoteTaskService->findTextAndAppend(
                 '/etc/opt/iptables',
@@ -81,16 +80,8 @@ iptables -P INPUT DROP
         return $this->rebuildFirewall($serverFirewallRule->server);
     }
 
-    /**
-     * @param ServerFirewallRule $firewallRule
-     * @param string $user
-     * @return bool
-     */
-    public function removeFirewallRule(ServerFirewallRule $firewallRule, $user = 'root')
+    public function removeFirewallRule(ServerFirewallRule $firewallRule)
     {
-        $server = $firewallRule->server;
-        $this->remoteTaskService->ssh($server, $user);
-
         if (empty($firewallRule->from_ip)) {
             $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
                 "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
@@ -100,51 +91,29 @@ iptables -P INPUT DROP
         }
 
         if (empty($errors)) {
-            return $this->rebuildFirewall($server);
+            return $this->rebuildFirewall($this->server);
         }
 
         return $errors;
     }
 
-    /**
-     * @param Server $server
-     * @param $serverIP
-     * @param string $user
-     * @return array
-     */
-    public function addServerNetworkRule(Server $server, $serverIP, $user = 'root')
+    public function addServerNetworkRule($serverIP)
     {
-        $this->remoteTaskService->ssh($server, $user);
-
         $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
             "iptables -A INPUT -s $serverIP -j ACCEPT");
 
-        return $this->rebuildFirewall($server);
+        return $this->rebuildFirewall();
     }
 
-    /**
-     * @param Server $server
-     * @param $serverIP
-     * @param string $user
-     * @return array
-     */
-    public function removeServerNetworkRule(Server $server, $serverIP, $user = 'root')
+    public function removeServerNetworkRule($serverIP)
     {
-        $this->remoteTaskService->ssh($server, $user);
-
         $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
-        return $this->rebuildFirewall($server);
+        return $this->rebuildFirewall();
     }
 
-    /**
-     * @param Server $server
-     * @return bool
-     */
-    private function rebuildFirewall(Server $server)
+    private function rebuildFirewall()
     {
-        $this->remoteTaskService->ssh($server);
-
         $this->remoteTaskService->run('/etc/opt/./iptables');
         $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
         $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');

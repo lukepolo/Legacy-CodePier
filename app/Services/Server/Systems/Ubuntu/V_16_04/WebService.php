@@ -2,8 +2,12 @@
 
 namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
+use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+
 class WebService
 {
+    use ServiceConstructorTrait;
+
     public function installNginx()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
@@ -29,17 +33,14 @@ class WebService
     }
 
     /**
-     * @param Server $server
      * @param string $user
      * @return array
      */
-    public function restartWebServices(Server $server, $user = 'root')
+    public function restartWebServices($user = 'root')
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($this->server, $user);
 
         $this->remoteTaskService->run('service nginx restart');
-
-        return $this->remoteTaskService->getErrors();
     }
 
 }

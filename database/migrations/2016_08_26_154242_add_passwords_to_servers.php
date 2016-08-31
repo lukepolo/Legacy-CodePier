@@ -14,7 +14,9 @@ class AddPasswordsToServers extends Migration
     public function up()
     {
         Schema::table('servers',function(Blueprint $table) {
-            $table->longText('mysql_password')->nullable();
+            $table->longText('root_password')->nullable();
+            $table->longText('database_password')->nullable();
+
         });
     }
 
@@ -26,7 +28,8 @@ class AddPasswordsToServers extends Migration
     public function down()
     {
         Schema::table('servers',function(Blueprint $table) {
-            $table->dropColumn('mysql_password');
+            $table->dropColumn('root_password');
+            $table->dropColumn('database_password');
         });
     }
 }
