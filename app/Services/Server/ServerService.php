@@ -128,22 +128,27 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     * @return bool
      */
     public function provision(Server $server)
     {
-//        if(!empty($server->database_password)) {
+        if(!empty($server->database_password)) {
             $server->database_password = encrypt(str_random(32));
-//        }
+        }
 
-//        if(!empty($server->root_password)) {
+        if(!empty($server->root_password)) {
             $server->root_password = encrypt(str_random(32));
-//        }
+        }
 
         $server->save();
 
-        $errors = $this->provisionService->provision($server);
+        if(!$this->provisionService->provision($server)) {
+            return false;
+        }
 
-        event(new ServerProvisioned($server));
+        $server->notify(new ServerProvisioned());
+
+        return true;
     }
 
     /**

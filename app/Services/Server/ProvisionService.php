@@ -35,6 +35,7 @@ class ProvisionService implements ProvisionServiceContract
     /**
      * Provisions a server based on its operating system
      * @param Server $server
+     * @return bool
      */
     public function provision(Server $server)
     {
@@ -58,7 +59,10 @@ class ProvisionService implements ProvisionServiceContract
             $provisionStep->failed = true;
             $provisionStep->log = $systemService->getErrors();
             $provisionStep->save();
+            return false;
         }
+
+        return true;
     }
 
     /**
