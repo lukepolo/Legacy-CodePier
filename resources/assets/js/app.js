@@ -84,6 +84,9 @@ window.userSubscriptionStore = userSubscriptionStore;
 import serverStore from './stores/Server/ServerStore';
 window.serverStore = serverStore;
 
+import serverSshKeyStore from './stores/Server/ServerSshKeyStore';
+window.serverSshKeyStore = serverSshKeyStore;
+
 import serverProviderStore from './stores/Server/ServerProviderStore';
 window.serverProviderStore = serverProviderStore;
 
@@ -213,13 +216,7 @@ const router = new VueRouter({
 });
 
 const app = new Vue({
-    router,
-    siteStore,
-    userStore,
-    eventStore,
-    serverStore,
-    userTeamStore,
-    serverProviderStore
+    router
 }).$mount('#app-layout');
 
 window.app = app;

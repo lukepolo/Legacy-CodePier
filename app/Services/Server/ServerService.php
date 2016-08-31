@@ -160,7 +160,9 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        return $this->remoteTaskService->run('reboot now', false, true);
+        $this->remoteTaskService->run('reboot now', false, true);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -204,7 +206,9 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        return $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
+        $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -241,7 +245,9 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        return $this->remoteTaskService->makeDirectory($folder);
+        $this->remoteTaskService->makeDirectory($folder);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -254,7 +260,9 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        return $this->remoteTaskService->removeDirectory($folder);
+        $this->remoteTaskService->removeDirectory($folder);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -267,20 +275,23 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        return $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
+        $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param Server $server
      * @param $sshKey
-     * @param string $user
      * @return bool
      */
-    public function removeSshKey(Server $server, $sshKey, $user = 'root')
+    public function removeSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
+
+        return $this->remoteTaskService->getErrors();
     }
 
     /**
