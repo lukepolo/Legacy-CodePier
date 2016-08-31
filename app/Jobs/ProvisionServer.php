@@ -41,16 +41,13 @@ class ProvisionServer implements ShouldQueue
             $this->server->load('provisionSteps');
         }
 
-        $serverService->provision($this->server);
+        if($serverService->provision($this->server)) {
+            foreach ($this->server->user->sshKeys as $sshKey) {
+                $serverService->installSshKey($this->server, $sshKey->ssh_key);
+            }
 
-        dd('done provisioning');
-        foreach ($this->server->user->sshKeys as $sshKey) {
-            $serverService->installSshKey($this->server, $sshKey->ssh_key);
+            event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
         }
-
-        event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
-
-        // TODO - notify the users that their server was provisioned
     }
 
     private function createProvisionSteps(Server $server)

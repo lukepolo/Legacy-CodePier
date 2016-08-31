@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Server
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams;
+    use SoftDeletes, UsedByTeams, Notifiable;
 
     protected $guarded = ['id'];
 
@@ -114,5 +115,23 @@ class Server extends Model
     public function decode($hash)
     {
         return $this->findOrFail(\Hashids::decode($hash));
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        $emails = collect($this->user->email);
+
+        $this->load('pile.teams.users');
+
+        foreach($this->pile->teams as $team) {
+            $emails->merge($team->users->pluck('email'));
+        }
+
+        return $emails->toArray();
     }
 }
