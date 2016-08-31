@@ -2,8 +2,13 @@
 
 namespace App\Services\Server\Systems\Ubuntu\V_16_04;
 
+use App\Models\ServerDaemon;
+use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+
 class DaemonService
 {
+    use ServiceConstructorTrait;
+
     public function installSupervisor()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
@@ -19,11 +24,6 @@ class DaemonService
         $this->remoteTaskService->run('service beanstalkd restart');
     }
 
-    /**
-     * @param ServerDaemon $serverDaemon
-     * @param string $sshUser
-     * @return array
-     */
     public function installDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
     {
         $this->remoteTaskService->ssh($serverDaemon->server, $sshUser);
@@ -43,15 +43,8 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
         $this->remoteTaskService->run('supervisorctl start server-worker-' . $serverDaemon->id . ':*');
-
-        return $this->remoteTaskService->getErrors();
     }
 
-    /**
-     * @param ServerDaemon $serverDaemon
-     * @param string $user
-     * @return array|bool
-     */
     public function removeDaemon(ServerDaemon $serverDaemon, $user = 'root')
     {
         $this->remoteTaskService->ssh($serverDaemon->server, $user);
@@ -66,20 +59,12 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
 
         if (empty($errors)) {
             $serverDaemon->delete();
-            return true;
         }
-
-        return $errors;
     }
 
-    /**
-     * @param Server $server
-     * @param string $user
-     * @return bool
-     */
-    public function restartWorkers(Server $server, $user = 'root')
+    public function restartWorkers($user = 'root')
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($this->server, $user);
 
         return $this->remoteTaskService->run('supervisorctl restart all');
     }

@@ -5,8 +5,8 @@ namespace App\Services\Server;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ProvisionServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
+use App\Exceptions\FailedCommand;
 use App\Models\Server;
-use App\Services\Server\ProvisionSystems\Ubuntu16_04;
 
 /**
  * Class ProvisionService
@@ -20,7 +20,7 @@ class ProvisionService implements ProvisionServiceContract
     protected $remoteTaskService;
 
     protected $provisionSystems = [
-        'ubuntu 16.04' => 'Ubuntu/16_04'
+        'ubuntu 16.04' => 'Ubuntu\V_16_04'
     ];
 
     /**
@@ -35,105 +35,60 @@ class ProvisionService implements ProvisionServiceContract
     /**
      * Provisions a server based on its operating system
      * @param Server $server
-     * @param $sudoPassword
-     * @param $databasePassword
-     * @return
      */
-    public function provision(Server $server, $sudoPassword, $databasePassword)
+    public function provision(Server $server)
     {
         $this->server = $server;
 
-        $provisionSystem = $this->getProvisionRepository($server);
+        try {
+            foreach ($server->provisionSteps->filter(function($provisionStep) {
+                return $provisionStep->completed == false;
+            }) as $provisionStep) {
+                $this->updateProgress($provisionStep->step);
+                $systemService = $this->createSystemService($provisionStep->service);
 
-        // TODO - need to figure this out
-        $this->totalActions = 0;
+                $systemService->{$provisionStep->function}();
 
-        $this->updateProgress('Updating system');
-        $provisionSystem->updateSystem();
-
-        $this->updateProgress('Settings Timezone to UTC');
-        $provisionSystem->setTimezoneToUTC();
-
-        $this->updateProgress('Settings Locale to UTF8');
-        $provisionSystem->setLocaleToUTF8();
-
-        $this->updateProgress('Creating Swap');
-        $provisionSystem->createSwap();
-
-        $this->updateProgress('Adding CodePier User');
-        $provisionSystem->addCodePierUser($server, $sudoPassword);
-
-        $this->updateProgress('Installing GIT');
-        $provisionSystem->installGit($server);
-
-        $this->updateProgress('Installing Nginx');
-        $provisionSystem->installNginx();
-
-        $database = isset($server->options['database']) ? $server->options['database'] : null;
-
-        if($server->hasFeature('mariaDB')) {
-            $this->updateProgress('Installing MariaDB');
-            $provisionSystem->installMariaDB($databasePassword, $database);
-        } else {
-            $this->updateProgress('Installing MySQL');
-            $provisionSystem->installMySQL($databasePassword, $database);
+                $provisionStep->failed = false;
+                $provisionStep->completed = true;
+                $provisionStep->log = $systemService->getOutput();
+                $provisionStep->save();
+            }
+        } catch (FailedCommand $e) {
+            $provisionStep->failed = true;
+            $provisionStep->log = $systemService->getErrors();
+            $provisionStep->save();
         }
-
-        // SHOULD BE A Checkboxes
-            $this->updateProgress('Installing Redis');
-            $provisionSystem->installRedis();
-
-            $this->updateProgress('Installing Memcached');
-            $provisionSystem->installMemcached();
-
-            $this->updateProgress('Installing Supervisor');
-            $provisionSystem->installSupervisor();
-
-            $this->updateProgress('Installing Beanstalk');
-            $provisionSystem->installBeanstalk();
-
-            $this->updateProgress('Installing LetsEncrypt - Cert Bot');
-            $provisionSystem->installCertBot();
-        // end of checkboxes
-
-        $this->updateProgress('Installing Basic Firewall Rules');
-        $provisionSystem->installFirewallRules($server);
-
-        // PHP - should be based on site ? , checkbox
-        $this->updateProgress('Installing PHP');
-        $provisionSystem->installPHP();
-
-        $this->updateProgress('Installing PHP-FPM');
-        $provisionSystem->installPhpFpm();
-
-        $this->updateProgress('Installing Composer');
-        $provisionSystem->installComposer();
-
-        // TODO - having issues with the laravel installer and envoy installer
-//        $provisionSystem->installLaravelInstaller();
-//        $provisionSystem->installEnvoy();
-
-//        $this->updateProgress('Installing disk monitor script');
-//        $provisionSystem->addDiskMonitoringScript($server);
-
-        return $provisionSystem->errors();
-    }
-
-    private function updateProgress($status)
-    {
-        $progress = floor((++$this->doneActions / $this->totalActions) * 100);
-
-        event(new ServerProvisionStatusChanged($this->server, $status, $progress));
     }
 
     /**
-     * @param Server $server
+     * @param $status
+     */
+    private function updateProgress($status)
+    {
+        $totalDone = $this->server->provisionSteps->filter(function ($provisionStep) {
+            return $provisionStep->completed;
+        })->count();
+
+        event(new ServerProvisionStatusChanged(
+                $this->server,
+                $status,
+                floor(($totalDone / $this->server->provisionSteps->count()) * 100)
+            )
+        );
+    }
+
+    /**
+     * @param $service
      * @return mixed
      */
-    private function getProvisionRepository(Server $server)
+    private function createSystemService($service)
     {
-        $systemFolder = $this->provisionSystems['ubuntu 16.04'];
+        $server = $this->server;
+        // TODO - server needs to send in the correct system
 
-        return new $this->provisionSystems[$operatingSystem]($this->remoteTaskService, $server);
+        $service = 'App\Services\Server\Systems\\' . $this->provisionSystems['ubuntu 16.04'] . '\\' . $service;
+
+        return new $service($this->remoteTaskService, $this->server);
     }
 }

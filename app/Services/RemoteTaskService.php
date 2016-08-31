@@ -192,7 +192,7 @@ echo "Wrote" ', $read);
             throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
         }
 
-        $ssh->setTimeout(2);
+        $ssh->setTimeout(0);
 
         $this->session = $ssh;
 

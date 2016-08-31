@@ -84,6 +84,11 @@ class Server extends Model
     {
         return $this->belongsTo(Pile::class);
     }
+
+    public function provisionSteps()
+    {
+        return $this->hasMany(ServerProvisionStep::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | Helpers

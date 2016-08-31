@@ -131,12 +131,19 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        $sudoPassword = str_random(32);
-        $databasePassword = str_random(32);
+//        if(!empty($server->database_password)) {
+            $server->database_password = encrypt(str_random(32));
+//        }
 
-        $errors = $this->provisionService->provision($server, $sudoPassword, $databasePassword);
+//        if(!empty($server->root_password)) {
+            $server->root_password = encrypt(str_random(32));
+//        }
 
-        event(new ServerProvisioned($server, $sudoPassword, $databasePassword));
+        $server->save();
+
+        $errors = $this->provisionService->provision($server);
+
+        event(new ServerProvisioned($server));
     }
 
     /**
