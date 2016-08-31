@@ -3,15 +3,14 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
             <server-nav :server="server"></server-nav>
-            <form v-on:submit.prevent="onSubmit">
-                <input type="hidden" name="server_id" :value="server.id">
+            <form @submit.prevent="createKey">
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" name="name">
+                    <input type="text" name="name" v-model="form.name">
                 </div>
                 <div class="form-group">
                     <label>Public Key</label>
-                    <textarea name="ssh_key"></textarea>
+                    <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
                 </div>
                 <button type="submit">Install SSH KEY</button>
             </form>
@@ -26,7 +25,7 @@
                 <tbody>
                 <tr>
                     <td>{{ ssh_key.name }}</td>
-                    <td><a href="#" class="fa fa-remove" v-on:click="deleteKey(ssh_key.id)">remove</a></td>
+                    <td><a href="#" class="fa fa-remove" @click="deleteKey(ssh_key.id)">remove</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -45,8 +44,10 @@
         },
         data() {
             return {
-                server : null,
-                ssh_keys : []
+                form : {
+                    name : null,
+                    ssh_key :null
+                }
             }
         },
         created() {
@@ -57,36 +58,27 @@
         },
         methods: {
             fetchData: function () {
-                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                    this.server = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
-
-                this.getSshKeys();
+                serverStore.dispatch('getServer', this.$route.params.server_id);
+                serverSshKeyStore.dispatch('getServerSshKeys', this.$route.params.server_id);
             },
-            onSubmit() {
-                Vue.http.post(this.action('Server\ServerSshKeyController@store'), this.getFormData($(this.$el))).then((response) => {
-                    this.ssh_keys.push(response.json());
-                }, (errors) => {
-                    alert(error);
-                });
+            createKey() {
+                this.form['server'] = this.server.id;
+                serverSshKeyStore.dispatch('createServerSshKey', this.form);
             },
             deleteKey(ssh_key_id) {
-                Vue.http.delete(this.action('Server\ServerSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
-                    this.getSshKeys();
-                }, (errors) => {
-                    alert(error);
-                });
-            },
-            getSshKeys() {
-                Vue.http.get(this.action('Server\ServerSshKeyController@index', {server_id : this.$route.params.server_id})).then((response) => {
-                    this.ssh_keys = response.json();
-                }, (errors) => {
-                    alert(error);
+                serverSshKeyStore.dispatch('deleteServerSshKey', {
+                    ssh_key : ssh_key_id,
+                    server : this.server.id
                 });
             }
-
+        },
+        computed : {
+            server : () => {
+                return serverStore.state.server;
+            },
+            ssh_keys : () => {
+                return serverSshKeyStore.state.server_ssh_keys;
+            }
         }
     }
 </script>

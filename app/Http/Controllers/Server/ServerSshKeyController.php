@@ -50,15 +50,20 @@ class ServerSshKeyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $serverSshKey = ServerSshKey::create([
+        $serverSshKey = ServerSshKey::firstOrNew([
             'server_id' => $serverId,
             'name' => $request->get('name'),
             'ssh_key' => trim($request->get('ssh_key'))
         ]);
 
-        $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
+        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+            if($server->ssh_connection) {
+                $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
+                $serverSshKey->save();
+            }
+        });
 
-        return response()->json($serverSshKey);
+        return $this->remoteResponse();
     }
 
     /**
@@ -84,10 +89,16 @@ class ServerSshKeyController extends Controller
     {
         $serverSshKey = ServerSshKey::findOrFail($id);
 
-        $this->serverService->removeSshKey($serverSshKey);
+        $server = Server::findOrFail($serverId);
 
-        $serverSshKey->delete();
+        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+            if($server->ssh_connection) {
+                $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
+                $serverSshKey->delete();
+            }
+        });
 
+        return $this->remoteResponse();
     }
 
     /**

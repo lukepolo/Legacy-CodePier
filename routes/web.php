@@ -118,7 +118,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('servers.network', 'ServerNetworkController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
 
-            Route::resource('servers.sites', 'ServerSiteController');
+            Route::resource('servers.sites', 'ServerSiteController'); // VERIFIED
 
         });
 
