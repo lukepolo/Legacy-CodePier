@@ -577,7 +577,6 @@ include codepier-conf/'.$domain.'/after/*;
 
     // TODO - after we fix ssls stuff
 
-
     public function checkSSL()
     {
         //        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate
