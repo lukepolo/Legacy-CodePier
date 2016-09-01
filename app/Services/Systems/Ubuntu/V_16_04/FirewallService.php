@@ -16,20 +16,20 @@ class FirewallService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
-            'server_id' => $this->server->id,
+            'server_id'   => $this->server->id,
             'description' => 'HTTP',
-            'port' => '80',
-            'from_ip' => null
+            'port'        => '80',
+            'from_ip'     => null,
         ]);
 
         ServerFirewallRule::create([
-            'server_id' => $this->server->id,
+            'server_id'   => $this->server->id,
             'description' => 'HTTPS',
-            'port' => '443',
-            'from_ip' => null
+            'port'        => '443',
+            'from_ip'     => null,
         ]);
 
-        $this->remoteTaskService->writeToFile('/etc/opt/iptables','
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables', '
 #!/bin/sh
 
 echo "REDOING IP TABLES"
@@ -132,5 +132,4 @@ iptables -P INPUT DROP
 
         return $this->remoteTaskService->getErrors();
     }
-
 }

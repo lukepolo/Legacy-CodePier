@@ -1,9 +1,9 @@
 <?php
+
 namespace App\SocialProviders;
 
 /**
- * Class TokenData
- * @package App\SocialProviders
+ * Class TokenData.
  */
 class TokenData
 {
@@ -12,6 +12,7 @@ class TokenData
 
     /**
      * TokenData constructor.
+     *
      * @param $token
      * @param $userID
      */
@@ -19,6 +20,5 @@ class TokenData
     {
         $this->token = $token;
         $this->userID = $userID;
-
     }
 }

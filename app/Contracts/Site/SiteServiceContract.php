@@ -3,10 +3,8 @@
 namespace App\Contracts\Server\Site;
 
 /**
- * Interface SiteServiceContract
- * @package App\Contracts
+ * Interface SiteServiceContract.
  */
 interface SiteServiceContract
 {
-
 }

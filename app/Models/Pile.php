@@ -6,8 +6,7 @@ use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Pile
- * @package App\Models
+ * Class Pile.
  */
 class Pile extends Model
 {
@@ -15,7 +14,7 @@ class Pile extends Model
 
     protected $guarded = ['id'];
 
-    static $teamworkModel = 'teams';
+    public static $teamworkModel = 'teams';
     public $teamworkSync = true;
 
     public function servers()
@@ -41,11 +40,11 @@ class Pile extends Model
     public function delete()
     {
         $this->teams()->detach();
-        foreach($this->servers as $server) {
+        foreach ($this->servers as $server) {
             $server->pile_id = 0;
         }
 
-        foreach($this->sites as $site) {
+        foreach ($this->sites as $site) {
             $site->pile_id = 0;
         }
 

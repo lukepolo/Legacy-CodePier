@@ -8,8 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 /**
- * Class ServerProvisioned
- * @package App\Notifications
+ * Class ServerProvisioned.
  */
 class ServerProvisioned extends Notification
 {
@@ -18,7 +17,8 @@ class ServerProvisioned extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -29,12 +29,13 @@ class ServerProvisioned extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed $server
+     * @param mixed $server
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(Server $server)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('Here is your Root and Mysql Password.')
             ->line('SUDO Password : '.decrypt($server->root_password))
             ->line('Database Password : '.decrypt($server->database_password))

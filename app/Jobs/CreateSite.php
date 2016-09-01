@@ -7,13 +7,11 @@ use App\Models\Server;
 use App\Models\Site;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class CreateSite
- * @package App\Jobs
+ * Class CreateSite.
  */
 class CreateSite implements ShouldQueue
 {
@@ -24,8 +22,9 @@ class CreateSite implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      */
     public function __construct(Server $server, Site $site)
     {
@@ -35,6 +34,7 @@ class CreateSite implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\Site\SiteService | SiteService $siteService
      */
     public function handle(SiteService $siteService)

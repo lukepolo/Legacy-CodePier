@@ -5,9 +5,7 @@ namespace App\Classes;
 use App\Models\Server;
 
 /**
- * Class FailedRemoteResponse
- *
- * @package App\Classes
+ * Class FailedRemoteResponse.
  */
 class FailedRemoteResponse
 {
@@ -17,9 +15,10 @@ class FailedRemoteResponse
 
     /**
      * FailedRemoteResponse constructor.
-     * @param Server $server
+     *
+     * @param Server     $server
      * @param \Exception $exception
-     * @param null $message
+     * @param null       $message
      */
     public function __construct(Server $server, \Exception $exception, $message = null)
     {

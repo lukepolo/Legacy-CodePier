@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SiteSettings
- * @package App\Models
+ * Class SiteSettings.
  */
 class SiteSettings extends Model
 {

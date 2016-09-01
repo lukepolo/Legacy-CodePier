@@ -21,8 +21,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id = null)
@@ -30,8 +31,8 @@ class UserController extends Controller
         $user = empty($id) ? \Auth::user() : User::findOrFail($id);
 
         $user->fill([
-            'name' => \Request::get('name'),
-            'email' => \Request::get('email')
+            'name'  => \Request::get('name'),
+            'email' => \Request::get('email'),
         ]);
 
         if (\Request::has('password')) {

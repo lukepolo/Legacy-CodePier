@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Stripe\Token;
 
 /**
- * Class UserSubscriptionController
- * @package App\Http\Controllers
+ * Class UserSubscriptionController.
  */
 class UserSubscriptionController extends Controller
 {
@@ -33,7 +32,8 @@ class UserSubscriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,17 +41,16 @@ class UserSubscriptionController extends Controller
         $user = \Auth::user();
 
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
-
             $cardToken = Token::create([
-                "card" => [
-                    "number" => $request->get('number'),
-                    "exp_month" => $request->get('exp_month'),
-                    "exp_year" => $request->get('exp_year'),
-                    "cvc" => $request->get('cvc')
-                ]
+                'card' => [
+                    'number'    => $request->get('number'),
+                    'exp_month' => $request->get('exp_month'),
+                    'exp_year'  => $request->get('exp_year'),
+                    'cvc'       => $request->get('cvc'),
+                ],
             ]);
 
-            if($user->hasStripeId()) {
+            if ($user->hasStripeId()) {
                 $user->updateCard($cardToken->id);
             }
         }
@@ -67,6 +66,7 @@ class UserSubscriptionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

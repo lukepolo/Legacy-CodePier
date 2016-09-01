@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SiteDeployment
- * @package App\Models
+ * Class SiteDeployment.
  */
 class SiteDeployment extends Model
 {
@@ -23,10 +22,10 @@ class SiteDeployment extends Model
 
     public function createSteps()
     {
-        foreach($this->site->deploymentSteps as $deploymentStep) {
+        foreach ($this->site->deploymentSteps as $deploymentStep) {
             DeploymentEvent::create([
                 'site_deployment_id' => $this->id,
-                'deployment_step_id' => $deploymentStep->id
+                'deployment_step_id' => $deploymentStep->id,
             ]);
         }
     }

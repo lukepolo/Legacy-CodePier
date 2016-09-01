@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ServerCronJob
- * @package App\Models
+ * Class ServerCronJob.
  */
 class ServerCronJob extends Model
 {

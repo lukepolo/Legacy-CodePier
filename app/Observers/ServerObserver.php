@@ -3,10 +3,8 @@
 namespace App\Observers;
 
 /**
- * Class ServerObserver
- * @package App\Observers
+ * Class ServerObserver.
  */
 class ServerObserver
 {
-
 }

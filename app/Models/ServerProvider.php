@@ -28,5 +28,4 @@ class ServerProvider extends Model
     {
         return $this->hasMany(ServerProviderRegion::class);
     }
-
 }
