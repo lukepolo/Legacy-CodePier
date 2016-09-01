@@ -10,7 +10,7 @@ class DatabaseService
 
     protected $defaults = [
         'installMariaDB',
-        'installRedis'
+        'installRedis',
     ];
 
     public function installMariaDB($database = null)
@@ -28,7 +28,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if (!empty($database)) {
+        if (! empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
@@ -55,7 +55,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if (!empty($database)) {
+        if (! empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }

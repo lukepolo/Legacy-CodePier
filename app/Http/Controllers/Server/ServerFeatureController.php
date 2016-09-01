@@ -40,8 +40,8 @@ class ServerFeatureController extends Controller
             foreach ($versions as $version) {
                 $languages = File::directories($version.'/Languages');
 
-                foreach($languages as $language) {
-                    $language.='/'.basename($language).'.php';
+                foreach ($languages as $language) {
+                    $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -60,8 +60,8 @@ class ServerFeatureController extends Controller
             foreach ($versions as $version) {
                 $languages = File::directories($version.'/Languages');
 
-                foreach($languages as $language) {
-                    foreach(File::files($language.'/Frameworks') as $framework) {
+                foreach ($languages as $language) {
+                    foreach (File::files($language.'/Frameworks') as $framework) {
                         $availableFrameworks[basename($language)] = $this->buildFeatureArray($this->buildReflection($framework));
                     }
                 }
@@ -81,23 +81,22 @@ class ServerFeatureController extends Controller
         $features = [];
         $required = [];
 
-        if($reflection->hasProperty('required')) {
+        if ($reflection->hasProperty('required')) {
             $required = $reflection->getProperty('required')->getValue();
         }
 
-        foreach($reflection->getMethods() as $method) {
-            if(str_contains($method->name, 'install')) {
-
+        foreach ($reflection->getMethods() as $method) {
+            if (str_contains($method->name, 'install')) {
                 $parameters = [];
 
-                foreach($method->getParameters() as $parameter) {
+                foreach ($method->getParameters() as $parameter) {
                     $parameters[] = $parameter->name;
                 }
 
                 $features[$reflection->getShortName()][] = [
                     'feature' => str_replace('install', '', $method->name),
                     'parameters' => $parameters,
-                    'required' => in_array($method->name, $required)
+                    'required' => in_array($method->name, $required),
                 ];
             }
         }
