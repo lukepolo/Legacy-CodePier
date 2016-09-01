@@ -9,10 +9,10 @@
                         <i class="fa fa-server"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#">Restart Web Services</a></li>
-                        <li><a href="#">Restart Servers</a></li>
-                        <li><a href="#">Restart Databases</a></li>
-                        <li><a href="#">Restart Workers</a></li>
+                        <li><a @click.prevent="restartServer(server.id)">Restart Server</a></li>
+                        <li><a @click.prevent="restartServerWebServices(server.id)">Restart Web Services</a></li>
+                        <li><a @click.prevent="restartServerDatabases(server.id)">Restart Databases</a></li>
+                        <li><a @click.prevent="restartServerWorkers(server.id)">Restart Workers</a></li>
                     </ul>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-files-o"></i>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <ul class="dropdown-menu">
                         <li><a href="#">Edit Nginx Config</a></li>
                         <li><a href="#">Edit PHP Config</a></li>
                     </ul>
@@ -42,6 +42,20 @@
 
 <script>
     export default {
-        props : ['server']
+        props : ['server'],
+        methods : {
+            restartServerWebServices : function(server_id) {
+                serverServicesStore.dispatch('restartServerWebServices', server_id);
+            },
+            restartServerDatabases : function(server_id) {
+                serverServicesStore.dispatch('restartServerDatabases', server_id);
+            },
+            restartServerWorkers : function(server_id) {
+                serverServicesStore.dispatch('restartServerWorkers', server_id);
+            },
+            restartServer : function(server_id) {
+                serverServicesStore.dispatch('restartServer', server_id);
+            }
+        }
     }
 </script>

@@ -168,32 +168,29 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param string $user
      * @return array
      */
-    public function restartWebServices(Server $server, $user = 'root')
+    public function restartWebServices(Server $server)
     {
-        dd('HERE WE GO');
+        $this->getService(SystemService::WEB, $server)->restartWebServices();
     }
 
     /**
      * @param Server $server
-     * @param string $user
      * @return bool
      */
-    public function restartDatabase(Server $server, $user = 'root')
+    public function restartDatabase(Server $server)
     {
-        dd('HERE WE GO');
+        $this->getService(SystemService::DATABASE, $server)->restartDatabase();
     }
 
     /**
      * @param Server $server
-     * @param string $user
      * @return bool
      */
-    public function restartWorkers(Server $server, $user = 'root')
+    public function restartWorkers(Server $server)
     {
-        dd('HERE WE GO');
+        $this->getService(SystemService::DAEMON, $server)->restartWorkers();
     }
 
     /**

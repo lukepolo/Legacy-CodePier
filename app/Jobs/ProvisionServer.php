@@ -53,7 +53,7 @@ class ProvisionServer implements ShouldQueue
     private function createProvisionSteps(Server $server)
     {
         $coreSteps = collect([
-            'SystemService' => [
+            'OsService' => [
                 'updateSystem' => 'Updating the system',
                 'setTimezoneToUTC' => 'Settings Timezone to UTC',
                 'setLocaleToUTF8' => 'Settings Locale to UTF8',

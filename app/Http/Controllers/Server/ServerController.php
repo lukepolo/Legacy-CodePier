@@ -102,16 +102,6 @@ class ServerController extends Controller
     }
 
     /**
-     * Restarts the databases on a server
-     *
-     * @param Request $request
-     */
-    public function restartDatabases(Request $request)
-    {
-        $this->serverService->restartDatabase(Server::findOrFail($request->get('server_id')));
-    }
-
-    /**
      * Installs blackfire on a server
      *
      * @param Request $request
@@ -161,29 +151,71 @@ class ServerController extends Controller
      * Restarts a server
      *
      * @param Request $request
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function restartServer(Request $request)
+    public function restartServer(Request $request, $serverId)
     {
-        $this->serverService->restartServer(Server::findOrFail($request->get('server_id')));
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server) {
+            $this->serverService->restartServer($server);
+        });
+
+        return $this->remoteResponse();
     }
 
     /**
      * Restart the servers web services
      *
      * @param Request $request
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function restartWebServices(Request $request)
+    public function restartWebServices(Request $request, $serverId)
     {
-        $this->serverService->restartWebServices(Server::findOrFail($request->get('server_id')));
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server) {
+            $this->serverService->restartWebServices($server);
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restarts the databases on a server
+     *
+     * @param Request $request
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartDatabases(Request $request, $serverId)
+    {
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server) {
+            $this->serverService->restartDatabase($server);
+        });
+
+        return $this->remoteResponse();
     }
 
     /**
      * Restarts the worker services
      *
      * @param Request $request
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function restartWorkerServices(Request $request)
+    public function restartWorkerServices(Request $request, $serverId)
     {
-        $this->serverService->restartWorkers(Server::findOrFail($request->get('server_id')));
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server) {
+            $this->serverService->restartWorkers($server);
+        });
+
+        return $this->remoteResponse();
     }
 }
