@@ -4,7 +4,7 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Services\Systems\Traits\ServiceConstructorTrait;
 
-class SystemService
+class OsService
 {
     use ServiceConstructorTrait;
 
@@ -76,6 +76,19 @@ class SystemService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+    }
+
+    public function resetSudoPassword()
+    {
+        $this->connectToServer();
+
+        $password = str_random(32);
+
+        $this->server->root_password = encrypt($password);
+
+        $this->server->save();
+
+        $this->remoteTaskService->run("echo \"codepier:$password\" | chpasswd");
     }
 
 }

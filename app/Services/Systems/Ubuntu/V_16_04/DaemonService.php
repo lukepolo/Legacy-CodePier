@@ -66,9 +66,9 @@ stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.lo
         }
     }
 
-    public function restartWorkers($user = 'root')
+    public function restartWorkers()
     {
-        $this->connectToServer($user);
+        $this->connectToServer();
 
         return $this->remoteTaskService->run('supervisorctl restart all');
     }

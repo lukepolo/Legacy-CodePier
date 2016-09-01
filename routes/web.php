@@ -101,15 +101,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::group(['namespace' => 'Server'], function () {
 
             Route::group(['prefix' => 'server'], function () {
-                Route::post('restore/{server_id}', 'ServerController@restore');
-                Route::get('server/file/{server_id}', 'ServerController@getFile');
-                Route::post('server/file/{server_id}', 'ServerController@saveFile');
-                Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
-                Route::post('ssh-connection', 'ServerSshKeyController@testSSHConnection');
-                Route::post('restart-server/{server_id}', 'ServerController@restartServer');
-                Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
-                Route::post('restart-workers/{server_id}', 'ServerController@restartWorkerServices');
-                Route::post('restart-web-services/{server_id}', 'ServerController@restartWebServices');
+                Route::post('restore/{server}', 'ServerController@restore');
+                Route::post('server/file/{server}', 'ServerController@getFile');
+                Route::post('server/file/{server}', 'ServerController@saveFile');
+                Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
+                Route::post('restart-server/{server}', 'ServerController@restartServer'); // VERIFIED
+                Route::post('restart-database/{server}', 'ServerController@restartDatabases'); // VERIFIED
+                Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');  // VERIFIED
+                Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
+                Route::post('restart-web-services/{server}', 'ServerController@restartWebServices'); // VERIFIED
+
             });
 
             Route::resource('servers.cron-jobs', 'ServerCronJobController'); // VERIFIED

@@ -27,7 +27,7 @@ Vue.directive('file-editor', {
             form.find('textarea[name="file"]').val(editor.getSession().getValue());
         });
 
-        $.get(laroute.action('Server\ServerController@getFile', {
+        $.post(laroute.action('Server\ServerController@getFile', {
             server_id: $(element).data('server_id'),
             path: $(element).data('path')
         }), function (envFile) {
@@ -99,7 +99,8 @@ window.serverDaemonStore = serverDaemonStore;
 import serverFirewallStore from './stores/Server/ServerFirewallStore';
 window.serverFirewallStore = serverFirewallStore;
 
-
+import serverServicesStore from './stores/Server/ServerServicesStore';
+window.serverServicesStore = serverServicesStore;
 
 /*
  |--------------------------------------------------------------------------
