@@ -34,5 +34,4 @@ class NodeService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
     }
-
 }
