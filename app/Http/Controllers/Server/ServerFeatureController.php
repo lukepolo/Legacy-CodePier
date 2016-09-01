@@ -95,7 +95,7 @@ class ServerFeatureController extends Controller
                 }
 
                 $features[$reflection->getShortName()][] = [
-                    'feature' => str_replace('install', '', $method->name),
+                    'name' => str_replace('install', '', $method->name),
                     'parameters' => $parameters,
                     'required' => in_array($method->name, $required)
                 ];
