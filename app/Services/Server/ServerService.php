@@ -143,17 +143,17 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        if (!empty($server->database_password)) {
+        if (! empty($server->database_password)) {
             $server->database_password = encrypt(str_random(32));
         }
 
-        if (!empty($server->root_password)) {
+        if (! empty($server->root_password)) {
             $server->root_password = encrypt(str_random(32));
         }
 
         $server->save();
 
-        if (!$this->systemService->provision($server)) {
+        if (! $this->systemService->provision($server)) {
             return false;
         }
 
@@ -238,7 +238,7 @@ class ServerService implements ServerServiceContract
 
         $ssh = new SFTP($server->ip);
 
-        if (!$ssh->login($user, $key)) {
+        if (! $ssh->login($user, $key)) {
             exit('Login Failed');
         }
 

@@ -36,7 +36,7 @@ class GitLab implements RepositoryContract
         $repositoryInfo = $this->getRepositoryInfo($repository);
 
         if (isset($repositoryInfo['public'])) {
-            return !$repositoryInfo['public'];
+            return ! $repositoryInfo['public'];
         }
 
         return true;
@@ -90,7 +90,7 @@ class GitLab implements RepositoryContract
 
         $lastCommit = collect($this->client->api('repositories')->commits($repository, 0, Repositories::PER_PAGE, $branch))->first();
 
-        if (!empty($lastCommit)) {
+        if (! empty($lastCommit)) {
             return $lastCommit['short_id'];
         }
     }

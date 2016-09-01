@@ -89,8 +89,8 @@ class OauthController extends Controller
                 default:
                     $user = Socialite::driver($provider)->user();
 
-                    if (!\Auth::user()) {
-                        if (!$userProvider = UserLoginProvider::has('user')->where('provider_id',
+                    if (! \Auth::user()) {
+                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id',
                             $user->getId())->first()
                         ) {
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
@@ -114,24 +114,24 @@ class OauthController extends Controller
 
             return redirect()->intended('/');
         } catch (\Exception $e) {
-            if (!empty($newLoginProvider)) {
+            if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();
             }
 
-            if (!empty($newUserModel)) {
+            if (! empty($newUserModel)) {
                 $newUserModel->delete();
             }
 
-            if (!empty($newUserRepositoryProvider)) {
+            if (! empty($newUserRepositoryProvider)) {
                 $newUserRepositoryProvider->delete();
             }
 
-            if (!empty($newUserServerProvider)) {
+            if (! empty($newUserServerProvider)) {
                 $newUserServerProvider->delete();
             }
 
 
-            if (!empty($newUserNotificationProvider)) {
+            if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
             }
 
@@ -207,7 +207,7 @@ class OauthController extends Controller
     public function getDisconnectService($providerType, int $serviceID)
     {
         if (UserRepositoryProvider::class == $providerType) {
-            if (!empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id',
+            if (! empty($userRepositoryProvider = \Auth::user()->userRepositoryProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userRepositoryProvider->delete();
@@ -215,13 +215,13 @@ class OauthController extends Controller
         }
 
         if (UserServerProvider::class == $providerType) {
-            if (!empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
+            if (! empty($userServerProvider = \Auth::user()->userServerProviders->where('id', $serviceID)->first())) {
                 $userServerProvider->delete();
             }
         }
 
         if (UserNotificationProvider::class == $providerType) {
-            if (!empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
+            if (! empty($userNotificationProvider = \Auth::user()->userNotificationProviders->where('id',
                 $serviceID)->first())
             ) {
                 $userNotificationProvider->delete();

@@ -104,6 +104,6 @@ class SystemService implements SystemServiceContract
 
         $service = 'App\Services\Systems\\'.$this->provisionSystems['ubuntu 16.04'].'\\'.$service;
 
-        return new $service($this->remoteTaskService, !empty($server) ? $server : $this->server);
+        return new $service($this->remoteTaskService, ! empty($server) ? $server : $this->server);
     }
 }

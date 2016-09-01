@@ -62,7 +62,7 @@ class ServerCronJobController extends Controller
             }
         });
 
-        if (!$this->successful()) {
+        if (! $this->successful()) {
             $serverCronJob->delete();
         }
 

@@ -64,7 +64,7 @@ class ServerDaemonController extends Controller
             }
         });
 
-        if (!$this->successful()) {
+        if (! $this->successful()) {
             $serverDaemon->delete();
         }
 
