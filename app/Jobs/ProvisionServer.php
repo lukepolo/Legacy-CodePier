@@ -6,6 +6,8 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Models\ServerProvisionStep;
+use App\Services\Systems\Services\OsService;
+use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -53,77 +55,21 @@ class ProvisionServer implements ShouldQueue
 
     private function createProvisionSteps(Server $server)
     {
-        $coreSteps = collect([
-            'OsService' => [
+        $serverSteps = collect([
+            SystemService::SYSTEM => [
                 'updateSystem'     => 'Updating the system',
                 'setTimezoneToUTC' => 'Settings Timezone to UTC',
                 'setLocaleToUTF8'  => 'Settings Locale to UTF8',
-                'createSwap'       => 'Creating Swap',
                 'addCodePierUser'  => 'Adding CodePier User',
             ],
-            'FirewallService' => [
-                'installFirewallRules' => 'Installing Basic Firewall Rules',
-            ],
-            'RepositoryService' => [
-                'installGit' => 'Installing GIT',
-            ],
-            'WebService' => [
-                'installNginx' => 'Installing Nginx',
-            ],
-            'MonitoringService' => [
-                'addDiskMonitoringScript' => 'Installing disk monitor script',
-            ],
+            SystemService::FIREWALL => [
+                'addBasicFirewallRules' => 'Installing Basic Firewall Rules',
+            ]
         ]);
 
-        // TODO - make customizable
-        $customizableSteps = collect([
-            'DatabaseService' => [
-                'installDatabases' => 'Installing Database',
-                'installRedis'     => 'Installing Redis',
-                'installMemcached' => 'Installing Memcached',
-            ],
-            'DaemonService' => [
-                'installSupervisor' => 'Installing Supervisor',
-                'installBeanstalk'  => 'Installing Beanstalk',
-            ],
-            'WebService' => [
-                'installCertBot' => 'Installing LetsEncrypt - Cert Bot',
-            ],
-        ]);
-
-        // TODO - this is language specific
-        $selectedLanguages = ['PHP'];
-
-        $languages = collect([
-            'PHP' => collect([
-                'installPHP'      => 'Installing PHP',
-                'installPhpFpm'   => 'Installing PHP-FPM',
-                'installComposer' => 'Installing Composer',
-                'frameworks'      => [
-                    'Laravel' => [
-                        'installEnvoy' => 'Installing Envoy',
-                    ],
-                ],
-            ]),
-        ]);
-
-        foreach ($coreSteps->merge($customizableSteps) as $service => $serviceFunctions) {
+        foreach ($serverSteps as $service => $serviceFunctions) {
             foreach ($serviceFunctions as $function => $step) {
                 $this->createStep($server, $service, $function, $step);
-            }
-        }
-
-        foreach ($selectedLanguages as $languageService) {
-            foreach ($languages[$languageService]->except('frameworks') as $function => $step) {
-                $this->createStep($server, 'Languages\\'.$languageService, $function, $step);
-            }
-
-            foreach ($languages[$languageService]->only('frameworks') as $frameworks) {
-                foreach ($frameworks as $frameworkService => $serviceFunctions) {
-                    foreach ($serviceFunctions as $function => $step) {
-                        $this->createStep($server, 'Languages\\Frameworks\\'.$frameworkService, $function, $step);
-                    }
-                }
             }
         }
     }

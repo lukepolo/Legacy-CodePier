@@ -3,13 +3,17 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\ServerFirewallRule;
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService
 {
     use ServiceConstructorTrait;
 
-    public function installFirewallRules()
+    protected $defaults = [
+
+    ];
+
+    public function addBasicFirewallRules()
     {
         $this->connectToServer();
 

@@ -2,11 +2,15 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class OsService
 {
     use ServiceConstructorTrait;
+
+    protected $defaults = [
+        'installSwap',
+    ];
 
     public function updateSystem()
     {
@@ -57,25 +61,18 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
     }
 
-    public function createSwap()
+    public function installSwap($size = '1G', $swappiness = 10, $vfsCachePressure= 50)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('fallocate -l 1G /swapfile');
+        $this->remoteTaskService->run('fallocate -l '.$size.' /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
         $this->remoteTaskService->run('mkswap /swapfile');
         $this->remoteTaskService->run('swapon /swapfile');
         $this->remoteTaskService->run('cp /etc/fstab /etc/fstab.bak');
         $this->remoteTaskService->run('echo \'/swapfile none swap sw 0 0\' | tee -a /etc/fstab');
-        $this->remoteTaskService->run('echo "vm.swappiness=10" >> /etc/sysctl.conf');
-        $this->remoteTaskService->run('echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf');
-    }
-
-    public function installCertBot()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+        $this->remoteTaskService->run('echo "vm.swappiness='.$swappiness.'" >> /etc/sysctl.conf');
+        $this->remoteTaskService->run('echo "vm.vfs_cache_pressure='.$vfsCachePressure.'" >> /etc/sysctl.conf');
     }
 
     public function resetSudoPassword()

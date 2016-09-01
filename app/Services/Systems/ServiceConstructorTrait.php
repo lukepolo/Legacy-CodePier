@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Systems\Traits;
+namespace App\Services\Systems;
 
 use App\Models\Server;
 use App\Services\RemoteTaskService;

@@ -2,13 +2,17 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class MonitoringService
 {
     use ServiceConstructorTrait;
 
-    public function addDiskMonitoringScript()
+    protected $defaults = [
+        'installDiskMonitoringScript',
+    ];
+
+    public function installDiskMonitoringScript()
     {
         $this->connectToServer();
 
