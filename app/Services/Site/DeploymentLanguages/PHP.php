@@ -20,7 +20,6 @@ class PHP
     private $repositoryProvider;
 
     /**
-     * ProvisionService constructor.
      * @param RemoteTaskService $remoteTaskService
      * @param Server $server
      * @param Site $site

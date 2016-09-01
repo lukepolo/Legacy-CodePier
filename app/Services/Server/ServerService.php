@@ -4,13 +4,14 @@ namespace App\Services\Server;
 
 use App\Classes\DiskSpace;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ProvisionServiceContract as ProvisionService;
 use App\Contracts\Server\ServerServiceContract;
+use App\Contracts\Systems\SystemServiceContract;
 use App\Exceptions\SshConnectionFailed;
 use App\Models\Server;
 use App\Models\ServerCronJob;
 use App\Models\ServerProvider;
 use App\Notifications\ServerProvisioned;
+use App\Services\Systems\SystemService;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
 
@@ -20,8 +21,8 @@ use phpseclib\Net\SFTP;
  */
 class ServerService implements ServerServiceContract
 {
+    protected $systemService;
     protected $remoteTaskService;
-    protected $provisionService;
 
     public $providers = [
         'digitalocean' => Providers\DigitalOceanProvider::class
@@ -32,12 +33,12 @@ class ServerService implements ServerServiceContract
     /**
      * SiteService constructor.
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param \App\Services\Server\ProvisionService | ProvisionService $provisionService
+     * @param SystemService | SystemServiceContract $systemService
      */
-    public function __construct(RemoteTaskService $remoteTaskService, ProvisionService $provisionService)
+    public function __construct(RemoteTaskService $remoteTaskService, SystemServiceContract $systemService)
     {
         $this->remoteTaskService = $remoteTaskService;
-        $this->provisionService = $provisionService;
+        $this->systemService = $systemService;
     }
 
     /**
@@ -142,7 +143,7 @@ class ServerService implements ServerServiceContract
 
         $server->save();
 
-        if(!$this->provisionService->provision($server)) {
+        if(!$this->systemService->provision($server)) {
             return false;
         }
 
@@ -339,5 +340,10 @@ class ServerService implements ServerServiceContract
     private function getProvider(ServerProvider $serverProvider)
     {
         return new $this->providers[$serverProvider->provider_name]();
+    }
+
+    public function getService($service, Server $server)
+    {
+        return $this->systemService->createSystemService($service, $server);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class SystemService
 {
@@ -10,23 +10,31 @@ class SystemService
 
     public function updateSystem()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
     }
 
     public function setTimezoneToUTC()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
     }
 
     public function setLocaleToUTF8()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale');
         $this->remoteTaskService->run('locale-gen en_US.UTF-8');
     }
 
     public function addCodePierUser()
     {
+        $this->connectToServer();
+
         $rootPassword = decrypt($this->server->root_password);
 
         $this->remoteTaskService->run('echo \'root:'.$rootPassword.'\' | chpasswd');
@@ -51,6 +59,8 @@ class SystemService
 
     public function createSwap()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('fallocate -l 1G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
         $this->remoteTaskService->run('mkswap /swapfile');
@@ -63,6 +73,8 @@ class SystemService
 
     public function installCertBot()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 

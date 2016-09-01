@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\Systems\Traits;
+namespace App\Services\Systems\Traits;
 
 use App\Models\Server;
 use App\Services\RemoteTaskService;
@@ -8,8 +8,8 @@ use App\Services\RemoteTaskService;
 trait ServiceConstructorTrait
 {
     protected $server;
+
     /**
-     * ProvisionService constructor.
      * @param RemoteTaskService $remoteTaskService
      * @param Server $server
      */
@@ -18,8 +18,6 @@ trait ServiceConstructorTrait
         $this->server = $server;
 
         $this->remoteTaskService = $remoteTaskService;
-        $this->connectToServer();
-
     }
 
     public function connectToServer($user = 'root')

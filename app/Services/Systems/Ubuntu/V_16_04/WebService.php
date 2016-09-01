@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class WebService
 {
@@ -10,6 +10,8 @@ class WebService
 
     public function installNginx()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 
         $this->remoteTaskService->run('rm /etc/nginx/sites-enabled/default');
@@ -32,13 +34,9 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
-    /**
-     * @param string $user
-     * @return array
-     */
-    public function restartWebServices($user = 'root')
+    public function restartWebServices()
     {
-        $this->remoteTaskService->ssh($this->server, $user);
+        $this->connectToServer();
 
         $this->remoteTaskService->run('service nginx restart');
     }

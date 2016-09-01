@@ -17,9 +17,12 @@ trait ServerErrorTrait
 {
     public $remoteErrors;
     public $remoteSuccesses;
+    public $error = false;
 
     public function runOnServer(Server $server, Closure $function, $throwErrors = false)
     {
+        $this->error = false;
+
         try {
 
             $remoteResponse = new SuccessRemoteResponse($server, $function());
@@ -46,8 +49,17 @@ trait ServerErrorTrait
 
             $this->remoteErrors[] = $remoteResponse;
 
+            if(count($this->remoteErrors)) {
+                $this->error = true;
+            }
+
             return $remoteResponse;
         }
+    }
+
+    public function successful()
+    {
+        return !$this->error;
     }
 
     public function remoteResponse($errors = true)

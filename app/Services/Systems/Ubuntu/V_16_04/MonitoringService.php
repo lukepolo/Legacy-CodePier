@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class MonitoringService
 {
@@ -10,6 +10,8 @@ class MonitoringService
 
     public function addDiskMonitoringScript()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->writeToFile('/etc/opt/diskusage','
 df / | grep / | awk \'{ print $5 " " $6 }\' | while read output;
 do
