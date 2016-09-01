@@ -90,9 +90,11 @@ window.serverSshKeyStore = serverSshKeyStore;
 import serverProviderStore from './stores/Server/ServerProviderStore';
 window.serverProviderStore = serverProviderStore;
 
-
 import serverCronJobStore from './stores/Server/ServerCronJobStore';
 window.serverCronJobStore = serverCronJobStore;
+
+import serverDaemonStore from './stores/Server/ServerDaemonStore';
+window.serverDaemonStore = serverDaemonStore;
 
 /*
  |--------------------------------------------------------------------------

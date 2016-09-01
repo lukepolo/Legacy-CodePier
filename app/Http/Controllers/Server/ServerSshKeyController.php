@@ -50,7 +50,7 @@ class ServerSshKeyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $serverSshKey = ServerSshKey::firstOrNew([
+        $serverSshKey = ServerSshKey::create([
             'server_id' => $serverId,
             'name' => $request->get('name'),
             'ssh_key' => trim($request->get('ssh_key'))
@@ -59,9 +59,12 @@ class ServerSshKeyController extends Controller
         $this->runOnServer($server, function () use ($server, $serverSshKey) {
             if($server->ssh_connection) {
                 $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
-                $serverSshKey->save();
             }
         });
+
+        if(!$this->successful()) {
+            $serverSshKey->delete();
+        }
 
         return $this->remoteResponse();
     }

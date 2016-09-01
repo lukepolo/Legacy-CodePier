@@ -46,7 +46,7 @@
             return {
                 form : {
                     cron : null,
-                    user : null,
+                    user : 'root',
                     cron_timing: null
                 }
             }

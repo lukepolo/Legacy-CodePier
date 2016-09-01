@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\ServerFirewallRule;
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class FirewallService
 {
@@ -11,6 +11,8 @@ class FirewallService
 
     public function installFirewallRules()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
@@ -64,6 +66,8 @@ iptables -P INPUT DROP
 
     public function addFirewallRule(ServerFirewallRule $serverFirewallRule)
     {
+        $this->connectToServer();
+
         if (empty($serverFirewallRule->from_ip)) {
             $this->remoteTaskService->findTextAndAppend(
                 '/etc/opt/iptables',
@@ -82,6 +86,8 @@ iptables -P INPUT DROP
 
     public function removeFirewallRule(ServerFirewallRule $firewallRule)
     {
+        $this->connectToServer();
+
         if (empty($firewallRule->from_ip)) {
             $errors = $this->remoteTaskService->removeLineByText('/etc/opt/iptables',
                 "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
@@ -99,6 +105,8 @@ iptables -P INPUT DROP
 
     public function addServerNetworkRule($serverIP)
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->findTextAndAppend('/etc/opt/iptables', '# DO NOT REMOVE - Custom Rules',
             "iptables -A INPUT -s $serverIP -j ACCEPT");
 
@@ -107,6 +115,8 @@ iptables -P INPUT DROP
 
     public function removeServerNetworkRule($serverIP)
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->removeLineByText('/etc/opt/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         return $this->rebuildFirewall();
@@ -114,6 +124,8 @@ iptables -P INPUT DROP
 
     private function rebuildFirewall()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('/etc/opt/./iptables');
         $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
         $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');

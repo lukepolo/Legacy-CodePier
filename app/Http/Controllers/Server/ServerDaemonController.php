@@ -6,6 +6,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use App\Models\ServerDaemon;
+use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
@@ -33,9 +34,9 @@ class ServerDaemonController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $serverId)
     {
-        return response()->json(Server::findOrFail($request->get('server_id'))->daemons);
+        return response()->json(Server::findOrFail($serverId)->daemons);
     }
 
     /**
@@ -46,6 +47,8 @@ class ServerDaemonController extends Controller
      */
     public function store(Request $request, $serverId)
     {
+        $server = Server::FindOrFail($serverId);
+
         $serverDaemon = ServerDaemon::create([
             'server_id' => $serverId,
             'command' => $request->get('command'),
@@ -55,9 +58,17 @@ class ServerDaemonController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        $this->serverService->installDaemon($serverDaemon);
+        $this->runOnServer($server, function () use ($server, $serverDaemon) {
+            if($server->ssh_connection) {
+                $this->serverService->getService(SystemService::DAEMON, $server)->installDaemon($serverDaemon);
+            }
+        });
 
-        return response()->json($serverDaemon);
+        if(!$this->successful()) {
+            $serverDaemon->delete();
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
@@ -81,6 +92,17 @@ class ServerDaemonController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $this->serverService->removeDaemon(ServerDaemon::findOrFail($id));
+        $server = Server::FindOrFail($serverId);
+
+        $serverDaemon = ServerDaemon::findOrFail($id);
+
+        $this->runOnServer($server, function () use ($server, $serverDaemon) {
+            if($server->ssh_connection) {
+                $this->serverService->getService(SystemService::DAEMON, $server)->removeDaemon($serverDaemon);
+                $serverDaemon->delete();
+            }
+        });
+
+        return $this->remoteResponse();
     }
 }

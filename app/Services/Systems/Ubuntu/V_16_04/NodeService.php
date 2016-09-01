@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class NodeService
 {
@@ -10,16 +10,22 @@ class NodeService
 
     public function installNodeJs()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
     }
 
     public function installGulp()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('npm install -g gulp');
     }
 
     public function installBower()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('npm install -g bower');
     }
 }

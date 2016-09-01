@@ -1,30 +1,38 @@
 <?php
 
-namespace App\Services\Server;
+namespace App\Services\Systems;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ProvisionServiceContract;
+use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Exceptions\FailedCommand;
 use App\Models\Server;
 
 /**
- * Class ProvisionService
+ * Class SystemService
  * @package App\Services
  */
-class ProvisionService implements ProvisionServiceContract
+class SystemService implements SystemServiceContract
 {
     protected $server;
-    protected $totalActions;
-    protected $doneActions = 0;
     protected $remoteTaskService;
 
     protected $provisionSystems = [
         'ubuntu 16.04' => 'Ubuntu\V_16_04'
     ];
 
+    const WEB = 'WebService';
+    const SYSTEM = 'SystemService';
+    const DAEMON = 'DaemonService';
+    const FIREWALL = 'FirewallService';
+    const DATABASE = 'DatabaseService';
+    const MONITORING = 'MonitoringService';
+    const REPOSITORY = 'RepositoryService';
+
+    const PHP = 'Languages\PHP';
+    const LARAVEL = 'Languages\Frameworks\Laravel';
+
     /**
-     * ProvisionService constructor.
      * @param RemoteTaskService $remoteTaskService
      */
     public function __construct(RemoteTaskService $remoteTaskService)
@@ -84,15 +92,15 @@ class ProvisionService implements ProvisionServiceContract
 
     /**
      * @param $service
+     * @param Server|null $server
      * @return mixed
      */
-    private function createSystemService($service)
+    public function createSystemService($service, Server $server = null)
     {
-        $server = $this->server;
         // TODO - server needs to send in the correct system
 
-        $service = 'App\Services\Server\Systems\\' . $this->provisionSystems['ubuntu 16.04'] . '\\' . $service;
+        $service = 'App\Services\Systems\\' . $this->provisionSystems['ubuntu 16.04'] . '\\' . $service;
 
-        return new $service($this->remoteTaskService, $this->server);
+        return new $service($this->remoteTaskService, !empty($server) ? $server : $this->server);
     }
 }

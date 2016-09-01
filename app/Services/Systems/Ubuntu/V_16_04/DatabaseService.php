@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04;
+namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Server\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 class DatabaseService
 {
@@ -10,6 +10,8 @@ class DatabaseService
 
     public function installDatabases()
     {
+        $this->connectToServer();
+
         $databasePassword = decrypt($this->server->database_password);
 
         $database = isset($this->server->options['database']) ? $this->server->options['database'] : null;
@@ -23,16 +25,22 @@ class DatabaseService
 
     public function installRedis()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
     }
 
     public function installMemcached()
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
     }
 
     public function installMySQL($databasePassword, $database = null)
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password password $databasePassword'");
         $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password_again password $databasePassword'");
 
@@ -49,6 +57,8 @@ class DatabaseService
 
     public function installMariaDB($databasePassword, $database = null)
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password password $databasePassword'");
         $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password_again password $databasePassword'");
 
@@ -65,6 +75,8 @@ class DatabaseService
 
     public function restartDatabase()
     {
+        $this->connectToServer();
+
         return $this->remoteTaskService->run('service mysql restart');
     }
 }
