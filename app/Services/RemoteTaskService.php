@@ -34,7 +34,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      */
     public function run($command, $read = false, $expectedFailure = false)
     {
-        if (!$this->server) {
+        if (! $this->server) {
             throw new SshConnectionFailed('No server set');
         }
 
@@ -44,7 +44,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         try {
             $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
-            if (!str_contains($output, 'codepier-done')) {
+            if (! str_contains($output, 'codepier-done')) {
                 \Log::info($output);
                 $this->output[] = $output;
             }
@@ -189,7 +189,7 @@ echo "Wrote" ', $read);
         $ssh = new SSH2($this->server->ip);
 
         try {
-            if (!$ssh->login($user, $key)) {
+            if (! $ssh->login($user, $key)) {
                 $server->ssh_connection = false;
                 $server->save();
 

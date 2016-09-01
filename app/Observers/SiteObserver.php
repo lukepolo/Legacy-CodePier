@@ -31,7 +31,7 @@ class SiteObserver
 
     public function saved(Site $site)
     {
-        if (!empty($site->repository)) {
+        if (! empty($site->repository)) {
             $this->repositoryService->importSshKeyIfPrivate($site);
         }
 

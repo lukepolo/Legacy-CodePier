@@ -41,7 +41,7 @@ class SlackMessageChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if ((!$token = $notifiable->routeNotificationFor('slack')) || (!$channel = $notifiable->getSlackChannel())) {
+        if ((! $token = $notifiable->routeNotificationFor('slack')) || (! $channel = $notifiable->getSlackChannel())) {
             return;
         }
 

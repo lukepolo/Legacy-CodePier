@@ -37,7 +37,7 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if (!$this->server->provisionSteps->count()) {
+        if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
             $this->server->load('provisionSteps');
         }

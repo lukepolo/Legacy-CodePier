@@ -36,7 +36,7 @@ class GitHub implements RepositoryContract
                     ]
                 );
             } catch (ValidationFailedException $e) {
-                if (!$e->getMessage() == 'Validation Failed: key is already in use') {
+                if (! $e->getMessage() == 'Validation Failed: key is already in use') {
                     throw new \Exception($e->getMessage());
                 }
             }
@@ -113,7 +113,7 @@ class GitHub implements RepositoryContract
 
         $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
 
-        if (!empty($lastCommit)) {
+        if (! empty($lastCommit)) {
             return $lastCommit['sha'];
         }
     }

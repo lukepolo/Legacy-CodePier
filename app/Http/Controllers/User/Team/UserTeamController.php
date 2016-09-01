@@ -97,7 +97,7 @@ class UserTeamController extends Controller
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::findOrFail($id);
-        if (!auth()->user()->isOwnerOfTeam($team)) {
+        if (! auth()->user()->isOwnerOfTeam($team)) {
             abort(403);
         }
 
@@ -123,7 +123,7 @@ class UserTeamController extends Controller
 
         $team = null;
 
-        if (!empty($id)) {
+        if (! empty($id)) {
             $team = $teamModel::with('piles')->findOrFail($id);
         }
         try {
@@ -145,7 +145,7 @@ class UserTeamController extends Controller
     public function acceptInvite($token)
     {
         $invite = Teamwork::getInviteFromAcceptToken($token);
-        if (!$invite) {
+        if (! $invite) {
             abort(404);
         }
 
