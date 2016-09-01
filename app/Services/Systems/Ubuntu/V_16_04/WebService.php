@@ -10,12 +10,11 @@ class WebService
 
     protected $defaults = [
         'installNginx',
-        'installCertBot'
+        'installCertBot',
     ];
 
     public function installApache()
     {
-
     }
 
     public function installCertBot()

@@ -6,7 +6,6 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Models\ServerProvisionStep;
-use App\Services\Systems\Services\OsService;
 use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -64,7 +63,7 @@ class ProvisionServer implements ShouldQueue
             ],
             SystemService::FIREWALL => [
                 'addBasicFirewallRules' => 'Installing Basic Firewall Rules',
-            ]
+            ],
         ]);
 
         foreach ($serverSteps as $service => $serviceFunctions) {

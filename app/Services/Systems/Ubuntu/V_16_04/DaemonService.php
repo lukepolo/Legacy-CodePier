@@ -11,7 +11,7 @@ class DaemonService
 
     protected $defaults = [
         'installBeanstalk',
-        'installSupervisor'
+        'installSupervisor',
     ];
 
     public function installBeanstalk()
