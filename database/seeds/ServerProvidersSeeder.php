@@ -11,21 +11,13 @@ class ServerProvidersSeeder extends Seeder
      */
     public function run()
     {
-        $mariaDB = [
-            'feature' => 'MariaDB 10.1',
-            'option'  => 'mariaDB',
-            'cost'    => null,
-            'default' => true,
-        ];
-
         $providers = [
             \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN => [
                 'name'     => 'Digital Ocean',
                 'features' => [
                     ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
                     ['feature' => 'IPV6', 'cost' => null, 'default' => true, 'option' => 'ipv6'],
-                    ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
-                    $mariaDB,
+                    ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking']
                 ],
             ],
         ];

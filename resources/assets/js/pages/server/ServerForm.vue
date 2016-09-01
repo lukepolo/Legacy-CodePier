@@ -27,7 +27,8 @@
                                             <label>
                                                 <input @change="getProviderData(user_server_provider.server_provider.provider_name)"
                                                        type="radio" name="server_provider_id"
-                                                       v-model="form.server_provider_id" :value="user_server_provider.server_provider_id">
+                                                       v-model="form.server_provider_id"
+                                                       :value="user_server_provider.server_provider_id">
                                                 <span class="icon"></span>
                                                 {{ user_server_provider.server_provider.name }}
                                             </label>
@@ -43,7 +44,8 @@
                                             <div class="input-question">Server Option</div>
 
                                             <select v-model="form.server_option" name="server_option">
-                                                <option v-for="option in options" :value="option.id">{{ option.memory }} MB
+                                                <option v-for="option in options" :value="option.id">{{ option.memory }}
+                                                    MB
                                                     RAM - {{ option.cpus }} CPUS - {{ option.space }} SSD - ${{
                                                     option.priceHourly }} / Hour - ${{ option.priceMonthly }} / Month
                                                 </option>
@@ -73,6 +75,19 @@
                                         <div class="btn-footer">
                                             <button class="btn">Cancel</button>
                                             <button type="submit" class="btn btn-primary">Create Server</button>
+                                        </div>
+
+                                        <div v-for="(features, serverFeatureArea) in availableServerFeatures">
+                                            <div class="input-group input-checkbox">
+                                                <div class="input-question">{{ serverFeatureArea }}</div>
+                                                <label  v-for="feature in features">
+                                                    <input type="checkbox">
+                                                    <span class="icon"></span>{{ feature.name }}
+                                                    <template v-if="feature.parameters" v-for="parameter in feature.parameters">
+                                                        <input type="text"> {{ parameter }}
+                                                    </template>
+                                                </label>
+                                            </div>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -115,6 +130,10 @@
         methods: {
             fetchData: () => {
                 serverProviderStore.dispatch('getUserServerProviders');
+
+                serverStore.dispatch('getServerAvailableFeatures');
+                serverStore.dispatch('getServerAvailableLanguages');
+                serverStore.dispatch('getServerAvailableFrameworks');
             },
             getProviderData: (provider) => {
                 serverProviderStore.dispatch('getServerProviderOptions', provider);
@@ -141,6 +160,15 @@
             },
             features: () => {
                 return serverProviderStore.state.server_provider_features;
+            },
+            availableServerFeatures: () => {
+                return serverStore.state.available_server_features;
+            },
+            availableServerLanguages: () => {
+                return serverStore.state.available_server_languages;
+            },
+            availableServerFrameworks: () => {
+                return serverStore.state.available_server_frameworks;
             },
             pile: function () {
                 var pile = _.find(user.piles, function (pile) {

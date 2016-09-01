@@ -8,11 +8,14 @@ const serverStore = new Vuex.Store({
     state: {
         servers: [],
         server: null,
-        server_sites: null
+        server_sites: null,
+        available_server_features : [],
+        available_server_languages : [],
+        available_server_frameworks : []
     },
     actions: {
-        getServer : ({commit}, server_id) => {
-            Vue.http.get(action('Server\ServerController@show', {server : server_id})).then((response) => {
+        getServer: ({commit}, server_id) => {
+            Vue.http.get(action('Server\ServerController@show', {server: server_id})).then((response) => {
                 commit('SET_SERVER', response.json());
             }, (errors) => {
                 alert(error);
@@ -34,8 +37,29 @@ const serverStore = new Vuex.Store({
             });
         },
         getServerSites: ({commit}, server_id) => {
-            Vue.http.get(action('Server\ServerSiteController@index', {server : server_id})).then((response) => {
+            Vue.http.get(action('Server\ServerSiteController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_SITES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getServerAvailableFeatures: ({commit}) => {
+            Vue.http.get(action('Server\ServerFeatureController@getServerFeatures')).then((response) => {
+                commit('SET_AVAILABLE_SERVER_FEATURES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getServerAvailableLanguages: ({commit}) => {
+            Vue.http.get(action('Server\ServerFeatureController@getLanguages')).then((response) => {
+                commit('SET_AVAILABLE_SERVER_LANGUAGES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getServerAvailableFrameworks: ({commit}) => {
+            Vue.http.get(action('Server\ServerFeatureController@getFrameworks')).then((response) => {
+                commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.json());
             }, (errors) => {
                 alert(error);
             });
@@ -50,6 +74,15 @@ const serverStore = new Vuex.Store({
         },
         SET_SERVER_SITES: (state, server_sites) => {
             state.server_sites = server_sites;
+        },
+        SET_AVAILABLE_SERVER_FEATURES: (state, available_server_features) => {
+            state.available_server_features = available_server_features;
+        },
+        SET_AVAILABLE_SERVER_LANGUAGES: (state, available_server_languages) => {
+            state.available_server_languages = available_server_languages;
+        },
+        SET_AVAILABLE_SERVER_FRAMEWORKS: (state, available_server_frameworks) => {
+            state.available_server_frameworks = available_server_frameworks;
         }
     }
 });
