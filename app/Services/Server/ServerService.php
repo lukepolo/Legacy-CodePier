@@ -16,8 +16,7 @@ use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
 
 /**
- * Class ServerService
- * @package App\Services
+ * Class ServerService.
  */
 class ServerService implements ServerServiceContract
 {
@@ -25,15 +24,16 @@ class ServerService implements ServerServiceContract
     protected $remoteTaskService;
 
     public $providers = [
-        'digitalocean' => Providers\DigitalOceanProvider::class
+        'digitalocean' => Providers\DigitalOceanProvider::class,
     ];
 
     public static $serverOperatingSystem = 'ubuntu-16-04-x64';
 
     /**
      * SiteService constructor.
+     *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param SystemService | SystemServiceContract $systemService
+     * @param SystemService | SystemServiceContract               $systemService
      */
     public function __construct(RemoteTaskService $remoteTaskService, SystemServiceContract $systemService)
     {
@@ -43,7 +43,8 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
-     * @param Server $server
+     * @param Server         $server
+     *
      * @return mixed
      */
     public function create(ServerProvider $serverProvider, Server $server)
@@ -53,6 +54,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
+     *
      * @return mixed
      */
     public function getServerOptions(ServerProvider $serverProvider)
@@ -62,6 +64,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
+     *
      * @return mixed
      */
     public function getServerRegions(ServerProvider $serverProvider)
@@ -72,6 +75,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param string $user
+     *
      * @return bool
      */
     public function testSSHConnection(Server $server, $user = 'root')
@@ -81,10 +85,12 @@ class ServerService implements ServerServiceContract
 
             $server->ssh_connection = true;
             $server->save();
+
             return true;
         } catch (SshConnectionFailed $e) {
             $server->ssh_connection = false;
             $server->save();
+
             return false;
         }
     }
@@ -102,6 +108,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return mixed
      */
     public function getStatus(Server $server)
@@ -113,6 +120,7 @@ class ServerService implements ServerServiceContract
         } catch (\Exception $e) {
             if ($e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();
+
                 return 'Server Has Been Deleted';
             }
         }
@@ -120,6 +128,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return mixed
      */
     public function saveInfo(Server $server)
@@ -129,21 +138,22 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return bool
      */
     public function provision(Server $server)
     {
-        if(!empty($server->database_password)) {
+        if (!empty($server->database_password)) {
             $server->database_password = encrypt(str_random(32));
         }
 
-        if(!empty($server->root_password)) {
+        if (!empty($server->root_password)) {
             $server->root_password = encrypt(str_random(32));
         }
 
         $server->save();
 
-        if(!$this->systemService->provision($server)) {
+        if (!$this->systemService->provision($server)) {
             return false;
         }
 
@@ -155,6 +165,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param string $user
+     *
      * @return bool
      */
     public function restartServer(Server $server, $user = 'root')
@@ -168,6 +179,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return array
      */
     public function restartWebServices(Server $server)
@@ -177,6 +189,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return bool
      */
     public function restartDatabase(Server $server)
@@ -186,6 +199,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return bool
      */
     public function restartWorkers(Server $server)
@@ -198,6 +212,7 @@ class ServerService implements ServerServiceContract
      * @param $filePath
      * @param $file
      * @param string $user
+     *
      * @return bool
      */
     public function saveFile(Server $server, $filePath, $file, $user = 'root')
@@ -213,6 +228,7 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param $filePath
      * @param string $user
+     *
      * @return null|string
      */
     public function getFile(Server $server, $filePath, $user = 'root')
@@ -229,14 +245,13 @@ class ServerService implements ServerServiceContract
         if ($contents = $ssh->get($filePath)) {
             return trim($contents);
         }
-
-        return null;
     }
 
     /**
      * @param Server $server
      * @param $folder
      * @param string $user
+     *
      * @return bool
      */
     public function createFolder(Server $server, $folder, $user = 'root')
@@ -252,6 +267,7 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param $folder
      * @param string $user
+     *
      * @return bool
      */
     public function removeFolder(Server $server, $folder, $user = 'root')
@@ -267,6 +283,7 @@ class ServerService implements ServerServiceContract
      * @param Server $server
      * @param $sshKey
      * @param string $user
+     *
      * @return bool
      */
     public function installSshKey(Server $server, $sshKey, $user = 'root')
@@ -281,6 +298,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $sshKey
+     *
      * @return bool
      */
     public function removeSshKey(Server $server, $sshKey)
@@ -294,6 +312,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
+     *
      * @return DiskSpace
      */
     public function checkDiskSpace(Server $server)
@@ -308,30 +327,33 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerCronJob $serverCronJob
+     *
      * @return array
      */
     public function installCron(ServerCronJob $serverCronJob)
     {
         $this->remoteTaskService->ssh($serverCronJob->server, $serverCronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep ' . $serverCronJob->job . ') || ((crontab -l; echo "' . $serverCronJob->job . ' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$serverCronJob->job.') || ((crontab -l; echo "'.$serverCronJob->job.' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param ServerCronJob $cronJob
+     *
      * @return bool
      */
     public function removeCron(ServerCronJob $cronJob)
     {
         $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | grep -v "' . $cronJob->job . ' >/dev/null 2>&1" | crontab -');
+        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param ServerProvider $serverProvider
+     *
      * @return mixed
      */
     private function getProvider(ServerProvider $serverProvider)

@@ -3,10 +3,8 @@
 namespace App\Contracts\Systems;
 
 /**
- * Interface SystemServiceContract
- * @package App\Contracts\Systems
+ * Interface SystemServiceContract.
  */
 interface SystemServiceContract
 {
-
 }

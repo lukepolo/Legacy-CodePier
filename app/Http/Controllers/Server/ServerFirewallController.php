@@ -10,9 +10,7 @@ use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerFirewallController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerFirewallController.
  */
 class ServerFirewallController extends Controller
 {
@@ -33,6 +31,7 @@ class ServerFirewallController extends Controller
      *
      * @param Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -43,28 +42,29 @@ class ServerFirewallController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
     {
         $serverFirewallRule = ServerFirewallRule::create([
             'description' => $request->get('description'),
-            'server_id' => $serverId,
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip')
+            'server_id'   => $serverId,
+            'port'        => $request->get('port'),
+            'from_ip'     => $request->get('from_ip'),
         ]);
 
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
-            if($server->ssh_connection) {
+            if ($server->ssh_connection) {
                 $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule($serverFirewallRule);
             }
         });
 
-        if(!$this->successful()) {
+        if (!$this->successful()) {
             $serverFirewallRule->delete();
         }
 
@@ -75,7 +75,8 @@ class ServerFirewallController extends Controller
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -87,7 +88,8 @@ class ServerFirewallController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
@@ -97,7 +99,7 @@ class ServerFirewallController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
-            if($server->ssh_connection) {
+            if ($server->ssh_connection) {
                 $this->serverService->getService(SystemService::FIREWALL, $server)->removeFirewallRule($serverFirewallRule);
                 $serverFirewallRule->delete();
             }

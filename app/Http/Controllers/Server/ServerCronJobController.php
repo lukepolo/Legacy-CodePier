@@ -9,9 +9,7 @@ use App\Models\ServerCronJob;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerCronJobController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerCronJobController.
  */
 class ServerCronJobController extends Controller
 {
@@ -32,6 +30,7 @@ class ServerCronJobController extends Controller
      *
      * @param Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -42,27 +41,28 @@ class ServerCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
     {
         $serverCronJob = ServerCronJob::create([
             'server_id' => $serverId,
-            'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
-            'user' => $request->get('user')
+            'job'       => $request->get('cron_timing').' '.$request->get('cron'),
+            'user'      => $request->get('user'),
         ]);
 
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            if($server->ssh_connection) {
+            if ($server->ssh_connection) {
                 $this->serverService->installCron($serverCronJob);
             }
         });
 
-        if(!$this->successful()) {
+        if (!$this->successful()) {
             $serverCronJob->delete();
         }
 
@@ -73,7 +73,8 @@ class ServerCronJobController extends Controller
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -85,7 +86,8 @@ class ServerCronJobController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
@@ -95,7 +97,7 @@ class ServerCronJobController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            if($server->ssh_connection) {
+            if ($server->ssh_connection) {
                 $this->serverService->installCron($serverCronJob);
                 $serverCronJob->delete();
             }

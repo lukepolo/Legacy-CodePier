@@ -3,9 +3,7 @@
 namespace App\Classes;
 
 /**
- * Class DiskSpace
- *
- * @package App\Classes
+ * Class DiskSpace.
  */
 class DiskSpace
 {
@@ -15,6 +13,7 @@ class DiskSpace
 
     /**
      * DiskSpace constructor.
+     *
      * @param $size
      * @param $used
      * @param $available
@@ -35,33 +34,34 @@ class DiskSpace
     }
 
     /**
-     * Gets the percentage used
+     * Gets the percentage used.
      *
      * @return string
      */
     public function getPercentageUsed()
     {
-        return round(($this->used / $this->size) * 100) .'%';
+        return round(($this->used / $this->size) * 100).'%';
     }
 
     /**
-     * Converts from kb to GB
+     * Converts from kb to GB.
      *
      * @param $kilobytes
+     *
      * @return string
      */
     private function kilobytesToGigabytes($kilobytes)
     {
-        return round($kilobytes / 1000000,2) .' GB';
+        return round($kilobytes / 1000000, 2).' GB';
     }
 
     /**
-     * Formats to string : 20 / 40 GB (50%)
+     * Formats to string : 20 / 40 GB (50%).
      *
      * @return string
      */
     public function format()
     {
-        return $this->kilobytesToGigabytes($this->used). ' / '.$this->kilobytesToGigabytes($this->available) .' ('.$this->getPercentageUsed().')';
+        return $this->kilobytesToGigabytes($this->used).' / '.$this->kilobytesToGigabytes($this->available).' ('.$this->getPercentageUsed().')';
     }
 }

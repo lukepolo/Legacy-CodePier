@@ -3,10 +3,8 @@
 namespace App\Observers;
 
 /**
- * Class PileObserver
- * @package App\Observers
+ * Class PileObserver.
  */
 class PileObserver
 {
-
 }

@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Http\Controllers\Auth\OauthController;
 use App\Traits\UsedByTeams;
-use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * Class Site
- * @package App\Models
+ * Class Site.
  */
 class Site extends Model
 {
@@ -18,7 +16,7 @@ class Site extends Model
 
     protected $guarded = ['id'];
 
-    static $teamworkModel = 'pile.teams';
+    public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
 
     /*
@@ -57,7 +55,6 @@ class Site extends Model
         return $this->hasMany(SiteDaemon::class);
     }
 
-
     public function settings()
     {
         return $this->hasOne(SiteSettings::class);
@@ -70,7 +67,7 @@ class Site extends Model
 
     public function deployments()
     {
-        return $this->hasMany(SiteDeployment::class)->orderBy('id' ,'desc');
+        return $this->hasMany(SiteDeployment::class)->orderBy('id', 'desc');
     }
 
     public function userRepositoryProvider()
@@ -86,7 +83,7 @@ class Site extends Model
 
     public function hasActiveSSL()
     {
-        if(!empty($this->activeSSL)) {
+        if (!empty($this->activeSSL)) {
             return true;
         }
 
@@ -95,7 +92,7 @@ class Site extends Model
 
     public function lastDeployment()
     {
-        return $this->hasOne(SiteDeployment::class)->orderBy('id' ,'desc');
+        return $this->hasOne(SiteDeployment::class)->orderBy('id', 'desc');
     }
 
     public function encode()
@@ -119,13 +116,12 @@ class Site extends Model
 
         $this->load('pile.teams.users');
 
-        foreach($this->pile->teams as $team) {
+        foreach ($this->pile->teams as $team) {
             $emails->merge($team->users->pluck('email'));
         }
 
         return $emails->toArray();
     }
-
 
     /**
      * Route notifications for the Slack channel.
@@ -134,7 +130,7 @@ class Site extends Model
      */
     public function routeNotificationForSlack()
     {
-        $slackProvider = $this->user->userNotificationProviders->first(function($userNotificationProvider) {
+        $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
             return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
         });
 

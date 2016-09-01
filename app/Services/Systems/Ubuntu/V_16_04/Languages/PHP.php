@@ -5,8 +5,7 @@ namespace App\Services\Systems\Ubuntu\V_16_04\Languages;
 use App\Services\Systems\Traits\ServiceConstructorTrait;
 
 /**
- * Class Ubuntu16_04
- * @package App\Services\Server\ProvisionRepositories
+ * Class Ubuntu16_04.
  */
 class PHP
 {
@@ -44,7 +43,6 @@ class PHP
         $this->remoteTaskService->run('sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf');
     }
 
-
     public function installComposer()
     {
         $this->connectToServer();
@@ -61,7 +59,7 @@ class PHP
         $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install blackfire-agent blackfire-php');
 
-        $this->remoteTaskService->run('echo "' . $serverID . '\n' . $serverToken . '\n" | blackfire-agent -register');
+        $this->remoteTaskService->run('echo "'.$serverID.'\n'.$serverToken.'\n" | blackfire-agent -register');
 
         $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-id', $serverID);
         $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-token', $serverToken);

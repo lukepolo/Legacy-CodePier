@@ -41,7 +41,7 @@ return [
         'main' => [
             'driver'  => 'guzzlehttp',
             'token'   => '',
-        ]
+        ],
     ],
 
 ];

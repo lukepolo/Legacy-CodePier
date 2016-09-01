@@ -6,8 +6,7 @@ use App\Models\Server;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class ServerProvisioned
- * @package App\Events
+ * Class ServerProvisioned.
  */
 class ServerProvisioned
 {
@@ -20,6 +19,7 @@ class ServerProvisioned
 
     /**
      * Create a new event instance.
+     *
      * @param Server $server
      * @param $sudoPassword
      * @param $databasePassword

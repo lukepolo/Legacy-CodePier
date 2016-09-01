@@ -8,8 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 /**
- * Class NewSiteDeployment
- * @package App\Notifications
+ * Class NewSiteDeployment.
  */
 class NewSiteDeployment extends Notification
 {
@@ -21,7 +20,7 @@ class NewSiteDeployment extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param Site $site
+     * @param Site           $site
      * @param SiteDeployment $siteDeployment
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment)
@@ -33,7 +32,8 @@ class NewSiteDeployment extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -44,14 +44,15 @@ class NewSiteDeployment extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            'site' => $this->site,
-            'siteDeployment' => $this->siteDeployment
+            'site'           => $this->site,
+            'siteDeployment' => $this->siteDeployment,
         ];
     }
 }

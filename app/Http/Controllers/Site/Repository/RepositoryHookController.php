@@ -8,8 +8,7 @@ use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
- * Class RepositoryHookController
- * @package App\Http\Controllers
+ * Class RepositoryHookController.
  */
 class RepositoryHookController extends Controller
 {
@@ -26,8 +25,9 @@ class RepositoryHookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -42,7 +42,8 @@ class RepositoryHookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

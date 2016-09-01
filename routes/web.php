@@ -32,18 +32,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     */
     Route::resource('me', 'User\UserController', [ // VERIFIED
         'only' => [
-            'index'
-        ]
+            'index',
+        ],
     ]);
 
     Route::resource('user', 'User\UserController', [
-        'except' => 'index' // VERIFIED
+        'except' => 'index', // VERIFIED
     ]);
 
     Route::group(['prefix' => 'my'], function () {
-
         Route::group(['namespace' => 'User'], function () {
-
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController'); // VERIFIED
             Route::resource('subscription', 'Subscription\UserSubscriptionController'); // VERIFIED
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
@@ -99,7 +97,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::resource('servers', 'Server\ServerController');
 
         Route::group(['namespace' => 'Server'], function () {
-
             Route::group(['prefix' => 'server'], function () {
                 Route::post('restore/{server}', 'ServerController@restore');
                 Route::post('server/file/{server}', 'ServerController@getFile');
@@ -110,7 +107,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');  // VERIFIED
                 Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices'); // VERIFIED
-
             });
 
             Route::resource('servers.cron-jobs', 'ServerCronJobController'); // VERIFIED
@@ -120,7 +116,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('servers.ssh-keys', 'ServerSshKeyController'); // VERIFIED
 
             Route::resource('servers.sites', 'ServerSiteController'); // VERIFIED
-
         });
 
         /*
@@ -133,7 +128,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::resource('sites', 'Site\SiteController');
 
         Route::group(['namespace' => 'Site'], function () {
-
             Route::group(['prefix' => 'sites'], function () {
                 Route::post('deploy', 'SiteController@deploy');
             });
@@ -146,7 +140,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('site.certificate/existing', 'Certificate\SiteSSLExistingController');
             Route::resource('site.certificate/lets-encrypt/', 'Certificate\SiteSSLLetsEncryptController');
         });
-
     });
 
     Route::group(['prefix' => 'auth'], function () {
@@ -159,8 +152,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     Route::group(['prefix' => 'server/providers'], function () {
         Route::group([
-            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
-            'namespace' => 'Server\Providers\DigitalOcean'
+            'prefix'    => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
             Route::resource('options', 'DigitalOceanServerOptionsController'); // VERIFIED
             Route::resource('regions', 'DigitalOceanServerRegionsController'); // VERIFIED
@@ -220,16 +213,17 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 Route::get('/', function () {
     if (\Auth::check()) {
         return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+            'user' => \Auth::user()->load(['teams', 'piles.servers']),
         ]);
     }
+
     return view('landing');
 });
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/{any}', function ($any) {
         return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+            'user' => \Auth::user()->load(['teams', 'piles.servers']),
         ]);
     })->where('any', '.*');
 });

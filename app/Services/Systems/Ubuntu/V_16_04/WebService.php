@@ -40,5 +40,4 @@ class WebService
 
         $this->remoteTaskService->run('service nginx restart');
     }
-
 }

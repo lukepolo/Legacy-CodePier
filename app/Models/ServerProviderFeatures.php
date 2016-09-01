@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class ServerProviderFeatures
- * @package App\Models
+ * Class ServerProviderFeatures.
  */
 class ServerProviderFeatures extends Model
 {

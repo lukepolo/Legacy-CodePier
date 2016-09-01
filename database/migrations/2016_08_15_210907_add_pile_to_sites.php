@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPileToSites extends Migration
 {
@@ -13,7 +13,7 @@ class AddPileToSites extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->integer('pile_id');
         });
     }
@@ -25,7 +25,7 @@ class AddPileToSites extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('pile_id');
         });
     }

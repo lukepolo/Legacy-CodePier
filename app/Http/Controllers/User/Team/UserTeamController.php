@@ -8,8 +8,7 @@ use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
 use Mpociot\Teamwork\Facades\Teamwork;
 
 /**
- * Class UserTeamController
- * @package App\Http\Controllers
+ * Class UserTeamController.
  */
 class UserTeamController extends Controller
 {
@@ -21,13 +20,15 @@ class UserTeamController extends Controller
     public function index()
     {
         \Auth::user()->load('teams.piles');
+
         return response()->json(\Auth::user()->teams);
     }
 
     /**
      * Show the members of the given team.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -41,7 +42,8 @@ class UserTeamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,8 +51,8 @@ class UserTeamController extends Controller
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::create([
-            'name' => $request->name,
-            'owner_id' => \Auth::user()->id
+            'name'     => $request->name,
+            'owner_id' => \Auth::user()->id,
         ]);
         $request->user()->attachTeam($team);
 
@@ -63,8 +65,9 @@ class UserTeamController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -85,7 +88,8 @@ class UserTeamController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -109,7 +113,8 @@ class UserTeamController extends Controller
     /**
      * Switch to the given team.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function switchTeam($id = null)
@@ -131,8 +136,10 @@ class UserTeamController extends Controller
     }
 
     /**
-     * Accept the given invite
+     * Accept the given invite.
+     *
      * @param $token
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function acceptInvite($token)
@@ -144,9 +151,11 @@ class UserTeamController extends Controller
 
         if (auth()->check()) {
             Teamwork::acceptInvite($invite);
+
             return redirect()->to('/my/teams');
         } else {
             session(['invite_token' => $token]);
+
             return redirect()->to('login');
         }
     }

@@ -9,8 +9,7 @@ use App\Exceptions\FailedCommand;
 use App\Models\Server;
 
 /**
- * Class SystemService
- * @package App\Services
+ * Class SystemService.
  */
 class SystemService implements SystemServiceContract
 {
@@ -18,7 +17,7 @@ class SystemService implements SystemServiceContract
     protected $remoteTaskService;
 
     protected $provisionSystems = [
-        'ubuntu 16.04' => 'Ubuntu\V_16_04'
+        'ubuntu 16.04' => 'Ubuntu\V_16_04',
     ];
 
     const WEB = 'WebService';
@@ -41,8 +40,10 @@ class SystemService implements SystemServiceContract
     }
 
     /**
-     * Provisions a server based on its operating system
+     * Provisions a server based on its operating system.
+     *
      * @param Server $server
+     *
      * @return bool
      */
     public function provision(Server $server)
@@ -50,7 +51,7 @@ class SystemService implements SystemServiceContract
         $this->server = $server;
 
         try {
-            foreach ($server->provisionSteps->filter(function($provisionStep) {
+            foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
                 $this->updateProgress($provisionStep->step);
@@ -67,6 +68,7 @@ class SystemService implements SystemServiceContract
             $provisionStep->failed = true;
             $provisionStep->log = $systemService->getErrors();
             $provisionStep->save();
+
             return false;
         }
 
@@ -93,13 +95,14 @@ class SystemService implements SystemServiceContract
     /**
      * @param $service
      * @param Server|null $server
+     *
      * @return mixed
      */
     public function createSystemService($service, Server $server = null)
     {
         // TODO - server needs to send in the correct system
 
-        $service = 'App\Services\Systems\\' . $this->provisionSystems['ubuntu 16.04'] . '\\' . $service;
+        $service = 'App\Services\Systems\\'.$this->provisionSystems['ubuntu 16.04'].'\\'.$service;
 
         return new $service($this->remoteTaskService, !empty($server) ? $server : $this->server);
     }

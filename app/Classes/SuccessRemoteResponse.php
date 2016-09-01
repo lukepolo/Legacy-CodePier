@@ -5,9 +5,7 @@ namespace App\Classes;
 use App\Models\Server;
 
 /**
- * Class SuccessRemoteResponse
- *
- * @package App\Classes
+ * Class SuccessRemoteResponse.
  */
 class SuccessRemoteResponse
 {
@@ -16,6 +14,7 @@ class SuccessRemoteResponse
 
     /**
      * FailedServerResponse constructor.
+     *
      * @param Server $server
      * @param $log
      */

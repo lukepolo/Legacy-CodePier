@@ -8,19 +8,19 @@ use App\Models\DeploymentStep;
 use App\Models\Site;
 
 /**
- * Class SiteObserver
- * @package App\Observers
+ * Class SiteObserver.
  */
 class SiteObserver
 {
-    static $originalServers = [];
+    public static $originalServers = [];
 
     private $siteService;
     private $repositoryService;
 
     /**
      * SiteObserver constructor.
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     *
+     * @param \App\Services\Server\Site\SiteService | SiteService                        $siteService
      * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(SiteService $siteService, RepositoryService $repositoryService)
@@ -41,16 +41,16 @@ class SiteObserver
         if ($site->deploymentSteps->count() == 0) {
             $defaultSteps = [
                 [
-                    'step' => 'Clone Repository',
-                    'order' => '1',
+                    'step'                         => 'Clone Repository',
+                    'order'                        => '1',
                     'internal_deployment_function' => 'cloneRepository',
-                    'customizable' => false
+                    'customizable'                 => false,
                 ],
                 [
-                    'step' => 'Install PHP Dependencies',
-                    'order' => '2',
+                    'step'                         => 'Install PHP Dependencies',
+                    'order'                        => '2',
                     'internal_deployment_function' => 'installPhpDependencies',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
 //                [
 //                    'step' => 'Install Node Dependencies',
@@ -59,22 +59,22 @@ class SiteObserver
 //                    'customizable' => true
 //                ],
                 [
-                    'step' => 'Run Migrations',
-                    'order' => '4',
+                    'step'                         => 'Run Migrations',
+                    'order'                        => '4',
                     'internal_deployment_function' => 'runMigrations',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
                 [
-                    'step' => 'Setup Release',
-                    'order' => '5',
+                    'step'                         => 'Setup Release',
+                    'order'                        => '5',
                     'internal_deployment_function' => 'setupFolders',
-                    'customizable' => false
+                    'customizable'                 => false,
                 ],
                 [
-                    'step' => 'Clean Up Old Releases',
-                    'order' => '6',
+                    'step'                         => 'Clean Up Old Releases',
+                    'order'                        => '6',
                     'internal_deployment_function' => 'cleanup',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
             ];
 
@@ -85,5 +85,4 @@ class SiteObserver
             }
         }
     }
-
 }
