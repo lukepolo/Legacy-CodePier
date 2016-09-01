@@ -64,7 +64,7 @@ class ServerFirewallController extends Controller
             }
         });
 
-        if (!$this->successful()) {
+        if (! $this->successful()) {
             $serverFirewallRule->delete();
         }
 

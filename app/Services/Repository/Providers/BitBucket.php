@@ -115,7 +115,7 @@ class BitBucket implements RepositoryContract
 
         $lastCommit = collect(json_decode($commits->getContent())->values)->first();
 
-        if (!empty($lastCommit)) {
+        if (! empty($lastCommit)) {
             return $lastCommit->hash;
         }
     }

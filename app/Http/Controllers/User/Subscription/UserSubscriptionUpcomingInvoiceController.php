@@ -29,6 +29,6 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
     {
         $invoice = \Auth::user()->upcomingInvoice();
 
-        return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
+        return response()->json(! empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }

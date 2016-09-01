@@ -56,7 +56,7 @@ trait ServerErrorTrait
 
     public function successful()
     {
-        return !$this->error;
+        return ! $this->error;
     }
 
     public function remoteResponse($errors = true)

@@ -62,7 +62,7 @@ class ServerSshKeyController extends Controller
             }
         });
 
-        if (!$this->successful()) {
+        if (! $this->successful()) {
             $serverSshKey->delete();
         }
 
