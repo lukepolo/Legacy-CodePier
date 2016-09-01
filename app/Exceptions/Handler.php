@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param \Exception $exception
      *
      * @return \Illuminate\Http\Response
      */
@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param \Illuminate\Http\Request                 $request
+     * @param \Illuminate\Http\Request $request
      * @param \Illuminate\Auth\AuthenticationException $exception
      *
      * @return \Illuminate\Http\Response
@@ -76,16 +76,30 @@ class Handler extends ExceptionHandler
     protected function convertExceptionToResponse(Exception $e)
     {
         if (config('app.debug')) {
+
+            $this->unsetSensitiveData();
+
             $whoops = new \Whoops\Run();
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
-            return response()->make(
+            return new \Illuminate\Http\Response(
                 $whoops->handleException($e),
-                method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500,
-                method_exists($e, 'getHeaders') ? $e->getHeaders() : []
+                $e->getStatusCode(),
+                $e->getHeaders()
             );
         }
 
         return parent::convertExceptionToResponse($e);
+    }
+
+    /**
+     * Don't ever display sensitive data in Whoops pages.
+     */
+    protected function unsetSensitiveData()
+    {
+        foreach ($_ENV as $key => $value) {
+            unset($_SERVER[$key]);
+        }
+        $_ENV = [];
     }
 }
