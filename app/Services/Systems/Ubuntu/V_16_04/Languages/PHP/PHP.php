@@ -15,7 +15,7 @@ class PHP
 
     public static $required = [
         'installPHP7',
-        'installPhpFpm'
+        'installPhpFpm',
     ];
 
     public function installPHP7()
