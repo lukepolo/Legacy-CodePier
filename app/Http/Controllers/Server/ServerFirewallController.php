@@ -6,6 +6,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use App\Models\ServerFirewallRule;
+use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
@@ -55,9 +56,19 @@ class ServerFirewallController extends Controller
             'from_ip' => $request->get('from_ip')
         ]);
 
-        $this->serverService->addFirewallRule($serverFirewallRule);
+        $server = Server::findOrFail($serverId);
 
-        return response()->json($serverFirewallRule);
+        $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
+            if($server->ssh_connection) {
+                $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule($serverFirewallRule);
+            }
+        });
+
+        if(!$this->successful()) {
+            $serverFirewallRule->delete();
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
@@ -81,9 +92,17 @@ class ServerFirewallController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $firewallRule = ServerFirewallRule::findOrFail($id);
-        $this->serverService->removeFirewallRule($firewallRule);
+        $serverFirewallRule = ServerFirewallRule::findOrFail($id);
 
-        $firewallRule->delete();
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
+            if($server->ssh_connection) {
+                $this->serverService->getService(SystemService::FIREWALL, $server)->removeFirewallRule($serverFirewallRule);
+                $serverFirewallRule->delete();
+            }
+        });
+
+        return $this->remoteResponse();
     }
 }

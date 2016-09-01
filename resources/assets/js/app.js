@@ -96,6 +96,11 @@ window.serverCronJobStore = serverCronJobStore;
 import serverDaemonStore from './stores/Server/ServerDaemonStore';
 window.serverDaemonStore = serverDaemonStore;
 
+import serverFirewallStore from './stores/Server/ServerFirewallStore';
+window.serverFirewallStore = serverFirewallStore;
+
+
+
 /*
  |--------------------------------------------------------------------------
  | Site Stores
