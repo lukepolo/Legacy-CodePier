@@ -4,12 +4,11 @@ namespace App\Providers;
 
 use App\Models\Server;
 use App\Models\Site;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\ServiceProvider;
 
 /**
- * Class BroadcastServiceProvider
- * @package App\Providers
+ * Class BroadcastServiceProvider.
  */
 class BroadcastServiceProvider extends ServiceProvider
 {

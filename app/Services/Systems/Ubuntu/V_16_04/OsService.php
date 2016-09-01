@@ -90,5 +90,4 @@ class OsService
 
         $this->remoteTaskService->run("echo \"codepier:$password\" | chpasswd");
     }
-
 }

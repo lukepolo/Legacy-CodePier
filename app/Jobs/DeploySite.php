@@ -15,8 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class DeploySite
- * @package App\Jobs
+ * Class DeploySite.
  */
 class DeploySite implements ShouldQueue
 {
@@ -29,6 +28,7 @@ class DeploySite implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param Site $site
      * @param null $sha
      */
@@ -40,7 +40,7 @@ class DeploySite implements ShouldQueue
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
-            'status' => 'queued for deployment'
+            'status'  => 'queued for deployment',
         ]);
 
         $this->siteDeployment->createSteps();

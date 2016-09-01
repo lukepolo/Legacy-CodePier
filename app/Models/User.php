@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Pile;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -10,8 +9,7 @@ use Laravel\Passport\HasApiTokens;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
 /**
- * Class User
- * @package App\Models
+ * Class User.
  */
 class User extends Authenticatable
 {
@@ -26,7 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_login_provider_id'
+        'user_login_provider_id',
     ];
 
     /**

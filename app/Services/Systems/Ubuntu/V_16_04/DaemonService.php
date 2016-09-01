@@ -32,28 +32,28 @@ class DaemonService
     {
         $this->connectToServer($sshUser);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf ', '
-[program:server-worker-' . $serverDaemon->id . ']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-'.$serverDaemon->id.'.conf ', '
+[program:server-worker-'.$serverDaemon->id.']
 process_name=%(program_name)s_%(process_num)02d
-command=' . $serverDaemon->command . '
-autostart=' . ($serverDaemon->auto_start ? "true" : "false") . '
-autorestart=' . ($serverDaemon->auto_restart ? "true" : "false") . '
-user=' . $serverDaemon->user . '
-numprocs=' . $serverDaemon->number_of_workers . '
+command='.$serverDaemon->command.'
+autostart='.($serverDaemon->auto_start ? 'true' : 'false').'
+autorestart='.($serverDaemon->auto_restart ? 'true' : 'false').'
+user='.$serverDaemon->user.'
+numprocs='.$serverDaemon->number_of_workers.'
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/server-worker-' . $serverDaemon->id . '.log
+stdout_logfile=/home/codepier/workers/server-worker-'.$serverDaemon->id.'.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start server-worker-' . $serverDaemon->id . ':*');
+        $this->remoteTaskService->run('supervisorctl start server-worker-'.$serverDaemon->id.':*');
     }
 
     public function removeDaemon(ServerDaemon $serverDaemon, $user = 'root')
     {
         $this->connectToServer($user);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-' . $serverDaemon->id . '.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$serverDaemon->id.'.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');

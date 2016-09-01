@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class DeploymentEvent
- * @package App\Models
+ * Class DeploymentEvent.
  */
 class DeploymentEvent extends Model
 {

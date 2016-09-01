@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class UserRepositoryProvider
- * @package App\Models
+ * Class UserRepositoryProvider.
  */
 class UserRepositoryProvider extends Model
 {

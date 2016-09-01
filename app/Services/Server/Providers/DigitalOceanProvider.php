@@ -13,18 +13,18 @@ use DigitalOceanV2\Entity\Droplet;
 use phpseclib\Crypt\RSA;
 
 /**
- * Class DigitalOcean
- *
- * @package App\Services\Server\ServerProviders
+ * Class DigitalOcean.
  */
 class DigitalOceanProvider implements ServerServiceContract
 {
     protected $providerName = 'digitalocean';
 
     /**
-     * Gets the server options from the provider
-     * @return array
+     * Gets the server options from the provider.
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function getOptions()
     {
@@ -33,14 +33,13 @@ class DigitalOceanProvider implements ServerServiceContract
         $this->setToken(env('ADMIN_DIGITAL_OCEAN_API_KEY'));
 
         foreach (DigitalOcean::size()->getAll() as $size) {
-
             $options[] = ServerProviderOption::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
-                'memory' => $size->memory,
-                'cpus' => $size->vcpus,
-                'space' => $size->disk,
-                'priceHourly' => $size->priceHourly,
-                'priceMonthly' => $size->priceMonthly
+                'memory'             => $size->memory,
+                'cpus'               => $size->vcpus,
+                'space'              => $size->disk,
+                'priceHourly'        => $size->priceHourly,
+                'priceMonthly'       => $size->priceMonthly,
             ]);
         }
 
@@ -48,9 +47,11 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Gets the regions from the provider
-     * @return array
+     * Gets the regions from the provider.
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function getRegions()
     {
@@ -61,8 +62,8 @@ class DigitalOceanProvider implements ServerServiceContract
         foreach (DigitalOcean::region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
-                'name' => $region->name,
-                'provider_name' => $region->slug
+                'name'               => $region->name,
+                'provider_name'      => $region->slug,
             ]);
         }
 
@@ -70,11 +71,14 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Creates a new server
+     * Creates a new server.
+     *
      * @param Server $server
      * @param $sshKey
-     * @return static
+     *
      * @throws \Exception
+     *
+     * @return static
      */
     public function create(Server $server, $sshKey)
     {
@@ -107,7 +111,7 @@ class DigitalOceanProvider implements ServerServiceContract
             $ipv6,
             $privateNetworking,
             $sshKeys = [
-                $sshPublicKey->getPublicKeyFingerprint()
+                $sshPublicKey->getPublicKeyFingerprint(),
             ],
             $userData = null
         );
@@ -116,29 +120,34 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Saves the server information
-     * @param Server $server
+     * Saves the server information.
+     *
+     * @param Server  $server
      * @param Droplet $droplet
      * @param $sshKey
-     * @return Server
+     *
      * @throws \Exception
+     *
+     * @return Server
      */
     public function saveServer(Server $server, Droplet $droplet, $sshKey)
     {
         $this->setToken($this->getTokenFromServer($server));
 
         $server->fill([
-            'server_id' => $droplet->id,
-            'public_ssh_key' => $sshKey['publickey'],
-            'private_ssh_key' => $sshKey['privatekey']
+            'server_id'       => $droplet->id,
+            'public_ssh_key'  => $sshKey['publickey'],
+            'private_ssh_key' => $sshKey['privatekey'],
         ])->save();
 
         return $server;
     }
 
     /**
-     * Gets the status of a server
+     * Gets the status of a server.
+     *
      * @param Server $server
+     *
      * @return mixed
      */
     public function getStatus(Server $server)
@@ -149,7 +158,8 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Gets the server IP
+     * Gets the server IP.
+     *
      * @param Server $server
      */
     public function savePublicIP(Server $server)
@@ -157,13 +167,15 @@ class DigitalOceanProvider implements ServerServiceContract
         $this->setToken($this->getTokenFromServer($server));
 
         $server->update([
-            'ip' => $this->getPublicIP($server)
+            'ip' => $this->getPublicIP($server),
         ]);
     }
 
     /**
-     * Gets the public IP of the server
+     * Gets the public IP of the server.
+     *
      * @param Server $server
+     *
      * @return mixed
      */
     public function getPublicIP(Server $server)
@@ -180,22 +192,27 @@ class DigitalOceanProvider implements ServerServiceContract
     }
 
     /**
-     * Sets the token for the API
+     * Sets the token for the API.
+     *
      * @param $token
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function setToken($token)
     {
         config(['digitalocean.connections.main.token' => $token]);
-
     }
 
     /**
-     * Gets the token from the server
+     * Gets the token from the server.
+     *
      * @param Server $server
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     private function getTokenFromServer(Server $server)
     {
@@ -208,16 +225,16 @@ class DigitalOceanProvider implements ServerServiceContract
         }
 
         throw new \Exception('No server provider found for this user');
-
     }
 
     /**
-     * Gets the server provider ID
+     * Gets the server provider ID.
+     *
      * @return mixed
      */
     private function getServerProviderID()
     {
-        return \Cache::rememberForever('server.provider.' . $this->providerName . '.id', function () {
+        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function () {
             return ServerProvider::where('provider_name', $this->providerName)->first()->id;
         });
     }

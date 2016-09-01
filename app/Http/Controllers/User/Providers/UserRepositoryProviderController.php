@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UserRepositoryProvider;
 
 /**
- * Class UserRepositoryProviderController
- * @package App\Http\Controllers
+ * Class UserRepositoryProviderController.
  */
 class UserRepositoryProviderController extends Controller
 {
@@ -24,7 +23,8 @@ class UserRepositoryProviderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -35,7 +35,8 @@ class UserRepositoryProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

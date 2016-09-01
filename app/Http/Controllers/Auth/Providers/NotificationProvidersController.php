@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 
 /**
- * Class NotificationProvidersController
- * @package App\Http\Controllers
+ * Class NotificationProvidersController.
  */
 class NotificationProvidersController extends Controller
 {
@@ -24,7 +23,8 @@ class NotificationProvidersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)

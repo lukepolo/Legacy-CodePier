@@ -18,8 +18,7 @@ use App\Models\SiteSslCertificate;
 use App\Services\Server\Site\DeploymentServices\PHP;
 
 /**
- * Class SiteService
- * @package App\Services
+ * Class SiteService.
  */
 class SiteService implements SiteServiceContract
 {
@@ -29,12 +28,13 @@ class SiteService implements SiteServiceContract
     const LETS_ENCRYPT = 'Let\'s Encrypt';
 
     public $deploymentServices = [
-        'php' => DeploymentServices\PHP::class
+        'php' => DeploymentServices\PHP::class,
     ];
 
     /**
      * SiteService constructor.
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     *
+     * @param \App\Services\RemoteTaskService | RemoteTaskService                        $remoteTaskService
      * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(RemoteTaskService $remoteTaskService, RepositoryService $repositoryService)
@@ -45,7 +45,8 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return bool
      */
     public function create(Server $server, Site $site)
@@ -59,6 +60,7 @@ class SiteService implements SiteServiceContract
         if (empty($this->remoteTaskService->getErrors())) {
             $this->createNginxSite($site->domain);
             $this->updateSiteNginxConfig($server, $site);
+
             return $this->remoteTaskService->run('service nginx restart');
         }
 
@@ -71,15 +73,16 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      * @param $domain
+     *
      * @return array
      */
     public function renameDomain(Server $server, Site $site, $domain)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mv /home/codepier/' . $site->domain . ' /home/codepier/' . $domain);
+        $this->remoteTaskService->run('mv /home/codepier/'.$site->domain.' /home/codepier/'.$domain);
 
         $this->remove($site);
 
@@ -107,7 +110,8 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return array
      */
     public function remove(Server $server, Site $site)
@@ -120,10 +124,10 @@ class SiteService implements SiteServiceContract
         return $this->remoteTaskService->getErrors();
     }
 
-
     /**
-     * @param Server $server
+     * @param Server             $server
      * @param SiteSslCertificate $siteSslCertificate
+     *
      * @return array
      */
     public function installSSL(Server $server, SiteSslCertificate $siteSslCertificate)
@@ -133,7 +137,7 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email ' . $server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d', explode(',', $siteSslCertificate->domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $siteSslCertificate->domains))
         );
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
@@ -162,9 +166,10 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      * @param $key
      * @param $cert
+     *
      * @return array
      */
     public function installExistingSSL(Server $server, Site $site, $key, $cert)
@@ -180,14 +185,14 @@ class SiteService implements SiteServiceContract
         $siteSLL = SiteSslCertificate::create([
             'site_id' => $site->id,
             'domains' => null,
-            'type' => self::LETS_ENCRYPT,
-            'active' => true,
+            'type'    => self::LETS_ENCRYPT,
+            'active'  => true,
         ]);
 
         $sslCertPath = '/etc/nginx/ssl/'.$site->domain.'/'.$siteSLL->id;
 
-        $siteSLL->key_path =$sslCertPath.'/server.key';
-        $siteSLL->cert_path =$sslCertPath.'/server.crt';
+        $siteSLL->key_path = $sslCertPath.'/server.key';
+        $siteSLL->cert_path = $sslCertPath.'/server.crt';
         $siteSLL->save();
 
 
@@ -203,7 +208,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      */
     public function mapSSL(Server $server, Site $site)
     {
@@ -217,12 +222,12 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->run("ln -f -s $activeSSL->key_path $sslCertPath/server.key");
         $this->remoteTaskService->run("ln -f -s $activeSSL->cert_path $sslCertPath/server.crt");
-
     }
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return array
      */
     public function deactivateSSL(Server $server, Site $site)
@@ -241,18 +246,18 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server             $server
      * @param SiteSslCertificate $siteSslCertificate
      */
     public function removeSSL(Server $server, SiteSslCertificate $siteSslCertificate)
     {
         $this->remoteTaskService->ssh($server);
 
-        switch($siteSslCertificate->type) {
-            case self::LETS_ENCRYPT :
+        switch ($siteSslCertificate->type) {
+            case self::LETS_ENCRYPT:
                 // leave it be we don't want to erase them cause they aren't unique
                 break;
-            default :
+            default:
                 $this->remoteTaskService->removeFile($siteSslCertificate->key_path);
                 $this->remoteTaskService->removeFile($siteSslCertificate->cert_path);
                 break;
@@ -262,14 +267,14 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param Server             $server
      * @param SiteSslCertificate $siteSslCertificate
      */
     public function activateSSL(Server $server, SiteSslCertificate $siteSslCertificate)
     {
         $site = $siteSslCertificate->site;
 
-        if($site->hasActiveSSL()) {
+        if ($site->hasActiveSSL()) {
             $site->activeSSL->active = false;
             $site->activeSSL->save();
         }
@@ -279,7 +284,7 @@ class SiteService implements SiteServiceContract
 
         $site->load('activeSSL');
 
-        if($siteSslCertificate->type == self::LETS_ENCRYPT) {
+        if ($siteSslCertificate->type == self::LETS_ENCRYPT) {
             $this->mapSSL($server, $site);
         }
 
@@ -287,17 +292,18 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param Site $site
+     * @param Server         $server
+     * @param Site           $site
      * @param SiteDeployment $siteDeployment
-     * @param null $sha
+     * @param null           $sha
+     *
      * @throws DeploymentFailed
      */
     public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $sha = null)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
-        if(empty($lastCommit = $sha)) {
+        if (empty($lastCommit = $sha)) {
             $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
         }
 
@@ -315,7 +321,7 @@ class SiteService implements SiteServiceContract
                 $log = $deploymentService->$internalFunction($sha);
 
                 event(new DeploymentStepCompleted($site, $event, $event->step, $log, microtime(true) - $start));
-            } catch(FailedCommand $e) {
+            } catch (FailedCommand $e) {
                 event(new DeploymentStepFailed($site, $event, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }
@@ -329,52 +335,52 @@ class SiteService implements SiteServiceContract
 //        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
     }
 
-
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return mixed
      */
     private function getDeploymentService(Server $server, Site $site)
     {
         $deploymentService = 'php';
+
         return new $this->deploymentServices[$deploymentService]($this->remoteTaskService, $server, $site);
     }
 
-
     /**
-     * @param Server $server
+     * @param Server     $server
      * @param SiteDaemon $siteDaemon
+     *
      * @return array
      */
     public function installDaemon(Server $server, SiteDaemon $siteDaemon)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-' . $siteDaemon->id . '.conf ', '
-[program:site-worker-' . $siteDaemon->id . ']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-'.$siteDaemon->id.'.conf ', '
+[program:site-worker-'.$siteDaemon->id.']
 process_name=%(program_name)s_%(process_num)02d
-command=' . $siteDaemon->command . '
-autostart=' . $siteDaemon->auto_start . '
-autorestart=' . $siteDaemon->auto_restart . '
-user=' . $siteDaemon->user . '
-numprocs=' . $siteDaemon->number_of_workers . '
+command='.$siteDaemon->command.'
+autostart='.$siteDaemon->auto_start.'
+autorestart='.$siteDaemon->auto_restart.'
+user='.$siteDaemon->user.'
+numprocs='.$siteDaemon->number_of_workers.'
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
+stdout_logfile=/home/codepier/workers/site-worker-'.$siteDaemon->id.'.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start site-worker-' . $siteDaemon->id . ':*');
+        $this->remoteTaskService->run('supervisorctl start site-worker-'.$siteDaemon->id.':*');
 
         return $this->remoteTaskService->getErrors();
-
     }
 
-
     /**
-     * @param Server $server
+     * @param Server     $server
      * @param SiteDaemon $siteDaemon
+     *
      * @return array|bool
      */
     public function removeDaemon(Server $server, SiteDaemon $siteDaemon)
@@ -390,6 +396,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
 
         if (empty($errors)) {
             $siteDaemon->delete();
+
             return true;
         }
 
@@ -398,7 +405,8 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return array|bool
      */
     public function deleteSite(Server $server, Site $site)
@@ -415,6 +423,7 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
 
         if (empty($errors)) {
             $site->delete();
+
             return true;
         }
 
@@ -424,10 +433,12 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
     /*
      * TODO - needs to be customized
      */
+
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
      * @param $megabytes
+     *
      * @return array
      */
     public function updateMaxUploadSize(Server $server, Site $site, $megabytes)
@@ -435,12 +446,12 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/conf.d/uploads.conf',
-            'client_max_body_size ' . $megabytes . 'M;'
+            'client_max_body_size '.$megabytes.'M;'
         );
         $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize = .*',
-            'upload_max_filesize = ' . $megabytes . 'M');
+            'upload_max_filesize = '.$megabytes.'M');
         $this->remoteTaskService->removeLineByText('/etc/php/7.0/fpm/php.ini', 'post_max_size = .*',
-            'post_max_size = ' . $megabytes . 'M');
+            'post_max_size = '.$megabytes.'M');
 
         $this->remoteTaskService->run('service nginx restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
@@ -450,7 +461,8 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
 
     /**
      * @param Server $server
-     * @param Site $site
+     * @param Site   $site
+     *
      * @return array
      */
     public function updateSiteNginxConfig(Server $server, Site $site)
@@ -460,17 +472,16 @@ stdout_logfile=/home/codepier/workers/site-worker-' . $siteDaemon->id . '.log
         $this->remoteTaskService->ssh($server);
 
         if ($site->hasActiveSSL()) {
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/'.$site->domain.'/server/listen', '
+server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
+listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
 
-            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
+root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 
 
-ssl_certificate_key /etc/nginx/ssl/' . $site->domain . '/'.$site->activeSSL->id.'/server.key;
-ssl_certificate /etc/nginx/ssl/' . $site->domain . '/'.$site->activeSSL->id.'/server.crt;
+ssl_certificate_key /etc/nginx/ssl/'.$site->domain.'/'.$site->activeSSL->id.'/server.key;
+ssl_certificate /etc/nginx/ssl/'.$site->domain.'/'.$site->activeSSL->id.'/server.crt;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;
@@ -483,20 +494,20 @@ ssl_stapling_verify on;
 add_header Strict-Transport-Security max-age=15768000;
 ');
 
-            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/before/ssl_redirect.conf', '
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/'.$site->domain.'/before/ssl_redirect.conf', '
 server {
-    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
+    listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
     return 301 https://$host$request_uri;
 }
 ');
         } else {
-            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+            $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/'.$site->domain.'/server/listen', '
+server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
+listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
+root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 ');
         }
 
@@ -507,16 +518,17 @@ root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current'
 
     /**
      * @param $domain
+     *
      * @return bool
      */
     private function createNginxSite($domain)
     {
-        return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/' . $domain, '
+        return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
 # codepier CONFIG (DO NOT REMOVE!)
-include codepier-conf/' . $domain . '/before/*;
+include codepier-conf/'.$domain.'/before/*;
 
 server {
-    include codepier-conf/' . $domain . '/server/*;
+    include codepier-conf/'.$domain.'/server/*;
 
     index index.html index.htm index.php;
 
@@ -534,7 +546,7 @@ server {
     location = /robots.txt  { access_log off; log_not_found off; }
 
     access_log off;
-    error_log  /var/log/nginx/' . $domain . '-error.log error;
+    error_log  /var/log/nginx/'.$domain.'-error.log error;
 
     sendfile off;
 
@@ -559,18 +571,16 @@ server {
 }
 
 # codepier CONFIG (DO NOT REMOVE!)
-include codepier-conf/' . $domain . '/after/*;
+include codepier-conf/'.$domain.'/after/*;
 ');
     }
 
     // TODO - after we fix ssls stuff
-    /**
-     *
-     */
+
+
     public function checkSSL()
     {
-//        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate
-
+        //        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate
     }
 
     /**
@@ -588,6 +598,4 @@ include codepier-conf/' . $domain . '/after/*;
     {
         $this->repositoryService->deleteDeployHook($site);
     }
-
-
 }

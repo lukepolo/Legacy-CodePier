@@ -27,7 +27,8 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
+     *
      * @return void
      */
     public function report(Exception $exception)
@@ -38,8 +39,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -50,8 +52,9 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -66,14 +69,15 @@ class Handler extends ExceptionHandler
     /**
      * Create a Symfony response for the given exception.
      *
-     * @param  \Exception  $e
+     * @param \Exception $e
+     *
      * @return mixed
      */
     protected function convertExceptionToResponse(Exception $e)
     {
         if (config('app.debug')) {
-            $whoops = new \Whoops\Run;
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops = new \Whoops\Run();
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
             return response()->make(
                 $whoops->handleException($e),

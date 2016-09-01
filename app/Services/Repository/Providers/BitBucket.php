@@ -11,19 +11,19 @@ use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\User;
 
 /**
- * Class BitBucket
- * @package App\Services\Server\Site\Repository\Providers
+ * Class BitBucket.
  */
 class BitBucket implements RepositoryContract
 {
     private $oauthParams;
 
     /**
-     * Imports a deploy key so we can clone the repositories
+     * Imports a deploy key so we can clone the repositories.
      *
      * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
+     *
      * @throws \Exception
      */
     public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
@@ -45,7 +45,6 @@ class BitBucket implements RepositoryContract
         });
 
         if ($repositoryInfo['is_private']) {
-
             $deployKey = new Deploykeys();
 
             $deployKey->getClient()->addListener(
@@ -57,25 +56,30 @@ class BitBucket implements RepositoryContract
     }
 
     /**
-     * Sets the token so we can connect to the users account
+     * Sets the token so we can connect to the users account.
+     *
      * @param UserRepositoryProvider $userRepositoryProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         $this->oauthParams = [
-            'oauth_token' => $userRepositoryProvider->token,
-            'oauth_token_secret' => $userRepositoryProvider->tokenSecret,
-            'oauth_consumer_key' => env('OAUTH_BITBUCKET_CLIENT_ID'),
+            'oauth_token'           => $userRepositoryProvider->token,
+            'oauth_token_secret'    => $userRepositoryProvider->tokenSecret,
+            'oauth_consumer_key'    => env('OAUTH_BITBUCKET_CLIENT_ID'),
             'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
-            'oauth_callback' => env('OAUTH_BITBUCKET_CALLBACK'),
+            'oauth_callback'        => env('OAUTH_BITBUCKET_CALLBACK'),
         ];
     }
 
     /**
-     * Gets the users repositories username // TODO - move to a trait
+     * Gets the users repositories username // TODO - move to a trait.
+     *
      * @param $repository
+     *
      * @return mixed
      */
     public function getRepositoryUser($repository)
@@ -84,8 +88,10 @@ class BitBucket implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories name // TODO - move to a trait
+     * Gets the users repositories name // TODO - move to a trait.
+     *
      * @param $repository
+     *
      * @return mixed
      */
     public function getRepositorySlug($repository)
@@ -104,7 +110,7 @@ class BitBucket implements RepositoryContract
         );
 
         $commits = $commits->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), [
-            'branch' => $branch
+            'branch' => $branch,
         ]);
 
         $lastCommit = collect(json_decode($commits->getContent())->values)->first();
@@ -112,8 +118,6 @@ class BitBucket implements RepositoryContract
         if (!empty($lastCommit)) {
             return $lastCommit->hash;
         }
-
-        return null;
     }
 
     public function createDeployHook(Site $site)
@@ -130,12 +134,12 @@ class BitBucket implements RepositoryContract
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository), [
             'description' => 'CodePier',
-            'url' => route('webhook/deploy', $site->encode()),
-            'active' => true,
-            'events' => [
+            'url'         => route('webhook/deploy', $site->encode()),
+            'active'      => true,
+            'events'      => [
                 'repo:push',
-                'pullrequest:fulfilled'
-            ]
+                'pullrequest:fulfilled',
+            ],
         ]);
 
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
@@ -160,6 +164,5 @@ class BitBucket implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
-
     }
 }
