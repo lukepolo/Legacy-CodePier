@@ -2,11 +2,15 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class RepositoryService
 {
     use ServiceConstructorTrait;
+
+    protected $defaults = [
+        'installGit',
+    ];
 
     public function installGit()
     {

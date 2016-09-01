@@ -3,11 +3,25 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\ServerDaemon;
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class DaemonService
 {
     use ServiceConstructorTrait;
+
+    protected $defaults = [
+        'installBeanstalk',
+        'installSupervisor'
+    ];
+
+    public function installBeanstalk()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
+        $this->remoteTaskService->run('sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd');
+        $this->remoteTaskService->run('service beanstalkd restart');
+    }
 
     public function installSupervisor()
     {
@@ -19,16 +33,7 @@ class DaemonService
         $this->remoteTaskService->run('service supervisor start');
     }
 
-    public function installBeanstalk()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
-        $this->remoteTaskService->run('sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd');
-        $this->remoteTaskService->run('service beanstalkd restart');
-    }
-
-    public function installDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
+    public function addDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
     {
         $this->connectToServer($sshUser);
 

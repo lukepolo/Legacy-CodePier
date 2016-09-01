@@ -44,7 +44,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController'); // VERIFIED
             Route::resource('subscription', 'Subscription\UserSubscriptionController'); // VERIFIED
-            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
+            Route::resource('subscription/invoice/next',
+                'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
 
             Route::resource('ssh-keys', 'UserSshKeyController'); // VERIFIED
             Route::resource('server-providers', 'Providers\UserServerProviderController');  // VERIFIED
@@ -74,7 +75,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('team.members', 'UserTeamMemberController'); // VERIFIED
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch'); // VERIFIED
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite'); // VERIFIED
-            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite'); // VERIFIED
+            Route::post('members/resend/{invite_id}',
+                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite'); // VERIFIED
         });
 
         /*
@@ -109,6 +111,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices'); // VERIFIED
             });
 
+            Route::resource('server/features', 'ServerCronJobController'); //
             Route::resource('servers.cron-jobs', 'ServerCronJobController'); // VERIFIED
             Route::resource('servers.daemons', 'ServerDaemonController'); // VERIFIED
             Route::resource('servers.firewall', 'ServerFirewallController'); // VERIFIED
@@ -142,6 +145,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         });
     });
 
+    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures'); // VERIFIED
+    Route::get('server/languages', 'Server\ServerFeatureController@getLanguages'); // VERIFIED
+    Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks'); // VERIFIED
+
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
             Route::resource('server-providers', 'ServerProvidersController'); // VERIFIED
@@ -152,7 +159,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     Route::group(['prefix' => 'server/providers'], function () {
         Route::group([
-            'prefix'    => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
             Route::resource('options', 'DigitalOceanServerOptionsController'); // VERIFIED

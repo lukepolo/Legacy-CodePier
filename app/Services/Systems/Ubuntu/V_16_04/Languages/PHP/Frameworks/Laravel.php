@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Systems\Ubuntu\V_16_04\Languages\Frameworks;
+namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP\Frameworks;
 
-use App\Services\Systems\Traits\ServiceConstructorTrait;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class Laravel
 {
