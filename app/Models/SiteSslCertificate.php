@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SiteSslCertificate
- * @package App\Models
+ * Class SiteSslCertificate.
  */
 class SiteSslCertificate extends Model
 {

@@ -10,8 +10,7 @@ use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 
 /**
- * Class RemoteTaskService
- * @package App\Services
+ * Class RemoteTaskService.
  */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
@@ -26,10 +25,12 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $command
      * @param bool $read
      * @param bool $expectedFailure
-     * @return array
+     *
      * @throws FailedCommand
      * @throws SshConnectionFailed
      * @throws \Exception
+     *
+     * @return array
      */
     public function run($command, $read = false, $expectedFailure = false)
     {
@@ -37,18 +38,18 @@ class RemoteTaskService implements RemoteTaskServiceContract
             throw new SshConnectionFailed('No server set');
         }
 
-        \Log::info('Running Command : ' . $command);
+        \Log::info('Running Command : '.$command);
 
         $output = null;
 
         try {
-            $output = $this->session->exec(rtrim($command, ';') . " && echo codepier-done;");
-            if(!str_contains($output, 'codepier-done')) {
+            $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            if (!str_contains($output, 'codepier-done')) {
                 \Log::info($output);
                 $this->output[] = $output;
             }
         } catch (\ErrorException $e) {
-            if ($e->getMessage() == "Unable to open channel") {
+            if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect to');
                 $this->ssh($this->server, $this->user);
                 $this->run($command, $read);
@@ -68,7 +69,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $this->output[] = $output;
 
         if ($this->session->getExitStatus() != 0) {
-
             \Log::error($output);
 
             $this->errors[] = $output;
@@ -83,21 +83,22 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $file
      * @param $contents
      * @param bool $read
+     *
      * @return bool
      */
     public function writeToFile($file, $contents, $read = false)
     {
         return $this->run('
-cat > ' . $file . ' <<    \'EOF\'
-' . trim($contents) . '
+cat > '.$file.' <<    \'EOF\'
+'.trim($contents).'
 EOF
 echo "Wrote" ', $read);
-
     }
 
     /**
      * @param $file
      * @param $text
+     *
      * @return bool
      */
     public function appendTextToFile($file, $text)
@@ -109,26 +110,30 @@ echo "Wrote" ', $read);
      * @param $file
      * @param $findText
      * @param $text
+     *
      * @return bool
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run("sed -i '/$findText/a $text' " . $file);
+        return $this->run("sed -i '/$findText/a $text' ".$file);
     }
 
     /**
      * @param $file
      * @param $text
+     *
      * @return bool
      */
     public function removeLineByText($file, $text)
     {
         $text = str_replace('/', '\/', $text);
-        return $this->run("sed -i '/$text/d' " . $file);
+
+        return $this->run("sed -i '/$text/d' ".$file);
     }
 
     /**
      * @param $directory
+     *
      * @return bool
      */
     public function makeDirectory($directory)
@@ -138,6 +143,7 @@ echo "Wrote" ', $read);
 
     /**
      * @param $directory
+     *
      * @return bool
      */
     public function removeDirectory($directory)
@@ -147,6 +153,7 @@ echo "Wrote" ', $read);
 
     /**
      * @param $file
+     *
      * @return bool
      */
     public function removeFile($file)
@@ -162,8 +169,10 @@ echo "Wrote" ', $read);
     /**
      * @param Server $server
      * @param string $user
-     * @return bool
+     *
      * @throws SshConnectionFailed
+     *
+     * @return bool
      */
     public function ssh(Server $server, $user = 'root')
     {

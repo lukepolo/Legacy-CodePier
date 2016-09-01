@@ -12,7 +12,7 @@ class MonitoringService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->writeToFile('/etc/opt/diskusage','
+        $this->remoteTaskService->writeToFile('/etc/opt/diskusage', '
 df / | grep / | awk \'{ print $5 " " $6 }\' | while read output;
 do
     usep=$(echo $output | awk \'{ print $1}\' | cut -d\'%\' -f1 )
@@ -25,6 +25,6 @@ done');
 
         $cronJob = '*/5 * * * * /etc/opt/./diskusage';
 
-        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
     }
 }

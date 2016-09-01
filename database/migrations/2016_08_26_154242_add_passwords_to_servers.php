@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPasswordsToServers extends Migration
 {
@@ -13,10 +13,9 @@ class AddPasswordsToServers extends Migration
      */
     public function up()
     {
-        Schema::table('servers',function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->longText('root_password')->nullable();
             $table->longText('database_password')->nullable();
-
         });
     }
 
@@ -27,7 +26,7 @@ class AddPasswordsToServers extends Migration
      */
     public function down()
     {
-        Schema::table('servers',function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('root_password');
             $table->dropColumn('database_password');
         });

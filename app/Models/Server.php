@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * Class Server
- * @package App\Models
+ * Class Server.
  */
 class Server extends Model
 {
@@ -17,11 +16,11 @@ class Server extends Model
 
     protected $guarded = ['id'];
 
-    static $teamworkModel = 'pile.teams';
+    public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
 
     protected $casts = [
-        'options' => 'array',
+        'options'  => 'array',
         'features' => 'array',
     ];
 
@@ -90,6 +89,7 @@ class Server extends Model
     {
         return $this->hasMany(ServerProvisionStep::class);
     }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
@@ -128,7 +128,7 @@ class Server extends Model
 
         $this->load('pile.teams.users');
 
-        foreach($this->pile->teams as $team) {
+        foreach ($this->pile->teams as $team) {
             $emails->merge($team->users->pluck('email'));
         }
 

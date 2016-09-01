@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ServerFirewallRule
- * @package App\Models
+ * Class ServerFirewallRule.
  */
 class ServerFirewallRule extends Model
 {

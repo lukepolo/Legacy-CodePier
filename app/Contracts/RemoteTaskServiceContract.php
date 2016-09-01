@@ -3,10 +3,8 @@
 namespace App\Contracts;
 
 /**
- * Interface RemoteTaskServiceContract
- * @package App\Contracts
+ * Interface RemoteTaskServiceContract.
  */
 interface RemoteTaskServiceContract
 {
-
 }

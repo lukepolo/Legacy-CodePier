@@ -16,7 +16,7 @@ class DatabaseService
 
         $database = isset($this->server->options['database']) ? $this->server->options['database'] : null;
 
-        if($this->server->hasFeature('mariaDB')) {
+        if ($this->server->hasFeature('mariaDB')) {
             $this->installMariaDB($databasePassword, $database);
         } else {
             $this->installMySQL($databasePassword, $database);
@@ -50,7 +50,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if(!empty($database)) {
+        if (!empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
@@ -68,7 +68,7 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if(!empty($database)) {
+        if (!empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }

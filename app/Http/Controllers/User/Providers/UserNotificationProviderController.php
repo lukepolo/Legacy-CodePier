@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UserNotificationProvider;
 
 /**
- * Class UserNotificationProviderController
- * @package App\Http\Controllers
+ * Class UserNotificationProviderController.
  */
 class UserNotificationProviderController extends Controller
 {
@@ -24,7 +23,8 @@ class UserNotificationProviderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -35,7 +35,8 @@ class UserNotificationProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

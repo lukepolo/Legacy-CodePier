@@ -4,13 +4,10 @@ namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Laravel\Cashier\Invoice;
-use Stripe\Token;
 
 /**
- * Class UserSubscriptionInvoiceController
- * @package App\Http\Controllers
+ * Class UserSubscriptionInvoiceController.
  */
 class UserSubscriptionInvoiceController extends Controller
 {
@@ -32,9 +29,9 @@ class UserSubscriptionInvoiceController extends Controller
         $invoices = [];
 
         /** @var Invoice $invoice */
-        foreach(\Auth::user()->invoices() as $invoice) {
+        foreach (\Auth::user()->invoices() as $invoice) {
             $invoices[] = [
-                'id' => $invoice->id
+                'id' => $invoice->id,
             ];
         }
 
@@ -44,7 +41,8 @@ class UserSubscriptionInvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show($id)
@@ -52,7 +50,7 @@ class UserSubscriptionInvoiceController extends Controller
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         return \Auth::user()->downloadInvoice($id, [
-            'vendor' => 'CodePier',
+            'vendor'  => 'CodePier',
             'product' => 'Server Management',
         ]);
     }
