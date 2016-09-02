@@ -33,7 +33,7 @@ class ServerController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider'])->where('pile_id', \Request::get('pile_id'))->get());
+        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider'])->where('pile_id', $request->get('pile_id'))->get());
     }
 
     /**
@@ -47,18 +47,19 @@ class ServerController extends Controller
     {
         $server = Server::create([
             'user_id'            => \Auth::user()->id,
-            'name'               => \Request::get('name'),
-            'server_provider_id' => (int) \Request::get('server_provider_id'),
+            'name'               => $request->get('server_name'),
+            'server_provider_id' => (int) $request->get('server_provider_id'),
             'status'             => 'Queued For Creation',
             'progress'           => '0',
-            'options'            => \Request::except(['_token', 'service', 'server_features']),
-            'features'           => \Request::get('server_features'),
-            'pile_id'            => \Request::get('pile_id'),
+            'options'            => $request->except(['_token', 'server_provider_features']),
+            'server_provider_features' => $request->get('server_provider_features'),
+            'server_features'    => $request->get('services'),
+            'pile_id'            => $request->get('pile_id'),
             'system_class'       => 'ubuntu 16.04',
         ]);
 
         $this->dispatch(new CreateServer(
-            ServerProvider::findorFail(\Request::get('server_provider_id')),
+            ServerProvider::findorFail($request->get('server_provider_id')),
             $server
         ));
 //            ->onQueue('server_creations'));
@@ -111,8 +112,8 @@ class ServerController extends Controller
         // TODO - should be a plugin
         $this->serverService->installBlackFire(
             Server::findOrFail($request->get('server_id')),
-            \Request::get('server_id'),
-            \Request::get('server_token'));
+            $request->get('server_id'),
+            $request->get('server_token'));
     }
 
     /**

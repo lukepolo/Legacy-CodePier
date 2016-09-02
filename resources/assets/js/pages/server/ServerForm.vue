@@ -19,32 +19,31 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="basic">
                             <div class="jcf-form-wrap">
-
                                 <form @submit.prevent="createServer()" class="validation-form floating-labels">
+                                    <input type="hidden" name="pile_id" :value="pile.id">
                                     <div class="input-group input-radio">
                                         <div class="input-question">Server Provider</div>
                                         <template v-for="user_server_provider in user_server_providers">
                                             <label>
                                                 <input @change="getProviderData(user_server_provider.server_provider.provider_name)"
                                                        type="radio" name="server_provider_id"
-                                                       v-model="form.server_provider_id"
-                                                       :value="user_server_provider.server_provider_id">
+                                                       :value="user_server_provider.server_provider_id" v-model="form.server_provider_id">
                                                 <span class="icon"></span>
                                                 {{ user_server_provider.server_provider.name }}
                                             </label>
                                         </template>
                                     </div>
-                                    <template v-if="options.length && regions.length && features.length">
+                                    <template v-if="server_options.length && server_regions.length && server_provider_features.length">
                                         <div class="input-group">
-                                            <input type="text" id="name" name="name" v-model="form.name" required>
-                                            <label for="name"><span class="float-label">Name</span></label>
+                                            <input type="text" id="server_name" name="server_name" required v-model="form.server_name">
+                                            <label for="server_name"><span class="float-label">Name</span></label>
                                         </div>
 
                                         <div class="input-group">
                                             <div class="input-question">Server Option</div>
 
-                                            <select v-model="form.server_option" name="server_option">
-                                                <option v-for="option in options" :value="option.id">{{ option.memory }}
+                                            <select name="server_option" v-model="form.server_option">
+                                                <option v-for="option in server_options" :value="option.id">{{ option.memory }}
                                                     MB
                                                     RAM - {{ option.cpus }} CPUS - {{ option.space }} SSD - ${{
                                                     option.priceHourly }} / Hour - ${{ option.priceMonthly }} / Month
@@ -56,17 +55,16 @@
                                             <div class="input-question">Server Region</div>
 
                                             <select name="server_region" v-model="form.server_region">
-                                                <option v-for="region in regions" :value="region.id">{{ region.name }}
+                                                <option v-for="region in server_regions" :value="region.id">{{ region.name }}
                                                 </option>
                                             </select>
                                         </div>
 
                                         <div class="input-group input-checkbox">
                                             <div class="input-question">Server Options</div>
-                                            <template v-for="feature in features">
+                                            <template v-for="feature in server_provider_features">
                                                 <label>
-                                                    <input type="checkbox" name="features[]" :value="feature.id"
-                                                           v-model="form.server_features">
+                                                    <input type="checkbox" name="server_provider_features[]" :value="feature.id" v-model="form.server_provider_features">
                                                     <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                                     <small>{{ feature.cost }}</small>
                                                 </label>
@@ -104,17 +102,6 @@
             LeftNav,
             FeatureArea
         },
-        data() {
-            return {
-                form: {
-                    name: null,
-                    server_option: null,
-                    server_region: null,
-                    server_features: [],
-                    server_provider_id: null
-                }
-            }
-        },
         created() {
             this.fetchData();
         },
@@ -135,8 +122,7 @@
                 serverProviderStore.dispatch('getServerProviderFeatures', provider);
             },
             createServer: function () {
-                this.form['pile_id'] = this.pile.id;
-                serverStore.dispatch('createServer', this.form);
+                serverStore.dispatch('createServer', this.getFormData($(this.$el)));
             }
         },
         computed: {
@@ -146,13 +132,13 @@
                 }
                 return providers;
             },
-            options: () => {
+            server_options: () => {
                 return serverProviderStore.state.server_provider_options;
             },
-            regions: () => {
+            server_regions: () => {
                 return serverProviderStore.state.server_provider_regions;
             },
-            features: () => {
+            server_provider_features: () => {
                 return serverProviderStore.state.server_provider_features;
             },
             availableServerFeatures: () => {

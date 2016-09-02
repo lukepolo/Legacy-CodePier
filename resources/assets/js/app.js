@@ -52,6 +52,15 @@ Vue.mixin({
         },
         action: function (action, parameters) {
             return laroute.action(action, parameters);
+        },
+        getFormData : function(el) {
+
+            if(!$(el).is('form')) {
+                el = $(el).find('form');
+            }
+
+            // TODO - copy jquerys way of getting the proper data strings
+            return $(el).serializeArray();
         }
     }
 });

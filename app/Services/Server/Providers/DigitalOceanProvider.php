@@ -92,7 +92,7 @@ class DigitalOceanProvider implements ServerServiceContract
         $serverOption = ServerProviderOption::findOrFail($server->options['server_option']);
         $serverRegion = ServerProviderRegion::findOrFail($server->options['server_region']);
 
-        foreach ($server->getFeatures() as $featureModel) {
+        foreach ($server->getServerProviderFeatures() as $featureModel) {
             $feature = lcfirst($featureModel->option);
             $$feature = 1;
         }

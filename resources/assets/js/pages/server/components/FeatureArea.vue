@@ -4,13 +4,13 @@
         <template v-for="feature in features">
             <div class="input-group input-checkbox">
                 <label>
-                    <input :name="'[' + area + ']'+feature.name" type="checkbox" :checked="feature.required">
+                    <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox" :checked="feature.required" value="1">
                     <span class="icon"></span>{{ feature.name }}
                 </label>
             </div>
-            <template v-if="feature.parameters" v-for="parameter in feature.parameters">
+            <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
-                    <input :id="parameter" :name="'[' + area + ']'+ '[' + feature.name + ']'+ parameter" type="text">
+                    <input :id="parameter" :name="'services[' + area + ']' + '[' + feature.name + '][parameters]['+ parameter+']'" type="text" :value="value">
                     <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
                 </div>
             </template>
