@@ -49,7 +49,7 @@ class ServerController extends Controller
         $server = Server::create([
             'user_id' => \Auth::user()->id,
             'name' => $request->get('server_name'),
-            'server_provider_id' => (int)$request->get('server_provider_id'),
+            'server_provider_id' => (int) $request->get('server_provider_id'),
             'status' => 'Queued For Creation',
             'progress' => '0',
             'options' => $request->except(['_token', 'server_provider_features']),
