@@ -38,10 +38,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version . '/Languages');
+                $languages = File::directories($version.'/Languages');
 
                 foreach ($languages as $language) {
-                    $language .= '/' . basename($language) . '.php';
+                    $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -58,10 +58,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version . '/Languages');
+                $languages = File::directories($version.'/Languages');
 
                 foreach ($languages as $language) {
-                    foreach (File::files($language . '/Frameworks') as $framework) {
+                    foreach (File::files($language.'/Frameworks') as $framework) {
                         $availableFrameworks[basename($language)] = $this->buildFeatureArray($this->buildReflection($framework));
                     }
                 }
@@ -74,7 +74,7 @@ class ServerFeatureController extends Controller
     private function buildReflection($file)
     {
         return new ReflectionClass(str_replace('.php', '',
-            'App' . str_replace('/', '\\', str_replace(app_path(), '', $file))));
+            'App'.str_replace('/', '\\', str_replace(app_path(), '', $file))));
     }
 
     private function buildFeatureArray(ReflectionClass $reflection)
@@ -103,7 +103,7 @@ class ServerFeatureController extends Controller
                     'name' => str_replace('install', '', $method->name),
                     'parameters' => $parameters,
                     'required' => in_array($method->name, $required),
-                    'suggestedDefaults' => $suggestedDefaults
+                    'suggestedDefaults' => $suggestedDefaults,
                 ];
             }
         }
