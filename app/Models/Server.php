@@ -22,7 +22,7 @@ class Server extends Model
     protected $casts = [
         'options'  => 'array',
         'server_provider_features' => 'array',
-        'server_features' => 'array'
+        'server_features' => 'array',
     ];
 
     /*
