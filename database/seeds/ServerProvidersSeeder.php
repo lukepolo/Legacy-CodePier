@@ -17,7 +17,7 @@ class ServerProvidersSeeder extends Seeder
                 'features' => [
                     ['feature' => 'Backups', 'cost' => '20% Monthly Total', 'default' => false, 'option' => 'backups'],
                     ['feature' => 'IPV6', 'cost' => null, 'default' => true, 'option' => 'ipv6'],
-                    ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking']
+                    ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
                 ],
             ],
         ];
