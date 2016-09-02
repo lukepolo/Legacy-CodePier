@@ -54,7 +54,6 @@ class ProvisionServer implements ShouldQueue
 
     private function createProvisionSteps(Server $server)
     {
-        config()
         dd($server->server_features);
         $serverSteps = collect([
             SystemService::SYSTEM => [
