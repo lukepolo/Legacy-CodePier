@@ -30,10 +30,16 @@ const serverStore = new Vuex.Store({
             });
         },
         createServer: ({commit}, data) => {
-            Vue.http.post(action('Server\ServerController@store'), data).then((response) => {
-                alert('open events tab');
-            }, (errors) => {
-                alert(error);
+            $.ajax({
+                type: "POST",
+                url: action('Server\ServerController@store'),
+                data: data,
+                dataType: "json",
+                success: function(data) {
+
+                },
+                error: function() {
+                }
             });
         },
         getServerSites: ({commit}, server_id) => {

@@ -21,7 +21,8 @@ class Server extends Model
 
     protected $casts = [
         'options'  => 'array',
-        'features' => 'array',
+        'server_provider_features' => 'array',
+        'server_features' => 'array'
     ];
 
     /*
@@ -70,12 +71,7 @@ class Server extends Model
         return $this->hasMany(ServerNetworkRule::class);
     }
 
-    public function hasFeature($feature)
-    {
-        return $this->getFeatures()->pluck('option')->contains($feature);
-    }
-
-    public function features()
+    public function server_provider_features()
     {
         return $this->hasMany(ServerProviderFeatures::class);
     }
@@ -96,11 +92,16 @@ class Server extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getFeatures()
+    public function hasServerProviderFeature($feature)
+    {
+        return $this->getServerProviderFeatures()->pluck('option')->contains($feature);
+    }
+
+    public function getServerProviderFeatures()
     {
         $features = [];
 
-        foreach ($this->features as $featureID) {
+        foreach ($this->server_provider_features as $featureID) {
             $features[] = ServerProviderFeatures::findOrFail((int) $featureID);
         }
 

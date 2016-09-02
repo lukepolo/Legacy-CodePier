@@ -96,13 +96,7 @@ class ServerFeatureController extends Controller
                 $parameters = [];
 
                 foreach ($method->getParameters() as $parameter) {
-
-                    $defaultValue = null;
-                    if($parameter->isOptional()) {
-                        $defaultValue .='|'.$parameter->getDefaultValue();
-                    }
-
-                    $parameters[] = $parameter->name.''.$defaultValue;
+                    $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
                 $features[$reflection->getShortName()][] = [
