@@ -24,7 +24,7 @@ class Laravel
         'PhpFpm',
         'Composer',
         'BlackFire',
-        'Envoy'
+        'Envoy',
     ];
 
     public function installEnvoy()
