@@ -56,6 +56,10 @@ Vue.mixin({
     }
 });
 
+
+// Vue.config.errorHandler = function (err, vm) {
+// }
+
 /*
  |--------------------------------------------------------------------------
  | User Stores

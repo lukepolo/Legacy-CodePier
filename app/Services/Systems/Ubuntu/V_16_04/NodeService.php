@@ -8,12 +8,6 @@ class NodeService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installBower',
-        'installGulp',
-        'installNodeJs',
-    ];
-
     public function installBower()
     {
         $this->connectToServer();
