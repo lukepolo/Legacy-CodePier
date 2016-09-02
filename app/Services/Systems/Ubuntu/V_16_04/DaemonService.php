@@ -9,11 +9,6 @@ class DaemonService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installBeanstalk',
-        'installSupervisor',
-    ];
-
     public function installBeanstalk()
     {
         $this->connectToServer();

@@ -72,23 +72,15 @@
                                                 </label>
                                             </template>
                                         </div>
+
+                                        <feature-area :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+                                        <feature-area :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+
                                         <div class="btn-footer">
                                             <button class="btn">Cancel</button>
                                             <button type="submit" class="btn btn-primary">Create Server</button>
                                         </div>
 
-                                        <div v-for="(features, serverFeatureArea) in availableServerFeatures">
-                                            <div class="input-group input-checkbox">
-                                                <div class="input-question">{{ serverFeatureArea }}</div>
-                                                <label  v-for="feature in features">
-                                                    <input type="checkbox">
-                                                    <span class="icon"></span>{{ feature.name }}
-                                                    <template v-if="feature.parameters" v-for="parameter in feature.parameters">
-                                                        <input type="text"> {{ parameter }}
-                                                    </template>
-                                                </label>
-                                            </div>
-                                        </div>
                                     </template>
                                     <template v-else>
                                         Please select a provider.
@@ -106,9 +98,11 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
+    import FeatureArea from './components/FeatureArea.vue'
     export default {
         components: {
-            LeftNav
+            LeftNav,
+            FeatureArea
         },
         data() {
             return {

@@ -8,10 +8,6 @@ class MonitoringService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installDiskMonitoringScript',
-    ];
-
     public function installDiskMonitoringScript()
     {
         $this->connectToServer();

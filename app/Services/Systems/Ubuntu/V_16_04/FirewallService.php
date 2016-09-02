@@ -9,10 +9,6 @@ class FirewallService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-
-    ];
-
     public function addBasicFirewallRules()
     {
         $this->connectToServer();

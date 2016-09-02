@@ -8,11 +8,6 @@ class DatabaseService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installMariaDB',
-        'installRedis',
-    ];
-
     public function installMariaDB($database = null)
     {
         $databasePassword = decrypt($this->server->database_password);

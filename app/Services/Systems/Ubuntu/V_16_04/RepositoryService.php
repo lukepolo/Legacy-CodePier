@@ -8,10 +8,6 @@ class RepositoryService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installGit',
-    ];
-
     public function installGit()
     {
         $this->connectToServer();

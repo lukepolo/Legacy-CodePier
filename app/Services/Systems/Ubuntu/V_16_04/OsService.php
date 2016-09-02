@@ -8,10 +8,6 @@ class OsService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installSwap',
-    ];
-
     public function updateSystem()
     {
         $this->connectToServer();

@@ -8,11 +8,6 @@ class WebService
 {
     use ServiceConstructorTrait;
 
-    protected $defaults = [
-        'installNginx',
-        'installCertBot',
-    ];
-
     public function installApache()
     {
     }
