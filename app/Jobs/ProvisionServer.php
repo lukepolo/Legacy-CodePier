@@ -38,7 +38,7 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if (!$this->server->provisionSteps->count()) {
+        if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
         }
 
@@ -58,31 +58,31 @@ class ProvisionServer implements ShouldQueue
         $provisionSteps = [
             SystemService::SYSTEM => [
                 'updateSystem' => [
-                    'step' => 'Updating the system'
+                    'step' => 'Updating the system',
                 ],
                 'setTimezoneToUTC' => [
-                    'step' => 'Settings Timezone to UTC'
+                    'step' => 'Settings Timezone to UTC',
                 ],
                 'setLocaleToUTF8' => [
-                    'step' => 'Settings Locale to UTF8'
+                    'step' => 'Settings Locale to UTF8',
                 ],
                 'addCodePierUser' => [
-                    'step' => 'Adding CodePier User'
-                ]
+                    'step' => 'Adding CodePier User',
+                ],
             ],
             SystemService::FIREWALL => [
                 'addBasicFirewallRules' => [
-                    'step' => 'Installing Basic Firewall Rules'
-                ]
+                    'step' => 'Installing Basic Firewall Rules',
+                ],
             ],
             SystemService::REPOSITORY => [],
             SystemService::WEB => [],
-            SystemService::MONITORING => []
+            SystemService::MONITORING => [],
         ];
 
         foreach ($server->server_features as $service => $features) {
-            foreach($features as $function => $feature) {
-                if(isset($feature['enabled']) && $feature['enabled']) {
+            foreach ($features as $function => $feature) {
+                if (isset($feature['enabled']) && $feature['enabled']) {
                     $provisionSteps[$service]['install'.$function] = [
                         'step' => 'Installing '.$function,
                         'parameters' => isset($feature['parameters']) ? $feature['parameters'] : [],
@@ -104,7 +104,7 @@ class ProvisionServer implements ShouldQueue
             'service' => $service,
             'function' => $function,
             'step' => $step,
-            'parameters' => $parameters
+            'parameters' => $parameters,
         ]);
     }
 }
