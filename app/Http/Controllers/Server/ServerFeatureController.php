@@ -38,10 +38,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version . '/Languages');
+                $languages = File::directories($version.'/Languages');
 
                 foreach ($languages as $language) {
-                    $language .= '/' . basename($language) . '.php';
+                    $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -58,10 +58,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version . '/Languages');
+                $languages = File::directories($version.'/Languages');
 
                 foreach ($languages as $language) {
-                    foreach (File::files($language . '/Frameworks') as $framework) {
+                    foreach (File::files($language.'/Frameworks') as $framework) {
                         $availableFrameworks = $availableFrameworks->merge($this->buildFeatureArray($this->buildReflection($framework)));
                     }
                 }
@@ -77,7 +77,7 @@ class ServerFeatureController extends Controller
             str_replace(
                 '.php',
                 '',
-                'App' . str_replace(
+                'App'.str_replace(
                     '/',
                     '\\',
                     str_replace(
