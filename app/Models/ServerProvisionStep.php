@@ -10,6 +10,7 @@ class ServerProvisionStep extends Model
 
     protected $casts = [
         'log' => 'array',
+        'parameters' => 'array'
     ];
 
     public function server()

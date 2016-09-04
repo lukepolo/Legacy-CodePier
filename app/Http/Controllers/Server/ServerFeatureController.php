@@ -38,10 +38,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
+                $languages = File::directories($version . '/Languages');
 
                 foreach ($languages as $language) {
-                    $language .= '/'.basename($language).'.php';
+                    $language .= '/' . basename($language) . '.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -52,17 +52,17 @@ class ServerFeatureController extends Controller
 
     public function getFrameworks()
     {
-        $availableFrameworks = [];
+        $availableFrameworks = collect();
 
         $systems = File::directories(app_path('Services/Systems'));
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
+                $languages = File::directories($version . '/Languages');
 
                 foreach ($languages as $language) {
-                    foreach (File::files($language.'/Frameworks') as $framework) {
-                        $availableFrameworks[basename($language)] = $this->buildFeatureArray($this->buildReflection($framework));
+                    foreach (File::files($language . '/Frameworks') as $framework) {
+                        $availableFrameworks = $availableFrameworks->merge($this->buildFeatureArray($this->buildReflection($framework)));
                     }
                 }
             }
@@ -73,8 +73,21 @@ class ServerFeatureController extends Controller
 
     private function buildReflection($file)
     {
-        return new ReflectionClass(str_replace('.php', '',
-            'App'.str_replace('/', '\\', str_replace(app_path(), '', $file))));
+        return new ReflectionClass(
+            str_replace(
+                '.php',
+                '',
+                'App' . str_replace(
+                    '/',
+                    '\\',
+                    str_replace(
+                        app_path(),
+                        '',
+                        $file
+                    )
+                )
+            )
+        );
     }
 
     private function buildFeatureArray(ReflectionClass $reflection)
@@ -91,6 +104,8 @@ class ServerFeatureController extends Controller
             $suggestedDefaults = $reflection->getProperty('suggestedDefaults')->getValue();
         }
 
+        // TODO - get description or something from comment
+//        $reflection->getDocComment()
         foreach ($reflection->getMethods() as $method) {
             if (str_contains($method->name, 'install')) {
                 $parameters = [];
@@ -99,7 +114,7 @@ class ServerFeatureController extends Controller
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $features[$reflection->getShortName()][] = [
+                $features[str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName())][] = [
                     'name' => str_replace('install', '', $method->name),
                     'parameters' => $parameters,
                     'required' => in_array($method->name, $required),

@@ -143,11 +143,11 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        if (! empty($server->database_password)) {
+        if (empty($server->database_password)) {
             $server->database_password = encrypt(str_random(32));
         }
 
-        if (! empty($server->root_password)) {
+        if (empty($server->root_password)) {
             $server->root_password = encrypt(str_random(32));
         }
 

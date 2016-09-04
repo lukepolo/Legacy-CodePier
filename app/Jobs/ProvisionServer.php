@@ -38,10 +38,11 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if (! $this->server->provisionSteps->count()) {
+        if (!$this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
-            $this->server->load('provisionSteps');
         }
+
+        $this->server->load('provisionSteps');
 
         if ($serverService->provision($this->server)) {
             foreach ($this->server->user->sshKeys as $sshKey) {
@@ -54,33 +55,56 @@ class ProvisionServer implements ShouldQueue
 
     private function createProvisionSteps(Server $server)
     {
-        dd($server->server_features);
-        $serverSteps = collect([
+        $provisionSteps = [
             SystemService::SYSTEM => [
-                'updateSystem'     => 'Updating the system',
-                'setTimezoneToUTC' => 'Settings Timezone to UTC',
-                'setLocaleToUTF8'  => 'Settings Locale to UTF8',
-                'addCodePierUser'  => 'Adding CodePier User',
+                'updateSystem' => [
+                    'step' => 'Updating the system'
+                ],
+                'setTimezoneToUTC' => [
+                    'step' => 'Settings Timezone to UTC'
+                ],
+                'setLocaleToUTF8' => [
+                    'step' => 'Settings Locale to UTF8'
+                ],
+                'addCodePierUser' => [
+                    'step' => 'Adding CodePier User'
+                ]
             ],
             SystemService::FIREWALL => [
-                'addBasicFirewallRules' => 'Installing Basic Firewall Rules',
+                'addBasicFirewallRules' => [
+                    'step' => 'Installing Basic Firewall Rules'
+                ]
             ],
-        ]);
+            SystemService::REPOSITORY => [],
+            SystemService::WEB => [],
+            SystemService::MONITORING => []
+        ];
 
-        foreach ($serverSteps as $service => $serviceFunctions) {
-            foreach ($serviceFunctions as $function => $step) {
-                $this->createStep($server, $service, $function, $step);
+        foreach ($server->server_features as $service => $features) {
+            foreach($features as $function => $feature) {
+                if(isset($feature['enabled']) && $feature['enabled']) {
+                    $provisionSteps[$service]['install'.$function] = [
+                        'step' => 'Installing '.$function,
+                        'parameters' => isset($feature['parameters']) ? $feature['parameters'] : [],
+                    ];
+                }
+            }
+        }
+        foreach ($provisionSteps as $service => $serviceFunctions) {
+            foreach ($serviceFunctions as $function => $data) {
+                $this->createStep($server, $service, $function, $data['step'], isset($data['parameters']) ? $data['parameters'] : []);
             }
         }
     }
 
-    private function createStep(Server $server, $service, $function, $step)
+    private function createStep(Server $server, $service, $function, $step, $parameters = [])
     {
         ServerProvisionStep::create([
             'server_id' => $server->id,
-            'service'   => $service,
-            'function'  => $function,
-            'step'      => $step,
+            'service' => $service,
+            'function' => $function,
+            'step' => $step,
+            'parameters' => $parameters
         ]);
     }
 }
