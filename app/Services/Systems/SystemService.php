@@ -57,7 +57,7 @@ class SystemService implements SystemServiceContract
                 $this->updateProgress($provisionStep->step);
                 $systemService = $this->createSystemService($provisionStep->service);
 
-                $systemService->{$provisionStep->function}();
+                call_user_func_array(array($systemService, $provisionStep->function), $provisionStep->parameters);
 
                 $provisionStep->failed = false;
                 $provisionStep->completed = true;

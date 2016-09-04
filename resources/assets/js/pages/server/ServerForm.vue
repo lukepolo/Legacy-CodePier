@@ -27,7 +27,7 @@
                                             <label>
                                                 <input @change="getProviderData(user_server_provider.server_provider.provider_name)"
                                                        type="radio" name="server_provider_id"
-                                                       :value="user_server_provider.server_provider_id" v-model="form.server_provider_id">
+                                                       :value="user_server_provider.server_provider_id">
                                                 <span class="icon"></span>
                                                 {{ user_server_provider.server_provider.name }}
                                             </label>
@@ -35,14 +35,14 @@
                                     </div>
                                     <template v-if="server_options.length && server_regions.length && server_provider_features.length">
                                         <div class="input-group">
-                                            <input type="text" id="server_name" name="server_name" required v-model="form.server_name">
+                                            <input type="text" id="server_name" name="server_name" required>
                                             <label for="server_name"><span class="float-label">Name</span></label>
                                         </div>
 
                                         <div class="input-group">
                                             <div class="input-question">Server Option</div>
 
-                                            <select name="server_option" v-model="form.server_option">
+                                            <select name="server_option">
                                                 <option v-for="option in server_options" :value="option.id">{{ option.memory }}
                                                     MB
                                                     RAM - {{ option.cpus }} CPUS - {{ option.space }} SSD - ${{
@@ -54,7 +54,7 @@
                                         <div class="input-group">
                                             <div class="input-question">Server Region</div>
 
-                                            <select name="server_region" v-model="form.server_region">
+                                            <select name="server_region">
                                                 <option v-for="region in server_regions" :value="region.id">{{ region.name }}
                                                 </option>
                                             </select>
@@ -64,7 +64,7 @@
                                             <div class="input-question">Server Options</div>
                                             <template v-for="feature in server_provider_features">
                                                 <label>
-                                                    <input type="checkbox" name="server_provider_features[]" :value="feature.id" v-model="form.server_provider_features">
+                                                    <input type="checkbox" name="server_provider_features[]" :value="feature.id">
                                                     <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                                     <small>{{ feature.cost }}</small>
                                                 </label>
