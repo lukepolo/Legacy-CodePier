@@ -36,4 +36,11 @@ class SiteServerController extends Controller
     {
         return response()->json(Site::where('id', $siteId)->firstorFail()->servers);
     }
+
+    public function store(Request $request, $siteId)
+    {
+        $site = Site::where('id', $siteId)->firstorFail();
+
+        $site->servers()->sync($request->get('connected_servers', []));
+    }
 }
