@@ -104,6 +104,11 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
+        updateLinkedServers: ({commit}, data) => {
+            Vue.http.post(action('Site\SiteServerController@store', {site: data.site}), data).then((response) => {
+                siteStore.dispatch('getSiteServers', data.site);
+            });
+        }
     },
     mutations: {
         SET_SITE: (state, site) => {

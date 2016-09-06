@@ -1,7 +1,7 @@
 <template>
     <section id="right">
-        <p v-for="server in servers">
-            {{ server.name }} - {{ server.ssh_connection }}
+        <template v-for="server in servers">
+            {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
             <p>4 / 40 GB</p>
             <p>1.2 Avg Load</p>
             <div class="dropdown">
@@ -18,12 +18,30 @@
                     <li><a href="#">Archive Server</a></li>
                 </ul>
             </div>
-        </p>
+        </template>
+
+        <hr>
+        Available Servers
+        <form @submit.prevent="linkServers">
+            <template v-for="server in availableServers">
+                <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
+                <br>
+            </template>
+            <button type="submit">Link Servers</button>
+        </form>
     </section>
 </template>
 
 <script>
     export default {
+        data()  {
+            return {
+                form : {
+                    connected_servers : [],
+                    site: this.$route.params.site_id
+                }
+            }
+        },
         created() {
             this.fetchData();
         },
@@ -33,11 +51,18 @@
         methods: {
             fetchData: function () {
                 siteStore.dispatch('getSiteServers', this.$route.params.site_id);
+                serverStore.dispatch('getServers');
             },
+            linkServers : function() {
+                siteStore.dispatch('updateLinkedServers', this.form);
+            }
         },
         computed : {
             servers : () => {
                 return siteStore.state.site_servers;
+            },
+            availableServers : () => {
+                return serverStore.state.servers;
             }
         }
     }
