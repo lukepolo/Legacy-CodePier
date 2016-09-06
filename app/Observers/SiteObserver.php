@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Models\DeploymentStep;
 use App\Models\Site;
 
@@ -20,8 +20,8 @@ class SiteObserver
     /**
      * SiteObserver constructor.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteService                        $siteService
-     * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
+     * @param \App\Services\Site\SiteService | SiteService                        $siteService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(SiteService $siteService, RepositoryService $repositoryService)
     {

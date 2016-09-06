@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Server\Site;
+namespace App\Contracts\Site;
 
 /**
  * Interface SiteServiceContract.

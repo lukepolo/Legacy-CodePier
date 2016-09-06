@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site\Repository;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Http\Controllers\Controller;
 use App\Models\DeploymentStep;
 use App\Models\Site;
@@ -18,7 +18,7 @@ class SiteRepositoryController extends Controller
      * SiteController constructor.
      *
      * @param \App\Services\Server\ServerService | ServerService                         $serverService
-     * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(ServerService $serverService, RepositoryService $repositoryService)
     {

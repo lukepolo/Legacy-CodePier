@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Server\Site\Repository;
+namespace App\Contracts\Repository;
 
 /**
  * Interface RepositoryServiceContract.

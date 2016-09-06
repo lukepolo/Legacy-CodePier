@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
@@ -20,7 +20,7 @@ class SiteController extends Controller
     /**
      * SiteController constructor.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {

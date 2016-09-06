@@ -13,8 +13,8 @@ const siteStore = new Vuex.Store({
         ssl_certificates: []
     },
     actions: {
-        getSite: ({commit}, site_id) => {
-            Vue.http.get(action('Site\SiteController@show', {site: site_id})).then((response) => {
+        getSite: ({commit}, site) => {
+            Vue.http.get(action('Site\SiteController@show', {site: site})).then((response) => {
                 commit('SET_SITE', response.json());
             }, (errors) => {
                 alert(error);
