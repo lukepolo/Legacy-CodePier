@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Server\Site\Repository;
+namespace App\Services\Repository;
 
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract;
+use App\Contracts\Repository\RepositoryServiceContract;
 use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 

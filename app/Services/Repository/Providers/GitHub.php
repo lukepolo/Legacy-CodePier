@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Server\Site\Repository\Providers;
+namespace App\Services\Repository\Providers;
 
 use App\Models\Site;
 use App\Models\UserRepositoryProvider;

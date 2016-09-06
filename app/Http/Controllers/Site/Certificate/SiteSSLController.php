@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Site\Certificate;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use App\Models\SiteSslCertificate;
@@ -18,7 +18,7 @@ class SiteSSLController extends Controller
     /**
      * SiteSSLController constructor.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {

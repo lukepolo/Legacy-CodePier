@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\DeploymentFailed;
 use App\Models\Site;
 use App\Models\SiteDeployment;
@@ -51,7 +51,7 @@ class DeploySite implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function handle(SiteService $siteService)
     {

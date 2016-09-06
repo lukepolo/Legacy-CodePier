@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract;
-use App\Services\Server\Site\Repository\RepositoryService;
+use App\Contracts\Repository\RepositoryServiceContract;
+use App\Services\Repository\RepositoryService;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

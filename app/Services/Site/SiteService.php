@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Server\Site;
+namespace App\Services\Site;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Server\Site\SiteServiceContract;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
@@ -15,7 +15,7 @@ use App\Models\Site;
 use App\Models\SiteDaemon;
 use App\Models\SiteDeployment;
 use App\Models\SiteSslCertificate;
-use App\Services\Server\Site\DeploymentServices\PHP;
+use App\Services\Site\DeploymentServices\PHP;
 
 /**
  * Class SiteService.
@@ -35,7 +35,7 @@ class SiteService implements SiteServiceContract
      * SiteService constructor.
      *
      * @param \App\Services\RemoteTaskService | RemoteTaskService                        $remoteTaskService
-     * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(RemoteTaskService $remoteTaskService, RepositoryService $repositoryService)
     {
