@@ -42,5 +42,7 @@ class SiteServerController extends Controller
         $site = Site::where('id', $siteId)->firstorFail();
 
         $site->servers()->sync($request->get('connected_servers', []));
+
+        $site->fireSavedEvent();
     }
 }

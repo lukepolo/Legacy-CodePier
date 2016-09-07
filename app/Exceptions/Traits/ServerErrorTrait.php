@@ -34,8 +34,9 @@ trait ServerErrorTrait
                 case FailedCommand::class:
                     $message = $e->getMessage();
 
-                    $server->ssh_connection = false;
-                    $server->save();
+                    // TODO - this needs to be figured out
+//                    $server->ssh_connection = false;
+//                    $server->save();
                     break;
                 default:
                     throw new \Exception($e->getMessage());

@@ -46,13 +46,16 @@ class OsService
         $this->remoteTaskService->run('usermod -a -G www-data codepier');
 
         $this->remoteTaskService->run('mkdir /home/codepier/.ssh && cp -a ~/.ssh/authorized_keys /home/codepier/.ssh/authorized_keys');
-        $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh && chmod 600 /home/codepier/.ssh/authorized_keys');
+        $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh');
 
         $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa', $this->server->private_ssh_key);
         $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa.pub', $this->server->public_ssh_key);
 
+        $this->remoteTaskService->run('chmod 600 /home/codepier/.ssh/* -R');
+
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', '#PasswordAuthentication', 'PasswordAuthentication no');
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
+        $this->remoteTaskService->run('chmod o-w /home/codepier');
 
         $this->remoteTaskService->run('service sshd restart');
     }

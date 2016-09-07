@@ -141,4 +141,9 @@ class Site extends Model
     {
         return 'general';
     }
+
+    public function fireSavedEvent()
+    {
+        $this->fireModelEvent('saved', false);
+    }
 }
