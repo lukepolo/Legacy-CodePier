@@ -35,7 +35,7 @@ class SiteObserver
             $this->repositoryService->importSshKeyIfPrivate($site);
         }
 
-        foreach($site->servers as $server) {
+        foreach ($site->servers as $server) {
             $this->siteService->updateSiteNginxConfig($server, $site);
         }
 
@@ -59,7 +59,7 @@ class SiteObserver
                     'step' => 'Install Node Dependencies',
                     'order' => '3',
                     'internal_deployment_function' => 'installNodeDependencies',
-                    'customizable' => true
+                    'customizable' => true,
                 ],
                 [
                     'step'                         => 'Run Migrations',
