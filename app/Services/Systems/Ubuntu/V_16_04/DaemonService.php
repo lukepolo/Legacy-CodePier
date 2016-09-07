@@ -19,8 +19,6 @@ class DaemonService
         $this->remoteTaskService->run('service beanstalkd restart');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service beanstalkd restart');
-
-
     }
 
     public function installSupervisor()
