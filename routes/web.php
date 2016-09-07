@@ -48,9 +48,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
             Route::resource('ssh-keys', 'UserSshKeyController');
-            Route::resource('server-providers', 'Providers\UserServerProviderController'); 
-            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController'); 
-            Route::resource('notification-providers', 'Providers\UserNotificationProviderController'); 
+            Route::resource('server-providers', 'Providers\UserServerProviderController');
+            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
+            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
         });
 
         /*
@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::resource('team', 'User\Team\UserTeamController'); 
+        Route::resource('team', 'User\Team\UserTeamController');
 
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
             Route::resource('team.members', 'UserTeamMemberController');
@@ -106,7 +106,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
                 Route::post('restart-server/{server}', 'ServerController@restartServer');
                 Route::post('restart-database/{server}', 'ServerController@restartDatabases');
-                Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices'); 
+                Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');
                 Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
             });
