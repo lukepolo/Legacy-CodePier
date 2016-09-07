@@ -19,19 +19,19 @@ class RepositoryProvidersSeeder extends Seeder
                 'name'             => 'Github',
                 'url'              => 'github.com',
                 'git_url'          => 'git@github.com',
-                'repository_class' => \App\Services\Server\Site\Repository\Providers\GitHub::class,
+                'repository_class' => \App\Services\Repository\Providers\GitHub::class,
             ],
             \App\Http\Controllers\Auth\OauthController::BITBUCKET => [
                 'name'             => 'Bitbucket',
                 'url'              => 'bitbucket.org',
                 'git_url'          => 'git@bitbucket.org',
-                'repository_class' => \App\Services\Server\Site\Repository\Providers\BitBucket::class,
+                'repository_class' => \App\Services\Repository\Providers\BitBucket::class,
             ],
             \App\Http\Controllers\Auth\OauthController::GITLAB => [
                 'name'             => 'GitLab',
                 'url'              => 'gitlab.com',
                 'git_url'          => 'git@gitlab.com',
-                'repository_class' => \App\Services\Server\Site\Repository\Providers\GitLab::class,
+                'repository_class' => \App\Services\Repository\Providers\GitLab::class,
             ],
         ];
 
