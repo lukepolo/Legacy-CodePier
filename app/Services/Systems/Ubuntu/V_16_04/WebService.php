@@ -11,7 +11,6 @@ class WebService
 
     public function installApache()
     {
-
     }
 
     public function installCertBot()
