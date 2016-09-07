@@ -30,27 +30,27 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-    Route::resource('me', 'User\UserController', [ // VERIFIED
+    Route::resource('me', 'User\UserController', [
         'only' => [
             'index',
         ],
     ]);
 
     Route::resource('user', 'User\UserController', [
-        'except' => 'index', // VERIFIED
+        'except' => 'index',
     ]);
 
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController'); // VERIFIED
-            Route::resource('subscription', 'Subscription\UserSubscriptionController'); // VERIFIED
+            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
+            Route::resource('subscription', 'Subscription\UserSubscriptionController');
             Route::resource('subscription/invoice/next',
-                'Subscription\UserSubscriptionUpcomingInvoiceController'); // VERIFIED
+                'Subscription\UserSubscriptionUpcomingInvoiceController');
 
-            Route::resource('ssh-keys', 'UserSshKeyController'); // VERIFIED
-            Route::resource('server-providers', 'Providers\UserServerProviderController');  // VERIFIED
-            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');  // VERIFIED
-            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');  // VERIFIED
+            Route::resource('ssh-keys', 'UserSshKeyController');
+            Route::resource('server-providers', 'Providers\UserServerProviderController'); 
+            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController'); 
+            Route::resource('notification-providers', 'Providers\UserNotificationProviderController'); 
         });
 
         /*
@@ -69,14 +69,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::resource('team', 'User\Team\UserTeamController');  // VERIFIED
+        Route::resource('team', 'User\Team\UserTeamController'); 
 
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::resource('team.members', 'UserTeamMemberController'); // VERIFIED
-            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch'); // VERIFIED
-            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite'); // VERIFIED
+            Route::resource('team.members', 'UserTeamMemberController');
+            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
+            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
             Route::post('members/resend/{invite_id}',
-                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite'); // VERIFIED
+                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
 
         /*
@@ -86,8 +86,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         |
         */
 
-        Route::resource('piles', 'Pile\PileController'); // VERIFIED
-        Route::resource('pile.sites', 'Pile\PileSitesController'); // VERIFIED
+        Route::resource('piles', 'Pile\PileController');
+        Route::resource('pile.sites', 'Pile\PileSitesController');
 
         /*
        |--------------------------------------------------------------------------
@@ -104,21 +104,21 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::post('server/file/{server}', 'ServerController@getFile');
                 Route::post('server/file/{server}', 'ServerController@saveFile');
                 Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
-                Route::post('restart-server/{server}', 'ServerController@restartServer'); // VERIFIED
-                Route::post('restart-database/{server}', 'ServerController@restartDatabases'); // VERIFIED
-                Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices');  // VERIFIED
+                Route::post('restart-server/{server}', 'ServerController@restartServer');
+                Route::post('restart-database/{server}', 'ServerController@restartDatabases');
+                Route::post('restart-workers/{server}', 'ServerController@restartWorkerServices'); 
                 Route::post('ssh-connection/{server}', 'ServerSshKeyController@testSSHConnection');
-                Route::post('restart-web-services/{server}', 'ServerController@restartWebServices'); // VERIFIED
+                Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
             });
 
-            Route::resource('servers.features', 'ServerFeatureController'); // VERIFIED
-            Route::resource('servers.cron-jobs', 'ServerCronJobController'); // VERIFIED
-            Route::resource('servers.daemons', 'ServerDaemonController'); // VERIFIED
-            Route::resource('servers.firewall', 'ServerFirewallController'); // VERIFIED
+            Route::resource('servers.features', 'ServerFeatureController');
+            Route::resource('servers.cron-jobs', 'ServerCronJobController');
+            Route::resource('servers.daemons', 'ServerDaemonController');
+            Route::resource('servers.firewall', 'ServerFirewallController');
             Route::resource('servers.network', 'ServerNetworkController');
-            Route::resource('servers.ssh-keys', 'ServerSshKeyController'); // VERIFIED
+            Route::resource('servers.ssh-keys', 'ServerSshKeyController');
 
-            Route::resource('servers.sites', 'ServerSiteController'); // VERIFIED
+            Route::resource('servers.sites', 'ServerSiteController');
         });
 
         /*
@@ -145,15 +145,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         });
     });
 
-    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures'); // VERIFIED
-    Route::get('server/languages', 'Server\ServerFeatureController@getLanguages'); // VERIFIED
-    Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks'); // VERIFIED
+    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
+    Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
+    Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
-            Route::resource('server-providers', 'ServerProvidersController'); // VERIFIED
-            Route::resource('repository-providers', 'RepositoryProvidersController'); // VERIFIED
-            Route::resource('notification-providers', 'NotificationProvidersController'); // VERIFIED
+            Route::resource('server-providers', 'ServerProvidersController');
+            Route::resource('repository-providers', 'RepositoryProvidersController');
+            Route::resource('notification-providers', 'NotificationProvidersController');
         });
     });
 
@@ -162,9 +162,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
-            Route::resource('options', 'DigitalOceanServerOptionsController'); // VERIFIED
-            Route::resource('regions', 'DigitalOceanServerRegionsController'); // VERIFIED
-            Route::resource('features', 'DigitalOceanServerFeaturesController'); // VERIFIED
+            Route::resource('options', 'DigitalOceanServerOptionsController');
+            Route::resource('regions', 'DigitalOceanServerRegionsController');
+            Route::resource('features', 'DigitalOceanServerFeaturesController');
         });
     });
 });
@@ -184,7 +184,7 @@ Route::post('stripe/webhook', '\Laravel\Cashier\Http\Controllers\WebhookControll
 |--------------------------------------------------------------------------
 |
 */
-Route::resource('subscription/plans', 'SubscriptionController'); // VERIFIED
+Route::resource('subscription/plans', 'SubscriptionController');
 
 /*
 |--------------------------------------------------------------------------
