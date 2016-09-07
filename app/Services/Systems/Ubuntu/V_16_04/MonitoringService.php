@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Models\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class MonitoringService
@@ -26,5 +27,11 @@ done');
         $cronJob = '*/5 * * * * /etc/opt/./diskusage';
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+
+        ServerCronJob::create([
+            'server_id' => $this->server->id,
+            'job'       => $cronJob,
+            'user'      => 'root',
+        ]);
     }
 }

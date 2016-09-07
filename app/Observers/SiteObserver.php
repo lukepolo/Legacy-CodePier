@@ -36,7 +36,7 @@ class SiteObserver
         }
 
         foreach($site->servers as $server) {
-            $this->siteService->updateSiteNginxConfig($server, $site);
+            $this->siteService->create($server, $site);
         }
 
 //        $this->siteService->renameDomain($site, $request->get('domain'));
