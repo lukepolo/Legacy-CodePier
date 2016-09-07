@@ -67,10 +67,20 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
     }
 
+    public function installMongoDB()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927');
+        $this->remoteTaskService->run('echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list');
+        $this->remoteTaskService->run('apt-get update');
+        $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
+    }
+
     public function restartDatabase()
     {
         $this->connectToServer();
 
-        return $this->remoteTaskService->run('service mysql restart');
+        $this->remoteTaskService->run('service mysql restart');
     }
 }

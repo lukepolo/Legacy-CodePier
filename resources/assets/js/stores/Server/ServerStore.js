@@ -9,9 +9,9 @@ const serverStore = new Vuex.Store({
         servers: [],
         server: null,
         server_sites: null,
-        available_server_features : [],
-        available_server_languages : [],
-        available_server_frameworks : []
+        available_server_features: [],
+        available_server_languages: [],
+        available_server_frameworks: []
     },
     actions: {
         getServer: ({commit}, server_id) => {
@@ -35,11 +35,18 @@ const serverStore = new Vuex.Store({
                 url: action('Server\ServerController@store'),
                 data: data,
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
 
                 },
-                error: function() {
+                error: function () {
                 }
+            });
+        },
+        archiveServer: ({commit}, server) => {
+            Vue.http.delete(action('Server\ServerController@destroy', {server: server})).then((response) => {
+                app.$router.push('/');
+            }, (errors) => {
+                alert(error);
             });
         },
         getServerSites: ({commit}, server_id) => {
@@ -66,6 +73,17 @@ const serverStore = new Vuex.Store({
         getServerAvailableFrameworks: ({commit}) => {
             Vue.http.get(action('Server\ServerFeatureController@getFrameworks')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        installFeature: ({commit}, data) => {
+            Vue.http.post(action('Server\ServerFeatureController@store', {server: data.server}), {
+                service: data.area,
+                feature: data.feature,
+                parameters: data.parameters
+            }).then((response) => {
+                serverStore.dispatch('getServer', data.server);
             }, (errors) => {
                 alert(error);
             });

@@ -10,13 +10,11 @@
 <script>
     import LeftNav from './../../core/LeftNav.vue';
     import ServerNav from './components/ServerNav.vue';
-    import Blackfire from './components/Blackfire.vue';
 
     export default {
         components : {
             LeftNav,
             ServerNav,
-            Blackfire
         },
         data() {
             return {

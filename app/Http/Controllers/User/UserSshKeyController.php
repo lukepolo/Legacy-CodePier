@@ -89,8 +89,9 @@ class UserSshKeyController extends Controller
                     $this->serverService->removeSshKey($server, $sshKey->ssh_key);
                 }
             });
-            $sshKey->delete();
         }
+
+        $sshKey->delete();
 
         return $this->remoteResponse();
     }

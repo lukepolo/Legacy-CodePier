@@ -111,7 +111,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices'); // VERIFIED
             });
 
-            Route::resource('server/features', 'ServerCronJobController'); //
+            Route::resource('servers.features', 'ServerFeatureController'); // VERIFIED
             Route::resource('servers.cron-jobs', 'ServerCronJobController'); // VERIFIED
             Route::resource('servers.daemons', 'ServerDaemonController'); // VERIFIED
             Route::resource('servers.firewall', 'ServerFirewallController'); // VERIFIED

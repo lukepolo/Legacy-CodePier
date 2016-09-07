@@ -6,6 +6,16 @@
             <div class="pull-right">
                 <div class="dropdown">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a @click.prevent="archiveServer(server.id)">Archive Server</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="dropdown">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-server"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -36,6 +46,7 @@
             <router-link :to="{ path: '/server/'+server.id+'/daemons' }" role="presentation" tag="li" ><a>Daemons</a></router-link>
             <router-link :to="{ path: '/server/'+server.id+'/firewall-rules' }" role="presentation" tag="li" ><a>Firewall Rules</a></router-link>
             <router-link :to="{ path: '/server/'+server.id+'/monitoring' }" role="presentation" tag="li" ><a>Monitoring</a></router-link>
+            <router-link :to="{ path: '/server/'+server.id+'/features' }" role="presentation" tag="li" ><a>Features</a></router-link>
         </ul>
     </section>
 </template>
@@ -55,6 +66,9 @@
             },
             restartServer : function(server_id) {
                 serverServicesStore.dispatch('restartServer', server_id);
+            },
+            archiveServer : function(server_id) {
+                serverStore.dispatch('archiveServer', server_id);
             }
         }
     }
