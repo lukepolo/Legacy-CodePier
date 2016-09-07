@@ -3,6 +3,7 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 
 class DatabaseService
 {
@@ -26,6 +27,8 @@ class DatabaseService
         if (! empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
     public function installMemcached()
@@ -33,6 +36,8 @@ class DatabaseService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
     }
 
     public function installMySQL($database = null)
@@ -53,6 +58,8 @@ class DatabaseService
         if (! empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
     public function installPostgreSQL($database = null)
@@ -75,6 +82,8 @@ class DatabaseService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
     }
 
     public function installSqlLite()
@@ -94,12 +103,7 @@ class DatabaseService
         $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
         $this->remoteTaskService->run('service mongod start');
-    }
 
-    public function restartDatabase()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run('service mysql restart');
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
     }
 }

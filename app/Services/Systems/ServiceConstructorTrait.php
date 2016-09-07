@@ -34,4 +34,30 @@ trait ServiceConstructorTrait
     {
         return $this->remoteTaskService->getOutput();
     }
+
+    public function addToServiceRestartGroup($group, $command)
+    {
+        return $this->remoteTaskService->appendTextToFile('/opt/codepier/'.$group, $command);
+    }
+
+    public function restartWebServices()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
+    }
+
+    public function restartDatabase()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
+    }
+
+    public function restartWorkers()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WORKER_SERVICE_GROUP);
+    }
 }
