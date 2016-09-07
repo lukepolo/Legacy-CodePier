@@ -32,7 +32,7 @@ class SystemService implements SystemServiceContract
     const LARAVEL = 'Languages\Frameworks\Laravel';
 
     const WEB_SERVICE_GROUP = 'web_services';
-    const WORKER_SERVICE_GROUP= 'worker_services';
+    const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
 
     /**
