@@ -50,7 +50,7 @@ class SiteSSLLetsEncryptController extends Controller
             });
         }
 
-        if(!$this->successful()) {
+        if (! $this->successful()) {
             $siteSSLCertificate->delete();
         }
 
