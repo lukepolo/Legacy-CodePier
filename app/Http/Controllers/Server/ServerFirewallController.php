@@ -59,9 +59,7 @@ class ServerFirewallController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
-            if ($server->ssh_connection) {
-                $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule($serverFirewallRule);
-            }
+            $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule($serverFirewallRule);
         });
 
         if (! $this->successful()) {
@@ -99,10 +97,8 @@ class ServerFirewallController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
-            if ($server->ssh_connection) {
-                $this->serverService->getService(SystemService::FIREWALL, $server)->removeFirewallRule($serverFirewallRule);
-                $serverFirewallRule->delete();
-            }
+            $this->serverService->getService(SystemService::FIREWALL, $server)->removeFirewallRule($serverFirewallRule);
+            $serverFirewallRule->delete();
         });
 
         return $this->remoteResponse();
