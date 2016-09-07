@@ -28,7 +28,7 @@ class SiteService implements SiteServiceContract
     const LETS_ENCRYPT = 'Let\'s Encrypt';
 
     public $deploymentServices = [
-        'php' => DeploymentServices\PHP::class,
+        'php' => DeploymentLanguages\PHP::class,
     ];
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Site\DeploymentServices;
+namespace App\Services\Site\DeploymentLanguages;
 
 use App\Models\Server;
 use App\Models\Site;
@@ -50,7 +50,7 @@ class PHP
         $output = [];
 
         $output[] = $this->remoteTaskService->run('mkdir -p '.$this->site_folder);
-        $output[] = $this->remoteTaskService->run('ssh-keyscan -H '.$this->repositoryProvider->url.' >> ~/.ssh/known_hosts > /dev/null 2>&1');
+        $output[] = $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
         $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$this->repositoryProvider->git_url.':'.$this->repository.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
 
@@ -58,10 +58,8 @@ class PHP
             $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
         }
 
-        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/public ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
-        $output[] = $this->remoteTaskService->run('rsyn -au '.$this->site_folder.'/storage '.$this->site_folder.'/storage; rm '.$this->site_folder.' -rf');
+        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
 
-        // TODO - test to make sure this works , public directory should not be sym linked
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release.'/storage');
 
         $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || echo >> '.$this->site_folder.'/.env');
