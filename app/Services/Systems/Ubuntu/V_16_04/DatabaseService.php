@@ -77,7 +77,6 @@ class DatabaseService
         $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
         $this->remoteTaskService->run('service mongod start');
-
     }
 
     public function restartDatabase()
