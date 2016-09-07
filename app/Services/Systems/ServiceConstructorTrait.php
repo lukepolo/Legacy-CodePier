@@ -37,7 +37,10 @@ trait ServiceConstructorTrait
 
     public function addToServiceRestartGroup($group, $command)
     {
-        return $this->remoteTaskService->appendTextToFile('/opt/codepier/'.$group, $command);
+        $serviceGroupFile = '/opt/codepier/'.$group;
+        $this->remoteTaskService->appendTextToFile($serviceGroupFile, $command);
+
+        $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
     }
 
     public function restartWebServices()
