@@ -140,8 +140,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
             Route::resource('site.certificate', 'Certificate\SiteSSLController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
-            Route::resource('site.certificate/existing', 'Certificate\SiteSSLExistingController');
-            Route::resource('site.certificate/lets-encrypt/', 'Certificate\SiteSSLLetsEncryptController');
+            Route::resource('site.certificate-existing', 'Certificate\SiteSSLExistingController');
+            Route::resource('site.certificate-lets-encrypt', 'Certificate\SiteSSLLetsEncryptController');
         });
     });
 

@@ -59,9 +59,7 @@ class ServerDaemonController extends Controller
         ]);
 
         $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            if ($server->ssh_connection) {
-                $this->serverService->getService(SystemService::DAEMON, $server)->installDaemon($serverDaemon);
-            }
+            $this->serverService->getService(SystemService::DAEMON, $server)->installDaemon($serverDaemon);
         });
 
         if (! $this->successful()) {
@@ -99,10 +97,8 @@ class ServerDaemonController extends Controller
         $serverDaemon = ServerDaemon::findOrFail($id);
 
         $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            if ($server->ssh_connection) {
-                $this->serverService->getService(SystemService::DAEMON, $server)->removeDaemon($serverDaemon);
-                $serverDaemon->delete();
-            }
+            $this->serverService->getService(SystemService::DAEMON, $server)->removeDaemon($serverDaemon);
+            $serverDaemon->delete();
         });
 
         return $this->remoteResponse();

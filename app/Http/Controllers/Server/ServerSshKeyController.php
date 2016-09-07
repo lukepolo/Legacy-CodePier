@@ -57,9 +57,7 @@ class ServerSshKeyController extends Controller
         ]);
 
         $this->runOnServer($server, function () use ($server, $serverSshKey) {
-            if ($server->ssh_connection) {
-                $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
-            }
+            $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
         });
 
         if (! $this->successful()) {
@@ -97,10 +95,8 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverSshKey) {
-            if ($server->ssh_connection) {
-                $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
-                $serverSshKey->delete();
-            }
+            $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
+            $serverSshKey->delete();
         });
 
         return $this->remoteResponse();

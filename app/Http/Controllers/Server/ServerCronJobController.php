@@ -57,9 +57,7 @@ class ServerCronJobController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            if ($server->ssh_connection) {
-                $this->serverService->installCron($serverCronJob);
-            }
+            $this->serverService->installCron($serverCronJob);
         });
 
         if (! $this->successful()) {
@@ -97,10 +95,8 @@ class ServerCronJobController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            if ($server->ssh_connection) {
-                $this->serverService->installCron($serverCronJob);
-                $serverCronJob->delete();
-            }
+            $this->serverService->installCron($serverCronJob);
+            $serverCronJob->delete();
         });
 
         return $this->remoteResponse();

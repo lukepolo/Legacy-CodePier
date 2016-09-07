@@ -28,11 +28,11 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        createSite : ({commit}, payload) => {
+        createSite : ({commit}, data) => {
             Vue.http.post(action('Site\SiteController@store'), {
-                domain: payload.domain,
-                servers: payload.selectedServers,
-                wildcard_domain: payload.wildcard_domain,
+                domain: data.domain,
+                servers: data.selectedServers,
+                wildcard_domain: data.wildcard_domain,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
                 app.$router.push('/site/' + response.json().id);
@@ -40,8 +40,8 @@ const siteStore = new Vuex.Store({
                 alert(error);
             })
         },
-        updateSite: ({commit}, payload) => {
-            Vue.http.put(action('Site\SiteController@update', {site: payload.site_id}), payload.data).then((response) => {
+        updateSite: ({commit}, data) => {
+            Vue.http.put(action('Site\SiteController@update', {site: data.site_id}), data.data).then((response) => {
                 commit('SET_SITE', response.json());
             }, (errors) => {
                 alert(error);
@@ -62,9 +62,9 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        installWorker: ({commit}, payload) => {
-            Vue.http.post(action('Site\SiteWorkerController@store', {site: payload.site_id}), payload).then((response) => {
-                siteStore.dispatch('getWorkers', payload.site_id);
+        installWorker: ({commit}, data) => {
+            Vue.http.post(action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
+                siteStore.dispatch('getWorkers', data.site_id);
             }, (errors) => {
                 alert(error);
             });
@@ -77,21 +77,21 @@ const siteStore = new Vuex.Store({
             });
         },
         getSslCertificates: ({commit}, site_id) => {
-            Vue.http.get(action('Site\Certficate\SiteSSLController@index', {site: site_id})).then((response) => {
+            Vue.http.get(action('Site\Certificate\SiteSSLController@index', {site: site_id})).then((response) => {
                 commit('SET_SSL_CERTIFICATES', response.json());
             }, (errors) => {
                 alert(error);
             });
         },
-        installLetsEncryptSslCertificate: ({commit}, payload) => {
-            Vue.http.post(action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: payload.site_id}), payload).then((response) => {
-                siteStore.dispatch('getSslCertificates', payload.site_id);
+        installLetsEncryptSslCertificate: ({commit}, data) => {
+            Vue.http.post(action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: data.site_id}), data).then((response) => {
+                siteStore.dispatch('getSslCertificates', data.site_id);
             }, (errors) => {
                 alert(error);
             });
         },
         deleteSslCertificate: ({commit}, ssl_certificate_id) => {
-            Vue.http.delete(action('Site\Certficate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
+            Vue.http.delete(action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
                 siteStore.dispatch('getSslCertificates', siteStore.state.site.id);
             }, (errors) => {
                 alert(error);
