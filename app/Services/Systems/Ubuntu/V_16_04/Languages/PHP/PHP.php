@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
+use App\Models\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
 
 /**
@@ -55,6 +56,16 @@ class PHP
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y composer');
+
+        $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
+
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
+
+        ServerCronJob::create([
+            'server_id' => $this->server->id,
+            'job'       => $cronJob,
+            'user'      => 'root',
+        ]);
     }
 
     public function installBlackFire($serverID, $serverToken)

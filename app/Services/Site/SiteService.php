@@ -502,6 +502,7 @@ server {
 }
 ');
         } else {
+
             $this->remoteTaskService->writeToFile('/etc/nginx/codepier-conf/'.$site->domain.'/server/listen', '
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';

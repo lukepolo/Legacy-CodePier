@@ -32,8 +32,6 @@ class FirewallService
         $this->remoteTaskService->writeToFile('/etc/opt/iptables', '
 #!/bin/sh
 
-echo "REDOING IP TABLES"
-
 iptables -F
 iptables -X
 iptables -t nat -F
@@ -60,8 +58,6 @@ iptables -P INPUT DROP
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
         $this->remoteTaskService->run('/etc/opt/./iptables');
-        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
-        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
     }
 
     public function addFirewallRule(ServerFirewallRule $serverFirewallRule)

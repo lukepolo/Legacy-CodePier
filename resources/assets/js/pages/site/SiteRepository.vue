@@ -21,6 +21,11 @@
                             Zerotime Deployment
                         </label>
 
+                        <label>
+                            <input type="checkbox" v-model="zerotime_deployment" name="zerotime_deployment" value="1">
+                            Wildcard Domain
+                        </label>
+
                         <div class="form-group">
                             <div class="radio" v-for="user_repository_provider in user_repository_providers">
                                 <label>

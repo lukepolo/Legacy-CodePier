@@ -62,7 +62,8 @@ class PHP
 
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release.'/storage');
 
-        $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || echo >> '.$this->site_folder.'/.env');
+        // TODO - we need to add this to custom tasks, as not everyone will have a laravel or even PHP setup
+        $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/.env '.$this->release.'/.env');
 
         return $output;
