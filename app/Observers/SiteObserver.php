@@ -35,7 +35,7 @@ class SiteObserver
             $this->repositoryService->importSshKeyIfPrivate($site);
         }
 
-        foreach($site->servers as $server) {
+        foreach ($site->servers as $server) {
             $this->siteService->create($server, $site);
         }
 
