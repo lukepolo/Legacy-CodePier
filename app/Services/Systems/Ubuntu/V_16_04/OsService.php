@@ -35,7 +35,7 @@ class OsService
     {
         $this->connectToServer();
 
-        $rootPassword = decrypt($this->server->root_password);
+        $rootPassword = $this->server->sudo_password;
 
         $this->remoteTaskService->run('echo \'root:'.$rootPassword.'\' | chpasswd');
 
@@ -78,9 +78,7 @@ class OsService
     {
         $this->connectToServer();
 
-        $password = str_random(32);
-
-        $this->server->root_password = encrypt($password);
+        $password = $this->server->sudo_password = str_random(32);
 
         $this->server->save();
 
