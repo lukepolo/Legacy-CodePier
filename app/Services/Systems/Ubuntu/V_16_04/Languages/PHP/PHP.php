@@ -74,14 +74,11 @@ class PHP
 
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
-        $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install blackfire-agent blackfire-php');
 
-        $this->remoteTaskService->run('echo "'.$serverID.'\n'.$serverToken.'\n" | blackfire-agent -register');
+        $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");
 
-        $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-id', $serverID);
-        $this->remoteTaskService->updateText('/etc/blackfire/agent', 'server-token', $serverToken);
-
-        $this->remoteTaskService->run('/etc/init.d/blackfire-agent restart');
+        $this->remoteTaskService->run('service blackfire-agent restart');
+        $this->remoteTaskService->run('service php7.0-fpm restart');
     }
 }
