@@ -3,6 +3,7 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 
 class WebService
 {
@@ -10,6 +11,7 @@ class WebService
 
     public function installApache()
     {
+
     }
 
     public function installCertBot()
@@ -38,12 +40,7 @@ class WebService
         $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
 
         $this->remoteTaskService->run('service nginx restart');
-    }
 
-    public function restartWebServices()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run('service nginx restart');
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service nginx restart');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
 use App\Models\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\SystemService;
 
 /**
  * Class Ubuntu16_04.
@@ -28,6 +29,8 @@ class PHP
 
         $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini');
         $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service php7.0-fpm restart');
     }
 
     public function installPhpFpm()
