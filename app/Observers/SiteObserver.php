@@ -59,7 +59,7 @@ class SiteObserver
                     'step' => 'Install Node Dependencies',
                     'order' => '3',
                     'internal_deployment_function' => 'installNodeDependencies',
-                    'customizable' => true
+                    'customizable' => true,
                 ],
                 [
                     'step'                         => 'Run Migrations',
