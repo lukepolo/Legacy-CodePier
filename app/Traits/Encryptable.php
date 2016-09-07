@@ -3,8 +3,7 @@
 namespace App\Traits;
 
 /**
- * Class Encryptable
- * @package App\Traits
+ * Class Encryptable.
  */
 trait Encryptable
 {
