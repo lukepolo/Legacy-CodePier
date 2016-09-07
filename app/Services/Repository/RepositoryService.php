@@ -3,6 +3,7 @@
 namespace App\Services\Repository;
 
 use App\Contracts\Repository\RepositoryServiceContract;
+use App\Models\RepositoryProvider;
 use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 
@@ -13,12 +14,6 @@ class RepositoryService implements RepositoryServiceContract
 {
     protected $remoteTaskService;
 
-    public $providers = [
-        'github'    => Providers\GitHub::class,
-        'gitlab'    => Providers\GitLab::class,
-        'bitbucket' => Providers\BitBucket::class,
-    ];
-
     /**
      * Imports a ssh key into the specific provider.
      *
@@ -28,7 +23,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function importSshKeyIfPrivate(Site $site)
     {
-        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name);
+        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
         foreach ($site->servers as $server) {
             $providerService->importSshKeyIfPrivate(
                 $site->userRepositoryProvider,
@@ -39,31 +34,27 @@ class RepositoryService implements RepositoryServiceContract
     }
 
     /**
-     * Gets the provider that is passed in.
-     *
-     * @param $provider
-     *
+     * @param RepositoryProvider $repositoryProvider
      * @return mixed
      */
-    private function getProvider($provider)
+    private function getProvider(RepositoryProvider $repositoryProvider)
     {
-        // TODO - should have morph abilities
-        return new $this->providers[$provider]();
+        return new $repositoryProvider->repository_class();
     }
 
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider->provider_name)->getLatestCommit($userRepositoryProvider,
+        return $this->getProvider($userRepositoryProvider->repositoryProvider)->getLatestCommit($userRepositoryProvider,
             $repository, $branch);
     }
 
     public function createDeployHook(Site $site)
     {
-        return $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name)->createDeployHook($site);
+        return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->createDeployHook($site);
     }
 
     public function deleteDeployHook(Site $site)
     {
-        return $this->getProvider($site->userRepositoryProvider->repositoryProvider->provider_name)->deleteDeployHook($site);
+        return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->deleteDeployHook($site);
     }
 }
