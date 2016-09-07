@@ -63,7 +63,7 @@ class DatabaseService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-        if(!empty($database)) {
+        if (! empty($database)) {
             $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database);
         }
 
@@ -83,7 +83,6 @@ class DatabaseService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite');
     }
-
 
     public function installMongoDB()
     {
