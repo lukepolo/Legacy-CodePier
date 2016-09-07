@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Models\Server;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
@@ -11,6 +14,39 @@ use ReflectionClass;
  */
 class ServerFeatureController extends Controller
 {
+    private $serverService;
+
+    /**
+     * ServerController constructor.
+     *
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     */
+    public function __construct(ServerService $serverService)
+    {
+        $this->serverService = $serverService;
+    }
+
+    public function store(Request $request, $serverId)
+    {
+        $server = Server::findOrFail($serverId);
+        $feature = $request->get('feature');
+        $service = $request->get('service');
+        $parameters = $request->get('parameters', []);
+
+        $this->runOnServer($server, function () use ($server, $feature, $service, $parameters) {
+
+            call_user_func_array([$this->serverService->getService($service, $server), 'install' . $feature], $parameters);
+
+            $serverFeatures = $server->server_features;
+            $serverFeatures[$service][$feature]['enabled'] = true;
+
+            $server->server_features = $serverFeatures;
+            $server->save();
+        });
+
+        return $this->remoteResponse();
+    }
+
     public function getServerFeatures()
     {
         $availableFeatures = collect();
@@ -38,10 +74,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
+                $languages = File::directories($version . '/Languages');
 
                 foreach ($languages as $language) {
-                    $language .= '/'.basename($language).'.php';
+                    $language .= '/' . basename($language) . '.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -58,10 +94,10 @@ class ServerFeatureController extends Controller
         foreach ($systems as $system) {
             $versions = File::directories($system);
             foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
+                $languages = File::directories($version . '/Languages');
 
                 foreach ($languages as $language) {
-                    foreach (File::files($language.'/Frameworks') as $framework) {
+                    foreach (File::files($language . '/Frameworks') as $framework) {
                         $availableFrameworks = $availableFrameworks->merge($this->buildFeatureArray($this->buildReflection($framework)));
                     }
                 }
@@ -77,7 +113,7 @@ class ServerFeatureController extends Controller
             str_replace(
                 '.php',
                 '',
-                'App'.str_replace(
+                'App' . str_replace(
                     '/',
                     '\\',
                     str_replace(

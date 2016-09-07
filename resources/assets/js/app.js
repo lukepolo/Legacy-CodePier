@@ -188,6 +188,7 @@ import ServerSites from "./pages/server/ServerSites.vue";
 import ServerDaemons from "./pages/server/ServerDaemons.vue";
 import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
 import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
+import ServerFeatures from "./pages/server/ServerFeatures.vue";
 import ServerMonitoring from "./pages/server/ServerMonitoring.vue";
 import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
 
@@ -213,6 +214,7 @@ const router = new VueRouter({
         {path: '/server/:server_id/sites', component : ServerSites},
         {path: '/server/:server_id/daemons', component : ServerDaemons},
         {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
+        {path: '/server/:server_id/features', component : ServerFeatures},
         {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},
         {path: '/server/:server_id/monitoring', component : ServerMonitoring},
         {path: '/server/:server_id/firewall-rules', component : ServerFirewallRules},

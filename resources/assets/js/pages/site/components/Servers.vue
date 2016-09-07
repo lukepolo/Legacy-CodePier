@@ -1,6 +1,9 @@
 <template>
     <section id="right">
         <template v-for="server in servers">
+            <router-link :to="{ path: '/server/'+server.id+'/sites' }">
+                {{ server.name }}
+            </router-link>
             {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
             <p>4 / 40 GB</p>
             <p>1.2 Avg Load</p>
