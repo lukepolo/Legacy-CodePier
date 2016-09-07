@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams, Notifiable;
+    use SoftDeletes, UsedByTeams, Notifiable, Encryptable;
 
     protected $guarded = ['id'];
 
@@ -23,6 +24,13 @@ class Server extends Model
         'options'  => 'array',
         'server_provider_features' => 'array',
         'server_features' => 'array',
+    ];
+
+    protected $encryptable = [
+        'sudo_password',
+        'public_ssh_key',
+        'private_ssh_key',
+        'database_password',
     ];
 
     /*

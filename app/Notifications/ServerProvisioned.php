@@ -37,8 +37,8 @@ class ServerProvisioned extends Notification
     {
         return (new MailMessage())
             ->line('Here is your Root and Mysql Password.')
-            ->line('SUDO Password : '.decrypt($server->root_password))
-            ->line('Database Password : '.decrypt($server->database_password))
+            ->line('SUDO Password : '.$server->sudo_password)
+            ->line('Database Password : '.$server->database_password)
             ->line('Thank you for using our application!');
     }
 }
