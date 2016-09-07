@@ -10,7 +10,7 @@ class DatabaseService
 
     public function installMariaDB($database = null)
     {
-        $databasePassword = decrypt($this->server->database_password);
+        $databasePassword = $this->server->database_password;
 
         $this->connectToServer();
 
@@ -37,7 +37,7 @@ class DatabaseService
 
     public function installMySQL($database = null)
     {
-        $databasePassword = decrypt($this->server->database_password);
+        $databasePassword = $this->server->database_password;
 
         $this->connectToServer();
 
@@ -55,9 +55,19 @@ class DatabaseService
         }
     }
 
-    public function installPostgreSQL()
+    public function installPostgreSQL($database = null)
     {
-        $databasePassword = decrypt($this->server->database_password);
+        $this->connectToServer();
+
+        $databasePassword = $this->server->database_password;
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
+        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
+        if(!empty($database)) {
+            $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database);
+        }
+
+        $this->remoteTaskService->run('service postgresql restart');
     }
 
     public function installRedis()
@@ -66,6 +76,14 @@ class DatabaseService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
     }
+
+    public function installSqlLite()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite');
+    }
+
 
     public function installMongoDB()
     {
