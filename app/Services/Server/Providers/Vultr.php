@@ -1,16 +1,13 @@
 <?php
 
-namespace app\Services\Server\Providers;
+namespace App\Services\Server\Providers;
 
 use App\Models\Server;
-use App\Models\User;
-use DigitalOceanV2\Api\Droplet;
 
-/**
- * Interface ServerProviderContract.
- */
-interface ServerProviderContract
+class VultrProvider implements ServerProviderContract
 {
+    protected $providerName = 'vultr';
+
     /**
      * Gets the server options from the provider.
      *
@@ -18,7 +15,9 @@ interface ServerProviderContract
      *
      * @return array
      */
-    public function getOptions();
+    public function getOptions()
+    {
+    }
 
     /**
      * Gets the regions from the provider.
@@ -27,7 +26,9 @@ interface ServerProviderContract
      *
      * @return array
      */
-    public function getRegions();
+    public function getRegions()
+    {
+    }
 
     /**
      * Creates a new server.
@@ -39,7 +40,9 @@ interface ServerProviderContract
      *
      * @return static
      */
-    public function create(Server $server, $sshKey);
+    public function create(Server $server, $sshKey)
+    {
+    }
 
     /**
      * Gets the status of a server.
@@ -48,14 +51,18 @@ interface ServerProviderContract
      *
      * @return mixed
      */
-    public function getStatus(Server $server);
+    public function getStatus(Server $server)
+    {
+    }
 
     /**
      * Gets the server IP.
      *
      * @param Server $server
      */
-    public function savePublicIP(Server $server);
+    public function savePublicIP(Server $server)
+    {
+    }
 
     /**
      * Gets the public IP of the server.
@@ -64,7 +71,9 @@ interface ServerProviderContract
      *
      * @return mixed
      */
-    public function getPublicIP(Server $server);
+    public function getPublicIP(Server $server)
+    {
+    }
 
     /**
      * Sets the token for the API.
@@ -75,12 +84,16 @@ interface ServerProviderContract
      *
      * @return mixed
      */
-    public function setToken($token);
+    public function setToken($token)
+    {
+    }
 
     /**
      * Refreshes the token
      *
      * @return mixed
      */
-    public function refreshToken();
+    public function refreshToken()
+    {
+    }
 }
