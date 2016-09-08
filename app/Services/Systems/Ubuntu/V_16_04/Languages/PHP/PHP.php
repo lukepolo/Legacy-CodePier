@@ -24,8 +24,8 @@ class PHP
         'installPHP7' => [
             '/etc/php/7.0/fpm/php.ini',
             '/etc/php/7.0/cli/php.ini',
-            '/etc/php/7.0/fpm/php-fpm.conf'
-        ]
+            '/etc/php/7.0/fpm/php-fpm.conf',
+        ],
     ];
 
     public function installPHP7()
