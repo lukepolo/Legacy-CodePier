@@ -9,9 +9,7 @@ use App\Models\ServerCronJob;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerCronJobController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerCronJobController.
  */
 class ServerCronJobController extends Controller
 {
@@ -32,6 +30,7 @@ class ServerCronJobController extends Controller
      *
      * @param Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -42,28 +41,38 @@ class ServerCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
     {
         $serverCronJob = ServerCronJob::create([
             'server_id' => $serverId,
-            'job' =>  $request->get('cron_timing') . ' ' .$request->get('cron'),
-            'user' => $request->get('user')
+            'job'       => $request->get('cron_timing').' '.$request->get('cron'),
+            'user'      => $request->get('user'),
         ]);
 
-        $this->serverService->installCron($serverCronJob);
+        $server = Server::findOrFail($serverId);
 
-        return response()->json($serverCronJob);
+        $this->runOnServer($server, function () use ($server, $serverCronJob) {
+            $this->serverService->installCron($serverCronJob);
+        });
+
+        if (! $this->successful()) {
+            $serverCronJob->delete();
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -75,11 +84,21 @@ class ServerCronJobController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
     {
-        $this->serverService->removeCron(ServerCronJob::findorFail($id));
+        $serverCronJob = ServerCronJob::findorFail($id);
+
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server, $serverCronJob) {
+            $this->serverService->installCron($serverCronJob);
+            $serverCronJob->delete();
+        });
+
+        return $this->remoteResponse();
     }
 }

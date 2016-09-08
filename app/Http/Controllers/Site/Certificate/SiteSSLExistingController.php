@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Site\Certificate;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteSSLExistingController
- * @package App\Http\Controllers\Site\Features\SSL
+ * Class SiteSSLExistingController.
  */
 class SiteSSLExistingController extends Controller
-
 {
     private $siteService;
 
     /**
      * SiteSSLController constructor.
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     *
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {
@@ -28,8 +27,9 @@ class SiteSSLExistingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)

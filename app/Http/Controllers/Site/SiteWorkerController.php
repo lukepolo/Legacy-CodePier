@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use App\Models\SiteDaemon;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteWorkerController
- * @package App\Http\Controllers
+ * Class SiteWorkerController.
  */
 class SiteWorkerController extends Controller
 {
@@ -18,7 +17,8 @@ class SiteWorkerController extends Controller
 
     /**
      * RepositoryHookController constructor.
-     * @param \App\Services\Server\Site\SiteService |SiteService $siteService
+     *
+     * @param \App\Services\Site\SiteService |SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {
@@ -30,6 +30,7 @@ class SiteWorkerController extends Controller
      *
      * @param Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $siteId)
@@ -40,8 +41,9 @@ class SiteWorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -50,11 +52,11 @@ class SiteWorkerController extends Controller
 
         // MOVE TO LARAVEL SPECIFIC AREA , front end can decide show / hide certain framework features that you can do from the site vue!
         $serverDaemon = SiteDaemon::create([
-            'site_id' => $site->id,
-            'command' =>  '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . $request->get('connection') . ' --queue='.$request->get('queue_channel').' --timeout=' . $request->get('timeout') . ' --sleep=' . $request->get('sleep') . ' --tries=' . $request->get('tries') . ' ' . ($request->get('daemon') ? '--daemon' : null),
-            'auto_start' => true,
-            'auto_restart' => true,
-            'user' => 'codepier',
+            'site_id'           => $site->id,
+            'command'           => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
+            'auto_start'        => true,
+            'auto_restart'      => true,
+            'user'              => 'codepier',
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
     }
@@ -63,7 +65,8 @@ class SiteWorkerController extends Controller
      * Display the specified resource.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($siteId, $id)
@@ -75,7 +78,8 @@ class SiteWorkerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

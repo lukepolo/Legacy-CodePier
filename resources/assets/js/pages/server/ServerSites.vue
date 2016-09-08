@@ -56,12 +56,6 @@
             LeftNav,
             ServerNav
         },
-        data() {
-            return {
-                server : null,
-                sites : []
-            }
-        },
         created() {
             this.fetchData();
         },
@@ -70,17 +64,8 @@
         },
         methods: {
             fetchData: function () {
-                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                    this.server = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
-
-                Vue.http.get(this.action('Server\ServerSiteController@show', {server : this.$route.params.server_id})).then((response) => {
-                    this.sites = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
+                serverStore.dispatch('getServer', this.$route.params.server_id);
+                serverStore.dispatch('getServerSites', this.$route.params.server_id);
             },
             isZerotimeDeployment(site) {
               if(site.zerotime_deployment) {
@@ -93,6 +78,14 @@
                     return true;
                 }
                 return false;
+            }
+        },
+        computed : {
+            server : () => {
+                return serverStore.state.server;
+            },
+            sites : () => {
+                return serverStore.state.server_sites;
             }
         }
     }

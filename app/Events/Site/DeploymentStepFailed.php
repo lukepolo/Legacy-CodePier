@@ -11,8 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class ServerCreated
- * @package App\Events\Server
+ * Class ServerCreated.
  */
 class DeploymentStepFailed implements ShouldBroadcastNow
 {
@@ -24,7 +23,8 @@ class DeploymentStepFailed implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
-     * @param Site $site
+     *
+     * @param Site            $site
      * @param DeploymentEvent $deploymentEvent
      * @param $log
      */
@@ -47,6 +47,6 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.' . $this->siteId);
+        return new PrivateChannel('App.Models.Site.'.$this->siteId);
     }
 }

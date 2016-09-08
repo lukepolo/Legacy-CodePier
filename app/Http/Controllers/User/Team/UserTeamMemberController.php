@@ -9,15 +9,15 @@ use Mpociot\Teamwork\Facades\Teamwork;
 use Mpociot\Teamwork\TeamInvite;
 
 /**
- * Class UserTeamMemberController
- * @package App\Http\Controllers\User\Team
+ * Class UserTeamMemberController.
  */
 class UserTeamMemberController extends Controller
 {
     /**
      * Show the members of the given team.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function index($id)
@@ -33,14 +33,16 @@ class UserTeamMemberController extends Controller
      *
      * @param int $team_id
      * @param int $user_id
+     *
      * @return \Illuminate\Http\Response
+     *
      * @internal param int $id
      */
     public function destroy($team_id, $user_id)
     {
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
-        if (!auth()->user()->isOwnerOfTeam($team)) {
+        if (! auth()->user()->isOwnerOfTeam($team)) {
             abort(403);
         }
 
@@ -57,6 +59,7 @@ class UserTeamMemberController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return $this
      */
     public function invite(Request $request)
@@ -64,17 +67,17 @@ class UserTeamMemberController extends Controller
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($request->get('team_id'));
 
-        if (!Teamwork::hasPendingInvite($request->email, $team)) {
+        if (! Teamwork::hasPendingInvite($request->email, $team)) {
             Teamwork::inviteToTeam($request->email, $team, function ($invite) {
                 Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
                     function ($m) use ($invite) {
-                        $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
+                        $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
                     });
                 // Send email to user
             });
         } else {
             return response()->json([
-                'email' => 'The email address is already invited to the team.'
+                'email' => 'The email address is already invited to the team.',
             ]);
         }
 
@@ -85,6 +88,7 @@ class UserTeamMemberController extends Controller
      * Resend an invitation mail.
      *
      * @param $invite_id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function resendInvite($invite_id)
@@ -93,7 +97,7 @@ class UserTeamMemberController extends Controller
 
         Mail::send('emails.team_invite', ['team' => $invite->team, 'invite' => $invite],
             function ($m) use ($invite) {
-                $m->to($invite->email)->subject('Invitation to join team ' . $invite->team->name);
+                $m->to($invite->email)->subject('Invitation to join team '.$invite->team->name);
             });
 
         return response()->json();

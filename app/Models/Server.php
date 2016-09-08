@@ -2,26 +2,35 @@
 
 namespace App\Models;
 
+use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 /**
- * Class Server
- * @package App\Models
+ * Class Server.
  */
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams;
+    use SoftDeletes, UsedByTeams, Notifiable, Encryptable;
 
     protected $guarded = ['id'];
 
-    static $teamworkModel = 'pile.teams';
+    public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
 
     protected $casts = [
-        'options' => 'array',
-        'features' => 'array',
+        'options'  => 'array',
+        'server_provider_features' => 'array',
+        'server_features' => 'array',
+    ];
+
+    protected $encryptable = [
+        'sudo_password',
+        'public_ssh_key',
+        'private_ssh_key',
+        'database_password',
     ];
 
     /*
@@ -70,12 +79,7 @@ class Server extends Model
         return $this->hasMany(ServerNetworkRule::class);
     }
 
-    public function hasFeature($feature)
-    {
-        return $this->getFeatures()->pluck('option')->contains($feature);
-    }
-
-    public function features()
+    public function server_provider_features()
     {
         return $this->hasMany(ServerProviderFeatures::class);
     }
@@ -84,17 +88,28 @@ class Server extends Model
     {
         return $this->belongsTo(Pile::class);
     }
+
+    public function provisionSteps()
+    {
+        return $this->hasMany(ServerProvisionStep::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
     |--------------------------------------------------------------------------
     */
 
-    public function getFeatures()
+    public function hasServerProviderFeature($feature)
+    {
+        return $this->getServerProviderFeatures()->pluck('option')->contains($feature);
+    }
+
+    public function getServerProviderFeatures()
     {
         $features = [];
 
-        foreach ($this->features as $featureID) {
+        foreach ($this->server_provider_features as $featureID) {
             $features[] = ServerProviderFeatures::findOrFail((int) $featureID);
         }
 
@@ -109,5 +124,23 @@ class Server extends Model
     public function decode($hash)
     {
         return $this->findOrFail(\Hashids::decode($hash));
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        $emails = collect($this->user->email);
+
+        $this->load('pile.teams.users');
+
+        foreach ($this->pile->teams as $team) {
+            $emails->merge($team->users->pluck('email'));
+        }
+
+        return $emails->toArray();
     }
 }

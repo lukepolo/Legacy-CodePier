@@ -5,14 +5,15 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
+use App\Models\ServerProvisionStep;
+use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class ProvisionServer
- * @package App\Jobs
+ * Class ProvisionServer.
  */
 class ProvisionServer implements ShouldQueue
 {
@@ -22,6 +23,7 @@ class ProvisionServer implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param Server $server
      */
     public function __construct(Server $server)
@@ -31,18 +33,79 @@ class ProvisionServer implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function handle(ServerService $serverService)
     {
-        $serverService->provision($this->server);
-
-        foreach ($this->server->user->sshKeys as $sshKey) {
-            $serverService->installSshKey($this->server, $sshKey->ssh_key);
+        if (! $this->server->provisionSteps->count()) {
+            $this->createProvisionSteps($this->server);
         }
 
-        event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+        $this->server->load('provisionSteps');
 
-        // TODO - notify the users that their server was provisioned
+        if ($serverService->provision($this->server)) {
+            $this->server->user->load('sshKeys');
+            foreach ($this->server->user->sshKeys as $sshKey) {
+                $serverService->installSshKey($this->server, $sshKey->ssh_key);
+            }
+
+            event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
+        }
+    }
+
+    private function createProvisionSteps(Server $server)
+    {
+        $provisionSteps = [
+            SystemService::SYSTEM => [
+                'updateSystem' => [
+                    'step' => 'Updating the system',
+                ],
+                'setTimezoneToUTC' => [
+                    'step' => 'Settings Timezone to UTC',
+                ],
+                'setLocaleToUTF8' => [
+                    'step' => 'Settings Locale to UTF8',
+                ],
+                'addCodePierUser' => [
+                    'step' => 'Adding CodePier User',
+                ],
+            ],
+            SystemService::FIREWALL => [
+                'addBasicFirewallRules' => [
+                    'step' => 'Installing Basic Firewall Rules',
+                ],
+            ],
+            SystemService::REPOSITORY => [],
+            SystemService::WEB => [],
+            SystemService::MONITORING => [],
+        ];
+
+        foreach ($server->server_features as $service => $features) {
+            foreach ($features as $function => $feature) {
+                if (isset($feature['enabled']) && $feature['enabled']) {
+                    $provisionSteps[$service]['install'.$function] = [
+                        'step' => 'Installing '.$function,
+                        'parameters' => isset($feature['parameters']) ? $feature['parameters'] : [],
+                    ];
+                }
+            }
+        }
+        foreach ($provisionSteps as $service => $serviceFunctions) {
+            foreach ($serviceFunctions as $function => $data) {
+                $this->createStep($server, $service, $function, $data['step'], isset($data['parameters']) ? $data['parameters'] : []);
+            }
+        }
+    }
+
+    private function createStep(Server $server, $service, $function, $step, $parameters = [])
+    {
+        ServerProvisionStep::create([
+            'server_id' => $server->id,
+            'service' => $service,
+            'function' => $function,
+            'step' => $step,
+            'parameters' => $parameters,
+        ]);
     }
 }

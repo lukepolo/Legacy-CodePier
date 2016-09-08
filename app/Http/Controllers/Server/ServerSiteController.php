@@ -4,15 +4,10 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateServer;
 use App\Models\Server;
-use App\Models\ServerProvider;
-use Illuminate\Http\Request;
 
 /**
- * Class ServerController
- *
- * @package App\Http\Controllers\Server
+ * Class ServerController.
  */
 class ServerSiteController extends Controller
 {
@@ -31,18 +26,18 @@ class ServerSiteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($serverId, $id)
+    public function index($id)
     {
-        return response()->json(Server::with(['sites' => function($query) {
+        return response()->json(Server::with(['sites' => function ($query) {
             $query->with([
                 'activeSSL',
                 'daemons',
                 'settings',
-                'userRepositoryProvider'
+                'userRepositoryProvider',
             ]);
         }])->findOrFail($id)->sites);
     }

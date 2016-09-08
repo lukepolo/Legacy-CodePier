@@ -6,12 +6,11 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
 use App\Models\ServerFirewallRule;
+use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerFirewallController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerFirewallController.
  */
 class ServerFirewallController extends Controller
 {
@@ -32,6 +31,7 @@ class ServerFirewallController extends Controller
      *
      * @param Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -42,29 +42,39 @@ class ServerFirewallController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
     {
         $serverFirewallRule = ServerFirewallRule::create([
             'description' => $request->get('description'),
-            'server_id' => $serverId,
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip')
+            'server_id'   => $serverId,
+            'port'        => $request->get('port'),
+            'from_ip'     => $request->get('from_ip'),
         ]);
 
-        $this->serverService->addFirewallRule($serverFirewallRule);
+        $server = Server::findOrFail($serverId);
 
-        return response()->json($serverFirewallRule);
+        $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
+            $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule($serverFirewallRule);
+        });
+
+        if (! $this->successful()) {
+            $serverFirewallRule->delete();
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -76,14 +86,21 @@ class ServerFirewallController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
     {
-        $firewallRule = ServerFirewallRule::findOrFail($id);
-        $this->serverService->removeFirewallRule($firewallRule);
+        $serverFirewallRule = ServerFirewallRule::findOrFail($id);
 
-        $firewallRule->delete();
+        $server = Server::findOrFail($serverId);
+
+        $this->runOnServer($server, function () use ($server, $serverFirewallRule) {
+            $this->serverService->getService(SystemService::FIREWALL, $server)->removeFirewallRule($serverFirewallRule);
+            $serverFirewallRule->delete();
+        });
+
+        return $this->remoteResponse();
     }
 }

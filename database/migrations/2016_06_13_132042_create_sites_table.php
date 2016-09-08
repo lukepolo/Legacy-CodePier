@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSitesTable extends Migration
 {
@@ -19,7 +19,7 @@ class CreateSitesTable extends Migration
             $table->string('branch')->nullable();
             $table->text('repository')->nullable();
             $table->text('web_directory')->nullable();
-            $table->integer('user_repository_provider_id');
+            $table->integer('user_repository_provider_id')->nullable();
             $table->boolean('wildcard_domain')->default(0);
             $table->boolean('zerotime_deployment')->default(0);
             $table->string('automatic_deployment_id')->nullable();

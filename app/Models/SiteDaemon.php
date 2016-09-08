@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SiteDaemon
- * @package App\Models
+ * Class SiteDaemon.
  */
 class SiteDaemon extends Model
 {

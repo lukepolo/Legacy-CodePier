@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
 /**
- * Class UserSubscriptionController
- * @package App\Http\Controllers
+ * Class UserSubscriptionController.
  */
 class UserSubscriptionController extends Controller
 {
@@ -24,57 +22,57 @@ class UserSubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $userId
      * @return \Illuminate\Http\Response
      */
-    public function index($userId)
+    public function index()
     {
-        return response()->json(User::findOrFail($userId)->subscription());
+        return response()->json(\Auth::user()->subscription());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param $userId
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId)
+    public function store(Request $request)
     {
-        $user = User::findOrFail($userId);
+        $user = \Auth::user();
 
         if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
-
             $cardToken = Token::create([
-                "card" => [
-                    "number" => $request->get('number'),
-                    "exp_month" => $request->get('exp_month'),
-                    "exp_year" => $request->get('exp_year'),
-                    "cvc" => $request->get('cvc')
-                ]
+                'card' => [
+                    'number'    => $request->get('number'),
+                    'exp_month' => $request->get('exp_month'),
+                    'exp_year'  => $request->get('exp_year'),
+                    'cvc'       => $request->get('cvc'),
+                ],
             ]);
 
-            $user->updateCard($cardToken->id);
+            if ($user->hasStripeId()) {
+                $user->updateCard($cardToken->id);
+            }
         }
 
         if ($user->subscribed()) {
             $user->subscription('default')->swap($request->get('plan'));
         } else {
-            $user->newSubscription('default', $request->get('plan'))->create();
+            $user->newSubscription('default', $request->get('plan'))->create(isset($cardToken) ? $cardToken->id : null);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param $userId
      * @param $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId, $id)
+    public function destroy($id)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        User::findOrFail($userId)->subscription('default')->cancel();
+        \Auth::user()->subscription('default')->cancel();
     }
 }

@@ -27,7 +27,7 @@ Vue.directive('file-editor', {
             form.find('textarea[name="file"]').val(editor.getSession().getValue());
         });
 
-        $.get(laroute.action('Server\ServerController@getFile', {
+        $.post(laroute.action('Server\ServerController@getFile', {
             server_id: $(element).data('server_id'),
             path: $(element).data('path')
         }), function (envFile) {
@@ -52,9 +52,22 @@ Vue.mixin({
         },
         action: function (action, parameters) {
             return laroute.action(action, parameters);
+        },
+        getFormData : function(el) {
+
+            if(!$(el).is('form')) {
+                el = $(el).find('form');
+            }
+
+            // TODO - copy jquerys way of getting the proper data strings
+            return $(el).serializeArray();
         }
     }
 });
+
+
+// Vue.config.errorHandler = function (err, vm) {
+// }
 
 /*
  |--------------------------------------------------------------------------
@@ -81,9 +94,26 @@ window.userSubscriptionStore = userSubscriptionStore;
  |
  */
 
-import serverStore from './stores/ServerStore'
+import serverStore from './stores/Server/ServerStore';
 window.serverStore = serverStore;
 
+import serverSshKeyStore from './stores/Server/ServerSshKeyStore';
+window.serverSshKeyStore = serverSshKeyStore;
+
+import serverProviderStore from './stores/Server/ServerProviderStore';
+window.serverProviderStore = serverProviderStore;
+
+import serverCronJobStore from './stores/Server/ServerCronJobStore';
+window.serverCronJobStore = serverCronJobStore;
+
+import serverDaemonStore from './stores/Server/ServerDaemonStore';
+window.serverDaemonStore = serverDaemonStore;
+
+import serverFirewallStore from './stores/Server/ServerFirewallStore';
+window.serverFirewallStore = serverFirewallStore;
+
+import serverServicesStore from './stores/Server/ServerServicesStore';
+window.serverServicesStore = serverServicesStore;
 
 /*
  |--------------------------------------------------------------------------
@@ -158,6 +188,7 @@ import ServerSites from "./pages/server/ServerSites.vue";
 import ServerDaemons from "./pages/server/ServerDaemons.vue";
 import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
 import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
+import ServerFeatures from "./pages/server/ServerFeatures.vue";
 import ServerMonitoring from "./pages/server/ServerMonitoring.vue";
 import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
 
@@ -183,6 +214,7 @@ const router = new VueRouter({
         {path: '/server/:server_id/sites', component : ServerSites},
         {path: '/server/:server_id/daemons', component : ServerDaemons},
         {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
+        {path: '/server/:server_id/features', component : ServerFeatures},
         {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},
         {path: '/server/:server_id/monitoring', component : ServerMonitoring},
         {path: '/server/:server_id/firewall-rules', component : ServerFirewallRules},
@@ -211,12 +243,7 @@ const router = new VueRouter({
 });
 
 const app = new Vue({
-    router,
-    siteStore,
-    userStore,
-    eventStore,
-    serverStore,
-    userTeamStore
+    router
 }).$mount('#app-layout');
 
 window.app = app;

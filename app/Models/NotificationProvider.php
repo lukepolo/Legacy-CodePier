@@ -10,6 +10,6 @@ class NotificationProvider extends Model
 
     public function notificationProvider()
     {
-        return $this->belongsTo(NotificationProvider::class);
+        return $this->belongsTo(self::class);
     }
 }

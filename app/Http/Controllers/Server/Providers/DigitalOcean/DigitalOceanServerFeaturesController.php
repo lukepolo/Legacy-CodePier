@@ -9,9 +9,7 @@ use App\Models\ServerProvider;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerController
- *
- * @package App\Http\Controllers\Server
+ * Class ServerController.
  */
 class DigitalOceanServerFeaturesController extends Controller
 {

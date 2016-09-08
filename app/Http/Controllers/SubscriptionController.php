@@ -6,8 +6,7 @@ use Stripe\Plan;
 use Stripe\Stripe;
 
 /**
- * Class SubscriptionController
- * @package App\Http\Controllers
+ * Class SubscriptionController.
  */
 class SubscriptionController extends Controller
 {

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
- * Class RepositoryHookController
- * @package App\Http\Controllers
+ * Class RepositoryHookController.
  */
 class RepositoryHookController extends Controller
 {
@@ -17,6 +16,7 @@ class RepositoryHookController extends Controller
 
     /**
      * RepositoryHookController constructor.
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {
@@ -26,8 +26,9 @@ class RepositoryHookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -42,7 +43,8 @@ class RepositoryHookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)

@@ -9,9 +9,7 @@ use App\Models\ServerSshKey;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerSshKeyController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerSshKeyController.
  */
 class ServerSshKeyController extends Controller
 {
@@ -32,6 +30,7 @@ class ServerSshKeyController extends Controller
      *
      * @param Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -42,8 +41,9 @@ class ServerSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $serverId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
@@ -52,20 +52,27 @@ class ServerSshKeyController extends Controller
 
         $serverSshKey = ServerSshKey::create([
             'server_id' => $serverId,
-            'name' => $request->get('name'),
-            'ssh_key' => trim($request->get('ssh_key'))
+            'name'      => $request->get('name'),
+            'ssh_key'   => trim($request->get('ssh_key')),
         ]);
 
-        $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
+        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+            $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
+        });
 
-        return response()->json($serverSshKey);
+        if (! $this->successful()) {
+            $serverSshKey->delete();
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
      * Display the specified resource.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($serverId, $id)
@@ -77,21 +84,26 @@ class ServerSshKeyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $serverId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($serverId, $id)
     {
         $serverSshKey = ServerSshKey::findOrFail($id);
 
-        $this->serverService->removeSshKey($serverSshKey);
+        $server = Server::findOrFail($serverId);
 
-        $serverSshKey->delete();
+        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+            $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
+            $serverSshKey->delete();
+        });
 
+        return $this->remoteResponse();
     }
 
     /**
-     * Tests a ssh connection to server
+     * Tests a ssh connection to server.
      *
      * @param Request $request
      * @param $serverId

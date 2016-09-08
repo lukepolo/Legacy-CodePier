@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
@@ -11,8 +11,7 @@ use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteController
- * @package App\Http\Controllers\Site
+ * Class SiteController.
  */
 class SiteController extends Controller
 {
@@ -20,7 +19,8 @@ class SiteController extends Controller
 
     /**
      * SiteController constructor.
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     *
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
     {
@@ -40,18 +40,19 @@ class SiteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $site = Site::create([
-            'user_id' => \Auth::user()->id,
-            'pile_id' => $request->get('pile_id'),
-            'domain' => $request->get('domain'),
-            'web_directory' => $request->get('web_directory'),
-            'wildcard_domain' => (int)$request->get('wildcard_domain'),
-            'zerotime_deployment' => $request->get('zerotime_deployment', true)
+            'user_id'             => \Auth::user()->id,
+            'pile_id'             => $request->get('pile_id'),
+            'domain'              => $request->get('domain'),
+            'web_directory'       => $request->get('web_directory'),
+            'wildcard_domain'     => (int) $request->get('wildcard_domain'),
+            'zerotime_deployment' => $request->get('zerotime_deployment', true),
         ]);
 
         $site->servers()->sync($request->get('servers', []));
@@ -62,7 +63,8 @@ class SiteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -73,8 +75,9 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -82,23 +85,23 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
 
         $site->fill([
-            'branch' => $request->get('branch'),
-            'domain' =>  $request->get('domain'),
-            'pile_id' => $request->get('pile_id'),
-            'repository' => $request->get('repository'),
-            'web_directory' => $request->get('web_directory'),
-            'wildcard_domain' => (int)$request->get('wildcard_domain'),
-            'zerotime_deployment' => true,
-            'user_repository_provider_id' => $request->get('user_repository_provider_id')
+            'branch'                      => $request->get('branch'),
+            'domain'                      => $request->get('domain'),
+            'pile_id'                     => $request->get('pile_id'),
+            'repository'                  => $request->get('repository'),
+            'web_directory'               => $request->get('web_directory'),
+            'wildcard_domain'             => (int) $request->get('wildcard_domain'),
+            'zerotime_deployment'         => true,
+            'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
 
-        if($request->has('servers')) {
+        if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
-            foreach($changes['attached'] as $serverID) {
+            foreach ($changes['attached'] as $serverID) {
                 $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
             }
 
-            foreach($changes['detached'] as $serverID) {
+            foreach ($changes['detached'] as $serverID) {
                 dd('site needs to be deleted');
             }
         }
@@ -111,7 +114,8 @@ class SiteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -122,7 +126,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Deploys a site
+     * Deploys a site.
      *
      * @param Request $request
      */

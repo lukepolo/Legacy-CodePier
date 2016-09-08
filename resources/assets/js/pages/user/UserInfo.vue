@@ -11,20 +11,20 @@
             <form v-on:submit.prevent="onSubmit">
                 <div class="form-group">
                     <label>Name</label>
-                    <input name="name" type="name" :value="user.name">
+                    <input name="name" type="name" v-model="form.name">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input name="email" type="email" :value="user.email">
+                    <input name="email" type="email" v-model="form.email">
                 </div>
                 <section v-if="user.password">
                     <div class="form-group">
                         <label>New Password</label>
-                        <input name="new-password" type="password">
+                        <input name="new_password" type="password">
                     </div>
                     <div class="form-group">
                         <label>Confirm Password</label>
-                        <input name="confirm-password" type="password">
+                        <input name="confirm_password" type="password">
                     </div>
                 </section>
                 <button type="submit">Update Profile</button>
@@ -43,12 +43,22 @@
         },
         data() {
             return {
-                user: userStore.state.user
+                form : {
+                    name : user.name,
+                    email : user.email,
+                    new_password : null,
+                    confirm_password : null
+                }
+            }
+        },
+        computed : {
+            user : () => {
+                return userStore.state.user;
             }
         },
         methods : {
             onSubmit: function() {
-                Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.getFormData(this.$el), {
+                Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.form, {
                 }).then((response) => {
                     userStore.state.user = response.json();
                 }, (errors) => {
