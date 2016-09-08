@@ -9,6 +9,12 @@ class WebService
 {
     use ServiceConstructorTrait;
 
+    public static $files = [
+        'installNginx' => [
+            '/etc/nginx/nginx.conf',
+        ]
+    ];
+
     public function installApache()
     {
     }
