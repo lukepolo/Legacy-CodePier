@@ -145,9 +145,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         });
     });
 
-    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
+    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
+    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableServerFiles');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {

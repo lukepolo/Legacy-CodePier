@@ -2,20 +2,26 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-            <h3 class="section-header primary">Server Features</h3>
+            <server-nav :server="server"></server-nav>
             <feature-area :server="server" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
             <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+            <editable-server-files :server="server.id" v-if="server"></editable-server-files>
         </section>
     </section>
 </template>
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
+    import ServerNav from './components/ServerNav.vue';
     import FeatureArea from './components/FeatureArea.vue'
+    import EditableServerFiles from './components/EditableServerFiles.vue'
+
     export default {
         components: {
             LeftNav,
-            FeatureArea
+            ServerNav,
+            FeatureArea,
+            EditableServerFiles
         },
         created() {
             this.fetchData();
@@ -43,7 +49,7 @@
             },
             server : () => {
                 return serverStore.state.server;
-            },
+            }
         }
     }
 </script>

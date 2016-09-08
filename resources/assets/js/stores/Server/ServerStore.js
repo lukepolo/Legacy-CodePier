@@ -9,6 +9,7 @@ const serverStore = new Vuex.Store({
         servers: [],
         server: null,
         server_sites: null,
+        editable_files : [],
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: []
@@ -77,6 +78,13 @@ const serverStore = new Vuex.Store({
                 alert(error);
             });
         },
+        getEditableServerFiles: ({commit}, server) => {
+            Vue.http.get(action('Server\ServerFeatureController@getEditableServerFiles', {server : server})).then((response) => {
+                commit('SET_EDITABLE_FILES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
         installFeature: ({commit}, data) => {
             Vue.http.post(action('Server\ServerFeatureController@store', {server: data.server}), {
                 service: data.area,
@@ -107,6 +115,9 @@ const serverStore = new Vuex.Store({
         },
         SET_AVAILABLE_SERVER_FRAMEWORKS: (state, available_server_frameworks) => {
             state.available_server_frameworks = available_server_frameworks;
+        },
+        SET_EDITABLE_FILES : (state, files) => {
+            state.editable_files = files;
         }
     }
 });

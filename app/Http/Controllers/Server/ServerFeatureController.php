@@ -50,13 +50,9 @@ class ServerFeatureController extends Controller
     {
         $availableFeatures = collect();
 
-        $systems = File::directories(app_path('Services/Systems'));
-
-        foreach ($systems as $system) {
-            $versions = File::directories($system);
-            foreach ($versions as $version) {
-                $services = File::files($version);
-                foreach ($services as $service) {
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getServicesFromVersion($version) as $service) {
                     $availableFeatures = $availableFeatures->merge($this->buildFeatureArray($this->buildReflection($service)));
                 }
             }
@@ -69,13 +65,9 @@ class ServerFeatureController extends Controller
     {
         $availableLanguages = collect();
 
-        $systems = File::directories(app_path('Services/Systems'));
-        foreach ($systems as $system) {
-            $versions = File::directories($system);
-            foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
-
-                foreach ($languages as $language) {
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
                     $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
@@ -89,14 +81,10 @@ class ServerFeatureController extends Controller
     {
         $availableFrameworks = collect();
 
-        $systems = File::directories(app_path('Services/Systems'));
-        foreach ($systems as $system) {
-            $versions = File::directories($system);
-            foreach ($versions as $version) {
-                $languages = File::directories($version.'/Languages');
-
-                foreach ($languages as $language) {
-                    foreach (File::files($language.'/Frameworks') as $framework) {
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    foreach ($this->getFrameworksFromLanguage($language) as $framework) {
                         $availableFrameworks = $availableFrameworks->merge($this->buildFeatureArray($this->buildReflection($framework)));
                     }
                 }
@@ -104,6 +92,38 @@ class ServerFeatureController extends Controller
         }
 
         return $availableFrameworks;
+    }
+
+    public function getEditableServerFiles($serverId)
+    {
+        $editableFiles = collect();
+
+        $server = Server::findOrFail($serverId);
+
+        $files = collect();
+
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getServicesFromVersion($version) as $service) {
+                    $files = $files->merge($this->buildFileArray($this->buildReflection($service)));
+                }
+
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    $language .= '/'.basename($language).'.php';
+                    $files = $files->merge($this->buildFileArray($this->buildReflection($language)));
+                }
+            }
+        }
+
+        foreach($server->server_features as $service => $feature) {
+            if(isset($server->server_features[$service])) {
+                if($files->has($service)) {
+                    $editableFiles = $editableFiles->merge($files->get($service));
+                }
+            }
+        }
+
+        return response()->json($editableFiles);
     }
 
     private function buildReflection($file)
@@ -123,6 +143,17 @@ class ServerFeatureController extends Controller
                 )
             )
         );
+    }
+
+    private function buildFileArray(ReflectionClass $reflection)
+    {
+        $files = [];
+
+        if ($reflection->hasProperty('files')) {
+            $files[str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName())] = $reflection->getProperty('files')->getValue();
+        }
+
+        return $files;
     }
 
     private function buildFeatureArray(ReflectionClass $reflection)
@@ -151,13 +182,38 @@ class ServerFeatureController extends Controller
 
                 $features[str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName())][] = [
                     'name' => str_replace('install', '', $method->name),
-                    'parameters' => $parameters,
                     'required' => in_array($method->name, $required),
+                    'parameters' => $parameters,
                     'suggestedDefaults' => $suggestedDefaults,
                 ];
             }
         }
 
         return $features;
+    }
+
+    private function getSystemsFiles()
+    {
+        return File::directories(app_path('Services/Systems'));
+    }
+
+    private function getVersionsFromSystem($system)
+    {
+        return File::directories($system);
+    }
+
+    private function getServicesFromVersion($version)
+    {
+        return File::files($version);
+    }
+
+    private function getLanguagesFromVersion($version)
+    {
+        return File::directories($version.'/Languages');
+    }
+
+    private function getFrameworksFromLanguage($language)
+    {
+        return File::files($language.'/Frameworks');
     }
 }

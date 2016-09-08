@@ -8,6 +8,10 @@ class Laravel
 {
     use ServiceConstructorTrait;
 
+    public static $files = [
+        '.env'
+    ];
+
     public static $suggestedDefaults = [
         'Beanstalk',
         'Supervisor',
