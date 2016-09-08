@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.4 on 2016-08-30.
+ * Generated for Laravel 5.3.7 on 2016-09-08.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -172,12 +172,12 @@ if (! function_exists('array_has')) {
      * Check if an item exists in an array using "dot" notation.
      *
      * @param  \ArrayAccess|array  $array
-     * @param  string  $key
+     * @param  string|array  $keys
      * @return bool
      */
-    function array_has($array, $key)
+    function array_has($array, $keys)
     {
-        return Arr::has($array, $key);
+        return Arr::has($array, $keys);
     }
 }
 
@@ -345,11 +345,15 @@ if (! function_exists('class_uses_recursive')) {
     /**
      * Returns all traits used by a class, its subclasses and trait of their traits.
      *
-     * @param  string  $class
+     * @param  object|string  $class
      * @return array
      */
     function class_uses_recursive($class)
     {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
         $results = [];
 
         foreach (array_merge([$class => $class], class_parents($class)) as $class) {
@@ -512,7 +516,7 @@ if (! function_exists('dd')) {
 
 if (! function_exists('e')) {
     /**
-     * Escape HTML entities in a string.
+     * Escape HTML special characters in a string.
      *
      * @param  \Illuminate\Contracts\Support\Htmlable|string  $value
      * @return string
@@ -523,7 +527,7 @@ if (! function_exists('e')) {
             return $value->toHtml();
         }
 
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }
 }
 
@@ -1080,6 +1084,16 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Get the path to the resources directory.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function resourcePath(){
+            return \Illuminate\Foundation\Application::resourcePath();
+        }
+        
+        /**
          * Get the path to the environment file directory.
          *
          * @return string 
@@ -1134,7 +1148,6 @@ if (! function_exists('with')) {
         /**
          * Get or check the current application environment.
          *
-         * @param mixed
          * @return string|bool 
          * @static 
          */
@@ -3408,7 +3421,6 @@ if (! function_exists('with')) {
         /**
          * Queue a cookie to send with the next response.
          *
-         * @param mixed
          * @return void 
          * @static 
          */
@@ -6449,6 +6461,17 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Determine if the given path is readable.
+         *
+         * @param string $path
+         * @return bool 
+         * @static 
+         */
+        public static function isReadable($path){
+            return \Illuminate\Filesystem\Filesystem::isReadable($path);
+        }
+        
+        /**
          * Determine if the given path is writable.
          *
          * @param string $path
@@ -7532,9 +7555,9 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Get the default channel driver names.
+         * Get the default channel driver name.
          *
-         * @return array 
+         * @return string 
          * @static 
          */
         public static function getDefaultDriver(){
@@ -7542,9 +7565,9 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Get the default channel driver names.
+         * Get the default channel driver name.
          *
-         * @return array 
+         * @return string 
          * @static 
          */
         public static function deliversVia(){
@@ -7552,14 +7575,14 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Set the default channel driver names.
+         * Set the default channel driver name.
          *
-         * @param array|string $channels
+         * @param string $channel
          * @return void 
          * @static 
          */
-        public static function deliverVia($channels){
-            \Illuminate\Notifications\ChannelManager::deliverVia($channels);
+        public static function deliverVia($channel){
+            \Illuminate\Notifications\ChannelManager::deliverVia($channel);
         }
         
         /**
@@ -8278,7 +8301,6 @@ if (! function_exists('with')) {
         /**
          * Determine if the current request URI matches a pattern.
          *
-         * @param mixed  string
          * @return bool 
          * @static 
          */
@@ -8289,7 +8311,6 @@ if (! function_exists('with')) {
         /**
          * Determine if the current request URL and query string matches a pattern.
          *
-         * @param mixed  string
          * @return bool 
          * @static 
          */
@@ -9849,7 +9870,7 @@ if (! function_exists('with')) {
         /**
          * Return a new JSON response from the application.
          *
-         * @param string|array $data
+         * @param mixed $data
          * @param int $status
          * @param array $headers
          * @param int $options
@@ -9864,7 +9885,7 @@ if (! function_exists('with')) {
          * Return a new JSONP response from the application.
          *
          * @param string $callback
-         * @param string|array $data
+         * @param mixed $data
          * @param int $status
          * @param array $headers
          * @param int $options
@@ -10495,9 +10516,8 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Alias for the "currentRouteName" method.
+         * Alias for the "currentRouteNamed" method.
          *
-         * @param mixed  string
          * @return bool 
          * @static 
          */
@@ -10529,7 +10549,6 @@ if (! function_exists('with')) {
         /**
          * Alias for the "currentRouteUses" method.
          *
-         * @param mixed  string
          * @return bool 
          * @static 
          */
@@ -11834,7 +11853,7 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Generate a URL to an application asset.
+         * Generate the URL to an application asset.
          *
          * @param string $path
          * @param bool|null $secure
@@ -11846,7 +11865,7 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Generate a URL to an asset from a custom root domain such as CDN, etc.
+         * Generate the URL to an asset from a custom root domain such as CDN, etc.
          *
          * @param string $root
          * @param string $path
@@ -11859,7 +11878,7 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Generate a URL to a secure asset.
+         * Generate the URL to a secure asset.
          *
          * @param string $path
          * @return string 
@@ -12452,7 +12471,7 @@ if (! function_exists('with')) {
         /**
          * Add new loop to the stack.
          *
-         * @param array|\Countable $data
+         * @param \Countable|array $data
          * @return void 
          * @static 
          */
