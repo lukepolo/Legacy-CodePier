@@ -6,8 +6,7 @@ use App\Models\Bitt;
 use Illuminate\Http\Request;
 
 /**
- * Class BittsController
- * @package App\Http\Controllers
+ * Class BittsController.
  */
 class BittsController extends Controller
 {
