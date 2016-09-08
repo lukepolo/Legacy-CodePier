@@ -2,9 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server;
-use App\Models\ServerProvider;
 use App\Models\ServerProviderOption;
 use App\Models\ServerProviderRegion;
 use App\Services\Server\ServerService;
@@ -15,7 +13,7 @@ use phpseclib\Crypt\RSA;
 /**
  * Class DigitalOcean.
  */
-class DigitalOceanProvider implements ServerServiceContract
+class DigitalOceanProvider implements ServerProviderContract
 {
     protected $providerName = 'digitalocean';
 
@@ -35,11 +33,11 @@ class DigitalOceanProvider implements ServerServiceContract
         foreach (DigitalOcean::size()->getAll() as $size) {
             $options[] = ServerProviderOption::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
-                'memory'             => $size->memory,
-                'cpus'               => $size->vcpus,
-                'space'              => $size->disk,
-                'priceHourly'        => $size->priceHourly,
-                'priceMonthly'       => $size->priceMonthly,
+                'memory' => $size->memory,
+                'cpus' => $size->vcpus,
+                'space' => $size->disk,
+                'priceHourly' => $size->priceHourly,
+                'priceMonthly' => $size->priceMonthly,
             ]);
         }
 
@@ -62,8 +60,8 @@ class DigitalOceanProvider implements ServerServiceContract
         foreach (DigitalOcean::region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
-                'name'               => $region->name,
-                'provider_name'      => $region->slug,
+                'name' => $region->name,
+                'provider_name' => $region->slug,
             ]);
         }
 
@@ -117,30 +115,6 @@ class DigitalOceanProvider implements ServerServiceContract
         );
 
         return $this->saveServer($server, $droplet, $sshKey);
-    }
-
-    /**
-     * Saves the server information.
-     *
-     * @param Server  $server
-     * @param Droplet $droplet
-     * @param $sshKey
-     *
-     * @throws \Exception
-     *
-     * @return Server
-     */
-    public function saveServer(Server $server, Droplet $droplet, $sshKey)
-    {
-        $this->setToken($this->getTokenFromServer($server));
-
-        $server->fill([
-            'server_id'       => $droplet->id,
-            'public_ssh_key'  => $sshKey['publickey'],
-            'private_ssh_key' => $sshKey['privatekey'],
-        ])->save();
-
-        return $server;
     }
 
     /**
@@ -227,17 +201,6 @@ class DigitalOceanProvider implements ServerServiceContract
         throw new \Exception('No server provider found for this user');
     }
 
-    /**
-     * Gets the server provider ID.
-     *
-     * @return mixed
-     */
-    private function getServerProviderID()
-    {
-        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function () {
-            return ServerProvider::where('provider_name', $this->providerName)->first()->id;
-        });
-    }
 
     public function refreshToken()
     {
