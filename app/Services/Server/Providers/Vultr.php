@@ -4,7 +4,7 @@ namespace App\Services\Server\Providers;
 
 use App\Models\Server;
 
-class VultrProvider implements ServerProviderContract
+class Vultr implements ServerProviderContract
 {
     protected $providerName = 'vultr';
 
@@ -89,7 +89,7 @@ class VultrProvider implements ServerProviderContract
     }
 
     /**
-     * Refreshes the token
+     * Refreshes the token.
      *
      * @return mixed
      */

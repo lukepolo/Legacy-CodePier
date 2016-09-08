@@ -3,8 +3,6 @@
 namespace app\Services\Server\Providers;
 
 use App\Models\Server;
-use App\Models\User;
-use DigitalOceanV2\Api\Droplet;
 
 /**
  * Interface ServerProviderContract.
@@ -78,7 +76,7 @@ interface ServerProviderContract
     public function setToken($token);
 
     /**
-     * Refreshes the token
+     * Refreshes the token.
      *
      * @return mixed
      */

@@ -201,7 +201,6 @@ class DigitalOceanProvider implements ServerProviderContract
         throw new \Exception('No server provider found for this user');
     }
 
-
     public function refreshToken()
     {
         dd('need to refresh token');
