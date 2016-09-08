@@ -12,5 +12,4 @@ class Tag extends Model
     {
         return $this->morphedByMany(Bitt::class, 'taggable');
     }
-
 }
