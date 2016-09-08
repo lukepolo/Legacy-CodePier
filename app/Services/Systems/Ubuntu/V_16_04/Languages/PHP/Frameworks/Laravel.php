@@ -9,7 +9,7 @@ class Laravel
     use ServiceConstructorTrait;
 
     public static $files = [
-        '.env'
+        '.env',
     ];
 
     public static $suggestedDefaults = [
