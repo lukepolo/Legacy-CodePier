@@ -40,7 +40,7 @@ trait ServerProviderTrait
      */
     private function getServerProviderID()
     {
-        return \Cache::rememberForever('server.provider.' . $this->providerName . '.id', function () {
+        return \Cache::rememberForever('server.provider.'.$this->providerName.'.id', function () {
             return ServerProvider::where('provider_name', $this->providerName)->firstOrFail()->id;
         });
     }

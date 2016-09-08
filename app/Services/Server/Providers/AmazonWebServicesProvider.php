@@ -89,7 +89,7 @@ class AmazonWebServicesProvider implements ServerProviderContract
     }
 
     /**
-     * Refreshes the token
+     * Refreshes the token.
      *
      * @return mixed
      */
