@@ -10,8 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class GetServerOptions
- * @package App\Jobs
+ * Class GetServerOptions.
  */
 class GetServerOptions implements ShouldQueue
 {
@@ -21,6 +20,7 @@ class GetServerOptions implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function handle(ServerService $serverService)

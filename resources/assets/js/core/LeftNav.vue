@@ -9,7 +9,7 @@
 
         <form @submit.prevent="saveSite" v-if="adding_site">
             Domain
-            <input v-model="domain" type="text" :value="domain">
+            <input v-model="form.domain" type="text">
             <button class="btn btn-primary">Save</button>
         </form>
 
@@ -30,16 +30,15 @@
         data() {
             return {
                 adding_site : false,
-                domain: null
+                form : {
+                    domain: null
+                }
             }
         },
         methods: {
             saveSite: function () {
-                siteStore.dispatch('createSite', {
-                    domain: this.domain
-                }).then(function(response) {
-
-                });
+                siteStore.dispatch('createSite', this.form);
+                this.adding_site = false;
             }
         },
         computed: {

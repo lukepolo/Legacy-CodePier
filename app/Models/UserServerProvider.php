@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class UserServerProvider
- * @package App\Models
+ * Class UserServerProvider.
  */
 class UserServerProvider extends Model
 {

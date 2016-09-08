@@ -3,19 +3,18 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
             <server-nav :server="server"></server-nav>
-            <form v-on:submit.prevent="onSubmit">
-                <input type="hidden" name="server_id" :value="server.id">
+            <form @submit.prevent="createServerDaemon">
                 Command
-                <input type="text" name="command">
+                <input type="text" name="command" v-model="form.command">
                 User
-                <select name="user">
+                <select name="user" v-model="form.user">
                     <option value="root">Root User</option>
                     <option value="codepier">CodePier User</option>
                 </select>
-                <input type="checkbox" name="auto_start"> Auto Start
-                <input type="checkbox" name="auto_restart"> Auto Restart
+                <input type="checkbox" name="auto_start" v-model="form.auto_start"> Auto Start
+                <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
                 Workers
-                <input type="integer" name="number_of_workers">
+                <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
 
                 <button type="submit">Create Cron</button>
             </form>
@@ -32,14 +31,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ daemon.command }}</td>
-                        <td>{{ daemon.user }}</td>
-                        <td>{{ daemon.auto_start }}</td>
-                        <td>{{ daemon.auto_restart }}</td>
-                        <td>{{ daemon.number_of_workers }}</td>
-                        <td><a href="#" class="fa fa-remove" v-on:click="deleteDaemon(daemon.id)">remove</a></td>
-                    </tr>
+                <tr>
+                    <td>{{ daemon.command }}</td>
+                    <td>{{ daemon.user }}</td>
+                    <td>{{ daemon.auto_start }}</td>
+                    <td>{{ daemon.auto_restart }}</td>
+                    <td>{{ daemon.number_of_workers }}</td>
+                    <td><a href="#" class="fa fa-remove" @click="deleteServerDaemon(daemon.id)">remove</a></td>
+                </tr>
                 </tbody>
             </table>
         </section>
@@ -51,14 +50,19 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                server : null,
-                daemons : []
+                form : {
+                    user : 'root',
+                    command : null,
+                    auto_start : true,
+                    auto_restart : true,
+                    number_of_workers : 1
+                }
             }
         },
         created() {
@@ -69,36 +73,28 @@
         },
         methods: {
             fetchData: function () {
-                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                    this.server = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
+                serverStore.dispatch('getServer', this.$route.params.server_id);
+                serverDaemonStore.dispatch('getServerDaemons', this.$route.params.server_id);
 
-                this.getDaemons();
             },
-            onSubmit() {
-                Vue.http.post(this.action('Server\ServerDaemonController@store'), this.getFormData($(this.$el))).then((response) => {
-                    this.daemons.push(response.json());
-                }, (errors) => {
-                    alert(error);
-                });
+            createServerDaemon() {
+                this.form['server'] = this.server.id;
+                serverDaemonStore.dispatch('createServerDaemon', this.form);
             },
-            deleteDaemon(daemon_id) {
-                Vue.http.delete(this.action('Server\ServerDaemonController@destroy', { daemon : daemon_id })).then((response) => {
-                    this.getDaemons();
-                }, (errors) => {
-                    alert(error);
-                });
-            },
-            getDaemons() {
-                Vue.http.get(this.action('Server\ServerDaemonController@index', {server_id : this.$route.params.server_id})).then((response) => {
-                    this.daemons = response.json();
-                }, (errors) => {
-                    alert(error);
+            deleteServerDaemon(daemon_id) {
+                serverDaemonStore.dispatch('deleteServerDaemon', {
+                    daemon : daemon_id,
+                    server : this.server.id
                 });
             }
-
+        },
+        computed: {
+            server: () => {
+                return serverStore.state.server;
+            },
+            daemons : () => {
+                return serverDaemonStore.state.server_daemons;
+            }
         }
     }
 </script>

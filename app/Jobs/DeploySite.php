@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Contracts\Server\Site\SiteServiceContract as SiteService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\DeploymentFailed;
 use App\Models\Site;
 use App\Models\SiteDeployment;
@@ -15,8 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class DeploySite
- * @package App\Jobs
+ * Class DeploySite.
  */
 class DeploySite implements ShouldQueue
 {
@@ -29,6 +28,7 @@ class DeploySite implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param Site $site
      * @param null $sha
      */
@@ -40,7 +40,7 @@ class DeploySite implements ShouldQueue
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
-            'status' => 'queued for deployment'
+            'status'  => 'queued for deployment',
         ]);
 
         $this->siteDeployment->createSteps();
@@ -51,7 +51,7 @@ class DeploySite implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param \App\Services\Server\Site\SiteService | SiteService $siteService
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
     public function handle(SiteService $siteService)
     {

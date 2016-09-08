@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 
 /**
- * Class UserSubscriptionController
- * @package App\Http\Controllers
+ * Class UserSubscriptionController.
  */
 class UserSubscriptionUpcomingInvoiceController extends Controller
 {
@@ -23,11 +22,13 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
      * Display a listing of the resource.
      *
      * @param $userId
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index($userId)
+    public function index()
     {
-        $invoice = User::findOrFail($userId)->upcomingInvoice();
-        return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
+        $invoice = \Auth::user()->upcomingInvoice();
+
+        return response()->json(! empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }

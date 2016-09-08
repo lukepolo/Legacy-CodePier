@@ -10,34 +10,35 @@ use App\Models\Server;
 use Closure;
 
 /**
- * Class ServerErrorTrait
- * @package App\Exceptions\Traits
+ * Class ServerErrorTrait.
  */
 trait ServerErrorTrait
 {
     public $remoteErrors;
     public $remoteSuccesses;
+    public $error = false;
 
     public function runOnServer(Server $server, Closure $function, $throwErrors = false)
     {
-        try {
+        $this->error = false;
 
+        try {
             $remoteResponse = new SuccessRemoteResponse($server, $function());
 
             $this->remoteSuccesses[] = $remoteResponse;
 
             return $remoteResponse;
-        } catch(\Exception $e) {
-
-            switch(get_class($e)) {
-                case SshConnectionFailed::class :
-                case FailedCommand::class :
+        } catch (\Exception $e) {
+            switch (get_class($e)) {
+                case SshConnectionFailed::class:
+                case FailedCommand::class:
                     $message = $e->getMessage();
 
-                    $server->ssh_connection = false;
-                    $server->save();
+                    // TODO - this needs to be figured out
+//                    $server->ssh_connection = false;
+//                    $server->save();
                     break;
-                default :
+                default:
                     throw new \Exception($e->getMessage());
                     break;
             }
@@ -46,19 +47,27 @@ trait ServerErrorTrait
 
             $this->remoteErrors[] = $remoteResponse;
 
+            if (count($this->remoteErrors)) {
+                $this->error = true;
+            }
+
             return $remoteResponse;
         }
     }
 
+    public function successful()
+    {
+        return ! $this->error;
+    }
+
     public function remoteResponse($errors = true)
     {
-        if(count($this->remoteErrors)) {
+        if (count($this->remoteErrors)) {
             return response()->json([
-                'errors' => $this->remoteErrors
+                'errors' => $this->remoteErrors,
             ]);
         }
 
         return response()->json();
     }
-
 }

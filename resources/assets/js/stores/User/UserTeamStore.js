@@ -20,20 +20,15 @@ const userTeamStore = new Vuex.Store({
             });
         },
         createTeam: ({commit}, data) => {
-            Vue.http.post(action('User\Team\UserTeamController@store'), {
-                name: data.name,
-                piles : data.piles
-            }).then((response) => {
+            Vue.http.post(action('User\Team\UserTeamController@store'), data).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
-        updateTeam : ({commit}, data) => {
-            Vue.http.put(action('User\Team\UserTeamController@update', {team : data.team_id }), {
-                name: data.name,
-                piles : data.piles
-            }).then((response) => {
+        updateTeam: ({commit}, data) => {
+            console.log(data);
+            Vue.http.put(action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
                 userTeamStore.dispatch('getTeams');
                 pileStore.dispatch('getPiles');
                 siteStore.dispatch('getSites');
@@ -68,8 +63,8 @@ const userTeamStore = new Vuex.Store({
                 alert(error);
             });
         },
-        deleteTeam : ({commit}, team_id) => {
-            Vue.http.delete(action('User\Team\UserTeamController@destroy', {team : team_id})).then((response) => {
+        deleteTeam: ({commit}, team_id) => {
+            Vue.http.delete(action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
                 alert(error);
@@ -100,7 +95,10 @@ const userTeamStore = new Vuex.Store({
             });
         },
         deleteTeamMember: ({commit}, data) => {
-            Vue.http.delete(action('User\Team\UserTeamMemberController@destroy', {member: data.member_id, team : data.team_id})).then((response) => {
+            Vue.http.delete(action('User\Team\UserTeamMemberController@destroy', {
+                member: data.member_id,
+                team: data.team_id
+            })).then((response) => {
                 userTeamStore.dispatch('getTeam', data.team_id);
             }, (errors) => {
                 alert(error);
@@ -115,7 +113,7 @@ const userTeamStore = new Vuex.Store({
             state.teams = teams;
         },
         SET_CURRENT_TEAM: (state, team) => {
-            if(_.isEmpty(team)) {
+            if (_.isEmpty(team)) {
                 team = null;
             }
             state.currentTeam = team;

@@ -4,11 +4,10 @@
         <section id="middle" class="section-column" v-if="server">
             <server-nav :server="server"></server-nav>
             <span id="cron-preview"></span>
-            <form v-on:submit.prevent="onSubmit">
-                <input type="hidden" name="server_id" :value="server.id">
-                <input type="text" name="cron">
-                <input type="hidden" name="cron_timing">
-                <select name="user">
+            <form @submit.prevent="createServerCronJob">
+                <input type="text" name="cron" v-model="form.cron">
+                <input type="hidden" name="cron_timing" v-model="form.cron_timing">
+                <select name="user" v-model="form.user">
                     <option value="root">Root User</option>
                     <option value="codepier">CodePier User</option>
                 </select>
@@ -26,7 +25,7 @@
                 <tbody>
                 <tr>
                     <td>{{ cron_job.job }}</td>
-                    <td><a v-on:click="deleteCronJob(cron_job.id)" href="#" class="fa fa-remove">X</a></td>
+                    <td><a @click="deleteCronJob(cron_job.id)" href="#" class="fa fa-remove">X</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -45,8 +44,11 @@
         },
         data() {
             return {
-                server : null,
-                cron_jobs : [],
+                form : {
+                    cron : null,
+                    user : 'root',
+                    cron_timing: null
+                }
             }
         },
         directives: {
@@ -70,33 +72,26 @@
         },
         methods: {
             fetchData: function () {
-                Vue.http.get(this.action('Server\ServerController@show', {server : this.$route.params.server_id})).then((response) => {
-                    this.server = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
-                this.getCronJobs();
+                serverStore.dispatch('getServer', this.$route.params.server_id);
+                serverCronJobStore.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
-            onSubmit() {
-                Vue.http.post(this.action('Server\ServerCronJobController@store'), this.getFormData($(this.$el))).then((response) => {
-                    this.cron_jobs.push(response.json());
-                }, (errors) => {
-                    alert(error);
-                });
-            },
-            getCronJobs() {
-                Vue.http.get(this.action('Server\ServerCronJobController@index', {server_id : this.$route.params.server_id})).then((response) => {
-                    this.cron_jobs = response.json();
-                }, (errors) => {
-                    alert(error);
-                });
+            createServerCronJob() {
+                this.form['server'] = this.server.id;
+                serverCronJobStore.dispatch('createServerCronJob', this.form);
             },
             deleteCronJob(cron_job_id) {
-                Vue.http.delete(this.action('Server\ServerCronJobController@destroy', {cron_job : cron_job_id})).then((response) => {
-                    this.getCronJobs();
-                }, (errors) => {
-                    alert(error);
+                serverCronJobStore.dispatch('deleteServerCronJob', {
+                    server: this.server.id,
+                    cron_job : cron_job_id
                 });
+            }
+        },
+        computed : {
+            server : () => {
+                return serverStore.state.server;
+            },
+            cron_jobs : () => {
+                return serverCronJobStore.state.server_cron_jobs;
             }
         }
     }

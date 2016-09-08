@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site\Repository;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Server\Site\Repository\RepositoryServiceContract as RepositoryService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Http\Controllers\Controller;
 use App\Models\DeploymentStep;
 use App\Models\Site;
@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 
 class SiteRepositoryController extends Controller
 {
-
     private $serverService;
     private $repositoryService;
 
     /**
      * SiteController constructor.
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Server\Site\Repository\RepositoryService | RepositoryService $repositoryService
+     *
+     * @param \App\Services\Server\ServerService | ServerService                         $serverService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
     public function __construct(ServerService $serverService, RepositoryService $repositoryService)
     {
@@ -30,6 +30,7 @@ class SiteRepositoryController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -40,8 +41,9 @@ class SiteRepositoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -57,9 +59,9 @@ class SiteRepositoryController extends Controller
         }
 
         $site->fill([
-            'repository' => $repository,
-            'branch' => $request->get('branch'),
-            'zerotime_deployment' => $request->get('zerotime_deployment'),
+            'repository'                  => $repository,
+            'branch'                      => $request->get('branch'),
+            'zerotime_deployment'         => $request->get('zerotime_deployment'),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
 
@@ -73,40 +75,40 @@ class SiteRepositoryController extends Controller
 
             $defaultSteps = [
                 [
-                    'step' => 'Clone Repository',
-                    'order' => '1',
+                    'step'                         => 'Clone Repository',
+                    'order'                        => '1',
                     'internal_deployment_function' => 'cloneRepository',
-                    'customizable' => false
+                    'customizable'                 => false,
                 ],
                 [
-                    'step' => 'Install PHP Dependencies',
-                    'order' => '2',
+                    'step'                         => 'Install PHP Dependencies',
+                    'order'                        => '2',
                     'internal_deployment_function' => 'installPhpDependencies',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
                 [
-                    'step' => 'Install Node Dependencies',
-                    'order' => '3',
+                    'step'                         => 'Install Node Dependencies',
+                    'order'                        => '3',
                     'internal_deployment_function' => 'installNodeDependencies',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
                 [
-                    'step' => 'Run Migrations',
-                    'order' => '4',
+                    'step'                         => 'Run Migrations',
+                    'order'                        => '4',
                     'internal_deployment_function' => 'runMigrations',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
                 [
-                    'step' => 'Setup Release',
-                    'order' => '5',
+                    'step'                         => 'Setup Release',
+                    'order'                        => '5',
                     'internal_deployment_function' => 'setupFolders',
-                    'customizable' => false
+                    'customizable'                 => false,
                 ],
                 [
-                    'step' => 'Clean Up Old Releases',
-                    'order' => '6',
+                    'step'                         => 'Clean Up Old Releases',
+                    'order'                        => '6',
                     'internal_deployment_function' => 'cleanup',
-                    'customizable' => true
+                    'customizable'                 => true,
                 ],
             ];
 
@@ -126,7 +128,8 @@ class SiteRepositoryController extends Controller
      * Display the specified resource.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($siteId, $id)
@@ -137,9 +140,10 @@ class SiteRepositoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $siteId, $id)
@@ -151,15 +155,16 @@ class SiteRepositoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($siteId, $id)
     {
         $site = Site::with('server')->findOrFail($id);
 
-        $this->serverService->removeFolder($site->server, '/home/codepier/' . $site->domain, 'codepier');
-        $this->serverService->createFolder($site->server, '/home/codepier/' . $site->domain, 'codepier');
+        $this->serverService->removeFolder($site->server, '/home/codepier/'.$site->domain, 'codepier');
+        $this->serverService->createFolder($site->server, '/home/codepier/'.$site->domain, 'codepier');
 
         foreach ($site->daemons as $daemon) {
             $this->serverService->removeDaemon($site->server, $daemon);

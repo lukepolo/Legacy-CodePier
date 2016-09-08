@@ -6,11 +6,11 @@
             <form v-on:submit.prevent="createSshkey">
                 <div class="form-group">
                     <label>Name</label>
-                    <input v-model="name" name="name" type="text" class="form-control">
+                    <input v-model="form.name" name="name" type="text" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Public Key</label>
-                    <textarea v-model="ssh_key" name="ssh_key" class="form-control"></textarea>
+                    <textarea v-model="form.ssh_key" name="ssh_key" class="form-control"></textarea>
                 </div>
                 <input type="submit" value="Install SSH Key">
             </form>
@@ -43,8 +43,10 @@
         },
         data() {
             return {
-                name : null,
-                ssh_key : null
+                form : {
+                    name : null,
+                    ssh_key : null
+                }
             }
         },
         created () {
@@ -55,9 +57,8 @@
                 userSshKeyStore.dispatch('getUserSshKeys');
             },
             createSshkey: function() {
-                userSshKeyStore.dispatch('createUserSshKey', {
-                    name : this.name,
-                    ssh_key : this.ssh_key
+                userSshKeyStore.dispatch('createUserSshKey', this.form).then(() => {
+                    this.form = this.$options.data().form;
                 });
             },
             deleteSshKey : function(sshKeyId) {

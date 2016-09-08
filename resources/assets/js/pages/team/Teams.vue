@@ -57,10 +57,10 @@
         <section id="right" v-if="creating_team || updating_team">
             <form @submit.prevent="createTeam()" v-if="creating_team">
                 Team Name :
-                <input v-model="team_name" name="team_name" type="text">
+                <input v-model="create_form.name" name="name" type="text">
 
                 <template v-for="pile in user_piles">
-                    <input v-model="connected_piles" name="connected_piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
+                    <input v-model="create_form.piles" name="piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
                 </template>
 
                 <button type="submit">Create Team</button>
@@ -68,10 +68,10 @@
 
             <form @submit.prevent="updateTeam()" v-if="updating_team">
                 Team Name :
-                <input v-model="new_team_name" name="new_team_name" type="text">
+                <input v-model="edit_form.name" name="name" type="text">
 
                 <template v-for="pile in user_piles">
-                    <input v-model="updated_connected_piles" name="updated_connected_piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
+                    <input v-model="edit_form.piles" name="piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
                 </template>
 
                 <button type="submit">Update Team</button>
@@ -91,13 +91,18 @@
         },
         data() {
             return {
-                team_name: null,
-                new_team_name: null,
-                connected_piles: [],
-                updated_connected_piles: [],
                 updating_team: false,
                 creating_team: false,
-                editing_team: null
+                create_form : {
+                    piles : [],
+                    name : null
+
+                },
+                edit_form : {
+                    piles : [],
+                    name : null,
+                    team : null
+                }
             }
         },
         methods: {
@@ -105,34 +110,37 @@
                 pileStore.dispatch('getUserPiles');
             },
             createTeam: function () {
-                userTeamStore.dispatch('createTeam', {
-                    name: this.team_name,
-                    piles : this.connected_piles
+                userTeamStore.dispatch('createTeam', this.create_form).then(() => {
+                    this.create_form = this.$options.data().create_form;
                 });
             },
-            isOwnerOfTeam: function (team) {
-                return team.owner_id == userStore.state.user.id;
+            updateTeam: function () {
+                userTeamStore.dispatch('updateTeam', this.edit_form).then(() => {
+                    this.edit_form = this.$options.data().edit_form;
+                });
             },
             deleteTeam: function (team_id) {
                 userTeamStore.dispatch('deleteTeam', team_id);
             },
-            updateTeam: function () {
-                userTeamStore.dispatch('updateTeam', {
-                    name: this.new_team_name,
-                    team_id: this.editing_team.id,
-                    piles : this.updated_connected_piles
-                });
+            isOwnerOfTeam: function (team) {
+                return team.owner_id == userStore.state.user.id;
             },
             createTeamForm() {
+                this.create_form = this.$options.data().create_form;
+                this.edit_form = this.$options.data().create_form;
                 this.creating_team = true;
                 this.updating_team = false;
             },
             editTeam: function (team) {
-                this.editing_team = team;
-                this.new_team_name = team.name;
-                this.updated_connected_piles = _.map(team.piles, 'id');
+
                 this.updating_team = true;
                 this.creating_team = false;
+
+                this.create_form = this.$options.data().create_form;
+
+                this.edit_form.team = team.id;
+                this.edit_form.name = team.name;
+                this.edit_form.piles = _.map(team.piles, 'id');
             }
         },
         computed: {

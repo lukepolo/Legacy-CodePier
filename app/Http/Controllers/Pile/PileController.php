@@ -7,9 +7,7 @@ use App\Models\Pile;
 use Illuminate\Http\Request;
 
 /**
- * Class PileController
- *
- * @package App\Http\Controllers\Server
+ * Class PileController.
  */
 class PileController extends Controller
 {
@@ -17,12 +15,13 @@ class PileController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $piles = Pile::with('servers');
-        if($request->has('all')) {
+        if ($request->has('all')) {
             $piles = $piles->allTeams();
         }
 
@@ -32,14 +31,15 @@ class PileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $pile = Pile::create([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('name')
+            'name'    => $request->get('name'),
         ]);
 
         return response()->json($pile);
@@ -48,8 +48,9 @@ class PileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -57,7 +58,7 @@ class PileController extends Controller
         $pile = Pile::findOrFail($id);
         $pile->fill([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('name')
+            'name'    => $request->get('name'),
         ]);
 
         $pile->save();
@@ -68,7 +69,8 @@ class PileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -79,7 +81,8 @@ class PileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
