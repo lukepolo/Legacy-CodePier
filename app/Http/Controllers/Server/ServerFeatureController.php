@@ -115,9 +115,9 @@ class ServerFeatureController extends Controller
             }
         }
 
-        foreach($server->server_features as $service => $feature) {
-            if(isset($server->server_features[$service])) {
-                if($files->has($service)) {
+        foreach ($server->server_features as $service => $feature) {
+            if (isset($server->server_features[$service])) {
+                if ($files->has($service)) {
                     $editableFiles = $editableFiles->merge($files->get($service));
                 }
             }
