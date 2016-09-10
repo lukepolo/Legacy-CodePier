@@ -1,8 +1,7 @@
 <template>
-    <form @submit.prevent="updateFile(server, file)">
+    <form @submit.prevent="saveFile()">
         {{ file }}
-        <div v-file-editor="{server:server, file:file}" class="editor"></div>
-        <textarea style="display: none" :name="server+file"></textarea>
+        <div v-file-editor class="editor"></div>
         <button type="submit">Update</button>
     </form>
 </template>
@@ -10,23 +9,38 @@
 <script>
     export default {
         props: ['server', 'file'],
+        data() {
+            return {
+                content: null
+            }
+        },
+        watch: {
+            'content': function () {
+                ace.edit($(this.$el).find('.editor')[0]).setValue(this.content);
+                ace.edit($('.editor')[0]).clearSelection(1);
+            }
+        },
+        mounted: function () {
+            Vue.http.post(laroute.action('Server\ServerController@getFile', {
+                server: this.server,
+            }), {
+                file: this.file,
+            }).then((response) => {
+                this.content = response.json();
+            }, (errors) => {
+                alert(error);
+            });
+        },
         methods: {
-            // TODO - better way of getting contents of file, annoying that a lot of the methods i tried didnt work
-            updateFile(server, file) {
-
-                var content = $('textarea[name="' + server + file + '"]').val();
-
-                console.log(content);
-                Vue.http.post(laroute.action('Server\ServerController@saveFile', {
-                    server: server
-                }), {
-                    file: file,
-                    content: content,
-                }).then((response) => {
-
-                }, (errors) => {
-                    alert(error);
+            saveFile() {
+                serverStore.dispatch('saveServerFile', {
+                    file : this.file,
+                    server : this.server,
+                    content : this.getContent(),
                 });
+            },
+            getContent() {
+                return ace.edit($(this.$el).find('.editor')[0]).getValue();
             }
         }
     }

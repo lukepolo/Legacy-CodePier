@@ -32,8 +32,8 @@
         },
         computed: {
             editable_files: () => {
-                return serverStore.state.editable_files;
-            },
+                return serverStore.state.editable_server_files;
+            }
         }
     }
 </script>
