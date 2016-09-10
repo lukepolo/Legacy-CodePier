@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateSiteSettingsTable extends Migration
+class CreateSiteFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,11 @@ class CreateSiteSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('site_settings', function (Blueprint $table) {
+        Schema::create('site_files', function (Blueprint $table) {
             $table->increments('id');
+            $table->longText('file_path');
+            $table->longText('content')->nullable();
             $table->integer('site_id');
-            $table->json('data');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateSiteSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_settings');
+        Schema::dropIfExists('site_files');
     }
 }

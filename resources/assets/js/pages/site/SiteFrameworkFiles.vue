@@ -4,14 +4,9 @@
         <section id="middle" class="section-column">
             <div class="container">
                 <site-nav></site-nav>
-                <section>
-                    <div v-for="(files, service) in editable_files">
-                        <template v-for="file in files">
-                            {{ sectionTitle(service) }}
-                            <server-file :server="server" :file="file"></server-file>
-                        </template>
-                    </div>
-                </section>
+                <template v-if="files && site">
+                    <site-file :site="site" :servers="site.servers" :file="'/home/codepier/'+site.domain+'/current/'+file" v-for="file in files"></site-file>
+                </template>
             </div>
         </section>
         <servers></servers>
@@ -23,16 +18,34 @@
     import SiteNav from './components/SiteNav.vue';
     import Servers from './components/Servers.vue';
     import SiteHeader from './components/SiteHeader.vue';
-
+    import SiteFile from './../../components/SiteFile.vue';
     export default {
         components: {
-            SiteHeader,
             SiteNav,
             LeftNav,
-            Servers
+            Servers,
+            SiteFile,
+            SiteHeader,
         },
-        computed : {
-            editable_files : []
-        }
+        created() {
+            this.fetchData();
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function () {
+                siteStore.dispatch('getSite', this.$route.params.site_id);
+                serverStore.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+            }
+        },
+        computed: {
+            site : () => {
+                return siteStore.state.site;
+            },
+            files : function() {
+                return serverStore.state.editable_framework_files;
+            }
+        },
     }
 </script>

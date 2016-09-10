@@ -55,11 +55,6 @@ class Site extends Model
         return $this->hasMany(SiteDaemon::class);
     }
 
-    public function settings()
-    {
-        return $this->hasOne(SiteSettings::class);
-    }
-
     public function deploymentSteps()
     {
         return $this->hasMany(DeploymentStep::class)->orderBy('order');
@@ -73,6 +68,11 @@ class Site extends Model
     public function userRepositoryProvider()
     {
         return $this->belongsTo(UserRepositoryProvider::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(SiteFile::class);
     }
 
     /*

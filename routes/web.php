@@ -130,11 +130,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
         Route::resource('sites', 'Site\SiteController');
 
+        Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
+
         Route::group(['namespace' => 'Site'], function () {
             Route::group(['prefix' => 'sites'], function () {
                 Route::post('deploy', 'SiteController@deploy');
             });
 
+            Route::resource('site.file', 'SiteFileController');
             Route::resource('site.servers', 'SiteServerController');
             Route::resource('site.workers', 'SiteWorkerController');
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
@@ -149,6 +152,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
     Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
     Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableServerFiles');
+    Route::get('site/{site}/framework/editable-files', 'Server\ServerFeatureController@getEditableFrameworkFiles');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {

@@ -2,10 +2,7 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-            <div class="container">
-                <site-nav></site-nav>
-                site files
-            </div>
+            site files
         </section>
         <servers></servers>
     </section>
