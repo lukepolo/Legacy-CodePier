@@ -87,7 +87,7 @@ const serverStore = new Vuex.Store({
         },
         installFeature: ({commit}, data) => {
             Vue.http.post(action('Server\ServerFeatureController@store', {server: data.server}), {
-                service: data.area,
+                service: data.service,
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {

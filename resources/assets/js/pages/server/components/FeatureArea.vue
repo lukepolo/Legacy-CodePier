@@ -1,24 +1,25 @@
 <template>
     <section>
-        <h4>{{ area }}</h4>
+        <h4>{{ getSectionTitle(area) }}</h4>
         <template v-for="feature in features">
             <div class="input-group input-checkbox">
                 <label>
-                    <template v-if="hasFeature(feature.name)">
+                    <template v-if="hasFeature(feature)">
                         Installed
                     </template>
+                    {{ feature.name }}
                     <template v-else>
+                        <br>
+                        <small>{{ feature.description }}</small>
                         <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox"
                                :checked="feature.required" value="1">
                         <template v-if="server">
                             <button @click="installFeature(feature)">Install</button>
                         </template>
                     </template>
-
-                    <span class="icon"></span>{{ feature.name }}
                 </label>
             </div>
-            <template v-if="!hasFeature(feature.name) && feature.parameters"
+            <template v-if="!hasFeature(feature) && feature.parameters"
                       v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
                     <input :id="parameter"
@@ -30,8 +31,7 @@
         </template>
         <template v-if="frameworks">
             <h2>Frameworks for {{ area }}</h2>
-            <feature-area :sever="server" :area="language" :features="features"
-                          v-for="(features, language) in availableServerFrameworks[area]"></feature-area>
+            <feature-area :server="server" :area="framework" :features="features" v-for="(features, framework) in getFrameworks(area)"></feature-area>
         </template>
     </section>
 </template>
@@ -43,9 +43,8 @@
         methods: {
             hasFeature: function (feature) {
                 if (this.server) {
-                    var areaFeatures = this.server.server_features[this.area];
-
-                    if (areaFeatures && areaFeatures[feature] && areaFeatures[feature].enabled) {
+                    var areaFeatures = this.server.server_features[feature.service];
+                    if (areaFeatures && areaFeatures[feature.name] && areaFeatures[feature.name].enabled) {
                         return true;
                     }
                 }
@@ -60,11 +59,17 @@
                 });
 
                 serverStore.dispatch('installFeature', {
-                    server: this.server.id,
-                    area: this.area,
                     feature: feature.name,
-                    parameters: parameters
+                    parameters: parameters,
+                    server: this.server.id,
+                    service: feature.service,
                 });
+            },
+            getSectionTitle : function(area) {
+                return area;
+            },
+            getFrameworks : function(area) {
+                return this.availableServerFrameworks[area];
             }
         },
         computed: {

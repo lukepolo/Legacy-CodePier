@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section v-if="server">
         <h3 class="section-header primary">
             Server {{ server.name }} <small>{{ server.ip }}</small> -- (DISK SPACE?)
 
