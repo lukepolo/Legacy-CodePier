@@ -2,7 +2,10 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-
+            <div class="container">
+                <site-nav></site-nav>
+                framework files
+            </div>
         </section>
         <servers></servers>
     </section>
@@ -19,22 +22,6 @@
             SiteNav,
             LeftNav,
             Servers
-        },
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
-        methods: {
-            fetchData: function () {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-            }
-        },
-        computed : {
-            site : () => {
-                return siteStore.state.site;
-            }
         }
     }
 </script>
