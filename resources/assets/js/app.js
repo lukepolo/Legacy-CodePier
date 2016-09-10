@@ -18,19 +18,6 @@ Vue.directive('file-editor', {
 
         editor.getSession().setMode("ace/mode/sh");
         editor.setOption("maxLines", 45);
-
-        editor.getSession().on('change', function () {
-            $('textarea[name="'+ params.value.server + params.value.file +'"]').val(editor.getSession().getValue());
-        });
-
-        Vue.http.post(laroute.action('Server\ServerController@getFile', {
-            file: params.value.file,
-            server: params.value.server
-        })).then((response) => {
-            editor.getSession().setValue(response.json());
-        }, (errors) => {
-            alert(error);
-        });
     }
 });
 

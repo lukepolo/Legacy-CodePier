@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
+use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
@@ -126,6 +127,33 @@ class ServerFeatureController extends Controller
         return response()->json($editableFiles);
     }
 
+    public function getEditableFrameworkFiles($siteId)
+    {
+        $editableFiles = collect();
+
+        $site = Site::findOrFail($siteId);
+
+        $files = [];
+
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    foreach ($this->getFrameworksFromLanguage($language) as $framework) {
+                        $language = substr($language, strrpos($language, '/') + 1);
+                        $reflectionClass = $this->buildReflection($framework);
+                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path);
+
+                    }
+                }
+
+                if (isset($files[$language][$reflectionClass->getShortName()])) {
+                    $editableFiles = $editableFiles->merge($files[$language][$reflectionClass->getShortName()]);
+                }
+            }
+        }
+        return response()->json($editableFiles);
+    }
+
     private function buildReflection($file)
     {
         return new ReflectionClass(
@@ -145,12 +173,12 @@ class ServerFeatureController extends Controller
         );
     }
 
-    private function buildFileArray(ReflectionClass $reflection)
+    private function buildFileArray(ReflectionClass $reflection, $path = null)
     {
         $files = [];
 
         if ($reflection->hasProperty('files')) {
-            $files[str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName())] = $reflection->getProperty('files')->getValue();
+            $files[$reflection->getShortName()] = $reflection->getProperty('files')->getValue();
         }
 
         return $files;

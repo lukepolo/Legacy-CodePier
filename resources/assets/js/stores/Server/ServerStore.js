@@ -9,7 +9,8 @@ const serverStore = new Vuex.Store({
         servers: [],
         server: null,
         server_sites: null,
-        editable_files : [],
+        editable_server_files : [],
+        editable_framework_files : [],
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: []
@@ -80,7 +81,14 @@ const serverStore = new Vuex.Store({
         },
         getEditableServerFiles: ({commit}, server) => {
             Vue.http.get(action('Server\ServerFeatureController@getEditableServerFiles', {server : server})).then((response) => {
-                commit('SET_EDITABLE_FILES', response.json());
+                commit('SET_EDITABLE_SERVER_FILES', response.json());
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getEditableFrameworkFiles: ({commit}, site) => {
+            Vue.http.get(action('Server\ServerFeatureController@getEditableFrameworkFiles', {site : site})).then((response) => {
+                commit('SET_EDITABLE_FRAMEWORK_FILES', response.json());
             }, (errors) => {
                 alert(error);
             });
@@ -116,8 +124,11 @@ const serverStore = new Vuex.Store({
         SET_AVAILABLE_SERVER_FRAMEWORKS: (state, available_server_frameworks) => {
             state.available_server_frameworks = available_server_frameworks;
         },
-        SET_EDITABLE_FILES : (state, files) => {
-            state.editable_files = files;
+        SET_EDITABLE_SERVER_FILES : (state, files) => {
+            state.editable_server_files = files;
+        },
+        SET_EDITABLE_FRAMEWORK_FILES : (state, files) => {
+            state.editable_framework_files = files;
         }
     }
 });

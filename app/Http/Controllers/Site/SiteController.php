@@ -134,23 +134,9 @@ class SiteController extends Controller
 
         $this->dispatch(new DeploySite($site));
     }
+
+    public function saveFile()
+    {
+        dd('here');
+    }
 }
-
-
-//dd('need to dynamically generate this type of stuff');
-//// we can specify the file, and what to search for in the UI?
-//$site = Site::with('settings')->findOrFail($id);
-//
-//$siteSettings = SiteSettings::firstOrCreate([
-//    'site_id' => $siteID
-//]);
-//
-//$siteSettings->data = array_merge(
-//    empty($siteSettings->data) ? [] : $siteSettings->data, [
-//        'max_upload_size' => $request->get('max_upload_size')
-//    ]
-//);
-//
-//$this->siteService->updateMaxUploadSize($site, $request->get('max_upload_size'));
-//
-//$siteSettings->save();
