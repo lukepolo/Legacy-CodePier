@@ -11,7 +11,7 @@ class DaemonService
     use ServiceConstructorTrait;
 
     /**
-     * Example of the description, we need to go through of all of these eventually
+     * Example of the description, we need to go through of all of these eventually.
      */
     public function installBeanstalk()
     {
