@@ -39,10 +39,10 @@
                         </div>
 
                         <div class="form-group">
-                            <select>
+                            <select v-model="form.framework" name="framework">
                                 <option></option>
-                                <optgroup :label="getClassTitle(language)" v-for="(features, language) in availableLanguages">
-                                    <option v-for="(features, framework) in availableFrameworks[language]">  {{ getClassTitle(framework) }}</option>
+                                <optgroup :label="language" v-for="(features, language) in availableLanguages">
+                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="framework"> {{ framework }}</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -57,8 +57,6 @@
                     <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
                         Deployments</a>
                     <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
-
-
 
                     <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
                 </div>
@@ -85,8 +83,8 @@
             return {
                 form: {
                     branch: null,
-                    repository: null,
                     framework: null,
+                    repository: null,
                     web_directory: null,
                     zerotime_deployment: null,
                     user_repository_provider_id: null
@@ -127,9 +125,6 @@
             },
             deleteSite: function (site_id) {
                 siteStore.dispatch('deleteSite', site_id);
-            },
-            getClassTitle : function(language) {
-                return language.substr(language.lastIndexOf('\\') + 1);
             }
         },
         computed: {
@@ -138,6 +133,7 @@
 
                 if (site) {
                     this.form.branch = site.branch;
+                    this.form.framework = site.framework;
                     this.form.repository = site.repository;
                     this.form.web_directory = site.web_directory;
                     this.form.zerotime_deployment = (site.zerotime_deployment ? true : false);

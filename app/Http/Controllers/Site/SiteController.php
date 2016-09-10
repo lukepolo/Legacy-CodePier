@@ -48,11 +48,8 @@ class SiteController extends Controller
     {
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'pile_id'             => $request->get('pile_id'),
             'domain'              => $request->get('domain'),
-            'web_directory'       => $request->get('web_directory'),
-            'wildcard_domain'     => (int) $request->get('wildcard_domain'),
-            'zerotime_deployment' => $request->get('zerotime_deployment', true),
+            'pile_id'             => $request->get('pile_id'),
         ]);
 
         $site->servers()->sync($request->get('servers', []));
@@ -88,6 +85,7 @@ class SiteController extends Controller
             'branch'                      => $request->get('branch'),
             'domain'                      => $request->get('domain'),
             'pile_id'                     => $request->get('pile_id'),
+            'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
             'wildcard_domain'             => (int) $request->get('wildcard_domain'),
