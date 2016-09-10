@@ -86,7 +86,7 @@ class SiteFileController extends Controller
                 'site_id' => $siteId,
                 'file_path' => $request->get('file'),
                 'content' => $this->serverService->getFile(Site::with('servers')->findOrFail($siteId)->servers->first(),
-                    $request->get('file'))
+                    $request->get('file')),
             ]);
         }
 

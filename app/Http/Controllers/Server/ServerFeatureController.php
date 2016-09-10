@@ -142,7 +142,6 @@ class ServerFeatureController extends Controller
                         $language = substr($language, strrpos($language, '/') + 1);
                         $reflectionClass = $this->buildReflection($framework);
                         $files[$language] = $this->buildFileArray($reflectionClass, $site->path);
-
                     }
                 }
 
@@ -151,6 +150,7 @@ class ServerFeatureController extends Controller
                 }
             }
         }
+
         return response()->json($editableFiles);
     }
 
