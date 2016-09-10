@@ -36,7 +36,6 @@ class ServerSiteController extends Controller
             $query->with([
                 'activeSSL',
                 'daemons',
-                'settings',
                 'userRepositoryProvider',
             ]);
         }])->findOrFail($id)->sites);
