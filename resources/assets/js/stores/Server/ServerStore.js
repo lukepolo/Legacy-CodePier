@@ -103,6 +103,18 @@ const serverStore = new Vuex.Store({
             }, (errors) => {
                 alert(error);
             });
+        },
+        saveServerFile :({commit}, data) => {
+            Vue.http.post(laroute.action('Server\ServerController@saveFile', {
+                server: data.server
+            }), {
+                file: data.file,
+                content: data.content,
+            }).then((response) => {
+
+            }, (errors) => {
+                alert(error);
+            });
         }
     },
     mutations: {
