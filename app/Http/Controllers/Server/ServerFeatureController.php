@@ -112,8 +112,8 @@ class ServerFeatureController extends Controller
                 }
 
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $language .= '/'.basename($language).'.php';
-                    $files = $files->merge($this->buildFileArray($this->buildReflection($language)));
+                    $languageFile = $language.'/'.basename($language).'.php';
+                    $files = $files->merge($this->buildFileArray($this->buildReflection($languageFile), 'Languages\\'.basename($language).'\\'));
                 }
             }
         }
@@ -184,7 +184,7 @@ class ServerFeatureController extends Controller
         $files = [];
 
         if ($reflection->hasProperty('files')) {
-            $files[$reflection->getShortName()] = $reflection->getProperty('files')->getValue();
+            $files[$path.$reflection->getShortName()] = $reflection->getProperty('files')->getValue();
         }
 
         return $files;
