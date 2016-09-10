@@ -172,7 +172,6 @@ class ServerFeatureController extends Controller
 
         // TODO - get description or something from comment
         foreach ($reflection->getMethods() as $method) {
-
             if (str_contains($method->name, 'install')) {
                 $parameters = [];
 
@@ -186,7 +185,7 @@ class ServerFeatureController extends Controller
                     'parameters' => $parameters,
                     'suggestedDefaults' => $suggestedDefaults,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
-                    'description' => trim(preg_replace("/[^a-zA-Z0-9]/", ' ', $method->getDocComment()))
+                    'description' => trim(preg_replace('/[^a-zA-Z0-9]/', ' ', $method->getDocComment())),
                 ];
             }
         }
