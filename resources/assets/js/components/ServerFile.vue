@@ -14,14 +14,15 @@
             // TODO - better way of getting contents of file, annoying that a lot of the methods i tried didnt work
             updateFile(server, file) {
 
-                var content = $('textarea[name="'+ server + file +'"]').val();
+                var content = $('textarea[name="' + server + file + '"]').val();
 
                 console.log(content);
                 Vue.http.post(laroute.action('Server\ServerController@saveFile', {
+                    server: server
+                }), {
                     file: file,
-                    server: server,
-                    content : escape(content),
-                })).then((response) => {
+                    content: content,
+                }).then((response) => {
 
                 }, (errors) => {
                     alert(error);
