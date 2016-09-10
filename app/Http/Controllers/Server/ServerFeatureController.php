@@ -35,7 +35,7 @@ class ServerFeatureController extends Controller
         $parameters = $request->get('parameters', []);
 
         $this->runOnServer($server, function () use ($server, $feature, $service, $parameters) {
-            call_user_func_array([$this->serverService->getService($service, $server), 'install' . $feature],
+            call_user_func_array([$this->serverService->getService($service, $server), 'install'.$feature],
                 $parameters);
 
             $serverFeatures = $server->server_features;
@@ -70,7 +70,7 @@ class ServerFeatureController extends Controller
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $language .= '/' . basename($language) . '.php';
+                    $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
                 }
             }
@@ -112,7 +112,7 @@ class ServerFeatureController extends Controller
                 }
 
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $language .= '/' . basename($language) . '.php';
+                    $language .= '/'.basename($language).'.php';
                     $files = $files->merge($this->buildFileArray($this->buildReflection($language)));
                 }
             }
@@ -149,7 +149,7 @@ class ServerFeatureController extends Controller
             }
         }
 
-        if (!empty($site->framework)) {
+        if (! empty($site->framework)) {
             $languageAndframework = explode('.', $site->framework);
             if (isset($files[$languageAndframework[0]][$languageAndframework[1]])) {
                 $editableFiles = $editableFiles->merge($files[$languageAndframework[0]][$languageAndframework[1]]);
@@ -166,7 +166,7 @@ class ServerFeatureController extends Controller
             str_replace(
                 '.php',
                 '',
-                'App' . str_replace(
+                'App'.str_replace(
                     '/',
                     '\\',
                     str_replace(
@@ -244,11 +244,11 @@ class ServerFeatureController extends Controller
 
     private function getLanguagesFromVersion($version)
     {
-        return File::directories($version . '/Languages');
+        return File::directories($version.'/Languages');
     }
 
     private function getFrameworksFromLanguage($language)
     {
-        return File::files($language . '/Frameworks');
+        return File::files($language.'/Frameworks');
     }
 }
