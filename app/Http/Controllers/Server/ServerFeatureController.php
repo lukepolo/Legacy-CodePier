@@ -85,7 +85,7 @@ class ServerFeatureController extends Controller
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                        $availableFrameworks = $availableFrameworks->merge($this->buildFeatureArray($this->buildReflection($framework)));
+                        $availableFrameworks[substr($language, strrpos($language, '/') + 1)] = $this->buildFeatureArray($this->buildReflection($framework));
                     }
                 }
             }
@@ -171,8 +171,8 @@ class ServerFeatureController extends Controller
         }
 
         // TODO - get description or something from comment
-//        $reflection->getDocComment()
         foreach ($reflection->getMethods() as $method) {
+
             if (str_contains($method->name, 'install')) {
                 $parameters = [];
 
@@ -180,11 +180,13 @@ class ServerFeatureController extends Controller
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $features[str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName())][] = [
+                $features[$reflection->getShortName()][] = [
                     'name' => str_replace('install', '', $method->name),
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'suggestedDefaults' => $suggestedDefaults,
+                    'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
+                    'description' => trim(preg_replace("/[^a-zA-Z0-9]/", ' ', $method->getDocComment()))
                 ];
             }
         }

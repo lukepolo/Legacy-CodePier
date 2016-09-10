@@ -4,7 +4,14 @@
         <section id="middle" class="section-column">
             <div class="container">
                 <site-nav></site-nav>
-                framework files
+                <section>
+                    <div v-for="(files, service) in editable_files">
+                        <template v-for="file in files">
+                            {{ sectionTitle(service) }}
+                            <server-file :server="server" :file="file"></server-file>
+                        </template>
+                    </div>
+                </section>
             </div>
         </section>
         <servers></servers>
@@ -16,12 +23,16 @@
     import SiteNav from './components/SiteNav.vue';
     import Servers from './components/Servers.vue';
     import SiteHeader from './components/SiteHeader.vue';
+
     export default {
         components: {
             SiteHeader,
             SiteNav,
             LeftNav,
             Servers
+        },
+        computed : {
+            editable_files : []
         }
     }
 </script>
