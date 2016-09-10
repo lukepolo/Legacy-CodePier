@@ -24,6 +24,12 @@ Vue.http.interceptors.push((request, next) => {
     next();
 });
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': Laravel.csrfToken
+    }
+});
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

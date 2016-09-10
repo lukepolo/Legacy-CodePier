@@ -209,17 +209,17 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param Server $server
-     * @param $filePath
      * @param $file
+     * @param $content
      * @param string $user
      *
      * @return bool
      */
-    public function saveFile(Server $server, $filePath, $file, $user = 'root')
+    public function saveFile(Server $server, $file, $content, $user = 'root')
     {
         $this->remoteTaskService->ssh($server, $user);
 
-        $this->remoteTaskService->writeToFile($filePath, str_replace("\r\n", PHP_EOL, $file));
+        $this->remoteTaskService->writeToFile($file, str_replace("\r\n", PHP_EOL, $content));
 
         return $this->remoteTaskService->getErrors();
     }

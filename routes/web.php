@@ -101,8 +101,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('restore/{server}', 'ServerController@restore');
-                Route::post('server/file/{server}', 'ServerController@getFile');
-                Route::post('server/file/{server}', 'ServerController@saveFile');
+                Route::post('{server}/file', 'ServerController@getFile');
+                Route::post('{server}/file/save', 'ServerController@saveFile');
                 Route::post('disk-space/{server}', 'ServerController@getDiskSpace');
                 Route::post('restart-server/{server}', 'ServerController@restartServer');
                 Route::post('restart-database/{server}', 'ServerController@restartDatabases');

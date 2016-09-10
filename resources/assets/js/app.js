@@ -13,25 +13,23 @@ require('./bootstrap');
  */
 
 Vue.directive('file-editor', {
-    bind: function (element) {
+    bind: function (element, params) {
         const editor = ace.edit(element);
-        const form = $(element).closest('form');
-
-        $(element).after('<input type="hidden" name="path" value="' + $(element).data('path') + '">')
-        $(element).after('<textarea class="hide" name="file">Loading . . .</textarea>');
 
         editor.getSession().setMode("ace/mode/sh");
         editor.setOption("maxLines", 45);
 
         editor.getSession().on('change', function () {
-            form.find('textarea[name="file"]').val(editor.getSession().getValue());
+            $('textarea[name="'+ params.value.server + params.value.file +'"]').val(editor.getSession().getValue());
         });
 
-        $.post(laroute.action('Server\ServerController@getFile', {
-            server_id: $(element).data('server_id'),
-            path: $(element).data('path')
-        }), function (envFile) {
-            editor.getSession().setValue(envFile);
+        Vue.http.post(laroute.action('Server\ServerController@getFile', {
+            file: params.value.file,
+            server: params.value.server
+        })).then((response) => {
+            editor.getSession().setValue(response.json());
+        }, (errors) => {
+            alert(error);
         });
     }
 });
@@ -185,6 +183,7 @@ import TeamMembers from './pages/team/TeamMembers.vue';
  */
 import ServerForm from "./pages/server/ServerForm.vue";
 import ServerSites from "./pages/server/ServerSites.vue";
+import ServerFiles from "./pages/server/ServerFiles.vue";
 import ServerDaemons from "./pages/server/ServerDaemons.vue";
 import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
 import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
@@ -212,6 +211,7 @@ const router = new VueRouter({
 
         {path: '/server/create', component : ServerForm},
         {path: '/server/:server_id/sites', component : ServerSites},
+        {path: '/server/:server_id/files', component : ServerFiles},
         {path: '/server/:server_id/daemons', component : ServerDaemons},
         {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
         {path: '/server/:server_id/features', component : ServerFeatures},

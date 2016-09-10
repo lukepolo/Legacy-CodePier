@@ -136,9 +136,9 @@ class ServerController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFile(Request $request, $serverID)
+    public function getFile(Request $request, $serverId)
     {
-        return response()->json($this->serverService->getFile(Server::findOrFail($serverID), $request->get('path')));
+        return response()->json($this->serverService->getFile(Server::findOrFail($serverId), $request->get('file')));
     }
 
     /**
@@ -146,10 +146,9 @@ class ServerController extends Controller
      *
      * @param Request $request
      */
-    public function saveFile(Request $request)
+    public function saveFile(Request $request, $serverId)
     {
-        $this->serverService->saveFile(Server::findOrFail($request->get('server_id')), $request->get('path'),
-            $request->get('file'));
+        $this->serverService->saveFile(Server::findOrFail($serverId), $request->get('file'), $request->get('content'));
     }
 
     /**

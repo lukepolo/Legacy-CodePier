@@ -5,7 +5,6 @@
             <server-nav :server="server"></server-nav>
             <feature-area :server="server" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
             <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
-            <editable-server-files :server="server.id" v-if="server"></editable-server-files>
         </section>
     </section>
 </template>

@@ -1,16 +1,20 @@
 <template>
     <section>
         <div v-for="(files, service) in editable_files">
-            {{ sectionTitle(service) }}
-            <p v-for="file in files">
-                {{ file }}
-            </p>
+            <template v-for="file in files">
+                {{ sectionTitle(service) }}
+                <server-file :server="server" :file="file"></server-file>
+            </template>
         </div>
     </section>
 </template>
 
 <script>
+    import ServerFile from './../../../components/ServerFile.vue';
     export default {
+        components: {
+            ServerFile
+        },
         props: ['server'],
         created() {
             this.fetchData();
@@ -19,15 +23,15 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
+            fetchData: function () {
                 serverStore.dispatch('getEditableServerFiles', this.server);
             },
-            sectionTitle : function(section) {
+            sectionTitle: function (section) {
                 return section.replace('install', '');
             }
         },
         computed: {
-            editable_files : () => {
+            editable_files: () => {
                 return serverStore.state.editable_files;
             },
         }
