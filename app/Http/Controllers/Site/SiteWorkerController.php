@@ -57,7 +57,7 @@ class SiteWorkerController extends Controller
 
         $serverDaemon = SiteDaemon::create([
             'site_id' => $site->id,
-            'command' => '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . $request->get('connection') . ' --queue=' . $request->get('queue_channel') . ' --timeout=' . $request->get('timeout') . ' --sleep=' . $request->get('sleep') . ' --tries=' . $request->get('tries') . ' ' . ($request->get('daemon') ? '--daemon' : null),
+            'command' => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
             'auto_start' => true,
             'auto_restart' => true,
             'user' => 'codepier',
@@ -104,7 +104,7 @@ class SiteWorkerController extends Controller
                 $this->serverService->getService(SystemService::DAEMON, $server)->removeSiteDaemon($siteDaemon);
             });
 
-            if (!$this->successful()) {
+            if (! $this->successful()) {
                 $siteDaemon->delete();
             }
         }
