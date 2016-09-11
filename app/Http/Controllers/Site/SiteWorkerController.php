@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site;
 use App\Models\SiteDaemon;
+use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
@@ -14,14 +16,17 @@ use Illuminate\Http\Request;
 class SiteWorkerController extends Controller
 {
     private $siteService;
+    private $serverService;
 
     /**
      * RepositoryHookController constructor.
      *
      * @param \App\Services\Site\SiteService |SiteService $siteService
+     * @param ServerService $serverService
      */
-    public function __construct(SiteService $siteService)
+    public function __construct(SiteService $siteService, ServerService $serverService)
     {
+        $this->serverService = $serverService;
         $this->siteService = $siteService;
     }
 
@@ -50,15 +55,22 @@ class SiteWorkerController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        // MOVE TO LARAVEL SPECIFIC AREA , front end can decide show / hide certain framework features that you can do from the site vue!
         $serverDaemon = SiteDaemon::create([
-            'site_id'           => $site->id,
-            'command'           => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
-            'auto_start'        => true,
-            'auto_restart'      => true,
-            'user'              => 'codepier',
+            'site_id' => $site->id,
+            'command' => '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . $request->get('connection') . ' --queue=' . $request->get('queue_channel') . ' --timeout=' . $request->get('timeout') . ' --sleep=' . $request->get('sleep') . ' --tries=' . $request->get('tries') . ' ' . ($request->get('daemon') ? '--daemon' : null),
+            'auto_start' => true,
+            'auto_restart' => true,
+            'user' => 'codepier',
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
+
+        foreach ($site->servers as $server) {
+            $this->runOnServer($server, function () use ($server, $serverDaemon) {
+                $this->serverService->getService(SystemService::DAEMON, $server)->addSiteDaemon($serverDaemon);
+            });
+        }
+
+        return $this->remoteResponse();
     }
 
     /**
@@ -84,6 +96,19 @@ class SiteWorkerController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        SiteDaemon::findOrFail($id)->delete();
+        $site = Site::findOrFail($siteId);
+        $siteDaemon = SiteDaemon::findOrFail($id)->delete();
+
+        foreach ($site->servers as $server) {
+            $this->runOnServer($server, function () use ($server, $siteDaemon) {
+                $this->serverService->getService(SystemService::DAEMON, $server)->removeSiteDaemon($siteDaemon);
+            });
+
+            if (!$this->successful()) {
+                $siteDaemon->delete();
+            }
+        }
+
+        return $this->remoteResponse();
     }
 }

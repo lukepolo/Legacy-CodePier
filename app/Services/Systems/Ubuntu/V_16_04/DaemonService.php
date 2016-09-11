@@ -3,6 +3,7 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\ServerDaemon;
+use App\Models\SiteDaemon;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
@@ -36,7 +37,7 @@ class DaemonService
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
 
-    public function addDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
+    public function addServerDaemon(ServerDaemon $serverDaemon, $sshUser = 'root')
     {
         $this->connectToServer($sshUser);
 
@@ -57,7 +58,28 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$serverDaemon->id.'.log
         $this->remoteTaskService->run('supervisorctl start server-worker-'.$serverDaemon->id.':*');
     }
 
-    public function removeDaemon(ServerDaemon $serverDaemon, $user = 'root')
+    public function addSiteDaemon(SiteDaemon $siteDaemon, $sshUser = 'root')
+    {
+        $this->connectToServer($sshUser);
+
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-'.$siteDaemon->id.'.conf ', '
+[program:site-worker-'.$siteDaemon->id.']
+process_name=%(program_name)s_%(process_num)02d
+command='.$siteDaemon->command.'
+autostart='.($siteDaemon->auto_start ? 'true' : 'false').'
+autorestart='.($siteDaemon->auto_restart ? 'true' : 'false').'
+user='.$siteDaemon->user.'
+numprocs='.$siteDaemon->number_of_workers.'
+redirect_stderr=true
+stdout_logfile=/home/codepier/workers/server-worker-'.$siteDaemon->id.'.log
+');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+        $this->remoteTaskService->run('supervisorctl start server-worker-'.$siteDaemon->id.':*');
+    }
+
+    public function removeServerDaemon(ServerDaemon $serverDaemon, $user = 'root')
     {
         $this->connectToServer($user);
 
@@ -65,12 +87,15 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$serverDaemon->id.'.log
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
+    }
 
+    public function removeSiteDaemon(SiteDaemon $siteDaemon, $user = 'root')
+    {
+        $this->connectToServer($user);
 
-        $errors = $this->remoteTaskService->getErrors();
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/site-worker-'.$siteDaemon->id.'.conf');
 
-        if (empty($errors)) {
-            $serverDaemon->delete();
-        }
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
     }
 }
