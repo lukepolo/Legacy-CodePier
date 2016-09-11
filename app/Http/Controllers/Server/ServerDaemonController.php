@@ -59,7 +59,7 @@ class ServerDaemonController extends Controller
         ]);
 
         $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            $this->serverService->getService(SystemService::DAEMON, $server)->installDaemon($serverDaemon);
+            $this->serverService->getService(SystemService::DAEMON, $server)->addServerDaemon($serverDaemon);
         });
 
         if (! $this->successful()) {
@@ -97,7 +97,7 @@ class ServerDaemonController extends Controller
         $serverDaemon = ServerDaemon::findOrFail($id);
 
         $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            $this->serverService->getService(SystemService::DAEMON, $server)->removeDaemon($serverDaemon);
+            $this->serverService->getService(SystemService::DAEMON, $server)->removeServerDaemon($serverDaemon);
             $serverDaemon->delete();
         });
 
