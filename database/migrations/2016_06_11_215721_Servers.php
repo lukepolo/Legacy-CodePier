@@ -13,21 +13,24 @@ class Servers extends Migration
     public function up()
     {
         Schema::create('servers', function (Blueprint $table) {
+            $table->string('name');
+            $table->string('status');
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('pile_id');
-//            $table->integer('server_id'); // TODO - what is this for?
-            $table->string('name');
-            $table->string('status');
-            $table->integer('server_provider_id');
             $table->string('ip')->nullable();
-            $table->integer('progress')->default(0);
+            $table->json('options')->nullable();
+            $table->integer('given_server_id');
+            $table->integer('server_provider_id');
             $table->integer('team_id')->nullable();
+            $table->integer('progress')->default(0);
             $table->text('public_ssh_key')->nullable();
             $table->text('private_ssh_key')->nullable();
+            $table->json('server_features')->nullable();
             $table->boolean('ssh_connection')->default(0);
-            $table->json('options')->nullable();
-            $table->json('features')->nullable();
+            $table->longText('sudo_password')->nullable();
+            $table->longText('database_password')->nullable();
+            $table->json('server_provider_features')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
