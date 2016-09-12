@@ -156,7 +156,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        $droplet = DigitalOcean::droplet()->getById($server->server_id);
+        $droplet = DigitalOcean::droplet()->getById($server->given_server_id);
 
         foreach ($droplet->networks as $network) {
             if ($network->type == 'public') {
