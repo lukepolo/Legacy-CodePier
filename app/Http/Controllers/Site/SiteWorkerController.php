@@ -59,7 +59,7 @@ class SiteWorkerController extends Controller
 
         $siteWorker = SiteWorker::create([
             'site_id' => $site->id,
-            'command' => '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . $request->get('connection') . ' --queue=' . $request->get('queue_channel') . ' --timeout=' . $request->get('timeout') . ' --sleep=' . $request->get('sleep') . ' --tries=' . $request->get('tries') . ' ' . ($request->get('daemon') ? '--daemon' : null),
+            'command' => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
             'auto_start' => true,
             'auto_restart' => true,
             'user' => 'codepier',
@@ -67,7 +67,6 @@ class SiteWorkerController extends Controller
         ]);
 
         foreach ($request->get('selected_servers') as $serverId) {
-
             $serverWorker = ServerWorker::create([
                 'server_id' => $serverId,
                 'command' => $siteWorker->command,
@@ -75,7 +74,7 @@ class SiteWorkerController extends Controller
                 'auto_restart' => $siteWorker->auto_restart,
                 'number_of_workers' => $siteWorker->number_of_workers,
                 'site_worker_id' => $siteWorker->id,
-                'user' => $siteWorker->user
+                'user' => $siteWorker->user,
             ]);
 
             $server = Server::findOrFail($serverId);
@@ -115,7 +114,6 @@ class SiteWorkerController extends Controller
         $siteWorker = SiteWorker::with('serverWorkers.server')->findOrFail($id);
 
         foreach ($siteWorker->serverWorkers as $serverWorker) {
-
             $server = $serverWorker->server;
 
             $this->runOnServer($server, function () use ($server, $serverWorker) {
