@@ -18,7 +18,7 @@
                     <tr>
                         <td>
                             <router-link :to="{ path: '/site/'+site.id }">
-                                {{ site.domain }}
+                                {{ site.name }}
                             </router-link>
                         </td>
                         <td>{{ site.repository }}</td>
