@@ -68,9 +68,9 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        deleteWorker: ({commit}, worker_id) => {
-            Vue.http.delete(action('Site\SiteWorkerController@destroy', {worker: worker_id})).then((response) => {
-                siteStore.dispatch('getWorkers', siteStore.state.site.id);
+        deleteWorker: ({commit}, data) => {
+            Vue.http.delete(action('Site\SiteWorkerController@destroy', {site: data.site, worker: data.worker})).then((response) => {
+                siteStore.dispatch('getWorkers', data.site);
             }, (errors) => {
                 alert(error);
             });

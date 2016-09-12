@@ -36,7 +36,7 @@ class WorkerService
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
 
-    public function addServerWorker(ServerWorker $serverWorker, $sshUser = 'root')
+    public function addWorker(ServerWorker $serverWorker, $sshUser = 'root')
     {
         $this->connectToServer($sshUser);
 
@@ -57,7 +57,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$serverWorker->id.'.log
         $this->remoteTaskService->run('supervisorctl start server-worker-'.$serverWorker->id.':*');
     }
 
-    public function removeServerWorker(ServerWorker $serverWorker, $user = 'root')
+    public function removeWorker(ServerWorker $serverWorker, $user = 'root')
     {
         $this->connectToServer($user);
 

@@ -46,6 +46,9 @@ Vue.mixin({
 
             // TODO - copy jquerys way of getting the proper data strings
             return $(el).serializeArray();
+        },
+        serverHasFeature: function(server, feature) {
+            return _.get(server.server_features, feature, false);
         }
     }
 });
