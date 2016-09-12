@@ -2,23 +2,20 @@
     <section>
         <h4>{{ getSectionTitle(area) }}</h4>
         <template v-for="feature in features">
-            <div class="input-group input-checkbox">
-                <label>
-                    <template v-if="hasFeature(feature)">
-                        Installed
+            <p>
+                {{ feature.name }}
+                <template v-if="hasFeature(feature)">
+                    Installed
+                </template>
+                <template v-else>
+                    <template v-if="server">
+                        <button @click="installFeature(feature)">Install</button>
                     </template>
-                    {{ feature.name }}
-                    <template v-else>
-                        <br>
+                    <p>
                         <small>{{ feature.description }}</small>
-                        <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox"
-                               :checked="feature.required" value="1">
-                        <template v-if="server">
-                            <button @click="installFeature(feature)">Install</button>
-                        </template>
-                    </template>
-                </label>
-            </div>
+                    </p>
+                </template>
+            </p>
             <template v-if="!hasFeature(feature) && feature.parameters"
                       v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
