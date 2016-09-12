@@ -12,7 +12,7 @@ use App\Exceptions\DeploymentFailed;
 use App\Exceptions\FailedCommand;
 use App\Models\Server;
 use App\Models\Site;
-use App\Models\SiteDaemon;
+use App\Models\SiteWorker;
 use App\Models\SiteDeployment;
 use App\Models\SiteSslCertificate;
 use App\Services\Site\DeploymentServices\PHP;
@@ -88,18 +88,20 @@ class SiteService implements SiteServiceContract
 
         $this->create($server, $domain, $site->wildcard_domain, $site->zerotime_deployment, $site->web_directory);
 
-        foreach ($site->daemons as $daemon) {
-            $this->installDaemon(
-                $site,
-                str_replace($site->domain, $domain, $daemon->command),
-                true,
-                true,
-                $daemon->user,
-                1
-            );
-
-            $this->removeDaemon($server, $daemon);
-        }
+        // todo - fix
+        dd("SITE SERVICE THIS NO LONGER APPLIES");
+//        foreach ($site->workers as $worker) {
+//            $this->installDaemon(
+//                $site,
+//                str_replace($site->domain, $domain, $worker->command),
+//                true,
+//                true,
+//                $worker->user,
+//                1
+//            );
+//
+//            $this->removeDaemon($server, $daemon);
+//        }
 
         $site->domain = $domain;
 
@@ -350,44 +352,44 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server     $server
-     * @param SiteDaemon $siteDaemon
+     * @param SiteWorker $siteWorker
      *
      * @return array
      */
-    public function installDaemon(Server $server, SiteDaemon $siteDaemon)
+    public function installWorker(Server $server, SiteWorker $siteWorker)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-'.$siteDaemon->id.'.conf ', '
-[program:site-worker-'.$siteDaemon->id.']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/site-worker-'.$siteWorker->id.'.conf ', '
+[program:site-worker-'.$siteWorker->id.']
 process_name=%(program_name)s_%(process_num)02d
-command='.$siteDaemon->command.'
-autostart='.$siteDaemon->auto_start.'
-autorestart='.$siteDaemon->auto_restart.'
-user='.$siteDaemon->user.'
-numprocs='.$siteDaemon->number_of_workers.'
+command='.$siteWorker->command.'
+autostart='.$siteWorker->auto_start.'
+autorestart='.$siteWorker->auto_restart.'
+user='.$siteWorker->user.'
+numprocs='.$siteWorker->number_of_workers.'
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/site-worker-'.$siteDaemon->id.'.log
+stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start site-worker-'.$siteDaemon->id.':*');
+        $this->remoteTaskService->run('supervisorctl start site-worker-'.$siteWorker->id.':*');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param Server     $server
-     * @param SiteDaemon $siteDaemon
+     * @param SiteWorker $siteWorker
      *
      * @return array|bool
      */
-    public function removeDaemon(Server $server, SiteDaemon $siteDaemon)
+    public function removeWorker(Server $server, SiteWorker $siteWorker)
     {
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->removeFile("/etc/supervisor/conf.d/site-worker-$siteDaemon->id.conf");
+        $this->remoteTaskService->removeFile("/etc/supervisor/conf.d/site-worker-$siteWorker->id.conf");
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
@@ -395,7 +397,7 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteDaemon->id.'.log
         $errors = $this->remoteTaskService->getErrors();
 
         if (empty($errors)) {
-            $siteDaemon->delete();
+            $siteWorker->delete();
 
             return true;
         }
@@ -411,9 +413,11 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteDaemon->id.'.log
      */
     public function deleteSite(Server $server, Site $site)
     {
-        foreach ($site->daemons as $daemon) {
-            $this->removeDaemon($server, $daemon);
-        }
+        // TODO this needs to be moved somewhere else
+        dd('delete site');
+//        foreach ($site->daemons as $daemon) {
+//            $this->removeDaemon($server, $daemon);
+//        }
 
         $errors = $this->remoteTaskService->getErrors();
 

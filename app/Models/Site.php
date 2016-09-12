@@ -50,9 +50,9 @@ class Site extends Model
         return $this->hasMany(SiteSslCertificate::class)->orderBy('id', 'desc');
     }
 
-    public function daemons()
+    public function workers()
     {
-        return $this->hasMany(SiteDaemon::class);
+        return $this->hasMany(SiteWorker::class);
     }
 
     public function deploymentSteps()

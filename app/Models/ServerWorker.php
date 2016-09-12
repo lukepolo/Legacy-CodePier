@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ServerDaemon.
+ * Class ServerWorker.
  */
-class ServerDaemon extends Model
+class ServerWorker extends Model
 {
     protected $guarded = ['id'];
 

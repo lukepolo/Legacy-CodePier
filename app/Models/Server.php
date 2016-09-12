@@ -69,9 +69,9 @@ class Server extends Model
         return $this->hasMany(ServerFirewallRule::class);
     }
 
-    public function daemons()
+    public function workers()
     {
-        return $this->hasMany(ServerDaemon::class);
+        return $this->hasMany(ServerWorker::class);
     }
 
     public function connectedServers()

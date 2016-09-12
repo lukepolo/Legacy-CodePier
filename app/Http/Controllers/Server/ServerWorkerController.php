@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server;
-use App\Models\ServerDaemon;
+use App\Models\ServerWorker;
 use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerDaemonController.
+ * Class ServerWorkerController.
  */
-class ServerDaemonController extends Controller
+class ServerWorkerController extends Controller
 {
     private $serverService;
 
@@ -35,7 +35,7 @@ class ServerDaemonController extends Controller
      */
     public function index(Request $request, $serverId)
     {
-        return response()->json(Server::findOrFail($serverId)->daemons);
+        return response()->json(Server::findOrFail($serverId)->workers);
     }
 
     /**
@@ -49,7 +49,7 @@ class ServerDaemonController extends Controller
     {
         $server = Server::FindOrFail($serverId);
 
-        $serverDaemon = ServerDaemon::create([
+        $serverWorker = ServerWorker::create([
             'server_id'         => $serverId,
             'command'           => $request->get('command'),
             'auto_start'        => $request->get('auto_start', 0),
@@ -58,12 +58,12 @@ class ServerDaemonController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            $this->serverService->getService(SystemService::DAEMON, $server)->addServerDaemon($serverDaemon);
+        $this->runOnServer($server, function () use ($server, $serverWorker) {
+            $this->serverService->getService(SystemService::WORKERS, $server)->addServerWorker($serverWorker);
         });
 
         if (! $this->successful()) {
-            $serverDaemon->delete();
+            $serverWorker->delete();
         }
 
         return $this->remoteResponse();
@@ -79,7 +79,7 @@ class ServerDaemonController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerDaemon::findOrFail($id));
+        return response()->json(ServerWorker::findOrFail($id));
     }
 
     /**
@@ -94,11 +94,11 @@ class ServerDaemonController extends Controller
     {
         $server = Server::FindOrFail($serverId);
 
-        $serverDaemon = ServerDaemon::findOrFail($id);
+        $serverWorker = ServerWorker::findOrFail($id);
 
-        $this->runOnServer($server, function () use ($server, $serverDaemon) {
-            $this->serverService->getService(SystemService::DAEMON, $server)->removeServerDaemon($serverDaemon);
-            $serverDaemon->delete();
+        $this->runOnServer($server, function () use ($server, $serverWorker) {
+            $this->serverService->getService(SystemService::WORKERS, $server)->removeServerWorker($serverWorker);
+            $serverWorker->delete();
         });
 
         return $this->remoteResponse();
