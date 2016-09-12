@@ -11,6 +11,9 @@
                     <template v-if="server">
                         <button @click="installFeature(feature)">Install</button>
                     </template>
+                    <template v-else>
+                        <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox" :checked="feature.required" value="1">
+                    </template>
                     <p>
                         <small>{{ feature.description }}</small>
                     </p>
@@ -19,9 +22,7 @@
             <template v-if="!hasFeature(feature) && feature.parameters"
                       v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
-                    <input :id="parameter"
-                           :name="'services[' + area + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
-                           type="text" :value="value">
+                    <input :id="parameter" :name="'services[' + area + ']' + '[' + feature.name + '][parameters]['+ parameter+']'" type="text" :value="value">
                     <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
                 </div>
             </template>
@@ -36,7 +37,7 @@
 <script>
     export default {
         name: 'featureArea',
-        props: ['area', 'features', 'frameworks', 'server'],
+        props: ['selectable', 'area', 'features', 'frameworks', 'server'],
         methods: {
             hasFeature: function (feature) {
                 if (this.server) {

@@ -44,6 +44,8 @@ Vue.mixin({
                 el = $(el).find('form');
             }
 
+            console.info(el);
+
             // TODO - copy jquerys way of getting the proper data strings
             return $(el).serializeArray();
         },
@@ -189,9 +191,10 @@ import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
  */
 import SiteWorkers from "./pages/site/SiteWorkers.vue";
 import SiteRepository from "./pages/site/SiteRepository.vue";
-import SiteFrameworkFiles from "./pages/site/SiteFrameworkFiles.vue";
-import SiteSSLCertificates from "./pages/site/SiteSSLCertificates.vue";
 
+import SiteFrameworkFiles from "./pages/site/SiteFrameworkFiles.vue";
+import SiteServerFeatures from "./pages/site/SiteServerFeatures.vue";
+import SiteSSLCertificates from "./pages/site/SiteSSLCertificates.vue";
 
 const router = new VueRouter({
     mode: 'history',
@@ -213,6 +216,7 @@ const router = new VueRouter({
         {path: '/site/:site_id', component: SiteRepository},
         {path: '/site/:site_id/workers', component: SiteWorkers},
         {path: '/site/:site_id/framework-files', component: SiteFrameworkFiles},
+        {path: '/site/:site_id/server-features', component: SiteServerFeatures},
         {path: '/site/:site_id/ssl-certificates', component: SiteSSLCertificates},
 
         {path: '/my-profile', component: UserInfo},
