@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateServerSshKeysTable extends Migration
+class CreateSiteSshKeysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,9 @@ class CreateServerSshKeysTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_ssh_keys', function (Blueprint $table) {
+        Schema::create('site_ssh_keys', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_ssl_key');
-            $table->integer('server_id');
+            $table->integer('site_id');
             $table->string('name');
             $table->longText('ssh_key');
             $table->timestamps();
@@ -29,6 +29,6 @@ class CreateServerSshKeysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_ssh_keys');
+        Schema::dropIfExists('site_ssh_keys');
     }
 }
