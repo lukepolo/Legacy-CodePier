@@ -59,7 +59,7 @@ class SiteWorkerController extends Controller
 
         $siteWorker = SiteWorker::create([
             'site_id' => $site->id,
-            'command' => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
+            'command' => $request->get('command'),
             'auto_start' => true,
             'auto_restart' => true,
             'user' => 'codepier',
