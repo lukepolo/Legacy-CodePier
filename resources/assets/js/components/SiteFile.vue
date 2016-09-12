@@ -2,16 +2,18 @@
     <form @submit.prevent="saveFile()">
         {{ file }}
         <div v-file-editor class="editor"></div>
-        <div class="form-group" v-for="server in servers" v-if="servers">
-            <input type="checkbox" :value="server.id" v-model="selected_servers" name="selected_servers[]"> {{ server.ip }}
-        </div>
+        <server-selector :servers="servers" :param="selected_servers"></server-selector>
         <button type="submit">Update</button>
     </form>
 </template>
 
 <script>
+    import ServerSelector from './ServerSelector.vue';
     export default {
         props: ['site', 'servers', 'file'],
+        components : {
+            ServerSelector
+        },
         data() {
             return {
                 content: null,

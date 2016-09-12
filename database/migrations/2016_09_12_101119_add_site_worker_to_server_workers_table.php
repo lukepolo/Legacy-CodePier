@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RenameDaemonsToWorkers extends Migration
+class AddSiteWorkerToServerWorkersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class RenameDaemonsToWorkers extends Migration
      */
     public function up()
     {
-        Schema::rename('server_daemons', 'server_workers');
-        Schema::rename('site_daemons', 'site_workers');
+        Schema::table('server_workers', function(Blueprint $table) {
+            $table->integer('site_worker_id')->nullable();
+        });
     }
 
     /**
@@ -24,7 +25,8 @@ class RenameDaemonsToWorkers extends Migration
      */
     public function down()
     {
-        Schema::rename('server_workers', 'server_daemons');
-        Schema::rename('site_daemons', 'site_daemons');
+        Schema::table('server_workers', function(Blueprint $table) {
+            $table->dropColumn('site_worker_id');
+        });
     }
 }
