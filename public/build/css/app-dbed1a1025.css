@@ -1677,7 +1677,8 @@ header {
     transition: all 1.5s ease-out; }
 
 footer {
-  background-color: #2B2B2B; }
+  background-color: #2B2B2B;
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12); }
   footer .toggle {
     display: block;
     color: #FFFFFF;
@@ -1686,6 +1687,8 @@ footer {
     footer .toggle:hover {
       color: #48ACF0;
       background-color: rgba(60, 63, 65, 0.2); }
+    footer .toggle:not(.collapsed) {
+      background-color: rgba(60, 63, 65, 0.6); }
     footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
       font-size: 1.2em; }
 
