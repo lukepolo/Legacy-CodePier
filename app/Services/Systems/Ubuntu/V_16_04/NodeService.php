@@ -28,11 +28,4 @@ class NodeService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
     }
-
-    public function installForever()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run('npm install forever -g');
-    }
 }
