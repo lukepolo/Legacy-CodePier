@@ -355,6 +355,7 @@ class ServerService implements ServerServiceContract
     private function getProvider(ServerProvider $serverProvider)
     {
         dd($serverProvider);
+
         return new $this->providers[$serverProvider->provider_name]();
     }
 
