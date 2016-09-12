@@ -21,6 +21,10 @@ class Site extends Model
 
     protected $appends = ['path'];
 
+    protected $casts = [
+        'server_features' => 'array',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations

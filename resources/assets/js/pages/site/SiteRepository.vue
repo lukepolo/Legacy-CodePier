@@ -50,14 +50,12 @@
                         <button type="submit">Update Repository</button>
                     </form>
 
-                    <a href="#">Remove Repository</a>
-
-                    <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-
-                    <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
-                        Deployments</a>
-                    <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
-
+                    <template v-if="site.repository && site.servers.length">
+                        <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
+                        <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
+                            Deployments</a>
+                        <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
+                    </template>
                     <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
                 </div>
             </div>
