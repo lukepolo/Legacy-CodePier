@@ -13,7 +13,7 @@ class AddSiteWorkerToServerWorkersTable extends Migration
      */
     public function up()
     {
-        Schema::table('server_workers', function(Blueprint $table) {
+        Schema::table('server_workers', function (Blueprint $table) {
             $table->integer('site_worker_id')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddSiteWorkerToServerWorkersTable extends Migration
      */
     public function down()
     {
-        Schema::table('server_workers', function(Blueprint $table) {
+        Schema::table('server_workers', function (Blueprint $table) {
             $table->dropColumn('site_worker_id');
         });
     }
