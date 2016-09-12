@@ -22,7 +22,7 @@ class SystemService implements SystemServiceContract
 
     const WEB = 'WebService';
     const SYSTEM = 'OsService';
-    const DAEMON = 'DaemonService';
+    const WORKERS = 'WorkerService';
     const FIREWALL = 'FirewallService';
     const DATABASE = 'DatabaseService';
     const MONITORING = 'MonitoringService';

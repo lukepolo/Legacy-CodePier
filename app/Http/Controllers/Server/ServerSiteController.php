@@ -35,7 +35,7 @@ class ServerSiteController extends Controller
         return response()->json(Server::with(['sites' => function ($query) {
             $query->with([
                 'activeSSL',
-                'daemons',
+                'workers',
                 'userRepositoryProvider',
             ]);
         }])->findOrFail($id)->sites);

@@ -204,7 +204,7 @@ class ServerService implements ServerServiceContract
      */
     public function restartWorkers(Server $server)
     {
-        $this->getService(SystemService::DAEMON, $server)->restartWorkers();
+        $this->getService(SystemService::WORKERS, $server)->restartWorkers();
     }
 
     /**

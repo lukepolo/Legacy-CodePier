@@ -91,8 +91,8 @@ window.serverProviderStore = serverProviderStore;
 import serverCronJobStore from './stores/Server/ServerCronJobStore';
 window.serverCronJobStore = serverCronJobStore;
 
-import serverDaemonStore from './stores/Server/ServerDaemonStore';
-window.serverDaemonStore = serverDaemonStore;
+import serverWorkerStore from './stores/Server/ServerWorkerStore';
+window.serverWorkerStore = serverWorkerStore;
 
 import serverFirewallStore from './stores/Server/ServerFirewallStore';
 window.serverFirewallStore = serverFirewallStore;
@@ -171,7 +171,7 @@ import TeamMembers from './pages/team/TeamMembers.vue';
 import ServerForm from "./pages/server/ServerForm.vue";
 import ServerSites from "./pages/server/ServerSites.vue";
 import ServerFiles from "./pages/server/ServerFiles.vue";
-import ServerDaemons from "./pages/server/ServerDaemons.vue";
+import ServerWorkers from "./pages/server/ServerWorkers.vue";
 import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
 import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
 import ServerFeatures from "./pages/server/ServerFeatures.vue";
@@ -199,7 +199,7 @@ const router = new VueRouter({
         {path: '/server/create', component : ServerForm},
         {path: '/server/:server_id/sites', component : ServerSites},
         {path: '/server/:server_id/files', component : ServerFiles},
-        {path: '/server/:server_id/daemons', component : ServerDaemons},
+        {path: '/server/:server_id/workers', component : ServerWorkers},
         {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
         {path: '/server/:server_id/features', component : ServerFeatures},
         {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},

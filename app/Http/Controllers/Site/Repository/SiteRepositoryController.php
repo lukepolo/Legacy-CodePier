@@ -166,9 +166,8 @@ class SiteRepositoryController extends Controller
         $this->serverService->removeFolder($site->server, '/home/codepier/'.$site->domain, 'codepier');
         $this->serverService->createFolder($site->server, '/home/codepier/'.$site->domain, 'codepier');
 
-        foreach ($site->daemons as $daemon) {
-            $this->serverService->removeDaemon($site->server, $daemon);
-        }
+        // TODO
+        dd('NEEDS TO BE FIXED TO REMOVE ANYTHING FORM ALL SERVERS');
 
         $site->repository = null;
         $site->branch = null;

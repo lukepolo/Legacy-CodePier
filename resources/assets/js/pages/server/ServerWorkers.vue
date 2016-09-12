@@ -3,7 +3,7 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
             <server-nav :server="server"></server-nav>
-            <form @submit.prevent="createServerDaemon">
+            <form @submit.prevent="createServerWorker">
                 Command
                 <input type="text" name="command" v-model="form.command">
                 User
@@ -19,7 +19,7 @@
                 <button type="submit">Create Cron</button>
             </form>
 
-            <table class="table" v-if="daemons" v-for="daemon in daemons">
+            <table class="table" v-if="workers" v-for="worker in workers">
                 <thead>
                 <tr>
                     <th>Command</th>
@@ -32,12 +32,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ daemon.command }}</td>
-                    <td>{{ daemon.user }}</td>
-                    <td>{{ daemon.auto_start }}</td>
-                    <td>{{ daemon.auto_restart }}</td>
-                    <td>{{ daemon.number_of_workers }}</td>
-                    <td><a href="#" class="fa fa-remove" @click="deleteServerDaemon(daemon.id)">remove</a></td>
+                    <td>{{ worker.command }}</td>
+                    <td>{{ worker.user }}</td>
+                    <td>{{ worker.auto_start }}</td>
+                    <td>{{ worker.auto_restart }}</td>
+                    <td>{{ worker.number_of_workers }}</td>
+                    <td><a href="#" class="fa fa-remove" @click="deleteServerWorker(worker.id)">remove</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -74,16 +74,16 @@
         methods: {
             fetchData: function () {
                 serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverDaemonStore.dispatch('getServerDaemons', this.$route.params.server_id);
+                serverWorkerStore.dispatch('getServerWorkers', this.$route.params.server_id);
 
             },
-            createServerDaemon() {
+            createServerWorker() {
                 this.form['server'] = this.server.id;
-                serverDaemonStore.dispatch('createServerDaemon', this.form);
+                serverWorkerStore.dispatch('createServerWorker', this.form);
             },
-            deleteServerDaemon(daemon_id) {
-                serverDaemonStore.dispatch('deleteServerDaemon', {
-                    daemon : daemon_id,
+            deleteServerWorker(worker_id) {
+                serverWorkerStore.dispatch('deleteServerWorker', {
+                    worker : worker_id,
                     server : this.server.id
                 });
             }
@@ -92,8 +92,8 @@
             server: () => {
                 return serverStore.state.server;
             },
-            daemons : () => {
-                return serverDaemonStore.state.server_daemons;
+            workers : () => {
+                return serverworkerStore.state.server_workers;
             }
         }
     }

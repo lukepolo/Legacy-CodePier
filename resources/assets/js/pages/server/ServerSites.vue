@@ -30,7 +30,7 @@
                                 No
                             </span>
                         </td>
-                        <td>{{ site.daemons.length }}</td>
+                        <td>{{ site.workers.length }}</td>
                         <td>{{ site.wildcard_domain }}</td>
                         <td>
                             <span v-if="hasActiveSSL(site)">
