@@ -89,7 +89,7 @@ class SiteService implements SiteServiceContract
         $this->create($server, $domain, $site->wildcard_domain, $site->zerotime_deployment, $site->web_directory);
 
         // todo - fix
-        dd("SITE SERVICE THIS NO LONGER APPLIES");
+        dd('SITE SERVICE THIS NO LONGER APPLIES');
 //        foreach ($site->workers as $worker) {
 //            $this->installDaemon(
 //                $site,
