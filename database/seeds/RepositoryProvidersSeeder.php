@@ -36,7 +36,7 @@ class RepositoryProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            $providerModel = \App\Models\RepositoryProvider::firstOrCreate([
+            $providerModel = \App\Models\RepositoryProvider::firstOrNew([
                 'provider_name' => $provider,
                 'name'          => $data['name'],
             ]);
