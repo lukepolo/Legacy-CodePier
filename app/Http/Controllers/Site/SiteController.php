@@ -142,6 +142,5 @@ class SiteController extends Controller
         $site->server_features = $request->get('services');
 
         return response()->json();
-
     }
 }
