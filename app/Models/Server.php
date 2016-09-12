@@ -37,7 +37,7 @@ class Server extends Model
         'sudo_password',
         'public_ssh_key',
         'private_ssh_key',
-        'database_password'
+        'database_password',
     ];
 
     /*
