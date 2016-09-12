@@ -10,28 +10,30 @@
                     Laravel Queue Workers
                     <form @submit.prevent="installWorker()">
                         Connection :
-                        <input name="connection" v-model="connection" type="radio" value="sqs"> Amazon SQS
-                        <input name="connection" v-model="connection" type="radio" value="beanstalkd"> Beanstalk
-                        <input name="connection" v-model="connection" type="radio" value="database"> Database
-                        <input name="connection" v-model="connection" type="radio" value="redis"> Redis
+                        <input name="connection" v-model="form.connection" type="radio" value="sqs"> Amazon SQS
+                        <input name="connection" v-model="form.connection" type="radio" value="beanstalkd"> Beanstalk
+                        <input name="connection" v-model="form.connection" type="radio" value="database"> Database
+                        <input name="connection" v-model="form.connection" type="radio" value="redis"> Redis
 
                         Queue Channel
-                        <input type="text" v-model="queue_channel" placeholder="default" name="queue_channel">
+                        <input type="text" v-model="form.queue_channel" placeholder="default" name="queue_channel">
 
                         Maximum Seconds Per Job
-                        <input type="text" v-model="timeout" name="timeout" placeholder="60">
+                        <input type="text" v-model="form.timeout" name="timeout" placeholder="60">
 
                         Time interval between jobs (when empty)
-                        <input type="text" v-model="sleep" placeholder="10" name="sleep">
+                        <input type="text" v-model="form.sleep" placeholder="10" name="sleep">
 
                         Maximum Tries
-                        <input type="text" v-model="tries" placeholder="3" name="tries">
+                        <input type="text" v-model="form.tries" placeholder="3" name="tries">
 
                         Run as Daemon
-                        <input type="checkbox" v-model="daemon" name="daemon" value="1">
+                        <input type="checkbox" v-model="form.daemon" name="daemon">
 
                         Number Of Workers
-                        <input type="number" v-model="number_of_workers" name="number_of_workers">
+                        <input type="number" v-model="form.number_of_workers" name="number_of_workers">
+
+                        <server-selector :servers="site.servers" param="form.selected_servers"></server-selector>
 
                         <button type="submit">Install Worker</button>
                     </form>
@@ -68,27 +70,33 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
-    import SiteNav from './components/SiteNav.vue';
     import Servers from './components/Servers.vue';
+    import SiteNav from './components/SiteNav.vue';
     import SiteHeader from './components/SiteHeader.vue';
+    import ServerSelector from './../../components/ServerSelector.vue';
     export default {
         components: {
-            SiteHeader,
-            SiteNav,
             LeftNav,
-            Servers
+            Servers,
+            SiteNav,
+            SiteHeader,
+            ServerSelector
         },
         data() {
             return {
-                sleep: null,
-                tries: null,
-                daemon: null,
-                timeout: null,
-                auto_start: null,
-                connection: null,
-                auto_restart: null,
-                queue_channel: null,
-                number_of_workers: null
+                form : {
+                    sleep: null,
+                    tries: null,
+                    daemon: true,
+                    timeout: null,
+                    site_id : null,
+                    auto_start: null,
+                    connection: null,
+                    auto_restart: null,
+                    queue_channel: null,
+                    selected_servers : [],
+                    number_of_workers: null,
+                }
             }
         },
         created() {
@@ -103,25 +111,20 @@
                 siteStore.dispatch('getWorkers', this.$route.params.site_id);
             },
             installWorker: function () {
-                siteStore.dispatch('installWorker', {
-                    sleep: this.sleep,
-                    tries: this.tries,
-                    daemon: this.daemon,
-                    timeout: this.timeout,
-                    site_id: this.site.id,
-                    auto_start: this.auto_start,
-                    connection: this.connection,
-                    auto_restart: this.auto_restart,
-                    queue_channel : this.queue_channel,
-                    number_of_workers: this.number_of_workers
-                });
+                siteStore.dispatch('installWorker', this.form);
             },
             deleteWorker : function(worker_id) {
                 siteStore.dispatch('deleteWorker', worker_id);
             }
         },
         computed: {
-            site: () => {
+            site: function() {
+                var site = siteStore.state.site;
+                if(site) {
+                    this.form.site_id = site.id;
+                    this.form.selected_servers = _.map(site.servers, 'id');
+                }
+
                 return siteStore.state.site;
             },
             workers: () => {
