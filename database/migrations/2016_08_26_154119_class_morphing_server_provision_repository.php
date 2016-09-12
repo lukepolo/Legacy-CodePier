@@ -13,12 +13,8 @@ class ClassMorphingServerProvisionRepository extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function (Blueprint $table) {
-            $table->string('system_class');
-        });
-
         Schema::table('server_providers', function (Blueprint $table) {
-            $table->string('server_class');
+            $table->string('provider_class');
         });
 
         Schema::table('repository_providers', function (Blueprint $table) {
@@ -33,12 +29,8 @@ class ClassMorphingServerProvisionRepository extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function (Blueprint $table) {
-            $table->dropColumn('system_class');
-        });
-
         Schema::table('server_providers', function (Blueprint $table) {
-            $table->dropColumn('server_class');
+            $table->dropColumn('provider_class');
         });
 
         Schema::table('repository_providers', function (Blueprint $table) {

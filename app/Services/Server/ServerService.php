@@ -23,10 +23,6 @@ class ServerService implements ServerServiceContract
     protected $systemService;
     protected $remoteTaskService;
 
-    public $providers = [
-        'digitalocean' => Providers\DigitalOceanProvider::class,
-    ];
-
     public static $serverOperatingSystem = 'ubuntu-16-04-x64';
 
     /**
@@ -358,6 +354,7 @@ class ServerService implements ServerServiceContract
      */
     private function getProvider(ServerProvider $serverProvider)
     {
+        dd($serverProvider);
         return new $this->providers[$serverProvider->provider_name]();
     }
 
