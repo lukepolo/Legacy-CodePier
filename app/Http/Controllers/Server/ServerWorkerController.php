@@ -59,7 +59,7 @@ class ServerWorkerController extends Controller
         ]);
 
         $this->runOnServer($server, function () use ($server, $serverWorker) {
-            $this->serverService->getService(SystemService::WORKERS, $server)->addServerWorker($serverWorker);
+            $this->serverService->getService(SystemService::WORKERS, $server)->addWorker($serverWorker);
         });
 
         if (! $this->successful()) {
@@ -97,7 +97,7 @@ class ServerWorkerController extends Controller
         $serverWorker = ServerWorker::findOrFail($id);
 
         $this->runOnServer($server, function () use ($server, $serverWorker) {
-            $this->serverService->getService(SystemService::WORKERS, $server)->removeServerWorker($serverWorker);
+            $this->serverService->getService(SystemService::WORKERS, $server)->removeWorker($serverWorker);
             $serverWorker->delete();
         });
 

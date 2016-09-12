@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Site;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
+use App\Models\Server;
+use App\Models\ServerWorker;
 use App\Models\Site;
 use App\Models\SiteWorker;
 use App\Services\Systems\SystemService;
@@ -57,21 +59,31 @@ class SiteWorkerController extends Controller
 
         $siteWorker = SiteWorker::create([
             'site_id' => $site->id,
-            'command' => '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/artisan queue:work '.$request->get('connection').' --queue='.$request->get('queue_channel').' --timeout='.$request->get('timeout').' --sleep='.$request->get('sleep').' --tries='.$request->get('tries').' '.($request->get('daemon') ? '--daemon' : null),
+            'command' => '/home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/artisan queue:work ' . $request->get('connection') . ' --queue=' . $request->get('queue_channel') . ' --timeout=' . $request->get('timeout') . ' --sleep=' . $request->get('sleep') . ' --tries=' . $request->get('tries') . ' ' . ($request->get('daemon') ? '--daemon' : null),
             'auto_start' => true,
             'auto_restart' => true,
             'user' => 'codepier',
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        // TODO - this has to be changed
+        foreach ($request->get('selected_servers') as $serverId) {
 
-        dd('SITE WORKER NEEDS TOB E FIXED');
-//        foreach ($site->servers as $server) {
-//            $this->runOnServer($server, function () use ($server, $serverDaemon) {
-//                $this->serverService->getService(SystemService::DAEMON, $server)->addSiteDaemon($serverDaemon);
-//            });
-//        }
+            $serverWorker = ServerWorker::create([
+                'server_id' => $serverId,
+                'command' => $siteWorker->command,
+                'auto_start' => $siteWorker->auto_start,
+                'auto_restart' => $siteWorker->auto_restart,
+                'number_of_workers' => $siteWorker->number_of_workers,
+                'site_worker_id' => $siteWorker->id,
+                'user' => $siteWorker->user
+            ]);
+
+            $server = Server::findOrFail($serverId);
+
+            $this->runOnServer($server, function () use ($server, $serverWorker) {
+                $this->serverService->getService(SystemService::WORKERS, $server)->addWorker($serverWorker);
+            });
+        }
 
         return $this->remoteResponse();
     }
@@ -100,19 +112,21 @@ class SiteWorkerController extends Controller
     public function destroy($siteId, $id)
     {
         $site = Site::findOrFail($siteId);
-        $siteWorker = SiteWorker::findOrFail($id)->delete();
+        $siteWorker = SiteWorker::with('serverWorkers.server')->findOrFail($id);
 
-        // TODO - needs to be fixed
-        dd('SITE WORKER DELETE');
-//        foreach ($site->servers as $server) {
-//            $this->runOnServer($server, function () use ($server, $siteDaemon) {
-//                $this->serverService->getService(SystemService::DAEMON, $server)->removeSiteDaemon($siteDaemon);
-//            });
-//
-//            if (! $this->successful()) {
-//                $siteDaemon->delete();
-//            }
-//        }
+        foreach ($siteWorker->serverWorkers as $serverWorker) {
+
+            $server = $serverWorker->server;
+
+            $this->runOnServer($server, function () use ($server, $serverWorker) {
+                $this->serverService->getService(SystemService::WORKERS, $server)->removeWorker($serverWorker);
+                $serverWorker->delete();
+            });
+        }
+
+        if ($this->successful()) {
+            $siteWorker->delete();
+        }
 
         return $this->remoteResponse();
     }

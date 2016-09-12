@@ -33,7 +33,7 @@
                         Number Of Workers
                         <input type="number" v-model="form.number_of_workers" name="number_of_workers">
 
-                        <server-selector :servers="site.servers" param="form.selected_servers"></server-selector>
+                        <server-selector :servers="site.servers" param="form.selected_servers" feature="WorkerService.Supervisor.enabled" feature_message="This server does not have a worker system installed."></server-selector>
 
                         <button type="submit">Install Worker</button>
                     </form>
@@ -114,7 +114,10 @@
                 siteStore.dispatch('installWorker', this.form);
             },
             deleteWorker : function(worker_id) {
-                siteStore.dispatch('deleteWorker', worker_id);
+                siteStore.dispatch('deleteWorker', {
+                    worker : worker_id,
+                    site : this.site.id,
+                });
             }
         },
         computed: {

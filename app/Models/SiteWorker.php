@@ -15,4 +15,14 @@ class SiteWorker extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    public function serverWorkers()
+    {
+        return $this->hasMany(ServerWorker::class);
+    }
+
+    public function server()
+    {
+        return $this->hasOne(Server::class);
+    }
 }
