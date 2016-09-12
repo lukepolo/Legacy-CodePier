@@ -19,6 +19,8 @@ class Site extends Model
     public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
 
+    protected $appends = ['path'];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -145,5 +147,15 @@ class Site extends Model
     public function fireSavedEvent()
     {
         $this->fireModelEvent('saved', false);
+    }
+
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getPathAttribute()
+    {
+        return '/home/codepier/'.$this->domain;
     }
 }

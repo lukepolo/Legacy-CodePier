@@ -15,6 +15,10 @@ class SiteFile extends Model
         'content',
     ];
 
+    protected $hidden = [
+        'content',
+    ];
+
     public function site()
     {
         return $this->belongsTo(Site::class);

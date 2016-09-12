@@ -93,7 +93,7 @@
                 return serverStore.state.server;
             },
             workers : () => {
-                return serverworkerStore.state.server_workers;
+                return serverWorkerStore.state.server_workers;
             }
         }
     }

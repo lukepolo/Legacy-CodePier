@@ -33,6 +33,13 @@ class Server extends Model
         'database_password',
     ];
 
+    protected $hidden = [
+        'sudo_password',
+        'public_ssh_key',
+        'private_ssh_key',
+        'database_password'
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations

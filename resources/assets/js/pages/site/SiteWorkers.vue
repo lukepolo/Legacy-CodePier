@@ -9,33 +9,17 @@
 
                     Laravel Queue Workers
                     <form @submit.prevent="installWorker()">
-                        Connection :
-                        <input name="connection" v-model="form.connection" type="radio" value="sqs"> Amazon SQS
-                        <input name="connection" v-model="form.connection" type="radio" value="beanstalkd"> Beanstalk
-                        <input name="connection" v-model="form.connection" type="radio" value="database"> Database
-                        <input name="connection" v-model="form.connection" type="radio" value="redis"> Redis
-
-                        Queue Channel
-                        <input type="text" v-model="form.queue_channel" placeholder="default" name="queue_channel">
-
-                        Maximum Seconds Per Job
-                        <input type="text" v-model="form.timeout" name="timeout" placeholder="60">
-
-                        Time interval between jobs (when empty)
-                        <input type="text" v-model="form.sleep" placeholder="10" name="sleep">
-
-                        Maximum Tries
-                        <input type="text" v-model="form.tries" placeholder="3" name="tries">
-
-                        Run as Daemon
-                        <input type="checkbox" v-model="form.daemon" name="daemon">
-
-                        Number Of Workers
-                        <input type="number" v-model="form.number_of_workers" name="number_of_workers">
-
-                        <server-selector :servers="site.servers" param="form.selected_servers" feature="WorkerService.Supervisor.enabled" feature_message="This server does not have a worker system installed."></server-selector>
-
-                        <button type="submit">Install Worker</button>
+                        Command
+                        <input type="text" name="command" v-model="form.command">
+                        User
+                        <select name="user" v-model="form.user">
+                            <option value="root">Root User</option>
+                            <option value="codepier">CodePier User</option>
+                        </select>
+                        <input type="checkbox" name="auto_start" v-model="form.auto_start"> Auto Start
+                        <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
+                        Workers
+                        <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
                     </form>
 
                     <table class="table">
@@ -85,16 +69,10 @@
         data() {
             return {
                 form : {
-                    sleep: null,
-                    tries: null,
-                    daemon: true,
-                    timeout: null,
                     site_id : null,
+                    command : null,
                     auto_start: null,
-                    connection: null,
                     auto_restart: null,
-                    queue_channel: null,
-                    selected_servers : [],
                     number_of_workers: null,
                 }
             }
@@ -125,6 +103,7 @@
                 var site = siteStore.state.site;
                 if(site) {
                     this.form.site_id = site.id;
+                    this.form.command = site.path;
                     this.form.selected_servers = _.map(site.servers, 'id');
                 }
 
