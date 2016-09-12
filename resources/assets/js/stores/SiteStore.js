@@ -31,8 +31,7 @@ const siteStore = new Vuex.Store({
         createSite : ({commit}, data) => {
             Vue.http.post(action('Site\SiteController@store'), {
                 domain: data.domain,
-                servers: data.selectedServers,
-                wildcard_domain: data.wildcard_domain,
+                domainless : data.domainless,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
                 app.$router.push('/site/' + response.json().id);

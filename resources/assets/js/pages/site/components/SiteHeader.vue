@@ -1,7 +1,7 @@
 <template>
     <section>
         <h3 class="section-header primary" v-if="site">
-            {{ site.domain }}
+            {{ site.name }}
             <div class="pull-right">
                 <div class="dropdown">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">

@@ -3,13 +3,20 @@
         <h3 class="section-header">Sites</h3>
         <div class="server selected" v-for="site in sites">
             <router-link :to="{ path: '/site/'+site.id }">
-                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top" data-container="body" title="Site Health"></span> {{ site.domain }}
+                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top" data-container="body" title="Site Health"></span> {{ site.name }}
             </router-link>
         </div>
 
         <form @submit.prevent="saveSite" v-if="adding_site">
-            Domain
+            <template v-if="!form.domainless">
+                Domain
+            </template>
+            <template v-else>
+                Alias
+            </template>
+
             <input v-model="form.domain" type="text">
+            <input type="checkbox" v-model="form.domainless"> Not a domain
             <button class="btn btn-primary">Save</button>
         </form>
 
@@ -29,9 +36,11 @@
         },
         data() {
             return {
+
                 adding_site : false,
                 form : {
-                    domain: null
+                    domain: null,
+                    domainless : false,
                 }
             }
         },

@@ -48,8 +48,9 @@ class SiteController extends Controller
     {
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'domain'              => $request->get('domain'),
+            'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
             'pile_id'             => $request->get('pile_id'),
+            'name'                 => $request->get('domain')
         ]);
 
         $site->servers()->sync($request->get('servers', []));
