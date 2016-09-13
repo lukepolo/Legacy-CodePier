@@ -4,16 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\NotificationProvider;
-use App\Models\RepositoryProvider;
-use App\Models\ServerProvider;
 use App\Models\UserSshKey;
-use Stripe\Plan;
-use Stripe\Stripe;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\Auth
+ * Class UserController.
  */
 class UserSshKeyController extends Controller
 {
@@ -21,6 +15,7 @@ class UserSshKeyController extends Controller
 
     /**
      * UserController constructor.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function __construct(ServerService $serverService)
@@ -29,7 +24,8 @@ class UserSshKeyController extends Controller
     }
 
     /**
-     * Updates a users profile
+     * Updates a users profile.
+     *
      * @return mixed
      */
     public function postMyProfile()
@@ -37,8 +33,8 @@ class UserSshKeyController extends Controller
         $user = \Auth::user();
 
         $user->fill([
-            'name' => \Request::get('name'),
-            'email' => \Request::get('email')
+            'name'  => \Request::get('name'),
+            'email' => \Request::get('email'),
         ]);
 
         if (\Request::has('password')) {
@@ -51,14 +47,14 @@ class UserSshKeyController extends Controller
     }
 
     /**
-     * Adds a ssh key to the users account
+     * Adds a ssh key to the users account.
      */
     public function postAddSshKey()
     {
         $userSshKey = UserSshKey::create([
             'user_id' => \Auth::user()->id,
-            'name' => \Request::get('name'),
-            'ssh_key' => trim(\Request::get('ssh_key'))
+            'name'    => \Request::get('name'),
+            'ssh_key' => trim(\Request::get('ssh_key')),
         ]);
 
         foreach (\Auth::user()->servers as $server) {
@@ -68,10 +64,11 @@ class UserSshKeyController extends Controller
         return back()->with('success', 'You added an ssh key to all your servers');
     }
 
-
     /**
-     * Removes an ssh from the users account
+     * Removes an ssh from the users account.
+     *
      * @param $sshKeyID
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function getRemoveSshKey($sshKeyID)

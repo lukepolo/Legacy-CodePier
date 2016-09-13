@@ -8,8 +8,7 @@ use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteServerController
- * @package App\Http\Controllers\Site
+ * Class SiteServerController.
  */
 class SiteServerController extends Controller
 {
@@ -17,6 +16,7 @@ class SiteServerController extends Controller
 
     /**
      * SiteController constructor.
+     *
      * @param \App\Services\Server\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
@@ -33,5 +33,4 @@ class SiteServerController extends Controller
     {
         return response()->json(Site::where('id', $request->get('site'))->firstorFail()->servers);
     }
-
 }

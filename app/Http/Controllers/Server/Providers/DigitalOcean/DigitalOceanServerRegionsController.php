@@ -9,9 +9,7 @@ use App\Models\ServerProvider;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerController
- *
- * @package App\Http\Controllers\Server
+ * Class ServerController.
  */
 class DigitalOceanServerRegionsController extends Controller
 {
@@ -40,7 +38,8 @@ class DigitalOceanServerRegionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

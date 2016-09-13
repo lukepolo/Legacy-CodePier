@@ -11,8 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class ProvisionServer
- * @package App\Jobs
+ * Class ProvisionServer.
  */
 class ProvisionServer implements ShouldQueue
 {
@@ -22,6 +21,7 @@ class ProvisionServer implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
      * @param Server $server
      */
     public function __construct(Server $server)
@@ -31,6 +31,7 @@ class ProvisionServer implements ShouldQueue
 
     /**
      * Execute the job.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      */
     public function handle(ServerService $serverService)

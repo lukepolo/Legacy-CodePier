@@ -7,23 +7,23 @@ use App\Models\Site;
 use App\Models\UserRepositoryProvider;
 
 /**
- * Class RepositoryService
- * @package App\Services
+ * Class RepositoryService.
  */
 class RepositoryService implements RepositoryServiceContract
 {
-
     protected $remoteTaskService;
 
     public $providers = [
-        'github' => Providers\GitHub::class,
-        'gitlab' => Providers\GitLab::class,
-        'bitbucket' => Providers\BitBucket::class
+        'github'    => Providers\GitHub::class,
+        'gitlab'    => Providers\GitLab::class,
+        'bitbucket' => Providers\BitBucket::class,
     ];
 
     /**
-     * Imports a ssh key into the specific provider
+     * Imports a ssh key into the specific provider.
+     *
      * @param Site $site
+     *
      * @return mixed
      */
     public function importSshKeyIfPrivate(Site $site)
@@ -39,9 +39,10 @@ class RepositoryService implements RepositoryServiceContract
     }
 
     /**
-     * Gets the provider that is passed in
+     * Gets the provider that is passed in.
      *
      * @param $provider
+     *
      * @return mixed
      */
     private function getProvider($provider)

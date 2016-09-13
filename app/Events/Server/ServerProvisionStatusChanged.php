@@ -9,10 +9,8 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
-
 /**
- * Class ServerCreated
- * @package App\Events\Server
+ * Class ServerCreated.
  */
 class ServerProvisionStatusChanged implements ShouldBroadcastNow
 {
@@ -28,6 +26,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     *
      * @param Server $server
      * @param $status
      * @param $progress
@@ -52,6 +51,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.' . $this->serverID);
+        return new PrivateChannel('App.Models.Server.'.$this->serverID);
     }
 }

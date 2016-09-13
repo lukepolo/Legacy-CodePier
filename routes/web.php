@@ -16,9 +16,10 @@ Route::auth();
 Route::get('/', function () {
     if (\Auth::check()) {
         return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+            'user' => \Auth::user()->load(['teams', 'piles.servers']),
         ]);
     }
+
     return view('landing');
 });
 
@@ -59,8 +60,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
     Route::group(['prefix' => 'me', 'namespace' => 'User'], function () {
         Route::resource('/', 'UserController', [
             'parameters' => [
-                '' => 'user'
-            ]
+                '' => 'user',
+            ],
         ]);
     });
 
@@ -86,8 +87,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::group(['prefix' => 'teams', 'namespace' => 'User\Team'], function () {
             Route::resource('/', 'UserTeamController', [
                 'parameters' => [
-                    '' => 'team'
-                ]
+                    '' => 'team',
+                ],
             ]);
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
         });
@@ -107,16 +108,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         Route::group(['prefix' => 'piles', 'namespace' => 'Pile'], function () {
             Route::resource('/', 'PileController', [
                 'parameters' => [
-                    '' => 'pile'
-                ]
+                    '' => 'pile',
+                ],
             ]);
 
             Route::resource('sites', 'PileSitesController', [
                 'parameters' => [
-                    'sites' => 'pile'
-                ]
+                    'sites' => 'pile',
+                ],
             ]);
-
         });
 
         /*
@@ -127,7 +127,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
        */
 
         Route::group(['prefix' => 'servers', 'namespace' => 'Server'], function () {
-
             Route::post('restore/{server_id}', 'ServerController@restore');
             Route::post('restart-database/{server_id}', 'ServerController@restartDatabases');
             Route::post('disk-space/{server_id}', 'ServerController@getDiskSpace');
@@ -147,17 +146,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
             Route::resource('/', 'ServerController', [
                 'parameters' => [
-                    '' => 'server'
-                ]
+                    '' => 'server',
+                ],
             ]);
-
         });
 
         Route::group(['prefix' => 'server', 'namespace' => 'Server'], function () {
             Route::resource('sites', 'ServerSiteController', [
                 'parameters' => [
-                    'sites' => 'server'
-                ]
+                    'sites' => 'server',
+                ],
             ]);
         });
         /*
@@ -168,13 +166,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
         */
 
         Route::group(['prefix' => 'sites', 'namespace' => 'Site'], function () {
-
             Route::post('deploy', 'SiteController@deploy');
 
             Route::resource('servers', 'SiteServerController', [
                 'parameters' => [
-                    'server' => 'site'
-                ]
+                    'server' => 'site',
+                ],
             ]);
             Route::resource('ssl', 'Features\SSL\SiteSSLController');
             Route::resource('workers', 'Features\SiteWorkerController');
@@ -185,8 +182,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
             Route::resource('/', 'SiteController', [
                 'parameters' => [
-                    '' => 'site'
-                ]
+                    '' => 'site',
+                ],
             ]);
         });
     });
@@ -201,8 +198,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 
     Route::group(['prefix' => 'server/provider'], function () {
         Route::group([
-            'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
-            'namespace' => 'Server\Providers\DigitalOcean'
+            'prefix'    => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
+            'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
             Route::resource('options', 'DigitalOceanServerOptionsController');
             Route::resource('regions', 'DigitalOceanServerRegionsController');
@@ -216,7 +213,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/{any}', function ($any) {
         return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers'])
+            'user' => \Auth::user()->load(['teams', 'piles.servers']),
         ]);
     })->where('any', '.*');
 });

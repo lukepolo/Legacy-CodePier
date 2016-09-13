@@ -17,36 +17,35 @@ use Bitbucket\API\Users;
 use Socialite;
 
 /**
- * Class OauthController
- * @package app\Http\Controllers\Auth
+ * Class OauthController.
  */
 class OauthController extends Controller
 {
-
-    CONST SLACK = 'slack';
-    CONST GITHUB = 'github';
-    CONST GITLAB = 'gitlab';
-    CONST BITBUCKET = 'bitbucket';
-    CONST DIGITAL_OCEAN = 'digitalocean';
+    const SLACK = 'slack';
+    const GITHUB = 'github';
+    const GITLAB = 'gitlab';
+    const BITBUCKET = 'bitbucket';
+    const DIGITAL_OCEAN = 'digitalocean';
 
     public static $serverProviders = [
-        self::DIGITAL_OCEAN
+        self::DIGITAL_OCEAN,
     ];
 
     public static $repositoryProviders = [
         self::GITHUB,
         self::GITLAB,
-        self::BITBUCKET
+        self::BITBUCKET,
     ];
 
     public static $notificationProviders = [
-        self::SLACK
+        self::SLACK,
     ];
 
     /**
-     * Handles provider requests
+     * Handles provider requests.
      *
      * @param $provider
+     *
      * @return mixed
      */
     public function newProvider($provider)
@@ -56,13 +55,13 @@ class OauthController extends Controller
         $providerDriver = Socialite::driver($provider);
 
         switch ($provider) {
-            case self::GITHUB :
+            case self::GITHUB:
                 $providerDriver->scopes(['write:public_key admin:repo_hook repo']);
                 break;
-            case self::DIGITAL_OCEAN :
+            case self::DIGITAL_OCEAN:
                 $providerDriver->scopes(['read write']);
                 break;
-            case self::SLACK :
+            case self::SLACK:
                 $providerDriver->scopes(['channels:read chat:write:bot']);
                 break;
         }
@@ -71,22 +70,23 @@ class OauthController extends Controller
     }
 
     /**
-     * Handles the request from the provider
+     * Handles the request from the provider.
      *
      * @param $provider
+     *
      * @return mixed
      */
     public function getHandleProviderCallback($provider)
     {
         try {
             switch ($provider) {
-                case self::SLACK :
+                case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
 
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
-                default :
+                default:
                     $user = Socialite::driver($provider)->user();
 
                     if (!\Auth::user()) {
@@ -113,9 +113,7 @@ class OauthController extends Controller
             }
 
             return redirect()->intended('/');
-
         } catch (\Exception $e) {
-
             if (!empty($newLoginProvider)) {
                 $newLoginProvider->delete();
             }
@@ -142,24 +140,26 @@ class OauthController extends Controller
     }
 
     /**
-     * Creates a new user
+     * Creates a new user.
      *
      * @param $user
      * @param UserLoginProvider $userLoginProvider
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function createUser($user, UserLoginProvider $userLoginProvider)
     {
         switch ($userLoginProvider->provider) {
-            case self::BITBUCKET :
+            case self::BITBUCKET:
 
                 $oauth_params = [
-                    'oauth_token' => $user->token,
-                    'oauth_token_secret' => $user->tokenSecret,
-                    'oauth_consumer_key' => env('OAUTH_BITBUCKET_CLIENT_ID'),
+                    'oauth_token'           => $user->token,
+                    'oauth_token_secret'    => $user->tokenSecret,
+                    'oauth_consumer_key'    => env('OAUTH_BITBUCKET_CLIENT_ID'),
                     'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
-                    'oauth_callback' => env('OAUTH_BITBUCKET_CALLBACK'),
+                    'oauth_callback'        => env('OAUTH_BITBUCKET_CALLBACK'),
                 ];
 
                 $users = new Users();
@@ -186,9 +186,9 @@ class OauthController extends Controller
         }
 
         $userModel = User::create([
-            'email' => $email,
-            'name' => empty($user->getName()) ? $user->getEmail() : $user->getName(),
-            'user_login_provider_id' => $userLoginProvider->id
+            'email'                  => $email,
+            'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
+            'user_login_provider_id' => $userLoginProvider->id,
         ]);
 
 
@@ -197,10 +197,11 @@ class OauthController extends Controller
     }
 
     /**
-     * Disconnects a service provider
+     * Disconnects a service provider.
      *
      * @param $providerType
      * @param int $serviceID
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function getDisconnectService($providerType, int $serviceID)
@@ -231,24 +232,25 @@ class OauthController extends Controller
     }
 
     /**
-     * Creates a login provider
+     * Creates a login provider.
      *
      * @param $provider
      * @param $user
+     *
      * @return mixed
      */
     private function createLoginProvider($provider, $user)
     {
         $userLoginProvider = UserLoginProvider::withTrashed()->firstOrNew([
-            'provider' => $provider,
+            'provider'    => $provider,
             'provider_id' => $user->getId(),
         ]);
 
         $userLoginProvider->fill([
-            'token' => $user->token,
-            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
+            'token'         => $user->token,
+            'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userLoginProvider->save();
@@ -259,25 +261,26 @@ class OauthController extends Controller
     }
 
     /**
-     * Saves the users repository provider
+     * Saves the users repository provider.
      *
      * @param $provider
      * @param $user
+     *
      * @return mixed
      */
     private function saveRepositoryProvider($provider, $user)
     {
         $userRepositoryProvider = UserRepositoryProvider::withTrashed()->firstOrNew([
             'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
-            'provider_id' => $user->getId()
+            'provider_id'            => $user->getId(),
         ]);
 
         $userRepositoryProvider->fill([
-            'token' => $user->token,
-            'user_id' => \Auth::user()->id,
-            'expires_in' => isset($user->expiresIn) ? $user->expiresIn : null,
+            'token'         => $user->token,
+            'user_id'       => \Auth::user()->id,
+            'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userRepositoryProvider->save();
@@ -288,21 +291,22 @@ class OauthController extends Controller
     }
 
     /**
-     * Saves the users server provider
+     * Saves the users server provider.
      *
      * @param $provider
      * @param $user
+     *
      * @return mixed
      */
     private function saveServerProvider($provider, $user)
     {
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
             'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'provider_id' => $user->getId(),
+            'provider_id'        => $user->getId(),
         ]);
 
         switch ($userServerProvider->serverProvider->provider_name) {
-            case self::DIGITAL_OCEAN :
+            case self::DIGITAL_OCEAN:
                 $token = $user->accessTokenResponseBody['access_token'];
                 $refreshToken = $user->accessTokenResponseBody['refresh_token'];
                 $expiresIn = $user->accessTokenResponseBody['expires_in'];
@@ -310,11 +314,11 @@ class OauthController extends Controller
         }
 
         $userServerProvider->fill([
-            'token' => $token,
-            'expires_in' => $expiresIn,
-            'user_id' => \Auth::user()->id,
+            'token'         => $token,
+            'expires_in'    => $expiresIn,
+            'user_id'       => \Auth::user()->id,
             'refresh_token' => $refreshToken,
-            'tokenSecret' => isset($user->tokenSecret) ? $user->tokenSecret : null
+            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userServerProvider->save();
@@ -325,25 +329,26 @@ class OauthController extends Controller
     }
 
     /**
-     * Saves the users notification provider
+     * Saves the users notification provider.
      *
      * @param $provider
      * @param TokenData $tokenData
+     *
      * @return mixed
      */
     private function saveNotificationProvider($provider, TokenData $tokenData)
     {
         $userNotificationProvider = UserNotificationProvider::withTrashed()->firstOrNew([
             'notification_provider_id' => NotificationProvider::where('provider_name', $provider)->first()->id,
-            'provider_id' => $tokenData->userID
+            'provider_id'              => $tokenData->userID,
         ]);
 
         $userNotificationProvider->fill([
-            'token' => $tokenData->token,
-            'user_id' => \Auth::user()->id,
-            'expires_in' => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
+            'token'         => $tokenData->token,
+            'user_id'       => \Auth::user()->id,
+            'expires_in'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
-            'tokenSecret' => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null
+            'tokenSecret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
         ]);
 
         $userNotificationProvider->save();

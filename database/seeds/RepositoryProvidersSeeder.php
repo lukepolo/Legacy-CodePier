@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 /**
- * Class RepositoryProvidersSeeder
+ * Class RepositoryProvidersSeeder.
  */
 class RepositoryProvidersSeeder extends Seeder
 {
@@ -16,32 +16,32 @@ class RepositoryProvidersSeeder extends Seeder
     {
         $providers = [
             \App\Http\Controllers\Auth\OauthController::GITHUB => [
-                'name' => 'Github',
-                'url' => 'github.com',
-                'git_url' => 'git@github.com'
+                'name'    => 'Github',
+                'url'     => 'github.com',
+                'git_url' => 'git@github.com',
             ],
             \App\Http\Controllers\Auth\OauthController::BITBUCKET => [
-                'name' => 'Bitbucket',
-                'url' => 'bitbucket.org',
-                'git_url' => 'git@bitbucket.org'
+                'name'    => 'Bitbucket',
+                'url'     => 'bitbucket.org',
+                'git_url' => 'git@bitbucket.org',
             ],
             \App\Http\Controllers\Auth\OauthController::GITLAB => [
-                'name' => 'GitLab',
-                'url' => 'gitlab.com',
-                'git_url' => 'git@gitlab.com'
-            ]
+                'name'    => 'GitLab',
+                'url'     => 'gitlab.com',
+                'git_url' => 'git@gitlab.com',
+            ],
         ];
 
-        foreach($providers as $provider => $data) {
+        foreach ($providers as $provider => $data) {
             $providerModel = \App\Models\RepositoryProvider::firstOrCreate([
                 'provider_name' => $provider,
-                'name' => $data['name']
+                'name'          => $data['name'],
             ]);
 
 
             $providerModel->fill([
-                'url' => $data['url'],
-                'git_url' => $data['git_url']
+                'url'     => $data['url'],
+                'git_url' => $data['git_url'],
             ]);
 
             $providerModel->save();

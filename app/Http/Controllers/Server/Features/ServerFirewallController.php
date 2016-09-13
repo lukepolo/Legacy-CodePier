@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Server\Features;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
 use App\Models\ServerFirewallRule;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerFirewallController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerFirewallController.
  */
 class ServerFirewallController extends Controller
 {
@@ -40,16 +37,17 @@ class ServerFirewallController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $serverFirewallRule = ServerFirewallRule::create([
             'description' => $request->get('description'),
-            'server_id' => $request->get('server_id'),
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip')
+            'server_id'   => $request->get('server_id'),
+            'port'        => $request->get('port'),
+            'from_ip'     => $request->get('from_ip'),
         ]);
 
         $this->serverService->addFirewallRule($serverFirewallRule);
@@ -60,7 +58,8 @@ class ServerFirewallController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,7 +70,8 @@ class ServerFirewallController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

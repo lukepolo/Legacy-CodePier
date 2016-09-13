@@ -38,9 +38,9 @@ return [
     'connections' => [
 
         'main' => [
-            'token' => null,
+            'token'    => null,
             'base_url' => null,
-        ]
+        ],
     ],
 
 ];

@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Auth\Providers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServerProvider;
-use App\Models\UserServerProvider;
 
 /**
- * Class ServerProvidersController
- * @package App\Http\Controllers
+ * Class ServerProvidersController.
  */
 class ServerProvidersController extends Controller
 {
@@ -25,7 +23,8 @@ class ServerProvidersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)

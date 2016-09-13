@@ -5,8 +5,7 @@ namespace App\Http\Controllers\User\Subscription;
 use App\Http\Controllers\Controller;
 
 /**
- * Class UserSubscriptionController
- * @package App\Http\Controllers
+ * Class UserSubscriptionController.
  */
 class UserSubscriptionUpcomingInvoiceController extends Controller
 {
@@ -26,6 +25,7 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
     public function index()
     {
         $invoice = \Auth::user()->upcomingInvoice();
+
         return response()->json(!empty($invoice) ? $invoice->asStripeInvoice() : null);
     }
 }

@@ -8,8 +8,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
 /**
- * Class SlackMessageChannel
- * @package App\Notifications\Channels
+ * Class SlackMessageChannel.
  */
 class SlackMessageChannel
 {
@@ -23,7 +22,8 @@ class SlackMessageChannel
     /**
      * Create a new Slack channel instance.
      *
-     * @param  \GuzzleHttp\Client $http
+     * @param \GuzzleHttp\Client $http
+     *
      * @return void
      */
     public function __construct(HttpClient $http)
@@ -34,8 +34,9 @@ class SlackMessageChannel
     /**
      * Send the given notification.
      *
-     * @param  mixed $notifiable
-     * @param  \Illuminate\Notifications\Notification $notification
+     * @param mixed                                  $notifiable
+     * @param \Illuminate\Notifications\Notification $notification
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function send($notifiable, Notification $notification)
@@ -46,11 +47,11 @@ class SlackMessageChannel
 
         $message = $notification->toSlack($notifiable);
 
-       return $this->http->post('https://slack.com/api/chat.postMessage', [
+        return $this->http->post('https://slack.com/api/chat.postMessage', [
             'form_params' => [
-                'token' => $token,
-                'channel' => '#'.$channel,
-                'text' => $message->content,
+                'token'       => $token,
+                'channel'     => '#'.$channel,
+                'text'        => $message->content,
                 'attachments' => json_encode($this->attachments($message)),
             ],
         ]);
@@ -59,18 +60,19 @@ class SlackMessageChannel
     /**
      * Format the message's attachments.
      *
-     * @param  \Illuminate\Notifications\Messages\SlackMessage $message
+     * @param \Illuminate\Notifications\Messages\SlackMessage $message
+     *
      * @return array
      */
     protected function attachments(SlackMessage $message)
     {
         return collect($message->attachments)->map(function ($attachment) use ($message) {
             return array_filter([
-                'color' => $message->color(),
-                'title' => $attachment->title,
-                'text' => $attachment->content,
+                'color'      => $message->color(),
+                'title'      => $attachment->title,
+                'text'       => $attachment->content,
                 'title_link' => $attachment->url,
-                'fields' => $this->fields($attachment),
+                'fields'     => $this->fields($attachment),
             ]);
         })->all();
     }
@@ -78,7 +80,8 @@ class SlackMessageChannel
     /**
      * Format the attachment's fields.
      *
-     * @param  \Illuminate\Notifications\Messages\SlackAttachment $attachment
+     * @param \Illuminate\Notifications\Messages\SlackAttachment $attachment
+     *
      * @return array
      */
     protected function fields(SlackAttachment $attachment)

@@ -9,9 +9,7 @@ use App\Models\ServerSshKey;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerSshKeyController
- *
- * @package App\Http\Controllers\Server\Features
+ * Class ServerSshKeyController.
  */
 class ServerSshKeyController extends Controller
 {
@@ -40,7 +38,8 @@ class ServerSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,8 +48,8 @@ class ServerSshKeyController extends Controller
 
         $serverSshKey = ServerSshKey::create([
             'server_id' => $server->id,
-            'name' => $request->get('name'),
-            'ssh_key' => trim($request->get('ssh_key'))
+            'name'      => $request->get('name'),
+            'ssh_key'   => trim($request->get('ssh_key')),
         ]);
 
         $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
@@ -61,7 +60,8 @@ class ServerSshKeyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -72,7 +72,8 @@ class ServerSshKeyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -82,11 +83,10 @@ class ServerSshKeyController extends Controller
         $this->serverService->removeSshKey($serverSshKey);
 
         $serverSshKey->delete();
-
     }
 
     /**
-     * Tests a ssh connection to server
+     * Tests a ssh connection to server.
      *
      * @param Request $request
      */

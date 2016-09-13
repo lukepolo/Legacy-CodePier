@@ -5,11 +5,9 @@ namespace App\Services\Server\ProvisionSystems;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Server;
 use App\Models\ServerFirewallRule;
-use App\Models\Site;
 
 /**
- * Class Ubuntu16_04
- * @package App\Services\Server\ProvisionRepositories
+ * Class Ubuntu16_04.
  */
 class Ubuntu16_04 implements ProvisionSystemContract
 {
@@ -17,8 +15,9 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
     /**
      * ProvisionService constructor.
+     *
      * @param RemoteTaskService $remoteTaskService
-     * @param Server $server
+     * @param Server            $server
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server)
     {
@@ -131,7 +130,6 @@ class Ubuntu16_04 implements ProvisionSystemContract
     public function installRedis()
     {
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
-
     }
 
     public function installMemcached()
@@ -187,7 +185,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if(!empty($database)) {
+        if (!empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
@@ -203,7 +201,7 @@ class Ubuntu16_04 implements ProvisionSystemContract
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if(!empty($database)) {
+        if (!empty($database)) {
             $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8 COLLATE utf8_general_ci'");
         }
     }
@@ -235,20 +233,20 @@ class Ubuntu16_04 implements ProvisionSystemContract
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
 
         ServerFirewallRule::create([
-            'server_id' => $server->id,
+            'server_id'   => $server->id,
             'description' => 'HTTP',
-            'port' => '80',
-            'from_ip' => null
+            'port'        => '80',
+            'from_ip'     => null,
         ]);
 
         ServerFirewallRule::create([
-            'server_id' => $server->id,
+            'server_id'   => $server->id,
             'description' => 'HTTPS',
-            'port' => '443',
-            'from_ip' => null
+            'port'        => '443',
+            'from_ip'     => null,
         ]);
 
-        $this->remoteTaskService->writeToFile('/etc/opt/iptables','
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables', '
 #!/bin/sh
 
 echo "REDOING IP TABLES"
@@ -285,7 +283,7 @@ iptables -P INPUT DROP
 
     public function addDiskMonitoringScript(Server $server)
     {
-        $this->remoteTaskService->writeToFile('/etc/opt/diskusage','
+        $this->remoteTaskService->writeToFile('/etc/opt/diskusage', '
 df / | grep / | awk \'{ print $5 " " $6 }\' | while read output;
 do
     usep=$(echo $output | awk \'{ print $1}\' | cut -d\'%\' -f1 )
@@ -298,7 +296,6 @@ done');
 
         $cronJob = '*/5 * * * * /etc/opt/./diskusage';
 
-        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob . ') || ((crontab -l; echo "' . $cronJob . ' >/dev/null 2>&1") | crontab)');
-
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
     }
 }
