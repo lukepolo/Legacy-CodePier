@@ -141,6 +141,8 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
         $site->server_features = $request->get('services');
 
+        $site->save();
+
         return response()->json();
 
     }

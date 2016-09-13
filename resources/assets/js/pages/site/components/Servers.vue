@@ -24,7 +24,7 @@
         </template>
 
         <hr>
-        <template v-if="availableServers.length">
+        <template v-if ="availableServers.length">
             Available Servers
             <form @submit.prevent="linkServers">
                 <template v-for="server in availableServers">

@@ -9,8 +9,8 @@
 
                     <form @submit.prevent="saveSiteServerFeatures">
                         <section>
-                            <feature-area selectable="true" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                            <feature-area selectable="true" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+                            <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+                            <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
                         </section>
                         <button type="submit">Update Site Server Features</button>
                     </form>
