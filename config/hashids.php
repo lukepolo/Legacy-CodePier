@@ -38,10 +38,10 @@ return [
     'connections' => [
 
         'main' => [
-            'salt' => env('APP_KEY'),
-            'length' => 5,
+            'salt'     => env('APP_KEY'),
+            'length'   => 5,
             'alphabet' => 'abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-        ]
+        ],
     ],
 
 ];

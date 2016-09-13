@@ -9,8 +9,7 @@ use App\Models\ServerNetworkRule;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerNetworkController
- * @package App\Http\Controllers\Server\Features
+ * Class ServerNetworkController.
  */
 class ServerNetworkController extends Controller
 {
@@ -40,18 +39,19 @@ class ServerNetworkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,8 +62,9 @@ class ServerNetworkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -73,9 +74,8 @@ class ServerNetworkController extends Controller
         $connectToServers = Server::whereIn('id', \Request::get('servers'))->whereDoesntHave('connectedServers')->get();
 
         foreach ($connectToServers as $connectToServer) {
-
             ServerNetworkRule::create([
-                'server_id' => $connectToServer->id,
+                'server_id'            => $connectToServer->id,
                 'connect_to_server_id' => $server->id,
             ]);
 
@@ -94,11 +94,11 @@ class ServerNetworkController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-
     }
 }

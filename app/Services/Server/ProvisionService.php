@@ -9,8 +9,7 @@ use App\Models\Server;
 use App\Services\Server\ProvisionSystems\Ubuntu16_04;
 
 /**
- * Class ProvisionService
- * @package App\Services
+ * Class ProvisionService.
  */
 class ProvisionService implements ProvisionServiceContract
 {
@@ -20,11 +19,12 @@ class ProvisionService implements ProvisionServiceContract
     protected $remoteTaskService;
 
     protected $provisionSystems = [
-        'ubuntu 16.04' => Ubuntu16_04::class
+        'ubuntu 16.04' => Ubuntu16_04::class,
     ];
 
     /**
      * ProvisionService constructor.
+     *
      * @param RemoteTaskService $remoteTaskService
      */
     public function __construct(RemoteTaskService $remoteTaskService)
@@ -33,10 +33,12 @@ class ProvisionService implements ProvisionServiceContract
     }
 
     /**
-     * Provisions a server based on its operating system
+     * Provisions a server based on its operating system.
+     *
      * @param Server $server
      * @param $sudoPassword
      * @param $databasePassword
+     *
      * @return
      */
     public function provision(Server $server, $sudoPassword, $databasePassword)
@@ -91,7 +93,7 @@ class ProvisionService implements ProvisionServiceContract
 
         $database = isset($server->options['database']) ? $server->options['database'] : null;
 
-        if($server->hasFeature('mariaDB')) {
+        if ($server->hasFeature('mariaDB')) {
             $this->updateProgress('Installing MariaDB');
             $provisionSystem->installMariaDB($databasePassword, $database);
         } else {
@@ -154,7 +156,6 @@ class ProvisionService implements ProvisionServiceContract
 
         $this->updateProgress('Installing Basic Firewall Rules');
         $provisionSystem->installFirewallRules($server);
-
     }
 
     private function updateProgress($status)
@@ -166,6 +167,7 @@ class ProvisionService implements ProvisionServiceContract
 
     /**
      * @param Server $server
+     *
      * @return mixed
      */
     private function getProvisionRepository(Server $server)

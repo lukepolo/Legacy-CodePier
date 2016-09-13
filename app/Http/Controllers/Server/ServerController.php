@@ -10,9 +10,7 @@ use App\Models\ServerProvider;
 use Illuminate\Http\Request;
 
 /**
- * Class ServerController
- *
- * @package App\Http\Controllers\Server
+ * Class ServerController.
  */
 class ServerController extends Controller
 {
@@ -41,20 +39,21 @@ class ServerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $server = Server::create([
-            'user_id' => \Auth::user()->id,
-            'name' => \Request::get('name'),
-            'server_provider_id' => (int)\Request::get('server_provider_id'),
-            'status' => 'Queued For Creation',
-            'progress' => '0',
-            'options' => \Request::except(['_token', 'service', 'features']),
-            'features' => \Request::get('features'),
-            'pile_id' => \Request::get('pile_id')
+            'user_id'            => \Auth::user()->id,
+            'name'               => \Request::get('name'),
+            'server_provider_id' => (int) \Request::get('server_provider_id'),
+            'status'             => 'Queued For Creation',
+            'progress'           => '0',
+            'options'            => \Request::except(['_token', 'service', 'features']),
+            'features'           => \Request::get('features'),
+            'pile_id'            => \Request::get('pile_id'),
         ]);
 
         $this->dispatch(new CreateServer(
@@ -64,13 +63,13 @@ class ServerController extends Controller
 //            ->onQueue('server_creations'));
 
         return response()->json($server);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -81,7 +80,8 @@ class ServerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -90,7 +90,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Restores a server
+     * Restores a server.
      *
      * @param $id
      */
@@ -100,7 +100,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Restarts the databases on a server
+     * Restarts the databases on a server.
      *
      * @param Request $request
      */
@@ -110,7 +110,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Installs blackfire on a server
+     * Installs blackfire on a server.
      *
      * @param Request $request
      */
@@ -125,9 +125,10 @@ class ServerController extends Controller
     }
 
     /**
-     * Gets the disk space for a server
+     * Gets the disk space for a server.
      *
      * @param Request $request
+     *
      * @return \App\Classes\DiskSpace
      */
     public function getDiskSpace(Request $request)
@@ -136,8 +137,10 @@ class ServerController extends Controller
     }
 
     /**
-     * Saves a file to a server
+     * Saves a file to a server.
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getFile(Request $request, $serverID)
@@ -146,7 +149,8 @@ class ServerController extends Controller
     }
 
     /**
-     * Saves a file to a server
+     * Saves a file to a server.
+     *
      * @param Request $request
      */
     public function saveFile(Request $request)
@@ -156,7 +160,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Restarts a server
+     * Restarts a server.
      *
      * @param Request $request
      */
@@ -166,7 +170,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Restart the servers web services
+     * Restart the servers web services.
      *
      * @param Request $request
      */
@@ -176,7 +180,7 @@ class ServerController extends Controller
     }
 
     /**
-     * Restarts the worker services
+     * Restarts the worker services.
      *
      * @param Request $request
      */

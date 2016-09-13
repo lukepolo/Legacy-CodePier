@@ -7,26 +7,26 @@ use App\Models\UserRepositoryProvider;
 use Gitlab\Api\Repositories;
 
 /**
- * Class GitHub
- * @package App\Services\Server\Site\Repository\Providers
+ * Class GitHub.
  */
 class GitLab implements RepositoryContract
 {
     private $client;
 
     /**
-     * Imports a deploy key so we can clone the repositories
+     * Imports a deploy key so we can clone the repositories.
      *
      * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
+     *
      * @throws \Exception
      */
     public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
         $this->setToken($userRepositoryProvider);
 
-        if($this->isRepositoryPrivate($repository)) {
+        if ($this->isRepositoryPrivate($repository)) {
             $this->client->api('projects')->addKey($repository, 'CodePier', $sshKey);
         }
     }
@@ -35,16 +35,18 @@ class GitLab implements RepositoryContract
     {
         $repositoryInfo = $this->getRepositoryInfo($repository);
 
-        if(isset($repositoryInfo['public'])) {
+        if (isset($repositoryInfo['public'])) {
             return !$repositoryInfo['public'];
         }
+
         return true;
     }
 
     /**
-     * Gets the repository information
+     * Gets the repository information.
      *
      * @param $repository
+     *
      * @return mixed
      */
     public function getRepositoryInfo($repository)
@@ -59,8 +61,10 @@ class GitLab implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories username // TODO - move to a trait
+     * Gets the users repositories username // TODO - move to a trait.
+     *
      * @param $repository
+     *
      * @return mixed
      */
     public function getRepositoryUser($repository)
@@ -69,8 +73,10 @@ class GitLab implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories name // TODO - move to a trait
+     * Gets the users repositories name // TODO - move to a trait.
+     *
      * @param $repository
+     *
      * @return mixed
      */
     public function getRepositorySlug($repository)
@@ -84,11 +90,9 @@ class GitLab implements RepositoryContract
 
         $lastCommit = collect($this->client->api('repositories')->commits($repository, 0, Repositories::PER_PAGE, $branch))->first();
 
-        if(!empty($lastCommit)) {
+        if (!empty($lastCommit)) {
             return $lastCommit['short_id'];
         }
-
-        return null;
     }
 
     public function createDeployHook(Site $site)
@@ -96,9 +100,9 @@ class GitLab implements RepositoryContract
         $this->setToken($site->userRepositoryProvider);
 
         $webhook = $this->client->api('projects')->addHook($site->repository, [
-            'push_events' => true,
+            'push_events'           => true,
             'merge_requests_events' => true,
-            'url' => route('webhook/deploy', $site->encode()),
+            'url'                   => route('webhook/deploy', $site->encode()),
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];

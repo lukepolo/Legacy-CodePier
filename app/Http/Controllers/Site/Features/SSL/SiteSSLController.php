@@ -9,8 +9,7 @@ use App\Models\SiteSslCertificate;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteSSLController
- * @package App\Http\Controllers
+ * Class SiteSSLController.
  */
 class SiteSSLController extends Controller
 {
@@ -18,6 +17,7 @@ class SiteSSLController extends Controller
 
     /**
      * SiteSSLController constructor.
+     *
      * @param \App\Services\Server\Site\SiteService | SiteService $siteService
      */
     public function __construct(SiteService $siteService)
@@ -29,6 +29,7 @@ class SiteSSLController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -39,7 +40,8 @@ class SiteSSLController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -50,20 +52,23 @@ class SiteSSLController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         SiteSslCertificate::findOrFail($id)->delete();
+
         return;
         $this->siteService->removeSSL();
     }
 
     /**
-     * Activates a ssl certificate
+     * Activates a ssl certificate.
      *
      * @param Request $request
+     *
      * @return $this
      */
     public function activateSSL(Request $request)
@@ -76,7 +81,7 @@ class SiteSSLController extends Controller
     }
 
     /**
-     * Deactivates a ssl certificate
+     * Deactivates a ssl certificate.
      *
      * @param Request $request
      */

@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Server
- * @package App\Models
+ * Class Server.
  */
 class Server extends Model
 {
@@ -16,11 +15,11 @@ class Server extends Model
 
     protected $guarded = ['id'];
 
-    static $teamworkModel = 'pile.teams';
+    public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
 
     protected $casts = [
-        'options' => 'array',
+        'options'  => 'array',
         'features' => 'array',
     ];
 
@@ -84,6 +83,7 @@ class Server extends Model
     {
         return $this->belongsTo(Pile::class);
     }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers

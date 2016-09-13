@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Pile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pile;
-use Illuminate\Http\Request;
 
 /**
- * Class PileSitesController
- * @package App\Http\Controllers\Pile
+ * Class PileSitesController.
  */
 class PileSitesController extends Controller
 {

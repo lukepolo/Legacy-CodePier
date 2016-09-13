@@ -5,8 +5,7 @@ namespace App\Models;
 use Mpociot\Teamwork\TeamworkTeam;
 
 /**
- * Class User
- * @package App\Models
+ * Class User.
  */
 class Team extends TeamworkTeam
 {

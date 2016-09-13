@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ServerSshKey
- * @package App\Models
+ * Class ServerSshKey.
  */
 class ServerSshKey extends Model
 {

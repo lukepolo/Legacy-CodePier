@@ -14,15 +14,14 @@ class NotificationProvidersSeeder extends Seeder
         $providers = [
             \App\Http\Controllers\Auth\OauthController::SLACK => [
                 'name' => 'Slack',
-            ]
+            ],
         ];
 
-        foreach($providers as $provider => $data) {
+        foreach ($providers as $provider => $data) {
             $notificationProvider = \App\Models\NotificationProvider::firstOrCreate([
                 'provider_name' => $provider,
-                'name' => $data['name']
+                'name'          => $data['name'],
             ]);
         }
-
     }
 }
