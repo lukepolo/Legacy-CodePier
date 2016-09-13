@@ -1,0 +1,35 @@
+// LOGIN STYLES ============================================
+// =========================================================
+.login-wrap {
+    max-width: 400px; 
+    margin: 40px auto 0px;
+    
+    .img-wrap {
+        max-width: 300px; 
+        margin: 0px auto 20px;
+    }
+    
+    .jcf-form-wrap {
+        margin-bottom: 40px; 
+        background-color: mix($color-background, $white, 95%);
+    }
+    
+    .list-inline {
+        list-style: none;
+        display: flex; 
+        justify-content: center;
+        padding: 0px;
+        
+        li {
+            padding: 0px 10px;
+            
+            a {
+                font-size: 1.8em;
+            }
+        }
+    }
+}
+
+
+// LAYOUT --------------------------------------------------
+// ---------------------------------------------------------
