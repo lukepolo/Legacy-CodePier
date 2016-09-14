@@ -46,6 +46,20 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
+        updateSiteServerFeatures : ({commit}, data) => {
+            $.ajax({
+                type: "PUT",
+                url: action('Site\SiteController@updateSiteServerFeatures', {site: data.site}),
+                data: data.data,
+                dataType: "json",
+                success: function () {
+                    siteStore.dispatch('getSite', data.site);
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        },
         deleteSite: ({commit}, site_id) => {
             Vue.http.delete(action('Site\SiteController@destroy', {site: site_id})).then((response) => {
                 siteStore.dispatch('getSites');

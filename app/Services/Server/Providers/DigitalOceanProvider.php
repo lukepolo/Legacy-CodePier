@@ -15,7 +15,7 @@ use phpseclib\Crypt\RSA;
  */
 class DigitalOceanProvider implements ServerProviderContract
 {
-    protected $providerName = 'digitalocean';
+    use ServerProviderTrait;
 
     /**
      * Gets the server options from the provider.
@@ -156,7 +156,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        $droplet = DigitalOcean::droplet()->getById($server->server_id);
+        $droplet = DigitalOcean::droplet()->getById($server->given_server_id);
 
         foreach ($droplet->networks as $network) {
             if ($network->type == 'public') {

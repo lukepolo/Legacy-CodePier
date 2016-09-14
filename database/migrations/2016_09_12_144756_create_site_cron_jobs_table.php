@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNameToSites extends Migration
+class CreateSiteCronJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddNameToSites extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function (Blueprint $table) {
-            $table->string('name');
+        Schema::create('site_cron_jobs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('site_id');
+            $table->string('job');
+            $table->string('user');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddNameToSites extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function (Blueprint $table) {
-            $table->dropColumn('name');
-        });
+        Schema::dropIfExists('site_cron_jobs');
     }
 }

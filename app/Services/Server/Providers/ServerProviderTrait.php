@@ -13,19 +13,28 @@ trait ServerProviderTrait
     protected $providerName;
 
     /**
+     * ServerProviderTrait constructor.
+     * @param $providerName
+     */
+    public function __construct($providerName)
+    {
+        $this->providerName = $providerName;
+    }
+
+    /**
      * Saves the server information.
      *
      * @param Server $server
-     * @param $serverProviderID
+     * @param $serverId
      * @param $sshKey
      * @return Server
      */
-    public function saveServer(Server $server, $serverProviderID, $sshKey)
+    public function saveServer(Server $server, $serverId, $sshKey)
     {
         $this->setToken($this->getTokenFromServer($server));
 
         $server->fill([
-            'server_id' => $serverProviderID,
+            'given_server_id' => $serverId,
             'public_ssh_key' => $sshKey['publickey'],
             'private_ssh_key' => $sshKey['privatekey'],
         ])->save();

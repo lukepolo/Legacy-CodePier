@@ -1,5 +1,5 @@
 <template>
-    <section id="right">
+    <section id="right" v-if="site">
         <template v-for="server in servers">
             <router-link :to="{ path: '/server/'+server.id+'/sites' }">
                 {{ server.name }}
@@ -24,14 +24,25 @@
         </template>
 
         <hr>
-        Available Servers
-        <form @submit.prevent="linkServers">
-            <template v-for="server in availableServers">
-                <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
-                <br>
-            </template>
-            <button type="submit">Link Servers</button>
-        </form>
+        <template v-if ="availableServers.length">
+            Available Servers
+            <form @submit.prevent="linkServers">
+                <template v-for="server in availableServers">
+                    <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
+                    <br>
+                </template>
+                <button type="submit">Link Servers</button>
+            </form>
+        </template>
+
+        <section v-if="site.server_features">
+            <div class="btn btn-primary">Create A Full Stack Server</div>
+            <hr>
+            <div class="btn btn-primary">Create A Web Server</div> - not available during beta
+            <div class="btn btn-primary">Create A Load Balance</div> - not available during beta
+            <div class="btn btn-primary">Create A Database Server</div> - not available during beta
+            <div class="btn btn-primary">Create A Queue Worker Serer</div> - not available during beta
+        </section>
     </section>
 </template>
 
@@ -61,6 +72,9 @@
             }
         },
         computed : {
+            site : () => {
+                return siteStore.state.site;
+            },
             servers : () => {
                 return siteStore.state.site_servers;
             },

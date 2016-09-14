@@ -12,14 +12,15 @@ class CreateSiteDaemonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('site_daemons', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('site_id');
-            $table->string('command');
+        Schema::create('site_workers', function (Blueprint $table) {
             $table->string('user');
+            $table->increments('id');
+            $table->string('command');
+            $table->integer('site_id');
             $table->boolean('auto_start');
             $table->boolean('auto_restart');
             $table->integer('number_of_workers');
+            $table->integer('site_worker_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateSiteDaemonsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_daemons');
+        Schema::drop('site_workers');
     }
 }

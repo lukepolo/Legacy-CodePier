@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSiteWorkerToServerWorkersTable extends Migration
+class CreateSiteSshKeysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddSiteWorkerToServerWorkersTable extends Migration
      */
     public function up()
     {
-        Schema::table('server_workers', function (Blueprint $table) {
-            $table->integer('site_worker_id')->nullable();
+        Schema::create('site_ssh_keys', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('site_id');
+            $table->string('name');
+            $table->longText('ssh_key');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddSiteWorkerToServerWorkersTable extends Migration
      */
     public function down()
     {
-        Schema::table('server_workers', function (Blueprint $table) {
-            $table->dropColumn('site_worker_id');
-        });
+        Schema::dropIfExists('site_ssh_keys');
     }
 }

@@ -12,7 +12,7 @@ class CreateServerWorkersTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_daemons', function (Blueprint $table) {
+        Schema::create('server_workers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('server_id');
             $table->string('command');
@@ -31,6 +31,6 @@ class CreateServerWorkersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_daemons');
+        Schema::drop('server_workers');
     }
 }
