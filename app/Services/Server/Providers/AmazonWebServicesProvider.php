@@ -6,8 +6,6 @@ use App\Models\Server;
 
 class AmazonWebServicesProvider implements ServerProviderContract
 {
-    protected $providerName = 'aws';
-
     /**
      * Gets the server options from the provider.
      *
