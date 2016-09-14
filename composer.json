@@ -4,6 +4,9 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/lukepolo/dbal" }
+    ],
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
@@ -11,7 +14,7 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "filp/whoops": "^2.1",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "doctrine/dbal": "^2.5",
+        "doctrine/dbal": "dev-mysql57-json",
         "laravel/socialite": "^2.0",
         "socialiteproviders/digitalocean": "^2.0",
         "graham-campbell/digitalocean": "^3.1",

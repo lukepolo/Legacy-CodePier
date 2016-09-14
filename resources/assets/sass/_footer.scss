@@ -2,19 +2,23 @@
 // =========================================================
 footer {
     background-color: $black;
-    
-    
+    @include card(1);
+
     .toggle {
         display: block;
         color: $white;
         text-align: right;
         padding: ($spacing/2) $spacing;
-        
+
         &:hover {
             color: $blue;
             background-color: rgba($gray, .2);
         }
-        
+
+        &:not(.collapsed) {
+          background-color: rgba($gray, .6);
+        }
+
         [class^="icon-"], [class*=" icon-"] {
             font-size: 1.2em;
         }
@@ -34,36 +38,36 @@ footer {
 }
 
 .event {
-    display: flex; 
+    display: flex;
     padding: ($spacing/2) $spacing;
     border-top: 1px solid rgba($white, .1);
 }
 
 .event-status {
-    flex: 0 0 auto; 
+    flex: 0 0 auto;
     margin-right: $spacing;
-    
+
     &.event-status-success {
         @include status(success);
     }
-    
+
     &.event-status-error {
         @include status(error);
     }
-    
+
     &.event-status-warning {
         @include status(warning);
     }
 }
 
 .event-name {
-    flex: 1 1 auto; 
-    
+    flex: 1 1 auto;
+
     a:not(.collapsed) {
         transform: rotate(90deg);
         position: relative;
         left: -4px;
-        top: 2px; 
+        top: 2px;
     }
 }
 
@@ -76,7 +80,7 @@ footer {
 }
 
 
-// ERROR DETAILS 
+// ERROR DETAILS
 .event-details {
     padding: ($spacing/2) $spacing 0px;
     color: rgba($white, .6);

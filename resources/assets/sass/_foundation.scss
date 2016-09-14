@@ -112,7 +112,11 @@ footer {
 #main, .view {
     flex: 1 1 auto;
     display: flex;
-    overflow: hidden
+    overflow: hidden;
+
+    div {
+      flex: 1 1 auto;
+    }
 }
 
 #left {

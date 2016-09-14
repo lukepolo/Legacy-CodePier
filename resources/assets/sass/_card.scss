@@ -10,19 +10,19 @@
     .heading {
         @include card(1);
         background-color: $jcf-color-primary;
-        color: rgba($white, .5); 
+        color: rgba($white, .8);
         border-top: 10px solid $jcf-color-primary-dark;
         padding: ($jcf-form-padding/2) $jcf-form-padding;
         margin: (-$jcf-form-padding) (-$jcf-form-padding) ($jcf-form-padding);
         
         h1, h2, h3, h4, h5, h6 {
-            color: $jcf-color-text-inverse;
+            color: $jcf-color-text-primary;
             margin: 0px; 
             padding: 0px;
         }
         
         p {
-            font-size: .8em;
+            font-size: .9em;
             margin: 10px 0px 0px; 
             padding: 0px;       
         }
