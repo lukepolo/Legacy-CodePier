@@ -82,8 +82,6 @@ class SiteFileController extends Controller
             ->first();
 
         if (empty($file)) {
-
-
             $servers = Site::with('servers')->findOrFail($siteId)->servers;
 
             $file = SiteFile::create([
