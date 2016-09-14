@@ -149,7 +149,7 @@ class ServerFeatureController extends Controller
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
                         $language = substr($language, strrpos($language, '/') + 1);
                         $reflectionClass = $this->buildReflection($framework);
-                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path);
+                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path.'/');
                     }
                 }
             }
@@ -190,7 +190,13 @@ class ServerFeatureController extends Controller
         $files = [];
 
         if ($reflection->hasProperty('files')) {
-            $files[$path.$reflection->getShortName()] = $reflection->getProperty('files')->getValue();
+            $classFiles = $reflection->getProperty('files')->getValue();
+            foreach ($classFiles as $index => $classFile) {
+                $classFiles[$index] = $path.$classFile;
+            }
+
+
+            $files[$reflection->getShortName()] = $classFiles;
         }
 
         return $files;

@@ -5,7 +5,7 @@
             <div class="container">
                 <site-nav></site-nav>
                 <template v-if="files && site">
-                    <site-file :site="site" :servers="site.servers" :file="'/home/codepier/'+site.domain+'/current/'+file" v-for="file in files"></site-file>
+                    <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
                 </template>
             </div>
         </section>

@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateServerFirewallRulesTable extends Migration
+class CreateSiteFirewallRulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,9 @@ class CreateServerFirewallRulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_firewall_rules', function (Blueprint $table) {
+        Schema::create('site_firewall_rules', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('server_id');
-            $table->integer('site_firewall_rule_id');
+            $table->integer('site_id');
             $table->string('description');
             $table->integer('port');
             $table->string('from_ip')->nullable();
@@ -30,6 +30,6 @@ class CreateServerFirewallRulesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_firewall_rules');
+        Schema::dropIfExists('site_firewall_rules');
     }
 }

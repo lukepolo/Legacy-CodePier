@@ -136,8 +136,13 @@ class SiteController extends Controller
         $this->dispatch(new DeploySite($site));
     }
 
-    public function saveFile()
+    public function updateSiteServerFeatures(Request $request, $id)
     {
-        dd('here');
+        $site = Site::findOrFail($id);
+        $site->server_features = $request->get('services');
+
+        $site->save();
+
+        return response()->json();
     }
 }

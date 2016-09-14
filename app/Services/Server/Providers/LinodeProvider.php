@@ -6,8 +6,6 @@ use App\Models\Server;
 
 class LinodeProvider implements ServerProviderContract
 {
-    protected $providerName = 'linode';
-
     /**
      * Gets the server options from the provider.
      *

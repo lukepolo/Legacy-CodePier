@@ -14,6 +14,7 @@ class CreateServerSshKeysTable extends Migration
     {
         Schema::create('server_ssh_keys', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('site_ssl_key');
             $table->integer('server_id');
             $table->string('name');
             $table->longText('ssh_key');
