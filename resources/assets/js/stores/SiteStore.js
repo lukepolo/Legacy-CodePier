@@ -21,17 +21,19 @@ const siteStore = new Vuex.Store({
             });
         },
         getSites: ({commit}, callback) => {
-            Vue.http.get(action('Pile\PileSitesController@index', {pile: pileStore.state.current_pile_id})).then((response) => {
-                commit('SET_SITES', response.json());
-                typeof callback === 'function' && callback();
-            }, (errors) => {
-                alert(error);
-            });
+            if (pileStore.state.current_pile_id) {
+                Vue.http.get(action('Pile\PileSitesController@index', {pile: pileStore.state.current_pile_id})).then((response) => {
+                    commit('SET_SITES', response.json());
+                    typeof callback === 'function' && callback();
+                }, (errors) => {
+                    alert(error);
+                });
+            }
         },
-        createSite : ({commit}, data) => {
+        createSite: ({commit}, data) => {
             Vue.http.post(action('Site\SiteController@store'), {
                 domain: data.domain,
-                domainless : data.domainless,
+                domainless: data.domainless,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
                 app.$router.push('/site/' + response.json().id);
@@ -46,7 +48,7 @@ const siteStore = new Vuex.Store({
                 alert(error);
             });
         },
-        updateSiteServerFeatures : ({commit}, data) => {
+        updateSiteServerFeatures: ({commit}, data) => {
             $.ajax({
                 type: "PUT",
                 url: action('Site\SiteController@updateSiteServerFeatures', {site: data.site}),
@@ -65,14 +67,13 @@ const siteStore = new Vuex.Store({
                 siteStore.dispatch('getSites');
                 app.$router.push('/');
             }, (errors) => {
-                alert(error);
+
             })
         },
         getWorkers: ({commit}, site_id) => {
             Vue.http.get(action('Site\SiteWorkerController@show', {site: site_id})).then((response) => {
                 commit('SET_WORKERS', response.json());
             }, (errors) => {
-                alert(error);
             });
         },
         installWorker: ({commit}, data) => {
@@ -83,31 +84,31 @@ const siteStore = new Vuex.Store({
             });
         },
         deleteWorker: ({commit}, data) => {
-            Vue.http.delete(action('Site\SiteWorkerController@destroy', {site: data.site, worker: data.worker})).then((response) => {
+            Vue.http.delete(action('Site\SiteWorkerController@destroy', {
+                site: data.site,
+                worker: data.worker
+            })).then((response) => {
                 siteStore.dispatch('getWorkers', data.site);
             }, (errors) => {
-                alert(error);
             });
         },
         getSslCertificates: ({commit}, site_id) => {
             Vue.http.get(action('Site\Certificate\SiteSSLController@index', {site: site_id})).then((response) => {
                 commit('SET_SSL_CERTIFICATES', response.json());
             }, (errors) => {
-                alert(error);
             });
         },
         installLetsEncryptSslCertificate: ({commit}, data) => {
             Vue.http.post(action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: data.site_id}), data).then((response) => {
                 siteStore.dispatch('getSslCertificates', data.site_id);
             }, (errors) => {
-                alert(error);
             });
         },
         deleteSslCertificate: ({commit}, ssl_certificate_id) => {
             Vue.http.delete(action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
                 siteStore.dispatch('getSslCertificates', siteStore.state.site.id);
             }, (errors) => {
-                alert(error);
+
             });
         },
         getSiteServers: ({commit}, site_id) => {
@@ -128,7 +129,7 @@ const siteStore = new Vuex.Store({
             }), {
                 file_path: data.file,
                 content: data.content,
-                servers : data.servers,
+                servers: data.servers,
             }).then((response) => {
 
             }, (errors) => {
@@ -138,11 +139,11 @@ const siteStore = new Vuex.Store({
         updateSiteFile: ({commit}, data) => {
             Vue.http.put(laroute.action('Site\SiteFileController@update', {
                 site: data.site,
-                file : data.file_id
+                file: data.file_id
             }), {
                 file_path: data.file,
                 content: data.content,
-                servers : data.servers,
+                servers: data.servers,
             }).then((response) => {
 
             }, (errors) => {
