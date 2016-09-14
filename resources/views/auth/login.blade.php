@@ -13,7 +13,7 @@
                 <h2>Login</h2>
             </div>
 
-            <form action="#0" method="post" class="validation-form floating-labels">git status
+            <form action="#0" method="post" class="validation-form floating-labels">
 
                 <div class="jcf-input-group">
                     <input type="email" id="email" name="email" required>
