@@ -190,9 +190,8 @@ class ServerFeatureController extends Controller
         $files = [];
 
         if ($reflection->hasProperty('files')) {
-
             $classFiles = $reflection->getProperty('files')->getValue();
-            foreach($classFiles as $index => $classFile) {
+            foreach ($classFiles as $index => $classFile) {
                 $classFiles[$index] = $path.$classFile;
             }
 
