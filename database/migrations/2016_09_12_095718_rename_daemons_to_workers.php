@@ -24,6 +24,6 @@ class RenameDaemonsToWorkers extends Migration
     public function down()
     {
         Schema::rename('server_workers', 'server_daemons');
-        Schema::rename('site_daemons', 'site_daemons');
+        Schema::rename('site_workers', 'site_daemons');
     }
 }
