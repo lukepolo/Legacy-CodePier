@@ -2,7 +2,7 @@
     <footer v-watch-scroll="events_pagination">
         <div class="header">
             <h4>
-                <a class="toggle" data-toggle="collapse" href="#collapseEvents">
+                <a class="toggle collapsed" data-toggle="collapse" href="#collapseEvents">
                     <span class="icon-warning"></span> Events
                 </a>
             </h4>
