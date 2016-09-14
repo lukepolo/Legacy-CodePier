@@ -3,7 +3,11 @@
 @import 'variables';
 @import 'mixins';
 
+@import "../bower/font-awesome/scss/font-awesome";
+@import "../bower/jcf-forms/assets/sass/jcf_forms";
+
 @import 'foundation';
+@import 'card';
 @import 'header';
 @import 'footer';
 @import 'buttons';
@@ -11,14 +15,12 @@
 @import 'content';
 @import 'dropdowns';
 @import 'groups';
+@import 'login';
 
 @import 'forms/structure';
 @import 'forms/check_radio';
 @import 'forms/select';
 @import 'forms/validation';
-
-@import "../bower/font-awesome/scss/font-awesome";
-@import "../bower/jcf-forms/assets/sass/jcf_forms";
 
 textarea {
   color : black;
