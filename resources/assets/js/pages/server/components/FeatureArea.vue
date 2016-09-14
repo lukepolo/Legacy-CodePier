@@ -44,9 +44,9 @@
             hasFeature: function (feature) {
                 var areaFeatures = null;
 
-                if (this.server) {
+                if (this.server && this.server.server_features) {
                     areaFeatures = this.server.server_features[this.area];
-                } else if(this.site) {
+                } else if(this.site && this.site.server_feature) {
                     areaFeatures = this.site.server_features[this.area];
                 }
 
