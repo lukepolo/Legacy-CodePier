@@ -13,6 +13,15 @@ trait ServerProviderTrait
     protected $providerName;
 
     /**
+     * ServerProviderTrait constructor.
+     * @param $providerName
+     */
+    public function __construct($providerName)
+    {
+        $this->providerName = $providerName;
+    }
+
+    /**
      * Saves the server information.
      *
      * @param Server $server

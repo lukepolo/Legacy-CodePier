@@ -15,7 +15,7 @@ use phpseclib\Crypt\RSA;
  */
 class DigitalOceanProvider implements ServerProviderContract
 {
-    protected $providerName = 'digitalocean';
+    use ServerProviderTrait;
 
     /**
      * Gets the server options from the provider.

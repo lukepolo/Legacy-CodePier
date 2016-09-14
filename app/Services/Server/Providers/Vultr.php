@@ -6,8 +6,6 @@ use App\Models\Server;
 
 class Vultr implements ServerProviderContract
 {
-    protected $providerName = 'vultr';
-
     /**
      * Gets the server options from the provider.
      *
