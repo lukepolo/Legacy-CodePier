@@ -41,6 +41,12 @@ class Site extends Model
         return $this->belongsToMany(Server::class);
     }
 
+    public function provisionedServers()
+    {
+        return $this->belongsToMany(Server::class)->where('progress', '>=', '100');
+    }
+
+
     public function pile()
     {
         return $this->belongsTo(Pile::class);
@@ -89,7 +95,7 @@ class Site extends Model
 
     public function hasActiveSSL()
     {
-        if (! empty($this->activeSSL)) {
+        if (!empty($this->activeSSL)) {
             return true;
         }
 
@@ -160,6 +166,6 @@ class Site extends Model
      */
     public function getPathAttribute()
     {
-        return '/home/codepier/'.$this->domain;
+        return '/home/codepier/' . $this->domain;
     }
 }

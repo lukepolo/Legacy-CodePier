@@ -46,7 +46,7 @@
 
                 if (this.server && this.server.server_features) {
                     areaFeatures = this.server.server_features[this.area];
-                } else if(this.site && this.site.server_feature) {
+                } else if(this.site && this.site.server_features) {
                     areaFeatures = this.site.server_features[this.area];
                 }
 

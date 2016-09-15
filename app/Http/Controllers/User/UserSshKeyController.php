@@ -49,7 +49,7 @@ class UserSshKeyController extends Controller
             'ssh_key' => trim(\Request::get('ssh_key')),
         ]);
 
-        foreach (\Auth::user()->servers as $server) {
+        foreach (\Auth::user()->provisionedServers as $server) {
             $this->runOnServer($server, function () use ($server, $userSshKey) {
                 if ($server->ssh_connection) {
                     $this->serverService->installSshKey($server, $userSshKey->ssh_key);

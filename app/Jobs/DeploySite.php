@@ -36,7 +36,7 @@ class DeploySite implements ShouldQueue
     {
         $this->sha = $sha;
         $this->site = $site;
-        $this->servers = $site->servers;
+        $this->servers = $site->provisionedServers;
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
