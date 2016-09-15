@@ -20,7 +20,7 @@ class Servers extends Migration
             $table->integer('pile_id');
             $table->string('ip')->nullable();
             $table->json('options')->nullable();
-            $table->integer('given_server_id');
+            $table->integer('given_server_id')->nullable();
             $table->integer('server_provider_id');
             $table->integer('team_id')->nullable();
             $table->integer('progress')->default(0);

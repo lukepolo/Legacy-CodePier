@@ -37,8 +37,14 @@ const serverStore = new Vuex.Store({
                 url: action('Server\ServerController@store'),
                 data: data,
                 dataType: "json",
-                success: function (data) {
+                success: function (response) {
 
+                    var site = _.keyBy(data, 'name').site;
+                    if(site) {
+                        app.$router.push('/site/'+site.value);
+                    } else {
+                        app.$router.push('/');
+                    }
                 },
                 error: function () {
                 }

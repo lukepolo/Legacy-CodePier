@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\CreateServer;
 use App\Models\Server;
 use App\Models\ServerProvider;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 /**
@@ -46,6 +47,14 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->has('site')) {
+            $site = Site::findOrFail($request->get('site'));
+
+            $pileId = $site->pile_id;
+        } else {
+            $pileId = $request->get('pile_id');
+        }
+
         $server = Server::create([
             'user_id' => \Auth::user()->id,
             'name' => $request->get('server_name'),
@@ -55,9 +64,13 @@ class ServerController extends Controller
             'options' => $request->except(['_token', 'server_provider_features']),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
-            'pile_id' => $request->get('pile_id'),
+            'pile_id' => $pileId,
             'system_class' => 'ubuntu 16.04',
         ]);
+
+        if(isset($site)) {
+            $site->servers()->save($server);
+        }
 
         $this->dispatch(new CreateServer(
             ServerProvider::findorFail($request->get('server_provider_id')),

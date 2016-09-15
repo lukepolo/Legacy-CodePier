@@ -44,8 +44,6 @@ Vue.mixin({
                 el = $(el).find('form');
             }
 
-            console.info(el);
-
             // TODO - copy jquerys way of getting the proper data strings
             return $(el).serializeArray();
         },

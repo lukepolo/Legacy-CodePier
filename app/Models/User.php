@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasMany(Server::class);
     }
 
+    public function provisionedServers()
+    {
+        return $this->hasMany(Server::class)->where('progress', '>=', '100');
+    }
+
     public function userServerProviders()
     {
         return $this->hasMany(UserServerProvider::class);
