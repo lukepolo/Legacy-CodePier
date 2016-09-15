@@ -114,7 +114,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $userData = null
         );
 
-        return $this->saveServer($server, $droplet, $sshKey);
+        return $this->saveServer($server, $droplet->id, $sshKey);
     }
 
     /**
