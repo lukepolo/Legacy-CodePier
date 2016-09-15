@@ -47,7 +47,7 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->has('site')) {
+        if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
 
             $pileId = $site->pile_id;
@@ -68,7 +68,7 @@ class ServerController extends Controller
             'system_class' => 'ubuntu 16.04',
         ]);
 
-        if(isset($site)) {
+        if (isset($site)) {
             $site->servers()->save($server);
         }
 
