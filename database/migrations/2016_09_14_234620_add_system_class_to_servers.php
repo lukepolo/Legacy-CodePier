@@ -13,7 +13,7 @@ class AddSystemClassToServers extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->string('system_class');
         });
     }
@@ -25,7 +25,7 @@ class AddSystemClassToServers extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('system_class');
         });
     }
