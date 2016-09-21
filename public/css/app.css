@@ -4277,6 +4277,10 @@ footer {
   -webkit-box-flex: 0;
   flex: 0 0 15%; }
 
+.event-none {
+  text-align: center;
+  padding: 20px; }
+
 .event-details {
   padding: 10px 20px 0px;
   color: rgba(255, 255, 255, 0.6); }
