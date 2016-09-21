@@ -36,7 +36,7 @@
         </template>
 
         <section v-if="site.server_features">
-            <div class="btn btn-primary">Create A Full Stack Server</div>
+            <router-link :to="{ path: '/server/create?site='+site.id+'&type=full_stack' }" tag="div" class="btn btn-primary">Create A Full Stack Server</router-link>
             <hr>
             <div class="btn btn-primary">Create A Web Server</div> - not available during beta
             <div class="btn btn-primary">Create A Load Balance</div> - not available during beta

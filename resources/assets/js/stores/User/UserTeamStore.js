@@ -27,7 +27,6 @@ const userTeamStore = new Vuex.Store({
             });
         },
         updateTeam: ({commit}, data) => {
-            console.log(data);
             Vue.http.put(action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
                 userTeamStore.dispatch('getTeams');
                 pileStore.dispatch('getPiles');

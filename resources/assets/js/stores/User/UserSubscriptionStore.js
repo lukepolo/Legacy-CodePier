@@ -50,9 +50,6 @@ const userSubscriptionStore = new Vuex.Store({
     },
     mutations: {
         SET_USER_SUBSCRIPTION: (state, subscription) => {
-
-            console.info(subscription);
-
             if (!_.isEmpty(subscription)) {
                 state.valid_subscription = true;
                 userSubscriptionStore.dispatch('getUpcomingSubscription');

@@ -35,11 +35,9 @@ class SiteObserver
             $this->repositoryService->importSshKeyIfPrivate($site);
         }
 
-        foreach ($site->servers as $server) {
+        foreach ($site->provisionedServers() as $server) {
             $this->siteService->create($server, $site);
         }
-
-//        $this->siteService->renameDomain($site, $request->get('domain'));
 
         if ($site->deploymentSteps->count() == 0) {
             $defaultSteps = [
