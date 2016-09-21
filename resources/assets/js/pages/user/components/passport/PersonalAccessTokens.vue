@@ -199,7 +199,6 @@
                             this.showAccessToken(response.json().accessToken);
                         })
                         .catch(response => {
-                            console.log(response);
                             if (typeof response.json() === 'object') {
                                 this.form.errors = _.flatten(_.toArray(response.json()));
                             } else {

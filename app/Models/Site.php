@@ -41,6 +41,11 @@ class Site extends Model
         return $this->belongsToMany(Server::class);
     }
 
+    public function provisionedServers()
+    {
+        return $this->belongsToMany(Server::class)->where('progress', '>=', '100');
+    }
+
     public function pile()
     {
         return $this->belongsTo(Pile::class);
