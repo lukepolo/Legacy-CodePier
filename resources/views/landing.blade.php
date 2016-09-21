@@ -1,17 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Welcome</div>
-
-                <div class="panel-body">
-                    Your Application's Landing Page.
-                </div>
-            </div>
-        </div>
+<div id="main">
+    <div class="img-wrap">
+        <router-link to="/">
+            <img src="/assets/img/kodi_w.svg" alt="CodePier" style="display: block;">
+        </router-link>
     </div>
 </div>
 @endsection
