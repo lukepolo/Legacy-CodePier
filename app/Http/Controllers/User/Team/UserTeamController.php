@@ -19,6 +19,7 @@ class UserTeamController extends Controller
      */
     public function index()
     {
+        dd(\Auth::user());
         \Auth::user()->load('teams.piles');
 
         return response()->json(\Auth::user()->teams);
