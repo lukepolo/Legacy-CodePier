@@ -60,7 +60,7 @@
             onSubmit: function() {
                 Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.form, {
                 }).then((response) => {
-                    userStore.state.user = response.json();
+                    userStore.state.user = response.data;
                 }, (errors) => {
                     alert(error);
                 });

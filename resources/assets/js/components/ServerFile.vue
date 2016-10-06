@@ -26,7 +26,7 @@
             }), {
                 file: this.file,
             }).then((response) => {
-                this.content = response.json();
+                this.content = response.data;
             }, (errors) => {
                 alert(error);
             });

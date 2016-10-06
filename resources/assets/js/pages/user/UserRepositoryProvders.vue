@@ -55,7 +55,7 @@
         created() {
 
             Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
-                this.repository_providers = response.json();
+                this.repository_providers = response.data;
             }, (errors) => {
                 alert(error);
             });
