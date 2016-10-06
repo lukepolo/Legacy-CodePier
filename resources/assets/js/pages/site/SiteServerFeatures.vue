@@ -54,7 +54,7 @@
             saveSiteServerFeatures : function() {
                 siteStore.dispatch('updateSiteServerFeatures', {
                     site : this.site.id,
-                    data : this.getFormData($(this.$el))
+                    data : this.getFormData(this.$el)
                 });
             }
         },

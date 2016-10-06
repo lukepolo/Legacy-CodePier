@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from ".././helpers";
 
-Vue.use(Vuex);
-
 const userSshKeyStore = new Vuex.Store({
     state: {
         user_ssh_keys : []

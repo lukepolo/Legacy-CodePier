@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./../helpers";
 
-Vue.use(Vuex);
-
 const serverFirewallStore = new Vuex.Store({
     state: {
         server_firewall_rules: [],

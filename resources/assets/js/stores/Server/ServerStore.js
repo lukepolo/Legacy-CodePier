@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./../helpers";
 
-Vue.use(Vuex);
-
 const serverStore = new Vuex.Store({
     state: {
         servers: [],
@@ -32,23 +30,26 @@ const serverStore = new Vuex.Store({
             });
         },
         createServer: ({commit}, data) => {
-            $.ajax({
-                type: "POST",
-                url: action('Server\ServerController@store'),
-                data: data,
-                dataType: "json",
-                success: function (response) {
-
-                    var site = _.keyBy(data, 'name').site;
-                    if(site) {
-                        app.$router.push('/site/'+site.value);
-                    } else {
-                        app.$router.push('/');
-                    }
-                },
-                error: function () {
-                }
-            });
+            
+            console.info(data);
+            alert('convert');
+            // $.ajax({
+            //     type: "POST",
+            //     url: action('Server\ServerController@store'),
+            //     data: data,
+            //     dataType: "json",
+            //     success: function (response) {
+            //
+            //         var site = _.keyBy(data, 'name').site;
+            //         if(site) {
+            //             app.$router.push('/site/'+site.value);
+            //         } else {
+            //             app.$router.push('/');
+            //         }
+            //     },
+            //     error: function () {
+            //     }
+            // });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(action('Server\ServerController@destroy', {server: server})).then((response) => {

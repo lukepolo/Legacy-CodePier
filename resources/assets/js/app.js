@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./stores');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -40,6 +41,8 @@ Vue.mixin({
         },
         getFormData : function(el) {
 
+            return new FormData(el);
+
             if(!$(el).is('form')) {
                 el = $(el).find('form');
             }
@@ -57,76 +60,7 @@ Vue.mixin({
 // Vue.config.errorHandler = function (err, vm) {
 // }
 
-/*
- |--------------------------------------------------------------------------
- | User Stores
- |--------------------------------------------------------------------------
- |
- */
-import userStore from './stores/User/UserStore'
-window.userStore = userStore;
 
-import userTeamStore from './stores/User/UserTeamStore'
-window.userTeamStore = userTeamStore;
-
-import userSshKeyStore from './stores/User/UserSshKeyStore'
-window.userSshKeyStore = userSshKeyStore;
-
-import userSubscriptionStore from './stores/User/UserSubscriptionStore'
-window.userSubscriptionStore = userSubscriptionStore;
-
-/*
- |--------------------------------------------------------------------------
- | Server Stores
- |--------------------------------------------------------------------------
- |
- */
-
-import serverStore from './stores/Server/ServerStore';
-window.serverStore = serverStore;
-
-import serverSshKeyStore from './stores/Server/ServerSshKeyStore';
-window.serverSshKeyStore = serverSshKeyStore;
-
-import serverProviderStore from './stores/Server/ServerProviderStore';
-window.serverProviderStore = serverProviderStore;
-
-import serverCronJobStore from './stores/Server/ServerCronJobStore';
-window.serverCronJobStore = serverCronJobStore;
-
-import serverWorkerStore from './stores/Server/ServerWorkerStore';
-window.serverWorkerStore = serverWorkerStore;
-
-import serverFirewallStore from './stores/Server/ServerFirewallStore';
-window.serverFirewallStore = serverFirewallStore;
-
-import serverServicesStore from './stores/Server/ServerServicesStore';
-window.serverServicesStore = serverServicesStore;
-
-/*
- |--------------------------------------------------------------------------
- | Site Stores
- |--------------------------------------------------------------------------
- |
- */
-import siteStore from './stores/SiteStore'
-window.siteStore = siteStore;
-
-
-/*
- |--------------------------------------------------------------------------
- | Pile Stores
- |--------------------------------------------------------------------------
- |
- */
-import pileStore from './stores/PileStore'
-window.pileStore = pileStore;
-
-import subscriptionStore from './stores/subscriptionStore'
-window.subscriptionStore = subscriptionStore;
-
-import eventStore from './stores/EventStore'
-window.eventStore = eventStore;
 
 /*
  |--------------------------------------------------------------------------
