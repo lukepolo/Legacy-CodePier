@@ -15,7 +15,7 @@ const siteStore = new Vuex.Store({
     actions: {
         getSite: ({commit}, site) => {
             Vue.http.get(action('Site\SiteController@show', {site: site})).then((response) => {
-                commit('SET_SITE', response.json());
+                commit('SET_SITE', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -23,7 +23,7 @@ const siteStore = new Vuex.Store({
         getSites: ({commit}, callback) => {
             if (pileStore.state.current_pile_id) {
                 Vue.http.get(action('Pile\PileSitesController@index', {pile: pileStore.state.current_pile_id})).then((response) => {
-                    commit('SET_SITES', response.json());
+                    commit('SET_SITES', response.data);
                     typeof callback === 'function' && callback();
                 }, (errors) => {
                     alert(error);
@@ -36,14 +36,14 @@ const siteStore = new Vuex.Store({
                 domainless: data.domainless,
                 pile_id: pileStore.state.current_pile_id
             }).then((response) => {
-                app.$router.push('/site/' + response.json().id);
+                app.$router.push('/site/' + response.data.id);
             }, (errors) => {
                 alert(error);
             })
         },
         updateSite: ({commit}, data) => {
             Vue.http.put(action('Site\SiteController@update', {site: data.site_id}), data.data).then((response) => {
-                commit('SET_SITE', response.json());
+                commit('SET_SITE', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -72,7 +72,7 @@ const siteStore = new Vuex.Store({
         },
         getWorkers: ({commit}, site_id) => {
             Vue.http.get(action('Site\SiteWorkerController@show', {site: site_id})).then((response) => {
-                commit('SET_WORKERS', response.json());
+                commit('SET_WORKERS', response.data);
             }, (errors) => {
             });
         },
@@ -94,7 +94,7 @@ const siteStore = new Vuex.Store({
         },
         getSslCertificates: ({commit}, site_id) => {
             Vue.http.get(action('Site\Certificate\SiteSSLController@index', {site: site_id})).then((response) => {
-                commit('SET_SSL_CERTIFICATES', response.json());
+                commit('SET_SSL_CERTIFICATES', response.data);
             }, (errors) => {
             });
         },
@@ -113,7 +113,7 @@ const siteStore = new Vuex.Store({
         },
         getSiteServers: ({commit}, site_id) => {
             Vue.http.get(action('Site\SiteServerController@index', {site: site_id})).then((response) => {
-                commit('SET_SITE_SERVERS', response.json());
+                commit('SET_SITE_SERVERS', response.data);
             }, (errors) => {
                 alert(error);
             });

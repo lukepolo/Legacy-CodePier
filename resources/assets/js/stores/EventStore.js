@@ -12,7 +12,7 @@ const eventStore = new Vuex.Store({
     actions: {
         getEvents: ({commit}, page) => {
             Vue.http.get(action('EventController@index', { page : page ? page : 1 })).then((response) => {
-                commit('SET_EVENTS', response.json());
+                commit('SET_EVENTS', response.data);
             }, (errors) => {
                 alert('handle some error')
             });

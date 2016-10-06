@@ -11,7 +11,7 @@ const userSshKeyStore = new Vuex.Store({
     actions: {
         getUserSshKeys: ({commit}) => {
             Vue.http.get(action('User\UserSshKeyController@index')).then((response) => {
-                commit('SET_USER_SSH_KEYS', response.json());
+                commit('SET_USER_SSH_KEYS', response.data);
             }, (errors) => {
                 alert(error);
             });

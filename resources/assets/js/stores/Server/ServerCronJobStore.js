@@ -11,7 +11,7 @@ const serverCronJobStore = new Vuex.Store({
     actions: {
         getServerCronJobs: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerCronJobController@index', {server: server_id})).then((response) => {
-                commit('SET_SERVER_CRON_JOBS', response.json());
+                commit('SET_SERVER_CRON_JOBS', response.data);
             }, (errors) => {
                 alert(error);
             });

@@ -14,7 +14,7 @@ const userStore = new Vuex.Store({
     actions: {
         getUserServerProviders: ({commit}, user_id) => {
             Vue.http.get(action('User\Providers\UserServerProviderController@index', { user : user_id })).then((response) => {
-                commit('SET_SERVER_PROVIDERS', response.json());
+                commit('SET_SERVER_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -28,7 +28,7 @@ const userStore = new Vuex.Store({
         },
         getUserRepositoryProviders: ({commit}, user_id) => {
             Vue.http.get(action('User\Providers\UserRepositoryProviderController@index', { user : user_id})).then((response) => {
-                commit('SET_REPOSITORY_PROVIDERS', response.json());
+                commit('SET_REPOSITORY_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -42,7 +42,7 @@ const userStore = new Vuex.Store({
         },
         getUserNotificationProviders: ({commit}, user_id) => {
             Vue.http.get(action('User\Providers\UserNotificationProviderController@index', { user : user_id})).then((response) => {
-                commit('SET_NOTIFICATION_PROVIDERS', response.json());
+                commit('SET_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);
             });
