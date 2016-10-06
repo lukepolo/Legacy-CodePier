@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./helpers";
 
-Vue.use(Vuex);
-
 const siteStore = new Vuex.Store({
     state: {
         sites: [],
@@ -49,18 +47,19 @@ const siteStore = new Vuex.Store({
             });
         },
         updateSiteServerFeatures: ({commit}, data) => {
-            $.ajax({
-                type: "PUT",
-                url: action('Site\SiteController@updateSiteServerFeatures', {site: data.site}),
-                data: data.data,
-                dataType: "json",
-                success: function () {
-                    siteStore.dispatch('getSite', data.site);
-                },
-                error: function () {
-                    alert('error');
-                }
-            });
+            alert('convert');
+            // $.ajax({
+            //     type: "PUT",
+            //     url: action('Site\SiteController@updateSiteServerFeatures', {site: data.site}),
+            //     data: data.data,
+            //     dataType: "json",
+            //     success: function () {
+            //         siteStore.dispatch('getSite', data.site);
+            //     },
+            //     error: function () {
+            //         alert('error');
+            //     }
+            // });
         },
         deleteSite: ({commit}, site_id) => {
             Vue.http.delete(action('Site\SiteController@destroy', {site: site_id})).then((response) => {
