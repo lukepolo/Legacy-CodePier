@@ -17,7 +17,7 @@
         <script>
             window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
-                'pusherKey' => env('PUSHER_KEY')
+                'pusherKey' => env('PUSHER_KEY'),
             ]); ?>
         </script>
     </head>
