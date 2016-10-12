@@ -12,7 +12,7 @@
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'auth:api'], function () {
     /*
  |--------------------------------------------------------------------------
  | User Routes
