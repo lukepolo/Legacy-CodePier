@@ -20,7 +20,6 @@ class PileController extends Controller
      */
     public function index(Request $request)
     {
-        dd(\Auth::user());
         $piles = Pile::with('servers');
 
         if ($request->has('all')) {
