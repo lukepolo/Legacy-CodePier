@@ -50,7 +50,7 @@
                         <button type="submit">Update Repository</button>
                     </form>
 
-                    <template v-if="site.repository && site.servers.length">
+                    <template v-if="site.repository && site_servers.length">
                         <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
                         <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
                             Deployments</a>
@@ -148,6 +148,9 @@
             },
             availableFrameworks: () => {
                 return serverStore.state.available_server_frameworks;
+            },
+            site_servers : () => {
+                return [];
             }
         },
     }

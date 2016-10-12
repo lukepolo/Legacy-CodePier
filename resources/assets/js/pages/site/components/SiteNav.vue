@@ -9,7 +9,7 @@
                     <a class="btn btn-primary">Framework Files</a>
                 </router-link>
             </template>
-            <template v-if="site.servers.length">
+            <template v-if="site_servers">
                 <router-link :to="{ path : '/site/' + site.id + '/workers'}" tag="li">
                     <a class="btn btn-primary">Workers</a>
                 </router-link>
@@ -31,6 +31,9 @@
         computed : {
             site : () => {
                 return siteStore.state.site;
+            },
+            site_servers : () => {
+                return [];
             }
         }
     }
