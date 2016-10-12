@@ -859,25 +859,25 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b"
+                "reference": "3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/8828aaa2178e0a19325522e2a45282ff0a14649b",
-                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa",
+                "reference": "3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": "^5.5.9 || ^7.0"
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
                 "phpunit/phpunit": "^4.8 || ^5.0",
-                "symfony/var-dumper": "~3.0"
+                "symfony/var-dumper": "^2.6 || ^3.0"
             },
             "suggest": {
                 "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
@@ -906,7 +906,7 @@
                 }
             ],
             "description": "php error handling for cool kids",
-            "homepage": "https://github.com/filp/whoops",
+            "homepage": "https://filp.github.io/whoops/",
             "keywords": [
                 "error",
                 "exception",
@@ -915,7 +915,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2016-05-06 18:25:35"
+            "time": "2016-10-11 15:32:23"
         },
         {
             "name": "firebase/php-jwt",
@@ -2033,16 +2033,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "b95791d42f42d405ffacdf21007f80ef7798b164"
+                "reference": "0d9b4e491792496c80a0753826c38824d3f65ae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/b95791d42f42d405ffacdf21007f80ef7798b164",
-                "reference": "b95791d42f42d405ffacdf21007f80ef7798b164",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/0d9b4e491792496c80a0753826c38824d3f65ae6",
+                "reference": "0d9b4e491792496c80a0753826c38824d3f65ae6",
                 "shasum": ""
             },
             "require": {
@@ -2093,7 +2093,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2016-10-06 13:50:39"
+            "time": "2016-10-12 15:29:07"
         },
         {
             "name": "laravel/socialite",
@@ -2405,16 +2405,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "5.1.2",
+            "version": "5.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "e091d4812789cdce69dee43d300fd3707548a4aa"
+                "reference": "f78dc2eca0774ec3958bbcf9b2a23d5ae61fb5aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/e091d4812789cdce69dee43d300fd3707548a4aa",
-                "reference": "e091d4812789cdce69dee43d300fd3707548a4aa",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/f78dc2eca0774ec3958bbcf9b2a23d5ae61fb5aa",
+                "reference": "f78dc2eca0774ec3958bbcf9b2a23d5ae61fb5aa",
                 "shasum": ""
             },
             "require": {
@@ -2477,7 +2477,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2016-09-19 09:23:42"
+            "time": "2016-10-12 14:08:15"
         },
         {
             "name": "lord/laroute",
@@ -4945,16 +4945,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.3.6",
+            "version": "1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "a60da179c37f2c4e44ef734d0b92824a58943f7f"
+                "reference": "969ff423d3f201da3ff718a5831bb999bb0669b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/a60da179c37f2c4e44ef734d0b92824a58943f7f",
-                "reference": "a60da179c37f2c4e44ef734d0b92824a58943f7f",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/969ff423d3f201da3ff718a5831bb999bb0669b0",
+                "reference": "969ff423d3f201da3ff718a5831bb999bb0669b0",
                 "shasum": ""
             },
             "require": {
@@ -4991,7 +4991,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2016-09-07 17:57:29"
+            "time": "2016-10-11 13:25:21"
         }
     ],
     "packages-dev": [
