@@ -7,7 +7,7 @@
                 <div class="container">
                     <site-nav></site-nav>
 
-                    <form @submit.prevent="saveSiteServerFeatures">
+                    <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data" >
                         <section>
                             <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
                             <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
@@ -54,7 +54,7 @@
             saveSiteServerFeatures : function() {
                 siteStore.dispatch('updateSiteServerFeatures', {
                     site : this.site.id,
-                    data : this.getFormData(this.$el)
+                    form : this.getFormData(this.$el)
                 });
             }
         },

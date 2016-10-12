@@ -121,7 +121,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::resource('sites', 'Site\SiteController');
 
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
-        Route::put('site/{site}/update/server-features', 'Site\SiteController@updateSiteServerFeatures');
+        Route::post('site/{site}/update/server-features', 'Site\SiteController@updateSiteServerFeatures');
 
         Route::group(['namespace' => 'Site'], function () {
             Route::group(['prefix' => 'sites'], function () {

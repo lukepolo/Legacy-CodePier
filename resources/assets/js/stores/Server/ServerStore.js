@@ -29,27 +29,13 @@ const serverStore = new Vuex.Store({
                 alert('handle some error')
             });
         },
-        createServer: ({commit}, data) => {
-            
-            console.info(data);
-            alert('convert');
-            // $.ajax({
-            //     type: "POST",
-            //     url: action('Server\ServerController@store'),
-            //     data: data,
-            //     dataType: "json",
-            //     success: function (response) {
-            //
-            //         var site = _.keyBy(data, 'name').site;
-            //         if(site) {
-            //             app.$router.push('/site/'+site.value);
-            //         } else {
-            //             app.$router.push('/');
-            //         }
-            //     },
-            //     error: function () {
-            //     }
-            // });
+        createServer: ({commit}, form) => {
+
+            Vue.http.post(action('Server\ServerController@store'), form).then((response) => {
+               alert('probably should notify them or something ?')
+            }, (errors) => {
+                alert(error);
+            });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(action('Server\ServerController@destroy', {server: server})).then((response) => {

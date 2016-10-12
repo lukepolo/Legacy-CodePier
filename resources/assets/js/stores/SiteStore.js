@@ -47,19 +47,11 @@ const siteStore = new Vuex.Store({
             });
         },
         updateSiteServerFeatures: ({commit}, data) => {
-            alert('convert');
-            // $.ajax({
-            //     type: "PUT",
-            //     url: action('Site\SiteController@updateSiteServerFeatures', {site: data.site}),
-            //     data: data.data,
-            //     dataType: "json",
-            //     success: function () {
-            //         siteStore.dispatch('getSite', data.site);
-            //     },
-            //     error: function () {
-            //         alert('error');
-            //     }
-            // });
+            Vue.http.post(action('Site\SiteController@updateSiteServerFeatures', {site: data.site}), data.form).then((response) => {
+                siteStore.dispatch('getSite', data.site);
+            }, (errors) => {
+                alert(error);
+            });
         },
         deleteSite: ({commit}, site_id) => {
             Vue.http.delete(action('Site\SiteController@destroy', {site: site_id})).then((response) => {

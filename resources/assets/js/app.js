@@ -39,16 +39,15 @@ Vue.mixin({
         action: function (action, parameters) {
             return laroute.action(action, parameters);
         },
-        getFormData : function(el) {
+        // NOTE - this will not work with PUT!!!
+        // https://github.com/symfony/symfony/issues/9226
+        getFormData : function(form) {
 
-            return new FormData(el);
-
-            if(!$(el).is('form')) {
-                el = $(el).find('form');
+            if(!$(form).is('form')) {
+                form = $(form).find('form')[0];
             }
 
-            // TODO - copy jquerys way of getting the proper data strings
-            return $(el).serializeArray();
+            return new FormData(form);
         },
         serverHasFeature: function(server, feature) {
             return _.get(server.server_features, feature, false);
@@ -59,8 +58,6 @@ Vue.mixin({
 
 // Vue.config.errorHandler = function (err, vm) {
 // }
-
-
 
 /*
  |--------------------------------------------------------------------------
