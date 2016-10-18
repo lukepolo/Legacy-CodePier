@@ -55,7 +55,7 @@
         mounted () {
 
             Vue.http.get(this.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
-                this.notification_providers = response.json();
+                this.notification_providers = response.data;
             }, (errors) => {
                 alert('Trying to get notifications');
             });

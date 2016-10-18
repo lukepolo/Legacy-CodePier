@@ -11,7 +11,7 @@ const serverSshKeyStore = new Vuex.Store({
     actions: {
         getServerSshKeys: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerSshKeyController@index', {server : server_id})).then((response) => {
-                commit('SET_SERVER_SSH_KEYS', response.json());
+                commit('SET_SERVER_SSH_KEYS', response.data);
             }, (errors) => {
                 alert(error);
             });

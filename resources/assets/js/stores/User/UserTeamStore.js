@@ -14,7 +14,7 @@ const userTeamStore = new Vuex.Store({
     actions: {
         getTeams: ({commit}) => {
             Vue.http.get(action('User\Team\UserTeamController@index')).then((response) => {
-                commit('SET_TEAMS', response.json());
+                commit('SET_TEAMS', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -37,7 +37,7 @@ const userTeamStore = new Vuex.Store({
         },
         changeTeams: ({commit}, teamID) => {
             Vue.http.post(action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
-                commit('SET_CURRENT_TEAM', response.json());
+                commit('SET_CURRENT_TEAM', response.data);
                 pileStore.dispatch('getPiles').then(function () {
                     serverStore.dispatch('getServers');
                 });
@@ -57,7 +57,7 @@ const userTeamStore = new Vuex.Store({
         },
         getTeam: ({commit}, team_id) => {
             Vue.http.get(action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
-                commit('SET_TEAM', response.json());
+                commit('SET_TEAM', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -71,7 +71,7 @@ const userTeamStore = new Vuex.Store({
         },
         getTeamMembers: ({commit}, team_id) => {
             Vue.http.get(action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
-                commit('SET_TEAM_MEMBERS', response.json());
+                commit('SET_TEAM_MEMBERS', response.data);
             }, (errors) => {
                 alert(error);
             });

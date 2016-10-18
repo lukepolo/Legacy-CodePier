@@ -21,6 +21,7 @@ class PileController extends Controller
     public function index(Request $request)
     {
         $piles = Pile::with('servers');
+
         if ($request->has('all')) {
             $piles = $piles->allTeams();
         }

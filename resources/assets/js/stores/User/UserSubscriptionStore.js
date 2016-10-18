@@ -14,14 +14,14 @@ const userSubscriptionStore = new Vuex.Store({
     actions: {
         getUserSubscription: ({commit}) => {
             Vue.http.get(action('User\Subscription\UserSubscriptionController@index')).then((response) => {
-                commit('SET_USER_SUBSCRIPTION', response.json());
+                commit('SET_USER_SUBSCRIPTION', response.data);
             }, (errors) => {
                 alert(error);
             })
         },
         getUpcomingSubscription : ({commit}) => {
             Vue.http.get(action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
-                commit('SET_USER_UPCOMING_SUBSCRIPTION', response.json());
+                commit('SET_USER_UPCOMING_SUBSCRIPTION', response.data);
             }, (errors) => {
                 alert(error);
             });
@@ -42,7 +42,7 @@ const userSubscriptionStore = new Vuex.Store({
         },
         getUserInvoices : ({commit}) => {
             Vue.http.get(action('User\Subscription\UserSubscriptionInvoiceController@index')).then((response) => {
-                commit('SET_USER_INVOICES', response.json());
+                commit('SET_USER_INVOICES', response.data);
             }, (errors) => {
                 alert(error);
             })

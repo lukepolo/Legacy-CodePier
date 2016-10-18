@@ -18,14 +18,14 @@ const serverStore = new Vuex.Store({
     actions: {
         getServer: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerController@show', {server: server_id})).then((response) => {
-                commit('SET_SERVER', response.json());
+                commit('SET_SERVER', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServers: ({commit}, callback) => {
             Vue.http.get(action('Server\ServerController@index', {pile_id: pileStore.state.current_pile_id})).then((response) => {
-                commit('SET_SERVERS', response.json());
+                commit('SET_SERVERS', response.data);
                 typeof callback === 'function' && callback();
             }, (errors) => {
                 alert('handle some error')
@@ -59,42 +59,42 @@ const serverStore = new Vuex.Store({
         },
         getServerSites: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerSiteController@index', {server: server_id})).then((response) => {
-                commit('SET_SERVER_SITES', response.json());
+                commit('SET_SERVER_SITES', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerAvailableFeatures: ({commit}) => {
             Vue.http.get(action('Server\ServerFeatureController@getServerFeatures')).then((response) => {
-                commit('SET_AVAILABLE_SERVER_FEATURES', response.json());
+                commit('SET_AVAILABLE_SERVER_FEATURES', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerAvailableLanguages: ({commit}) => {
             Vue.http.get(action('Server\ServerFeatureController@getLanguages')).then((response) => {
-                commit('SET_AVAILABLE_SERVER_LANGUAGES', response.json());
+                commit('SET_AVAILABLE_SERVER_LANGUAGES', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerAvailableFrameworks: ({commit}) => {
             Vue.http.get(action('Server\ServerFeatureController@getFrameworks')).then((response) => {
-                commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.json());
+                commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getEditableServerFiles: ({commit}, server) => {
             Vue.http.get(action('Server\ServerFeatureController@getEditableServerFiles', {server : server})).then((response) => {
-                commit('SET_EDITABLE_SERVER_FILES', response.json());
+                commit('SET_EDITABLE_SERVER_FILES', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getEditableFrameworkFiles: ({commit}, site) => {
             Vue.http.get(action('Server\ServerFeatureController@getEditableFrameworkFiles', {site : site})).then((response) => {
-                commit('SET_EDITABLE_FRAMEWORK_FILES', response.json());
+                commit('SET_EDITABLE_FRAMEWORK_FILES', response.data);
             }, (errors) => {
                 alert(error);
             });

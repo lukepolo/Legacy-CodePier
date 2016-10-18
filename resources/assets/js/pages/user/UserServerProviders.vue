@@ -57,7 +57,7 @@
         mounted () {
 
             Vue.http.get(this.action('Auth\Providers\ServerProvidersController@index')).then((response) => {
-                this.server_providers = response.json();
+                this.server_providers = response.data;
             }, (errors) => {
                 alert(error);
             });

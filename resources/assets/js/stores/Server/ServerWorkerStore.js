@@ -11,7 +11,7 @@ const serverWorkerStore = new Vuex.Store({
     actions: {
         getServerWorkers: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerWorkerController@index', {server: server_id})).then((response) => {
-                commit('SET_SERVER_WORKERS', response.json());
+                commit('SET_SERVER_WORKERS', response.data);
             }, (errors) => {
                 alert(error);
             });
