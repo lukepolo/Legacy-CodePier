@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\UserScope;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,18 @@ class Pile extends Model
 
     public static $teamworkModel = 'teams';
     public $teamworkSync = true;
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new UserScope);
+    }
 
     public function servers()
     {

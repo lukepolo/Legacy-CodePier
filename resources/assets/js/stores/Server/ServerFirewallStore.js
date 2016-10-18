@@ -11,7 +11,7 @@ const serverFirewallStore = new Vuex.Store({
     actions: {
         getServerFirewallRules: ({commit}, server_id) => {
             Vue.http.get(action('Server\ServerFirewallController@index', {server: server_id})).then((response) => {
-                commit('SET_SERVER_FIREWALL_RULES', response.json());
+                commit('SET_SERVER_FIREWALL_RULES', response.data);
             }, (errors) => {
                 alert(error);
             });

@@ -14,14 +14,14 @@ const pileStore = new Vuex.Store({
     actions: {
         getPiles: ({commit}) => {
             Vue.http.get(action('Pile\PileController@index')).then((response) => {
-                commit('SET_PILES', response.json());
+                commit('SET_PILES', response.data);
             }, (errors) => {
                 alert('handle some error')
             });
         },
         getUserPiles: ({commit}) => {
             Vue.http.get(action('Pile\PileController@index', { all : true })).then((response) => {
-                commit('SET_USER_PILES', response.json());
+                commit('SET_USER_PILES', response.data);
             }, (errors) => {
                 alert('handle some error')
             });

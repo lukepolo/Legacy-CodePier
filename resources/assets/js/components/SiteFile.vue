@@ -33,7 +33,7 @@
             }), {
                 file: this.file,
             }).then((response) => {
-                this.file_model = response.json();
+                this.file_model = response.data;
                 this.content = this.file_model.unencrypted_content;
             }, (errors) => {
                 alert(error);

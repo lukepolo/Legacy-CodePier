@@ -14,28 +14,28 @@ const serverProviderStore = new Vuex.Store({
     actions: {
         getUserServerProviders: ({commit}) => {
             Vue.http.get(action('User\Providers\UserServerProviderController@index', {user: userStore.state.user.id})).then((response) => {
-                commit('SET_USER_SERVER_PROVIDERS', response.json());
+                commit('SET_USER_SERVER_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerProviderOptions: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/options').then((response) => {
-                commit('SET_PROVIDER_SERVER_OPTIONS', response.json());
+                commit('SET_PROVIDER_SERVER_OPTIONS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerProviderRegions: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/regions').then((response) => {
-                commit('SET_PROVIDER_SERVER_REGIONS', response.json());
+                commit('SET_PROVIDER_SERVER_REGIONS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getServerProviderFeatures: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/features').then((response) => {
-                commit('SET_PROVIDER_SERVER_FEATURES', response.json());
+                commit('SET_PROVIDER_SERVER_FEATURES', response.data);
             }, (errors) => {
                 alert(error);
             });
