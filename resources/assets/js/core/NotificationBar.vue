@@ -10,6 +10,14 @@
         
         <div class="collapse" id="collapseEvents">
             <div class="events-container">
+
+                <!-- TODO Add in for when there are no events -->
+                <!--
+                <div class="event-none">
+                    There are no events yet.
+                </div>
+                -->
+
                 <div class="event" v-for="server in servers">
                     <div class="event-status event-status-success"></div>
                     <div class="event-name">{{ server.name }} - {{ server.ip }}</div>
