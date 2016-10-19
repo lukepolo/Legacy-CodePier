@@ -121,7 +121,7 @@
                 serverProviderStore.dispatch('getServerProviderFeatures', provider);
             },
             createServer: function () {
-                serverStore.dispatch('createServer', this.getFormData($(this.$el)));
+                serverStore.dispatch('createServer', this.getFormData(this.$el));
             }
         },
         computed: {

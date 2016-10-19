@@ -38,9 +38,8 @@ $.ajaxSetup({
 */
 
 import Echo from "laravel-echo";
-import Config from "./.config";
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: Config.PUSHER_KEY
+    key: Laravel.pusherKey
 });

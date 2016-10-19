@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./../helpers";
 
-Vue.use(Vuex);
-
 const serverStore = new Vuex.Store({
     state: {
         servers: [],
@@ -31,23 +29,12 @@ const serverStore = new Vuex.Store({
                 alert('handle some error')
             });
         },
-        createServer: ({commit}, data) => {
-            $.ajax({
-                type: "POST",
-                url: action('Server\ServerController@store'),
-                data: data,
-                dataType: "json",
-                success: function (response) {
+        createServer: ({commit}, form) => {
 
-                    var site = _.keyBy(data, 'name').site;
-                    if(site) {
-                        app.$router.push('/site/'+site.value);
-                    } else {
-                        app.$router.push('/');
-                    }
-                },
-                error: function () {
-                }
+            Vue.http.post(action('Server\ServerController@store'), form).then((response) => {
+               alert('probably should notify them or something ?')
+            }, (errors) => {
+                alert(error);
             });
         },
         archiveServer: ({commit}, server) => {

@@ -2,7 +2,7 @@
     <section>
         <h3 class="section-header primary" v-if="site">
             {{ site.name }}
-            <template v-if="site.servers.length">
+            <template v-if="site_servers">
                 <div class="pull-right">
                     <div class="dropdown">
                         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -27,6 +27,9 @@
         computed : {
             site : () => {
                 return siteStore.state.site;
+            },
+            site_servers : () => {
+                return [];
             }
         }
     }
