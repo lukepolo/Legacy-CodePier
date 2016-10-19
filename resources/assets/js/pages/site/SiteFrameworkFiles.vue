@@ -2,11 +2,14 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-            <div class="container">
-                <site-nav></site-nav>
-                <template v-if="files && site">
-                    <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
-                </template>
+            <site-header></site-header>
+            <div class="section-content">
+                <div class="container">
+                    <site-nav></site-nav>
+                    <template v-if="files && site">
+                        <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
+                    </template>
+                </div>
             </div>
         </section>
         <servers></servers>

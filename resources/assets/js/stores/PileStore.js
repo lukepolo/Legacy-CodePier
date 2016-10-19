@@ -2,9 +2,7 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./helpers";
 
-Vue.use(Vuex);
-
-const pileStore = new Vuex.Store({
+export default new Vuex.Store({
     state: {
         piles: [],
         user_piles: [],
@@ -76,5 +74,3 @@ const pileStore = new Vuex.Store({
         }
     }
 });
-
-export default pileStore

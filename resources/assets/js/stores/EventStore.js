@@ -2,8 +2,6 @@ import Vue from "vue/dist/vue";
 import Vuex from "vuex";
 import {action} from "./helpers";
 
-Vue.use(Vuex);
-
 const eventStore = new Vuex.Store({
     state: {
         events: [],

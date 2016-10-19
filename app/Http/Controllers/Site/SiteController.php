@@ -139,6 +139,7 @@ class SiteController extends Controller
     public function updateSiteServerFeatures(Request $request, $id)
     {
         $site = Site::findOrFail($id);
+
         $site->server_features = $request->get('services');
 
         $site->save();
