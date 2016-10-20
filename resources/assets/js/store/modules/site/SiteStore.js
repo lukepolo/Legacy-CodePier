@@ -24,7 +24,7 @@ export default {
                 });
             }
         },
-        createSite: ({commit, rootStore}, data) => {
+        createSite: ({commit, rootState}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@store'), {
                 domain: data.domain,
                 domainless: data.domainless,
