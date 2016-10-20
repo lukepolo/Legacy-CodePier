@@ -39,31 +39,31 @@
 
 <script>
     export default {
-        props : ['pile', 'index'],
+        props: ['pile', 'index'],
         data() {
             return {
-                form : {
+                form: {
                     name: this.pile.name
                 },
-                editing : this.pile.editing
+                editing: this.pile.editing
             }
         },
-        methods : {
-            cancel () {
-                if(!this.pile.id) {
+        methods: {
+            cancel() {
+                if (!this.pile.id) {
                     this.$store.state.pilesStore.state.piles.splice(this.index, 1);
                 }
 
                 this.editing = false;
             },
-            edit () {
+            edit() {
                 this.editing = true;
             },
-            deletePile :function() {
+            deletePile: function () {
                 this.$store.dispatch('deletePile', this.pile.id);
             },
-            savePile () {
-                if(this.pile.id) {
+            savePile() {
+                if (this.pile.id) {
 
                     this.form['pile'] = this.pile;
 

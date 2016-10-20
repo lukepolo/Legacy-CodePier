@@ -38,15 +38,15 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                form : {
-                    name : null,
-                    ssh_key :null
+                form: {
+                    name: null,
+                    ssh_key: null
                 }
             }
         },
@@ -67,16 +67,16 @@
             },
             deleteKey(ssh_key_id) {
                 this.$store.dispatch('deleteServerSshKey', {
-                    ssh_key : ssh_key_id,
-                    server : this.server.id
+                    ssh_key: ssh_key_id,
+                    server: this.server.id
                 });
             }
         },
-        computed : {
-            server : () => {
+        computed: {
+            server: () => {
                 return this.$store.state.serversStoreserver;
             },
-            ssh_keys : () => {
+            ssh_keys: () => {
                 return serverSshKeyStore.state.server_ssh_keys;
             }
         }

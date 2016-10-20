@@ -42,7 +42,9 @@
                             <select v-model="form.framework" name="framework">
                                 <option></option>
                                 <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
+                                    <option v-for="(features, framework) in availableFrameworks[language]"
+                                            :value="language+'.'+framework"> {{ framework }}
+                                    </option>
                                 </optgroup>
                             </select>
                         </div>
@@ -141,15 +143,15 @@
                 return site;
             },
             user_repository_providers: () => {
-                return this.$store.state.userStorerepository_providers;
+                return this.$store.state.userStore.repository_providers;
             },
-            availableLanguages : () => {
+            availableLanguages: () => {
                 return this.$store.state.serversStoreavailable_server_languages;
             },
             availableFrameworks: () => {
                 return this.$store.state.serversStoreavailable_server_frameworks;
             },
-            site_servers : () => {
+            site_servers: () => {
                 return [];
             }
         },

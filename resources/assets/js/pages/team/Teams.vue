@@ -93,20 +93,20 @@
             return {
                 updating_team: false,
                 creating_team: false,
-                create_form : {
-                    piles : [],
-                    name : null
+                create_form: {
+                    piles: [],
+                    name: null
 
                 },
-                edit_form : {
-                    piles : [],
-                    name : null,
-                    team : null
+                edit_form: {
+                    piles: [],
+                    name: null,
+                    team: null
                 }
             }
         },
         methods: {
-            fetchData () {
+            fetchData() {
                 this.$store.dispatch('getUserPiles');
             },
             createTeam: function () {
@@ -123,7 +123,7 @@
                 this.$store.dispatch('deleteTeam', team_id);
             },
             isOwnerOfTeam: function (team) {
-                return team.owner_id == this.$store.state.userStoreuser.id;
+                return team.owner_id == this.$store.state.userStore.user.id;
             },
             createTeamForm() {
                 this.create_form = this.$options.data().create_form;

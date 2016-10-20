@@ -38,15 +38,15 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                form : {
-                    cron : null,
-                    user : 'root',
+                form: {
+                    cron: null,
+                    user: 'root',
                     cron_timing: null
                 }
             }
@@ -82,15 +82,15 @@
             deleteCronJob(cron_job_id) {
                 this.$store.dispatch('deleteServerCronJob', {
                     server: this.server.id,
-                    cron_job : cron_job_id
+                    cron_job: cron_job_id
                 });
             }
         },
-        computed : {
-            server : () => {
+        computed: {
+            server: () => {
                 return this.$store.state.serversStoreserver;
             },
-            cron_jobs : () => {
+            cron_jobs: () => {
                 return serverCronJobStore.state.server_cron_jobs;
             }
         }

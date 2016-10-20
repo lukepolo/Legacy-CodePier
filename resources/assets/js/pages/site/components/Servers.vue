@@ -24,11 +24,12 @@
         </template>
 
         <hr>
-        <template v-if ="availableServers.length">
+        <template v-if="availableServers.length">
             Available Servers
             <form @submit.prevent="linkServers">
                 <template v-for="server in availableServers">
-                    <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
+                    <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection
+                    }} - {{ server.name }} - {{ server.ip }}
                     <br>
                 </template>
                 <button type="submit">Link Servers</button>
@@ -40,10 +41,14 @@
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
             <hr>
-            <div class="btn btn-primary">Create A Web Server</div> - not available during beta
-            <div class="btn btn-primary">Create A Load Balance</div> - not available during beta
-            <div class="btn btn-primary">Create A Database Server</div> - not available during beta
-            <div class="btn btn-primary">Create A Queue Worker Serer</div> - not available during beta
+            <div class="btn btn-primary">Create A Web Server</div>
+            - not available during beta
+            <div class="btn btn-primary">Create A Load Balance</div>
+            - not available during beta
+            <div class="btn btn-primary">Create A Database Server</div>
+            - not available during beta
+            <div class="btn btn-primary">Create A Queue Worker Serer</div>
+            - not available during beta
         </section>
     </section>
 </template>
@@ -52,8 +57,8 @@
     export default {
         data()  {
             return {
-                form : {
-                    connected_servers : [],
+                form: {
+                    connected_servers: [],
                     site: this.$route.params.site_id
                 }
             }
@@ -69,18 +74,18 @@
                 this.$store.dispatch('getSiteServers', this.$route.params.site_id);
                 this.$store.dispatch('getServers');
             },
-            linkServers () {
+            linkServers() {
                 this.$store.dispatch('updateLinkedServers', this.form);
             }
         },
-        computed : {
-            site : () => {
+        computed: {
+            site: () => {
                 return siteStore.state.site;
             },
-            servers : () => {
+            servers: () => {
                 return siteStore.state.site_servers;
             },
-            availableServers : () => {
+            availableServers: () => {
                 return this.$store.state.serversStoreservers;
             }
         }

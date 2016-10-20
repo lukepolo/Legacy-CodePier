@@ -27,7 +27,9 @@
                         <td>{{ server.status }}</td>
                         <td>
                             <div class="server-name">
-                                <span :class="{ 'server-success' : server.ssh_connection , 'server-error' : !server.ssh_connection}" class="server-connection" data-toggle="tooltip" data-placement="top" data-container="body" title="Connection Successful"></span>
+                                <span :class="{ 'server-success' : server.ssh_connection , 'server-error' : !server.ssh_connection}"
+                                      class="server-connection" data-toggle="tooltip" data-placement="top"
+                                      data-container="body" title="Connection Successful"></span>
                             </div>
                         </td>
                     </tr>

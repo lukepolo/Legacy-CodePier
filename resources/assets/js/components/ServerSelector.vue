@@ -17,24 +17,24 @@
         props: ['servers', 'param', 'feature', 'feature_message'],
         data() {
             return {
-                selected_servers : []
+                selected_servers: []
             }
         },
-        methods : {
-            hasFeature : function(server) {
-                if(this.feature) {
+        methods: {
+            hasFeature: function (server) {
+                if (this.feature) {
                     return this.serverHasFeature(server, this.feature);
                 }
 
                 return true;
             }
         },
-        watch : {
-            'selected_servers' () {
+        watch: {
+            'selected_servers'() {
                 _.set(this.$parent, this.param, this.selected_servers);
             }
         },
-        mounted () {
+        mounted() {
             this.selected_servers = _.get(this.$parent, this.param);
         }
     }

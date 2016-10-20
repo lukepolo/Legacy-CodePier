@@ -6,11 +6,13 @@
             <p v-for="provider in server_providers">
                 <template v-if="isConnected(provider.id)">
 
-                    Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{ provider.name}}</a>
+                    Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{
+                    provider.name}}</a>
                 </template>
                 <template v-else>
-                    Integrate : <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
-                       class="btn btn-default">{{ provider.name}}</a>
+                    Integrate : <a
+                        :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
+                        class="btn btn-default">{{ provider.name}}</a>
                 </template>
             </p>
         </section>
@@ -21,7 +23,7 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
@@ -30,9 +32,9 @@
                 server_providers: []
             }
         },
-        computed : {
-            user_server_providers : () => {
-                return this.$store.state.userStoreserver_providers;
+        computed: {
+            user_server_providers() {
+                return this.$store.state.userStore.server_providers;
             }
         },
         methods: {
@@ -44,17 +46,17 @@
                 return false;
             },
             disconnectProvider: function (server_provider_id) {
-                var user_server_provider_id = _.find(this.user_server_providers, function(server_provider) {
+                var user_server_provider_id = _.find(this.user_server_providers, function (server_provider) {
                     return server_provider.server_provider_id == server_provider_id;
                 }).id;
 
                 this.$store.dispatch('deleteUserServerProvider', {
-                    user_id : this.$store.state.userStoreuser.id,
-                    user_server_provider_id : user_server_provider_id
+                    user_id: this.$store.state.userStore.user.id,
+                    user_server_provider_id: user_server_provider_id
                 });
             }
         },
-        mounted () {
+        mounted() {
 
             Vue.http.get(this.action('Auth\Providers\ServerProvidersController@index')).then((response) => {
                 this.server_providers = response.data;
@@ -62,7 +64,7 @@
                 alert(error);
             });
 
-            this.$store.dispatch('getUserServerProviders', this.$store.state.userStoreuser.id);
+            this.$store.dispatch('getUserServerProviders', this.$store.state.userStore.user.id);
         },
     }
 </script>

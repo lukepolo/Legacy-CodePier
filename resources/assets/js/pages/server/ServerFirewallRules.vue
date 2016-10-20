@@ -39,7 +39,8 @@
                         <td>{{ firewall_rule.description }}</td>
                         <td>{{ firewall_rule.port }}</td>
                         <td>{{ firewall_rule.from_ip }}</td>
-                        <td><a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewall_rule.id)">remove</a></td>
+                        <td><a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewall_rule.id)">remove</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -54,16 +55,16 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                form : {
-                    port : null,
+                form: {
+                    port: null,
                     from_ip: null,
-                    description : null,
+                    description: null,
                 }
             }
         },
@@ -84,19 +85,19 @@
             },
             deleteFirewallRule(firewall_rule_id) {
                 this.$store.dispatch('deleteServerFirewallRule', {
-                    server : this.server.id,
-                    firewall : firewall_rule_id
+                    server: this.server.id,
+                    firewall: firewall_rule_id
                 })
             }
         },
-        computed : {
-            server : () => {
+        computed: {
+            server: () => {
                 return this.$store.state.serversStoreserver;
             },
-            firewall_rules : () => {
+            firewall_rules: () => {
                 return serverFirewallStore.state.server_firewall_rules;
             },
-            availableServers : () => {
+            availableServers: () => {
                 return [];
             }
         }

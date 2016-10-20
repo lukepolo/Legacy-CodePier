@@ -3,8 +3,10 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
             <server-nav :server="server"></server-nav>
-            <feature-area :server="server" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-            <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+            <feature-area :server="server" :area="serverFeatureArea" :features="features"
+                          v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+            <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true"
+                          v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
         </section>
     </section>
 </template>
@@ -46,7 +48,7 @@
             availableServerFrameworks: () => {
                 return this.$store.state.serversStoreavailable_server_frameworks;
             },
-            server : () => {
+            server: () => {
                 return this.$store.state.serversStoreserver;
             }
         }

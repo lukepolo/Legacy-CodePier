@@ -16,7 +16,9 @@
                         <tr v-for="member in members">
                             <td>{{ member.name }} - {{ member.email }}</td>
                             <td v-if="isOwnerOfTeam && member.id != current_user.id">
-                                <button @click="deleteMember(member.id)" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Delete</button>
+                                <button @click="deleteMember(member.id)" class="btn btn-danger btn-sm"><i
+                                        class="fa fa-trash-o"></i> Delete
+                                </button>
                             </td>
                         </tr>
                     </table>
@@ -79,44 +81,44 @@
         watch: {
             '$route': 'fetchData'
         },
-        methods : {
-            fetchData () {
+        methods: {
+            fetchData() {
                 this.$store.dispatch('getTeam', this.$route.params.team_id);
                 this.$store.dispatch('getTeamMembers', this.$route.params.team_id);
             },
-            sendInvite () {
+            sendInvite() {
                 this.$store.dispatch('sendTeamInvite', {
-                    email : this.email,
-                    team_id : userTeamStore.state.team.id
+                    email: this.email,
+                    team_id: userTeamStore.state.team.id
                 })
             },
-            resendInvite : function(invite_id) {
+            resendInvite: function (invite_id) {
                 this.$store.dispatch('resendTeamInvite', invite_id);
             },
-            deleteMember : function(member_id) {
+            deleteMember: function (member_id) {
                 this.$store.dispatch('deleteTeamMember', {
                     member_id: member_id,
-                    team_id : userTeamStore.state.team.id
+                    team_id: userTeamStore.state.team.id
                 });
             }
         },
         data() {
-          return {
-              email : null
-          }
+            return {
+                email: null
+            }
         },
-        computed : {
-            current_user : () => {
-              return this.$store.state.userStoreuser;
+        computed: {
+            current_user: () => {
+                return this.$store.state.userStore.user;
             },
-            team : () => {
+            team: () => {
                 return userTeamStore.state.team;
             },
-            members : () => {
+            members: () => {
                 return userTeamStore.state.team_members;
             },
-            isOwnerOfTeam () {
-                return this.team.owner_id == this.$store.state.userStoreuser.id;
+            isOwnerOfTeam() {
+                return this.team.owner_id == this.$store.state.userStore.user.id;
             }
         }
     }
