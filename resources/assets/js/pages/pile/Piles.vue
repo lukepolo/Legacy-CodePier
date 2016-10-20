@@ -38,13 +38,13 @@
             LeftNav
         },
         computed: {
-            piles: () => {
-                return this.$store.state.pilesStore.state.piles;
+            piles() {
+                return this.$store.state.pilesStore.piles;
             }
         },
         methods: {
             newPile() {
-                this.$store.state.pilesStore.state.piles.push({
+                this.$store.state.pilesStore.piles.push({
                     name: 'New Pile',
                     editing: true
                 });
