@@ -200,7 +200,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $server->server_provider_id
         )->first()
         ) {
-//            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+            //            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
                 return $this->refreshToken($serverProvider);
 //            }
 
@@ -221,11 +221,10 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $client = new Client();
 
-        $response = $client->post(self::OAUTH_TOKEN_URL . '?grant_type=refresh_token&refresh_token=' . $userServerProvider->refresh_token)->send();
+        $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token)->send();
 
 
         if ($response->getStatusCode() == 200) {
-
             dd(json_decode($response->getBody()));
             $userServerProvider->token = json_decode($response->getBody());
             $userServerProvider->save();
