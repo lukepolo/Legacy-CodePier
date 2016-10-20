@@ -116,7 +116,7 @@
                     this.$store.dispatch('getSite', this.$route.query.site);
                 }
             },
-            getProviderData: (provider) => {
+            getProviderData(provider) {
                 this.$store.dispatch('getServerProviderOptions', provider);
                 this.$store.dispatch('getServerProviderRegions', provider);
                 this.$store.dispatch('getServerProviderFeatures', provider);
