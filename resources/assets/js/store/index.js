@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue'
+import Vue from 'vue'
 import Vuex from 'vuex'
 
 import {action} from "./helpers";
