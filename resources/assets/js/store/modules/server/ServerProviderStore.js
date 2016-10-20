@@ -7,7 +7,7 @@ export default {
     },
     actions: {
         getUserServerProviders: ({commit}) => {
-            Vue.http.get(action('User\Providers\UserServerProviderController@index', {user: userStore.state.user.id})).then((response) => {
+            Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: userStore.state.user.id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);

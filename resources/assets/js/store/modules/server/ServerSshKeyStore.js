@@ -4,21 +4,21 @@ export default {
     },
     actions: {
         getServerSshKeys: ({commit}, server_id) => {
-            Vue.http.get(action('Server\ServerSshKeyController@index', {server : server_id})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerSshKeyController@index', {server : server_id})).then((response) => {
                 commit('SET_SERVER_SSH_KEYS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         createServerSshKey: ({commit}, data) => {
-            Vue.http.post(action('Server\ServerSshKeyController@store', {server : data.server}), data).then((response) => {
+            Vue.http.post(Vue.action('Server\ServerSshKeyController@store', {server : data.server}), data).then((response) => {
                 serverSshKeyStore.dispatch('getServerSshKeys', data.server);
             }, (errors) => {
                 alert(error);
             });
         },
         deleteServerSshKey: ({commit}, data) => {
-            Vue.http.delete(action('Server\ServerSshKeyController@destroy', { server : data.server, ssh_key : data.ssh_key })).then((response) => {
+            Vue.http.delete(Vue.action('Server\ServerSshKeyController@destroy', { server : data.server, ssh_key : data.ssh_key })).then((response) => {
                 serverSshKeyStore.dispatch('getServerSshKeys', data.server);
             }, (errors) => {
                 alert(error);
