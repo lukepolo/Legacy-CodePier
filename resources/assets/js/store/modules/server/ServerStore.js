@@ -2,7 +2,7 @@ export default {
     state: {
         servers: [],
         server: null,
-        server_sites: null,
+        server_sites: [],
         editable_server_files: [],
         editable_framework_files: [],
         available_server_features: [],
