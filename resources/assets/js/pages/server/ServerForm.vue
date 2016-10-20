@@ -69,7 +69,8 @@
 
                                 <feature-area :site="site" :area="serverFeatureArea" :features="features"
                                               v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                                <feature-area :site="site" :area="serverLanguageArea" :features="features" :frameworks="true"
+                                <feature-area :site="site" :area="serverLanguageArea" :features="features"
+                                              :frameworks="true"
                                               v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
 
                                 <div class="btn-footer">
@@ -104,55 +105,55 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverProviderStore.dispatch('getUserServerProviders');
+            fetchData() {
+                this.$store.dispatch('getUserServerProviders');
 
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
 
                 if (this.$route.query.site) {
-                    siteStore.dispatch('getSite', this.$route.query.site);
+                    this.$store.dispatch('getSite', this.$route.query.site);
                 }
             },
             getProviderData: (provider) => {
-                serverProviderStore.dispatch('getServerProviderOptions', provider);
-                serverProviderStore.dispatch('getServerProviderRegions', provider);
-                serverProviderStore.dispatch('getServerProviderFeatures', provider);
+                this.$store.dispatch('getServerProviderOptions', provider);
+                this.$store.dispatch('getServerProviderRegions', provider);
+                this.$store.dispatch('getServerProviderFeatures', provider);
             },
-            createServer: function () {
-                serverStore.dispatch('createServer', this.getFormData($(this.$el)));
+            createServer() {
+                this.$store.dispatch('createServer', this.getFormData(this.$el));
             }
         },
         computed: {
-            user_server_providers: () => {
+            user_server_providers() {
                 var providers = serverProviderStore.state.user_server_providers;
                 if (providers.length == 1) {
                 }
                 return providers;
             },
-            server_options: () => {
+            server_options() {
                 return serverProviderStore.state.server_provider_options;
             },
-            server_regions: () => {
+            server_regions() {
                 return serverProviderStore.state.server_provider_regions;
             },
-            server_provider_features: () => {
+            server_provider_features() {
                 return serverProviderStore.state.server_provider_features;
             },
-            availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+            availableServerFeatures() {
+                return this.$store.state.serversStore.available_server_features;
             },
-            availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+            availableServerLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+            availableServerFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            site : () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            pile: function () {
+            pile() {
                 var pile = _.find(user.piles, function (pile) {
                     return pile.id == localStorage.getItem('current_pile_id');
                 });

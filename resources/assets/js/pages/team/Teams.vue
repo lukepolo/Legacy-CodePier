@@ -93,37 +93,37 @@
             return {
                 updating_team: false,
                 creating_team: false,
-                create_form : {
-                    piles : [],
-                    name : null
+                create_form: {
+                    piles: [],
+                    name: null
 
                 },
-                edit_form : {
-                    piles : [],
-                    name : null,
-                    team : null
+                edit_form: {
+                    piles: [],
+                    name: null,
+                    team: null
                 }
             }
         },
         methods: {
-            fetchData : function() {
-                pileStore.dispatch('getUserPiles');
+            fetchData() {
+                this.$store.dispatch('getUserPiles');
             },
-            createTeam: function () {
-                userTeamStore.dispatch('createTeam', this.create_form).then(() => {
+            createTeam() {
+                this.$store.dispatch('createTeam', this.create_form).then(() => {
                     this.create_form = this.$options.data().create_form;
                 });
             },
-            updateTeam: function () {
-                userTeamStore.dispatch('updateTeam', this.edit_form).then(() => {
+            updateTeam() {
+                this.$store.dispatch('updateTeam', this.edit_form).then(() => {
                     this.edit_form = this.$options.data().edit_form;
                 });
             },
             deleteTeam: function (team_id) {
-                userTeamStore.dispatch('deleteTeam', team_id);
+                this.$store.dispatch('deleteTeam', team_id);
             },
             isOwnerOfTeam: function (team) {
-                return team.owner_id == userStore.state.user.id;
+                return team.owner_id == this.$store.state.userStore.user.id;
             },
             createTeamForm() {
                 this.create_form = this.$options.data().create_form;
@@ -144,11 +144,11 @@
             }
         },
         computed: {
-            teams: () => {
-                return userTeamStore.state.teams;
+            teams() {
+                return this.$store.state.teamsStore.teams;
             },
-            user_piles: () => {
-                return pileStore.state.user_piles;
+            user_piles() {
+                return this.$store.state.pilesStore.user_piles;
             }
         }
     }

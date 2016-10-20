@@ -23,16 +23,16 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getEditableServerFiles', this.server);
+            fetchData() {
+                this.$store.dispatch('getEditableServerFiles', this.server);
             },
             sectionTitle: function (section) {
                 return section.replace('install', '');
             }
         },
         computed: {
-            editable_files: () => {
-                return serverStore.state.editable_server_files;
+            editable_files() {
+                return this.$store.state.serversStoreeditable_server_files;
             }
         }
     }

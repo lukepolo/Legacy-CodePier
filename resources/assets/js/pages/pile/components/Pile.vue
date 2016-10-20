@@ -39,38 +39,38 @@
 
 <script>
     export default {
-        props : ['pile', 'index'],
+        props: ['pile', 'index'],
         data() {
             return {
-                form : {
+                form: {
                     name: this.pile.name
                 },
-                editing : this.pile.editing
+                editing: this.pile.editing
             }
         },
-        methods : {
-            cancel : function() {
-                if(!this.pile.id) {
-                    pileStore.state.piles.splice(this.index, 1);
+        methods: {
+            cancel() {
+                if (!this.pile.id) {
+                    this.$store.state.pilesStore.piles.splice(this.index, 1);
                 }
 
                 this.editing = false;
             },
-            edit : function() {
+            edit() {
                 this.editing = true;
             },
-            deletePile :function() {
-                pileStore.dispatch('deletePile', this.pile.id);
+            deletePile() {
+                this.$store.dispatch('deletePile', this.pile.id);
             },
-            savePile : function() {
-                if(this.pile.id) {
+            savePile() {
+                if (this.pile.id) {
 
                     this.form['pile'] = this.pile;
 
-                    pileStore.dispatch('updatePile', this.form);
+                    this.$store.dispatch('updatePile', this.form);
 
                 } else {
-                    pileStore.dispatch('createPile', this.form);
+                    this.$store.dispatch('createPile', this.form);
                 }
                 this.editing = false;
             }

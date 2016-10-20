@@ -39,7 +39,8 @@
                         <td>{{ firewall_rule.description }}</td>
                         <td>{{ firewall_rule.port }}</td>
                         <td>{{ firewall_rule.from_ip }}</td>
-                        <td><a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewall_rule.id)">remove</a></td>
+                        <td><a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewall_rule.id)">remove</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -54,16 +55,16 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                form : {
-                    port : null,
+                form: {
+                    port: null,
                     from_ip: null,
-                    description : null,
+                    description: null,
                 }
             }
         },
@@ -74,29 +75,29 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverFirewallStore.dispatch('getServerFirewallRules', this.$route.params.server_id)
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerFirewallRules', this.$route.params.server_id)
             },
             createFirewallRule() {
                 this.form['server'] = this.server.id;
-                serverFirewallStore.dispatch('createServerFirewallRule', this.form)
+                this.$store.dispatch('createServerFirewallRule', this.form)
             },
             deleteFirewallRule(firewall_rule_id) {
-                serverFirewallStore.dispatch('deleteServerFirewallRule', {
-                    server : this.server.id,
-                    firewall : firewall_rule_id
+                this.$store.dispatch('deleteServerFirewallRule', {
+                    server: this.server.id,
+                    firewall: firewall_rule_id
                 })
             }
         },
-        computed : {
-            server : () => {
-                return serverStore.state.server;
+        computed: {
+            server() {
+                return this.$store.state.serversStoreserver;
             },
-            firewall_rules : () => {
+            firewall_rules() {
                 return serverFirewallStore.state.server_firewall_rules;
             },
-            availableServers : () => {
+            availableServers() {
                 return [];
             }
         }

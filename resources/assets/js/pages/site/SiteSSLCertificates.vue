@@ -13,7 +13,8 @@
                     </form>
 
                     <p v-for="ssl_certificate in ssl_certificates">
-                        {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} : {{ ssl_certificate.key_path }}
+                        {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
+                        {{ ssl_certificate.key_path }}
                         <a href="#" v-if="ssl_certificate.active">Deactivate</a>
                         <a href="#" v-else>Activate</a>
                         <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
@@ -37,7 +38,7 @@
             LeftNav,
             Servers
         },
-        data () {
+        data() {
             return {
                 domains: null,
             }
@@ -49,26 +50,26 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                siteStore.dispatch('getSslCertificates', this.$route.params.site_id);
+            fetchData() {
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
-            installLetsEncryptCertificate: function () {
-                siteStore.dispatch('installLetsEncryptSslCertificate', {
+            installLetsEncryptCertificate() {
+                this.$store.dispatch('installLetsEncryptSslCertificate', {
                     site_id: this.site.id,
                     domains: this.domains
                 })
             },
             deleteSslCertivicate: function (ssl_certificate_id) {
-                siteStore.dispatch('deleteSslCertificate', ssl_certificate_id)
+                this.$store.dispatch('deleteSslCertificate', ssl_certificate_id)
             }
         },
         computed: {
-            site: () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            ssl_certificates: () => {
-                return siteStore.state.ssl_certificates;
+            ssl_certificates() {
+                return this.$store.state.sitesStore.ssl_certificates;
             }
         }
     }

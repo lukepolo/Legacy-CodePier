@@ -38,15 +38,15 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
         data() {
             return {
-                form : {
-                    cron : null,
-                    user : 'root',
+                form: {
+                    cron: null,
+                    user: 'root',
                     cron_timing: null
                 }
             }
@@ -55,7 +55,7 @@
             cronjob: {
                 bind: function (el) {
                     $(el).cron({
-                        onChange: function () {
+                        onChange() {
                             var cronTiming = $(this).cron("value");
                             $('#cron-preview').text(cronTiming);
                             $('input[name="cron_timing"]').val(cronTiming);
@@ -71,26 +71,26 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverCronJobStore.dispatch('getServerCronJobs', this.$route.params.server_id);
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
             createServerCronJob() {
                 this.form['server'] = this.server.id;
-                serverCronJobStore.dispatch('createServerCronJob', this.form);
+                this.$store.dispatch('createServerCronJob', this.form);
             },
             deleteCronJob(cron_job_id) {
-                serverCronJobStore.dispatch('deleteServerCronJob', {
+                this.$store.dispatch('deleteServerCronJob', {
                     server: this.server.id,
-                    cron_job : cron_job_id
+                    cron_job: cron_job_id
                 });
             }
         },
-        computed : {
-            server : () => {
-                return serverStore.state.server;
+        computed: {
+            server() {
+                return this.$store.state.serversStoreserver;
             },
-            cron_jobs : () => {
+            cron_jobs() {
                 return serverCronJobStore.state.server_cron_jobs;
             }
         }

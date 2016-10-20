@@ -6,7 +6,8 @@
             <div class="section-content">
                 <div class="container">
                     <h1>Welcome. Let's Get Started.</h1>
-                    <p class="info">Piles are groupings for your servers. We've built defaults for you, but you can edit them to fit your needs.</p>
+                    <p class="info">Piles are groupings for your servers. We've built defaults for you, but you can edit
+                        them to fit your needs.</p>
                     <div class="group-container">
                         <pile :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
                         <div class="group">
@@ -36,16 +37,16 @@
             Pile,
             LeftNav
         },
-        computed : {
-            piles: () => {
-                return pileStore.state.piles;
+        computed: {
+            piles() {
+                return this.$store.state.pilesStore.piles;
             }
         },
-        methods : {
-            newPile : function() {
-                pileStore.state.piles.push({
-                    name : 'New Pile',
-                    editing : true
+        methods: {
+            newPile() {
+                this.$store.state.pilesStore.piles.push({
+                    name: 'New Pile',
+                    editing: true
                 });
             }
         }

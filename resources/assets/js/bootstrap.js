@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -7,7 +6,7 @@ window._ = require('lodash');
  * simple, leaving you to focus only on building your next great idea.
  */
 
-window.Vue = require('vue/dist/vue');
+window.Vue = require('vue');
 window.VueRouter = require('vue-router');
 require('vue-resource');
 
@@ -35,12 +34,11 @@ $.ajaxSetup({
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
-*/
+ */
 
 import Echo from "laravel-echo";
-import Config from "./.config";
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: Config.PUSHER_KEY
+    key: Laravel.pusherKey
 });

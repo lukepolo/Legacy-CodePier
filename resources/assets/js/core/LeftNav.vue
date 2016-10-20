@@ -3,7 +3,8 @@
         <h3 class="section-header">Sites</h3>
         <div class="server selected" v-for="site in sites">
             <router-link :to="{ path: '/site/'+site.id }">
-                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top" data-container="body" title="Site Health"></span> {{ site.name }}
+                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top"
+                      data-container="body" title="Site Health"></span> {{ site.name }}
             </router-link>
         </div>
 
@@ -32,27 +33,27 @@
 <script>
     export default {
         created() {
-            siteStore.dispatch('getSites');
+            this.$store.dispatch('getSites');
         },
         data() {
             return {
 
-                adding_site : false,
-                form : {
+                adding_site: false,
+                form: {
                     domain: null,
-                    domainless : false,
+                    domainless: false,
                 }
             }
         },
         methods: {
-            saveSite: function () {
-                siteStore.dispatch('createSite', this.form);
+            saveSite() {
+                this.$store.dispatch('createSite', this.form);
                 this.adding_site = false;
             }
         },
         computed: {
-            sites () {
-                return siteStore.state.sites;
+            sites() {
+                return this.$store.state.sitesStore.sites;
             }
         }
     }

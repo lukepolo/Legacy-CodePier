@@ -3,5 +3,5 @@ export function action(action, parameters) {
 }
 
 export function route(route, parameters) {
-    return laroute.route(route, { planet : 'world' });
+    return laroute.route(route, {planet: 'world'});
 }
