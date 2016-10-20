@@ -82,10 +82,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             sites() {
-                return this.$store.state.serversStoreserver_sites;
+                return this.$store.state.serversStore.server_sites;
             }
         }
     }
