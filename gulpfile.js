@@ -5,7 +5,7 @@ require('dotenv').config({
 var env = process.env;
 var elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue');
+require('laravel-elixir-vue-2');
 
 var bower_path = './resources/assets/bower/';
 

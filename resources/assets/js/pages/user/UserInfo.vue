@@ -1,6 +1,6 @@
 <style>
     input {
-        color :black;
+        color: black;
     }
 </style>
 <template>
@@ -37,33 +37,31 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
         data() {
             return {
-                form : {
-                    name : user.name,
-                    email : user.email,
-                    new_password : null,
-                    confirm_password : null
+                form: {
+                    name: user.name,
+                    email: user.email,
+                    new_password: null,
+                    confirm_password: null
                 }
             }
         },
-        computed : {
-            user : () => {
-                return userStore.state.user;
+        computed: {
+            user() {
+                return this.$store.state.userStore.user;
             }
         },
-        methods : {
-            onSubmit: function() {
-                Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.form, {
-                }).then((response) => {
-                    userStore.state.user = response.data;
-                }, (errors) => {
-                    alert(error);
-                });
+        methods: {
+            onSubmit() {
+
+                this.form.user_id = this.user.id;
+
+                this.$store.dispatch('updateUser', this.form)
             }
         }
     }

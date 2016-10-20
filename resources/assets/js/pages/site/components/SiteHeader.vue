@@ -24,11 +24,11 @@
 
 <script>
     export default {
-        computed : {
-            site : () => {
-                return siteStore.state.site;
+        computed: {
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            site_servers : () => {
+            site_servers() {
                 return [];
             }
         }

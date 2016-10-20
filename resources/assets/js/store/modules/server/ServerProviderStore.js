@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverProviderStore = new Vuex.Store({
+export default {
     state: {
         user_server_providers: [],
         server_provider_options: [],
@@ -10,8 +6,8 @@ const serverProviderStore = new Vuex.Store({
         server_provider_features: []
     },
     actions: {
-        getUserServerProviders: ({commit}) => {
-            Vue.http.get(action('User\Providers\UserServerProviderController@index', {user: userStore.state.user.id})).then((response) => {
+        getUserServerProviders: ({commit, rootState}) => {
+            Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: rootState.userStore.user.id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
             }, (errors) => {
                 alert(error);
@@ -53,6 +49,4 @@ const serverProviderStore = new Vuex.Store({
             state.server_provider_features = server_provider_features;
         }
     }
-});
-
-export default serverProviderStore
+}

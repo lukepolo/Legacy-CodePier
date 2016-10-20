@@ -15,7 +15,7 @@
     import PassportPersonalAccessTokens from './components/passport/PersonalAccessTokens.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav,
             PassportClients,

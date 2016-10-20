@@ -42,7 +42,9 @@
                             <select v-model="form.framework" name="framework">
                                 <option></option>
                                 <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
+                                    <option v-for="(features, framework) in availableFrameworks[language]"
+                                            :value="language+'.'+framework"> {{ framework }}
+                                    </option>
                                 </optgroup>
                             </select>
                         </div>
@@ -96,17 +98,17 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                userStore.dispatch('getUserRepositoryProviders');
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getServerAvailableFrameworks');
-                serverStore.dispatch('getServerAvailableLanguages');
+            fetchData() {
+                this.$store.dispatch('getUserRepositoryProviders');
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getServerAvailableLanguages');
             },
             deploySite: function (site_id) {
                 Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
             },
-            updateSite: function () {
-                siteStore.dispatch('updateSite', {
+            updateSite() {
+                this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
                     data: {
                         branch: this.form.branch,
@@ -122,12 +124,12 @@
                 });
             },
             deleteSite: function (site_id) {
-                siteStore.dispatch('deleteSite', site_id);
+                this.$store.dispatch('deleteSite', site_id);
             }
         },
         computed: {
-            site: function () {
-                var site = siteStore.state.site;
+            site() {
+                var site = this.$store.state.sitesStore.site;
 
                 if (site) {
                     this.form.branch = site.branch;
@@ -140,16 +142,16 @@
 
                 return site;
             },
-            user_repository_providers: () => {
-                return userStore.state.repository_providers;
+            user_repository_providers() {
+                return this.$store.state.userStore.repository_providers;
             },
-            availableLanguages : () => {
-                return serverStore.state.available_server_languages;
+            availableLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+            availableFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            site_servers : () => {
+            site_servers() {
                 return [];
             }
         },
