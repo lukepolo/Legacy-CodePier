@@ -1,6 +1,6 @@
 export default {
     state: {
-        user_ssh_keys : []
+        user_ssh_keys: []
     },
     actions: {
         getUserSshKeys: ({commit}) => {
@@ -10,10 +10,10 @@ export default {
                 alert(error);
             });
         },
-        createUserSshKey : ({commit, dispatch}, data) => {
+        createUserSshKey: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\UserSshKeyController@store'), {
-                name : data.name,
-                ssh_key : data.ssh_key
+                name: data.name,
+                ssh_key: data.ssh_key
             }).then((response) => {
                 dispatch('getUserSshKeys');
             }, (errors) => {
@@ -21,7 +21,7 @@ export default {
             });
         },
         deleteUserSshKey: ({commit, dispatch}, ssh_key_id) => {
-            Vue.http.delete(Vue.action('User\UserSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
+            Vue.http.delete(Vue.action('User\UserSshKeyController@destroy', {ssh_key: ssh_key_id})).then((response) => {
                 dispatch('getUserSshKeys');
             }, (errors) => {
                 alert(error);

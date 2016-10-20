@@ -69,7 +69,8 @@
 
                                 <feature-area :site="site" :area="serverFeatureArea" :features="features"
                                               v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                                <feature-area :site="site" :area="serverLanguageArea" :features="features" :frameworks="true"
+                                <feature-area :site="site" :area="serverLanguageArea" :features="features"
+                                              :frameworks="true"
                                               v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
 
                                 <div class="btn-footer">
@@ -149,7 +150,7 @@
             availableServerFrameworks: () => {
                 return this.$store.state.serversStoreavailable_server_frameworks;
             },
-            site : () => {
+            site: () => {
                 return siteStore.state.site;
             },
             pile: function () {

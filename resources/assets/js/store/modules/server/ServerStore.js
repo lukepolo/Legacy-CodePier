@@ -3,8 +3,8 @@ export default {
         servers: [],
         server: null,
         server_sites: null,
-        editable_server_files : [],
-        editable_framework_files : [],
+        editable_server_files: [],
+        editable_framework_files: [],
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: []
@@ -28,7 +28,7 @@ export default {
         createServer: ({commit}, form) => {
 
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
-               alert('probably should notify them or something ?')
+                alert('probably should notify them or something ?')
             }, (errors) => {
                 alert(error);
             });
@@ -69,14 +69,14 @@ export default {
             });
         },
         getEditableServerFiles: ({commit}, server) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableServerFiles', {server : server})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableServerFiles', {server: server})).then((response) => {
                 commit('SET_EDITABLE_SERVER_FILES', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         getEditableFrameworkFiles: ({commit}, site) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFrameworkFiles', {site : site})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFrameworkFiles', {site: site})).then((response) => {
                 commit('SET_EDITABLE_FRAMEWORK_FILES', response.data);
             }, (errors) => {
                 alert(error);
@@ -93,7 +93,7 @@ export default {
                 alert(error);
             });
         },
-        saveServerFile :({commit}, data) => {
+        saveServerFile: ({commit}, data) => {
             Vue.http.post(laroute.Vue.action('Server\ServerController@saveFile', {
                 server: data.server
             }), {
@@ -125,10 +125,10 @@ export default {
         SET_AVAILABLE_SERVER_FRAMEWORKS: (state, available_server_frameworks) => {
             state.available_server_frameworks = available_server_frameworks;
         },
-        SET_EDITABLE_SERVER_FILES : (state, files) => {
+        SET_EDITABLE_SERVER_FILES: (state, files) => {
             state.editable_server_files = files;
         },
-        SET_EDITABLE_FRAMEWORK_FILES : (state, files) => {
+        SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
             state.editable_framework_files = files;
         }
     }

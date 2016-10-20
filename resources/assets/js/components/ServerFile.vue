@@ -34,9 +34,9 @@
         methods: {
             saveFile() {
                 this.$store.dispatch('saveServerFile', {
-                    file : this.file,
-                    server : this.server,
-                    content : this.getContent(),
+                    file: this.file,
+                    server: this.server,
+                    content: this.getContent(),
                 });
             },
             getContent() {

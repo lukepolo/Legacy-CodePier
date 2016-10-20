@@ -15,7 +15,7 @@ export default {
             });
         },
         getUserPiles: ({commit}) => {
-            Vue.http.get(Vue.action('Pile\PileController@index', { all : true })).then((response) => {
+            Vue.http.get(Vue.action('Pile\PileController@index', {all: true})).then((response) => {
                 commit('SET_USER_PILES', response.data);
             }, (errors) => {
                 alert('handle some error')
@@ -34,7 +34,7 @@ export default {
             commit('SET_CURRENT_PILE_ID', pile_id);
             dispatch('setCurrentPile');
         },
-        createPile : ({dispatch}, data) => {
+        createPile: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
@@ -42,14 +42,14 @@ export default {
             })
         },
         updatePile: ({dispatch}, data) => {
-            Vue.http.put(Vue.action('Pile\PileController@update', { pile : data.pile.id }), data).then((response) => {
+            Vue.http.put(Vue.action('Pile\PileController@update', {pile: data.pile.id}), data).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
                 alert(error);
             })
         },
         deletePile: ({dispatch}, pile) => {
-            Vue.http.delete(Vue.action('Pile\PileController@destroy', { pile : pile })).then((response) => {
+            Vue.http.delete(Vue.action('Pile\PileController@destroy', {pile: pile})).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
                 alert(error);

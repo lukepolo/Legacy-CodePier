@@ -68,9 +68,9 @@
         },
         data() {
             return {
-                form : {
-                    site_id : null,
-                    command : null,
+                form: {
+                    site_id: null,
+                    command: null,
                     auto_start: null,
                     auto_restart: null,
                     number_of_workers: null,
@@ -83,25 +83,25 @@
         watch: {
             '$route': 'fetchData'
         },
-        methods : {
-            fetchData () {
+        methods: {
+            fetchData() {
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
             installWorker: function () {
                 this.$store.dispatch('installWorker', this.form);
             },
-            deleteWorker : function(worker_id) {
+            deleteWorker: function (worker_id) {
                 this.$store.dispatch('deleteWorker', {
-                    worker : worker_id,
-                    site : this.site.id,
+                    worker: worker_id,
+                    site: this.site.id,
                 });
             }
         },
         computed: {
             site() {
                 var site = siteStore.state.site;
-                if(site) {
+                if (site) {
                     this.form.site_id = site.id;
                     this.form.command = site.path;
                     this.form.selected_servers = _.map(site.servers, 'id');

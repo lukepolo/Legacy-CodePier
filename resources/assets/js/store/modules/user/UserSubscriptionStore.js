@@ -1,9 +1,9 @@
 export default {
     state: {
-        user_invoices : [],
-        user_subscription : null,
-        valid_subscription : false,
-        user_upcoming_subscription : null
+        user_invoices: [],
+        user_subscription: null,
+        valid_subscription: false,
+        user_upcoming_subscription: null
     },
     actions: {
         getUserSubscription: ({commit}) => {
@@ -13,28 +13,28 @@ export default {
                 alert(error);
             })
         },
-        getUpcomingSubscription : ({commit}) => {
+        getUpcomingSubscription: ({commit}) => {
             Vue.http.get(Vue.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
                 commit('SET_USER_UPCOMING_SUBSCRIPTION', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
-        createUserSubscription : ({commit, dispatch}, data) => {
+        createUserSubscription: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
                 dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
         },
-        cancelSubscription : ({commit, dispatch}, subscription_id) => {
+        cancelSubscription: ({commit, dispatch}, subscription_id) => {
             Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', {subscription: subscription_id})).then((response) => {
                 dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
         },
-        getUserInvoices : ({commit}) => {
+        getUserInvoices: ({commit}) => {
             Vue.http.get(Vue.action('User\Subscription\UserSubscriptionInvoiceController@index')).then((response) => {
                 commit('SET_USER_INVOICES', response.data);
             }, (errors) => {
@@ -56,10 +56,10 @@ export default {
 
             state.user_subscription = subscription;
         },
-        SET_USER_UPCOMING_SUBSCRIPTION : (state, upcoming_subscription) => {
+        SET_USER_UPCOMING_SUBSCRIPTION: (state, upcoming_subscription) => {
             state.user_upcoming_subscription = upcoming_subscription;
         },
-        SET_USER_INVOICES : (state, invoices) => {
+        SET_USER_INVOICES: (state, invoices) => {
             state.user_invoices = invoices;
         }
     }

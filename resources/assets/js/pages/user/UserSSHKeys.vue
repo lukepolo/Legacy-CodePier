@@ -23,10 +23,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="key in user_ssh_keys">
-                        <td>{{ key.name }}</td>
-                        <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
-                    </tr>
+                <tr v-for="key in user_ssh_keys">
+                    <td>{{ key.name }}</td>
+                    <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
+                </tr>
                 </tbody>
             </table>
         </section>
@@ -37,23 +37,23 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
         data() {
             return {
-                form : {
-                    name : null,
-                    ssh_key : null
+                form: {
+                    name: null,
+                    ssh_key: null
                 }
             }
         },
-        created () {
+        created() {
             this.fetchData();
         },
-        methods : {
-            fetchData () {
+        methods: {
+            fetchData() {
                 this.$store.dispatch('getUserSshKeys');
             },
             createSshkey() {
@@ -61,13 +61,13 @@
                     this.form = this.$options.data().form;
                 });
             },
-            deleteSshKey : function(sshKeyId) {
+            deleteSshKey: function (sshKeyId) {
                 this.$store.dispatch('deleteUserSshKey', sshKeyId);
             }
         },
-        computed : {
-            user_ssh_keys () {
-                return userSshKeyStore.state.user_ssh_keys;
+        computed: {
+            user_ssh_keys() {
+                return this.$store.state.userSshKeysStore.user_ssh_keys;
             }
         },
     }

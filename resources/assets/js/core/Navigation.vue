@@ -93,7 +93,7 @@
                 return this.$store.state.pilesStore.piles;
             },
             current_pile_id() {
-                return  this.$store.state.pilesStore.current_pile_id;
+                return this.$store.state.pilesStore.current_pile_id;
             },
             currentTeam() {
 
@@ -110,8 +110,8 @@
             }
         },
         methods: {
-            logout () {
-                Vue.http.post(this.action('Auth\LoginController@logout')).then(function() {
+            logout() {
+                Vue.http.post(this.action('Auth\LoginController@logout')).then(function () {
                     window.location = '/';
                 });
             },
@@ -121,7 +121,7 @@
             changePile: function (pile_id) {
                 this.$store.dispatch('setCurrentPileID', pile_id);
 
-                if(this.$route.path == '/') {
+                if (this.$route.path == '/') {
                     serverStore.this.$store('getServers');
                     siteStore.this.$store('getSites');
                 } else {

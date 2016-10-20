@@ -74,7 +74,7 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
@@ -82,12 +82,12 @@
             return {
                 plans: [],
                 showCardForm: user.card_brand ? false : true,
-                form : {
-                    cvc : null,
-                    plan : null,
-                    number : null,
+                form: {
+                    cvc: null,
+                    plan: null,
+                    number: null,
                     exp_year: null,
-                    exp_month : null
+                    exp_month: null
                 }
             }
         },
@@ -95,30 +95,30 @@
             this.fetchData();
         },
         computed: {
-            user: () => {
-                return this.$store.state.this.$store.state.userStoreuser;
+            user() {
+                return this.$store.state.userStore.user;
             },
-            plans : () => {
-                return subscriptionStore.state.plans;
+            plans() {
+                return this.$store.state.userSubscriptionsStore.plans;
             },
-            invoices : () => {
-                return userSubscriptionStore.state.user_invoices;
+            invoices() {
+                return this.$store.state.userSubscriptionsStore.user_invoices;
             },
-            user_subscription : () => {
-                return userSubscriptionStore.state.user_subscription;
+            user_subscription() {
+                return this.$store.state.userSubscriptionsStore.user_subscription;
             },
             validSubscription: function () {
-                return userSubscriptionStore.state.valid_subscription;
+                return this.$store.state.userSubscriptionsStore.valid_subscription;
             },
-            upcomingSubscription () {
-                return userSubscriptionStore.state.user_upcoming_subscription;
+            upcomingSubscription() {
+                return this.$store.state.userSubscriptionsStore.user_upcoming_subscription;
             },
             isCanceled: function () {
                 return this.user_subscription.ends_at != null;
             }
         },
         methods: {
-            fetchData () {
+            fetchData() {
                 this.$store.dispatch('getPlans');
                 this.$store.dispatch('getUserInvoices');
                 this.$store.dispatch('getUserSubscription');
@@ -134,11 +134,11 @@
                     this.form = this.$options.data().form;
                 });
             },
-            cancelSubscription () {
+            cancelSubscription() {
                 this.$store.dispatch('cancelSubscription', this.user_subscription.id);
             },
-            downloadLink : function(invoice_id) {
-                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice : invoice_id});
+            downloadLink: function (invoice_id) {
+                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice: invoice_id});
             }
         }
     }

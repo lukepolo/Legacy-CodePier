@@ -11,14 +11,14 @@
     import ServerSelector from './ServerSelector.vue';
     export default {
         props: ['site', 'servers', 'file'],
-        components : {
+        components: {
             ServerSelector
         },
         data() {
             return {
                 content: null,
                 file_model: null,
-                selected_servers : _.map(this.site.servers, 'id'),
+                selected_servers: _.map(this.site.servers, 'id'),
             }
         },
         watch: {
@@ -41,21 +41,21 @@
         },
         methods: {
             saveFile() {
-                if(this.file_model) {
+                if (this.file_model) {
                     this.$store.dispatch('updateSiteFile', {
                         file: this.file,
                         site: this.site.id,
-                        content : this.getContent(),
-                        file_id : this.file_model.id,
-                        servers : this.selected_servers,
+                        content: this.getContent(),
+                        file_id: this.file_model.id,
+                        servers: this.selected_servers,
 
                     });
                 } else {
                     this.$store.dispatch('saveSiteFile', {
                         file: this.file,
                         site: this.site.id,
-                        content : this.getContent(),
-                        servers : this.selected_servers,
+                        content: this.getContent(),
+                        servers: this.selected_servers,
                     });
                 }
 

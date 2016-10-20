@@ -56,12 +56,12 @@
         },
         data() {
             return {
-                form : {
-                    user : 'root',
-                    command : null,
-                    auto_start : true,
-                    auto_restart : true,
-                    number_of_workers : 1
+                form: {
+                    user: 'root',
+                    command: null,
+                    auto_start: true,
+                    auto_restart: true,
+                    number_of_workers: 1
                 }
             }
         },
@@ -83,8 +83,8 @@
             },
             deleteServerWorker(worker_id) {
                 this.$store.dispatch('deleteServerWorker', {
-                    worker : worker_id,
-                    server : this.server.id
+                    worker: worker_id,
+                    server: this.server.id
                 });
             }
         },
@@ -92,7 +92,7 @@
             server: () => {
                 return this.$store.state.serversStoreserver;
             },
-            workers : () => {
+            workers: () => {
                 return serverWorkerStore.state.server_workers;
             }
         }

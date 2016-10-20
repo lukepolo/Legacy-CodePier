@@ -1,6 +1,6 @@
 <style>
     input {
-        color :black;
+        color: black;
     }
 </style>
 <template>
@@ -37,26 +37,26 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
         data() {
             return {
-                form : {
-                    name : user.name,
-                    email : user.email,
-                    new_password : null,
-                    confirm_password : null
+                form: {
+                    name: user.name,
+                    email: user.email,
+                    new_password: null,
+                    confirm_password: null
                 }
             }
         },
-        computed : {
+        computed: {
             user() {
                 return this.$store.state.userStore.user;
             }
         },
-        methods : {
+        methods: {
             onSubmit() {
 
                 this.form.user_id = this.user.id;

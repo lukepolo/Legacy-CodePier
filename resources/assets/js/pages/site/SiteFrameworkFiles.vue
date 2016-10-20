@@ -43,10 +43,10 @@
             }
         },
         computed: {
-            site : () => {
+            site: () => {
                 return siteStore.state.site;
             },
-            files () {
+            files() {
                 return this.$store.state.serversStoreeditable_framework_files;
             }
         },
