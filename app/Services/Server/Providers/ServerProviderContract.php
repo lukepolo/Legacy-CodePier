@@ -3,6 +3,7 @@
 namespace app\Services\Server\Providers;
 
 use App\Models\Server;
+use App\Models\UserServerProvider;
 
 /**
  * Interface ServerProviderContract.
@@ -78,7 +79,9 @@ interface ServerProviderContract
     /**
      * Refreshes the token.
      *
+     * @param UserServerProvider $userServerProvider
      * @return mixed
+     * @throws \Exception
      */
-    public function refreshToken();
+    public function refreshToken(UserServerProvider $userServerProvider);
 }
