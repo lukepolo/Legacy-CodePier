@@ -3,8 +3,10 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
             <server-nav :server="server"></server-nav>
-            <feature-area :server="server" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-            <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+            <feature-area :server="server" :area="serverFeatureArea" :features="features"
+                          v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+            <feature-area :server="server" :area="serverLanguageArea" :features="features" :frameworks="true"
+                          v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
         </section>
     </section>
 </template>
@@ -29,25 +31,25 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
             }
         },
         computed: {
-            availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+            availableServerFeatures() {
+                return this.$store.state.serversStore.available_server_features;
             },
-            availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+            availableServerLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+            availableServerFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            server : () => {
-                return serverStore.state.server;
+            server() {
+                return this.$store.state.serversStoreserver;
             }
         }
     }

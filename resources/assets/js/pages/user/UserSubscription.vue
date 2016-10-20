@@ -74,7 +74,7 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
@@ -82,12 +82,12 @@
             return {
                 plans: [],
                 showCardForm: user.card_brand ? false : true,
-                form : {
-                    cvc : null,
-                    plan : null,
-                    number : null,
+                form: {
+                    cvc: null,
+                    plan: null,
+                    number: null,
                     exp_year: null,
-                    exp_month : null
+                    exp_month: null
                 }
             }
         },
@@ -95,33 +95,33 @@
             this.fetchData();
         },
         computed: {
-            user: () => {
-                return userStore.state.user;
+            user() {
+                return this.$store.state.userStore.user;
             },
-            plans : () => {
-                return subscriptionStore.state.plans;
+            plans() {
+                return this.$store.state.userSubscriptionsStore.plans;
             },
-            invoices : () => {
-                return userSubscriptionStore.state.user_invoices;
+            invoices() {
+                return this.$store.state.userSubscriptionsStore.user_invoices;
             },
-            user_subscription : () => {
-                return userSubscriptionStore.state.user_subscription;
+            user_subscription() {
+                return this.$store.state.userSubscriptionsStore.user_subscription;
             },
-            validSubscription: function () {
-                return userSubscriptionStore.state.valid_subscription;
+            validSubscription() {
+                return this.$store.state.userSubscriptionsStore.valid_subscription;
             },
-            upcomingSubscription : function() {
-                return userSubscriptionStore.state.user_upcoming_subscription;
+            upcomingSubscription() {
+                return this.$store.state.userSubscriptionsStore.user_upcoming_subscription;
             },
-            isCanceled: function () {
+            isCanceled() {
                 return this.user_subscription.ends_at != null;
             }
         },
         methods: {
-            fetchData : function() {
-                subscriptionStore.dispatch('getPlans');
-                userSubscriptionStore.dispatch('getUserInvoices');
-                userSubscriptionStore.dispatch('getUserSubscription');
+            fetchData() {
+                this.$store.dispatch('getPlans');
+                this.$store.dispatch('getUserInvoices');
+                this.$store.dispatch('getUserSubscription');
             },
             subscribedToPlan: function (plan) {
                 if (this.validSubscription && this.user_subscription.stripe_plan == plan) {
@@ -129,16 +129,16 @@
                 }
                 return false;
             },
-            createSubscription: function () {
-                userSubscriptionStore.dispatch('createUserSubscription', this.form).then(() => {
+            createSubscription() {
+                this.$store.dispatch('createUserSubscription', this.form).then(() => {
                     this.form = this.$options.data().form;
                 });
             },
-            cancelSubscription : function() {
-                userSubscriptionStore.dispatch('cancelSubscription', this.user_subscription.id);
+            cancelSubscription() {
+                this.$store.dispatch('cancelSubscription', this.user_subscription.id);
             },
-            downloadLink : function(invoice_id) {
-                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice : invoice_id});
+            downloadLink: function (invoice_id) {
+                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice: invoice_id});
             }
         }
     }

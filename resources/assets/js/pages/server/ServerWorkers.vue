@@ -56,12 +56,12 @@
         },
         data() {
             return {
-                form : {
-                    user : 'root',
-                    command : null,
-                    auto_start : true,
-                    auto_restart : true,
-                    number_of_workers : 1
+                form: {
+                    user: 'root',
+                    command: null,
+                    auto_start: true,
+                    auto_restart: true,
+                    number_of_workers: 1
                 }
             }
         },
@@ -72,27 +72,27 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverWorkerStore.dispatch('getServerWorkers', this.$route.params.server_id);
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerWorkers', this.$route.params.server_id);
 
             },
             createServerWorker() {
                 this.form['server'] = this.server.id;
-                serverWorkerStore.dispatch('createServerWorker', this.form);
+                this.$store.dispatch('createServerWorker', this.form);
             },
             deleteServerWorker(worker_id) {
-                serverWorkerStore.dispatch('deleteServerWorker', {
-                    worker : worker_id,
-                    server : this.server.id
+                this.$store.dispatch('deleteServerWorker', {
+                    worker: worker_id,
+                    server: this.server.id
                 });
             }
         },
         computed: {
-            server: () => {
-                return serverStore.state.server;
+            server() {
+                return this.$store.state.serversStoreserver;
             },
-            workers : () => {
+            workers() {
                 return serverWorkerStore.state.server_workers;
             }
         }

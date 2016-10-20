@@ -12,14 +12,12 @@
     import ServerNav from './components/ServerNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav,
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         created() {
             this.fetchData();
@@ -28,13 +26,13 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
             }
         },
-        computed : {
-            server : () => {
-                return serverStore.state.server;
+        computed: {
+            server() {
+                return this.$store.state.serversStoreserver;
             }
         }
     }

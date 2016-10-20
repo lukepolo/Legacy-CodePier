@@ -89,40 +89,41 @@
 <script>
     export default {
         computed: {
-            piles: () => {
-                return pileStore.state.piles;
+            piles() {
+                return this.$store.state.pilesStore.piles;
             },
-            current_pile_id: function () {
-                return pileStore.state.current_pile_id;
+            current_pile_id() {
+                return this.$store.state.pilesStore.current_pile_id;
             },
-            currentTeam: function () {
-                return userTeamStore.state.currentTeam;
+            currentTeam() {
+
+                return this.$store.state.teamsStore.currentTeam;
             },
-            currentPile: function () {
-                return pileStore.state.currentPile;
+            currentPile() {
+                return this.$store.state.pilesStore.currentPile;
             },
-            user: () => {
-                return userStore.state.user;
+            user() {
+                return this.$store.state.userStore.user;
             },
-            teams : () => {
-                return userTeamStore.state.teams;
+            teams() {
+                return this.$store.state.teamsStore.teams;
             }
         },
         methods: {
-            logout : function() {
-                Vue.http.post(this.action('Auth\LoginController@logout')).then(function() {
+            logout() {
+                Vue.http.post(this.action('Auth\LoginController@logout')).then(function () {
                     window.location = '/';
                 });
             },
             changeTeam: function (teamID) {
-                userTeamStore.dispatch('changeTeams', teamID);
+                this.$store.dispatch('changeTeams', teamID);
             },
             changePile: function (pile_id) {
-                pileStore.dispatch('setCurrentPileID', pile_id);
+                this.$store.dispatch('setCurrentPileID', pile_id);
 
-                if(this.$route.path == '/') {
-                    serverStore.dispatch('getServers');
-                    siteStore.dispatch('getSites');
+                if (this.$route.path == '/') {
+                    this.$store.dispatch('getServers');
+                    this.$store.dispatch('getSites');
                 } else {
                     this.$router.push('/');
 
@@ -130,9 +131,9 @@
             }
         },
         created() {
-            pileStore.dispatch('getPiles');
-            userTeamStore.dispatch('getTeams');
-            userTeamStore.dispatch('getUserTeam');
+            this.$store.dispatch('getPiles');
+            this.$store.dispatch('getTeams');
+            this.$store.dispatch('getUserTeam');
         }
     }
 </script>

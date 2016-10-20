@@ -5,7 +5,7 @@
                 <a class="btn btn-primary">Repository</a>
             </router-link>
             <template v-if="site.framework">
-                <router-link :to="{ path : '/site/' + site.id + '/framework-files'}" tag="li" >
+                <router-link :to="{ path : '/site/' + site.id + '/framework-files'}" tag="li">
                     <a class="btn btn-primary">Framework Files</a>
                 </router-link>
             </template>
@@ -28,11 +28,11 @@
 
 <script>
     export default {
-        computed : {
-            site : () => {
-                return siteStore.state.site;
+        computed: {
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            site_servers : () => {
+            site_servers() {
                 return [];
             }
         }

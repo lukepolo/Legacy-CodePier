@@ -7,10 +7,13 @@
                 <div class="container">
                     <site-nav></site-nav>
 
-                    <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data" >
+                    <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
                         <section>
-                            <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features" v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                            <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features" :frameworks="true" v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+                            <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
+                                          v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+                            <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
+                                          :frameworks="true"
+                                          v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
                         </section>
                         <button type="submit">Update Site Server Features</button>
                     </form>
@@ -45,31 +48,31 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+            fetchData() {
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
             },
-            saveSiteServerFeatures : function() {
-                siteStore.dispatch('updateSiteServerFeatures', {
-                    site : this.site.id,
-                    form : this.getFormData(this.$el)
+            saveSiteServerFeatures() {
+                this.$store.dispatch('updateSiteServerFeatures', {
+                    site: this.site.id,
+                    form: this.getFormData(this.$el)
                 });
             }
         },
         computed: {
-            site: () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+            availableServerFeatures() {
+                return this.$store.state.serversStore.available_server_features;
             },
-            availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+            availableServerLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+            availableServerFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             }
         }
     }
