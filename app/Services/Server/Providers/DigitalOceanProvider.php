@@ -5,9 +5,12 @@ namespace App\Services\Server\Providers;
 use App\Models\Server;
 use App\Models\ServerProviderOption;
 use App\Models\ServerProviderRegion;
+use App\Models\UserServerProvider;
 use App\Services\Server\ServerService;
+use Carbon\Carbon;
 use DigitalOcean;
 use DigitalOceanV2\Entity\Droplet;
+use Guzzle\Http\Client;
 use phpseclib\Crypt\RSA;
 
 /**
@@ -15,6 +18,8 @@ use phpseclib\Crypt\RSA;
  */
 class DigitalOceanProvider implements ServerProviderContract
 {
+    const OAUTH_TOKEN_URL = 'https://cloud.digitalocean.com/v1/oauth/token';
+
     use ServerProviderTrait;
 
     /**
@@ -195,14 +200,41 @@ class DigitalOceanProvider implements ServerProviderContract
             $server->server_provider_id
         )->first()
         ) {
+//            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+                return $this->refreshToken($serverProvider);
+//            }
+
             return $serverProvider->token;
         }
 
         throw new \Exception('No server provider found for this user');
     }
 
-    public function refreshToken()
+    /**
+     * Refreshes the token.
+     *
+     * @param UserServerProvider $userServerProvider
+     * @return mixed
+     * @throws \Exception
+     */
+    public function refreshToken(UserServerProvider $userServerProvider)
     {
-        dd('need to refresh token');
+        $client = new Client();
+
+        $response = $client->post(self::OAUTH_TOKEN_URL . '?grant_type=refresh_token&refresh_token=' . $userServerProvider->refresh_token)->send();
+
+
+        if ($response->getStatusCode() == 200) {
+
+            dd(json_decode($response->getBody()));
+            $userServerProvider->token = json_decode($response->getBody());
+            $userServerProvider->save();
+
+            return $userServerProvider->token;
+        }
+
+
+        dd($response->getStatusCode());
+        throw new \Exception('Invalid refresh token');
     }
 }

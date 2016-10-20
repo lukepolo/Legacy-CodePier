@@ -127,19 +127,19 @@
         },
         computed: {
             user_server_providers() {
-                var providers = serverProviderStore.state.user_server_providers;
+                var providers = this.$store.state.serverProvidersStore.user_server_providers;
                 if (providers.length == 1) {
                 }
                 return providers;
             },
             server_options() {
-                return serverProviderStore.state.server_provider_options;
+                return this.$store.state.serverProvidersStore.server_provider_options;
             },
             server_regions() {
-                return serverProviderStore.state.server_provider_regions;
+                return this.$store.state.serverProvidersStore.server_provider_regions;
             },
             server_provider_features() {
-                return serverProviderStore.state.server_provider_features;
+                return this.$store.state.serverProvidersStore.server_provider_features;
             },
             availableServerFeatures() {
                 return this.$store.state.serversStore.available_server_features;
