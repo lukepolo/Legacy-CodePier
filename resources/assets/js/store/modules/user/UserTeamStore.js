@@ -7,21 +7,21 @@ export default {
     },
     actions: {
         getTeams: ({commit}) => {
-            Vue.http.get(action('User\Team\UserTeamController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamController@index')).then((response) => {
                 commit('SET_TEAMS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         createTeam: ({commit}, data) => {
-            Vue.http.post(action('User\Team\UserTeamController@store'), data).then((response) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamController@store'), data).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
         updateTeam: ({commit}, data) => {
-            Vue.http.put(action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
+            Vue.http.put(Vue.action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
                 userTeamStore.dispatch('getTeams');
                 pileStore.dispatch('getPiles');
                 siteStore.dispatch('getSites');
@@ -30,7 +30,7 @@ export default {
             });
         },
         changeTeams: ({commit}, teamID) => {
-            Vue.http.post(action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
                 commit('SET_CURRENT_TEAM', response.data);
                 pileStore.dispatch('getPiles').then(function () {
                     serverStore.dispatch('getServers');
@@ -50,28 +50,28 @@ export default {
             });
         },
         getTeam: ({commit}, team_id) => {
-            Vue.http.get(action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         deleteTeam: ({commit}, team_id) => {
-            Vue.http.delete(action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
+            Vue.http.delete(Vue.action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
                 userTeamStore.dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
         getTeamMembers: ({commit}, team_id) => {
-            Vue.http.get(action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM_MEMBERS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         sendTeamInvite: ({commit}, data) => {
-            Vue.http.post(action('User\Team\UserTeamMemberController@invite'), {
+            Vue.http.post(Vue.action('User\Team\UserTeamMemberController@invite'), {
                 team_id: data.team_id,
                 email: data.email
             }).then((response) => {
@@ -81,14 +81,14 @@ export default {
             });
         },
         resendTeamInvite: ({commit}, invite_id) => {
-            Vue.http.post(action('User\Team\UserTeamMemberController@resendInvite', {invite_id: invite_id})).then((response) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamMemberController@resendInvite', {invite_id: invite_id})).then((response) => {
 
             }, (errors) => {
                 alert(error);
             });
         },
         deleteTeamMember: ({commit}, data) => {
-            Vue.http.delete(action('User\Team\UserTeamMemberController@destroy', {
+            Vue.http.delete(Vue.action('User\Team\UserTeamMemberController@destroy', {
                 member: data.member_id,
                 team: data.team_id
             })).then((response) => {

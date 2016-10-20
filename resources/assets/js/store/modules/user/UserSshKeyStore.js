@@ -4,14 +4,14 @@ export default {
     },
     actions: {
         getUserSshKeys: ({commit}) => {
-            Vue.http.get(action('User\UserSshKeyController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\UserSshKeyController@index')).then((response) => {
                 commit('SET_USER_SSH_KEYS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         createUserSshKey : ({commit}, data) => {
-            Vue.http.post(action('User\UserSshKeyController@store'), {
+            Vue.http.post(Vue.action('User\UserSshKeyController@store'), {
                 name : data.name,
                 ssh_key : data.ssh_key
             }).then((response) => {
@@ -21,7 +21,7 @@ export default {
             });
         },
         deleteUserSshKey: ({commit}, ssh_key_id) => {
-            Vue.http.delete(action('User\UserSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
+            Vue.http.delete(Vue.action('User\UserSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
                 userSshKeyStore.dispatch('getUserSshKeys');
             }, (errors) => {
                 alert(error);

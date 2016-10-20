@@ -7,35 +7,35 @@ export default {
     },
     actions: {
         getUserSubscription: ({commit}) => {
-            Vue.http.get(action('User\Subscription\UserSubscriptionController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
                 commit('SET_USER_SUBSCRIPTION', response.data);
             }, (errors) => {
                 alert(error);
             })
         },
         getUpcomingSubscription : ({commit}) => {
-            Vue.http.get(action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
                 commit('SET_USER_UPCOMING_SUBSCRIPTION', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
         createUserSubscription : ({commit}, data) => {
-            Vue.http.post(action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
+            Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
                 userSubscriptionStore.dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
         },
         cancelSubscription : ({commit}, subscription_id) => {
-            Vue.http.delete(action('User\Subscription\UserSubscriptionController@destroy', {subscription: subscription_id})).then((response) => {
+            Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', {subscription: subscription_id})).then((response) => {
                 userSubscriptionStore.dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
         },
         getUserInvoices : ({commit}) => {
-            Vue.http.get(action('User\Subscription\UserSubscriptionInvoiceController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\Subscription\UserSubscriptionInvoiceController@index')).then((response) => {
                 commit('SET_USER_INVOICES', response.data);
             }, (errors) => {
                 alert(error);

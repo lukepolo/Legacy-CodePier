@@ -131,37 +131,37 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/', component : Dashboard},
-        //
-        // {path: '/server/create', component : ServerForm},
-        // {path: '/server/:server_id/sites', component : ServerSites},
-        // {path: '/server/:server_id/files', component : ServerFiles},
-        // {path: '/server/:server_id/workers', component : ServerWorkers},
-        // {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
-        // {path: '/server/:server_id/features', component : ServerFeatures},
-        // {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},
-        // {path: '/server/:server_id/monitoring', component : ServerMonitoring},
-        // {path: '/server/:server_id/firewall-rules', component : ServerFirewallRules},
-        //
-        // {path: '/piles', component: Piles},
-        //
-        // {path: '/site/:site_id', component: SiteRepository},
-        // {path: '/site/:site_id/workers', component: SiteWorkers},
-        // {path: '/site/:site_id/framework-files', component: SiteFrameworkFiles},
-        // {path: '/site/:site_id/server-features', component: SiteServerFeatures},
-        // {path: '/site/:site_id/ssl-certificates', component: SiteSSLCertificates},
-        //
-        // {path: '/my-profile', component: UserInfo},
-        // {path: '/my-profile/ssh-keys', component: UserSshKeys},
-        // {path: '/my-profile/subscription', component: UserSubscription},
-        // {path: '/my-profile/server-providers', component: UserServerProviders},
-        // {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
-        // {path: '/my-profile/notification-providers', component: UserNotificationProviders},
-        // {path: '/my-profile/oauth', component: UserOauth},
-        //
-        // {path: '/my/teams', component: Teams},
-        // {path: '/my/team/:team_id/members', component: TeamMembers},
-        //
-        // {path: '*', redirect: '/'},
+
+        {path: '/server/create', component : ServerForm},
+        {path: '/server/:server_id/sites', component : ServerSites},
+        {path: '/server/:server_id/files', component : ServerFiles},
+        {path: '/server/:server_id/workers', component : ServerWorkers},
+        {path: '/server/:server_id/ssh-keys', component : ServerSshKeys},
+        {path: '/server/:server_id/features', component : ServerFeatures},
+        {path: '/server/:server_id/cron-jobs', component : ServerCronjobs},
+        {path: '/server/:server_id/monitoring', component : ServerMonitoring},
+        {path: '/server/:server_id/firewall-rules', component : ServerFirewallRules},
+
+        {path: '/piles', component: Piles},
+
+        {path: '/site/:site_id', component: SiteRepository},
+        {path: '/site/:site_id/workers', component: SiteWorkers},
+        {path: '/site/:site_id/framework-files', component: SiteFrameworkFiles},
+        {path: '/site/:site_id/server-features', component: SiteServerFeatures},
+        {path: '/site/:site_id/ssl-certificates', component: SiteSSLCertificates},
+
+        {path: '/my-profile', component: UserInfo},
+        {path: '/my-profile/ssh-keys', component: UserSshKeys},
+        {path: '/my-profile/subscription', component: UserSubscription},
+        {path: '/my-profile/server-providers', component: UserServerProviders},
+        {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
+        {path: '/my-profile/notification-providers', component: UserNotificationProviders},
+        {path: '/my-profile/oauth', component: UserOauth},
+
+        {path: '/my/teams', component: Teams},
+        {path: '/my/team/:team_id/members', component: TeamMembers},
+
+        {path: '*', redirect: '/'},
     ]
 });
 
@@ -169,5 +169,3 @@ const app = new Vue({
     store,
     router,
 }).$mount('#app-layout');
-
-window.vue = app;

@@ -90,6 +90,7 @@
     export default {
         computed: {
             piles: () => {
+
                 return pileStore.state.piles;
             },
             current_pile_id: function () {
@@ -130,9 +131,9 @@
             }
         },
         created() {
-            pileStore.dispatch('getPiles');
-            userTeamStore.dispatch('getTeams');
-            userTeamStore.dispatch('getUserTeam');
+            this.$store.dispatch('getPiles');
+            this.$store.dispatch('getTeams');
+            this.$store.dispatch('getUserTeam');
         }
     }
 </script>
