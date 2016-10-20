@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverStore = new Vuex.Store({
+export default {
     state: {
         servers: [],
         server: null,
@@ -136,6 +132,4 @@ const serverStore = new Vuex.Store({
             state.editable_framework_files = files;
         }
     }
-});
-
-export default serverStore
+}

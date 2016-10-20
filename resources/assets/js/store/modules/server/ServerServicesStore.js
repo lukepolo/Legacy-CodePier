@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverServicesStore = new Vuex.Store({
+export default {
     actions: {
         restartServer: ({}, server_id) => {
             Vue.http.post(action('Server\ServerController@restartServer', {server: server_id})).then((response) => {
@@ -33,6 +29,4 @@ const serverServicesStore = new Vuex.Store({
             });
         },
     }
-});
-
-export default serverServicesStore
+}

@@ -7,7 +7,7 @@ window._ = require('lodash');
  * simple, leaving you to focus only on building your next great idea.
  */
 
-window.Vue = require('vue/dist/vue');
+window.Vue = require('vue');
 window.VueRouter = require('vue-router');
 require('vue-resource');
 

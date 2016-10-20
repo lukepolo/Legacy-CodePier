@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverWorkerStore = new Vuex.Store({
+export default {
     state: {
         server_workers: [],
     },
@@ -37,6 +33,4 @@ const serverWorkerStore = new Vuex.Store({
             state.server_workers = server_workers;
         }
     }
-});
-
-export default serverWorkerStore
+}

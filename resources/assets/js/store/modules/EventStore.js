@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./helpers";
-
-const eventStore = new Vuex.Store({
+export default {
     state: {
         events: [],
         events_pagination : null
@@ -25,6 +21,4 @@ const eventStore = new Vuex.Store({
             state.events_pagination = events_pagination;
         }
     }
-});
-
-export default eventStore
+}

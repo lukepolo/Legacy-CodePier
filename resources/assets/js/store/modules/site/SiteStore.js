@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./helpers";
-
-const siteStore = new Vuex.Store({
+export default {
     state: {
         sites: [],
         site: null,
@@ -159,6 +155,4 @@ const siteStore = new Vuex.Store({
             state.site_servers = servers;
         }
     }
-});
-
-export default siteStore
+}

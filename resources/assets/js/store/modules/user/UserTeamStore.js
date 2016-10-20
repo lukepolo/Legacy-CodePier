@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from ".././helpers";
-
-const userTeamStore = new Vuex.Store({
+export default {
     state: {
         teams: [],
         team: null,
@@ -119,6 +115,4 @@ const userTeamStore = new Vuex.Store({
             state.team_members = team_members;
         }
     }
-});
-
-export default userTeamStore
+}
