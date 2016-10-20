@@ -74,7 +74,7 @@
         },
         computed : {
             server : () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             },
             ssh_keys : () => {
                 return serverSshKeyStore.state.server_ssh_keys;

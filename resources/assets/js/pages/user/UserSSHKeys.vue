@@ -53,10 +53,10 @@
             this.fetchData();
         },
         methods : {
-            fetchData : function() {
+            fetchData () {
                 this.$store.dispatch('getUserSshKeys');
             },
-            createSshkey: function() {
+            createSshkey() {
                 this.$store.dispatch('createUserSshKey', this.form).then(() => {
                     this.form = this.$options.data().form;
                 });
@@ -66,7 +66,7 @@
             }
         },
         computed : {
-            user_ssh_keys : function() {
+            user_ssh_keys () {
                 return userSshKeyStore.state.user_ssh_keys;
             }
         },

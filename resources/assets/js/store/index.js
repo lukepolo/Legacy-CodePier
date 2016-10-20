@@ -26,7 +26,7 @@ export default new Vuex.Store({
         pilesStore : PileStore,
         eventsStore : EventsStore,
 
-        serverStore : ServerStore.server,
+        serversStore : ServerStore.server,
         serverWorkersStore : ServerStore.workers,
         serverSshKeysStore : ServerStore.sshKeys,
         serverCronJobsStore : ServerStore.cronJobs,

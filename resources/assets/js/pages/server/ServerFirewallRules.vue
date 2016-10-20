@@ -91,7 +91,7 @@
         },
         computed : {
             server : () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             },
             firewall_rules : () => {
                 return serverFirewallStore.state.server_firewall_rules;

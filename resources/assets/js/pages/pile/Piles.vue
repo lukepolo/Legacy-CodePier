@@ -42,7 +42,7 @@
             }
         },
         methods : {
-            newPile : function() {
+            newPile () {
                 this.$store.state.pilesStore.state.piles.push({
                     name : 'New Pile',
                     editing : true

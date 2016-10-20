@@ -88,7 +88,7 @@
         },
         computed : {
             server : () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             },
             cron_jobs : () => {
                 return serverCronJobStore.state.server_cron_jobs;

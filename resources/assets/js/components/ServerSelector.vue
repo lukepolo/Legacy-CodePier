@@ -30,11 +30,11 @@
             }
         },
         watch : {
-            'selected_servers' : function() {
+            'selected_servers' () {
                 _.set(this.$parent, this.param, this.selected_servers);
             }
         },
-        mounted : function() {
+        mounted () {
             this.selected_servers = _.get(this.$parent, this.param);
         }
     }

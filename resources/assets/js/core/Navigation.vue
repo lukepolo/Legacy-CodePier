@@ -110,7 +110,7 @@
             }
         },
         methods: {
-            logout : function() {
+            logout () {
                 Vue.http.post(this.action('Auth\LoginController@logout')).then(function() {
                     window.location = '/';
                 });

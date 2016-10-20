@@ -29,7 +29,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
+            fetchData() {
                 this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');
@@ -38,16 +38,16 @@
         },
         computed: {
             availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+                return this.$store.state.serversStoreavailable_server_features;
             },
             availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+                return this.$store.state.serversStoreavailable_server_languages;
             },
             availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+                return this.$store.state.serversStoreavailable_server_frameworks;
             },
             server : () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             }
         }
     }

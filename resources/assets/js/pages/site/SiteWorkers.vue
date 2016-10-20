@@ -84,7 +84,7 @@
             '$route': 'fetchData'
         },
         methods : {
-            fetchData : function() {
+            fetchData () {
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
@@ -99,7 +99,7 @@
             }
         },
         computed: {
-            site: function() {
+            site() {
                 var site = siteStore.state.site;
                 if(site) {
                     this.form.site_id = site.id;

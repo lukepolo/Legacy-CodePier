@@ -30,7 +30,7 @@
         },
         computed : {
             user_notification_providers : () => {
-                return userStore.state.notification_providers;
+                return this.$store.state.userStorenotification_providers;
             }
         },
         methods: {
@@ -47,7 +47,7 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserNotificationProvider', {
-                    user_id : userStore.state.user.id,
+                    user_id : this.$store.state.userStoreuser.id,
                     user_notification_provider_id : user_notification_provider_id
                 });
             }

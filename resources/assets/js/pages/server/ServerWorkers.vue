@@ -90,7 +90,7 @@
         },
         computed: {
             server: () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             },
             workers : () => {
                 return serverWorkerStore.state.server_workers;

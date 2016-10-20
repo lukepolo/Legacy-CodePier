@@ -26,13 +26,13 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
+            fetchData() {
                 this.$store.dispatch('getServer', this.$route.params.server_id);
             }
         },
         computed: {
             server : () => {
-                return serverStore.state.server;
+                return this.$store.state.serversStoreserver;
             }
         }
     }

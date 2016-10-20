@@ -80,11 +80,11 @@
             '$route': 'fetchData'
         },
         methods : {
-            fetchData : function() {
+            fetchData () {
                 this.$store.dispatch('getTeam', this.$route.params.team_id);
                 this.$store.dispatch('getTeamMembers', this.$route.params.team_id);
             },
-            sendInvite : function() {
+            sendInvite () {
                 this.$store.dispatch('sendTeamInvite', {
                     email : this.email,
                     team_id : userTeamStore.state.team.id
@@ -107,7 +107,7 @@
         },
         computed : {
             current_user : () => {
-              return userStore.state.user;
+              return this.$store.state.userStoreuser;
             },
             team : () => {
                 return userTeamStore.state.team;
@@ -115,8 +115,8 @@
             members : () => {
                 return userTeamStore.state.team_members;
             },
-            isOwnerOfTeam : function() {
-                return this.team.owner_id == userStore.state.user.id;
+            isOwnerOfTeam () {
+                return this.team.owner_id == this.$store.state.userStoreuser.id;
             }
         }
     }
