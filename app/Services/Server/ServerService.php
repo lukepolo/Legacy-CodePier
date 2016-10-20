@@ -115,7 +115,7 @@ class ServerService implements ServerServiceContract
         try {
             return $this->getProvider($server->serverProvider)->getStatus($server);
         } catch (\Exception $e) {
-            if (!$noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
+            if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();
 
                 return 'Server Has Been Deleted';
