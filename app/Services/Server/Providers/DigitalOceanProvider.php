@@ -221,7 +221,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $client = new Client();
 
-        $response = $client->post(self::OAUTH_TOKEN_URL . '?grant_type=refresh_token&refresh_token=' . $userServerProvider->refresh_token)->send();
+        $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token)->send();
 
         if ($response->getStatusCode() == 200) {
 
