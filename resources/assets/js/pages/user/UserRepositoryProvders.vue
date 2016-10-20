@@ -8,7 +8,9 @@
                     Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
                 </template>
                 <template v-else>
-                    Integrate : <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})" class="btn btn-default">{{ provider.name}}</a>
+                    Integrate : <a
+                        :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
+                        class="btn btn-default">{{ provider.name}}</a>
                 </template>
             </p>
         </section>
@@ -19,7 +21,7 @@
     import UserNav from './components/UserNav.vue';
     import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components : {
+        components: {
             LeftNav,
             UserNav
         },
@@ -28,9 +30,9 @@
                 repository_providers: []
             }
         },
-        computed : {
-            user_repository_providers : () => {
-                return userStore.state.repository_providers;
+        computed: {
+            user_repository_providers() {
+                return this.$store.state.userStore.repository_providers;
             }
         },
         methods: {
@@ -42,14 +44,14 @@
                 return false;
             },
             disconnectProvider: function (repository_provider_id) {
-                var user_repository_provider_id = _.find(this.user_repository_providers, function(repository_provider) {
+                var user_repository_provider_id = _.find(this.user_repository_providers, function (repository_provider) {
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
-               userStore.dispatch('deleteUserRepositoryProvider', {
-                   user_id : userStore.state.user.id,
-                   user_repository_provider_id : user_repository_provider_id
-               });
+                this.$store.dispatch('deleteUserRepositoryProvider', {
+                    user_id: this.$store.state.userStore.user.id,
+                    user_repository_provider_id: user_repository_provider_id
+                });
             }
         },
         created() {
@@ -60,7 +62,7 @@
                 alert(error);
             });
 
-            userStore.dispatch('getUserRepositoryProviders');
+            this.$store.dispatch('getUserRepositoryProviders');
         }
     }
 </script>

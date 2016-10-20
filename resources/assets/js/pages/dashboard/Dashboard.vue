@@ -27,7 +27,9 @@
                         <td>{{ server.status }}</td>
                         <td>
                             <div class="server-name">
-                                <span :class="{ 'server-success' : server.ssh_connection , 'server-error' : !server.ssh_connection}" class="server-connection" data-toggle="tooltip" data-placement="top" data-container="body" title="Connection Successful"></span>
+                                <span :class="{ 'server-success' : server.ssh_connection , 'server-error' : !server.ssh_connection}"
+                                      class="server-connection" data-toggle="tooltip" data-placement="top"
+                                      data-container="body" title="Connection Successful"></span>
                             </div>
                         </td>
                     </tr>
@@ -47,11 +49,11 @@
         },
         computed: {
             servers() {
-                return serverStore.state.servers;
+                return this.$store.state.servers;
             }
         },
         created() {
-            serverStore.dispatch('getServers');
+            this.$store.dispatch('getServers');
         }
     }
 </script>

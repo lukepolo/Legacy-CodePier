@@ -2,11 +2,14 @@
     <section>
         <left-nav></left-nav>
         <section id="middle" class="section-column">
-            <div class="container">
-                <site-nav></site-nav>
-                <template v-if="files && site">
-                    <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
-                </template>
+            <site-header></site-header>
+            <div class="section-content">
+                <div class="container">
+                    <site-nav></site-nav>
+                    <template v-if="files && site">
+                        <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
+                    </template>
+                </div>
             </div>
         </section>
         <servers></servers>
@@ -34,17 +37,17 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+            fetchData() {
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
             }
         },
         computed: {
-            site : () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            files : function() {
-                return serverStore.state.editable_framework_files;
+            files() {
+                return this.$store.state.serversStoreeditable_framework_files;
             }
         },
     }

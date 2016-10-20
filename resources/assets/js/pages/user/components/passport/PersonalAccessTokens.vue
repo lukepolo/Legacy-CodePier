@@ -33,26 +33,26 @@
                     <!-- Personal Access Tokens -->
                     <table class="table table-borderless m-b-none" v-if="tokens.length > 0">
                         <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
                         </thead>
 
                         <tbody>
-                            <tr v-for="token in tokens">
-                                <!-- Client Name -->
-                                <td style="vertical-align: middle;">
-                                    {{ token.name }}
-                                </td>
+                        <tr v-for="token in tokens">
+                            <!-- Client Name -->
+                            <td style="vertical-align: middle;">
+                                {{ token.name }}
+                            </td>
 
-                                <!-- Delete Button -->
-                                <td style="vertical-align: middle;">
-                                    <a class="action-link text-danger" @click="revoke(token)">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
+                            <!-- Delete Button -->
+                            <td style="vertical-align: middle;">
+                                <a class="action-link text-danger" @click="revoke(token)">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -90,7 +90,8 @@
                                 <label class="col-md-4 control-label">Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="create-token-name" type="text" class="form-control" name="name" v-model="form.name">
+                                    <input id="create-token-name" type="text" class="form-control" name="name"
+                                           v-model="form.name">
                                 </div>
                             </div>
 
@@ -103,10 +104,10 @@
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox"
-                                                    @click="toggleScope(scope.id)"
-                                                    :checked="scopeIsAssigned(scope.id)">
+                                                       @click="toggleScope(scope.id)"
+                                                       :checked="scopeIsAssigned(scope.id)">
 
-                                                    {{ scope.id }}
+                                                {{ scope.id }}
                                             </label>
                                         </div>
                                     </div>
@@ -141,7 +142,8 @@
 
                     <div class="modal-body">
                         <p>
-                            Here is your new personal access token. This is the only time it will be shown so don't lose it!
+                            Here is your new personal access token. This is the only time it will be shown so don't lose
+                            it!
                             You may now use this token to make API requests.
                         </p>
 

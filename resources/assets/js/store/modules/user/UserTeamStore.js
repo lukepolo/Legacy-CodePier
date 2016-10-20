@@ -1,10 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from ".././helpers";
-
-Vue.use(Vuex);
-
-const userTeamStore = new Vuex.Store({
+export default {
     state: {
         teams: [],
         team: null,
@@ -13,42 +7,43 @@ const userTeamStore = new Vuex.Store({
     },
     actions: {
         getTeams: ({commit}) => {
-            Vue.http.get(action('User\Team\UserTeamController@index')).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamController@index')).then((response) => {
                 commit('SET_TEAMS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
-        createTeam: ({commit}, data) => {
-            Vue.http.post(action('User\Team\UserTeamController@store'), data).then((response) => {
-                userTeamStore.dispatch('getTeams');
+        createTeam: ({commit, dispatch}, data) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamController@store'), data).then((response) => {
+                dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
-        updateTeam: ({commit}, data) => {
-            Vue.http.put(action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
-                userTeamStore.dispatch('getTeams');
-                pileStore.dispatch('getPiles');
-                siteStore.dispatch('getSites');
+        updateTeam: ({commit, dispatch}, data) => {
+            Vue.http.put(Vue.action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
+                dispatch('getTeams');
+                dispatch('getPiles');
+                dispatch('getSites');
             }, (errors) => {
                 alert(error);
             });
         },
-        changeTeams: ({commit}, teamID) => {
-            Vue.http.post(action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
+        changeTeams: ({commit, dispatch}, teamID) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
                 commit('SET_CURRENT_TEAM', response.data);
-                pileStore.dispatch('getPiles').then(function () {
-                    serverStore.dispatch('getServers');
+                dispatch('getPiles').then(function () {
+                    dispatch('getServers');
                 });
             }, (errors) => {
                 alert(error);
             });
         },
-        getUserTeam: ({commit}) => {
-            var currentTeamID = userStore.state.user.current_team_id;
+        getUserTeam: ({commit, state, rootState}) => {
 
-            $.each(userStore.state.user.teams, (index, team) => {
+            var currentTeamID = rootState.userStore.user.current_team_id;
+
+            $.each(state.teams, (index, team) => {
                 if (currentTeamID == team.id) {
                     commit('SET_CURRENT_TEAM', team);
                     return false;
@@ -56,49 +51,49 @@ const userTeamStore = new Vuex.Store({
             });
         },
         getTeam: ({commit}, team_id) => {
-            Vue.http.get(action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteTeam: ({commit}, team_id) => {
-            Vue.http.delete(action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
-                userTeamStore.dispatch('getTeams');
+        deleteTeam: ({commit, dispatch}, team_id) => {
+            Vue.http.delete(Vue.action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
+                dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
         getTeamMembers: ({commit}, team_id) => {
-            Vue.http.get(action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
+            Vue.http.get(Vue.action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM_MEMBERS', response.data);
             }, (errors) => {
                 alert(error);
             });
         },
-        sendTeamInvite: ({commit}, data) => {
-            Vue.http.post(action('User\Team\UserTeamMemberController@invite'), {
+        sendTeamInvite: ({commit, dispatch}, data) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamMemberController@invite'), {
                 team_id: data.team_id,
                 email: data.email
             }).then((response) => {
-                userTeamStore.dispatch('getTeam', data.team_id);
+                dispatch('getTeam', data.team_id);
             }, (errors) => {
                 alert(error);
             });
         },
         resendTeamInvite: ({commit}, invite_id) => {
-            Vue.http.post(action('User\Team\UserTeamMemberController@resendInvite', {invite_id: invite_id})).then((response) => {
+            Vue.http.post(Vue.action('User\Team\UserTeamMemberController@resendInvite', {invite_id: invite_id})).then((response) => {
 
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteTeamMember: ({commit}, data) => {
-            Vue.http.delete(action('User\Team\UserTeamMemberController@destroy', {
+        deleteTeamMember: ({commit, dispatch}, data) => {
+            Vue.http.delete(Vue.action('User\Team\UserTeamMemberController@destroy', {
                 member: data.member_id,
                 team: data.team_id
             })).then((response) => {
-                userTeamStore.dispatch('getTeam', data.team_id);
+                dispatch('getTeam', data.team_id);
             }, (errors) => {
                 alert(error);
             });
@@ -121,6 +116,4 @@ const userTeamStore = new Vuex.Store({
             state.team_members = team_members;
         }
     }
-});
-
-export default userTeamStore
+}

@@ -1,7 +1,7 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column"  v-if="server">
+        <section id="middle" class="section-column" v-if="server">
             <server-nav :server="server"></server-nav>
             <table class="table" v-if="sites.length" v-for="site in sites">
                 <thead>
@@ -15,32 +15,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <router-link :to="{ path: '/site/'+site.id }">
-                                {{ site.name }}
-                            </router-link>
-                        </td>
-                        <td>{{ site.repository }}</td>
-                        <td>
+                <tr>
+                    <td>
+                        <router-link :to="{ path: '/site/'+site.id }">
+                            {{ site.name }}
+                        </router-link>
+                    </td>
+                    <td>{{ site.repository }}</td>
+                    <td>
                              <span v-if="isZerotimeDeployment(site)">
                                 Yes
                             </span>
-                            <span v-else>
+                        <span v-else>
                                 No
                             </span>
-                        </td>
-                        <td>{{ site.workers.length }}</td>
-                        <td>{{ site.wildcard_domain }}</td>
-                        <td>
+                    </td>
+                    <td>{{ site.workers.length }}</td>
+                    <td>{{ site.wildcard_domain }}</td>
+                    <td>
                             <span v-if="hasActiveSSL(site)">
                                 Yes
                             </span>
-                            <span v-else>
+                        <span v-else>
                                 No
                             </span>
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </section>
@@ -52,7 +52,7 @@
     import LeftNav from './../../core/LeftNav.vue';
 
     export default {
-        components : {
+        components: {
             LeftNav,
             ServerNav
         },
@@ -63,29 +63,29 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverStore.dispatch('getServerSites', this.$route.params.server_id);
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerSites', this.$route.params.server_id);
             },
             isZerotimeDeployment(site) {
-              if(site.zerotime_deployment) {
-                  return true;
-              }
-              return false;
+                if (site.zerotime_deployment) {
+                    return true;
+                }
+                return false;
             },
             hasActiveSSL(site) {
-                if(site.activeSSL) {
+                if (site.activeSSL) {
                     return true;
                 }
                 return false;
             }
         },
-        computed : {
-            server : () => {
-                return serverStore.state.server;
+        computed: {
+            server() {
+                return this.$store.state.serversStoreserver;
             },
-            sites : () => {
-                return serverStore.state.server_sites;
+            sites() {
+                return this.$store.state.serversStoreserver_sites;
             }
         }
     }

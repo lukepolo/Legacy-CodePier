@@ -68,9 +68,9 @@
         },
         data() {
             return {
-                form : {
-                    site_id : null,
-                    command : null,
+                form: {
+                    site_id: null,
+                    command: null,
                     auto_start: null,
                     auto_restart: null,
                     number_of_workers: null,
@@ -83,34 +83,34 @@
         watch: {
             '$route': 'fetchData'
         },
-        methods : {
-            fetchData : function() {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                siteStore.dispatch('getWorkers', this.$route.params.site_id);
+        methods: {
+            fetchData() {
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
-            installWorker: function () {
-                siteStore.dispatch('installWorker', this.form);
+            installWorker() {
+                this.$store.dispatch('installWorker', this.form);
             },
-            deleteWorker : function(worker_id) {
-                siteStore.dispatch('deleteWorker', {
-                    worker : worker_id,
-                    site : this.site.id,
+            deleteWorker: function (worker_id) {
+                this.$store.dispatch('deleteWorker', {
+                    worker: worker_id,
+                    site: this.site.id,
                 });
             }
         },
         computed: {
-            site: function() {
-                var site = siteStore.state.site;
-                if(site) {
+            site() {
+                var site = this.$store.state.sitesStore.site;
+                if (site) {
                     this.form.site_id = site.id;
                     this.form.command = site.path;
                     this.form.selected_servers = _.map(site.servers, 'id');
                 }
 
-                return siteStore.state.site;
+                return this.$store.state.sitesStore.site;
             },
-            workers: () => {
-                return siteStore.state.workers;
+            workers() {
+                return this.$store.state.sitesStore.workers;
             }
         }
     }
