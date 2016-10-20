@@ -105,16 +105,17 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      *
+     * @param bool $noDelete
      * @return mixed
      */
-    public function getStatus(Server $server)
+    public function getStatus(Server $server, $noDelete = false)
     {
         $server->touch();
 
         try {
             return $this->getProvider($server->serverProvider)->getStatus($server);
         } catch (\Exception $e) {
-            if ($e->getMessage() == 'The resource you were accessing could not be found.') {
+            if (!$noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();
 
                 return 'Server Has Been Deleted';
