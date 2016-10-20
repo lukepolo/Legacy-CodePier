@@ -122,8 +122,8 @@
                 this.$store.dispatch('setCurrentPileID', pile_id);
 
                 if (this.$route.path == '/') {
-                    serverStore.this.$store('getServers');
-                    siteStore.this.$store('getSites');
+                    this.$store.dispatch('getServers');
+                    this.$store.dispatch('getSites');
                 } else {
                     this.$router.push('/');
 

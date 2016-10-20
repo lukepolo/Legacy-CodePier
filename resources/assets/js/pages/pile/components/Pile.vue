@@ -51,7 +51,7 @@
         methods: {
             cancel() {
                 if (!this.pile.id) {
-                    this.$store.state.pilesStore.state.piles.splice(this.index, 1);
+                    this.$store.state.pilesStore.piles.splice(this.index, 1);
                 }
 
                 this.editing = false;
