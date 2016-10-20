@@ -165,7 +165,9 @@ const router = new VueRouter({
     ]
 });
 
-const app = new Vue({
+var app = new Vue({
     store,
     router,
 }).$mount('#app-layout');
+
+window.app = app;

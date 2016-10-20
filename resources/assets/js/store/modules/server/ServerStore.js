@@ -17,8 +17,8 @@ export default {
                 alert(error);
             });
         },
-        getServers: ({commit}, callback) => {
-            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: pileStore.state.current_pile_id})).then((response) => {
+        getServers: ({commit, rootState}, callback) => {
+            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.pilesStore.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
                 typeof callback === 'function' && callback();
             }, (errors) => {

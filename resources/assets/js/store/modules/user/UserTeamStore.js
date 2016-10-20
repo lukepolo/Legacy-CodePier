@@ -32,17 +32,18 @@ export default {
         changeTeams: ({commit, dispatch}, teamID) => {
             Vue.http.post(Vue.action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
                 commit('SET_CURRENT_TEAM', response.data);
-                pileStore.dispatch('getPiles').then(function () {
+                dispatch('getPiles').then(function () {
                     dispatch('getServers');
                 });
             }, (errors) => {
                 alert(error);
             });
         },
-        getUserTeam: ({commit}) => {
-            var currentTeamID = userStore.state.user.current_team_id;
+        getUserTeam: ({commit, state, rootState}) => {
 
-            $.each(userStore.state.user.teams, (index, team) => {
+            var currentTeamID = rootState.userStore.user.current_team_id;
+
+            $.each(state.teams, (index, team) => {
                 if (currentTeamID == team.id) {
                     commit('SET_CURRENT_TEAM', team);
                     return false;

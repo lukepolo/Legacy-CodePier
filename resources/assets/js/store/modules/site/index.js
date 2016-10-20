@@ -1,1 +1,1 @@
-export const site = require('./SiteStore');
+export const site = require('./SiteStore').default;

@@ -117,9 +117,12 @@
             this.fetchData();
         },
         methods: {
-            fetchData: function () {
-                serverStore.dispatch('getServers', function () {
-                    _(serverStore.state.servers).forEach(function (server) {
+            fetchData: function() {
+
+                var store = this.$store;
+
+                store.dispatch('getServers', function () {
+                    _(store.state.serverStore.servers).forEach(function (server) {
                         Echo.private('App.Models.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     server.status = data.status;
@@ -130,8 +133,8 @@
                     });
                 });
 
-                siteStore.dispatch('getSites', function () {
-                    _(siteStore.state.sites).forEach(function (site) {
+                store.dispatch('getSites', function () {
+                    _(store.state.sitesStore.sites).forEach(function (site) {
                         Echo.private('App.Models.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
                                     console.info(data.step+' started');
@@ -146,18 +149,18 @@
                     });
                 });
 
-                eventStore.dispatch('getEvents');
+                store.dispatch('getEvents');
             }
         },
         computed: {
-            servers () {
-                return serverStore.state.servers;
+            servers() {
+                return this.$store.state.serverStore.servers;
             },
-            events: () => {
-                return eventStore.state.events;
+            events() {
+                return this.$store.state.eventsStore.events;
             },
-            events_pagination: () => {
-                return eventStore.state.events_pagination;
+            events_pagination() {
+                return this.$store.state.eventsStore.events_pagination;
             }
         },
     }

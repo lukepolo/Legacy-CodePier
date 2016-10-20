@@ -52,7 +52,7 @@
         },
         computed: {
             sites () {
-                return siteStore.state.sites;
+                return this.$store.state.sitesStore.sites;
             }
         }
     }
