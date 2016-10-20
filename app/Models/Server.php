@@ -116,7 +116,7 @@ class Server extends Model
     {
         $features = [];
 
-        if($this->server_provider_features) {
+        if ($this->server_provider_features) {
             foreach ($this->server_provider_features as $featureID) {
                 $features[] = ServerProviderFeatures::findOrFail((int) $featureID);
             }
