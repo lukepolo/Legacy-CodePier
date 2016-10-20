@@ -144,11 +144,11 @@
             }
         },
         computed: {
-            teams: () => {
-                return userTeamStore.state.teams;
+            teams() {
+                return this.$store.state.teamsStore.teams;
             },
-            user_piles: () => {
-                return this.$store.state.pilesStore.state.user_piles;
+            user_piles() {
+                return this.$store.state.pilesStore.user_piles;
             }
         }
     }

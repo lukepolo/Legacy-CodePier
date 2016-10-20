@@ -89,7 +89,7 @@
             sendInvite() {
                 this.$store.dispatch('sendTeamInvite', {
                     email: this.email,
-                    team_id: userTeamStore.state.team.id
+                    team_id: this.$store.state.teamsStore.team.id
                 })
             },
             resendInvite: function (invite_id) {
@@ -98,7 +98,7 @@
             deleteMember: function (member_id) {
                 this.$store.dispatch('deleteTeamMember', {
                     member_id: member_id,
-                    team_id: userTeamStore.state.team.id
+                    team_id: this.$store.state.teamsStore.team.id
                 });
             }
         },
@@ -108,14 +108,14 @@
             }
         },
         computed: {
-            current_user: () => {
+            current_user() {
                 return this.$store.state.userStore.user;
             },
-            team: () => {
-                return userTeamStore.state.team;
+            team() {
+                return this.$store.state.teamsStore.team;
             },
-            members: () => {
-                return userTeamStore.state.team_members;
+            members() {
+                return this.$store.state.teamsStore.team_members;
             },
             isOwnerOfTeam() {
                 return this.team.owner_id == this.$store.state.userStore.user.id;
