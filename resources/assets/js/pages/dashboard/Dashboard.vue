@@ -47,11 +47,11 @@
         },
         computed: {
             servers() {
-                return serverStore.state.servers;
+                return this.$store.state.servers;
             }
         },
         created() {
-            serverStore.dispatch('getServers');
+            this.$store.dispatch('getServers');
         }
     }
 </script>

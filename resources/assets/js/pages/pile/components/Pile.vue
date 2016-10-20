@@ -60,17 +60,17 @@
                 this.editing = true;
             },
             deletePile :function() {
-                pileStore.dispatch('deletePile', this.pile.id);
+                this.$store.dispatch('deletePile', this.pile.id);
             },
             savePile : function() {
                 if(this.pile.id) {
 
                     this.form['pile'] = this.pile;
 
-                    pileStore.dispatch('updatePile', this.form);
+                    this.$store.dispatch('updatePile', this.form);
 
                 } else {
-                    pileStore.dispatch('createPile', this.form);
+                    this.$store.dispatch('createPile', this.form);
                 }
                 this.editing = false;
             }

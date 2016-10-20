@@ -24,7 +24,7 @@
         },
         methods: {
             fetchData: function () {
-                serverStore.dispatch('getEditableServerFiles', this.server);
+                this.$store.dispatch('getEditableServerFiles', this.server);
             },
             sectionTitle: function (section) {
                 return section.replace('install', '');

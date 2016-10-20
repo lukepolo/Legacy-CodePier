@@ -46,7 +46,7 @@
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
-               userStore.dispatch('deleteUserRepositoryProvider', {
+                this.$store.dispatch('deleteUserRepositoryProvider', {
                    user_id : userStore.state.user.id,
                    user_repository_provider_id : user_repository_provider_id
                });
@@ -60,7 +60,7 @@
                 alert(error);
             });
 
-            userStore.dispatch('getUserRepositoryProviders');
+            this.$store.dispatch('getUserRepositoryProviders');
         }
     }
 </script>

@@ -30,10 +30,10 @@
         },
         methods: {
             fetchData: function() {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
             }
         },
         computed: {

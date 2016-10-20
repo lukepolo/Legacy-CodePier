@@ -10,19 +10,19 @@ export default {
                 alert(error);
             });
         },
-        createUserSshKey : ({commit}, data) => {
+        createUserSshKey : ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\UserSshKeyController@store'), {
                 name : data.name,
                 ssh_key : data.ssh_key
             }).then((response) => {
-                userSshKeyStore.dispatch('getUserSshKeys');
+                dispatch('getUserSshKeys');
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteUserSshKey: ({commit}, ssh_key_id) => {
+        deleteUserSshKey: ({commit, dispatch}, ssh_key_id) => {
             Vue.http.delete(Vue.action('User\UserSshKeyController@destroy', { ssh_key : ssh_key_id })).then((response) => {
-                userSshKeyStore.dispatch('getUserSshKeys');
+                dispatch('getUserSshKeys');
             }, (errors) => {
                 alert(error);
             });

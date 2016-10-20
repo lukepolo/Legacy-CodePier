@@ -13,9 +13,9 @@ export default {
                 alert(error);
             });
         },
-        deleteUserServerProvider: ({commit}, data) => {
+        deleteUserServerProvider: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserServerProviderController@destroy', { user : data.user_id,  server_provider : data.user_server_provider_id })).then((response) => {
-                userStore.dispatch('getUserServerProviders');
+                dispatch('getUserServerProviders');
             }, (errors) => {
                 alert('Trying to destory server');
             })
@@ -27,9 +27,9 @@ export default {
                 alert(error);
             });
         },
-        deleteUserRepositoryProvider: ({commit}, data) => {
+        deleteUserRepositoryProvider: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserRepositoryProviderController@destroy', {user : data.user_id, repository_provider: data.user_repository_provider_id})).then((response) => {
-                userStore.dispatch('getUserRepositoryProviders');
+                dispatch('getUserRepositoryProviders');
             }, (errors) => {
                 alert('Trying to delete user repository');
             })
@@ -41,9 +41,9 @@ export default {
                 alert(error);
             });
         },
-        deleteUserNotificationProvider: ({commit}, data) => {
+        deleteUserNotificationProvider: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserNotificationProviderController@destroy', { user : data.user_id, notification_provider : data.user_notification_provider_id })).then((response) => {
-                userStore.dispatch('getUserNotificationProviders');
+                dispatch('getUserNotificationProviders');
             }, (errors) => {
                 alert('Trying to destroy notification');
             })

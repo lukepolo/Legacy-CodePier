@@ -105,23 +105,23 @@
         },
         methods: {
             fetchData: function () {
-                serverProviderStore.dispatch('getUserServerProviders');
+                this.$store.dispatch('getUserServerProviders');
 
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
 
                 if (this.$route.query.site) {
-                    siteStore.dispatch('getSite', this.$route.query.site);
+                    this.$store.dispatch('getSite', this.$route.query.site);
                 }
             },
             getProviderData: (provider) => {
-                serverProviderStore.dispatch('getServerProviderOptions', provider);
-                serverProviderStore.dispatch('getServerProviderRegions', provider);
-                serverProviderStore.dispatch('getServerProviderFeatures', provider);
+                this.$store.dispatch('getServerProviderOptions', provider);
+                this.$store.dispatch('getServerProviderRegions', provider);
+                this.$store.dispatch('getServerProviderFeatures', provider);
             },
             createServer: function () {
-                serverStore.dispatch('createServer', this.getFormData(this.$el));
+                this.$store.dispatch('createServer', this.getFormData(this.$el));
             }
         },
         computed: {

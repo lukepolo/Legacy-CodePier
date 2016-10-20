@@ -38,8 +38,8 @@
         },
         methods: {
             fetchData: function () {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
             }
         },
         computed: {

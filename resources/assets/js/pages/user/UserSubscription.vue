@@ -119,9 +119,9 @@
         },
         methods: {
             fetchData : function() {
-                subscriptionStore.dispatch('getPlans');
-                userSubscriptionStore.dispatch('getUserInvoices');
-                userSubscriptionStore.dispatch('getUserSubscription');
+                this.$store.dispatch('getPlans');
+                this.$store.dispatch('getUserInvoices');
+                this.$store.dispatch('getUserSubscription');
             },
             subscribedToPlan: function (plan) {
                 if (this.validSubscription && this.user_subscription.stripe_plan == plan) {
@@ -130,12 +130,12 @@
                 return false;
             },
             createSubscription: function () {
-                userSubscriptionStore.dispatch('createUserSubscription', this.form).then(() => {
+                this.$store.dispatch('createUserSubscription', this.form).then(() => {
                     this.form = this.$options.data().form;
                 });
             },
             cancelSubscription : function() {
-                userSubscriptionStore.dispatch('cancelSubscription', this.user_subscription.id);
+                this.$store.dispatch('cancelSubscription', this.user_subscription.id);
             },
             downloadLink : function(invoice_id) {
                 return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice : invoice_id});

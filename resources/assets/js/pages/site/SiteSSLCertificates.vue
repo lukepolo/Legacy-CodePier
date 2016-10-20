@@ -50,17 +50,17 @@
         },
         methods: {
             fetchData: function () {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                siteStore.dispatch('getSslCertificates', this.$route.params.site_id);
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
             installLetsEncryptCertificate: function () {
-                siteStore.dispatch('installLetsEncryptSslCertificate', {
+                this.$store.dispatch('installLetsEncryptSslCertificate', {
                     site_id: this.site.id,
                     domains: this.domains
                 })
             },
             deleteSslCertivicate: function (ssl_certificate_id) {
-                siteStore.dispatch('deleteSslCertificate', ssl_certificate_id)
+                this.$store.dispatch('deleteSslCertificate', ssl_certificate_id)
             }
         },
         computed: {

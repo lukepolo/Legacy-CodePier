@@ -75,15 +75,15 @@
         },
         methods: {
             fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverFirewallStore.dispatch('getServerFirewallRules', this.$route.params.server_id)
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerFirewallRules', this.$route.params.server_id)
             },
             createFirewallRule() {
                 this.form['server'] = this.server.id;
-                serverFirewallStore.dispatch('createServerFirewallRule', this.form)
+                this.$store.dispatch('createServerFirewallRule', this.form)
             },
             deleteFirewallRule(firewall_rule_id) {
-                serverFirewallStore.dispatch('deleteServerFirewallRule', {
+                this.$store.dispatch('deleteServerFirewallRule', {
                     server : this.server.id,
                     firewall : firewall_rule_id
                 })

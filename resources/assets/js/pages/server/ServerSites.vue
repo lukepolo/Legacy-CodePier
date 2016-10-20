@@ -64,8 +64,8 @@
         },
         methods: {
             fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverStore.dispatch('getServerSites', this.$route.params.server_id);
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerSites', this.$route.params.server_id);
             },
             isZerotimeDeployment(site) {
               if(site.zerotime_deployment) {

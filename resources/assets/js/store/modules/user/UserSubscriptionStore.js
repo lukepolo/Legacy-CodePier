@@ -20,16 +20,16 @@ export default {
                 alert(error);
             });
         },
-        createUserSubscription : ({commit}, data) => {
+        createUserSubscription : ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
-                userSubscriptionStore.dispatch('getUserSubscription');
+                dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
         },
-        cancelSubscription : ({commit}, subscription_id) => {
+        cancelSubscription : ({commit, dispatch}, subscription_id) => {
             Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', {subscription: subscription_id})).then((response) => {
-                userSubscriptionStore.dispatch('getUserSubscription');
+                dispatch('getUserSubscription');
             }, (errors) => {
                 alert(error);
             });
@@ -46,6 +46,9 @@ export default {
         SET_USER_SUBSCRIPTION: (state, subscription) => {
             if (!_.isEmpty(subscription)) {
                 state.valid_subscription = true;
+
+                alert('see how we can do dispatch here');
+
                 userSubscriptionStore.dispatch('getUpcomingSubscription');
             } else {
                 state.valid_subscription = false;

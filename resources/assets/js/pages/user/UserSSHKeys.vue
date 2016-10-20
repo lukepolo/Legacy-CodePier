@@ -54,15 +54,15 @@
         },
         methods : {
             fetchData : function() {
-                userSshKeyStore.dispatch('getUserSshKeys');
+                this.$store.dispatch('getUserSshKeys');
             },
             createSshkey: function() {
-                userSshKeyStore.dispatch('createUserSshKey', this.form).then(() => {
+                this.$store.dispatch('createUserSshKey', this.form).then(() => {
                     this.form = this.$options.data().form;
                 });
             },
             deleteSshKey : function(sshKeyId) {
-                userSshKeyStore.dispatch('deleteUserSshKey', sshKeyId);
+                this.$store.dispatch('deleteUserSshKey', sshKeyId);
             }
         },
         computed : {

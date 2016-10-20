@@ -73,16 +73,16 @@
         },
         methods: {
             fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverWorkerStore.dispatch('getServerWorkers', this.$route.params.server_id);
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerWorkers', this.$route.params.server_id);
 
             },
             createServerWorker() {
                 this.form['server'] = this.server.id;
-                serverWorkerStore.dispatch('createServerWorker', this.form);
+                this.$store.dispatch('createServerWorker', this.form);
             },
             deleteServerWorker(worker_id) {
-                serverWorkerStore.dispatch('deleteServerWorker', {
+                this.$store.dispatch('deleteServerWorker', {
                     worker : worker_id,
                     server : this.server.id
                 });

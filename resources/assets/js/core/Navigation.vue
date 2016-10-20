@@ -116,14 +116,14 @@
                 });
             },
             changeTeam: function (teamID) {
-                userTeamStore.dispatch('changeTeams', teamID);
+                this.$store.dispatch('changeTeams', teamID);
             },
             changePile: function (pile_id) {
-                pileStore.dispatch('setCurrentPileID', pile_id);
+                this.$store.dispatch('setCurrentPileID', pile_id);
 
                 if(this.$route.path == '/') {
-                    serverStore.dispatch('getServers');
-                    siteStore.dispatch('getSites');
+                    serverStore.this.$store('getServers');
+                    siteStore.this.$store('getSites');
                 } else {
                     this.$router.push('/');
 

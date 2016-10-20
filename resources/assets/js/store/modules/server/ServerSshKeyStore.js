@@ -10,16 +10,16 @@ export default {
                 alert(error);
             });
         },
-        createServerSshKey: ({commit}, data) => {
+        createServerSshKey: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerSshKeyController@store', {server : data.server}), data).then((response) => {
-                serverSshKeyStore.dispatch('getServerSshKeys', data.server);
+                dispatch('getServerSshKeys', data.server);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteServerSshKey: ({commit}, data) => {
+        deleteServerSshKey: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('Server\ServerSshKeyController@destroy', { server : data.server, ssh_key : data.ssh_key })).then((response) => {
-                serverSshKeyStore.dispatch('getServerSshKeys', data.server);
+                dispatch('getServerSshKeys', data.server);
             }, (errors) => {
                 alert(error);
             });

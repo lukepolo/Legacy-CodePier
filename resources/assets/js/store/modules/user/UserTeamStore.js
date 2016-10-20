@@ -13,27 +13,27 @@ export default {
                 alert(error);
             });
         },
-        createTeam: ({commit}, data) => {
+        createTeam: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Team\UserTeamController@store'), data).then((response) => {
-                userTeamStore.dispatch('getTeams');
+                dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
         },
-        updateTeam: ({commit}, data) => {
+        updateTeam: ({commit, dispatch}, data) => {
             Vue.http.put(Vue.action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
-                userTeamStore.dispatch('getTeams');
-                pileStore.dispatch('getPiles');
-                siteStore.dispatch('getSites');
+                dispatch('getTeams');
+                dispatch('getPiles');
+                dispatch('getSites');
             }, (errors) => {
                 alert(error);
             });
         },
-        changeTeams: ({commit}, teamID) => {
+        changeTeams: ({commit, dispatch}, teamID) => {
             Vue.http.post(Vue.action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
                 commit('SET_CURRENT_TEAM', response.data);
                 pileStore.dispatch('getPiles').then(function () {
-                    serverStore.dispatch('getServers');
+                    dispatch('getServers');
                 });
             }, (errors) => {
                 alert(error);
@@ -56,9 +56,9 @@ export default {
                 alert(error);
             });
         },
-        deleteTeam: ({commit}, team_id) => {
+        deleteTeam: ({commit, dispatch}, team_id) => {
             Vue.http.delete(Vue.action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
-                userTeamStore.dispatch('getTeams');
+                dispatch('getTeams');
             }, (errors) => {
                 alert(error);
             });
@@ -70,12 +70,12 @@ export default {
                 alert(error);
             });
         },
-        sendTeamInvite: ({commit}, data) => {
+        sendTeamInvite: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Team\UserTeamMemberController@invite'), {
                 team_id: data.team_id,
                 email: data.email
             }).then((response) => {
-                userTeamStore.dispatch('getTeam', data.team_id);
+                dispatch('getTeam', data.team_id);
             }, (errors) => {
                 alert(error);
             });
@@ -87,12 +87,12 @@ export default {
                 alert(error);
             });
         },
-        deleteTeamMember: ({commit}, data) => {
+        deleteTeamMember: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('User\Team\UserTeamMemberController@destroy', {
                 member: data.member_id,
                 team: data.team_id
             })).then((response) => {
-                userTeamStore.dispatch('getTeam', data.team_id);
+                dispatch('getTeam', data.team_id);
             }, (errors) => {
                 alert(error);
             });

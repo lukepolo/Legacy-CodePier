@@ -72,15 +72,15 @@
         },
         methods: {
             fetchData: function () {
-                serverStore.dispatch('getServer', this.$route.params.server_id);
-                serverCronJobStore.dispatch('getServerCronJobs', this.$route.params.server_id);
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
             createServerCronJob() {
                 this.form['server'] = this.server.id;
-                serverCronJobStore.dispatch('createServerCronJob', this.form);
+                this.$store.dispatch('createServerCronJob', this.form);
             },
             deleteCronJob(cron_job_id) {
-                serverCronJobStore.dispatch('deleteServerCronJob', {
+                this.$store.dispatch('deleteServerCronJob', {
                     server: this.server.id,
                     cron_job : cron_job_id
                 });

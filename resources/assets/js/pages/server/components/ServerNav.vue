@@ -57,19 +57,19 @@
         props : ['server'],
         methods : {
             restartServerWebServices : function(server_id) {
-                serverServicesStore.dispatch('restartServerWebServices', server_id);
+                this.$store.dispatch('restartServerWebServices', server_id);
             },
             restartServerDatabases : function(server_id) {
-                serverServicesStore.dispatch('restartServerDatabases', server_id);
+                this.$store.dispatch('restartServerDatabases', server_id);
             },
             restartServerWorkers : function(server_id) {
-                serverServicesStore.dispatch('restartServerWorkers', server_id);
+                this.$store.dispatch('restartServerWorkers', server_id);
             },
             restartServer : function(server_id) {
-                serverServicesStore.dispatch('restartServer', server_id);
+                this.$store.dispatch('restartServer', server_id);
             },
             archiveServer : function(server_id) {
-                serverStore.dispatch('archiveServer', server_id);
+                this.$store.dispatch('archiveServer', server_id);
             }
         }
     }

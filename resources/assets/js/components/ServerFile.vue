@@ -33,7 +33,7 @@
         },
         methods: {
             saveFile() {
-                serverStore.dispatch('saveServerFile', {
+                this.$store.dispatch('saveServerFile', {
                     file : this.file,
                     server : this.server,
                     content : this.getContent(),

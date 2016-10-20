@@ -66,11 +66,11 @@
         },
         methods: {
             fetchData: function () {
-                siteStore.dispatch('getSiteServers', this.$route.params.site_id);
-                serverStore.dispatch('getServers');
+                this.$store.dispatch('getSiteServers', this.$route.params.site_id);
+                this.$store.dispatch('getServers');
             },
             linkServers : function() {
-                siteStore.dispatch('updateLinkedServers', this.form);
+                this.$store.dispatch('updateLinkedServers', this.form);
             }
         },
         computed : {
