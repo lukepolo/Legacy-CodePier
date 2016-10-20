@@ -14,9 +14,9 @@ export default {
                 alert(error);
             });
         },
-        getSites: ({commit}, callback) => {
-            if (pileStore.state.current_pile_id) {
-                Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile: pileStore.state.current_pile_id})).then((response) => {
+        getSites: ({commit, rootState}, callback) => {
+            if (rootState.pilesStore.current_pile_id) {
+                Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile: rootState.pilesStore.current_pile_id})).then((response) => {
                     commit('SET_SITES', response.data);
                     typeof callback === 'function' && callback();
                 }, (errors) => {
@@ -24,11 +24,11 @@ export default {
                 });
             }
         },
-        createSite: ({commit}, data) => {
+        createSite: ({commit, rootStore}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@store'), {
                 domain: data.domain,
                 domainless: data.domainless,
-                pile_id: pileStore.state.current_pile_id
+                pile_id: rootState.pilesStore.current_pile_id
             }).then((response) => {
                 app.$router.push('/site/' + response.data.id);
             }, (errors) => {

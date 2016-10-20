@@ -16,22 +16,22 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        user : UserStore.user,
-        userTeams : UserStore.teams,
-        userSshKeys : UserStore.sshKeys,
-        userSubscriptions : UserStore.subscriptions,
+        userStore : UserStore.user,
+        teamsStore : UserStore.teams,
+        userSshKeysStore : UserStore.sshKeys,
+        userSubscriptionsStore : UserStore.subscriptions,
 
-        site : SiteStore.site,
+        sitesStore : SiteStore.site,
 
-        pile : PileStore,
-        events : EventsStore,
+        pilesStore : PileStore,
+        eventsStore : EventsStore,
 
-        server : ServerStore.server,
-        serverWorkers : ServerStore.workers,
-        serverSshKeys : ServerStore.sshKeys,
-        serverCronJobs : ServerStore.cronJobs,
-        serverFirewall : ServerStore.firewall,
-        serverServices : ServerStore.services,
-        serverProviders : ServerStore.providers,
+        serverStore : ServerStore.server,
+        serverWorkersStore : ServerStore.workers,
+        serverSshKeysStore : ServerStore.sshKeys,
+        serverCronJobsStore : ServerStore.cronJobs,
+        serverFirewallStore : ServerStore.firewall,
+        serverServicesStore : ServerStore.services,
+        serverProvidersStore : ServerStore.providers,
     }
 })

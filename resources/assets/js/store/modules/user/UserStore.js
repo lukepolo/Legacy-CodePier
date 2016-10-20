@@ -3,7 +3,8 @@ export default {
         user: user,
         server_providers: [],
         repository_providers: [],
-        notification_providers: []
+        notification_providers: [],
+        current_team_id : 123
     },
     actions: {
         getUserServerProviders: ({commit}, user_id) => {

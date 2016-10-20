@@ -89,24 +89,24 @@
 <script>
     export default {
         computed: {
-            piles: () => {
+            piles() {
+                return this.$store.state.pilesStore.piles;
+            },
+            current_pile_id() {
+                return  this.$store.state.pilesStore.current_pile_id;
+            },
+            currentTeam() {
 
-                return pileStore.state.piles;
+                return this.$store.state.teamsStore.currentTeam;
             },
-            current_pile_id: function () {
-                return pileStore.state.current_pile_id;
+            currentPile() {
+                return this.$store.state.pilesStore.currentPile;
             },
-            currentTeam: function () {
-                return userTeamStore.state.currentTeam;
+            user() {
+                return this.$store.state.userStore.user;
             },
-            currentPile: function () {
-                return pileStore.state.currentPile;
-            },
-            user: () => {
-                return userStore.state.user;
-            },
-            teams : () => {
-                return userTeamStore.state.teams;
+            teams() {
+                return this.$store.state.teamsStore.teams;
             }
         },
         methods: {

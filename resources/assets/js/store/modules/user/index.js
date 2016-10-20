@@ -1,5 +1,4 @@
-export const user = require('./UserStore');
-export const teams = require('./UserTeamStore');
-export const sshKeys = require('./UserSshKeyStore');
-export const subscriptions = require('./UserSubscriptionStore');
-
+export const user = require('./UserStore').default;
+export const teams = require('./UserTeamStore').default;
+export const sshKeys = require('./UserSshKeyStore').default;
+export const subscriptions = require('./UserSubscriptionStore').default;

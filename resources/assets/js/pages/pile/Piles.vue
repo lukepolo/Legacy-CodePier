@@ -38,12 +38,12 @@
         },
         computed : {
             piles: () => {
-                return pileStore.state.piles;
+                return this.$store.state.pilesStore.state.piles;
             }
         },
         methods : {
             newPile : function() {
-                pileStore.state.piles.push({
+                this.$store.state.pilesStore.state.piles.push({
                     name : 'New Pile',
                     editing : true
                 });

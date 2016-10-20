@@ -148,7 +148,7 @@
                 return userTeamStore.state.teams;
             },
             user_piles: () => {
-                return pileStore.state.user_piles;
+                return this.$store.state.pilesStore.state.user_piles;
             }
         }
     }
