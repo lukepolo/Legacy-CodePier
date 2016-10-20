@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverCronJobStore = new Vuex.Store({
+export default {
     state: {
         server_cron_jobs: [],
     },
@@ -37,6 +33,4 @@ const serverCronJobStore = new Vuex.Store({
             state.server_cron_jobs = server_cron_jobs;
         }
     }
-});
-
-export default serverCronJobStore
+}

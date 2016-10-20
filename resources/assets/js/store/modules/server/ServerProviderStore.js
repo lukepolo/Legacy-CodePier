@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverProviderStore = new Vuex.Store({
+export default {
     state: {
         user_server_providers: [],
         server_provider_options: [],
@@ -53,6 +49,4 @@ const serverProviderStore = new Vuex.Store({
             state.server_provider_features = server_provider_features;
         }
     }
-});
-
-export default serverProviderStore
+}

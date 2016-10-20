@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverFirewallStore = new Vuex.Store({
+export default {
     state: {
         server_firewall_rules: [],
     },
@@ -37,6 +33,4 @@ const serverFirewallStore = new Vuex.Store({
             state.server_firewall_rules = server_firewall_rules;
         }
     }
-});
-
-export default serverFirewallStore
+}

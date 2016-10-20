@@ -7,7 +7,7 @@
                 </a>
             </h4>
         </div>
-        
+
         <div class="collapse" id="collapseEvents">
             <div class="events-container">
 
@@ -77,17 +77,17 @@
                     <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
                 <!--</div>-->
             </div>
-        
-            
+
+
             <p v-for="event in events">
                 {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{
                 event.data }} - {{ event.log }} - {{ event.created_at }}
             </p>
         </div>
-        
-    
-    
-        
+
+
+
+
     </footer>
 </template>
 

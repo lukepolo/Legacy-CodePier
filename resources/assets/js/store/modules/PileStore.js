@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./helpers";
-
-export default new Vuex.Store({
+export default {
     state: {
         piles: [],
         user_piles: [],
@@ -73,4 +69,4 @@ export default new Vuex.Store({
             pileStore.dispatch('setCurrentPile');
         }
     }
-});
+}

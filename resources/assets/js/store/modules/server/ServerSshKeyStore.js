@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./../helpers";
-
-const serverSshKeyStore = new Vuex.Store({
+export default {
     state: {
         server_ssh_keys: [],
     },
@@ -34,6 +30,4 @@ const serverSshKeyStore = new Vuex.Store({
             state.server_ssh_keys = server_ssh_keys;
         }
     }
-});
-
-export default serverSshKeyStore
+}

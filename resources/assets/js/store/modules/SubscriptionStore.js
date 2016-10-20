@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from "./helpers";
-
-const subscriptionStore = new Vuex.Store({
+export default {
     state: {
         plans: [],
     },
@@ -20,6 +16,4 @@ const subscriptionStore = new Vuex.Store({
             state.plans = plans;
         }
     }
-});
-
-export default subscriptionStore
+}

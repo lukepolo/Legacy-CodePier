@@ -1,8 +1,4 @@
-import Vue from "vue/dist/vue";
-import Vuex from "vuex";
-import {action} from ".././helpers";
-
-const userStore = new Vuex.Store({
+export default {
     state: {
         user: user,
         server_providers: [],
@@ -64,6 +60,4 @@ const userStore = new Vuex.Store({
             state.notification_providers = providers;
         }
     }
-});
-
-export default userStore
+}
