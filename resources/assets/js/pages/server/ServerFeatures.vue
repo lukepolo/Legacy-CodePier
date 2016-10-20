@@ -39,16 +39,16 @@
             }
         },
         computed: {
-            availableServerFeatures: () => {
-                return this.$store.state.serversStoreavailable_server_features;
+            availableServerFeatures() {
+                return this.$store.state.serversStore.available_server_features;
             },
-            availableServerLanguages: () => {
-                return this.$store.state.serversStoreavailable_server_languages;
+            availableServerLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableServerFrameworks: () => {
-                return this.$store.state.serversStoreavailable_server_frameworks;
+            availableServerFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            server: () => {
+            server() {
                 return this.$store.state.serversStoreserver;
             }
         }

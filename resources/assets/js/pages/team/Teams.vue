@@ -109,12 +109,12 @@
             fetchData() {
                 this.$store.dispatch('getUserPiles');
             },
-            createTeam: function () {
+            createTeam() {
                 this.$store.dispatch('createTeam', this.create_form).then(() => {
                     this.create_form = this.$options.data().create_form;
                 });
             },
-            updateTeam: function () {
+            updateTeam() {
                 this.$store.dispatch('updateTeam', this.edit_form).then(() => {
                     this.edit_form = this.$options.data().edit_form;
                 });

@@ -59,7 +59,7 @@
             edit() {
                 this.editing = true;
             },
-            deletePile: function () {
+            deletePile() {
                 this.$store.dispatch('deletePile', this.pile.id);
             },
             savePile() {

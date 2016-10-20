@@ -46,7 +46,7 @@
             }
         },
         methods: {
-            saveSite: function () {
+            saveSite() {
                 this.$store.dispatch('createSite', this.form);
                 this.adding_site = false;
             }

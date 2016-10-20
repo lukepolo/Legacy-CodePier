@@ -31,7 +31,7 @@
             }
         },
         computed: {
-            server: () => {
+            server() {
                 return this.$store.state.serversStoreserver;
             }
         }

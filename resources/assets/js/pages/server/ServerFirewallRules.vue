@@ -75,7 +75,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerFirewallRules', this.$route.params.server_id)
             },
@@ -91,13 +91,13 @@
             }
         },
         computed: {
-            server: () => {
+            server() {
                 return this.$store.state.serversStoreserver;
             },
-            firewall_rules: () => {
+            firewall_rules() {
                 return serverFirewallStore.state.server_firewall_rules;
             },
-            availableServers: () => {
+            availableServers() {
                 return [];
             }
         }

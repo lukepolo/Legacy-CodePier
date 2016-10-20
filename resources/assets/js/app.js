@@ -51,7 +51,7 @@ Vue.directive('file-editor', {
 
 Vue.mixin({
     methods: {
-        now: function () {
+        now() {
             return moment();
         },
         parseDate: function (date, timezone) {

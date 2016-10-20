@@ -15,7 +15,7 @@ export default {
             });
         },
         getSites: ({commit, rootState}, callback) => {
-            if (rootState.pilesStore.current_pile_id) {
+            if (rootState.pilesStore.current_pile_id != null) {
                 Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile: rootState.pilesStore.current_pile_id})).then((response) => {
                     commit('SET_SITES', response.data);
                     typeof callback === 'function' && callback();
@@ -93,7 +93,7 @@ export default {
         },
         deleteSslCertificate: ({commit, dispatch}, ssl_certificate_id) => {
             Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
-                dispatch('getSslCertificates', siteStore.state.site.id);
+                dispatch('getSslCertificates', this.$store.state.sitesStore.site.id);
             }, (errors) => {
 
             });

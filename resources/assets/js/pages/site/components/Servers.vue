@@ -70,7 +70,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getSiteServers', this.$route.params.site_id);
                 this.$store.dispatch('getServers');
             },
@@ -79,14 +79,14 @@
             }
         },
         computed: {
-            site: () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            servers: () => {
-                return siteStore.state.site_servers;
+            servers() {
+                return this.$store.state.sitesStore.site_servers;
             },
-            availableServers: () => {
-                return this.$store.state.serversStoreservers;
+            availableServers() {
+                return this.$store.state.serversStore.servers;
             }
         }
     }

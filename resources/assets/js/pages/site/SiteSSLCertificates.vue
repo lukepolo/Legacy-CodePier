@@ -50,11 +50,11 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
-            installLetsEncryptCertificate: function () {
+            installLetsEncryptCertificate() {
                 this.$store.dispatch('installLetsEncryptSslCertificate', {
                     site_id: this.site.id,
                     domains: this.domains
@@ -65,11 +65,11 @@
             }
         },
         computed: {
-            site: () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            ssl_certificates: () => {
-                return siteStore.state.ssl_certificates;
+            ssl_certificates() {
+                return this.$store.state.sitesStore.ssl_certificates;
             }
         }
     }
