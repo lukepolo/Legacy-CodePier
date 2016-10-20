@@ -200,9 +200,9 @@ class DigitalOceanProvider implements ServerProviderContract
             $server->server_provider_id
         )->first()
         ) {
-//            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
                 return $this->refreshToken($serverProvider);
-//            }
+            }
 
             return $serverProvider->token;
         }
@@ -223,18 +223,19 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $response = $client->post(self::OAUTH_TOKEN_URL . '?grant_type=refresh_token&refresh_token=' . $userServerProvider->refresh_token)->send();
 
-
         if ($response->getStatusCode() == 200) {
 
-            dd(json_decode($response->getBody()));
-            $userServerProvider->token = json_decode($response->getBody());
+            $tokenData =json_decode($response->getBody(), true);
+
+            $userServerProvider->token = $tokenData['access_token'];
+            $userServerProvider->refresh_token = $tokenData['refresh_token'];
+            $userServerProvider->expires_in = $tokenData['expires_in'];
+
             $userServerProvider->save();
 
             return $userServerProvider->token;
         }
 
-
-        dd($response->getStatusCode());
         throw new \Exception('Invalid refresh token');
     }
 }
