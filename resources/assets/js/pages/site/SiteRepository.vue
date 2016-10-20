@@ -97,16 +97,16 @@
         },
         methods: {
             fetchData: function () {
-                userStore.dispatch('getUserRepositoryProviders');
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getServerAvailableFrameworks');
-                serverStore.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getUserRepositoryProviders');
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getServerAvailableLanguages');
             },
             deploySite: function (site_id) {
                 Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
             },
             updateSite: function () {
-                siteStore.dispatch('updateSite', {
+                this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
                     data: {
                         branch: this.form.branch,
@@ -122,7 +122,7 @@
                 });
             },
             deleteSite: function (site_id) {
-                siteStore.dispatch('deleteSite', site_id);
+                this.$store.dispatch('deleteSite', site_id);
             }
         },
         computed: {

@@ -46,13 +46,13 @@
         },
         methods: {
             fetchData: function() {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                serverStore.dispatch('getServerAvailableFeatures');
-                serverStore.dispatch('getServerAvailableLanguages');
-                serverStore.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getServerAvailableFeatures');
+                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getServerAvailableFrameworks');
             },
             saveSiteServerFeatures : function() {
-                siteStore.dispatch('updateSiteServerFeatures', {
+                this.$store.dispatch('updateSiteServerFeatures', {
                     site : this.site.id,
                     form : this.getFormData(this.$el)
                 });

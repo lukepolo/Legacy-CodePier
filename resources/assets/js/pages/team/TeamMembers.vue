@@ -81,20 +81,20 @@
         },
         methods : {
             fetchData : function() {
-                userTeamStore.dispatch('getTeam', this.$route.params.team_id);
-                userTeamStore.dispatch('getTeamMembers', this.$route.params.team_id);
+                this.$store.dispatch('getTeam', this.$route.params.team_id);
+                this.$store.dispatch('getTeamMembers', this.$route.params.team_id);
             },
             sendInvite : function() {
-                userTeamStore.dispatch('sendTeamInvite', {
+                this.$store.dispatch('sendTeamInvite', {
                     email : this.email,
                     team_id : userTeamStore.state.team.id
                 })
             },
             resendInvite : function(invite_id) {
-                userTeamStore.dispatch('resendTeamInvite', invite_id);
+                this.$store.dispatch('resendTeamInvite', invite_id);
             },
             deleteMember : function(member_id) {
-                userTeamStore.dispatch('deleteTeamMember', {
+                this.$store.dispatch('deleteTeamMember', {
                     member_id: member_id,
                     team_id : userTeamStore.state.team.id
                 });

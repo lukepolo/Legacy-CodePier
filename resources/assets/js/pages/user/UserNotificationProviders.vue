@@ -46,7 +46,7 @@
                     return notification_provider.notification_provider_id == notification_provider_id;
                 }).id;
 
-                userStore.dispatch('deleteUserNotificationProvider', {
+                this.$store.dispatch('deleteUserNotificationProvider', {
                     user_id : userStore.state.user.id,
                     user_notification_provider_id : user_notification_provider_id
                 });
@@ -60,7 +60,7 @@
                 alert('Trying to get notifications');
             });
 
-            userStore.dispatch('getUserNotificationProviders');
+            this.$store.dispatch('getUserNotificationProviders');
         },
     }
 </script>

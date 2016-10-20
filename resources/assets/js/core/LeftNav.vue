@@ -32,7 +32,7 @@
 <script>
     export default {
         created() {
-            siteStore.dispatch('getSites');
+            this.$store.dispatch('getSites');
         },
         data() {
             return {
@@ -46,7 +46,7 @@
         },
         methods: {
             saveSite: function () {
-                siteStore.dispatch('createSite', this.form);
+                this.$store.dispatch('createSite', this.form);
                 this.adding_site = false;
             }
         },

@@ -42,7 +42,7 @@
         methods: {
             saveFile() {
                 if(this.file_model) {
-                    siteStore.dispatch('updateSiteFile', {
+                    this.$store.dispatch('updateSiteFile', {
                         file: this.file,
                         site: this.site.id,
                         content : this.getContent(),
@@ -51,7 +51,7 @@
 
                     });
                 } else {
-                    siteStore.dispatch('saveSiteFile', {
+                    this.$store.dispatch('saveSiteFile', {
                         file: this.file,
                         site: this.site.id,
                         content : this.getContent(),

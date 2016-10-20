@@ -85,14 +85,14 @@
         },
         methods : {
             fetchData : function() {
-                siteStore.dispatch('getSite', this.$route.params.site_id);
-                siteStore.dispatch('getWorkers', this.$route.params.site_id);
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
             installWorker: function () {
-                siteStore.dispatch('installWorker', this.form);
+                this.$store.dispatch('installWorker', this.form);
             },
             deleteWorker : function(worker_id) {
-                siteStore.dispatch('deleteWorker', {
+                this.$store.dispatch('deleteWorker', {
                     worker : worker_id,
                     site : this.site.id,
                 });

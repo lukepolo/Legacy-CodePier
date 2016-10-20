@@ -82,13 +82,13 @@ export default {
                 alert(error);
             });
         },
-        installFeature: ({commit}, data) => {
+        installFeature: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerFeatureController@store', {server: data.server}), {
                 service: data.service,
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {
-                serverStore.dispatch('getServer', data.server);
+                dispatch('getServer', data.server);
             }, (errors) => {
                 alert(error);
             });

@@ -10,19 +10,19 @@ export default {
                 alert(error);
             });
         },
-        createServerFirewallRule: ({commit}, data) => {
+        createServerFirewallRule: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerFirewallController@store', {server: data.server}), data).then((response) => {
-                serverFirewallStore.dispatch('getServerFirewallRules', data.server);
+                dispatch('getServerFirewallRules', data.server);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteServerFirewallRule: ({commit}, data) => {
+        deleteServerFirewallRule: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('Server\ServerFirewallController@destroy', {
                 server: data.server,
                 firewall: data.firewall
             })).then((response) => {
-                serverFirewallStore.dispatch('getServerFirewallRules', data.server);
+                dispatch('getServerFirewallRules', data.server);
             }, (errors) => {
                 alert(error);
             });

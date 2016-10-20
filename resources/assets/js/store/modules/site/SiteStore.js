@@ -42,16 +42,16 @@ export default {
                 alert(error);
             });
         },
-        updateSiteServerFeatures: ({commit}, data) => {
+        updateSiteServerFeatures: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@updateSiteServerFeatures', {site: data.site}), data.form).then((response) => {
-                siteStore.dispatch('getSite', data.site);
+                dispatch('getSite', data.site);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteSite: ({commit}, site_id) => {
+        deleteSite: ({commit, dispatch}, site_id) => {
             Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then((response) => {
-                siteStore.dispatch('getSites');
+                dispatch('getSites');
                 app.$router.push('/');
             }, (errors) => {
 
@@ -63,19 +63,19 @@ export default {
             }, (errors) => {
             });
         },
-        installWorker: ({commit}, data) => {
+        installWorker: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
-                siteStore.dispatch('getWorkers', data.site_id);
+                dispatch('getWorkers', data.site_id);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteWorker: ({commit}, data) => {
+        deleteWorker: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('Site\SiteWorkerController@destroy', {
                 site: data.site,
                 worker: data.worker
             })).then((response) => {
-                siteStore.dispatch('getWorkers', data.site);
+                dispatch('getWorkers', data.site);
             }, (errors) => {
             });
         },
@@ -85,15 +85,15 @@ export default {
             }, (errors) => {
             });
         },
-        installLetsEncryptSslCertificate: ({commit}, data) => {
+        installLetsEncryptSslCertificate: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: data.site_id}), data).then((response) => {
-                siteStore.dispatch('getSslCertificates', data.site_id);
+                dispatch('getSslCertificates', data.site_id);
             }, (errors) => {
             });
         },
-        deleteSslCertificate: ({commit}, ssl_certificate_id) => {
+        deleteSslCertificate: ({commit, dispatch}, ssl_certificate_id) => {
             Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
-                siteStore.dispatch('getSslCertificates', siteStore.state.site.id);
+                dispatch('getSslCertificates', siteStore.state.site.id);
             }, (errors) => {
 
             });
@@ -105,9 +105,9 @@ export default {
                 alert(error);
             });
         },
-        updateLinkedServers: ({commit}, data) => {
+        updateLinkedServers: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteServerController@store', {site: data.site}), data).then((response) => {
-                siteStore.dispatch('getSiteServers', data.site);
+                dispatch('getSiteServers', data.site);
             });
         },
         saveSiteFile: ({commit}, data) => {

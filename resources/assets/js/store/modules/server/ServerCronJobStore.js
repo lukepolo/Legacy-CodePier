@@ -10,19 +10,19 @@ export default {
                 alert(error);
             });
         },
-        createServerCronJob: ({commit}, data) => {
+        createServerCronJob: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerCronJobController@store', {server: data.server}), data).then(() => {
-                serverCronJobStore.dispatch('getServerCronJobs', data.server);
+                dispatch('getServerCronJobs', data.server);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteServerCronJob: ({commit}, data) => {
+        deleteServerCronJob: ({dispatch}, data) => {
             Vue.http.delete(Vue.action('Server\ServerCronJobController@destroy', {
                 server: data.server,
                 cron_job: data.cron_job
             })).then(() => {
-                serverCronJobStore.dispatch('getServerCronJobs', data.server);
+                dispatch('getServerCronJobs', data.server);
             }, (errors) => {
                 alert(error);
             });

@@ -10,19 +10,19 @@ export default {
                 alert(error);
             });
         },
-        createServerWorker: ({commit}, data) => {
+        createServerWorker: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerWorkerController@store', {server: data.server}), data).then((response) => {
-                serverWorkerStore.dispatch('getServerWorkers', data.server);
+                dispatch('getServerWorkers', data.server);
             }, (errors) => {
                 alert(error);
             });
         },
-        deleteServerWorker: ({commit}, data) => {
+        deleteServerWorker: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('Server\ServerWorkerController@destroy', {
                 server: data.server,
                 worker: data.worker
             })).then((response) => {
-                serverWorkerStore.dispatch('getServerWorkers', data.server);
+                dispatch('getServerWorkers', data.server);
             }, (errors) => {
                 alert(error);
             });
