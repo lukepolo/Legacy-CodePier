@@ -88,7 +88,7 @@
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
-            installWorker: function () {
+            installWorker() {
                 this.$store.dispatch('installWorker', this.form);
             },
             deleteWorker: function (worker_id) {
@@ -100,17 +100,17 @@
         },
         computed: {
             site() {
-                var site = siteStore.state.site;
+                var site = this.$store.state.sitesStore.site;
                 if (site) {
                     this.form.site_id = site.id;
                     this.form.command = site.path;
                     this.form.selected_servers = _.map(site.servers, 'id');
                 }
 
-                return siteStore.state.site;
+                return this.$store.state.sitesStore.site;
             },
-            workers: () => {
-                return siteStore.state.workers;
+            workers() {
+                return this.$store.state.sitesStore.workers;
             }
         }
     }

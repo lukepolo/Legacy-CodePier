@@ -107,13 +107,13 @@
             user_subscription() {
                 return this.$store.state.userSubscriptionsStore.user_subscription;
             },
-            validSubscription: function () {
+            validSubscription() {
                 return this.$store.state.userSubscriptionsStore.valid_subscription;
             },
             upcomingSubscription() {
                 return this.$store.state.userSubscriptionsStore.user_upcoming_subscription;
             },
-            isCanceled: function () {
+            isCanceled() {
                 return this.user_subscription.ends_at != null;
             }
         },
@@ -129,7 +129,7 @@
                 }
                 return false;
             },
-            createSubscription: function () {
+            createSubscription() {
                 this.$store.dispatch('createUserSubscription', this.form).then(() => {
                     this.form = this.$options.data().form;
                 });

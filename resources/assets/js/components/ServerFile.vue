@@ -15,12 +15,12 @@
             }
         },
         watch: {
-            'content': function () {
+            'content'() {
                 ace.edit($(this.$el).find('.editor')[0]).setValue(this.content);
                 ace.edit($('.editor')[0]).clearSelection(1);
             }
         },
-        mounted: function () {
+        mounted() {
             Vue.http.post(laroute.action('Server\ServerController@getFile', {
                 server: this.server,
             }), {

@@ -55,7 +55,7 @@
             cronjob: {
                 bind: function (el) {
                     $(el).cron({
-                        onChange: function () {
+                        onChange() {
                             var cronTiming = $(this).cron("value");
                             $('#cron-preview').text(cronTiming);
                             $('input[name="cron_timing"]').val(cronTiming);
@@ -71,7 +71,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
@@ -87,10 +87,10 @@
             }
         },
         computed: {
-            server: () => {
+            server() {
                 return this.$store.state.serversStoreserver;
             },
-            cron_jobs: () => {
+            cron_jobs() {
                 return serverCronJobStore.state.server_cron_jobs;
             }
         }

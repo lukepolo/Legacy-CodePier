@@ -98,7 +98,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getUserRepositoryProviders');
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getServerAvailableFrameworks');
@@ -107,7 +107,7 @@
             deploySite: function (site_id) {
                 Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
             },
-            updateSite: function () {
+            updateSite() {
                 this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
                     data: {
@@ -128,8 +128,8 @@
             }
         },
         computed: {
-            site: function () {
-                var site = siteStore.state.site;
+            site() {
+                var site = this.$store.state.sitesStore.site;
 
                 if (site) {
                     this.form.branch = site.branch;
@@ -142,16 +142,16 @@
 
                 return site;
             },
-            user_repository_providers: () => {
+            user_repository_providers() {
                 return this.$store.state.userStore.repository_providers;
             },
-            availableLanguages: () => {
-                return this.$store.state.serversStoreavailable_server_languages;
+            availableLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableFrameworks: () => {
-                return this.$store.state.serversStoreavailable_server_frameworks;
+            availableFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            site_servers: () => {
+            site_servers() {
                 return [];
             }
         },

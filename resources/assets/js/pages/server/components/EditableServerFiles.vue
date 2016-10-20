@@ -23,7 +23,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getEditableServerFiles', this.server);
             },
             sectionTitle: function (section) {
@@ -31,7 +31,7 @@
             }
         },
         computed: {
-            editable_files: () => {
+            editable_files() {
                 return this.$store.state.serversStoreeditable_server_files;
             }
         }

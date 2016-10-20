@@ -105,7 +105,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getUserServerProviders');
 
                 this.$store.dispatch('getServerAvailableFeatures');
@@ -121,39 +121,39 @@
                 this.$store.dispatch('getServerProviderRegions', provider);
                 this.$store.dispatch('getServerProviderFeatures', provider);
             },
-            createServer: function () {
+            createServer() {
                 this.$store.dispatch('createServer', this.getFormData(this.$el));
             }
         },
         computed: {
-            user_server_providers: () => {
+            user_server_providers() {
                 var providers = serverProviderStore.state.user_server_providers;
                 if (providers.length == 1) {
                 }
                 return providers;
             },
-            server_options: () => {
+            server_options() {
                 return serverProviderStore.state.server_provider_options;
             },
-            server_regions: () => {
+            server_regions() {
                 return serverProviderStore.state.server_provider_regions;
             },
-            server_provider_features: () => {
+            server_provider_features() {
                 return serverProviderStore.state.server_provider_features;
             },
-            availableServerFeatures: () => {
-                return this.$store.state.serversStoreavailable_server_features;
+            availableServerFeatures() {
+                return this.$store.state.serversStore.available_server_features;
             },
-            availableServerLanguages: () => {
-                return this.$store.state.serversStoreavailable_server_languages;
+            availableServerLanguages() {
+                return this.$store.state.serversStore.available_server_languages;
             },
-            availableServerFrameworks: () => {
-                return this.$store.state.serversStoreavailable_server_frameworks;
+            availableServerFrameworks() {
+                return this.$store.state.serversStore.available_server_frameworks;
             },
-            site: () => {
-                return siteStore.state.site;
+            site() {
+                return this.$store.state.sitesStore.site;
             },
-            pile: function () {
+            pile() {
                 var pile = _.find(user.piles, function (pile) {
                     return pile.id == localStorage.getItem('current_pile_id');
                 });

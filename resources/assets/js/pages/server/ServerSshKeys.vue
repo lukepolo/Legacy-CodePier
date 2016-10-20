@@ -57,7 +57,7 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function () {
+            fetchData() {
                 this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerSshKeys', this.$route.params.server_id);
             },
@@ -73,10 +73,10 @@
             }
         },
         computed: {
-            server: () => {
+            server() {
                 return this.$store.state.serversStoreserver;
             },
-            ssh_keys: () => {
+            ssh_keys() {
                 return serverSshKeyStore.state.server_ssh_keys;
             }
         }
