@@ -49,20 +49,20 @@
             }
         },
         methods : {
-            cancel : function() {
+            cancel () {
                 if(!this.pile.id) {
                     this.$store.state.pilesStore.state.piles.splice(this.index, 1);
                 }
 
                 this.editing = false;
             },
-            edit : function() {
+            edit () {
                 this.editing = true;
             },
             deletePile :function() {
                 this.$store.dispatch('deletePile', this.pile.id);
             },
-            savePile : function() {
+            savePile () {
                 if(this.pile.id) {
 
                     this.form['pile'] = this.pile;

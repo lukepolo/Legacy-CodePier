@@ -106,7 +106,7 @@
             }
         },
         methods: {
-            fetchData : function() {
+            fetchData () {
                 this.$store.dispatch('getUserPiles');
             },
             createTeam: function () {
@@ -123,7 +123,7 @@
                 this.$store.dispatch('deleteTeam', team_id);
             },
             isOwnerOfTeam: function (team) {
-                return team.owner_id == userStore.state.user.id;
+                return team.owner_id == this.$store.state.userStoreuser.id;
             },
             createTeamForm() {
                 this.create_form = this.$options.data().create_form;

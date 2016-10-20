@@ -141,13 +141,13 @@
                 return site;
             },
             user_repository_providers: () => {
-                return userStore.state.repository_providers;
+                return this.$store.state.userStorerepository_providers;
             },
             availableLanguages : () => {
-                return serverStore.state.available_server_languages;
+                return this.$store.state.serversStoreavailable_server_languages;
             },
             availableFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+                return this.$store.state.serversStoreavailable_server_frameworks;
             },
             site_servers : () => {
                 return [];

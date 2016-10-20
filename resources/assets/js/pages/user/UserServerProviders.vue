@@ -32,7 +32,7 @@
         },
         computed : {
             user_server_providers : () => {
-                return userStore.state.server_providers;
+                return this.$store.state.userStoreserver_providers;
             }
         },
         methods: {
@@ -49,7 +49,7 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserServerProvider', {
-                    user_id : userStore.state.user.id,
+                    user_id : this.$store.state.userStoreuser.id,
                     user_server_provider_id : user_server_provider_id
                 });
             }
@@ -62,7 +62,7 @@
                 alert(error);
             });
 
-            this.$store.dispatch('getUserServerProviders', userStore.state.user.id);
+            this.$store.dispatch('getUserServerProviders', this.$store.state.userStoreuser.id);
         },
     }
 </script>

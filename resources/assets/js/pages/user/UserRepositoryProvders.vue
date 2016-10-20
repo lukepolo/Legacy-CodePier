@@ -30,7 +30,7 @@
         },
         computed : {
             user_repository_providers : () => {
-                return userStore.state.repository_providers;
+                return this.$store.state.userStorerepository_providers;
             }
         },
         methods: {
@@ -47,7 +47,7 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserRepositoryProvider', {
-                   user_id : userStore.state.user.id,
+                   user_id : this.$store.state.userStoreuser.id,
                    user_repository_provider_id : user_repository_provider_id
                });
             }

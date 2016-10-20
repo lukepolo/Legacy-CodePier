@@ -45,13 +45,13 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData: function() {
+            fetchData() {
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');
                 this.$store.dispatch('getServerAvailableFrameworks');
             },
-            saveSiteServerFeatures : function() {
+            saveSiteServerFeatures () {
                 this.$store.dispatch('updateSiteServerFeatures', {
                     site : this.site.id,
                     form : this.getFormData(this.$el)
@@ -63,13 +63,13 @@
                 return siteStore.state.site;
             },
             availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+                return this.$store.state.serversStoreavailable_server_features;
             },
             availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+                return this.$store.state.serversStoreavailable_server_languages;
             },
             availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+                return this.$store.state.serversStoreavailable_server_frameworks;
             }
         }
     }

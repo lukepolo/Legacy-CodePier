@@ -46,8 +46,8 @@
             site : () => {
                 return siteStore.state.site;
             },
-            files : function() {
-                return serverStore.state.editable_framework_files;
+            files () {
+                return this.$store.state.serversStoreeditable_framework_files;
             }
         },
     }

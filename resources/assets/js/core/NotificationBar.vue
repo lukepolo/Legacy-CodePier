@@ -117,12 +117,12 @@
             this.fetchData();
         },
         methods: {
-            fetchData: function() {
+            fetchData() {
 
                 var store = this.$store;
 
                 store.dispatch('getServers', function () {
-                    _(store.state.serverStore.servers).forEach(function (server) {
+                    _(store.state.serversStore.servers).forEach(function (server) {
                         Echo.private('App.Models.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     server.status = data.status;
@@ -154,7 +154,7 @@
         },
         computed: {
             servers() {
-                return this.$store.state.serverStore.servers;
+                return this.$store.state.serversStore.servers;
             },
             events() {
                 return this.$store.state.eventsStore.events;

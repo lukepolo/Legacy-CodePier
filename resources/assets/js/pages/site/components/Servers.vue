@@ -69,7 +69,7 @@
                 this.$store.dispatch('getSiteServers', this.$route.params.site_id);
                 this.$store.dispatch('getServers');
             },
-            linkServers : function() {
+            linkServers () {
                 this.$store.dispatch('updateLinkedServers', this.form);
             }
         },
@@ -81,7 +81,7 @@
                 return siteStore.state.site_servers;
             },
             availableServers : () => {
-                return serverStore.state.servers;
+                return this.$store.state.serversStoreservers;
             }
         }
     }

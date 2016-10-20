@@ -96,7 +96,7 @@
         },
         computed: {
             user: () => {
-                return userStore.state.user;
+                return this.$store.state.this.$store.state.userStoreuser;
             },
             plans : () => {
                 return subscriptionStore.state.plans;
@@ -110,7 +110,7 @@
             validSubscription: function () {
                 return userSubscriptionStore.state.valid_subscription;
             },
-            upcomingSubscription : function() {
+            upcomingSubscription () {
                 return userSubscriptionStore.state.user_upcoming_subscription;
             },
             isCanceled: function () {
@@ -118,7 +118,7 @@
             }
         },
         methods: {
-            fetchData : function() {
+            fetchData () {
                 this.$store.dispatch('getPlans');
                 this.$store.dispatch('getUserInvoices');
                 this.$store.dispatch('getUserSubscription');
@@ -134,7 +134,7 @@
                     this.form = this.$options.data().form;
                 });
             },
-            cancelSubscription : function() {
+            cancelSubscription () {
                 this.$store.dispatch('cancelSubscription', this.user_subscription.id);
             },
             downloadLink : function(invoice_id) {

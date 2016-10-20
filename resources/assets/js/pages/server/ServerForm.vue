@@ -141,13 +141,13 @@
                 return serverProviderStore.state.server_provider_features;
             },
             availableServerFeatures: () => {
-                return serverStore.state.available_server_features;
+                return this.$store.state.serversStoreavailable_server_features;
             },
             availableServerLanguages: () => {
-                return serverStore.state.available_server_languages;
+                return this.$store.state.serversStoreavailable_server_languages;
             },
             availableServerFrameworks: () => {
-                return serverStore.state.available_server_frameworks;
+                return this.$store.state.serversStoreavailable_server_frameworks;
             },
             site : () => {
                 return siteStore.state.site;

@@ -52,18 +52,16 @@
             }
         },
         computed : {
-            user : () => {
-                return userStore.state.user;
+            user() {
+                return this.$store.state.userStore.user;
             }
         },
         methods : {
-            onSubmit: function() {
-                Vue.http.put(this.action('User\UserController@update', { user : user.id }), this.form, {
-                }).then((response) => {
-                    userStore.state.user = response.data;
-                }, (errors) => {
-                    alert(error);
-                });
+            onSubmit() {
+
+                this.form.user_id = this.user.id;
+
+                this.$store.dispatch('updateUser', this.form)
             }
         }
     }

@@ -14,6 +14,14 @@ export default {
                 alert(error);
             });
         },
+        updateUser : ({commit}, form) => {
+            Vue.http.put(Vue.action('User\UserController@update', { user : form.user_id }), form, {
+            }).then((response) => {
+
+            }, (errors) => {
+                alert(error);
+            });
+        },
         deleteUserServerProvider: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserServerProviderController@destroy', { user : data.user_id,  server_provider : data.user_server_provider_id })).then((response) => {
                 dispatch('getUserServerProviders');
