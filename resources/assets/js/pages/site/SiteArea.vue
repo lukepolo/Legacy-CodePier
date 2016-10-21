@@ -38,11 +38,11 @@
 
             <site-header></site-header>
 
-            <transition :name="transitionName">
+            <transition >
                 <router-view name="nav"></router-view>
             </transition>
 
-            <transition name="bounce">
+            <transition >
                 <router-view></router-view>
             </transition>
 

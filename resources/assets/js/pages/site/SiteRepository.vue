@@ -57,17 +57,16 @@
                     </form>
 
                     <div class="btn-footer">
-                        <button class="btn">Delete Site</button>
-                        <button class="btn btn-primary" type="submit">Update Repository</button>
+                        <button @click="deleteSite(site.id)" class="btn">Delete Site</button>
+                        <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
                     </div>
                 </div>
-                <template v-if="site.repository && site_servers.length">
+                <template v-if="site.repository">
                     <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
                     <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
                         Deployments</a>
                     <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
                 </template>
-                <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
             </div>
         </div>
     </section>
