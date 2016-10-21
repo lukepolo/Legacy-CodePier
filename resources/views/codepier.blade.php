@@ -2,6 +2,7 @@
 
 @section('content')
     <router-view class="view"></router-view>
+    <vue-progress-bar></vue-progress-bar>
 @endsection
 
 @push('scripts')
