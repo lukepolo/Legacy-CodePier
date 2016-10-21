@@ -102,7 +102,7 @@ const router = new VueRouter({
                     name: 'site_repository',
                     components: {
                         default: sitePages.SiteRepository,
-                        nav: sitePages.SiteArea
+                        nav: sitePages.SiteNav
                     }
                 },
                 {
@@ -110,7 +110,7 @@ const router = new VueRouter({
                     name: 'site_workers',
                     components: {
                         default: sitePages.SiteWorkers,
-                        nav: sitePages.SiteArea
+                        nav: sitePages.SiteNav
                     }
                 },
                 {
@@ -118,7 +118,7 @@ const router = new VueRouter({
                     name: 'site_files',
                     components: {
                         default: sitePages.SiteFrameworkFiles,
-                        nav: sitePages.SiteArea
+                        nav: sitePages.SiteNav
                     }
                 },
                 {
@@ -126,7 +126,7 @@ const router = new VueRouter({
                     name: 'site_server_features',
                     components: {
                         default: sitePages.SiteServerFeatures,
-                        nav: sitePages.SiteArea
+                        nav: sitePages.SiteNav
                     }
                 },
                 {
@@ -134,7 +134,7 @@ const router = new VueRouter({
                     name: 'site_ssl_certs',
                     components: {
                         default: sitePages.SiteSSLCertificates,
-                        nav: sitePages.SiteArea
+                        nav: sitePages.SiteNav
                     }
                 },
 
