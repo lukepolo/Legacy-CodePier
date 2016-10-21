@@ -3772,8 +3772,7 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0px;
     left: 0px;
     margin: 0px;
-    padding: 0px 10px;
-    pointer-events: none; }
+    padding: 0px 10px; }
     .jcf-form-wrap label:after {
       content: "";
       position: absolute;
@@ -4048,8 +4047,18 @@ footer {
   -webkit-box-flex: 1;
   flex: 1 1 1em; }
 
-.container .jcf-form-wrap {
-  padding: 0px; }
+.container .jcf-form-wrap .input-checkbox,
+.container .jcf-form-wrap .input-radio {
+  margin-bottom: 40px; }
+  .container .jcf-form-wrap .input-checkbox label,
+  .container .jcf-form-wrap .input-radio label {
+    margin-bottom: 20px; }
+
+.container .jcf-form-wrap .input-question {
+  margin-bottom: 20px; }
+
+.container .jcf-form-wrap input[type="text"] + label {
+  pointer-events: none; }
 
 .card, .jcf-form-wrap {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12); }
