@@ -1,11 +1,4 @@
 <style>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-active {
-        opacity: 0
-    }
-
     .bounce-enter-active {
         animation: bounce-in .5s;
     }
@@ -38,20 +31,23 @@
 
 <template>
     <div class="parent">
+
         <left-nav></left-nav>
+
         <section id="middle" class="section-column">
 
             <site-header></site-header>
 
-            <transition name="bounce">
+            <transition :name="transitionName">
                 <router-view name="nav"></router-view>
             </transition>
 
-            <transition name="bounce">
-                <router-view class="container section-column"></router-view>
+            <transition :name="transitionName">
+                <router-view class="container"></router-view>
             </transition>
 
         </section>
+
         <servers></servers>
     </div>
 </template>
@@ -63,11 +59,24 @@
     import SiteHeader from './components/SiteHeader.vue';
 
     export default {
+        data() {
+            return {
+                transitionName : null
+            }
+        },
         components: {
             SiteNav,
             LeftNav,
             Servers,
             SiteHeader,
+        },
+        watch: {
+            '$route' (to, from) {
+                const toDepth = to.path.split('/').length
+                const fromDepth = from.path.split('/').length
+//                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+                this.transitionName = 'bounce';
+            }
         }
     }
 </script>
