@@ -1,43 +1,61 @@
 <template>
-    <section>
-        <h4>{{ getSectionTitle(area) }}</h4>
+    <div>
+        <h3>{{ getSectionTitle(area) }}</h3>
+
         <template v-for="feature in features">
+            <h3></h3>
+
+            <div class="jcf-input-group input-checkbox">
+                <div class="input-question">
+                    {{ feature.name }}
+                </div>
+
+            </div>
+
+
+
+
+
             <p>
-                {{ feature.name }}
+
+
                 <template v-if="server && hasFeature(feature)">
                     Installed
                 </template>
+
                 <template v-else>
                     <template v-if="server">
                         <button @click="installFeature(feature)">Install</button>
                     </template>
+
                     <template v-else>
                         <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox"
                                :checked="(server && feature.required) || hasFeature(feature)" value="1">
                     </template>
-            <p>
-                <small>{{ feature.description }}</small>
+
+                    <small>{{ feature.description }}</small>
+                </template>
             </p>
-        </template>
-        </p>
-        <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
-            <div class="input-group">
-                <input :id="parameter"
+
+            <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
+                <div class="input-group">
+                    <input :id="parameter"
                        :name="'services[' + area + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
                        type="text" :value="getParamterValue(feature, parameter, value)">
-                <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
-            </div>
+                    <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                </div>
+            </template>
+
+            <template v-if="server && hasFeature(feature)">
+                <button @click="installFeature(feature)">Update</button>
+            </template>
         </template>
-        <template v-if="server && hasFeature(feature)">
-            <button @click="installFeature(feature)">Update</button>
-        </template>
-</template>
-<template v-if="frameworks">
-    <h2>Frameworks for {{ area }}</h2>
-    <feature-area :server="server" :area="framework" :features="features"
-                  v-for="(features, framework) in getFrameworks(area)"></feature-area>
-</template>
-</section>
+
+        <!--<template v-if="frameworks">-->
+            <!--<h2>Frameworks for {{ area }}</h2>-->
+            <!--<feature-area :server="server" :area="framework" :features="features" v-for="(features, framework) in getFrameworks(area)"></feature-area>-->
+        <!--</template>-->
+    </div>
 </template>
 
 <script>
