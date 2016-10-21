@@ -1,20 +1,16 @@
 <template>
-    <section>
-        <div class="section-content" v-if="site">
-            <div class="container">
-                <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
-                    <section>
-                        <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
-                                      v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                        <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
-                                      :frameworks="true"
-                                      v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
-                    </section>
-                    <button type="submit">Update Site Server Features</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <div v-if="site">
+        <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
+            <section>
+                <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
+                              v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+                <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
+                              :frameworks="true"
+                              v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+            </section>
+            <button type="submit">Update Site Server Features</button>
+        </form>
+    </div>
 </template>
 
 <script>

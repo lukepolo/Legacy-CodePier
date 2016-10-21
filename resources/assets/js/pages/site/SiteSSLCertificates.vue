@@ -1,21 +1,29 @@
 <template>
-    <section>
-        <div class="section-content" v-if="site">
-            <div class="container">
-                <form @submit.prevent="installLetsEncryptCertificate">
-                    Domains
+    <div v-if="site">
+        <div class="jcf-form-wrap">
+            <form @submit.prevent="installLetsEncryptCertificate">
+                <div class="jcf-input-group">
                     <input type="text" v-model="domains" name="domains">
-                    <button type="submit">Install Let's Encrypt Certificate</button>
-                </form>
-            <p v-for="ssl_certificate in ssl_certificates">
-                {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
-                {{ ssl_certificate.key_path }}
-                <a href="#" v-if="ssl_certificate.active">Deactivate</a>
-                <a href="#" v-else>Activate</a>
-                <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
-            </p>
+                    <label for="domains">
+                        <span class="float-label">Domains</span>
+                    </label>
+                </div>
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Install Let's Encrypt Certificate</button>
+                </div>
+            </form>
         </div>
-    </section>
+
+
+        <p v-for="ssl_certificate in ssl_certificates">
+            {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
+            {{ ssl_certificate.key_path }}
+            <a href="#" v-if="ssl_certificate.active">Deactivate</a>
+            <a href="#" v-else>Activate</a>
+            <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
+        </p>
+    </div>
 </template>
 
 <script>
