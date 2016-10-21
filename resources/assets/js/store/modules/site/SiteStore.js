@@ -24,13 +24,14 @@ export default {
                 });
             }
         },
-        createSite: ({commit, rootState}, data) => {
+        createSite: ({commit, dispatch, rootState}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@store'), {
                 domain: data.domain,
                 domainless: data.domainless,
                 pile_id: rootState.userStore.user.current_pile_id
             }).then((response) => {
-                app.$router.push('/site/' + response.data.id);
+                app.$router.push('/site/' + response.data.id + '/repository');
+                dispatch('getSites');
             }, (errors) => {
                 alert(error);
             })
