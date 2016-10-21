@@ -13,7 +13,7 @@ class AddCurrentPileId extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->integer('current_pile_id')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddCurrentPileId extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('current_pile_id');
         });
     }
