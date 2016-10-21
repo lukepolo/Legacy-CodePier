@@ -152,19 +152,6 @@
             },
             site() {
                 return this.$store.state.sitesStore.site;
-            },
-            pile() {
-                var pile = _.find(user.piles, function (pile) {
-                    return pile.id == localStorage.getItem('current_pile_id');
-                });
-
-                if (pile) {
-                    return pile;
-                }
-
-                return {
-                    id: null
-                }
             }
         }
     }

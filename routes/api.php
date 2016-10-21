@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::resource('piles', 'Pile\PileController');
         Route::resource('pile.sites', 'Pile\PileSitesController');
+        Route::post('change-pile', 'Pile\PileController@changePile');
 
         /*
        |--------------------------------------------------------------------------

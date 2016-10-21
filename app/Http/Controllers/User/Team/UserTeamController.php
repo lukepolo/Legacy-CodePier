@@ -54,10 +54,16 @@ class UserTeamController extends Controller
             'name'     => $request->name,
             'owner_id' => \Auth::user()->id,
         ]);
-        $request->user()->attachTeam($team);
+
+        $user = \Auth::user();
+
+        $user->attachTeam($team);
 
         $team->piles()->sync($request->get('piles', []));
         $team->save();
+
+        $user->current_pile_id = null;
+        $user->save();
 
         return response()->json($team);
     }
@@ -127,7 +133,12 @@ class UserTeamController extends Controller
             $team = $teamModel::with('piles')->findOrFail($id);
         }
         try {
-            auth()->user()->switchTeam($team);
+
+            $user = \Auth::user();
+            $user->switchTeam($team);
+            $user->current_pile_id = null;
+            $user->save();
+
         } catch (UserNotInTeamException $e) {
             abort(403);
         }

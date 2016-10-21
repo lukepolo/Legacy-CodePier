@@ -23,7 +23,7 @@
                 <button class="btn btn-primary">Save</button>
             </form>
 
-            <div class="btn-container text-center">
+            <div class="btn-container text-center" v-if="current_pile_id">
                 <div @click="adding_site = !adding_site" class="btn btn-primary">Create Site</div>
             </div>
 
@@ -56,6 +56,9 @@
         computed: {
             sites() {
                 return this.$store.state.sitesStore.sites;
+            },
+            current_pile_id() {
+                return this.$store.state.userStore.user.current_pile_id;
             }
         }
     }

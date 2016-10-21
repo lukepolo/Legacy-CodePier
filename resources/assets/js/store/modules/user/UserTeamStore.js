@@ -15,13 +15,17 @@ export default {
         },
         createTeam: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Team\UserTeamController@store'), data).then((response) => {
+                dispatch('getCurrentUser');
                 dispatch('getTeams');
+                dispatch('getPiles');
+                dispatch('getSites');
             }, (errors) => {
                 alert(error);
             });
         },
         updateTeam: ({commit, dispatch}, data) => {
             Vue.http.put(Vue.action('User\Team\UserTeamController@update', {team: data.team}), data).then((response) => {
+                dispatch('getCurrentUser');
                 dispatch('getTeams');
                 dispatch('getPiles');
                 dispatch('getSites');
@@ -31,23 +35,13 @@ export default {
         },
         changeTeams: ({commit, dispatch}, teamID) => {
             Vue.http.post(Vue.action('User\Team\UserTeamController@switchTeam', {id: (teamID ? teamID : "")})).then((response) => {
-                commit('SET_CURRENT_TEAM', response.data);
                 dispatch('getPiles').then(function () {
-                    dispatch('getServers');
+                    dispatch('getCurrentUser');
+                    dispatch('getPiles');
+                    dispatch('getSites');
                 });
             }, (errors) => {
                 alert(error);
-            });
-        },
-        getUserTeam: ({commit, state, rootState}) => {
-
-            var currentTeamID = rootState.userStore.user.current_team_id;
-
-            $.each(state.teams, (index, team) => {
-                if (currentTeamID == team.id) {
-                    commit('SET_CURRENT_TEAM', team);
-                    return false;
-                }
             });
         },
         getTeam: ({commit}, team_id) => {
@@ -59,7 +53,10 @@ export default {
         },
         deleteTeam: ({commit, dispatch}, team_id) => {
             Vue.http.delete(Vue.action('User\Team\UserTeamController@destroy', {team: team_id})).then((response) => {
+                dispatch('getCurrentUser');
                 dispatch('getTeams');
+                dispatch('getPiles');
+                dispatch('getSites');
             }, (errors) => {
                 alert(error);
             });
@@ -105,12 +102,6 @@ export default {
         },
         SET_TEAMS: (state, teams) => {
             state.teams = teams;
-        },
-        SET_CURRENT_TEAM: (state, team) => {
-            if (_.isEmpty(team)) {
-                team = null;
-            }
-            state.currentTeam = team;
         },
         SET_TEAM_MEMBERS: (state, team_members) => {
             state.team_members = team_members;
