@@ -1,17 +1,19 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <site-header></site-header>
-            <div class="section-content">
-                <div class="container">
-                    <site-nav></site-nav>
-                    <template v-if="files && site">
-                        <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
-                    </template>
+        <transition name="swap">
+            <section id="middle" class="section-column">
+                <site-header></site-header>
+                <div class="section-content">
+                    <div class="container">
+                        <site-nav></site-nav>
+                        <template v-if="files && site">
+                            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
+                        </template>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </transition>
         <servers></servers>
     </section>
 </template>

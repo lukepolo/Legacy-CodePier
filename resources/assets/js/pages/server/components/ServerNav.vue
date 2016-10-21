@@ -1,5 +1,5 @@
 <template>
-    <section v-if="server">
+    <div v-if="server">
         <h3 class="section-header primary">
             Server {{ server.name }}
             <small>{{ server.ip }}</small>
@@ -15,6 +15,7 @@
                     </ul>
                 </div>
             </div>
+
             <div class="pull-right">
                 <div class="dropdown">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -59,7 +60,7 @@
             <router-link :to="{ path: '/server/'+server.id+'/files' }" role="presentation" tag="li"><a>Files</a>
             </router-link>
         </ul>
-    </section>
+    </div>
 </template>
 
 <script>

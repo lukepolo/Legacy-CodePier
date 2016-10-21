@@ -1,0 +1,73 @@
+// WIZARD STYLES ===========================================
+// =========================================================
+.wizard {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.wizard-item {
+  flex: 1 0 150px;
+
+  > a {
+    color: $color-text-secondary;
+    display: block;
+    text-align: center;
+    font-size: 1.1em;
+    border-bottom: 4px solid rgba($color-divider, .3);
+    margin-bottom: $spacing;
+    padding-bottom: $spacing;
+  }
+
+  &.router-link-active > a {
+    color: $color-text-primary;
+    font-weight: 400;
+    border-color: $color-accent;
+  }
+}
+
+
+
+
+//  ------------------------------------
+// ---------------------------------------------------------
+
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.swap-enter-active, .swap-leave-active {
+  transition: opacity .5s
+}
+.swap-enter, .swap-leave-active {
+  opacity: 0
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-out .5s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
+  }
+}

@@ -1,67 +1,84 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <site-header></site-header>
-            <div class="section-content" v-if="site">
-                <div class="container">
-                    <site-nav></site-nav>
+        <transition name="swap">
+            <section id="middle" class="section-column">
+                <site-header></site-header>
+                <div class="section-content" v-if="site">
+                    <div class="container">
+                        <site-nav></site-nav>
 
-                    <form @submit.prevent="updateSite">
-                        <label>Repository</label>
-                        <input type="text" v-model="form.repository" name="repository">
 
-                        <label>Branch</label>
-                        <input type="text" v-model="form.branch" name="branch">
 
-                        <label>Web Directory</label>
-                        <input type="text" name="web_directory" v-model="form.web_directory">
-                        <label>
-                            <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment"
-                                   value="1">
-                            Zerotime Deployment
-                        </label>
-
-                        <label>
-                            <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
-                            Wildcard Domain
-                        </label>
-
-                        <div class="form-group">
-                            <div class="radio" v-for="user_repository_provider in user_repository_providers">
-                                <label>
-                                    <input name="user_repository_provider_id" type="radio"
-                                           v-model="form.user_repository_provider_id"
-                                           :value="user_repository_provider.id">
-                                    {{ user_repository_provider.repository_provider.name }}
-                                </label>
-                            </div>
+                        <div class="jcf-form-wrap">
+                            <form @submit.prevent="updateSite" class="floating-labels">
+                                <div class="jcf-input-group">
+                                    <input type="text" v-model="form.repository" name="repository">
+                                    <label for="repository">
+                                        <span class="float-label">
+                                            Repository
+                                        </span>
+                                    </label>
+                                </div>
+                            </form>
                         </div>
 
-                        <div class="form-group">
-                            <select v-model="form.framework" name="framework">
-                                <option></option>
-                                <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                    <option v-for="(features, framework) in availableFrameworks[language]"
-                                            :value="language+'.'+framework"> {{ framework }}
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </div>
 
-                        <button type="submit">Update Repository</button>
-                    </form>
+                            <!---->
+                            <!---->
 
-                    <template v-if="site.repository && site_servers.length">
-                        <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-                        <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
-                            Deployments</a>
-                        <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
-                    </template>
-                    <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
+                            <!--<label>Branch</label>-->
+                            <!--<input type="text" v-model="form.branch" name="branch">-->
+
+                            <!--<label>Web Directory</label>-->
+                            <!--<input type="text" name="web_directory" v-model="form.web_directory">-->
+                            <!--<label>-->
+                                <!--<input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment"-->
+                                       <!--value="1">-->
+                                <!--Zerotime Deployment-->
+                            <!--</label>-->
+
+                            <!--<label>-->
+                                <!--<input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">-->
+                                <!--Wildcard Domain-->
+                            <!--</label>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<div class="radio" v-for="user_repository_provider in user_repository_providers">-->
+                                    <!--<label>-->
+                                        <!--<input name="user_repository_provider_id" type="radio"-->
+                                               <!--v-model="form.user_repository_provider_id"-->
+                                               <!--:value="user_repository_provider.id">-->
+                                        <!--{{ user_repository_provider.repository_provider.name }}-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<select v-model="form.framework" name="framework">-->
+                                    <!--<option></option>-->
+                                    <!--<optgroup :label="language" v-for="(features, language) in availableLanguages">-->
+                                        <!--<option v-for="(features, framework) in availableFrameworks[language]"-->
+                                                <!--:value="language+'.'+framework"> {{ framework }}-->
+                                        <!--</option>-->
+                                    <!--</optgroup>-->
+                                <!--</select>-->
+                            <!--</div>-->
+
+                            <!--<button type="submit">Update Repository</button>-->
+                        <!--</form>-->
+
+                        <template v-if="site.repository && site_servers.length">
+                            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
+                            <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
+                                Deployments</a>
+                            <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
+                        </template>
+                        <div @click="deleteSite(site.id)" class="btn btn-xs">Delete Site</div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </transition>
         <servers></servers>
     </section>
 </template>
