@@ -1,6 +1,6 @@
 <template>
     <ul class="wizard" v-if="site">
-        <router-link :to="{ path : '/site/' + site.id}" tag="li" class="wizard-item">
+        <router-link :to="{ path : '/site/' + site.id + '/repository'}" tag="li" class="wizard-item">
             <a>Repository</a>
         </router-link>
         <template v-if="site.framework">

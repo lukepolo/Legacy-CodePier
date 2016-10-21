@@ -61,8 +61,6 @@
                         <button class="btn btn-primary" type="submit">Update Repository</button>
                     </div>
                 </div>
-
-
                 <template v-if="site.repository && site_servers.length">
                     <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
                     <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic

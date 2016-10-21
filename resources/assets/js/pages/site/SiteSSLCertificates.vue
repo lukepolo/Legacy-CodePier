@@ -7,15 +7,13 @@
                     <input type="text" v-model="domains" name="domains">
                     <button type="submit">Install Let's Encrypt Certificate</button>
                 </form>
-
-                <p v-for="ssl_certificate in ssl_certificates">
-                    {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
-                    {{ ssl_certificate.key_path }}
-                    <a href="#" v-if="ssl_certificate.active">Deactivate</a>
-                    <a href="#" v-else>Activate</a>
-                    <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
-                </p>
-            </div>
+            <p v-for="ssl_certificate in ssl_certificates">
+                {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
+                {{ ssl_certificate.key_path }}
+                <a href="#" v-if="ssl_certificate.active">Deactivate</a>
+                <a href="#" v-else>Activate</a>
+                <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
+            </p>
         </div>
     </section>
 </template>

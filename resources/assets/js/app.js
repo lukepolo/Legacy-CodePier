@@ -115,40 +115,39 @@ const router = new VueRouter({
 
         {path: '/piles', component: Piles},
 
-
         {
             path: '/site', component: SiteArea,
             children: [
                 {
-                    path: '/site/:site_id',
+                    path: ':site_id/repository',
                     components: {
                         default: SiteRepository,
                         nav: SiteNav
                     }
                 },
                 {
-                    path: '/site/:site_id/workers',
+                    path: ':site_id/workers',
                     components: {
                         default: SiteWorkers,
                         nav: SiteNav
                     }
                 },
                 {
-                    path: '/site/:site_id/framework-files',
+                    path: ':site_id/framework-files',
                     components: {
                         default: SiteFrameworkFiles,
                         nav: SiteNav
                     }
                 },
                 {
-                    path: '/site/:site_id/server-features',
+                    path: ':site_id/server-features',
                     components: {
                         default: SiteServerFeatures,
                         nav: SiteNav
                     }
                 },
                 {
-                    path: '/site/:site_id/ssl-certificates',
+                    path: ':site_id/ssl-certificates',
                     components: {
                         default: SiteSSLCertificates,
                         nav: SiteNav
