@@ -27,6 +27,8 @@ import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
 import ServerFeatures from "./pages/server/ServerFeatures.vue";
 import ServerMonitoring from "./pages/server/ServerMonitoring.vue";
 import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
+import SiteArea from "./pages/site/SiteArea.vue";
+import SiteNav from "./pages/site/components/SiteNav.vue";
 import SiteWorkers from "./pages/site/SiteWorkers.vue";
 import SiteRepository from "./pages/site/SiteRepository.vue";
 import SiteFrameworkFiles from "./pages/site/SiteFrameworkFiles.vue";
@@ -96,35 +98,6 @@ Vue.mixin({
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('NotificationBar', require('./core/NotificationBar.vue'));
 
-/*
- |--------------------------------------------------------------------------
- | Profile Pages
- |--------------------------------------------------------------------------
- |
- */
-
-/*
- |--------------------------------------------------------------------------
- | Team Pages
- |--------------------------------------------------------------------------
- |
- */
-
-
-/*
- |--------------------------------------------------------------------------
- | Server Pages
- |--------------------------------------------------------------------------
- |
- */
-
-/*
- |--------------------------------------------------------------------------
- | Site Pages
- |--------------------------------------------------------------------------
- |
- */
-
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -142,11 +115,48 @@ const router = new VueRouter({
 
         {path: '/piles', component: Piles},
 
-        {path: '/site/:site_id', component: SiteRepository},
-        {path: '/site/:site_id/workers', component: SiteWorkers},
-        {path: '/site/:site_id/framework-files', component: SiteFrameworkFiles},
-        {path: '/site/:site_id/server-features', component: SiteServerFeatures},
-        {path: '/site/:site_id/ssl-certificates', component: SiteSSLCertificates},
+
+        {
+            path: '/site', component: SiteArea,
+            children: [
+                {
+                    path: '/site/:site_id',
+                    components: {
+                        default: SiteRepository,
+                        nav: SiteNav
+                    }
+                },
+                {
+                    path: '/site/:site_id/workers',
+                    components: {
+                        default: SiteWorkers,
+                        nav: SiteNav
+                    }
+                },
+                {
+                    path: '/site/:site_id/framework-files',
+                    components: {
+                        default: SiteFrameworkFiles,
+                        nav: SiteNav
+                    }
+                },
+                {
+                    path: '/site/:site_id/server-features',
+                    components: {
+                        default: SiteServerFeatures,
+                        nav: SiteNav
+                    }
+                },
+                {
+                    path: '/site/:site_id/ssl-certificates',
+                    components: {
+                        default: SiteSSLCertificates,
+                        nav: SiteNav
+                    }
+                },
+
+            ]
+        },
 
         {path: '/my-profile', component: UserInfo},
         {path: '/my-profile/ssh-keys', component: UserSshKeys},
