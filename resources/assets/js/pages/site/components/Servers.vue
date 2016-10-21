@@ -6,7 +6,7 @@
 
         <div class="section-content">
         <template v-for="server in servers">
-            <router-link :to="{ path: '/server/'+server.id+'/sites' }">
+            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                 {{ server.name }}
             </router-link>
             {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
@@ -42,7 +42,7 @@
         </template>
 
         <div v-if="site.server_features">
-            <router-link :to="{ path: '/server/create?site='+site.id+'&type=full_stack' }" tag="div">
+            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }" tag="div">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
             <hr>
