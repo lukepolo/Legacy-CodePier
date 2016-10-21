@@ -115,7 +115,7 @@ const router = new VueRouter({
                 },
                 {
                     path: ':site_id/framework-files',
-                    name: 'site_files',
+                    name: 'site_framework_files',
                     components: {
                         default: sitePages.SiteFrameworkFiles,
                         nav: sitePages.SiteNav
