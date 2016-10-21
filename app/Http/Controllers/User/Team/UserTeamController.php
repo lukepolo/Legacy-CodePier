@@ -133,12 +133,10 @@ class UserTeamController extends Controller
             $team = $teamModel::with('piles')->findOrFail($id);
         }
         try {
-
             $user = \Auth::user();
             $user->switchTeam($team);
             $user->current_pile_id = null;
             $user->save();
-
         } catch (UserNotInTeamException $e) {
             abort(403);
         }

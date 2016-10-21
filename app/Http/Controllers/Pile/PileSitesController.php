@@ -21,9 +21,10 @@ class PileSitesController extends Controller
     {
         $pile = Pile::with('sites.servers')->find($pileId);
         $sites = [];
-        if($pile) {
+        if ($pile) {
             $sites = $pile->sites;
         }
+
         return response()->json($sites);
     }
 }
