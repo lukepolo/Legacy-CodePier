@@ -18,30 +18,28 @@
                     <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
                 </form>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>User</th>
-                        <th>Auto Start</th>
-                        <th>Auto Restart</th>
-                        <th>Number of Workers</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="worker in workers">
-                        <td>{{ worker.command }}</td>
-                        <td>{{ worker.user }}</td>
-                        <td>{{ worker.auto_start }}</td>
-                        <td>{{ worker.auto_restart }}</td>
-                        <td>{{ worker.number_of_workers }}</td>
-                        <td><a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>User</th>
+                    <th>Auto Start</th>
+                    <th>Auto Restart</th>
+                    <th>Number of Workers</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="worker in workers">
+                    <td>{{ worker.command }}</td>
+                    <td>{{ worker.user }}</td>
+                    <td>{{ worker.auto_start }}</td>
+                    <td>{{ worker.auto_restart }}</td>
+                    <td>{{ worker.number_of_workers }}</td>
+                    <td><a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 </template>

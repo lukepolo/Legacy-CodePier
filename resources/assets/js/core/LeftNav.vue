@@ -4,7 +4,7 @@
 
         <div class="section-content">
             <div class="site" v-for="site in sites">
-                <router-link :to="{ path: '/site/'+site.id }">
+                <router-link :to="{ path: '/site/'+site.id+'/repository' }">
                     <div class="site-name">
                         {{ site.name }}
                     </div>
@@ -34,13 +34,6 @@
 
 <script>
     export default {
-        watch: {
-            '$route' (to, from) {
-                const toDepth = to.path.split('/').length
-                const fromDepth = from.path.split('/').length
-                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-            }
-        },
         created() {
             this.$store.dispatch('getSites');
         },
