@@ -144,13 +144,18 @@ footer {
           margin-bottom: $spacing;
         }
       }
-
+      h3 {
+        margin-bottom: $spacing*2;
+      }
       .input-question {
         margin-bottom: $spacing;
       }
 
-      input[type="text"] + label {
+      input[type="text"] + label,
+      input[type="integer"] + label {
         pointer-events: none;
+
+
       }
     }
 }

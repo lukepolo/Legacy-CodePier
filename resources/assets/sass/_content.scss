@@ -25,6 +25,14 @@
     background-color: rgba($black, .1);
     border-bottom: 1px solid $color-divider;
     padding: $spacing;
+    position: relative;
+
+    .pull-right {
+        position: absolute;
+        right: $spacing;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 
 .section-content {
