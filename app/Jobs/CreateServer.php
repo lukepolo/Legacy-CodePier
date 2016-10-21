@@ -54,7 +54,7 @@ class CreateServer implements ShouldQueue
 
         while ($serverStatus == 'new') {
             sleep(5);
-            $serverStatus = $serverService->getStatus($server);
+            $serverStatus = $serverService->getStatus($server, true);
         }
 
         $serverService->saveInfo($server);
@@ -69,6 +69,7 @@ class CreateServer implements ShouldQueue
         event(new ServerProvisionStatusChanged($server, 'Queue for Provisioning', 0));
 
         dispatch(new ProvisionServer($server));
+
 //            ->onQueue('server_provision'));
     }
 }
