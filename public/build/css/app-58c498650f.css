@@ -4054,10 +4054,14 @@ footer {
   .container .jcf-form-wrap .input-radio label {
     margin-bottom: 20px; }
 
+.container .jcf-form-wrap h3 {
+  margin-bottom: 40px; }
+
 .container .jcf-form-wrap .input-question {
   margin-bottom: 20px; }
 
-.container .jcf-form-wrap input[type="text"] + label {
+.container .jcf-form-wrap input[type="text"] + label,
+.container .jcf-form-wrap input[type="integer"] + label {
   pointer-events: none; }
 
 .card, .jcf-form-wrap {
