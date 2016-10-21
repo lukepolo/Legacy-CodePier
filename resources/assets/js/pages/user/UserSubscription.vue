@@ -14,7 +14,7 @@
                 </p>
             </template>
 
-            <form v-on:submit.prevent="createSubscription">
+            <form @submit.prevent="createSubscription">
                 <div class="radio" v-for="plan in plans">
                     <label>
                         <template v-if="subscribedToPlan(plan.id)">
@@ -36,7 +36,7 @@
 
                 <template v-if="user.card_brand">
                     Use your {{ user.card_brand }} {{ user.card_last_four }}
-                    <div v-on:click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
+                    <div @click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
                 </template>
 
                 <div id="card-info" :class="{hide : !showCardForm}">
@@ -56,7 +56,7 @@
                 <button type="submit">Save Subscription</button>
             </form>
 
-            <a v-on:click="cancelSubscription" v-if="validSubscription && !isCanceled">Cancel Subscription</a>
+            <a @click="cancelSubscription" v-if="validSubscription && !isCanceled">Cancel Subscription</a>
 
             <template v-if="invoices.length">
                 <table>

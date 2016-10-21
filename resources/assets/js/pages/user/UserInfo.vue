@@ -8,7 +8,7 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
             <user-nav></user-nav>
-            <form v-on:submit.prevent="onSubmit">
+            <form @submit.prevent="onSubmit">
                 <div class="form-group">
                     <label>Name</label>
                     <input name="name" type="name" v-model="form.name">

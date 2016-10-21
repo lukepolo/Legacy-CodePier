@@ -5,7 +5,7 @@
             <user-nav></user-nav>
             <p v-for="provider in repository_providers">
                 <template v-if="isConnected(provider.id)">
-                    Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
+                    Disconnect : <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{provider.name}}</a>
                 </template>
                 <template v-else>
                     Integrate : <a
