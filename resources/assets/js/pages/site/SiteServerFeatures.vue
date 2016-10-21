@@ -1,25 +1,27 @@
 <template>
     <section>
         <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <site-header></site-header>
-            <div class="section-content" v-if="site">
-                <div class="container">
-                    <site-nav></site-nav>
+        <transition name="swap">
+            <section id="middle" class="section-column">
+                <site-header></site-header>
+                <div class="section-content" v-if="site">
+                    <div class="container">
+                        <site-nav></site-nav>
 
-                    <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
-                        <section>
-                            <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
-                                          v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                            <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
-                                          :frameworks="true"
-                                          v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
-                        </section>
-                        <button type="submit">Update Site Server Features</button>
-                    </form>
+                        <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
+                            <section>
+                                <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
+                                              v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
+                                <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
+                                              :frameworks="true"
+                                              v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+                            </section>
+                            <button type="submit">Update Site Server Features</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </transition>
         <servers></servers>
     </section>
 </template>

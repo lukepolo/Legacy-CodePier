@@ -85,6 +85,7 @@
         left: 0px; 
         margin: 0px; 
         padding: 0px ($jcf-form-padding/4);
+        pointer-events: none;
         
         // accent underline hidden
         &:after {

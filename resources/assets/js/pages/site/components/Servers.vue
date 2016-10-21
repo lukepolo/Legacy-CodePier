@@ -1,5 +1,10 @@
 <template>
-    <section id="right" v-if="site">
+    <section id="right" v-if="site" class="section-column">
+        <h3 class="section-header">
+            Server Info
+        </h3>
+
+        <div class="section-content">
         <template v-for="server in servers">
             <router-link :to="{ path: '/server/'+server.id+'/sites' }">
                 {{ server.name }}
@@ -36,7 +41,7 @@
             </form>
         </template>
 
-        <section v-if="site.server_features">
+        <div v-if="site.server_features">
             <router-link :to="{ path: '/server/create?site='+site.id+'&type=full_stack' }" tag="div">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
@@ -49,7 +54,9 @@
             - not available during beta
             <div class="btn btn-primary">Create A Queue Worker Serer</div>
             - not available during beta
-        </section>
+        </div>
+
+        </div>
     </section>
 </template>
 
