@@ -29,10 +29,12 @@ class UserSubscriptionInvoiceController extends Controller
         $invoices = [];
 
         /** @var Invoice $invoice */
-        foreach (\Auth::user()->invoices() as $invoice) {
-            $invoices[] = [
-                'id' => $invoice->id,
-            ];
+        if(\Auth::user()->hasStripeId()) {
+            foreach (\Auth::user()->invoices() as $invoice) {
+                $invoices[] = [
+                    'id' => $invoice->id,
+                ];
+            }
         }
 
         return response()->json($invoices);
