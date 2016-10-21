@@ -3772,7 +3772,8 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0px;
     left: 0px;
     margin: 0px;
-    padding: 0px 10px; }
+    padding: 0px 10px;
+    pointer-events: none; }
     .jcf-form-wrap label:after {
       content: "";
       position: absolute;
@@ -3930,9 +3931,9 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0px 10px;
     pointer-events: none; }
 
-.jcf-form-wrap input[type="text"] + label:before,
-.jcf-form-wrap input[type="email"] + label:before,
-.jcf-form-wrap input[type="password"] + label:before {
+.jcf-form-wrap .validation-form input[type="text"] + label:before,
+.jcf-form-wrap .validation-form input[type="email"] + label:before,
+.jcf-form-wrap .validation-form input[type="password"] + label:before {
   content: "";
   font-family: 'icomoon';
   font-size: 22.5px;
@@ -3940,15 +3941,15 @@ h1, h2, h3, h4, h5, h6 {
   top: 5px;
   right: 8px; }
 
-.jcf-form-wrap input[type="text"]:valid + label:before,
-.jcf-form-wrap input[type="email"]:valid + label:before,
-.jcf-form-wrap input[type="password"]:valid + label:before {
+.jcf-form-wrap .validation-form input[type="text"]:valid + label:before,
+.jcf-form-wrap .validation-form input[type="email"]:valid + label:before,
+.jcf-form-wrap .validation-form input[type="password"]:valid + label:before {
   content: "\e86c";
   color: #83B692; }
 
-.jcf-form-wrap input[type="text"]:invalid:not(:focus).visited + label:before,
-.jcf-form-wrap input[type="email"]:invalid:not(:focus).visited + label:before,
-.jcf-form-wrap input[type="password"]:invalid:not(:focus).visited + label:before {
+.jcf-form-wrap .validation-form input[type="text"]:invalid:not(:focus).visited + label:before,
+.jcf-form-wrap .validation-form input[type="email"]:invalid:not(:focus).visited + label:before,
+.jcf-form-wrap .validation-form input[type="password"]:invalid:not(:focus).visited + label:before {
   content: "\e5c9";
   color: #F4645F; }
 
@@ -4328,6 +4329,9 @@ footer {
   margin: 40px -40px -40px;
   padding: 20px 40px; }
 
+.btn-container {
+  padding: 20px; }
+
 @font-face {
   font-family: 'icomoon';
   src: url("/assets/img/icons/icomoon.eot?gx80it");
@@ -4459,12 +4463,28 @@ footer {
 #left {
   flex-basis: 200px; }
 
-.server {
+.site > a {
+  display: block;
+  color: #FFFFFF;
+  border-bottom: 1px solid #2B2B2B;
+  padding: 20px;
+  position: relative; }
+  .site > a.router-link-active {
+    color: #48ACF0;
+    background-color: #343536; }
+
+.site-name {
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  padding-right: 1.4em; }
+
+.server > a {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative; }
-  .server.selected {
+  .server > a.router-link-active {
     background-color: #343536; }
 
 .server-name {
@@ -4625,6 +4645,91 @@ a.server:hover {
       .login-wrap .list-inline li a {
         font-size: 1.8em; }
 
+.wizard {
+  display: -webkit-box;
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  flex-wrap: wrap; }
+
+.wizard-item {
+  -webkit-box-flex: 1;
+  flex: 1 0 150px; }
+  .wizard-item > a {
+    color: #B6B6B6;
+    display: block;
+    text-align: center;
+    font-size: 1.1em;
+    border-bottom: 4px solid rgba(43, 43, 43, 0.3);
+    margin-bottom: 20px;
+    padding-bottom: 20px; }
+  .wizard-item.router-link-active > a {
+    color: #FFFFFF;
+    font-weight: 400;
+    border-color: #F4645F; }
+
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.swap-enter-active, .swap-leave-active {
+  -webkit-transition: opacity .5s;
+  transition: opacity .5s; }
+
+.swap-enter, .swap-leave-active {
+  opacity: 0; }
+
+.bounce-enter-active {
+  -webkit-animation: bounce-in .5s;
+  animation: bounce-in .5s; }
+
+.bounce-leave-active {
+  -webkit-animation: bounce-out .5s;
+  animation: bounce-out .5s; }
+
+@-webkit-keyframes bounce-in {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  50% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes bounce-in {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  50% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@-webkit-keyframes bounce-out {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); } }
+
+@keyframes bounce-out {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5); }
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); } }
+
 .float-label-active, .jcf-form-wrap input:focus + label .float-label, .jcf-form-wrap input.active + label .float-label {
   position: relative;
   top: -22.5px;
@@ -4778,5 +4883,15 @@ a.server:hover {
 
 textarea {
   color: black; }
+
+#right {
+  -webkit-box-flex: 0;
+  flex: 0 0 300px; }
+
+.jcf-form-wrap {
+  box-shadow: none; }
+
+.jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
+  display: none; }
 
 /*# sourceMappingURL=app.css.map */

@@ -48,7 +48,7 @@
             </transition>
 
             <transition name="bounce">
-                <router-view class="container"></router-view>
+                <router-view class="container section-column"></router-view>
             </transition>
 
         </section>
