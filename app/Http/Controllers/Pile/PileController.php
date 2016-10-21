@@ -92,13 +92,13 @@ class PileController extends Controller
     }
 
     /**
-     * Changes the users pile
+     * Changes the users pile.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function changePile(Request $request)
     {
-        $user =\Auth::user();
+        $user = \Auth::user();
 
         $user->current_pile_id = $request->get('pile');
         $user->save();
