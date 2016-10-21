@@ -35,17 +35,21 @@
         <left-nav></left-nav>
 
         <section id="middle" class="section-column">
-
             <site-header></site-header>
 
-            <transition >
-                <router-view name="nav"></router-view>
-            </transition>
+            <div class="section-content">
+                <div class="container">
 
-            <transition >
-                <router-view></router-view>
-            </transition>
+                    <transition >
+                        <router-view name="nav"></router-view>
+                    </transition>
 
+                    <transition >
+                        <router-view></router-view>
+                    </transition>
+
+                </div>
+            </div>
         </section>
 
         <servers></servers>

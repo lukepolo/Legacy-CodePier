@@ -4459,7 +4459,14 @@ footer {
   text-align: center;
   background-color: rgba(43, 43, 43, 0.1);
   border-bottom: 1px solid #2B2B2B;
-  padding: 20px; }
+  padding: 20px;
+  position: relative; }
+  .section-header .pull-right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%); }
 
 .section-content {
   -webkit-box-flex: 1;
