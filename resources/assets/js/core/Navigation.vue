@@ -92,15 +92,11 @@
             piles() {
                 return this.$store.state.pilesStore.piles;
             },
-            current_pile_id() {
-                return this.$store.state.pilesStore.current_pile_id;
+            currentPile() {
+                return this.$store.state.userStore.user.current_pile;
             },
             currentTeam() {
-
-                return this.$store.state.teamsStore.currentTeam;
-            },
-            currentPile() {
-                return this.$store.state.pilesStore.currentPile;
+                return this.$store.state.userStore.user.current_team;
             },
             user() {
                 return this.$store.state.userStore.user;
@@ -119,7 +115,7 @@
                 this.$store.dispatch('changeTeams', teamID);
             },
             changePile: function (pile_id) {
-                this.$store.dispatch('setCurrentPileID', pile_id);
+                this.$store.dispatch('changePiles', pile_id);
 
                 if (this.$route.path == '/') {
                     this.$store.dispatch('getServers');
@@ -133,7 +129,6 @@
         created() {
             this.$store.dispatch('getPiles');
             this.$store.dispatch('getTeams');
-            this.$store.dispatch('getUserTeam');
         }
     }
 </script>

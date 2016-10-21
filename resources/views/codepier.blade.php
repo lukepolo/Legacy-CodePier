@@ -6,6 +6,6 @@
 
 @push('scripts')
 <script>
-    var user = {!! $user !!};
+    var user = {!! $user->load(['currentTeam', 'currentPile']) !!};
 </script>
 @endpush

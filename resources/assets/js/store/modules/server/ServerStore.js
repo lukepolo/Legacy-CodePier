@@ -18,7 +18,7 @@ export default {
             });
         },
         getServers: ({commit, rootState}, callback) => {
-            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.pilesStore.current_pile_id})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.userStore.user.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
                 typeof callback === 'function' && callback();
             }, (errors) => {
@@ -26,7 +26,6 @@ export default {
             });
         },
         createServer: ({commit}, form) => {
-
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 alert('probably should notify them or something ?')
             }, (errors) => {

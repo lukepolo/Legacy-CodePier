@@ -90,4 +90,19 @@ class PileController extends Controller
     {
         Pile::findOrFail($id)->delete();
     }
+
+    /**
+     * Changes the users pile
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changePile(Request $request)
+    {
+        $user =\Auth::user();
+
+        $user->current_pile_id = $request->get('pile');
+        $user->save();
+
+        return response()->json($user->load(['currentTeam', 'currentPile']));
+    }
 }
