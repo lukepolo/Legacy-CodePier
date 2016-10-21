@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu" aria-labelledby="drop1">
                     <template v-for="pile in piles">
                         <li>
-                            <a v-on:click="changePile(pile.id)"
+                            <a @click="changePile(pile.id)"
                                :class="{ selected : (currentPile && currentPile.id == pile.id) }"><span
                                     class="icon-layers"></span> {{ pile.name }}</a>
                         </li>
@@ -50,12 +50,12 @@
                         <span class="dropdown-heading">Change Team</span>
                     </li>
                     <li>
-                        <a href="#" v-on:click="changeTeam()"
+                        <a href="#" @click="changeTeam()"
                            :class="{selected : currentTeam == null}">Private</a>
                     </li>
                     <template v-for="team in teams">
                         <li>
-                            <a href="#" v-on:click="changeTeam(team.id)"
+                            <a href="#" @click="changeTeam(team.id)"
                                :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
                         </li>
                     </template>
@@ -116,14 +116,6 @@
             },
             changePile: function (pile_id) {
                 this.$store.dispatch('changePiles', pile_id);
-
-                if (this.$route.path == '/') {
-                    this.$store.dispatch('getServers');
-                    this.$store.dispatch('getSites');
-                } else {
-                    this.$router.push('/');
-
-                }
             }
         },
         created() {

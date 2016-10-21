@@ -25,9 +25,14 @@ export default {
                 alert(error);
             })
         },
-        changePiles : ({commit}, pileId) => {
+        changePiles : ({commit, dispatch}, pileId) => {
             Vue.http.post(Vue.action('Pile\PileController@changePile'), {pile : pileId}).then((response) => {
                 commit('SET_USER', response.data);
+                dispatch('getServers');
+                dispatch('getSites');
+
+                app.$router.push('/');
+
             }, (errors) => {
                 alert(error);
             })
