@@ -1,20 +1,22 @@
 <template>
     <section>
-        <div v-if="site">
-            Laravel Queue Workers
-            <form @submit.prevent="installWorker()">
-                Command
-                <input type="text" name="command" v-model="form.command">
-                User
-                <select name="user" v-model="form.user">
-                    <option value="root">Root User</option>
-                    <option value="codepier">CodePier User</option>
-                </select>
-                <input type="checkbox" name="auto_start" v-model="form.auto_start"> Auto Start
-                <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
-                Workers
-                <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
-            </form>
+        <div class="section-content" v-if="site">
+            <div class="container">
+
+                Laravel Queue Workers
+                <form @submit.prevent="installWorker()">
+                    Command
+                    <input type="text" name="command" v-model="form.command">
+                    User
+                    <select name="user" v-model="form.user">
+                        <option value="root">Root User</option>
+                        <option value="codepier">CodePier User</option>
+                    </select>
+                    <input type="checkbox" name="auto_start" v-model="form.auto_start"> Auto Start
+                    <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
+                    Workers
+                    <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
+                </form>
 
             <table class="table">
                 <thead>
