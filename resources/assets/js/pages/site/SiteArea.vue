@@ -38,12 +38,12 @@
 
             <site-header></site-header>
 
-            <transition :name="transitionName">
+            <transition >
                 <router-view name="nav"></router-view>
             </transition>
 
-            <transition :name="transitionName">
-                <router-view class="container"></router-view>
+            <transition >
+                <router-view></router-view>
             </transition>
 
         </section>

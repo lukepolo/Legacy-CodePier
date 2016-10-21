@@ -1,8 +1,12 @@
 <template>
     <section>
-        <template v-if="files && site">
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
-        </template>
+        <div class="section-content">
+            <div class="container">
+                <template v-if="files && site">
+                    <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
+                </template>
+            </div>
+        </div>
     </section>
 </template>
 
