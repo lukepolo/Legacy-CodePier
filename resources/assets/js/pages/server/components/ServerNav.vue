@@ -43,21 +43,29 @@
 
         </h3>
         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-            <router-link :to="{ path: '/server/'+server.id+'/sites' }" role="presentation" tag="li"><a>Sites</a>
+            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Sites</a>
             </router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/ssh-keys' }" role="presentation" tag="li"><a>SSH Keys</a>
+            <router-link :to="{ name : 'server_ssh_keys', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>SSH Keys</a>
             </router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/cron-jobs' }" role="presentation" tag="li"><a>Cron Jobs</a>
+            <router-link :to="{ name : 'server_cron_jobs', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Cron Jobs</a>
             </router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/workers' }" role="presentation" tag="li"><a>Workers</a>
+            <router-link :to="{ name : 'server_workers', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Workers</a>
             </router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/firewall-rules' }" role="presentation" tag="li"><a>Firewall
-                Rules</a></router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/monitoring' }" role="presentation" tag="li">
-                <a>Monitoring</a></router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/features' }" role="presentation" tag="li"><a>Features</a>
+            <router-link :to="{ name : 'server_firewall_rules', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>FirewallRules</a>
             </router-link>
-            <router-link :to="{ path: '/server/'+server.id+'/files' }" role="presentation" tag="li"><a>Files</a>
+            <router-link :to="{ name : 'server_monitoring', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Monitoring</a>
+            </router-link>
+            <router-link :to="{ name : 'server_features', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Features</a>
+            </router-link>
+            <router-link :to="{ name : 'server_files', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Files</a>
             </router-link>
         </ul>
     </div>

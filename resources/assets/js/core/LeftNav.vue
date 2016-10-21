@@ -4,7 +4,7 @@
 
         <div class="section-content">
             <div class="site" v-for="site in sites">
-                <router-link :to="{ path: '/site/'+site.id+'/repository' }">
+                <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
                     <div class="site-name">
                         {{ site.name }}
                     </div>
