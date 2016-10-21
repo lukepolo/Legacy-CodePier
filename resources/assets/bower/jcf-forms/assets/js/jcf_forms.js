@@ -1,15 +1,15 @@
-var inputs = document.querySelectorAll('input');
+document.body.addEventListener('keyup', function (e) {
+    var element = e.target;
 
-for (i = 0; i < inputs.length; i++) {
-    inputs[i].onkeyup = function() {
-        if(determineFloat(this)) {
-            this.classList.add('visited');   
+    if (element.tagName.toLowerCase() == 'input') {
+        if(determineFloat(element)) {
+            element.classList.add('visited');
         }
-    };
-}
+    }
+});
 
 function determineFloat(input) {
-    if(input.value.length === 0) {        
+    if(input.value.length === 0) {
         input.classList.remove('active');
         return false;
     }
@@ -17,12 +17,15 @@ function determineFloat(input) {
     return true;
 }
 
-
 function checkAutoFill(){
+
     setTimeout(function() {
+
+        var inputs = document.querySelectorAll('input');
+
         for (i = 0; i < inputs.length; i++) {
             if(determineFloat(inputs[i])) {
-                inputs[i].classList.add('visited');   
+                inputs[i].classList.add('visited');
             }
         }
         checkAutoFill();
