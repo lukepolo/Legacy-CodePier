@@ -6,34 +6,14 @@
 
 require('./bootstrap');
 
+import * as userPages from "./pages/user";
+import * as teamPages from "./pages/team";
+import * as sitePages from "./pages/site";
+import * as serverPages from "./pages/server";
+
 import store from "./store";
 import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";
-import UserInfo from "./pages/user/UserInfo.vue";
-import UserOauth from "./pages/user/UserOauth.vue";
-import UserSshKeys from "./pages/user/UserSSHKeys.vue";
-import UserSubscription from "./pages/user/UserSubscription.vue";
-import UserServerProviders from "./pages/user/UserServerProviders.vue";
-import UserRepositoryProviders from "./pages/user/UserRepositoryProvders.vue";
-import UserNotificationProviders from "./pages/user/UserNotificationProviders.vue";
-import Teams from "./pages/team/Teams.vue";
-import TeamMembers from "./pages/team/TeamMembers.vue";
-import ServerForm from "./pages/server/ServerForm.vue";
-import ServerSites from "./pages/server/ServerSites.vue";
-import ServerFiles from "./pages/server/ServerFiles.vue";
-import ServerWorkers from "./pages/server/ServerWorkers.vue";
-import ServerSshKeys from "./pages/server/ServerSshKeys.vue";
-import ServerCronjobs from "./pages/server/ServerCronJobs.vue";
-import ServerFeatures from "./pages/server/ServerFeatures.vue";
-import ServerMonitoring from "./pages/server/ServerMonitoring.vue";
-import ServerFirewallRules from "./pages/server/ServerFirewallRules.vue";
-import SiteArea from "./pages/site/SiteArea.vue";
-import SiteNav from "./pages/site/components/SiteNav.vue";
-import SiteWorkers from "./pages/site/SiteWorkers.vue";
-import SiteRepository from "./pages/site/SiteRepository.vue";
-import SiteFrameworkFiles from "./pages/site/SiteFrameworkFiles.vue";
-import SiteServerFeatures from "./pages/site/SiteServerFeatures.vue";
-import SiteSSLCertificates from "./pages/site/SiteSSLCertificates.vue";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -103,70 +83,71 @@ const router = new VueRouter({
     routes: [
         {path: '/', component: Dashboard},
 
-        {path: '/server/create', component: ServerForm},
-        {path: '/server/:server_id/sites', component: ServerSites},
-        {path: '/server/:server_id/files', component: ServerFiles},
-        {path: '/server/:server_id/workers', component: ServerWorkers},
-        {path: '/server/:server_id/ssh-keys', component: ServerSshKeys},
-        {path: '/server/:server_id/features', component: ServerFeatures},
-        {path: '/server/:server_id/cron-jobs', component: ServerCronjobs},
-        {path: '/server/:server_id/monitoring', component: ServerMonitoring},
-        {path: '/server/:server_id/firewall-rules', component: ServerFirewallRules},
+        {path: '/server/create', component: serverPages.ServerForm},
+        {path: '/server/:server_id/sites', component: serverPages.ServerSites},
+        {path: '/server/:server_id/files', component: serverPages.ServerFiles},
+        {path: '/server/:server_id/workers', component: serverPages.ServerWorkers},
+        {path: '/server/:server_id/ssh-keys', component: serverPages.ServerSshKeys},
+        {path: '/server/:server_id/features', component: serverPages.ServerFeatures},
+        {path: '/server/:server_id/cron-jobs', component: serverPages.ServerCronJobs},
+        {path: '/server/:server_id/monitoring', component: serverPages.ServerMonitoring},
+        {path: '/server/:server_id/firewall-rules', component: serverPages.ServerFirewallRules},
 
         {path: '/piles', component: Piles},
 
         {
-            path: '/site', component: SiteArea,
+            path: '/site', component: sitePages.SiteArea,
             children: [
                 {
                     path: ':site_id/repository',
                     components: {
-                        default: SiteRepository,
-                        nav: SiteNav
+                        default: sitePages.SiteRepository,
+                        nav: sitePages.SiteArea
                     }
                 },
                 {
                     path: ':site_id/workers',
                     components: {
-                        default: SiteWorkers,
-                        nav: SiteNav
+                        default: sitePages.SiteWorkers,
+                        nav: sitePages.SiteArea
                     }
                 },
                 {
                     path: ':site_id/framework-files',
                     components: {
-                        default: SiteFrameworkFiles,
-                        nav: SiteNav
+                        default: sitePages.SiteFrameworkFiles,
+                        nav: sitePages.SiteArea
                     }
                 },
                 {
                     path: ':site_id/server-features',
                     components: {
-                        default: SiteServerFeatures,
-                        nav: SiteNav
+                        default: sitePages.SiteServerFeatures,
+                        nav: sitePages.SiteArea
                     }
                 },
                 {
                     path: ':site_id/ssl-certificates',
                     components: {
-                        default: SiteSSLCertificates,
-                        nav: SiteNav
+                        default: sitePages.SiteSSLCertificates,
+                        nav: sitePages.SiteArea
                     }
                 },
 
             ]
         },
 
-        {path: '/my-profile', component: UserInfo},
-        {path: '/my-profile/ssh-keys', component: UserSshKeys},
-        {path: '/my-profile/subscription', component: UserSubscription},
-        {path: '/my-profile/server-providers', component: UserServerProviders},
-        {path: '/my-profile/repository-providers', component: UserRepositoryProviders},
-        {path: '/my-profile/notification-providers', component: UserNotificationProviders},
-        {path: '/my-profile/oauth', component: UserOauth},
+        {path: '/my-profile', component: userPages.UserInfo},
+        {path: '/my-profile/oauth', component: userPages.UserOauth},
+        {path: '/my-profile/ssh-keys', component: userPages.UserSshKeys},
+        {path: '/my-profile/subscription', component: userPages.UserSubscription},
+        {path: '/my-profile/server-providers', component: userPages.UserServerProviders},
+        {path: '/my-profile/repository-providers', component: userPages.UserRepositoryProviders},
+        {path: '/my-profile/notification-providers', component: userPages.UserNotificationProviders},
 
-        {path: '/my/teams', component: Teams},
-        {path: '/my/team/:team_id/members', component: TeamMembers},
+
+        {path: '/my/teams', component: teamPages.Teams},
+        {path: '/my/team/:team_id/members', component: teamPages.TeamMembers},
 
         {path: '*', redirect: '/'},
     ]
