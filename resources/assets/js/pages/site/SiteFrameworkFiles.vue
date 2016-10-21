@@ -1,37 +1,17 @@
 <template>
     <section>
-        <left-nav></left-nav>
-        <transition name="swap">
-            <section id="middle" class="section-column">
-                <site-header></site-header>
-                <div class="section-content">
-                    <div class="container">
-                        <site-nav></site-nav>
-                        <template v-if="files && site">
-                            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
-                        </template>
-                    </div>
-                </div>
-            </section>
-        </transition>
-        <servers></servers>
+        <div class="section-content">
+            <div class="container">
+                <template v-if="files && site">
+                    <site-file :site="site" :servers="site.servers" :file="file" v-for="file in files"></site-file>
+                </template>
+            </div>
+        </div>
     </section>
 </template>
 
 <script>
-    import LeftNav from './../../core/LeftNav.vue';
-    import SiteNav from './components/SiteNav.vue';
-    import Servers from './components/Servers.vue';
-    import SiteHeader from './components/SiteHeader.vue';
-    import SiteFile from './../../components/SiteFile.vue';
     export default {
-        components: {
-            SiteNav,
-            LeftNav,
-            Servers,
-            SiteFile,
-            SiteHeader,
-        },
         created() {
             this.fetchData();
         },
