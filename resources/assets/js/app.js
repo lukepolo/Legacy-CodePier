@@ -115,7 +115,6 @@ const router = new VueRouter({
 
         {path: '/piles', component: Piles},
 
-
         {
             path: '/site', component: SiteArea,
             children: [
