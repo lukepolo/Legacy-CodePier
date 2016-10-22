@@ -7,6 +7,8 @@ use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService
 {
+    const IP_TABLES_FILE = '/opt/codepier/iptables';
+    const IP_TABLES_FILE_COMMAND = '/opt/codepier/./iptables';
     use ServiceConstructorTrait;
 
     public function addBasicFirewallRules()
@@ -29,7 +31,7 @@ class FirewallService
             'from_ip'     => null,
         ]);
 
-        $this->remoteTaskService->writeToFile('/opt/codepier/iptables', '
+        $this->remoteTaskService->writeToFile(self::IP_TABLES_FILE, '
 #!/bin/sh
 
 iptables -F
@@ -56,8 +58,8 @@ iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -P INPUT DROP
         ');
 
-        $this->remoteTaskService->run('chmod 775 /opt/codepier/iptables');
-        $this->remoteTaskService->run('/opt/codepier/./iptables');
+        $this->remoteTaskService->run('chmod 775 '.self::IP_TABLES_FILE);
+        $this->rebuildFirewall();
     }
 
     public function addFirewallRule(ServerFirewallRule $serverFirewallRule)
@@ -77,7 +79,7 @@ iptables -P INPUT DROP
             );
         }
 
-        return $this->rebuildFirewall($serverFirewallRule->server);
+        return $this->rebuildFirewall();
     }
 
     public function removeFirewallRule(ServerFirewallRule $firewallRule)
@@ -85,15 +87,15 @@ iptables -P INPUT DROP
         $this->connectToServer();
 
         if (empty($firewallRule->from_ip)) {
-            $errors = $this->remoteTaskService->removeLineByText('/opt/codepier/iptables',
+            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE,
                 "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         } else {
-            $errors = $this->remoteTaskService->removeLineByText('/opt/codepier/iptables',
+            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE,
                 "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
 
         if (empty($errors)) {
-            return $this->rebuildFirewall($this->server);
+            return $this->rebuildFirewall();
         }
 
         return $errors;
@@ -103,7 +105,7 @@ iptables -P INPUT DROP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->findTextAndAppend('/opt/codepier/iptables', '# DO NOT REMOVE - Custom Rules',
+        $this->remoteTaskService->findTextAndAppend(self::IP_TABLES_FILE, '# DO NOT REMOVE - Custom Rules',
             "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         return $this->rebuildFirewall();
@@ -113,7 +115,7 @@ iptables -P INPUT DROP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->removeLineByText('/opt/codepier/iptables', "iptables -A INPUT -s $serverIP -j ACCEPT");
+        $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         return $this->rebuildFirewall();
     }
@@ -122,7 +124,7 @@ iptables -P INPUT DROP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./iptables');
+        $this->remoteTaskService->run(self::IP_TABLES_FILE_COMMAND);
         $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
         $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
 

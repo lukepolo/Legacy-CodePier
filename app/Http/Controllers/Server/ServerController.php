@@ -30,12 +30,12 @@ class ServerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider'])->where('pile_id',
-            $request->get('pile_id'))->get());
+        return response()->json($request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])->where('pile_id', $request->get('pile_id'))->get());
     }
 
     /**
@@ -78,7 +78,7 @@ class ServerController extends Controller
         ));
 //            ->onQueue('server_creations'));
 
-        return response()->json($server);
+        return response()->json($server->load(['serverProvider', 'pile']));
     }
 
     /**

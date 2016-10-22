@@ -7,12 +7,22 @@ export default {
         editable_framework_files: [],
         available_server_features: [],
         available_server_languages: [],
+        server_provisioning_steps : {
+            test : '123'
+        },
         available_server_frameworks: []
     },
     actions: {
         getServer: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerController@show', {server: server_id})).then((response) => {
                 commit('SET_SERVER', response.data);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        getServerProvisonSteps: ({commit}, server_id) => {
+            Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
+                commit('SET_SERVER_PROVISIONING_STEPS', [server_id, response.data]);
             }, (errors) => {
                 alert(error);
             });
@@ -129,6 +139,19 @@ export default {
         },
         SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
             state.editable_framework_files = files;
+        },
+        SET_SERVER_PROVISIONING_STEPS: (state, [server_id, steps]) => {
+
+            // TODO - there probably is a better way of doing this
+            var server_provisioning_steps = {};
+
+            server_provisioning_steps[server_id] = steps;
+
+            _.each(state.server_provisioning_steps, function(steps, server_id) {
+                server_provisioning_steps[server_id] = steps;
+            })
+
+            state.server_provisioning_steps = server_provisioning_steps;
         }
     }
 }
