@@ -2,7 +2,6 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Exceptions\FailedCommand;
 use App\Models\ServerFirewallRule;
 use App\Services\Systems\ServiceConstructorTrait;
 
