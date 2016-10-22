@@ -160,7 +160,6 @@ echo "Wrote" ', $read);
      */
     public function removeFile($file)
     {
-
         return $this->run("rm $file -f");
     }
 
