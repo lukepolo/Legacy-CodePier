@@ -21,7 +21,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     public $server;
     public $serverCurrentProvisioningStep;
 
-
     /**
      * Create a new event instance.
      *
