@@ -28,8 +28,8 @@ class UserSubscriptionInvoiceController extends Controller
     {
         $invoices = [];
 
-        /** @var Invoice $invoice */
-        if(\Auth::user()->hasStripeId()) {
+        /* @var Invoice $invoice */
+        if (\Auth::user()->hasStripeId()) {
             foreach (\Auth::user()->invoices() as $invoice) {
                 $invoices[] = [
                     'id' => $invoice->id,
