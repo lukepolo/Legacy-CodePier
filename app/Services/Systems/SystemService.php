@@ -58,7 +58,9 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
+
                 $this->updateProgress($provisionStep->step);
+
                 $systemService = $this->createSystemService($provisionStep->service);
 
                 call_user_func_array([$systemService, $provisionStep->function], $provisionStep->parameters);
@@ -73,6 +75,8 @@ class SystemService implements SystemServiceContract
             $provisionStep->log = $systemService->getErrors();
             $provisionStep->save();
 
+            $this->updateProgress($provisionStep->step);
+
             return false;
         }
 
@@ -84,14 +88,10 @@ class SystemService implements SystemServiceContract
      */
     private function updateProgress($status)
     {
-        $totalDone = $this->server->provisionSteps->filter(function ($provisionStep) {
-            return $provisionStep->completed;
-        })->count();
-
         event(new ServerProvisionStatusChanged(
                 $this->server,
                 $status,
-                floor(($totalDone / $this->server->provisionSteps->count()) * 100)
+                $this->server->provisioningProgress()
             )
         );
     }
