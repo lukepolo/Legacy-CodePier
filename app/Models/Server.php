@@ -155,8 +155,8 @@ class Server extends Model
 
     public function currentProvisioningStep()
     {
-        return $this->provisionSteps->first(function($step) {
-            return !$step->completed;
+        return $this->provisionSteps->first(function ($step) {
+            return ! $step->completed;
         });
     }
 

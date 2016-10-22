@@ -58,7 +58,6 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
-
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service);
