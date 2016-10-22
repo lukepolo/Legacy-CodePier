@@ -152,4 +152,20 @@ class Server extends Model
 
         return $emails->toArray();
     }
+
+    public function currentProvisioningStep()
+    {
+        return $this->provisionSteps->first(function($step) {
+            return !$step->completed;
+        });
+    }
+
+    public function provisioningProgress()
+    {
+        $totalDone = $this->provisionSteps->filter(function ($provisionStep) {
+            return $provisionStep->completed;
+        })->count();
+
+        return floor(($totalDone / $this->provisionSteps->count()) * 100);
+    }
 }

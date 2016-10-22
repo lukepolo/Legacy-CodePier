@@ -7,10 +7,8 @@ export default {
         editable_framework_files: [],
         available_server_features: [],
         available_server_languages: [],
-        server_provisioning_steps : {
-            test : '123'
-        },
-        available_server_frameworks: []
+        available_server_frameworks: [],
+        servers_current_provisioning_step : {}
     },
     actions: {
         getServer: ({commit}, server_id) => {
@@ -20,9 +18,17 @@ export default {
                 alert(error);
             });
         },
-        getServerProvisonSteps: ({commit}, server_id) => {
+        getServersCurrentProvisioningStep: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
-                commit('SET_SERVER_PROVISIONING_STEPS', [server_id, response.data]);
+                commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        retryProvisioning:  ({commit}, server_id) => {
+            Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
+                console.log(response.data);
+                commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
                 alert(error);
             });
@@ -140,18 +146,29 @@ export default {
         SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
             state.editable_framework_files = files;
         },
-        SET_SERVER_PROVISIONING_STEPS: (state, [server_id, steps]) => {
+        SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server_id, current_step]) => {
 
-            // TODO - there probably is a better way of doing this
-            var server_provisioning_steps = {};
+            var servers_current_provisioning_steps = {};
 
-            server_provisioning_steps[server_id] = steps;
+            servers_current_provisioning_steps[server_id] = current_step;
 
-            _.each(state.server_provisioning_steps, function(steps, server_id) {
-                server_provisioning_steps[server_id] = steps;
-            })
+            _.each(state.servers_current_provisioning_steps, function(current_step, server_id) {
+                servers_current_provisioning_steps[server_id] = current_step;
+            });
 
-            state.server_provisioning_steps = server_provisioning_steps;
+            state.servers_current_provisioning_step = servers_current_provisioning_steps;
+
+
+        },
+        UPDATE_SERVER : (state, server) => {
+
+            var foundServer = _.find(state.servers, function(tempServer) {
+               return tempServer.id == server.id
+            });
+
+            _.each(server, function(value, index) {
+                foundServer[index] = value;
+            });
         }
     }
 }

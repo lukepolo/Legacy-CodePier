@@ -16,13 +16,11 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $status;
-    public $serverID;
-    public $progress;
-    public $ip;
-    public $connected;
-
     private $user;
+
+    public $server;
+    public $serverCurrentProvisioningStep;
+
 
     /**
      * Create a new event instance.
@@ -42,6 +40,9 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
         $this->connected = $server->ssh_connection;
 
         $server->save();
+
+        $this->server = $server;
+        $this->serverCurrentProvisioningStep = $server->currentProvisioningStep();
     }
 
     /**
@@ -51,6 +52,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.'.$this->serverID);
+        return new PrivateChannel('App.Models.Server.'.$this->server->id);
     }
 }

@@ -2,6 +2,11 @@
     <footer v-watch-scroll="events_pagination">
         <div class="header">
             <h4>
+                <div>
+                    <a href="#">Servers</a>
+                    <a href="#">Deployments</a>
+
+                </div>
                 <a class="toggle collapsed" data-toggle="collapse" href="#collapseEvents">
                     <span class="icon-warning"></span> Events
                 </a>
@@ -18,25 +23,9 @@
                 </div>
                 -->
 
-                <div class="event" v-for="server in servers">
-                    <div class="event-status event-status-success"></div>
-                    <div class="event-name">{{ server.name }} - {{ server.ip }}</div>
-                    <div>
-                        <section v-if="server.progress < 100 && serverProvisioningSteps && getCurrentServerProvisioningStep(server.id)">
-                            <section v-if="getCurrentServerProvisioningStep(server.id).failed">
-                                Failed {{ getCurrentServerProvisioningStep(server.id).step}}
-                            </section>
-                        </section>
-                        <section v-else>
-                            ({{ server.progress}}) - {{ server.status }}
-                        </section>
-                    </div>
-                    <div class="event-pile">
-                        <span class="icon-layers">
-                            {{ server.pile.name }}
-                        </span>
-                    </div>
-                </div>
+                <template v-for="server in servers">
+                    <server-event :server="server"></server-event>
+                </template>
                 <!--<div class="event">-->
                 <!--<div class="event-status event-status-success"></div>-->
                 <!--<div class="event-name">Deployment Successful</div>-->
@@ -93,8 +82,7 @@
 
 
             <p v-for="event in events">
-                {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{
-                event.data }} - {{ event.log }} - {{ event.created_at }}
+                {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{ event.data }} - {{ event.log }} - {{ event.created_at }}
             </p>
         </div>
 
@@ -103,6 +91,8 @@
 </template>
 
 <script>
+
+    import ServerEvent from './components/ServerEvent.vue';
 
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
@@ -124,6 +114,9 @@
     });
 
     export default {
+        components : {
+            ServerEvent
+        },
         created() {
             this.fetchData();
         },
@@ -136,15 +129,13 @@
                     _(store.state.serversStore.servers).forEach(function (server) {
 
                         if(server.progress < 100) {
-                            store.dispatch('getServerProvisonSteps', server.id)
+                            store.dispatch('getServersCurrentProvisioningStep', server.id)
                         }
 
                         Echo.private('App.Models.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                                    server.status = data.status;
-                                    server.progress = data.progress;
-                                    server.ip = data.ip;
-                                    server.ssh_connection = data.connected;
+                                    store.commit("UPDATE_SERVER", data.server)
+                                    store.commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
                                 });
                     });
                 });
@@ -166,15 +157,6 @@
                 });
 
                 store.dispatch('getEvents');
-            },
-            getCurrentServerProvisioningStep(server_id) {
-                if(_.has(this.serverProvisioningSteps, server_id)) {
-                    return _.find(_.get(this.serverProvisioningSteps, server_id), function(step) {
-                        return !step.completed;
-                    });
-                }
-
-                return null;
             }
         },
         computed: {
@@ -186,9 +168,6 @@
             },
             events_pagination() {
                 return this.$store.state.eventsStore.events_pagination;
-            },
-            serverProvisioningSteps() {
-               return this.$store.state.serversStore.server_provisioning_steps;
             }
         },
     }

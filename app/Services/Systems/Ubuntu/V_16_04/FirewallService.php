@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Exceptions\FailedCommand;
 use App\Models\ServerFirewallRule;
 use App\Services\Systems\ServiceConstructorTrait;
 
@@ -13,6 +14,8 @@ class FirewallService
 
     public function addBasicFirewallRules()
     {
+        throw new FailedCommand('just testing');
+
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
