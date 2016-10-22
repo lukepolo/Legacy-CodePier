@@ -16,6 +16,10 @@ class RemoveSiteFirewallRuleId extends Migration
         Schema::table('server_firewall_rules', function (Blueprint $table) {
             $table->dropColumn('site_firewall_rule_id');
         });
+
+        Schema::table('server_cron_jobs', function (Blueprint $table) {
+            $table->dropColumn('site_cron_job_id');
+        });
     }
 
     /**
@@ -27,6 +31,10 @@ class RemoveSiteFirewallRuleId extends Migration
     {
         Schema::table('server_firewall_rules', function (Blueprint $table) {
             $table->integer('site_firewall_rule_id');
+        });
+
+        Schema::table('server_cron_jobs', function (Blueprint $table) {
+            $table->integer('site_cron_job_id');
         });
     }
 }

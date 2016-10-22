@@ -27,16 +27,9 @@
         props : ['server'],
         computed : {
             currentProvisioningStep() {
-
                 var provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
 
                 if(_.has(provisioningSteps, this.server.id)) {
-
-                    var current_step = _.get(provisioningSteps, this.server.id);
-
-                    console.log('Completed ' + current_step.completed);
-                    console.log('Failed ' + current_step.failed);
-
                    return _.get(provisioningSteps, this.server.id);
                 }
 

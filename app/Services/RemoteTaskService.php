@@ -88,6 +88,8 @@ class RemoteTaskService implements RemoteTaskServiceContract
      */
     public function writeToFile($file, $contents, $read = false)
     {
+        $this->makeDirectory(preg_replace('#\/[^/]*$#', '', $file));
+
         return $this->run('
 cat > '.$file.' <<    \'EOF\'
 '.trim($contents).'
@@ -158,7 +160,8 @@ echo "Wrote" ', $read);
      */
     public function removeFile($file)
     {
-        return $this->run("rm $file");
+
+        return $this->run("rm $file -f");
     }
 
     public function updateText($file, $text, $replaceWithText)

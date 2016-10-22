@@ -27,7 +27,6 @@ export default {
         },
         retryProvisioning:  ({commit}, server_id) => {
             Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
-                console.log(response.data);
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
                 alert(error);
@@ -157,8 +156,6 @@ export default {
             });
 
             state.servers_current_provisioning_step = servers_current_provisioning_steps;
-
-
         },
         UPDATE_SERVER : (state, server) => {
 

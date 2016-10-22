@@ -16,8 +16,6 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban iptables-persistent');
-
         ServerFirewallRule::create([
             'server_id'   => $this->server->id,
             'description' => 'HTTP',
