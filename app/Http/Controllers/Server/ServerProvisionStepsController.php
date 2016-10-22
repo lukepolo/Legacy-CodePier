@@ -15,7 +15,6 @@ class ServerProvisionStepsController extends Controller
      *
      * @param $serverId
      * @return \Illuminate\Http\Response
-     *
      */
     public function index($serverId)
     {
