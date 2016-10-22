@@ -21,8 +21,21 @@
                 <div class="event" v-for="server in servers">
                     <div class="event-status event-status-success"></div>
                     <div class="event-name">{{ server.name }} - {{ server.ip }}</div>
-                    <div>({{ server.progress}}) - {{ server.status }}</div>
-                    <div class="event-pile"><span class="icon-layers"></span> server.pile.name</div>
+                    <div>
+                        <section v-if="server.progress < 100 && serverProvisioningSteps && getCurrentServerProvisioningStep(server.id)">
+                            <section v-if="getCurrentServerProvisioningStep(server.id).failed">
+                                Failed {{ getCurrentServerProvisioningStep(server.id).step}}
+                            </section>
+                        </section>
+                        <section v-else>
+                            ({{ server.progress}}) - {{ server.status }}
+                        </section>
+                    </div>
+                    <div class="event-pile">
+                        <span class="icon-layers">
+                            {{ server.pile.name }}
+                        </span>
+                    </div>
                 </div>
                 <!--<div class="event">-->
                 <!--<div class="event-status event-status-success"></div>-->
@@ -121,6 +134,11 @@
 
                 store.dispatch('getServers', function () {
                     _(store.state.serversStore.servers).forEach(function (server) {
+
+                        if(server.progress < 100) {
+                            store.dispatch('getServerProvisonSteps', server.id)
+                        }
+
                         Echo.private('App.Models.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     server.status = data.status;
@@ -148,6 +166,15 @@
                 });
 
                 store.dispatch('getEvents');
+            },
+            getCurrentServerProvisioningStep(server_id) {
+                if(_.has(this.serverProvisioningSteps, server_id)) {
+                    return _.find(_.get(this.serverProvisioningSteps, server_id), function(step) {
+                        return !step.completed;
+                    });
+                }
+
+                return null;
             }
         },
         computed: {
@@ -159,6 +186,9 @@
             },
             events_pagination() {
                 return this.$store.state.eventsStore.events_pagination;
+            },
+            serverProvisioningSteps() {
+               return this.$store.state.serversStore.server_provisioning_steps;
             }
         },
     }
