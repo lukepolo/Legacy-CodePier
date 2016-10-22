@@ -6,7 +6,6 @@ use App\Events\Server\ServerProvisionStatusChanged;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
-use App\Models\ServerProvisionStep;
 
 /**
  * Class ServerProvisionStepsController.
@@ -25,7 +24,7 @@ class ServerProvisionStepsController extends Controller
     }
 
     /**
-     * Starts the provisioning process again
+     * Starts the provisioning process again.
      *
      * @param $serverId
      *
@@ -43,7 +42,7 @@ class ServerProvisionStepsController extends Controller
         $currentStep->log = null;
         $currentStep->save();
 
-        event(new ServerProvisionStatusChanged($server, $currentStep->step , $server->provisioningProgress()));
+        event(new ServerProvisionStatusChanged($server, $currentStep->step, $server->provisioningProgress()));
 
         return response()->json($currentStep);
     }
