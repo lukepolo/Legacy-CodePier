@@ -123,8 +123,9 @@ iptables -P INPUT DROP
         $this->connectToServer();
 
         $this->remoteTaskService->run(self::IP_TABLES_FILE_COMMAND);
-        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
-        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
+        // TODO - we may need to use a different firewall service, this seems to fail randomly
+//        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
+//        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
 
         return $this->remoteTaskService->getErrors();
     }

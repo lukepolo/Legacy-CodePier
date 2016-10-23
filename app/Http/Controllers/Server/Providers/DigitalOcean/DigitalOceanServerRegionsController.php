@@ -32,7 +32,9 @@ class DigitalOceanServerRegionsController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions);
+        return response()->json(ServerProvider::with(['serverRegions' => function($query) {
+            $query->orderBy('name');
+        }])->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions);
     }
 
     /**

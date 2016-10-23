@@ -12,7 +12,8 @@
                                 <input type="hidden" name="site" :value="site.id">
                             </template>
                             <template v-else>
-                                <input type="hidden" name="pile_id" :value="pile.id">
+                                YOU NEED A PILE ID HERE WHEN NOT CONNECTING A SITE
+                                    <!--<input type="hidden" name="pile_id" :value="pile.id">-->
                             </template>
 
                             <div class="input-group input-radio">
@@ -112,8 +113,8 @@
                 this.$store.dispatch('getServerAvailableLanguages');
                 this.$store.dispatch('getServerAvailableFrameworks');
 
-                if (this.$route.query.site) {
-                    this.$store.dispatch('getSite', this.$route.query.site);
+                if (this.$route.params.site) {
+                    this.$store.dispatch('getSite', this.$route.params.site);
                 }
             },
             getProviderData(provider) {

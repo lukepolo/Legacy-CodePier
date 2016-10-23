@@ -82,7 +82,7 @@ const router = new VueRouter({
     routes: [
         {path: '/', component: Dashboard},
 
-        {path: '/server/create', name: 'server_form', component: serverPages.ServerForm},
+        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
         {path: '/server/:server_id/sites', name: 'server_sites', component: serverPages.ServerSites},
         {path: '/server/:server_id/files', name: 'server_files', component: serverPages.ServerFiles},
         {path: '/server/:server_id/workers', name: 'server_workers', component: serverPages.ServerWorkers},
