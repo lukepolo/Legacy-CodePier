@@ -116,6 +116,7 @@ class ServerService implements ServerServiceContract
             $status = $this->getProvider($server->serverProvider)->getStatus($server);
             $server->status = $status;
             $server->save();
+
             return $status;
         } catch (\Exception $e) {
             if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
