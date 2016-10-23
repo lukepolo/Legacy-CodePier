@@ -12,10 +12,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-
 /**
- * Class CheckServerStatus
- * @package App\Jobs
+ * Class CheckServerStatus.
  */
 class CheckSshConnection implements ShouldQueue
 {
@@ -37,7 +35,6 @@ class CheckSshConnection implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
-     *
      */
     public function handle(ServerService $serverService)
     {
@@ -47,7 +44,7 @@ class CheckSshConnection implements ShouldQueue
             dispatch(new ProvisionServer($this->server));
             //            ->onQueue('server_provision'));
         } else {
-            $this->dispatch((new CheckSshConnection($this->server))->delay(10));
+            $this->dispatch((new self($this->server))->delay(10));
         }
     }
 }
