@@ -46,7 +46,7 @@ class SiteServerController extends Controller
 
         $site->fireSavedEvent();
 
-        foreach($site->servers as $server) {
+        foreach ($site->servers as $server) {
             $this->dispatch(new CreateSite($server, $site));
         }
     }
