@@ -3,7 +3,7 @@
         <left-nav></left-nav>
         <section id="middle" class="section-column">
             <user-nav></user-nav>
-            <form v-on:submit.prevent="createSshkey">
+            <form @submit.prevent="createSshkey">
                 <div class="form-group">
                     <label>Name</label>
                     <input v-model="form.name" name="name" type="text" class="form-control">
