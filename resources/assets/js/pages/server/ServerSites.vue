@@ -17,7 +17,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <router-link :to="{ path: '/site/'+site.id }">
+                        <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
                             {{ site.name }}
                         </router-link>
                     </td>

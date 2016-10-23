@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu" aria-labelledby="drop1">
                     <template v-for="pile in piles">
                         <li>
-                            <a v-on:click="changePile(pile.id)"
+                            <a @click="changePile(pile.id)"
                                :class="{ selected : (currentPile && currentPile.id == pile.id) }"><span
                                     class="icon-layers"></span> {{ pile.name }}</a>
                         </li>
@@ -50,12 +50,12 @@
                         <span class="dropdown-heading">Change Team</span>
                     </li>
                     <li>
-                        <a href="#" v-on:click="changeTeam()"
+                        <a href="#" @click="changeTeam()"
                            :class="{selected : currentTeam == null}">Private</a>
                     </li>
                     <template v-for="team in teams">
                         <li>
-                            <a href="#" v-on:click="changeTeam(team.id)"
+                            <a href="#" @click="changeTeam(team.id)"
                                :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
                         </li>
                     </template>
@@ -92,15 +92,11 @@
             piles() {
                 return this.$store.state.pilesStore.piles;
             },
-            current_pile_id() {
-                return this.$store.state.pilesStore.current_pile_id;
+            currentPile() {
+                return this.$store.state.userStore.user.current_pile;
             },
             currentTeam() {
-
-                return this.$store.state.teamsStore.currentTeam;
-            },
-            currentPile() {
-                return this.$store.state.pilesStore.currentPile;
+                return this.$store.state.userStore.user.current_team;
             },
             user() {
                 return this.$store.state.userStore.user;
@@ -119,21 +115,12 @@
                 this.$store.dispatch('changeTeams', teamID);
             },
             changePile: function (pile_id) {
-                this.$store.dispatch('setCurrentPileID', pile_id);
-
-                if (this.$route.path == '/') {
-                    this.$store.dispatch('getServers');
-                    this.$store.dispatch('getSites');
-                } else {
-                    this.$router.push('/');
-
-                }
+                this.$store.dispatch('changePiles', pile_id);
             }
         },
         created() {
             this.$store.dispatch('getPiles');
             this.$store.dispatch('getTeams');
-            this.$store.dispatch('getUserTeam');
         }
     }
 </script>

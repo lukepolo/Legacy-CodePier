@@ -13,9 +13,12 @@
 @import 'buttons';
 @import 'icons';
 @import 'content';
+@import 'lists';
 @import 'dropdowns';
 @import 'groups';
 @import 'login';
+@import 'wizard';
+@import 'progress_bar';
 
 @import 'forms/structure';
 @import 'forms/check_radio';
@@ -24,4 +27,17 @@
 
 textarea {
   color : black;
+}
+
+
+#right {
+  flex: 0 0 300px;
+}
+
+
+.jcf-form-wrap {
+  box-shadow: none;
+}
+.jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
+  display: none;
 }

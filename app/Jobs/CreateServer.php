@@ -28,7 +28,7 @@ class CreateServer implements ShouldQueue
      * Create a new job instance.
      *
      * @param ServerProvider $serverProvider
-     * @param Server         $server
+     * @param Server $server
      */
     public function __construct(ServerProvider $serverProvider, Server $server)
     {
@@ -47,28 +47,9 @@ class CreateServer implements ShouldQueue
     {
         event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
-        /** @var Server $server */
-        $server = $serverService->create($this->serverProvider, $this->server);
+        /* @var Server $server */
+        $serverService->create($this->serverProvider, $this->server);
 
-        $serverStatus = 'new';
-
-        while ($serverStatus == 'new') {
-            sleep(5);
-            $serverStatus = $serverService->getStatus($server);
-        }
-
-        $serverService->saveInfo($server);
-
-        $sshConnection = false;
-
-        while ($sshConnection == false) {
-            sleep(5);
-            $sshConnection = $serverService->testSshConnection($server);
-        }
-
-        event(new ServerProvisionStatusChanged($server, 'Queue for Provisioning', 0));
-
-        dispatch(new ProvisionServer($server));
-//            ->onQueue('server_provision'));
+        $this->dispatch(new CheckServerStatus($this->server, true));
     }
 }

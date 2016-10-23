@@ -134,6 +134,28 @@ footer {
 // ---------------------------------------------------------
 .container {
     .jcf-form-wrap {
-        padding: 0px;
+        //padding: 0px;
+
+      .input-checkbox,
+      .input-radio{
+        margin-bottom: $spacing*2;
+
+        label {
+          margin-bottom: $spacing;
+        }
+      }
+      h3 {
+        margin-bottom: $spacing*2;
+      }
+      .input-question {
+        margin-bottom: $spacing;
+      }
+
+      input[type="text"] + label,
+      input[type="integer"] + label {
+        pointer-events: none;
+
+
+      }
     }
 }

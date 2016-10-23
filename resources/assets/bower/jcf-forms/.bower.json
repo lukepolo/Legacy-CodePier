@@ -22,11 +22,11 @@
     "tests",
     "config.codekit"
   ],
-  "_release": "f30b821255",
+  "_release": "4154319a34",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "f30b8212556d437ace97ab6ca7f14831973ee6d2"
+    "commit": "4154319a340c4d9d1c358e41470ba273f9d2ffc7"
   },
   "_source": "https://github.com/jfalotico/JCF_Forms.git",
   "_target": "*",

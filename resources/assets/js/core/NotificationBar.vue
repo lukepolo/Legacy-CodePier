@@ -2,6 +2,11 @@
     <footer v-watch-scroll="events_pagination">
         <div class="header">
             <h4>
+                <div>
+                    <a href="#">Servers</a>
+                    <a href="#">Deployments</a>
+
+                </div>
                 <a class="toggle collapsed" data-toggle="collapse" href="#collapseEvents">
                     <span class="icon-warning"></span> Events
                 </a>
@@ -18,12 +23,9 @@
                 </div>
                 -->
 
-                <div class="event" v-for="server in servers">
-                    <div class="event-status event-status-success"></div>
-                    <div class="event-name">{{ server.name }} - {{ server.ip }}</div>
-                    <div>({{ server.progress}}) - {{ server.status }}</div>
-                    <div class="event-pile"><span class="icon-layers"></span> server.pile.name</div>
-                </div>
+                <template v-for="server in servers">
+                    <server-event :server="server"></server-event>
+                </template>
                 <!--<div class="event">-->
                 <!--<div class="event-status event-status-success"></div>-->
                 <!--<div class="event-name">Deployment Successful</div>-->
@@ -80,8 +82,7 @@
 
 
             <p v-for="event in events">
-                {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{
-                event.data }} - {{ event.log }} - {{ event.created_at }}
+                {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{ event.data }} - {{ event.log }} - {{ event.created_at }}
             </p>
         </div>
 
@@ -90,6 +91,8 @@
 </template>
 
 <script>
+
+    import ServerEvent from './components/ServerEvent.vue';
 
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
@@ -111,6 +114,9 @@
     });
 
     export default {
+        components : {
+            ServerEvent
+        },
         created() {
             this.fetchData();
         },
@@ -121,12 +127,15 @@
 
                 store.dispatch('getServers', function () {
                     _(store.state.serversStore.servers).forEach(function (server) {
+
+                        if(server.progress < 100) {
+                            store.dispatch('getServersCurrentProvisioningStep', server.id)
+                        }
+
                         Echo.private('App.Models.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                                    server.status = data.status;
-                                    server.progress = data.progress;
-                                    server.ip = data.ip;
-                                    server.ssh_connection = data.connected;
+                                    store.commit("UPDATE_SERVER", data.server)
+                                    store.commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
                                 });
                     });
                 });

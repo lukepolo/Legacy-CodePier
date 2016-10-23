@@ -85,6 +85,7 @@ class PHP
 
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
+        $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install blackfire-agent blackfire-php');
 
         $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");

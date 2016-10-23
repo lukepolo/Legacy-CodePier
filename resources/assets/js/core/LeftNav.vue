@@ -1,30 +1,32 @@
 <template>
     <section id="left" class="section-column">
         <h3 class="section-header">Sites</h3>
-        <div class="server selected" v-for="site in sites">
-            <router-link :to="{ path: '/site/'+site.id }">
-                <span class="server-connection server-success" data-toggle="tooltip" data-placement="top"
-                      data-container="body" title="Site Health"></span> {{ site.name }}
-            </router-link>
-        </div>
-
-        <form @submit.prevent="saveSite" v-if="adding_site">
-            <template v-if="!form.domainless">
-                Domain
-            </template>
-            <template v-else>
-                Alias
-            </template>
-
-            <input v-model="form.domain" type="text">
-            <input type="checkbox" v-model="form.domainless"> Not a domain
-            <button class="btn btn-primary">Save</button>
-        </form>
 
         <div class="section-content">
-            <div class="server text-center">
+            <div class="site" v-for="site in sites">
+                <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
+                    <div class="site-name">
+                        {{ site.name }}
+                    </div>
+                </router-link>
+            </div>
+            <form @submit.prevent="saveSite" v-if="adding_site">
+                <template v-if="!form.domainless">
+                    Domain
+                </template>
+                <template v-else>
+                    Alias
+                </template>
+
+                <input v-model="form.domain" type="text">
+                <input type="checkbox" v-model="form.domainless"> Not a domain
+                <button class="btn btn-primary">Save</button>
+            </form>
+
+            <div class="btn-container text-center" v-if="current_pile_id">
                 <div @click="adding_site = !adding_site" class="btn btn-primary">Create Site</div>
             </div>
+
         </div>
 
     </section>
@@ -54,6 +56,9 @@
         computed: {
             sites() {
                 return this.$store.state.sitesStore.sites;
+            },
+            current_pile_id() {
+                return this.$store.state.userStore.user.current_pile_id;
             }
         }
     }

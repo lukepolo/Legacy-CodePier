@@ -18,10 +18,15 @@ require('vue-resource');
 
 Vue.use(VueRouter);
 
+import NProgress from 'nprogress'
+
 Vue.http.interceptors.push((request, next) => {
     request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
 
-    next();
+    NProgress.start();
+    next((response)=>{
+        NProgress.done();
+    });
 });
 
 $.ajaxSetup({
