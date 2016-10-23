@@ -1,7 +1,12 @@
 <template>
-    <section id="right" v-if="site">
+    <section id="right" v-if="site" class="section-column">
+        <h3 class="section-header">
+            Server Info
+        </h3>
+
+        <div class="section-content">
         <template v-for="server in servers">
-            <router-link :to="{ path: '/server/'+server.id+'/sites' }">
+            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                 {{ server.name }}
             </router-link>
             {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
@@ -36,8 +41,8 @@
             </form>
         </template>
 
-        <section v-if="site.server_features">
-            <router-link :to="{ path: '/server/create?site='+site.id+'&type=full_stack' }" tag="div">
+        <div v-if="site.server_features">
+            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }" tag="div">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
             <hr>
@@ -49,7 +54,9 @@
             - not available during beta
             <div class="btn btn-primary">Create A Queue Worker Serer</div>
             - not available during beta
-        </section>
+        </div>
+
+        </div>
     </section>
 </template>
 

@@ -84,4 +84,11 @@ interface ServerProviderContract
      * @throws \Exception
      */
     public function refreshToken(UserServerProvider $userServerProvider);
+
+    /**
+     * Gets the status that means its ready for provisioning.
+     *
+     * @return mixed
+     */
+    public function readyForProvisioningStatus();
 }

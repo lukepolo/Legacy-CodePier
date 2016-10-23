@@ -19,6 +19,12 @@ class PileSitesController extends Controller
      */
     public function index($pileId)
     {
-        return response()->json(Pile::with('sites.servers')->findOrFail($pileId)->sites);
+        $pile = Pile::with('sites.servers')->find($pileId);
+        $sites = [];
+        if ($pile) {
+            $sites = $pile->sites;
+        }
+
+        return response()->json($sites);
     }
 }

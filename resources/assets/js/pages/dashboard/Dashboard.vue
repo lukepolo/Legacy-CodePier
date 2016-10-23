@@ -17,7 +17,7 @@
                     <tbody>
                     <tr v-for="server in servers">
                         <td>
-                            <router-link :to="{ path: '/server/'+server.id+'/sites' }">
+                            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                                 {{ server.name }}
                             </router-link>
                         </td>

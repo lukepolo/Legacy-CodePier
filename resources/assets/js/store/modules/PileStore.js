@@ -2,14 +2,11 @@ export default {
     state: {
         piles: [],
         user_piles: [],
-        currentPile: null,
-        current_pile_id: parseInt(localStorage.getItem('current_pile_id'))
     },
     actions: {
         getPiles: ({commit, dispatch}) => {
             Vue.http.get(Vue.action('Pile\PileController@index')).then((response) => {
                 commit('SET_PILES', response.data);
-                dispatch('setCurrentPile');
             }, (errors) => {
                 alert('handle some error')
             });
@@ -21,22 +18,21 @@ export default {
                 alert('handle some error')
             });
         },
-        setCurrentPile: ({commit, state}) => {
-
-            var current_pile = _.find(state.piles, (pile) => {
-                return pile.id == state.current_pile_id;
-            });
-
-            commit('SET_CURRENT_PILE', current_pile);
-        },
-        setCurrentPileID: ({commit, dispatch}, pile_id) => {
-            localStorage.setItem('current_pile_id', pile_id);
-            commit('SET_CURRENT_PILE_ID', pile_id);
-            dispatch('setCurrentPile');
-        },
         createPile: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 dispatch('getPiles');
+            }, (errors) => {
+                alert(error);
+            })
+        },
+        changePiles : ({commit, dispatch}, pileId) => {
+            Vue.http.post(Vue.action('Pile\PileController@changePile'), {pile : pileId}).then((response) => {
+                commit('SET_USER', response.data);
+                dispatch('getServers');
+                dispatch('getSites');
+
+                app.$router.push('/');
+
             }, (errors) => {
                 alert(error);
             })
@@ -62,12 +58,6 @@ export default {
         },
         SET_PILES: (state, piles) => {
             state.piles = piles;
-        },
-        SET_CURRENT_PILE: (state, pile) => {
-            state.currentPile = pile;
-        },
-        SET_CURRENT_PILE_ID: (state, pile_id) => {
-            state.current_pile_id = parseInt(pile_id);
         }
     }
 }
