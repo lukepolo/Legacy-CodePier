@@ -3,12 +3,14 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server;
 use App\Models\ServerProvisionStep;
 use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -17,7 +19,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class ProvisionServer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
 
     protected $server;
 
@@ -35,8 +37,9 @@ class ProvisionServer implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
-    public function handle(ServerService $serverService)
+    public function handle(ServerService $serverService, SiteService $siteService)
     {
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
@@ -48,6 +51,10 @@ class ProvisionServer implements ShouldQueue
             $this->server->user->load('sshKeys');
             foreach ($this->server->user->sshKeys as $sshKey) {
                 $serverService->installSshKey($this->server, $sshKey->ssh_key);
+            }
+
+            foreach($this->server->sites as $site) {
+                $siteService->create($this->server, $site);
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

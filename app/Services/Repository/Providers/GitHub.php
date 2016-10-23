@@ -23,7 +23,6 @@ class GitHub implements RepositoryContract
      */
     public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
     {
-        dd($sshKey);
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
