@@ -53,7 +53,7 @@ class ProvisionServer implements ShouldQueue
                 $serverService->installSshKey($this->server, $sshKey->ssh_key);
             }
 
-            foreach($this->server->sites as $site) {
+            foreach ($this->server->sites as $site) {
                 $siteService->create($this->server, $site);
             }
 
