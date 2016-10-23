@@ -19,7 +19,6 @@ use phpseclib\Crypt\RSA;
 class DigitalOceanProvider implements ServerProviderContract
 {
     const OAUTH_TOKEN_URL = 'https://cloud.digitalocean.com/v1/oauth/token';
-
     use ServerProviderTrait;
 
     /**
@@ -133,7 +132,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        return DigitalOcean::droplet()->getById($server->server_id)->status;
+        return DigitalOcean::droplet()->getById($server->given_server_id)->status;
     }
 
     /**
@@ -236,5 +235,10 @@ class DigitalOceanProvider implements ServerProviderContract
         }
 
         throw new \Exception('Invalid refresh token');
+    }
+
+    public function readyForProvisioningStatus()
+    {
+        return 'active';
     }
 }

@@ -113,7 +113,10 @@ class ServerService implements ServerServiceContract
         $server->touch();
 
         try {
-            return $this->getProvider($server->serverProvider)->getStatus($server);
+            $status = $this->getProvider($server->serverProvider)->getStatus($server);
+            $server->status = $status;
+            $server->save();
+            return $status;
         } catch (\Exception $e) {
             if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();

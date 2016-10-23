@@ -116,21 +116,6 @@ class ServerController extends Controller
     }
 
     /**
-     * Installs blackfire on a server.
-     *
-     * @param Request $request
-     */
-    public function installBlackfire(Request $request)
-    {
-
-        // TODO - should be a plugin
-        $this->serverService->installBlackFire(
-            Server::findOrFail($request->get('server_id')),
-            $request->get('server_id'),
-            $request->get('server_token'));
-    }
-
-    /**
      * Gets the disk space for a server.
      *
      * @param Request $request
