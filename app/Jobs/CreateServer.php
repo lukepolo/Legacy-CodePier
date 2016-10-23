@@ -47,7 +47,7 @@ class CreateServer implements ShouldQueue
     {
         event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
-        /** @var Server $server */
+        /* @var Server $server */
         $serverService->create($this->serverProvider, $this->server);
 
         $this->dispatch(new CheckServerStatus($this->server, true));

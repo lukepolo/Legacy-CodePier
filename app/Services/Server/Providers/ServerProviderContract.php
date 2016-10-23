@@ -86,7 +86,7 @@ interface ServerProviderContract
     public function refreshToken(UserServerProvider $userServerProvider);
 
     /**
-     * Gets the status that means its ready for provisioning
+     * Gets the status that means its ready for provisioning.
      *
      * @return mixed
      */
