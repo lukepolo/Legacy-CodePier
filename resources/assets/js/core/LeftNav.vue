@@ -4,7 +4,7 @@
 
         <div class="section-content">
             <div class="site" v-for="site in sites">
-                <router-link :to="{ path: '/site/'+site.id+'/repository' }">
+                <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
                     <div class="site-name">
                         {{ site.name }}
                     </div>
@@ -23,7 +23,7 @@
                 <button class="btn btn-primary">Save</button>
             </form>
 
-            <div class="btn-container text-center">
+            <div class="btn-container text-center" v-if="current_pile_id">
                 <div @click="adding_site = !adding_site" class="btn btn-primary">Create Site</div>
             </div>
 
@@ -56,6 +56,9 @@
         computed: {
             sites() {
                 return this.$store.state.sitesStore.sites;
+            },
+            current_pile_id() {
+                return this.$store.state.userStore.user.current_pile_id;
             }
         }
     }

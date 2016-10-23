@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'current_pile_id',
         'user_login_provider_id',
     ];
 
@@ -81,5 +82,10 @@ class User extends Authenticatable
     public function piles()
     {
         return $this->hasMany(Pile::class);
+    }
+
+    public function currentPile()
+    {
+        return $this->belongsTo(Pile::class, 'current_pile_id');
     }
 }

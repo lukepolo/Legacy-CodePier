@@ -1,47 +1,42 @@
 <template>
-    <div>
+    <section>
         <h3>{{ getSectionTitle(area) }}</h3>
-
         <template v-for="feature in features">
-            <h3></h3>
-
             <div class="jcf-input-group input-checkbox">
                 <div class="input-question">
                     {{ feature.name }}
                 </div>
-
             </div>
-
-
-
-
-
             <p>
-
-
                 <template v-if="server && hasFeature(feature)">
                     Installed
                 </template>
 
                 <template v-else>
+
                     <template v-if="server">
                         <button @click="installFeature(feature)">Install</button>
                     </template>
 
                     <template v-else>
-                        <input :name="'services[' + area + ']['+feature.name + '][enabled]'" type="checkbox"
-                               :checked="(server && feature.required) || hasFeature(feature)" value="1">
+                        <input :name="'services[' + feature.service + ']['+feature.name + '][enabled]'"
+                               type="checkbox"
+                               :checked="(server && feature.required) || hasFeature(feature)"
+                               value="1"
+                        >
                     </template>
-
-                    <small>{{ feature.description }}</small>
+                    <div>
+                        <small>{{ feature.description }}</small>
+                    </div>
                 </template>
             </p>
 
             <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
                     <input :id="parameter"
-                       :name="'services[' + area + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
-                       type="text" :value="getParamterValue(feature, parameter, value)">
+                           :name="'services[' + feature.service + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
+                           type="text" :value="getParameterValue(feature, parameter, value)"
+                    >
                     <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
                 </div>
             </template>
@@ -50,12 +45,16 @@
                 <button @click="installFeature(feature)">Update</button>
             </template>
         </template>
-
-        <!--<template v-if="frameworks">-->
-            <!--<h2>Frameworks for {{ area }}</h2>-->
-            <!--<feature-area :server="server" :area="framework" :features="features" v-for="(features, framework) in getFrameworks(area)"></feature-area>-->
-        <!--</template>-->
-    </div>
+        <template v-if="frameworks">
+            <h2>Frameworks for {{ area }}</h2>
+            <feature-area
+                    :server="server"
+                    :area="framework"
+                    :features="features"
+                    v-for="(features, framework) in getFrameworks(area)">
+            </feature-area>
+        </template>
+    </section>
 </template>
 
 <script>
@@ -67,9 +66,9 @@
                 var areaFeatures = null;
 
                 if (this.server && this.server.server_features) {
-                    areaFeatures = this.server.server_features[this.area];
+                    areaFeatures = this.server.server_features[feature.service];
                 } else if (this.site && this.site.server_features) {
-                    areaFeatures = this.site.server_features[this.area];
+                    areaFeatures = this.site.server_features[feature.service];
                 }
 
                 if (areaFeatures && areaFeatures[feature.name] && areaFeatures[feature.name].enabled) {
@@ -78,7 +77,7 @@
 
                 return false;
             },
-            getParamterValue: function (feature, parameter, default_value) {
+            getParameterValue: function (feature, parameter, default_value) {
 
                 var area = this.hasFeature(feature);
 

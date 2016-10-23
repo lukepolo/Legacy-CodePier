@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(\Auth::user());
+        return response()->json(\Auth::user()->load(['currentTeam', 'currentPile']));
     }
 
     /**
@@ -41,6 +41,6 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user);
+        return response()->json($user->load(['currentTeam', 'currentPile']));
     }
 }

@@ -23,12 +23,12 @@
         </template>
 
         <div class="btn-footer text-center" v-if="editing">
-            <button v-on:click="cancel" class="btn">Cancel</button>
-            <button v-on:click="savePile" class="btn btn-primary">Save</button>
+            <button @click="cancel" class="btn">Cancel</button>
+            <button @click="savePile" class="btn btn-primary">Save</button>
         </div>
         <div v-else>
-            <button v-on:click="edit" class="btn">Edit</button>
-            <button v-on:click="deletePile()" class="btn">Delete</button>
+            <button @click="edit" class="btn">Edit</button>
+            <button @click="deletePile()" class="btn">Delete</button>
 
             <router-link to="/server/create" class="btn btn-primary">
                 Create Server

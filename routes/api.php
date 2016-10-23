@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::resource('piles', 'Pile\PileController');
         Route::resource('pile.sites', 'Pile\PileSitesController');
+        Route::post('change-pile', 'Pile\PileController@changePile');
 
         /*
        |--------------------------------------------------------------------------
@@ -86,6 +87,7 @@ Route::group(['middleware' => 'auth:api'], function () {
        */
 
         Route::resource('servers', 'Server\ServerController');
+
 
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
@@ -100,6 +102,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
             });
 
+            Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::resource('servers.features', 'ServerFeatureController');
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
             Route::resource('servers.workers', 'ServerWorkerController');

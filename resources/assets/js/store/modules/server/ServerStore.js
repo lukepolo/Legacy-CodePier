@@ -7,7 +7,8 @@ export default {
         editable_framework_files: [],
         available_server_features: [],
         available_server_languages: [],
-        available_server_frameworks: []
+        available_server_frameworks: [],
+        servers_current_provisioning_step : {}
     },
     actions: {
         getServer: ({commit}, server_id) => {
@@ -17,8 +18,22 @@ export default {
                 alert(error);
             });
         },
+        getServersCurrentProvisioningStep: ({commit}, server_id) => {
+            Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
+                commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
+            }, (errors) => {
+                alert(error);
+            });
+        },
+        retryProvisioning:  ({commit}, server_id) => {
+            Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
+                commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
+            }, (errors) => {
+                alert(error);
+            });
+        },
         getServers: ({commit, rootState}, callback) => {
-            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.pilesStore.current_pile_id})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.userStore.user.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
                 typeof callback === 'function' && callback();
             }, (errors) => {
@@ -26,7 +41,6 @@ export default {
             });
         },
         createServer: ({commit}, form) => {
-
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 alert('probably should notify them or something ?')
             }, (errors) => {
@@ -130,6 +144,28 @@ export default {
         },
         SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
             state.editable_framework_files = files;
+        },
+        SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server_id, current_step]) => {
+
+            var servers_current_provisioning_steps = {};
+
+            servers_current_provisioning_steps[server_id] = current_step;
+
+            _.each(state.servers_current_provisioning_steps, function(current_step, server_id) {
+                servers_current_provisioning_steps[server_id] = current_step;
+            });
+
+            state.servers_current_provisioning_step = servers_current_provisioning_steps;
+        },
+        UPDATE_SERVER : (state, server) => {
+
+            var foundServer = _.find(state.servers, function(tempServer) {
+               return tempServer.id == server.id
+            });
+
+            _.each(server, function(value, index) {
+                foundServer[index] = value;
+            });
         }
     }
 }

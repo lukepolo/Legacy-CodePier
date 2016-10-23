@@ -31,7 +31,7 @@
                                     <span class="label label-primary" v-else>Member</span>
                                 </td>
                                 <td>
-                                    <router-link :to="{ path : '/my/team/' + team.id + '/members' }"
+                                    <router-link :to="{ name : 'team_members', params : {team_id: team.id} }"
                                                  class="btn btn-sm btn-default"><i class="fa fa-users"></i> Members
                                     </router-link>
 

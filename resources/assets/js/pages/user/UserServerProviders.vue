@@ -6,7 +6,7 @@
             <p v-for="provider in server_providers">
                 <template v-if="isConnected(provider.id)">
 
-                    Disconnect : <a v-on:click="disconnectProvider(provider.id)" class="btn btn-default">{{
+                    Disconnect : <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
                     provider.name}}</a>
                 </template>
                 <template v-else>

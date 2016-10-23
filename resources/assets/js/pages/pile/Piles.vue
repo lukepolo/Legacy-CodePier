@@ -11,7 +11,7 @@
                     <div class="group-container">
                         <pile :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
                         <div class="group">
-                            <a v-on:click="newPile()" class="add-pile">
+                            <a @click="newPile()" class="add-pile">
                                 <div class="group-content">
                                     <span class="icon-layers"></span>
                                 </div>
