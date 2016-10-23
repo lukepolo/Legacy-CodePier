@@ -282,13 +282,12 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param $sshKey
-     * @param string $user
      *
      * @return bool
      */
-    public function installSshKey(Server $server, $sshKey, $user = 'root')
+    public function installSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server, $user);
+        $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
 
@@ -303,7 +302,7 @@ class ServerService implements ServerServiceContract
      */
     public function removeSshKey(Server $server, $sshKey)
     {
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
 

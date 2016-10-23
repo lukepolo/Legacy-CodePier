@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateSite;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
@@ -44,5 +45,9 @@ class SiteServerController extends Controller
         $site->servers()->sync($request->get('connected_servers', []));
 
         $site->fireSavedEvent();
+
+        foreach($site->servers as $server) {
+            $this->dispatch(new CreateSite($server, $site));
+        }
     }
 }
