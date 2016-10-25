@@ -1,12 +1,17 @@
 <template>
     <section>
-        <h4>{{ getSectionTitle(area) }}</h4>
+        <h3>{{ getSectionTitle(area) }}</h3>
         <template v-for="feature in features">
+            <div class="jcf-input-group input-checkbox">
+                <div class="input-question">
+                    {{ feature.name }}
+                </div>
+            </div>
             <p>
-                {{ feature.name }}
                 <template v-if="server && hasFeature(feature)">
                     Installed
                 </template>
+
                 <template v-else>
 
                     <template v-if="server">
@@ -39,7 +44,6 @@
             <template v-if="server && hasFeature(feature)">
                 <button @click="installFeature(feature)">Update</button>
             </template>
-
         </template>
         <template v-if="frameworks">
             <h2>Frameworks for {{ area }}</h2>
