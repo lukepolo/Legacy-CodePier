@@ -139,14 +139,14 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem',
-"-----BEGIN DH PARAMETERS-----
+'-----BEGIN DH PARAMETERS-----
 MIIBCAKCAQEA5M2MrvvA978Z4Zz6FBf/1CUZA3QcJyCUmeMwPVWBeTS9M3XJTYUY
 Hr7UXZQtzWF5o3GLC2SAMzVVHGaJQDnruxBT5HLsneFpSZz5ntCq4tLLIE32dyYd
 Vd/K+Mp1Cee3lw57iK/ZC/CfxoZ5qtWJ9/CRmfXwS8QMwmLl+pR8v5m0I4TqzgRM
 1HEbY1YvgKNiy24HbOhr62Von27Fa8IpGVVhLjoL6VTNaGjh64vtbMZzp1Va9G5P
 rPJFzPmaWrfBecGIEWEN77NLT8ieYpiLUw0s4PgnlM6Pijax/Z/YsqsZpN8nvmDc
 gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
------END DH PARAMETERS-----");
+-----END DH PARAMETERS-----');
 
         $this->remoteTaskService->run(
             'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $siteSslCertificate->domains))
