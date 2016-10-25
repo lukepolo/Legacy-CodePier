@@ -40,8 +40,7 @@ class WebService
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
-        // TODO - THIS DOES NOT NEED TO BE UNIQUE
-//        $this->remoteTaskService->run('openssl dhparam -out /etc/nginx/dhparam.pem 2048');
+        $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', env('DH_PARAM'));
 
         $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
 
