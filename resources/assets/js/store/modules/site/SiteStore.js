@@ -92,9 +92,9 @@ export default {
             }, (errors) => {
             });
         },
-        deleteSslCertificate: ({commit, dispatch}, ssl_certificate_id) => {
-            Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
-                dispatch('getSslCertificates', this.$store.state.sitesStore.site.id);
+        deleteSslCertificate: ({commit, rootState, dispatch}, data) => {
+            Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {site : data.site, certificate: data.certificate})).then((response) => {
+                dispatch('getSslCertificates', rootState.sitesStore.site.id);
             }, (errors) => {
 
             });
