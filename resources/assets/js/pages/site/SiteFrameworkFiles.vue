@@ -7,7 +7,11 @@
 </template>
 
 <script>
+    import SiteFile from './../../components/SiteFile.vue';
     export default {
+        components : {
+          SiteFile
+        },
         created() {
             this.fetchData();
         },
@@ -25,7 +29,7 @@
                 return this.$store.state.sitesStore.site;
             },
             files() {
-                return this.$store.state.serversStoreeditable_framework_files;
+                return this.$store.state.serversStore.editable_framework_files;
             }
         },
     }
