@@ -21,7 +21,7 @@
             {{ ssl_certificate.key_path }}
             <a href="#" v-if="ssl_certificate.active">Deactivate</a>
             <a href="#" v-else>Activate</a>
-            <a @click="deleteSslCertivicate(ssl_certificate.id)" href="#">Delete</a>
+            <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
         </p>
     </div>
 </template>
@@ -50,8 +50,11 @@
                     domains: this.domains
                 })
             },
-            deleteSslCertivicate: function (ssl_certificate_id) {
-                this.$store.dispatch('deleteSslCertificate', ssl_certificate_id)
+            deleteSslCertificate: function (ssl_certificate_id) {
+                this.$store.dispatch('deleteSslCertificate', {
+                    site : this.site.id,
+                    certificate : ssl_certificate_id,
+                })
             }
         },
         computed: {
