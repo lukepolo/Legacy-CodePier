@@ -59,8 +59,8 @@ class PHP
         }
 
         $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
-
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release.'/storage');
+        $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
+        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
 
         // TODO - we need to add this to custom tasks, as not everyone will have a laravel or even PHP setup
         $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
@@ -82,7 +82,7 @@ class PHP
         $output = [];
 
         $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/node_modules ]) || (cd '.$this->release.'; npm install --no-progress --production; mv '.$this->release.'/node_modules '.$this->site_folder.')');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/node_modules '.$this->release.'/node_modules');
+        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/node_modules '.$this->release);
 
         return $output;
     }

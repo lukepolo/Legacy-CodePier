@@ -112,7 +112,7 @@ export default {
             });
         },
         saveSiteFile: ({commit}, data) => {
-            Vue.http.post(laroute.Vue.action('Site\SiteFileController@store', {
+            Vue.http.post(Vue.action('Site\SiteFileController@store', {
                 site: data.site
             }), {
                 file_path: data.file,
@@ -125,7 +125,7 @@ export default {
             });
         },
         updateSiteFile: ({commit}, data) => {
-            Vue.http.put(laroute.Vue.action('Site\SiteFileController@update', {
+            Vue.http.put(Vue.action('Site\SiteFileController@update', {
                 site: data.site,
                 file: data.file_id
             }), {

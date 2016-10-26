@@ -8,6 +8,7 @@ use App\Jobs\CreateServer;
 use App\Models\Server;
 use App\Models\ServerProvider;
 use App\Models\Site;
+use App\Notifications\ServerProvisioned;
 use Illuminate\Http\Request;
 
 /**

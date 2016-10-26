@@ -108,7 +108,7 @@ export default {
             });
         },
         saveServerFile: ({commit}, data) => {
-            Vue.http.post(laroute.Vue.action('Server\ServerController@saveFile', {
+            Vue.http.post(Vue.action('Server\ServerController@saveFile', {
                 server: data.server
             }), {
                 file: data.file,
