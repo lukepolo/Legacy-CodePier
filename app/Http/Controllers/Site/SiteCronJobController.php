@@ -7,8 +7,7 @@ use App\Models\Site\SiteCronJob;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteCronJobController
- * @package App\Http\Controllers\Site
+ * Class SiteCronJobController.
  */
 class SiteCronJobController extends Controller
 {
