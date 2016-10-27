@@ -92,10 +92,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             firewall_rules() {
-                return serverFirewallStore.state.server_firewall_rules;
+                return this.$store.state.serverFirewallStore.server_firewall_rules;
             },
             availableServers() {
                 return [];

@@ -74,10 +74,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             ssh_keys() {
-                return serverSshKeyStore.state.server_ssh_keys;
+                return this.$store.state.serverSshKeysStore.server_ssh_keys;
             }
         }
     }

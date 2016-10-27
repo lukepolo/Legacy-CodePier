@@ -88,10 +88,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             cron_jobs() {
-                return serverCronJobStore.state.server_cron_jobs;
+                return this.$store.state.serverCronJobsStore.server_cron_jobs;
             }
         }
     }

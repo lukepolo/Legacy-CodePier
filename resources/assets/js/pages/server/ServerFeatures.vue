@@ -49,7 +49,7 @@
                 return this.$store.state.serversStore.available_server_frameworks;
             },
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             }
         }
     }
