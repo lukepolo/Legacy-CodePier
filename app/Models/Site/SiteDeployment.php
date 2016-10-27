@@ -16,10 +16,17 @@ class SiteDeployment extends Model
         'log' => 'array',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
     public function site()
     {
         return $this->belongsTo(Site::class);
     }
+
 
     public function createSteps()
     {

@@ -13,6 +13,12 @@ class SiteWorker extends Model
 {
     protected $guarded = ['id'];
 
+   /*
+   |--------------------------------------------------------------------------
+   | Relations
+   |--------------------------------------------------------------------------
+   */
+
     public function site()
     {
         return $this->belongsTo(Site::class);
