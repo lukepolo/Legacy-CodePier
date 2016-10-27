@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User\Providers;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserRepositoryProvider;
+use App\Models\User\UserRepositoryProvider;
 
 /**
  * Class UserRepositoryProviderController.

@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 use App\Services\RemoteTaskService;
 
 trait ServiceConstructorTrait

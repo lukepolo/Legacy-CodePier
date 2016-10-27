@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\ServerCronJob;
+use App\Models\Server\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class MonitoringService

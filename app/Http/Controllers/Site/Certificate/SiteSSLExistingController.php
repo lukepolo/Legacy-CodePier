@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site\Certificate;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Models\Site;
+use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
 /**

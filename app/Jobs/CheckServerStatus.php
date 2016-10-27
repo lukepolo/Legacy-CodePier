@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,7 +24,7 @@ class CheckServerStatus implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param bool $provision
      */
     public function __construct(Server $server, $provision = false)

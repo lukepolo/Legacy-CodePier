@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\Models\Site;
-use App\Models\SiteDeployment;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -21,7 +21,7 @@ class NewSiteDeployment extends Notification
      * Create a new notification instance.
      *
      * @param Site           $site
-     * @param SiteDeployment $siteDeployment
+     * @param \App\Models\Site\SiteDeployment $siteDeployment
      */
     public function __construct(Site $site, SiteDeployment $siteDeployment)
     {

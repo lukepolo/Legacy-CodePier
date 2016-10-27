@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
-use App\Models\ServerCronJob;
+use App\Models\Server\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 

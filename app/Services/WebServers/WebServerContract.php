@@ -2,8 +2,8 @@
 
 namespace App\Services\Systems\WebServers;
 
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 
 /**
  * Interface WebServerContract.

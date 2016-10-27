@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Server;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProvisionServer;
-use App\Models\Server;
+use App\Models\Server\Server;
 
 /**
  * Class ServerProvisionStepsController.

@@ -1,6 +1,5 @@
 <template>
     <div v-if="site">
-
         <div class="jcf-form-wrap">
             <form @submit.prevent="installWorker()">
                 <h3>Laravel Queue Workers</h3>

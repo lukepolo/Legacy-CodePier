@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Contracts\RemoteTaskServiceContract;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server;
+use App\Models\Server\Server;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 
@@ -169,7 +169,7 @@ echo "Wrote" ', $read);
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param string $user
      *
      * @throws SshConnectionFailed

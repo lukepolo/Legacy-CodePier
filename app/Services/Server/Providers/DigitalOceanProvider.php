@@ -2,10 +2,10 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server;
-use App\Models\ServerProviderOption;
-use App\Models\ServerProviderRegion;
-use App\Models\UserServerProvider;
+use App\Models\Server\Provider\ServerProviderOption;
+use App\Models\Server\Provider\ServerProviderRegion;
+use App\Models\Server\Server;
+use App\Models\User\UserServerProvider;
 use App\Services\Server\ServerService;
 use Carbon\Carbon;
 use DigitalOcean;
@@ -124,7 +124,7 @@ class DigitalOceanProvider implements ServerProviderContract
     /**
      * Gets the status of a server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */
@@ -138,7 +138,7 @@ class DigitalOceanProvider implements ServerProviderContract
     /**
      * Gets the server IP.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function savePublicIP(Server $server)
     {
@@ -152,7 +152,7 @@ class DigitalOceanProvider implements ServerProviderContract
     /**
      * Gets the public IP of the server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */
@@ -186,7 +186,7 @@ class DigitalOceanProvider implements ServerProviderContract
     /**
      * Gets the token from the server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @throws \Exception
      *

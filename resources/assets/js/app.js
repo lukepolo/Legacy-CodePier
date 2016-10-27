@@ -114,10 +114,18 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':site_id/framework-files',
-                    name: 'site_framework_files',
+                    path: ':site_id/firewall-rules',
+                    name: 'site_firewall_rules',
                     components: {
-                        default: sitePages.SiteFrameworkFiles,
+                        default: sitePages.SiteFirewallRules,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
+                    path: ':site_id/framework-files',
+                    name: 'site_files',
+                    components: {
+                        default: sitePages.SiteFiles,
                         nav: sitePages.SiteNav
                     }
                 },

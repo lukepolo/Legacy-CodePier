@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\Models\Site;
-use App\Models\SiteDeployment;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -26,7 +26,7 @@ class SiteDeploymentFailed extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param Site           $site
+     * @param \App\Models\Site\Site           $site
      * @param SiteDeployment $siteDeployment
      * @param $errorMessage
      */

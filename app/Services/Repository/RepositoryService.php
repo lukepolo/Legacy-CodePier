@@ -4,8 +4,8 @@ namespace App\Services\Repository;
 
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Models\RepositoryProvider;
-use App\Models\Site;
-use App\Models\UserRepositoryProvider;
+use App\Models\Site\Site;
+use App\Models\User\UserRepositoryProvider;
 
 /**
  * Class RepositoryService.

@@ -4,8 +4,8 @@ namespace App\Observers;
 
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Models\DeploymentStep;
-use App\Models\Site;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Site;
 
 /**
  * Class SiteObserver.

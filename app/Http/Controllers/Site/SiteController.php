@@ -6,8 +6,8 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateSite;
 use App\Jobs\DeploySite;
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
 /**

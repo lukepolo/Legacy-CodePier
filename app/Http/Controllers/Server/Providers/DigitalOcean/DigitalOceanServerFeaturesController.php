@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Auth\OauthController;
 use App\Http\Controllers\Controller;
-use App\Models\ServerProvider;
+use App\Models\Server\Provider\ServerProvider;
 use Illuminate\Http\Request;
 
 /**

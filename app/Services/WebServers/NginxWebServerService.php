@@ -5,8 +5,8 @@ namespace App\Services\Systems\WebServers;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use App\Services\Site\SiteService;
 
 /**
@@ -70,7 +70,7 @@ class NginxWebServerService implements WebServerContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site $site
      */
     public function updateWebServerConfig(Server $server, Site $site)

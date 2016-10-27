@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server;
-use App\Models\ServerProvider;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Server;
 
 /**
  * Interface ServerProviderContract.
@@ -24,10 +24,10 @@ trait ServerProviderTrait
     /**
      * Saves the server information.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $serverId
      * @param $sshKey
-     * @return Server
+     * @return \App\Models\Server\Server
      */
     public function saveServer(Server $server, $serverId, $sshKey)
     {

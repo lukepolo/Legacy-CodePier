@@ -4,8 +4,8 @@ namespace App\Jobs;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\DeploymentFailed;
-use App\Models\Site;
-use App\Models\SiteDeployment;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use App\Notifications\NewSiteDeployment;
 use App\Notifications\SiteDeploymentFailed;
 use App\Notifications\SiteDeploymentSuccessful;

@@ -6,7 +6,7 @@ use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server;
+use App\Models\Server\Server;
 use Closure;
 
 /**

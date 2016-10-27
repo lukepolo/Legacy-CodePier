@@ -3,9 +3,9 @@
         <router-link :to="{ name : 'site_repository', params : { site_id : site.id } }" tag="li" class="wizard-item">
             <a>Repository</a>
         </router-link>
-        <template v-if="site.framework">
-            <router-link :to="{ name : 'site_framework_files', params : { site_id : site.id } }" tag="li" class="wizard-item">
-                <a>Framework Files</a>
+        <template v-if="site">
+            <router-link :to="{ name : 'site_files', params : { site_id : site.id } }" tag="li" class="wizard-item">
+                <a>Files</a>
             </router-link>
         </template>
         <template v-if="site_servers">
@@ -16,11 +16,17 @@
                 <a>SSLCertificates</a>
             </router-link>
         </template>
+        <template v-if="site">
+            <router-link :to="{ name : 'site_firewall_rules', params : { site_id : site.id } }" tag="li" class="wizard-item">
+                <a>Site Firewall Rules</a>
+            </router-link>
+        </template>
         <template v-if="site.repository">
             <router-link :to="{ name : 'site_server_features', params : { site_id : site.id } }" tag="li" class="wizard-item">
                 <a>Server Features</a>
             </router-link>
         </template>
+
     </ul>
 </template>
 

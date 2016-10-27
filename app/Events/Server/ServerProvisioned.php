@@ -2,7 +2,7 @@
 
 namespace App\Events\Server;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -20,7 +20,7 @@ class ServerProvisioned
     /**
      * Create a new event instance.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $sudoPassword
      * @param $databasePassword
      */

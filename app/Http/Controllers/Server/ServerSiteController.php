@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
+use App\Models\Server\Server;
 
 /**
  * Class ServerController.

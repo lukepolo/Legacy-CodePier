@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\User\Team;
+use App\Models\User\User;
 use App\Scopes\UserScope;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
