@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\Site;
-use App\Models\SiteFile;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\Site\SiteFile;
 use Illuminate\Http\Request;
 
 /**

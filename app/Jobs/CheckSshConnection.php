@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Models\Server;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,7 +24,7 @@ class CheckSshConnection implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function __construct(Server $server)
     {

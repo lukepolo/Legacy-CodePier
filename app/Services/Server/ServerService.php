@@ -7,9 +7,9 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server;
-use App\Models\ServerCronJob;
-use App\Models\ServerProvider;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Server;
+use App\Models\Server\ServerCronJob;
 use App\Notifications\ServerProvisioned;
 use App\Services\Systems\SystemService;
 use phpseclib\Crypt\RSA;
@@ -38,28 +38,28 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerProvider $serverProvider
-     * @param Server         $server
+     * @param \App\Models\Server\ServerProvider $serverProvider
+     * @param \App\Models\Server\Server         $server
      *
      * @return mixed
      */
-    public function create(ServerProvider $serverProvider, Server $server)
+    public function create(\App\Models\Server\Provider\ServerProvider $serverProvider, Server $server)
     {
         return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
     }
 
     /**
-     * @param ServerProvider $serverProvider
+     * @param \App\Models\Server\ServerProvider $serverProvider
      *
      * @return mixed
      */
-    public function getServerOptions(ServerProvider $serverProvider)
+    public function getServerOptions(\App\Models\Server\Provider\ServerProvider $serverProvider)
     {
         return $this->getProvider($serverProvider)->getOptions();
     }
 
     /**
-     * @param ServerProvider $serverProvider
+     * @param \App\Models\Server\ServerProvider $serverProvider
      *
      * @return mixed
      */
@@ -69,7 +69,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param string $user
      *
      * @return bool
@@ -103,7 +103,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @param bool $noDelete
      * @return mixed
@@ -138,7 +138,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return bool
      */
@@ -164,7 +164,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param string $user
      *
      * @return bool
@@ -179,7 +179,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return array
      */
@@ -189,7 +189,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return bool
      */
@@ -199,7 +199,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return bool
      */
@@ -209,7 +209,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $file
      * @param $content
      * @param string $user
@@ -226,7 +226,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $filePath
      * @param string $user
      *
@@ -249,7 +249,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $folder
      * @param string $user
      *
@@ -265,7 +265,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $folder
      * @param string $user
      *
@@ -281,7 +281,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $sshKey
      *
      * @return bool
@@ -296,7 +296,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $sshKey
      *
      * @return bool
@@ -311,7 +311,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return DiskSpace
      */
@@ -326,7 +326,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerCronJob $serverCronJob
+     * @param \App\Models\Server\ServerCronJob $serverCronJob
      *
      * @return array
      */
@@ -339,7 +339,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerCronJob $cronJob
+     * @param \App\Models\Server\ServerCronJob $cronJob
      *
      * @return bool
      */
@@ -352,7 +352,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerProvider $serverProvider
+     * @param \App\Models\Server\ServerProvider $serverProvider
      *
      * @return mixed
      */

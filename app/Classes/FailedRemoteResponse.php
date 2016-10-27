@@ -2,7 +2,7 @@
 
 namespace App\Classes;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 
 /**
  * Class FailedRemoteResponse.

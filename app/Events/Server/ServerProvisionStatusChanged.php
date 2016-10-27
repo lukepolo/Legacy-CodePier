@@ -2,7 +2,7 @@
 
 namespace App\Events\Server;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

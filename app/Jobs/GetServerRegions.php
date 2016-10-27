@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\ServerProvider;
+use App\Models\Server\Provider\ServerProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

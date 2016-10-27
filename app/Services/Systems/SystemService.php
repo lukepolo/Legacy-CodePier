@@ -6,7 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Exceptions\FailedCommand;
-use App\Models\Server;
+use App\Models\Server\Server;
 
 /**
  * Class SystemService.
@@ -46,7 +46,7 @@ class SystemService implements SystemServiceContract
     /**
      * Provisions a server based on its operating system.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return bool
      */
@@ -97,7 +97,7 @@ class SystemService implements SystemServiceContract
 
     /**
      * @param $service
-     * @param Server|null $server
+     * @param \App\Models\Server\Server|null $server
      *
      * @return mixed
      */

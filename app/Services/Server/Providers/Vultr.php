@@ -2,7 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 
 class Vultr implements ServerProviderContract
 {
@@ -31,7 +31,7 @@ class Vultr implements ServerProviderContract
     /**
      * Creates a new server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param $sshKey
      *
      * @throws \Exception
@@ -45,7 +45,7 @@ class Vultr implements ServerProviderContract
     /**
      * Gets the status of a server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */
@@ -56,7 +56,7 @@ class Vultr implements ServerProviderContract
     /**
      * Gets the server IP.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function savePublicIP(Server $server)
     {
@@ -65,7 +65,7 @@ class Vultr implements ServerProviderContract
     /**
      * Gets the public IP of the server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Site\Certificate;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Models\Site;
-use App\Models\SiteSslCertificate;
+use App\Models\Site\Site;
+use App\Models\Site\SiteSslCertificate;
 use Illuminate\Http\Request;
 
 class SiteSSLLetsEncryptController extends Controller

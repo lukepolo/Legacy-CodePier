@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ServerProvisioned;
-use App\Models\Server;
 
 /**
  * Class EmailSudoAndDatabasePasswords.

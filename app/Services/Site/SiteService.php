@@ -12,11 +12,11 @@ use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
 use App\Exceptions\DeploymentFailed;
 use App\Exceptions\FailedCommand;
-use App\Models\Server;
-use App\Models\Site;
-use App\Models\SiteWorker;
-use App\Models\SiteDeployment;
-use App\Models\SiteSslCertificate;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteSslCertificate;
+use App\Models\Site\SiteWorker;
 
 /**
  * Class SiteService.
@@ -49,7 +49,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site   $site
      *
      * @return bool
@@ -68,7 +68,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site   $site
      * @param $domain
      *
@@ -97,7 +97,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site   $site
      *
      * @return array
@@ -110,7 +110,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server             $server
+     * @param \App\Models\Server\Server             $server
      * @param SiteSslCertificate $siteSslCertificate
      *
      * @return array
@@ -135,7 +135,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site   $site
      * @param $key
      * @param $cert
@@ -175,7 +175,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param Site   $site
      */
     public function mapSSL(Server $server, Site $site)
@@ -194,7 +194,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Server $server
-     * @param Site   $site
+     * @param \App\Models\Site\Site   $site
      *
      * @return array
      */
@@ -213,7 +213,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param SiteSslCertificate $siteSslCertificate
      */
     public function removeSSL(Server $server, SiteSslCertificate $siteSslCertificate)
@@ -234,8 +234,8 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server             $server
-     * @param SiteSslCertificate $siteSslCertificate
+     * @param \App\Models\Server\Server             $server
+     * @param \App\Models\Site\SiteSslCertificate $siteSslCertificate
      */
     public function activateSSL(Server $server, SiteSslCertificate $siteSslCertificate)
     {
@@ -259,9 +259,9 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server         $server
+     * @param \App\Models\Server\Server         $server
      * @param Site           $site
-     * @param SiteDeployment $siteDeployment
+     * @param \App\Models\Site\SiteDeployment $siteDeployment
      * @param null           $sha
      *
      * @throws DeploymentFailed
@@ -302,8 +302,8 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server $server
-     * @param Site   $site
+     * @param \App\Models\Server\Server $server
+     * @param \App\Models\Site\Site   $site
      *
      * @return mixed
      */
@@ -315,8 +315,8 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param Server     $server
-     * @param SiteWorker $siteWorker
+     * @param \App\Models\Server\Server     $server
+     * @param \App\Models\Site\SiteWorker $siteWorker
      *
      * @return array
      */
@@ -344,8 +344,8 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
     }
 
     /**
-     * @param Server     $server
-     * @param SiteWorker $siteWorker
+     * @param \App\Models\Server\Server     $server
+     * @param \App\Models\Site\SiteWorker $siteWorker
      *
      * @return array|bool
      */
@@ -370,8 +370,8 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
     }
 
     /**
-     * @param Server $server
-     * @param Site   $site
+     * @param \App\Models\Server\Server $server
+     * @param \App\Models\Site\Site   $site
      *
      * @return array|bool
      */
@@ -403,8 +403,8 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
      */
 
     /**
-     * @param Server $server
-     * @param Site   $site
+     * @param \App\Models\Server\Server $server
+     * @param \App\Models\Site\Site   $site
      *
      * @return array
      */

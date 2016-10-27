@@ -2,8 +2,8 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Models\Site;
-use App\Models\UserRepositoryProvider;
+use App\Models\Site\Site;
+use App\Models\User\UserRepositoryProvider;
 use GitHub as GitHubService;
 use Github\Exception\ValidationFailedException;
 
@@ -15,7 +15,7 @@ class GitHub implements RepositoryContract
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
      *

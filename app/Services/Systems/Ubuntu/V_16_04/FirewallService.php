@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\ServerFirewallRule;
+use App\Models\Server\ServerFirewallRule;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService

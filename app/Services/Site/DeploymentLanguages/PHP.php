@@ -2,8 +2,8 @@
 
 namespace App\Services\Site\DeploymentLanguages;
 
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use Carbon\Carbon;
 
@@ -21,7 +21,7 @@ class PHP
     /**
      * @param RemoteTaskService $remoteTaskService
      * @param Server            $server
-     * @param Site              $site
+     * @param \App\Models\Site\Site              $site
      */
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {

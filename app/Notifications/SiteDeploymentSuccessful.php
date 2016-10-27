@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
-use App\Models\Site;
-use App\Models\SiteDeployment;
+use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 

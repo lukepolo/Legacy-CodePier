@@ -11,13 +11,13 @@ namespace {
     exit("This file should not be included, only analyzed by your IDE");
 
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Debug\Dumper;
-use Illuminate\Contracts\Support\Htmlable;
+    use Illuminate\Contracts\Support\Htmlable;
+    use Illuminate\Support\Arr;
+    use Illuminate\Support\Collection;
+    use Illuminate\Support\Debug\Dumper;
+    use Illuminate\Support\Str;
 
-if (! function_exists('append_config')) {
+    if (! function_exists('append_config')) {
     /**
      * Assign high numeric IDs to a config item to force appending.
      *
@@ -2291,7 +2291,7 @@ if (! function_exists('with')) {
         /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Models\User\User|null
          * @static 
          */
         public static function user(){
@@ -2395,7 +2395,7 @@ if (! function_exists('with')) {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\Models\User|false 
+         * @return \App\Models\User\User|false
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -2406,7 +2406,7 @@ if (! function_exists('with')) {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\Models\User|false 
+         * @return \App\Models\User\User|false
          * @static 
          */
         public static function onceUsingId($id){
@@ -2500,7 +2500,7 @@ if (! function_exists('with')) {
         /**
          * Return the currently cached user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Models\User\User|null
          * @static 
          */
         public static function getUser(){
@@ -2542,7 +2542,7 @@ if (! function_exists('with')) {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\Models\User 
+         * @return \App\Models\User\User
          * @static 
          */
         public static function getLastAttempted(){
@@ -2582,7 +2582,7 @@ if (! function_exists('with')) {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \App\Models\User 
+         * @return \App\Models\User\User
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */

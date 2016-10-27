@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Site;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\ServerWorker;
-use App\Models\Site;
-use App\Models\SiteWorker;
+use App\Models\Server\Server;
+use App\Models\Server\ServerWorker;
+use App\Models\Site\Site;
+use App\Models\Site\SiteWorker;
 use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 

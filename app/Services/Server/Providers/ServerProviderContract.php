@@ -2,8 +2,8 @@
 
 namespace app\Services\Server\Providers;
 
-use App\Models\Server;
-use App\Models\UserServerProvider;
+use App\Models\Server\Server;
+use App\Models\User\UserServerProvider;
 
 /**
  * Interface ServerProviderContract.
@@ -43,7 +43,7 @@ interface ServerProviderContract
     /**
      * Gets the status of a server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */
@@ -52,14 +52,14 @@ interface ServerProviderContract
     /**
      * Gets the server IP.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function savePublicIP(Server $server);
 
     /**
      * Gets the public IP of the server.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return mixed
      */

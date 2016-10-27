@@ -2,9 +2,9 @@
 
 namespace App\Events\Site;
 
-use App\Models\DeploymentEvent;
-use App\Models\DeploymentStep;
-use App\Models\Site;
+use App\Models\Site\Deployment\DeploymentEvent;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Site;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

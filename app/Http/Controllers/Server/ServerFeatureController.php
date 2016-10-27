@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\Site;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;

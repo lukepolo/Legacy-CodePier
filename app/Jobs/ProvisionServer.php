@@ -5,8 +5,8 @@ namespace App\Jobs;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Models\Server;
-use App\Models\ServerProvisionStep;
+use App\Models\Server\Server;
+use App\Models\Server\ServerProvisionStep;
 use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,7 +26,7 @@ class ProvisionServer implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function __construct(Server $server)
     {

@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\ServerWorker;
+use App\Models\Server\ServerWorker;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
