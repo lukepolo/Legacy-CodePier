@@ -440,6 +440,11 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
         $this->repositoryService->deleteDeployHook($site);
     }
 
+    /**
+     * Gets the web server based on their server sent in
+     *
+     * @return mixed
+     */
     private function getWebServerService()
     {
         // TODO - currently we only do NGINX
