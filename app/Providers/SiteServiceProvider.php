@@ -7,8 +7,7 @@ use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class SiteServiceProvider
- * @package App\Providers
+ * Class SiteServiceProvider.
  */
 class SiteServiceProvider extends ServiceProvider
 {

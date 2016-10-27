@@ -6,8 +6,7 @@ use App\Models\Server;
 use App\Models\Site;
 
 /**
- * Interface WebServerContract
- * @package App\Services\Systems\WebServers
+ * Interface WebServerContract.
  */
 interface WebServerContract
 {
@@ -16,5 +15,4 @@ interface WebServerContract
      * @param Site $site
      */
     public function updateWebServerConfig(Server $server, Site $site);
-
 }
