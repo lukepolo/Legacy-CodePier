@@ -2,17 +2,15 @@
 
 namespace App\Providers;
 
-use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Systems\SystemServiceContract;
-use App\Services\Server\ServerService;
-use App\Services\Systems\SystemService;
+use App\Contracts\WebServers\NginxWebServerServiceContract;
+use App\Services\Systems\WebServers\NginxWebServerService;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class ServerServiceProvider
  * @package App\Providers
  */
-class ServerServiceProvider extends ServiceProvider
+class WebServerServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -32,13 +30,8 @@ class ServerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            ServerServiceContract::class,
-            ServerService::class
-        );
-
-        $this->app->bind(
-            SystemServiceContract::class,
-            SystemService::class
+            NginxWebServerServiceContract::class,
+            NginxWebServerService::class
         );
     }
 }
