@@ -39,6 +39,20 @@ class CreateSite implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
+        dd('NEED TO LOOK AT CREATING FILES');
+
         $siteService->create($this->server, $this->site);
+
+        $siteService->installSSL($this->server, $this->site->activeSSL());
+
+        foreach($this->site->workers as $worker) {
+            $siteService->installWorker($this->server, $worker);
+        }
+
+        foreach($this->site->files as $file) {
+            dd($file);
+//            $siteService->in($this->server, $worker);
+        }
+
     }
 }
