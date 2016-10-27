@@ -47,7 +47,7 @@
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
                             <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}></option>
+                                <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
                             </optgroup>
                         </select>
                     </div>
