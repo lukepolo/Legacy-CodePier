@@ -33,8 +33,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
             Route::resource('subscription', 'Subscription\UserSubscriptionController');
-            Route::resource('subscription/invoice/next',
-                'Subscription\UserSubscriptionUpcomingInvoiceController');
+            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
 
             Route::resource('ssh-keys', 'UserSshKeyController');
             Route::resource('server-providers', 'Providers\UserServerProviderController');
@@ -64,8 +63,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('team.members', 'UserTeamMemberController');
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}',
-                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
 
         /*
@@ -133,8 +131,10 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.file', 'SiteFileController');
             Route::resource('site.servers', 'SiteServerController');
             Route::resource('site.workers', 'SiteWorkerController');
+            Route::resource('site.cron-jobs', 'SiteCronJobController');
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
             Route::resource('site.certificate', 'Certificate\SiteSSLController');
+            Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
             Route::resource('site.certificate-existing', 'Certificate\SiteSSLExistingController');
             Route::resource('site.certificate-lets-encrypt', 'Certificate\SiteSSLLetsEncryptController');

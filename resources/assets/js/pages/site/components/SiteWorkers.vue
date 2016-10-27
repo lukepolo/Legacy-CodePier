@@ -1,5 +1,6 @@
 <template>
-    <div v-if="site">
+    <div>
+        Workers
         <div class="jcf-form-wrap">
             <form @submit.prevent="installWorker()">
                 <h3>Laravel Queue Workers</h3>
@@ -74,11 +75,12 @@
 
 <script>
     export default {
+        props : ['site'],
         data() {
             return {
                 form: {
-                    site_id: null,
-                    command: null,
+                    site_id: this.site.id,
+                    command: this.site.path,
                     auto_start: null,
                     auto_restart: null,
                     number_of_workers: null,
@@ -93,7 +95,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getWorkers', this.$route.params.site_id);
             },
             installWorker() {
@@ -107,16 +108,6 @@
             }
         },
         computed: {
-            site() {
-                var site = this.$store.state.sitesStore.site;
-                if (site) {
-                    this.form.site_id = site.id;
-                    this.form.command = site.path;
-                    this.form.selected_servers = _.map(site.servers, 'id');
-                }
-
-                return this.$store.state.sitesStore.site;
-            },
             workers() {
                 return this.$store.state.sitesStore.workers;
             }
