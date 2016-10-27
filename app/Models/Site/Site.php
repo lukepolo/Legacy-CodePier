@@ -36,44 +36,14 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function servers()
-    {
-        return $this->belongsToMany(Server::class);
-    }
-
-    public function provisionedServers()
-    {
-        return $this->belongsToMany(Server::class)->where('progress', '>=', '100');
-    }
-
-    public function pile()
-    {
-        return $this->belongsTo(Pile::class);
-    }
-
     public function activeSSL()
     {
         return $this->hasOne(SiteSslCertificate::class)->where('active', true);
     }
 
-    public function ssls()
+    public function cronJobs()
     {
-        return $this->hasMany(SiteSslCertificate::class)->orderBy('id', 'desc');
-    }
-
-    public function workers()
-    {
-        return $this->hasMany(SiteWorker::class);
-    }
-
-    public function deploymentSteps()
-    {
-        return $this->hasMany(DeploymentStep::class)->orderBy('order');
+        return $this->hasMany(SiteCronJob::class);
     }
 
     public function deployments()
@@ -81,9 +51,9 @@ class Site extends Model
         return $this->hasMany(SiteDeployment::class)->orderBy('id', 'desc');
     }
 
-    public function userRepositoryProvider()
+    public function deploymentSteps()
     {
-        return $this->belongsTo(UserRepositoryProvider::class);
+        return $this->hasMany(DeploymentStep::class)->orderBy('order');
     }
 
     public function files()
@@ -91,11 +61,61 @@ class Site extends Model
         return $this->hasMany(SiteFile::class);
     }
 
+    public function firewallRules()
+    {
+        return $this->hasMany(SiteFirewallRule::class);
+    }
+
+    public function pile()
+    {
+        return $this->belongsTo(Pile::class);
+    }
+
+    public function provisionedServers()
+    {
+        return $this->belongsToMany(Server::class)->where('progress', '>=', '100');
+    }
+
+    public function servers()
+    {
+        return $this->belongsToMany(Server::class);
+    }
+
+    public function ssls()
+    {
+        return $this->hasMany(SiteSslCertificate::class)->orderBy('id', 'desc');
+    }
+
+    public function sshKeys()
+    {
+        return $this->hasMany(SiteSshKey::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function userRepositoryProvider()
+    {
+        return $this->belongsTo(UserRepositoryProvider::class);
+    }
+
+    public function workers()
+    {
+        return $this->hasMany(SiteWorker::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
     |--------------------------------------------------------------------------
     */
+
+    public function decode($hash)
+    {
+        return $this->findOrFail(\Hashids::decode($hash));
+    }
 
     public function hasActiveSSL()
     {
@@ -114,11 +134,6 @@ class Site extends Model
     public function encode()
     {
         return \Hashids::encode($this->id);
-    }
-
-    public function decode($hash)
-    {
-        return $this->findOrFail(\Hashids::decode($hash));
     }
 
     /**
