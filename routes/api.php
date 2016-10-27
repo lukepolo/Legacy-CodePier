@@ -131,6 +131,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.file', 'SiteFileController');
             Route::resource('site.servers', 'SiteServerController');
             Route::resource('site.workers', 'SiteWorkerController');
+            Route::resource('site.ssh-keys', 'SiteSshKeyController');
             Route::resource('site.cron-jobs', 'SiteCronJobController');
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
             Route::resource('site.certificate', 'Certificate\SiteSSLController');
