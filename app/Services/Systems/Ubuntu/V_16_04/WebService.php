@@ -12,7 +12,7 @@ class WebService
     public static $files = [
         'installNginx' => [
             '/etc/nginx/nginx.conf',
-        ]
+        ],
     ];
 
 //    public function installApache()
