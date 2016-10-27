@@ -27,7 +27,6 @@ class SiteDeployment extends Model
         return $this->belongsTo(Site::class);
     }
 
-
     public function createSteps()
     {
         foreach ($this->site->deploymentSteps as $deploymentStep) {
