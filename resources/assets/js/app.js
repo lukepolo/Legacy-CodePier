@@ -109,7 +109,7 @@ const router = new VueRouter({
                     path: ':site_id/workers',
                     name: 'site_workers',
                     components: {
-                        default: sitePages.SiteWorkers,
+                        default: sitePages.SiteJobs,
                         nav: sitePages.SiteNav
                     }
                 },

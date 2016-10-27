@@ -1,5 +1,5 @@
 export const SiteArea = require("./SiteArea.vue");
-export const SiteWorkers = require("./SiteWorkers.vue");
+export const SiteJobs = require("./SiteJobs.vue");
 export const SiteNav = require("./components/SiteNav.vue");
 export const SiteRepository = require("./SiteRepository.vue");
 export const SiteServerFeatures = require("./SiteServerFeatures.vue");
