@@ -122,6 +122,14 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: ':site_id/ssh-keys',
+                    name: 'site_ssh_keys',
+                    components: {
+                        default: sitePages.SiteSshKeys,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
                     path: ':site_id/framework-files',
                     name: 'site_files',
                     components: {

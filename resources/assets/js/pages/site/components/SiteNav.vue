@@ -21,6 +21,11 @@
                 <a>Site Firewall Rules</a>
             </router-link>
         </template>
+        <template v-if="site">
+            <router-link :to="{ name : 'site_ssh_keys', params : { site_id : site.id } }" tag="li" class="wizard-item">
+                <a>Site Ssh Keys</a>
+            </router-link>
+        </template>
         <template v-if="site.repository">
             <router-link :to="{ name : 'site_server_features', params : { site_id : site.id } }" tag="li" class="wizard-item">
                 <a>Server Features</a>
