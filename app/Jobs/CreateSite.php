@@ -45,14 +45,13 @@ class CreateSite implements ShouldQueue
 
         $siteService->installSSL($this->server, $this->site->activeSSL());
 
-        foreach($this->site->workers as $worker) {
+        foreach ($this->site->workers as $worker) {
             $siteService->installWorker($this->server, $worker);
         }
 
-        foreach($this->site->files as $file) {
+        foreach ($this->site->files as $file) {
             dd($file);
 //            $siteService->in($this->server, $worker);
         }
-
     }
 }

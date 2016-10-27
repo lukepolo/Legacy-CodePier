@@ -7,8 +7,7 @@ use App\Services\Systems\WebServers\NginxWebServerService;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class ServerServiceProvider
- * @package App\Providers
+ * Class ServerServiceProvider.
  */
 class WebServerServiceProvider extends ServiceProvider
 {

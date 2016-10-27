@@ -9,10 +9,8 @@ use App\Models\Server;
 use App\Models\Site;
 use App\Services\Site\SiteService;
 
-
 /**
- * Class NginxWebService
- * @package App\Services\Systems\WebServers
+ * Class NginxWebService.
  */
 class NginxWebServerService implements WebServerContract
 {
@@ -42,7 +40,6 @@ class NginxWebServerService implements WebServerContract
         $this->sslFilesPath = SiteService::SSL_FILES;
     }
 
-
     /**
      * @param Server $server
      * @param Site   $site
@@ -60,7 +57,6 @@ class NginxWebServerService implements WebServerContract
         $this->createWebServerSite($site->domain);
         $this->updateWebServerConfig($server, $site);
     }
-
 
     public function remove(Site $site)
     {
@@ -84,16 +80,16 @@ class NginxWebServerService implements WebServerContract
         $this->remoteTaskService->ssh($server);
 
         if ($site->hasActiveSSL()) {
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES . '/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:443 ssl http2 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/server/listen', '
+server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
+listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
+root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 
 
-ssl_certificate_key ' . $this->sslFilesPath . '/' . $site->domain . '/' . $site->activeSSL->id . '/server.key;
-ssl_certificate ' . $this->sslFilesPath . '/' . $site->domain . '/' . $site->activeSSL->id . '/server.crt;
+ssl_certificate_key '.$this->sslFilesPath.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.key;
+ssl_certificate '.$this->sslFilesPath.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.crt;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;
@@ -106,20 +102,20 @@ ssl_stapling_verify on;
 add_header Strict-Transport-Security max-age=15768000;
 ');
 
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES . '/' . $site->domain . '/before/ssl_redirect.conf', '
+            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf', '
 server {
-    listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-    listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+    listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
+    listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
     return 301 https://$host$request_uri;
 }
 ');
         } else {
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES . '/' . $site->domain . '/server/listen', '
-server_name ' . ($site->wildcard_domain ? '.' : '') . $site->domain . ';
-listen 80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
-listen [::]:80 ' . ($site->domain == 'default' ? 'default_server' : null) . ';
+            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/server/listen', '
+server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
+listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
+listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
 
-root /home/codepier/' . $site->domain . ($site->zerotime_deployment ? '/current' : null) . '/' . $site->web_directory . ';
+root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 ');
         }
     }
