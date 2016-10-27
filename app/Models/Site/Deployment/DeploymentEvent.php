@@ -2,6 +2,7 @@
 
 namespace App\Models\Site\Deployment;
 
+use App\Models\Site\Site;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,6 +15,17 @@ class DeploymentEvent extends Model
     protected $casts = [
         'log' => 'array',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
 
     public function step()
     {
