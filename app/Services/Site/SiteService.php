@@ -441,7 +441,7 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
     }
 
     /**
-     * Gets the web server based on their server sent in
+     * Gets the web server based on their server sent in.
      *
      * @return mixed
      */
