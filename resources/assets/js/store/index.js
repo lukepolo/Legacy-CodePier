@@ -13,15 +13,22 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
+        pilesStore: PileStore,
+        eventsStore: EventsStore,
+
         userStore: UserStore.user,
         teamsStore: UserStore.teams,
         userSshKeysStore: UserStore.sshKeys,
         userSubscriptionsStore: UserStore.subscriptions,
 
         sitesStore: SiteStore.site,
-
-        pilesStore: PileStore,
-        eventsStore: EventsStore,
+        siteFilesStore: SiteStore.siteFiles,
+        siteWorkersStore: SiteStore.siteWorkers,
+        siteSshKeysStore: SiteStore.siteSshKeys,
+        siteCronJobsStore: SiteStore.siteCronJobs,
+        siteFirewallRulesStore: SiteStore.siteFirewallRules,
+        siteServersFeaturesStore: SiteStore.siteServersFeatures,
+        siteSslCertificatesStore: SiteStore.siteSslCertificates,
 
         serversStore: ServerStore.server,
         serverWorkersStore: ServerStore.workers,

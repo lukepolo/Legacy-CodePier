@@ -2,6 +2,9 @@
     <div v-if="site">
         <site-workers :site="site"></site-workers>
         CronJobs here
+        <template v-for="cronJob in cronJobs">
+            {{ cronJob.id }}
+        </template>
     </div>
 </template>
 
@@ -30,6 +33,9 @@
         computed: {
             site() {
                 return this.$store.state.sitesStore.site;
+            },
+            cronJobs() {
+                return this.$store.state.siteCronJobsStore.site_cron_jobs;
             }
         }
     }

@@ -2,9 +2,7 @@ export default {
     state: {
         sites: [],
         site: null,
-        workers: [],
         site_servers: [],
-        ssl_certificates: []
     },
     actions: {
         getSite: ({commit}, site) => {
@@ -43,13 +41,6 @@ export default {
                 alert(error);
             });
         },
-        updateSiteServerFeatures: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\SiteController@updateSiteServerFeatures', {site: data.site}), data.form).then((response) => {
-                dispatch('getSite', data.site);
-            }, (errors) => {
-                alert(error);
-            });
-        },
         deleteSite: ({commit, dispatch}, site_id) => {
             Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then((response) => {
                 dispatch('getSites');
@@ -57,47 +48,6 @@ export default {
             }, (errors) => {
 
             })
-        },
-        getWorkers: ({commit}, site_id) => {
-            Vue.http.get(Vue.action('Site\SiteWorkerController@show', {site: site_id})).then((response) => {
-                commit('SET_WORKERS', response.data);
-            }, (errors) => {
-            });
-        },
-        installWorker: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
-                dispatch('getWorkers', data.site_id);
-            }, (errors) => {
-                alert(error);
-            });
-        },
-        deleteWorker: ({commit, dispatch}, data) => {
-            Vue.http.delete(Vue.action('Site\SiteWorkerController@destroy', {
-                site: data.site,
-                worker: data.worker
-            })).then((response) => {
-                dispatch('getWorkers', data.site);
-            }, (errors) => {
-            });
-        },
-        getSslCertificates: ({commit}, site_id) => {
-            Vue.http.get(Vue.action('Site\Certificate\SiteSSLController@index', {site: site_id})).then((response) => {
-                commit('SET_SSL_CERTIFICATES', response.data);
-            }, (errors) => {
-            });
-        },
-        installLetsEncryptSslCertificate: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: data.site_id}), data).then((response) => {
-                dispatch('getSslCertificates', data.site_id);
-            }, (errors) => {
-            });
-        },
-        deleteSslCertificate: ({commit, rootState, dispatch}, data) => {
-            Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {site : data.site, certificate: data.certificate})).then((response) => {
-                dispatch('getSslCertificates', rootState.sitesStore.site.id);
-            }, (errors) => {
-
-            });
         },
         getSiteServers: ({commit}, site_id) => {
             Vue.http.get(Vue.action('Site\SiteServerController@index', {site: site_id})).then((response) => {
@@ -145,12 +95,6 @@ export default {
         },
         SET_SITES: (state, sites) => {
             state.sites = sites;
-        },
-        SET_WORKERS: (state, workers) => {
-            state.workers = workers;
-        },
-        SET_SSL_CERTIFICATES: (state, ssl_certificates) => {
-            state.ssl_certificates = ssl_certificates;
         },
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;

@@ -50,7 +50,7 @@ class SiteController extends Controller
             'user_id'             => \Auth::user()->id,
             'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
             'pile_id'             => $request->get('pile_id'),
-            'name'                 => $request->get('domain'),
+            'name'                => $request->get('domain'),
         ]);
 
         $site->servers()->sync($request->get('servers', []));
@@ -95,7 +95,9 @@ class SiteController extends Controller
         ]);
 
         if ($request->has('servers')) {
+
             $changes = $site->servers()->sync($request->get('servers', []));
+
             foreach ($changes['attached'] as $serverID) {
                 $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
             }
