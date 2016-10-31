@@ -33,7 +33,7 @@ class SiteCronJobController extends Controller
         $siteCronJob = SiteCronJob::create([
             'site_id' => $siteId,
             'job' => $request->get('job'),
-            'user' => $request->get('user')
+            'user' => $request->get('user'),
         ]);
 
         return response()->json($siteCronJob);
@@ -65,7 +65,7 @@ class SiteCronJobController extends Controller
 
         $siteCronJob->fill([
             'job' => $request->get('job'),
-            'user' => $request->get('user')
+            'user' => $request->get('user'),
         ]);
 
         return response()->json($siteCronJob);
