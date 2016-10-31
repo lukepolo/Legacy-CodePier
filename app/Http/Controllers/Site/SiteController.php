@@ -95,7 +95,6 @@ class SiteController extends Controller
         ]);
 
         if ($request->has('servers')) {
-
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
