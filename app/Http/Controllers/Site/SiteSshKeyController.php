@@ -33,7 +33,7 @@ class SiteSshKeyController extends Controller
         $siteSshKey = SiteSshKey::create([
             'site_id' => $siteId,
             'job' => $request->get('name'),
-            'user' => $request->get('ssh_key')
+            'user' => $request->get('ssh_key'),
         ]);
 
         return response()->json($siteSshKey);
@@ -65,7 +65,7 @@ class SiteSshKeyController extends Controller
 
         $siteSshKey->fill([
             'job' => $request->get('name'),
-            'user' => $request->get('ssh_key')
+            'user' => $request->get('ssh_key'),
         ]);
 
         return response()->json($siteSshKey);
