@@ -80,6 +80,6 @@ class SiteSshKeyController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteSshKey::where('site_id', $siteId)->findOrFail($id)->destroy());
+        return response()->json(SiteSshKey::where('site_id', $siteId)->findOrFail($id)->delete());
     }
 }
