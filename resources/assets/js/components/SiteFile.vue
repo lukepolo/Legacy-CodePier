@@ -3,7 +3,9 @@
         {{ file }}
         <div v-file-editor class="editor"></div>
         <server-selector :servers="servers" :param="selected_servers"></server-selector>
-        <button type="submit">Update</button>
+        <div class="btn-footer">
+            <button class="btn btn-primary" type="submit">Update File</button>
+        </div>
     </form>
 </template>
 

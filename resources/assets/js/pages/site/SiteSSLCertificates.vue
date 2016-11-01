@@ -2,6 +2,7 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="installLetsEncryptCertificate">
+                <h3>SSL Certificates</h3>
                 <div class="jcf-input-group">
                     <input type="text" v-model="domains" name="domains">
                     <label for="domains">
