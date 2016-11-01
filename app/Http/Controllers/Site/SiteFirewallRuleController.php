@@ -83,6 +83,6 @@ class SiteFirewallRuleController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteFirewallRule::where('site_id', $siteId)->findOrFail($id)->destroy());
+        return response()->json(SiteFirewallRule::where('site_id', $siteId)->findOrFail($id)->delete());
     }
 }

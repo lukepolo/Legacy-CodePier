@@ -20,7 +20,7 @@ export default {
         deleteSiteFirewallRule: ({commit, dispatch}, data) => {
             Vue.http.delete(Vue.action('Site\SiteFirewallRuleController@destroy', {
                 site: data.site,
-                firewall: data.firewall
+                firewall_rule: data.firewall_rule
             })).then((response) => {
                 dispatch('getSiteFirewallRules', data.site);
             }, (errors) => {
