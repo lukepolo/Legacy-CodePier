@@ -80,6 +80,6 @@ class SiteCronJobController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteCronJob::where('site_id', $siteId)->findOrFail($id)->destroy());
+        return response()->json(SiteCronJob::where('site_id', $siteId)->findOrFail($id)->delete());
     }
 }

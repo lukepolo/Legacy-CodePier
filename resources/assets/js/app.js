@@ -30,6 +30,18 @@ Vue.directive('file-editor', {
     }
 });
 
+Vue.directive('cronjob', {
+    bind: function (el) {
+        $(el).cron({
+            onChange() {
+                var cronTiming = $(this).cron("value");
+                $('#cron-preview').text(cronTiming);
+                $('input[name="cron_timing"]').val(cronTiming);
+            }
+        });
+    }
+});
+
 Vue.mixin({
     methods: {
         now() {
