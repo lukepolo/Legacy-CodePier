@@ -376,7 +376,6 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
      */
     public function installCronJob(Server $server, SiteCronJob $siteCronJob)
     {
-
     }
 
     /**
@@ -385,7 +384,6 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
      */
     public function removeCronJob(Server $server, SiteCronJob $siteCronJob)
     {
-
     }
 
     /**
@@ -438,9 +436,7 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
 
     // TODO - after we fix ssls stuff
 
-    /**
-     *
-     */
+
     public function checkSSL()
     {
         //        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate

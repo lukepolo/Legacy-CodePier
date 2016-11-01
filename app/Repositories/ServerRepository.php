@@ -3,10 +3,8 @@
 namespace App\Repositories;
 
 /**
- * Class ServerRepository
- * @package App\Repositories
+ * Class ServerRepository.
  */
 class ServerRepository
 {
-
 }
