@@ -28,6 +28,10 @@ class PHP
         ],
     ];
 
+    public static $cronJobs = [
+        'Laravel Scheduler' => '* * * * * php {site_path} schedule:run >> /dev/null 2>&1'
+    ];
+
     public function installPHP7()
     {
         $this->connectToServer();

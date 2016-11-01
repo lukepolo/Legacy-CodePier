@@ -6,7 +6,7 @@
             <span id="cron-preview"></span>
             <form @submit.prevent="createServerCronJob">
                 <input type="text" name="cron" v-model="form.cron">
-                <input type="hidden" name="cron_timing" v-model="form.cron_timing">
+                <input type="hidden" name="cron_timing">
                 <select name="user" v-model="form.user">
                     <option value="root">Root User</option>
                     <option value="codepier">CodePier User</option>
@@ -47,20 +47,8 @@
                 form: {
                     cron: null,
                     user: 'root',
-                    cron_timing: null
-                }
-            }
-        },
-        directives: {
-            cronjob: {
-                bind: function (el) {
-                    $(el).cron({
-                        onChange() {
-                            var cronTiming = $(this).cron("value");
-                            $('#cron-preview').text(cronTiming);
-                            $('input[name="cron_timing"]').val(cronTiming);
-                        }
-                    });
+                    cron_timing : null,
+                    server: this.$route.params.server_id,
                 }
             }
         },
@@ -76,7 +64,7 @@
                 this.$store.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
             createServerCronJob() {
-                this.form['server'] = this.server.id;
+                this.cron_timing = this.getCronTimings();
                 this.$store.dispatch('createServerCronJob', this.form);
             },
             deleteCronJob(cron_job_id) {
@@ -84,6 +72,9 @@
                     server: this.server.id,
                     cron_job: cron_job_id
                 });
+            },
+            getCronTimings() {
+                return $('input[name="cron_timing"]').val();
             }
         },
         computed: {
