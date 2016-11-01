@@ -168,14 +168,67 @@ const router = new VueRouter({
 
             ]
         },
-
-        {path: '/my-profile', name: 'my_profile', component: userPages.UserInfo},
-        {path: '/my-profile/oauth', name: 'oauth', component: userPages.UserOauth},
-        {path: '/my-profile/ssh-keys', name: 'user_ssh_keys', component: userPages.UserSshKeys},
-        {path: '/my-profile/subscription', name: 'subscription', component: userPages.UserSubscription},
-        {path: '/my-profile/server-providers', name: 'user_server_providers', component: userPages.UserServerProviders},
-        {path: '/my-profile/repository-providers', name: 'user_repository_providers', component: userPages.UserRepositoryProviders},
-        {path: '/my-profile/notification-providers', name: 'user_notification_providers', component: userPages.UserNotificationProviders},
+        {
+            path: '/my-profile', component: userPages.UserArea,
+            children: [
+                {
+                    path: '/',
+                    name: 'my_profile',
+                    components: {
+                        default: userPages.UserInfo,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'oauth',
+                    name: 'oauth',
+                    components: {
+                        default: userPages.UserOauth,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'ssh-keys',
+                    name: 'user_ssh_keys',
+                    components: {
+                        default: userPages.UserSshKeys,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'subscription',
+                    name: 'subscription',
+                    components: {
+                        default: userPages.UserSubscription,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'server-providers',
+                    name: 'user_server_providers',
+                    components: {
+                        default: userPages.UserServerProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'repository-providers',
+                    name: 'user_repository_providers',
+                    components: {
+                        default: userPages.UserRepositoryProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'notification-providers',
+                    name: 'user_notification_providers',
+                    components: {
+                        default: userPages.UserNotificationProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+            ]
+        },
 
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},

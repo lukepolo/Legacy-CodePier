@@ -1,11 +1,5 @@
 <template>
-    <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <user-nav></user-nav>
-            <passport-personal-access-tokens></passport-personal-access-tokens>
-        </section>
-    </section>
+    <passport-personal-access-tokens></passport-personal-access-tokens>
 </template>
 <script>
 

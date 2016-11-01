@@ -1,73 +1,69 @@
 <template>
     <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <user-nav></user-nav>
-            <template v-if="validSubscription">
-                <p v-if="isCanceled">
-                    Your subscription has been canceled and will end on {{ user_subscription.ends_at }}
-                </p>
-                <p v-else>
-                    <template v-if="!_.isEmpty(upcomingSubscription)">
-                        Your next billing is on {{ upcomingSubscription.date }}
-                    </template>
-                </p>
-            </template>
-
-            <form @submit.prevent="createSubscription">
-                <div class="radio" v-for="plan in plans">
-                    <label>
-                        <template v-if="subscribedToPlan(plan.id)">
-                            Current Plan -
-                        </template>
-                        <template v-else>
-                            <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
-                        </template>
-
-                        <p>
-                            {{ plan.name }} ({{ plan.amount }} / {{ plan.interval }}
-                        </p>
-
-                        <b v-if="plan.metadata.save">
-                            SAVE {{ plan.metadata.save }} per {{ plan.interval }}
-                        </b>
-                    </label>
-                </div>
-
-                <template v-if="user.card_brand">
-                    Use your {{ user.card_brand }} {{ user.card_last_four }}
-                    <div @click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
+        <template v-if="validSubscription">
+            <p v-if="isCanceled">
+                Your subscription has been canceled and will end on {{ user_subscription.ends_at }}
+            </p>
+            <p v-else>
+                <template v-if="!_.isEmpty(upcomingSubscription)">
+                    Your next billing is on {{ upcomingSubscription.date }}
                 </template>
+            </p>
+        </template>
 
-                <div id="card-info" :class="{hide : !showCardForm}">
-                    <label>Number</label>
-                    <input v-model="form.number" type="text" name="number">
+        <form @submit.prevent="createSubscription">
+            <div class="radio" v-for="plan in plans">
+                <label>
+                    <template v-if="subscribedToPlan(plan.id)">
+                        Current Plan -
+                    </template>
+                    <template v-else>
+                        <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
+                    </template>
 
-                    <label>Exp Month</label>
-                    <input v-model="form.exp_month" type="text" name="exp_month">
+                    <p>
+                        {{ plan.name }} ({{ plan.amount }} / {{ plan.interval }}
+                    </p>
 
-                    <label>Exp Year</label>
-                    <input v-model="form.exp_year" type="text" name="exp_year">
+                    <b v-if="plan.metadata.save">
+                        SAVE {{ plan.metadata.save }} per {{ plan.interval }}
+                    </b>
+                </label>
+            </div>
 
-                    <label>CVC</label>
-                    <input v-model="form.cvc" type="password" name="cvc">
-                </div>
-
-                <button type="submit">Save Subscription</button>
-            </form>
-
-            <a @click="cancelSubscription" v-if="validSubscription && !isCanceled">Cancel Subscription</a>
-
-            <template v-if="invoices.length">
-                <table>
-                    <tr v-for="invoice in invoices">
-                        <td> {{ invoice.date }}</td>
-                        <td> {{ invoice.total }}</td>
-                        <td><a :href="downloadLink(invoice.id)">Download</a></td>
-                    </tr>
-                </table>
+            <template v-if="user.card_brand">
+                Use your {{ user.card_brand }} {{ user.card_last_four }}
+                <div @click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
             </template>
-        </section>
+
+            <div id="card-info" :class="{hide : !showCardForm}">
+                <label>Number</label>
+                <input v-model="form.number" type="text" name="number">
+
+                <label>Exp Month</label>
+                <input v-model="form.exp_month" type="text" name="exp_month">
+
+                <label>Exp Year</label>
+                <input v-model="form.exp_year" type="text" name="exp_year">
+
+                <label>CVC</label>
+                <input v-model="form.cvc" type="password" name="cvc">
+            </div>
+
+            <button type="submit">Save Subscription</button>
+        </form>
+
+        <a @click="cancelSubscription" v-if="validSubscription && !isCanceled">Cancel Subscription</a>
+
+        <template v-if="invoices.length">
+            <table>
+                <tr v-for="invoice in invoices">
+                    <td> {{ invoice.date }}</td>
+                    <td> {{ invoice.total }}</td>
+                    <td><a :href="downloadLink(invoice.id)">Download</a></td>
+                </tr>
+            </table>
+        </template>
     </section>
 </template>
 <script>

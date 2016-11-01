@@ -31,7 +31,6 @@
                 <a>Server Features</a>
             </router-link>
         </template>
-
     </ul>
 </template>
 

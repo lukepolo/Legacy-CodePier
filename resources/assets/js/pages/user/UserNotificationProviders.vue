@@ -1,20 +1,16 @@
 <template>
     <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <user-nav></user-nav>
-            <p v-for="provider in notification_providers">
-                <template v-if="isConnected(provider.id)">
-                    Disconnect : <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
-                    provider.name}}</a>
-                </template>
-                <template v-else>
-                    Integrate : <a
-                        :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
-                        class="btn btn-default">{{ provider.name}}</a>
-                </template>
-            </p>
-        </section>
+        <p v-for="provider in notification_providers">
+            <template v-if="isConnected(provider.id)">
+                Disconnect : <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
+                provider.name}}</a>
+            </template>
+            <template v-else>
+                Integrate : <a
+                    :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
+                    class="btn btn-default">{{ provider.name}}</a>
+            </template>
+        </p>
     </section>
 </template>
 
