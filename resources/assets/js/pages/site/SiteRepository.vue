@@ -2,6 +2,7 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="updateSite" class="floating-labels">
+                <h3>Repository</h3>
                 <div class="jcf-input-group">
                     <input type="text" v-model="form.repository" name="repository">
                     <label for="repository">

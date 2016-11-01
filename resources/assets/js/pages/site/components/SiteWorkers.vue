@@ -1,9 +1,8 @@
 <template>
     <div>
-        Workers
         <div class="jcf-form-wrap">
-            <form @submit.prevent="installWorker()">
-                <h3>Laravel Queue Workers</h3>
+            <form @submit.prevent="installWorker()" class="floating-labels">
+                <h3>Workers</h3>
                 <div class="jcf-input-group">
                     <input type="text" name="command" v-model="form.command">
                     <label for="command">
@@ -45,6 +44,11 @@
                         Auto Restart
                     </label>
                 </div>
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Create Queue Worker</button>
+                </div>
+
             </form>
         </div>
 

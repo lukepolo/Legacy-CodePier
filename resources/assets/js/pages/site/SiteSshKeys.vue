@@ -1,17 +1,28 @@
 <template>
     <div v-if="site">
-        Site SSH Keys
-        <form @submit.prevent="createKey">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" v-model="form.name">
-            </div>
-            <div class="form-group">
-                <label>Public Key</label>
-                <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
-            </div>
-            <button type="submit">Install SSH KEY</button>
-        </form>
+        <div class="jcf-form-wrap">
+            <form @submit.prevent="createKey" class="floating-labels">
+                <h3>Site Cron Jobs</h3>
+
+                <div class="jcf-input-group">
+                    <input type="text" name="name" v-model="form.name">
+                    <label for="name">
+                        <span class="float-label">Key Name</span>
+                    </label>
+                </div>
+
+                <div class="jcf-input-group">
+                    <input type="text" name="ssh_key" v-model="form.ssh_key">
+                    <label for="ssh_key">
+                        <span class="float-label">Public Key - TODO , should be a textarea</span>
+                    </label>
+                </div>
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Install SSH KEY</button>
+                </div>
+            </form>
+        </div>
 
         <table class="table" v-for="sshKey in sshKeys">
             <thead>
