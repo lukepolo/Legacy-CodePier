@@ -49,6 +49,10 @@ class CreateSite implements ShouldQueue
             $siteService->installWorker($this->server, $worker);
         }
 
+        foreach($this->site->cronJobs as $cronJob) {
+            $siteService->installCronJob($this->server, $cronJob);
+        }
+
         foreach ($this->site->files as $file) {
             dd($file);
 //            $siteService->in($this->server, $worker);

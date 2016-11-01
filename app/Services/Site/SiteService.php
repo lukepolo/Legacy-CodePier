@@ -14,6 +14,7 @@ use App\Exceptions\DeploymentFailed;
 use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Site\SiteCronJob;
 use App\Models\Site\SiteDeployment;
 use App\Models\Site\SiteSslCertificate;
 use App\Models\Site\SiteWorker;
@@ -370,6 +371,24 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
     }
 
     /**
+     * @param Server $server
+     * @param SiteCronJob $siteCronJob
+     */
+    public function installCronJob(Server $server, SiteCronJob $siteCronJob)
+    {
+
+    }
+
+    /**
+     * @param Server $server
+     * @param SiteCronJob $siteCronJob
+     */
+    public function removeCronJob(Server $server, SiteCronJob $siteCronJob)
+    {
+
+    }
+
+    /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site   $site
      *
@@ -419,6 +438,9 @@ stdout_logfile=/home/codepier/workers/site-worker-'.$siteWorker->id.'.log
 
     // TODO - after we fix ssls stuff
 
+    /**
+     *
+     */
     public function checkSSL()
     {
         //        openssl x509 -in /etc/letsencrypt/live/codepier.io/cert.pem -noout -enddate
