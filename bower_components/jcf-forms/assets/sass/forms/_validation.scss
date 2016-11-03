@@ -1,0 +1,36 @@
+// FORM VALIDATION STYLES ==================================
+// =========================================================
+.jcf-form-wrap {
+    .validation-form {
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            
+            + label:before {            
+                content: "";
+                font-family: 'icomoon';
+                font-size: $jcf-font-size + ($jcf-font-size/2);
+                position: absolute;
+                top: 5px;
+                right: 8px; 
+            }
+            
+            
+            // INPUT SUCCESS -------------------------------------------
+            // ---------------------------------------------------------
+            &:valid + label:before {
+                    content: "\e86c";
+                    color: $green;
+            }
+            
+            // INPUT ERROR ---------------------------------------------
+            // ---------------------------------------------------------
+            &:invalid:not(:focus).visited {
+                + label:before {
+                    content: "\e5c9";
+                    color: $red;
+                }
+            }
+        }
+    }
+} 

@@ -6,7 +6,6 @@ use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server\Server;
 use Closure;
 
 /**
@@ -14,53 +13,43 @@ use Closure;
  */
 trait ServerErrorTrait
 {
-    public $remoteErrors;
-    public $remoteSuccesses;
-    public $error = false;
+    private $remoteErrors;
+    private $remoteSuccesses;
 
-    public function runOnServer(Server $server, Closure $function, $throwErrors = false)
+    public function runOnServer(Closure $function)
     {
         $this->error = false;
 
         try {
-            $remoteResponse = new SuccessRemoteResponse($server, $function());
+            $remoteResponse = new SuccessRemoteResponse($function());
 
             $this->remoteSuccesses[] = $remoteResponse;
 
-            return $remoteResponse;
         } catch (\Exception $e) {
             switch (get_class($e)) {
                 case SshConnectionFailed::class:
                 case FailedCommand::class:
                     $message = $e->getMessage();
-
-                    // TODO - this needs to be figured out
-//                    $server->ssh_connection = false;
-//                    $server->save();
                     break;
                 default:
                     throw new \Exception($e->getMessage());
                     break;
             }
 
-            $remoteResponse = new FailedRemoteResponse($server, $e, $message);
+            $remoteResponse = new FailedRemoteResponse($e, $message);
 
             $this->remoteErrors[] = $remoteResponse;
 
             if (count($this->remoteErrors)) {
                 $this->error = true;
             }
-
-            return $remoteResponse;
         }
+
+        return $this->remoteResponse();
+
     }
 
-    public function successful()
-    {
-        return ! $this->error;
-    }
-
-    public function remoteResponse($errors = true)
+    public function remoteResponse()
     {
         if (count($this->remoteErrors)) {
             return response()->json([

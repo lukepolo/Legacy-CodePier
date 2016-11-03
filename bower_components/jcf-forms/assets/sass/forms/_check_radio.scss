@@ -1,0 +1,66 @@
+// CHECKBOX STYLES =========================================
+// =========================================================
+.jcf-form-wrap {
+    .input-checkbox,
+    .input-radio {
+        
+
+        
+        label {
+            position: relative;
+            display: block;
+            padding-left: $jcf-form-padding/2; 
+            cursor: pointer;
+            margin-bottom: 3px;
+        }
+        
+        input {
+            width: auto; 
+            opacity: 0;
+            margin-left: (-$jcf-form-padding)/2;
+            margin-right: $jcf-form-padding/4;
+            
+            &:checked {
+                + .icon:before {
+                    content: '';
+                    color: $jcf-color-accent;
+                }
+            }
+        }
+        
+        .icon {
+            display: inline;
+            
+            &:before {
+                content: '';
+                font-family: 'icomoon';
+                position: absolute;
+                left: 4px;
+                top: 2px;
+                font-size: 1.2em;
+                color: $jcf-color-text-secondary;
+            }
+            
+        }
+    }
+    
+    .input-checkbox {
+        .icon:before {
+            content: '\e835';
+        }
+        
+        input:checked + .icon:before {
+            content: '\e834';
+        }
+    }
+    
+    .input-radio {
+        .icon:before {
+            content: '\e836';
+        }
+        
+        input:checked + .icon:before {
+            content: '\e837';
+        }
+    }
+}

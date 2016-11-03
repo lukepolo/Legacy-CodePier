@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Server;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Models\Server\Server;

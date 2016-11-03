@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateServer;
+use App\Jobs\Server\CreateServer;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Site\Site;

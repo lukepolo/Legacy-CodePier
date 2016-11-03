@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateSite;
+use App\Jobs\Server\CreateSite;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
