@@ -79,7 +79,7 @@ class SiteWorkerController extends Controller
 
             $server = Server::findOrFail($serverId);
 
-            $this->runOnServer($server, function () use ($server, $serverWorker) {
+            $this->runOnServer(function () use ($server, $serverWorker) {
                 $this->serverService->getService(SystemService::WORKERS, $server)->addWorker($serverWorker);
             });
         }
@@ -116,7 +116,7 @@ class SiteWorkerController extends Controller
         foreach ($siteWorker->serverWorkers as $serverWorker) {
             $server = $serverWorker->server;
 
-            $this->runOnServer($server, function () use ($server, $serverWorker) {
+            $this->runOnServer(function () use ($server, $serverWorker) {
                 $this->serverService->getService(SystemService::WORKERS, $server)->removeWorker($serverWorker);
                 $serverWorker->delete();
             });

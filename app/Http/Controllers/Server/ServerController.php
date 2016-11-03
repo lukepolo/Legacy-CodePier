@@ -161,7 +161,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->runOnServer($server, function () use ($server) {
+        $this->runOnServer(function () use ($server) {
             $this->serverService->restartServer($server);
         });
 
@@ -180,7 +180,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->runOnServer($server, function () use ($server) {
+        $this->runOnServer(function () use ($server) {
             $this->serverService->restartWebServices($server);
         });
 
@@ -199,7 +199,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->runOnServer($server, function () use ($server) {
+        $this->runOnServer(function () use ($server) {
             $this->serverService->restartDatabase($server);
         });
 
@@ -218,7 +218,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->runOnServer($server, function () use ($server) {
+        $this->runOnServer(function () use ($server) {
             $this->serverService->restartWorkers($server);
         });
 

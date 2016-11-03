@@ -115,7 +115,7 @@ class SiteFileController extends Controller
         foreach ($request->get('servers') as $serverId) {
             $server = Server::findOrFail($serverId);
 
-            $this->runOnServer($server, function () use ($server, $file) {
+            $this->runOnServer(function () use ($server, $file) {
                 $this->serverService->saveFile($server, $file->file_path, $file->content, 'codepier');
             });
         }

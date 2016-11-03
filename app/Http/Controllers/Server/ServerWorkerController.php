@@ -58,7 +58,7 @@ class ServerWorkerController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        $this->runOnServer($server, function () use ($server, $serverWorker) {
+        $this->runOnServer(function () use ($server, $serverWorker) {
             $this->serverService->getService(SystemService::WORKERS, $server)->addWorker($serverWorker);
         });
 
@@ -96,7 +96,7 @@ class ServerWorkerController extends Controller
 
         $serverWorker = ServerWorker::findOrFail($id);
 
-        $this->runOnServer($server, function () use ($server, $serverWorker) {
+        $this->runOnServer(function () use ($server, $serverWorker) {
             $this->serverService->getService(SystemService::WORKERS, $server)->removeWorker($serverWorker);
             $serverWorker->delete();
         });

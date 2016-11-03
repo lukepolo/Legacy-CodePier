@@ -45,7 +45,7 @@ class SiteSSLLetsEncryptController extends Controller
         ]);
 
         foreach ($site->servers as $server) {
-            $this->runOnServer($server, function () use ($server, $siteSSLCertificate) {
+            $this->runOnServer(function () use ($server, $siteSSLCertificate) {
                 $this->siteService->installSSL($server, $siteSSLCertificate);
             });
         }

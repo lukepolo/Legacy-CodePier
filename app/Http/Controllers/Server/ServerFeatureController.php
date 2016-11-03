@@ -34,7 +34,7 @@ class ServerFeatureController extends Controller
         $service = $request->get('service');
         $parameters = $request->get('parameters', []);
 
-        $this->runOnServer($server, function () use ($server, $feature, $service, $parameters) {
+        $this->runOnServer(function () use ($server, $feature, $service, $parameters) {
             call_user_func_array([$this->serverService->getService($service, $server), 'install'.$feature],
                 $parameters);
 

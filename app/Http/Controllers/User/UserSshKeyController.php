@@ -50,7 +50,7 @@ class UserSshKeyController extends Controller
         ]);
 
         foreach (\Auth::user()->provisionedServers as $server) {
-            $this->runOnServer($server, function () use ($server, $userSshKey) {
+            $this->runOnServer(function () use ($server, $userSshKey) {
                 if ($server->ssh_connection) {
                     $this->serverService->installSshKey($server, $userSshKey->ssh_key);
                 }
@@ -84,7 +84,7 @@ class UserSshKeyController extends Controller
         $sshKey = UserSshKey::findOrFail($id);
 
         foreach (\Auth::user()->servers as $server) {
-            $this->runOnServer($server, function () use ($server, $sshKey) {
+            $this->runOnServer(function () use ($server, $sshKey) {
                 if ($server->ssh_connection) {
                     $this->serverService->removeSshKey($server, $sshKey->ssh_key);
                 }
