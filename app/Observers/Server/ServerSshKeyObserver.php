@@ -21,6 +21,5 @@ class ServerSshKeyObserver
 
     public function created()
     {
-
     }
 }

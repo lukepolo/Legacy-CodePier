@@ -52,7 +52,7 @@ class ServerCronJobController extends Controller
     {
         $serverCronJob = ServerCronJob::create([
             'server_id' => $serverId,
-            'job' => $request->get('cron_timing') . ' ' . $request->get('cron'),
+            'job' => $request->get('cron_timing').' '.$request->get('cron'),
             'user' => $request->get('user'),
         ]);
 
@@ -84,6 +84,5 @@ class ServerCronJobController extends Controller
     {
         return $this->dispatchNow(new RemoveServerCronJob(ServerCronJob::where('server_id',
             $serverId)->findorFail($id)));
-
     }
 }

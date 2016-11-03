@@ -33,9 +33,8 @@ class RemoveServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use($serverService) {
+        $this->runOnServer(function () use ($serverService) {
             $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->removeFirewallRule($this->serverFirewallRule);
         });
-
     }
 }
