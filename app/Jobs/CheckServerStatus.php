@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;

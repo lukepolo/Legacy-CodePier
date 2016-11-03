@@ -2,8 +2,6 @@
 
 namespace App\Classes;
 
-use App\Models\Server\Server;
-
 /**
  * Class FailedRemoteResponse.
  */
@@ -16,14 +14,12 @@ class FailedRemoteResponse
     /**
      * FailedRemoteResponse constructor.
      *
-     * @param Server     $server
      * @param \Exception $exception
      * @param null       $message
      */
-    public function __construct(Server $server, \Exception $exception, $message = null)
+    public function __construct(\Exception $exception, $message = null)
     {
         $this->log = $exception->getMessage();
-        $this->server = $server;
         $this->message = $message ?: $exception->getMessage();
     }
 }

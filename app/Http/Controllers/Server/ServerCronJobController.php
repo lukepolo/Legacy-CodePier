@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\InstallServerCronJob;
+use App\Jobs\Server\RemoveServerCronJob;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
 use Illuminate\Http\Request;
@@ -50,21 +52,11 @@ class ServerCronJobController extends Controller
     {
         $serverCronJob = ServerCronJob::create([
             'server_id' => $serverId,
-            'job'       => $request->get('cron_timing').' '.$request->get('cron'),
-            'user'      => $request->get('user'),
+            'job' => $request->get('cron_timing') . ' ' . $request->get('cron'),
+            'user' => $request->get('user'),
         ]);
 
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            $this->serverService->installCron($serverCronJob);
-        });
-
-        if (! $this->successful()) {
-            $serverCronJob->delete();
-        }
-
-        return $this->remoteResponse();
+        return $this->dispatchNow(new InstallServerCronJob($serverCronJob));
     }
 
     /**
@@ -77,7 +69,7 @@ class ServerCronJobController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerCronJob::findOrFail($id));
+        return response()->json(ServerCronJob::where('server_id', $serverId->findOrFail($id)));
     }
 
     /**
@@ -90,15 +82,8 @@ class ServerCronJobController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $serverCronJob = ServerCronJob::findorFail($id);
+        return $this->dispatchNow(new RemoveServerCronJob(ServerCronJob::where('server_id',
+            $serverId)->findorFail($id)));
 
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            $this->serverService->installCron($serverCronJob);
-            $serverCronJob->delete();
-        });
-
-        return $this->remoteResponse();
     }
 }
