@@ -5,6 +5,6 @@ namespace App\Observers\Server;
 /**
  * Class ServerFirewallRuleObserver.
  */
-class ServerFirewallRuleObserver
+class ServerFirewallRuleRuleObserver
 {
 }
