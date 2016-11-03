@@ -34,7 +34,7 @@ class InstallServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        return $this->runOnServer(function () use($serverService) {
+        return $this->runOnServer(function () use ($serverService) {
             $serverService->installCron($this->serverCronJob);
         });
     }

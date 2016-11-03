@@ -24,7 +24,6 @@ trait ServerErrorTrait
             $remoteResponse = new SuccessRemoteResponse($function());
 
             $this->remoteSuccesses[] = $remoteResponse;
-
         } catch (\Exception $e) {
             switch (get_class($e)) {
                 case SshConnectionFailed::class:
@@ -46,7 +45,6 @@ trait ServerErrorTrait
         }
 
         return $this->remoteResponse();
-
     }
 
     public function remoteResponse()

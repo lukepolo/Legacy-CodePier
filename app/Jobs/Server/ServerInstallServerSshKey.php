@@ -8,14 +8,13 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class InstallServerSshKey implements ShouldQueue
+class ServerInstallServerSshKey implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct()
     {
     }
-
 
     /**
      * Execute the job.

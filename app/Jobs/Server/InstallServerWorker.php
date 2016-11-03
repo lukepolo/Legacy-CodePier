@@ -16,7 +16,6 @@ class InstallServerWorker implements ShouldQueue
     {
     }
 
-
     /**
      * Execute the job.
      *
