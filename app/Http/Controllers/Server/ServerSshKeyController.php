@@ -56,7 +56,7 @@ class ServerSshKeyController extends Controller
             'ssh_key'   => trim($request->get('ssh_key')),
         ]);
 
-        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+        $this->runOnServer(function () use ($server, $serverSshKey) {
             $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
         });
 
@@ -94,7 +94,7 @@ class ServerSshKeyController extends Controller
 
         $server = Server::findOrFail($serverId);
 
-        $this->runOnServer($server, function () use ($server, $serverSshKey) {
+        $this->runOnServer(function () use ($server, $serverSshKey) {
             $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
             $serverSshKey->delete();
         });
