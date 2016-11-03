@@ -1,2 +1,0 @@
-function determineFloat(e){return 0===e.value.length?(e.classList.remove("active"),!1):(e.classList.add("active"),!0)}function checkAutoFill(){setTimeout(function(){var e=document.querySelectorAll("input");for(i=0;i<e.length;i++)determineFloat(e[i])&&e[i].classList.add("visited");checkAutoFill()},100)}document.body.addEventListener("keyup",function(e){var t=e.target;"input"==t.tagName.toLowerCase()&&determineFloat(t)&&t.classList.add("visited")}),checkAutoFill();
-//# sourceMappingURL=./jcf_forms-min.js.map
