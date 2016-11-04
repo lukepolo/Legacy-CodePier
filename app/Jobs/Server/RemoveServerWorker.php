@@ -39,7 +39,7 @@ class RemoveServerWorker implements ShouldQueue
             $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->removeWorker($this->serverWorker);
         });
 
-        if($this->wasSuccessful()) {
+        if ($this->wasSuccessful()) {
             $this->serverWorker->delete();
         }
 
