@@ -37,7 +37,7 @@ class RemoveServerSshKey implements ShouldQueue
             $serverService->removeSshKey($this->serverSshKey->server, $this->serverSshKey->ssh_key);
         });
 
-        if($this->wasSuccessful()) {
+        if ($this->wasSuccessful()) {
             $this->serverSshKey->delete();
         }
 

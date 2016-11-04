@@ -16,7 +16,7 @@ class ServerSshKeyObserver
      */
     public function created(ServerSshKey $serverSshKey)
     {
-        if(app()->runningInConsole()) {
+        if (app()->runningInConsole()) {
             dispatch(new InstallServerSshKey($serverSshKey));
         }
     }
@@ -26,7 +26,7 @@ class ServerSshKeyObserver
      */
     public function deleted(ServerSshKey $serverSshKey)
     {
-        if(app()->runningInConsole()) {
+        if (app()->runningInConsole()) {
             dispatch(new RemoveServerSshKey($serverSshKey));
         }
     }
