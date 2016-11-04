@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Class ServerProvidersSeeder
+ */
 class ServerProvidersSeeder extends Seeder
 {
     /**
@@ -24,7 +27,7 @@ class ServerProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            $serverProvider = \App\Models\Server\ServerProvider::firstOrCreate([
+            $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrCreate([
                 'provider_name' => $provider,
                 'name'          => $data['name'],
                 'provider_class' => $data['class'],
