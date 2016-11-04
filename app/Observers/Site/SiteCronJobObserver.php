@@ -15,7 +15,7 @@ class SiteCronJobObserver
      */
     public function created(SiteCronJob $siteCronJob)
     {
-        foreach ($siteCronJob->site->servers as $server) {
+        foreach ($siteCronJob->site->provisionedServers as $server) {
             ServerCronJob::create([
                 'server_id' => $server->id,
                 'job' => $siteCronJob->job,

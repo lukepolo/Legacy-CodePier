@@ -15,7 +15,7 @@ class SiteSslCertificateObserver
      */
     public function created(SiteSslCertificate $siteSslCertificate)
     {
-        foreach ($siteSslCertificate->site->servers as $server) {
+        foreach ($siteSslCertificate->site->provisionedServers as $server) {
             ServerSslCertificate::create([
                 'server_id' => $server->id,
                 'type' => $siteSslCertificate->type,

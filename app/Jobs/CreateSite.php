@@ -17,14 +17,14 @@ class CreateSite implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $site;
-    protected $server;
+    private $server;
+    private $site;
 
     /**
      * Create a new job instance.
      *
      * @param Server $server
-     * @param Site   $site
+     * @param Site $site
      */
     public function __construct(Server $server, Site $site)
     {
@@ -39,23 +39,30 @@ class CreateSite implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        dd('NEED TO LOOK AT CREATING FILES');
-
         $siteService->create($this->server, $this->site);
 
-        $siteService->installSSL($this->server, $this->site->activeSSL());
+        $this->site->cronJobs->each(function($model) {
+            $model->fireCreatedEvent();
+        });
 
-        foreach ($this->site->workers as $worker) {
-            $siteService->installWorker($this->server, $worker);
-        }
+        $this->site->files->each(function($model) {
+            $model->fireCreatedEvent();
+        });
 
-        foreach ($this->site->cronJobs as $cronJob) {
-            $siteService->installCronJob($this->server, $cronJob);
-        }
+        $this->site->firewallRules->each(function($model) {
+            $model->fireCreatedEvent();
+        });
 
-        foreach ($this->site->files as $file) {
-            dd($file);
-//            $siteService->in($this->server, $worker);
-        }
+        $this->site->sshKeys->each(function($model) {
+            $model->fireCreatedEvent();
+        });
+
+        $this->site->ssls->each(function($model) {
+            $model->fireCreatedEvent();
+        });
+
+        $this->site->workers->each(function($model) {
+            $model->fireCreatedEvent();
+        });
     }
 }

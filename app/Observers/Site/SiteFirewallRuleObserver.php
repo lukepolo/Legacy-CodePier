@@ -15,7 +15,7 @@ class SiteFirewallRuleObserver
      */
     public function created(SiteFirewallRule $siteFirewallRule)
     {
-        foreach ($siteFirewallRule->site->servers as $server) {
+        foreach ($siteFirewallRule->site->provisionedServers as $server) {
             ServerFirewallRule::create([
                 'server_id' => $server->id,
                 'port' => $siteFirewallRule->port,
