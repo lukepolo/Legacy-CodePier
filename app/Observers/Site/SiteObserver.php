@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\Site;
 
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteServiceContract as SiteService;

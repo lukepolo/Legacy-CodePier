@@ -3,16 +3,16 @@
 namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Exceptions\Traits\ServerErrorTrait;
 use App\Models\Server\ServerSshKey;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InstallServerSshKey implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerErrorTrait;
+    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $serverSshKey;
 
