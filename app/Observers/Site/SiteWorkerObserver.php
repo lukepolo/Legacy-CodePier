@@ -33,8 +33,8 @@ class SiteWorkerObserver
      */
     public function deleting(SiteWorker $siteWorker)
     {
-        $siteWorker->serverWorkers->delete();
-
-        return false;
+        $siteWorker->serverWorkers->each(function($serverWorker) {
+            $serverWorker->delete();
+        });
     }
 }

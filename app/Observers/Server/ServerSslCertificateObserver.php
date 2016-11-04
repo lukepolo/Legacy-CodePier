@@ -16,6 +16,10 @@ class ServerSslCertificateObserver
     {
     }
 
+    public function updated(ServerSslCertificate $serverSslCertificate)
+    {
+    }
+
     /**
      * @param ServerSslCertificate $serverSslCertificate
      */

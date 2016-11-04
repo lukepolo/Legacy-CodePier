@@ -48,7 +48,8 @@
             installLetsEncryptCertificate() {
                 this.$store.dispatch('installLetsEncryptSslCertificate', {
                     site_id: this.site.id,
-                    domains: this.domains
+                    domains: this.domains,
+                    type : 'Let\'s Encrypt'
                 })
             },
             deleteSslCertificate: function (ssl_certificate_id) {

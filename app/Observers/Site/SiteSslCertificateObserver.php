@@ -28,11 +28,22 @@ class SiteSslCertificateObserver
         }
     }
 
+    public function updated(SiteSslCertificate $siteSslCertificate)
+    {
+        $siteSslCertificate->serverSslCertificates->each(function($serverSslCertificate) use($siteSslCertificate) {
+            $serverSslCertificate->update([
+                'active' => $siteSslCertificate->active
+            ]);
+        });
+    }
+
     /**
      * @param SiteSslCertificate $siteSslCertificate
      */
     public function deleting(SiteSslCertificate $siteSslCertificate)
     {
-        $siteSslCertificate->serverSslCertificates->delete();
+        $siteSslCertificate->serverSslCertificates->each(function($serverSslCertificate) {
+            $serverSslCertificate->delete();
+        });
     }
 }

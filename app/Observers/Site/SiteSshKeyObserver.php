@@ -30,6 +30,8 @@ class SiteSshKeyObserver
      */
     public function deleting(SiteSshKey $siteSshKey)
     {
-        $siteSshKey->serverSshKeys->delete();
+        $siteSshKey->serverSshKeys->each(function($serverSshKey) {
+            $serverSshKey->delete();
+        });
     }
 }
