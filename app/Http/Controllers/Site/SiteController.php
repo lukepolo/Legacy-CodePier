@@ -82,7 +82,6 @@ class SiteController extends Controller
         ]);
 
         if ($request->has('servers')) {
-
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
@@ -127,7 +126,7 @@ class SiteController extends Controller
 
         return response()->json(
             $site->update([
-                'server_features' => $request->get('services')
+                'server_features' => $request->get('services'),
             ])
         );
     }

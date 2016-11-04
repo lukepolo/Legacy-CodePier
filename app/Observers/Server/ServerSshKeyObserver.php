@@ -19,6 +19,7 @@ class ServerSshKeyObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerSshKey($serverSshKey));
+
             return false;
         }
     }
@@ -31,6 +32,7 @@ class ServerSshKeyObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerSshKey($serverSshKey));
+
             return false;
         }
     }

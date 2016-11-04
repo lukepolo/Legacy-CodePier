@@ -25,7 +25,7 @@ class SiteServerController extends Controller
     }
 
     /**
-     * Stores a site
+     * Stores a site.
      *
      * @param Request $request
      * @param $siteId

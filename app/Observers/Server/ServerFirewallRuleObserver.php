@@ -19,6 +19,7 @@ class ServerFirewallRuleObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerFirewallRule($serverFirewallRule));
+
             return false;
         }
     }
@@ -31,6 +32,7 @@ class ServerFirewallRuleObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerFirewallRule($serverFirewallRule));
+
             return false;
         }
     }

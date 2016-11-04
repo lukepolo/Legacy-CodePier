@@ -70,7 +70,7 @@ class ServerWorkerController extends Controller
      */
     public function destroy($serverId, $id)
     {
-       return response()->json(
+        return response()->json(
            ServerWorker::where('server_id', $serverId)->findOrFail($id)->delete()
        );
     }

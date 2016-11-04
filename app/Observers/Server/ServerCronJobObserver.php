@@ -19,6 +19,7 @@ class ServerCronJobObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerCronJob($serverCronJob));
+
             return false;
         }
     }
@@ -31,6 +32,7 @@ class ServerCronJobObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerCronJob($serverCronJob));
+
             return false;
         }
     }
