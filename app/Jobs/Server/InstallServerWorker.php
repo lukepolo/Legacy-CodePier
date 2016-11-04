@@ -25,7 +25,6 @@ class InstallServerWorker implements ShouldQueue
         $this->serverWorker = $serverWorker;
     }
 
-
     /**
      * @param ServerService $serverService
      *
