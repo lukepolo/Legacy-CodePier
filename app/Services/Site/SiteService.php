@@ -59,7 +59,7 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->makeDirectory('/home/codepier/' . $site->domain);
+        $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
         $this->serverService->restartWebServices($server);
 
@@ -80,7 +80,7 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mv /home/codepier/' . $site->domain . ' /home/codepier/' . $domain);
+        $this->remoteTaskService->run('mv /home/codepier/'.$site->domain.' /home/codepier/'.$domain);
 
         $this->remove($server, $site);
 
