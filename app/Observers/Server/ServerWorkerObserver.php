@@ -26,6 +26,7 @@ class ServerWorkerObserver
     public function deleting(ServerWorker $serverWorker)
     {
         dispatch(new RemoveServerWorker($serverWorker));
+
         return false;
     }
 }
