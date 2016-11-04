@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 /**
- * Class ServerProvidersSeeder
+ * Class ServerProvidersSeeder.
  */
 class ServerProvidersSeeder extends Seeder
 {
