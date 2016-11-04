@@ -44,7 +44,7 @@ class InstallServerFeature implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use($serverService) {
+        $this->runOnServer(function () use ($serverService) {
             call_user_func_array(
                 [
                     $serverService->getService($this->service, $this->server),
