@@ -17,7 +17,6 @@ class ServerFeatureController extends Controller
 {
     public function store(Request $request, $serverId)
     {
-
         return $this->dispatch(
             new InstallServerFeature(
                 Server::findOrFail($serverId),
