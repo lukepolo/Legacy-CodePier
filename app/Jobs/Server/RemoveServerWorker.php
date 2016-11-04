@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Server;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Server\ServerWorker;
+use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,23 +14,29 @@ class RemoveServerWorker implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+    private $serverWorker;
 
     /**
-     * Execute the job.
-     *
-     * @return void
+     * InstallServerWorker constructor.
+     * @param ServerWorker $serverWorker
      */
-    public function handle()
+    public function __construct(ServerWorker $serverWorker)
     {
-        //
+        $this->serverWorker = $serverWorker;
+    }
+
+
+    /**
+     * @param ServerService $serverService
+     *
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
+     * @return mixed
+     */
+    public function handle(ServerService $serverService)
+    {
+        return $this->runOnServer(function () use ($serverService) {
+            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->removeWorker($this->serverWorker);
+        });
     }
 }

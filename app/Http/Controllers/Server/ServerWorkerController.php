@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\InstallServerWorker;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
 use App\Services\Systems\SystemService;
@@ -31,6 +32,7 @@ class ServerWorkerController extends Controller
      *
      * @param Request $request
      *
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $serverId)
@@ -43,12 +45,11 @@ class ServerWorkerController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
+     * @param $serverId
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $serverId)
     {
-        $server = Server::FindOrFail($serverId);
-
         $serverWorker = ServerWorker::create([
             'server_id'         => $serverId,
             'command'           => $request->get('command'),
@@ -58,15 +59,8 @@ class ServerWorkerController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        $this->runOnServer(function () use ($server, $serverWorker) {
-            $this->serverService->getService(SystemService::WORKERS, $server)->addWorker($serverWorker);
-        });
+        return $this->dispatchNow(new InstallServerWorker($serverWorker));
 
-        if (! $this->successful()) {
-            $serverWorker->delete();
-        }
-
-        return $this->remoteResponse();
     }
 
     /**
@@ -79,7 +73,7 @@ class ServerWorkerController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerWorker::findOrFail($id));
+        return response()->json(ServerWorker::where('server_id', $serverId)->findOrFail($id));
     }
 
     /**
@@ -92,15 +86,6 @@ class ServerWorkerController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $server = Server::FindOrFail($serverId);
-
-        $serverWorker = ServerWorker::findOrFail($id);
-
-        $this->runOnServer(function () use ($server, $serverWorker) {
-            $this->serverService->getService(SystemService::WORKERS, $server)->removeWorker($serverWorker);
-            $serverWorker->delete();
-        });
-
-        return $this->remoteResponse();
+        return $this->dispatchNow(new InstallServerWorker(ServerWorker::where('server_id', $serverId)->findOrFail($id)));
     }
 }
