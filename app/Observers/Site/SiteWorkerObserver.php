@@ -12,7 +12,7 @@ class SiteWorkerObserver
 {
     public function created(SiteWorker $siteWorker)
     {
-        foreach($siteWorker->site->servers as $server) {
+        foreach ($siteWorker->site->servers as $server) {
             ServerWorker::create([
                 'server_id' => $server->id,
                 'command' => $siteWorker->command,
@@ -26,7 +26,7 @@ class SiteWorkerObserver
 
     public function deleting(SiteWorker $siteWorker)
     {
-        $siteWorker->serverWorkers->each(function($serverWorker) {
+        $siteWorker->serverWorkers->each(function ($serverWorker) {
             $serverWorker->delete();
         });
     }
