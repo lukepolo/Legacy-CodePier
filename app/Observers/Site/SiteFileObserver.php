@@ -14,6 +14,7 @@ class SiteFileObserver
      */
     public function created(SiteFile $siteFile)
     {
+
     }
 
     /**

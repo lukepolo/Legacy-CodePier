@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Server\ServerSshKey;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteSshKey extends Model
@@ -17,5 +18,10 @@ class SiteSshKey extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function serverSshKeys()
+    {
+        return $this->hasMany(ServerSshKey::class);
     }
 }

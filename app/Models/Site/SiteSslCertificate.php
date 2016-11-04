@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Server\ServerSslCertificate;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,5 +21,10 @@ class SiteSslCertificate extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function serverSslCertificates()
+    {
+        return $this->hasMany(ServerSslCertificate::class);
     }
 }
