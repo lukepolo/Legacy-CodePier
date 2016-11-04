@@ -13,27 +13,17 @@ class ServerCronJobObserver
 {
     /**
      * @param ServerCronJob $serverCronJob
-     * @return bool
      */
     public function created(ServerCronJob $serverCronJob)
     {
-        if (app()->runningInConsole()) {
-            dispatch(new InstallServerCronJob($serverCronJob));
-
-            return false;
-        }
+        dispatch(new InstallServerCronJob($serverCronJob));
     }
 
     /**
      * @param ServerCronJob $serverCronJob
-     * @return bool
      */
     public function deleting(ServerCronJob $serverCronJob)
     {
-        if (app()->runningInConsole()) {
-            dispatch(new RemoveServerCronJob($serverCronJob));
-
-            return false;
-        }
+        dispatch(new RemoveServerCronJob($serverCronJob));
     }
 }

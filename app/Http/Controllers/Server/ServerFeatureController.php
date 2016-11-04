@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
@@ -15,37 +14,14 @@ use ReflectionClass;
  */
 class ServerFeatureController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     public function store(Request $request, $serverId)
     {
-        $server = Server::findOrFail($serverId);
-        $feature = $request->get('feature');
-        $service = $request->get('service');
-        $parameters = $request->get('parameters', []);
-
-        $this->runOnServer(function () use ($server, $feature, $service, $parameters) {
-            call_user_func_array([$this->serverService->getService($service, $server), 'install'.$feature],
-                $parameters);
-
-            $serverFeatures = $server->server_features;
-            $serverFeatures[$service][$feature]['enabled'] = true;
-
-            $server->server_features = $serverFeatures;
-            $server->save();
-        });
-
-        return $this->remoteResponse();
+        return $this->remoteResponse($this->dispatch(
+            Server::findOrFail($serverId),
+            $request->get('feature'),
+            $request->get('service'),
+            $request->get('parameters', [])
+        ));
     }
 
     public function getServerFeatures()

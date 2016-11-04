@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Traits;
+namespace App\Traits;
 
 use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
@@ -9,9 +9,9 @@ use App\Exceptions\SshConnectionFailed;
 use Closure;
 
 /**
- * Class ServerErrorTrait.
+ * Class ServerCommandTrait.
  */
-trait ServerErrorTrait
+trait ServerCommandTrait
 {
     private $error = false;
     private $remoteErrors;

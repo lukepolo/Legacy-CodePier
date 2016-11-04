@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
             Route::resource('servers.workers', 'ServerWorkerController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
-            Route::resource('servers.network', 'ServerNetworkController');
+            Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
 
             Route::resource('servers.sites', 'ServerSiteController');

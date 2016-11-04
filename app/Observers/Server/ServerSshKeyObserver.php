@@ -13,27 +13,17 @@ class ServerSshKeyObserver
 {
     /**
      * @param ServerSshKey $serverSshKey
-     * @return bool
      */
     public function created(ServerSshKey $serverSshKey)
     {
-        if (app()->runningInConsole()) {
-            dispatch(new InstallServerSshKey($serverSshKey));
-
-            return false;
-        }
+        dispatch(new InstallServerSshKey($serverSshKey));
     }
 
     /**
      * @param ServerSshKey $serverSshKey
-     * @return bool
      */
     public function deleting(ServerSshKey $serverSshKey)
     {
-        if (app()->runningInConsole()) {
-            dispatch(new RemoveServerSshKey($serverSshKey));
-
-            return false;
-        }
+        dispatch(new RemoveServerSshKey($serverSshKey));
     }
 }
