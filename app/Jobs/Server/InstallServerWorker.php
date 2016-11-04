@@ -39,7 +39,7 @@ class InstallServerWorker implements ShouldQueue
             $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
         });
 
-        if(!$this->wasSuccessful()) {
+        if (! $this->wasSuccessful()) {
             $this->serverWorker->delete();
         }
 

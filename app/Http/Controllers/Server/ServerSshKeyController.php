@@ -6,7 +6,6 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\InstallServerSshKey;
 use App\Jobs\Server\RemoveServerSshKey;
-use App\Models\Server\Server;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Http\Request;
 

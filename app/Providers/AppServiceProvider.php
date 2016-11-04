@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
 use App\Models\Server\ServerFirewallRule;
 use App\Models\Server\ServerSshKey;
@@ -11,7 +10,6 @@ use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Observers\Server\ServerCronJobObserver;
 use App\Observers\Server\ServerFirewallRuleObserver;
-use App\Observers\Server\ServerObserver;
 use App\Observers\Server\ServerSshKeyObserver;
 use App\Observers\Server\ServerWorkerObserver;
 use App\Observers\SiteObserver;
