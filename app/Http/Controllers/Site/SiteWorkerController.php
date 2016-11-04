@@ -21,7 +21,9 @@ class SiteWorkerController extends Controller
      */
     public function index(Request $request, $siteId)
     {
-        return response()->json(SiteWorker::where('site_id', $siteId)->get());
+        return response()->json(
+            SiteWorker::where('site_id', $siteId)->get()
+        );
     }
 
     /**
@@ -56,7 +58,9 @@ class SiteWorkerController extends Controller
      */
     public function show($siteId, $id)
     {
-        return response()->json(SiteWorker::where('site_id', $siteId)->findOrFail($id));
+        return response()->json(
+            SiteWorker::where('site_id', $siteId)->findOrFail($id)
+        );
     }
 
     /**
@@ -69,6 +73,8 @@ class SiteWorkerController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteWorker::where('site_id', $siteId)->findOrFail($id)->delete());
+        return response()->json(
+            SiteWorker::where('site_id', $siteId)->findOrFail($id)->delete()
+        );
     }
 }

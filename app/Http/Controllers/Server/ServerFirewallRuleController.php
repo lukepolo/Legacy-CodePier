@@ -21,7 +21,9 @@ class ServerFirewallRuleController extends Controller
      */
     public function index(Request $request, $serverId)
     {
-        return response()->json(ServerFirewallRule::where('server_id', $serverId)->get());
+        return response()->json(
+            ServerFirewallRule::where('server_id', $serverId)->get()
+        );
     }
 
     /**
@@ -54,7 +56,9 @@ class ServerFirewallRuleController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerFirewallRule::where('server_id', $serverId)->findOrFail($id));
+        return response()->json(
+            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)
+        );
     }
 
     /**

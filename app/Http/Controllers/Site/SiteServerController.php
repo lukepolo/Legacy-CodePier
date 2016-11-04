@@ -21,7 +21,9 @@ class SiteServerController extends Controller
      */
     public function index(Request $request, $siteId)
     {
-        return response()->json(Site::where('id', $siteId)->firstorFail()->servers);
+        return response()->json(
+            Site::where('id', $siteId)->firstorFail()->servers
+        );
     }
 
     /**

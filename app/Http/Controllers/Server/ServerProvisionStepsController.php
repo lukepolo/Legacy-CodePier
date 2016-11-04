@@ -20,7 +20,9 @@ class ServerProvisionStepsController extends Controller
      */
     public function index($serverId)
     {
-        return response()->json(Server::findOrFail($serverId)->currentProvisioningStep());
+        return response()->json(
+            Server::findOrFail($serverId)->currentProvisioningStep()
+        );
     }
 
     /**

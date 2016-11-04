@@ -33,7 +33,9 @@ class RepositoryHookController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        return response()->json($this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId)));
+        return response()->json(
+            $this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId))
+        );
     }
 
     /**
@@ -45,6 +47,8 @@ class RepositoryHookController extends Controller
      */
     public function destroy($siteId)
     {
-        return response()->json($this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId)));
+        return response()->json(
+            $this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId))
+        );
     }
 }

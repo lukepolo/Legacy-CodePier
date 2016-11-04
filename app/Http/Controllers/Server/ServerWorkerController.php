@@ -22,7 +22,9 @@ class ServerWorkerController extends Controller
      */
     public function index(Request $request, $serverId)
     {
-        return response()->json(Server::findOrFail($serverId)->workers);
+        return response()->json(
+            Server::findOrFail($serverId)->workers
+        );
     }
 
     /**
@@ -57,7 +59,9 @@ class ServerWorkerController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerWorker::where('server_id', $serverId)->findOrFail($id));
+        return response()->json(
+            ServerWorker::where('server_id', $serverId)->findOrFail($id)
+        );
     }
 
     /**

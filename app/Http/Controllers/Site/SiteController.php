@@ -21,7 +21,9 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return response()->json(Site::get());
+        return response()->json(
+            Site::get()
+        );
     }
 
     /**
@@ -54,7 +56,9 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        return response(Site::with('servers')->findOrFail($id));
+        return response(
+            Site::with('servers')->findOrFail($id)
+        );
     }
 
     /**
@@ -105,7 +109,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json(Site::findOrFail($id)->delete());
+        return response()->json(
+            Site::findOrFail($id)->delete()
+        );
     }
 
     /**
