@@ -2,6 +2,7 @@
 
 namespace App\Observers\Site;
 
+use App\Jobs\Server\UpdateServerFile;
 use App\Models\Site\SiteFile;
 
 /**
@@ -14,12 +15,11 @@ class SiteFileObserver
      */
     public function created(SiteFile $siteFile)
     {
+        dispatch(new UpdateServerFile($siteFile));
     }
 
-    /**
-     * @param SiteFile $siteFile
-     */
-    public function deleting(SiteFile $siteFile)
+    public function updated(SiteFile $siteFile)
     {
+        dispatch(new UpdateServerFile($siteFile));
     }
 }
