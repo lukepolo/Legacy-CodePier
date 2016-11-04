@@ -3,6 +3,7 @@
 namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Exceptions\Traits\ServerErrorTrait;
 use App\Models\Server\ServerWorker;
 use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
@@ -12,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RemoveServerWorker implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, ServerErrorTrait;
 
     private $serverWorker;
 
@@ -34,8 +35,14 @@ class RemoveServerWorker implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        return $this->runOnServer(function () use ($serverService) {
+        $this->runOnServer(function () use ($serverService) {
             $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->removeWorker($this->serverWorker);
         });
+
+        if($this->wasSuccessful()) {
+            $this->serverWorker->delete();
+        }
+
+        return $this->remoteResponse();
     }
 }

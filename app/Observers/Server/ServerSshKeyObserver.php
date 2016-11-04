@@ -2,24 +2,32 @@
 
 namespace App\Observers\Server;
 
+use App\Jobs\Server\InstallServerSshKey;
+use App\Jobs\Server\RemoveServerSshKey;
+use App\Models\Server\ServerSshKey;
+
 /**
  * Class ServerSshKeyObserver.
  */
 class ServerSshKeyObserver
 {
-    private $serverService;
-
     /**
-     * Create a new job instance.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param ServerSshKey $serverSshKey
      */
-    public function __construct(ServerService $serverService)
+    public function created(ServerSshKey $serverSshKey)
     {
-        $this->serverService = $serverService;
+        if(app()->runningInConsole()) {
+            dispatch(new InstallServerSshKey($serverSshKey));
+        }
     }
 
-    public function created()
+    /**
+     * @param ServerSshKey $serverSshKey
+     */
+    public function deleted(ServerSshKey $serverSshKey)
     {
+        if(app()->runningInConsole()) {
+            dispatch(new RemoveServerSshKey($serverSshKey));
+        }
     }
 }

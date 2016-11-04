@@ -4,42 +4,41 @@ namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Exceptions\Traits\ServerErrorTrait;
-use App\Models\Server\ServerCronJob;
+use App\Models\Server\ServerSshKey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RemoveServerCronJob implements ShouldQueue
+class RemoveServerSshKey implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerErrorTrait;
 
-    private $serverCronJob;
+    private $serverSshKey;
 
     /**
-     * RemoveServerCronJob constructor.
-     * @param ServerCronJob $serverCronJob
+     * InstallServerSshKey constructor.
+     * @param ServerSshKey $serverSshKey
      */
-    public function __construct(ServerCronJob $serverCronJob)
+    public function __construct(ServerSshKey $serverSshKey)
     {
-        $this->serverCronJob = $serverCronJob;
+        $this->serverSshKey = $serverSshKey;
     }
 
     /**
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     *
-     * @return \App\Classes\FailedRemoteResponse|\App\Classes\SuccessRemoteResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->removeCron($this->serverCronJob);
+            $serverService->removeSshKey($this->serverSshKey->server, $this->serverSshKey->ssh_key);
         });
 
         if($this->wasSuccessful()) {
-            $this->serverCronJob->delete();
+            $this->serverSshKey->delete();
         }
 
         return $this->remoteResponse();
