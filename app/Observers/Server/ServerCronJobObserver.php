@@ -21,9 +21,11 @@ class ServerCronJobObserver
 
     /**
      * @param ServerCronJob $serverCronJob
+     * @return bool
      */
     public function deleting(ServerCronJob $serverCronJob)
     {
         dispatch(new RemoveServerCronJob($serverCronJob));
+        return false;
     }
 }

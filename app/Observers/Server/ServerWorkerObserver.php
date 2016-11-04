@@ -21,9 +21,11 @@ class ServerWorkerObserver
 
     /**
      * @param ServerWorker $serverWorker
+     * @return bool
      */
     public function deleting(ServerWorker $serverWorker)
     {
         dispatch(new RemoveServerWorker($serverWorker));
+        return false;
     }
 }

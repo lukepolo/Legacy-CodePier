@@ -21,9 +21,11 @@ class ServerFirewallRuleObserver
 
     /**
      * @param ServerFirewallRule $serverFirewallRule
+     * @return bool
      */
     public function deleting(ServerFirewallRule $serverFirewallRule)
     {
         dispatch(new RemoveServerFirewallRule($serverFirewallRule));
+        return false;
     }
 }
