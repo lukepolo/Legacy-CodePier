@@ -14,7 +14,6 @@ class SiteSshKeyObserver
      */
     public function created(SiteSshKey $siteSshKey)
     {
-
     }
 
     /**
@@ -22,6 +21,5 @@ class SiteSshKeyObserver
      */
     public function deleting(SiteSshKey $siteSshKey)
     {
-
     }
 }

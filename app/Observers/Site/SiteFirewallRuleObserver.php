@@ -11,11 +11,9 @@ class SiteFirewallRuleObserver
 {
     public function created(SiteFirewallRule $siteFirewallRule)
     {
-
     }
 
     public function deleting(SiteFirewallRule $siteFirewallRule)
     {
-
     }
 }
