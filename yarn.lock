@@ -2260,8 +2260,8 @@ is-relative@^0.2.1:
     is-unc-path "^0.1.1"
 
 is-svg@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-2.0.1.tgz#f93ab3bf1d6bbca30e9753cd3485b1300eebc013"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-2.1.0.tgz#cf61090da0d9efbcab8722deba6f032208dbb0e9"
   dependencies:
     html-comment-regex "^1.1.0"
 
@@ -4794,8 +4794,8 @@ vue-style-loader@^1.0.0:
     loader-utils "^0.2.7"
 
 vue-template-compiler@^2.0.0-rc.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.0.3.tgz#da1462e7c95afb2daa20065e97589d8125226027"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.0.4.tgz#89d144c07ffcf6a67607dcdde37a21d535280d04"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -4805,8 +4805,8 @@ vue-template-es2015-compiler@^1.0.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.1.1.tgz#ae1ddcf9f6c7eb95df304560ba9a803f3ec9ffb4"
 
 vue@^2.0.1:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.0.3.tgz#3f7698f83d6ad1f0e35955447901672876c63fde"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.0.4.tgz#26f1e3c52c74012de6a6aa58595c6706395f1fb2"
 
 vuex@^2.0.0:
   version "2.0.0"
