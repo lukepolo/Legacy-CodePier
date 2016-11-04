@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\Server\InstallServerWorker;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 
 /**
@@ -60,7 +59,6 @@ class ServerWorkerController extends Controller
         ]);
 
         return $this->dispatchNow(new InstallServerWorker($serverWorker));
-
     }
 
     /**
