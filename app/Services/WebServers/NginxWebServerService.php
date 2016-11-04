@@ -23,7 +23,7 @@ class NginxWebServerService implements WebServerContract
     const WEB_SERVER_FILES = '/etc/nginx/codepier-conf';
     const SSL_FILES = '/etc/opt/ssl';
     const LETS_ENCRYPT = 'Let\'s Encrypt';
-    
+
     /**
      * SiteService constructor.
      *
