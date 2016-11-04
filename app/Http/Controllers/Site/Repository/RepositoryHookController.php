@@ -33,24 +33,18 @@ class RepositoryHookController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        // TODO - i think hooks should have their own model as well
-        $site = Site::with('server')->findOrFail($siteId);
-
-        $this->siteService->createDeployHook($site);
+        return response()->json($this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId)));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($siteId, $id)
+    public function destroy($siteId)
     {
-        $site = Site::with('server')->findOrFail($id);
-
-        $this->siteService->deleteDeployHook($site);
+        return response()->json($this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId)));
     }
 }

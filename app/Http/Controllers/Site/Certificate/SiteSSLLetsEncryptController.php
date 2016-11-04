@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Site\Certificate;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Models\Site\Site;
 use App\Models\Site\SiteSslCertificate;
 use Illuminate\Http\Request;
 
+/**
+ * Class SiteSSLLetsEncryptController
+ * @package App\Http\Controllers\Site\Certificate
+ */
 class SiteSSLLetsEncryptController extends Controller
 {
     private $siteService;
@@ -32,28 +35,17 @@ class SiteSSLLetsEncryptController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        $site = Site::findOrfail($siteId);
-
         $folder = explode(',', $request->get('domains'))[0];
-        $siteSSLCertificate = SiteSslCertificate::create([
-            'site_id'   => $siteId,
-            'domains'   => $request->get('domains'),
-            'type'      => \App\Services\Site\SiteService::LETS_ENCRYPT,
-            'active'    => false,
-            'key_path'  => "/etc/letsencrypt/live/$folder/privkey.pem",
-            'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
-        ]);
 
-        foreach ($site->servers as $server) {
-            $this->runOnServer(function () use ($server, $siteSSLCertificate) {
-                $this->siteService->installSSL($server, $siteSSLCertificate);
-            });
-        }
-
-        if (! $this->successful()) {
-            $siteSSLCertificate->delete();
-        }
-
-        return $this->remoteResponse();
+        return response()->json(
+            SiteSslCertificate::create([
+                'site_id'   => $siteId,
+                'domains'   => $request->get('domains'),
+                'type'      => \App\Services\Systems\WebServers\NginxWebServerService::LETS_ENCRYPT,
+                'active'    => false,
+                'key_path'  => "/etc/letsencrypt/live/$folder/privkey.pem",
+                'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
+            ])
+        );
     }
 }

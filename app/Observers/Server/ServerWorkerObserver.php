@@ -13,21 +13,25 @@ class ServerWorkerObserver
 {
     /**
      * @param ServerWorker $serverWorker
+     * @return bool
      */
     public function created(ServerWorker $serverWorker)
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerWorker($serverWorker));
+            return false;
         }
     }
 
     /**
      * @param ServerWorker $serverWorker
+     * @return bool
      */
-    public function deleted(ServerWorker $serverWorker)
+    public function deleting(ServerWorker $serverWorker)
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerWorker($serverWorker));
+            return false;
         }
     }
 }

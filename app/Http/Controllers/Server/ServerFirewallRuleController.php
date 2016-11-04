@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallServerFirewallRule;
-use App\Jobs\Server\RemoveServerFirewallRule;
 use App\Models\Server\ServerFirewallRule;
 use Illuminate\Http\Request;
 
@@ -14,18 +11,6 @@ use Illuminate\Http\Request;
  */
 class ServerFirewallRuleController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -49,14 +34,14 @@ class ServerFirewallRuleController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-        $serverFirewallRule = ServerFirewallRule::create([
-            'description' => $request->get('description'),
-            'server_id' => $serverId,
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip'),
-        ]);
-
-        return $this->dispatchNow(new InstallServerFirewallRule($serverFirewallRule));
+        return response()->json(
+            ServerFirewallRule::create([
+                'description' => $request->get('description'),
+                'server_id' => $serverId,
+                'port' => $request->get('port'),
+                'from_ip' => $request->get('from_ip'),
+            ])
+        );
     }
 
     /**
@@ -82,7 +67,8 @@ class ServerFirewallRuleController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return $this->dispatchNow(new RemoveServerFirewallRule(ServerFirewallRule::where('server_id',
-            $serverId)->findOrFail($id)));
+        return response()->json(
+            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)->delete()
+        );
     }
 }

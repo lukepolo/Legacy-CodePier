@@ -11,17 +11,27 @@ use App\Models\Server\ServerCronJob;
  */
 class ServerCronJobObserver
 {
+    /**
+     * @param ServerCronJob $serverCronJob
+     * @return bool
+     */
     public function created(ServerCronJob $serverCronJob)
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerCronJob($serverCronJob));
+            return false;
         }
     }
 
-    public function deleted(ServerCronJob $serverCronJob)
+    /**
+     * @param ServerCronJob $serverCronJob
+     * @return bool
+     */
+    public function deleting(ServerCronJob $serverCronJob)
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerCronJob($serverCronJob));
+            return false;
         }
     }
 }

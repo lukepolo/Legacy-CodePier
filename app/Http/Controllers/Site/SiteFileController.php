@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteFile;
 use Illuminate\Http\Request;
@@ -45,18 +44,13 @@ class SiteFileController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        SiteFile::create([
-            'site_id' => $siteId,
-            'file_path' => $request->get('file_path'),
-            'content' => $request->get('content'),
-        ]);
-
-        foreach ($request->get('servers') as $serverId) {
-            $server = Server::findOrFail($serverId);
-        }
-
-
-        return response()->json();
+        return response()->json(
+            SiteFile::create([
+                'site_id' => $siteId,
+                'file_path' => $request->get('file_path'),
+                'content' => $request->get('content'),
+            ])
+        );
     }
 
     /**
@@ -69,9 +63,8 @@ class SiteFileController extends Controller
      */
     public function show(Request $request, $siteId, $fileId)
     {
-        return response()->json(SiteFile::with('site')
-            ->where('site_id', $siteId)
-            ->findOrFail($fileId)
+        return response()->json(
+            SiteFile::with('site')->where('site_id', $siteId)->findOrFail($fileId)
         );
     }
 
@@ -100,26 +93,16 @@ class SiteFileController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $siteId, $id)
     {
-        $file = SiteFile::with('site')->findOrFail($id);
+        $file = SiteFile::with('site')->where('site_id', $siteId)->findOrFail($id);
 
-        $file->fill([
-            'content' => $request->get('content'),
-        ]);
-
-        $file->save();
-
-        foreach ($request->get('servers') as $serverId) {
-            $server = Server::findOrFail($serverId);
-
-            $this->runOnServer(function () use ($server, $file) {
-                $this->serverService->saveFile($server, $file->file_path, $file->content, 'codepier');
-            });
-        }
-
-        return $this->remoteResponse();
+        return response()->json(
+            $file->update([
+                'content' => $request->get('content'),
+            ])
+        );
     }
 }

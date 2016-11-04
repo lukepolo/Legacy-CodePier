@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallServerWorker;
-use App\Jobs\Server\RemoveServerWorker;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
 use Illuminate\Http\Request;
@@ -15,18 +12,6 @@ use Illuminate\Http\Request;
  */
 class ServerWorkerController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -50,16 +35,16 @@ class ServerWorkerController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-        $serverWorker = ServerWorker::create([
-            'server_id'         => $serverId,
-            'command'           => $request->get('command'),
-            'auto_start'        => $request->get('auto_start', 0),
-            'auto_restart'      => $request->get('auto_restart', 0),
-            'user'              => $request->get('user'),
-            'number_of_workers' => $request->get('number_of_workers'),
-        ]);
-
-        return $this->dispatchNow(new InstallServerWorker($serverWorker));
+        return response()->json(
+            ServerWorker::create([
+                'server_id'         => $serverId,
+                'command'           => $request->get('command'),
+                'auto_start'        => $request->get('auto_start', 0),
+                'auto_restart'      => $request->get('auto_restart', 0),
+                'user'              => $request->get('user'),
+                'number_of_workers' => $request->get('number_of_workers'),
+            ])
+        );
     }
 
     /**
@@ -85,6 +70,8 @@ class ServerWorkerController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return $this->dispatchNow(new RemoveServerWorker(ServerWorker::where('server_id', $serverId)->findOrFail($id)));
+       return response()->json(
+           ServerWorker::where('server_id', $serverId)->findOrFail($id)->delete()
+       );
     }
 }

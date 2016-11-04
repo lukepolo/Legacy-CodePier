@@ -15,6 +15,7 @@ use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
+use App\Services\DeploymentServices\PHP;
 
 /**
  * Class SiteService.
@@ -26,7 +27,7 @@ class SiteService implements SiteServiceContract
     protected $repositoryService;
 
     public $deploymentServices = [
-        'php' => DeploymentLanguages\PHP::class,
+        'php' => PHP::class,
     ];
 
     /**
@@ -207,7 +208,7 @@ class SiteService implements SiteServiceContract
      */
     public function createDeployHook(Site $site)
     {
-        $this->repositoryService->createDeployHook($site);
+        return $this->repositoryService->createDeployHook($site);
     }
 
     /**
@@ -215,7 +216,7 @@ class SiteService implements SiteServiceContract
      */
     public function deleteDeployHook(Site $site)
     {
-        $this->repositoryService->deleteDeployHook($site);
+        return $this->repositoryService->deleteDeployHook($site);
     }
 
     /**

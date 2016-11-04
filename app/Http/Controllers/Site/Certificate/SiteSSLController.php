@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Site\Certificate;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Models\Site\Site;
 use App\Models\Site\SiteSslCertificate;
 use Illuminate\Http\Request;
 
@@ -13,18 +11,6 @@ use Illuminate\Http\Request;
  */
 class SiteSSLController extends Controller
 {
-    private $siteService;
-
-    /**
-     * SiteSSLController constructor.
-     *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    public function __construct(SiteService $siteService)
-    {
-        $this->siteService = $siteService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +34,7 @@ class SiteSSLController extends Controller
      */
     public function show($siteId, $id)
     {
-        return response()->json(SiteSslCertificate::findOrFail($id));
+        return response()->json(SiteSslCertificate::where('site_id', $siteId)->findOrFail($id));
     }
 
     /**
@@ -61,10 +47,7 @@ class SiteSSLController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        SiteSslCertificate::findOrFail($id)->delete();
-
-        return;
-        $this->siteService->removeSSL();
+        return response()->json(SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)->delete());
     }
 
     /**
@@ -76,11 +59,7 @@ class SiteSSLController extends Controller
      */
     public function activateSSL(Request $request)
     {
-        $errors = $this->siteService->activateSSL(SiteSslCertificate::findOrFail($request->get('site_ssl_certificate_id')));
-
-        if (is_array($errors)) {
-            return back()->withErrors($errors);
-        }
+        dd("NEW METHOD");
     }
 
     /**
@@ -91,6 +70,6 @@ class SiteSSLController extends Controller
      */
     public function deactivateSSL(Request $request, $siteId)
     {
-        $this->siteService->deactivateSSL(Site::findOrFail($siteId));
+        dd("NEW METHOD");
     }
 }

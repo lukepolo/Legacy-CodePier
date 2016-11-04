@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\CreateSite;
 use App\Jobs\Server\DeploySite;
@@ -15,18 +14,6 @@ use Illuminate\Http\Request;
  */
 class SiteController extends Controller
 {
-    private $siteService;
-
-    /**
-     * SiteController constructor.
-     *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    public function __construct(SiteService $siteService)
-    {
-        $this->siteService = $siteService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -82,7 +69,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
-        $site->fill([
+        $site->update([
             'branch'                      => $request->get('branch'),
             'domain'                      => $request->get('domain'),
             'pile_id'                     => $request->get('pile_id'),
@@ -95,6 +82,7 @@ class SiteController extends Controller
         ]);
 
         if ($request->has('servers')) {
+
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
@@ -105,8 +93,6 @@ class SiteController extends Controller
                 dd('site needs to be deleted');
             }
         }
-
-        $site->save();
 
         return response()->json($site);
     }
@@ -120,9 +106,7 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        Site::findOrFail($id)->delete();
-
-        // TODO - dispatch deletling of site
+        return response()->json(Site::findOrFail($id)->delete());
     }
 
     /**
@@ -141,10 +125,10 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
-        $site->server_features = $request->get('services');
-
-        $site->save();
-
-        return response()->json();
+        return response()->json(
+            $site->update([
+                'server_features' => $request->get('services')
+            ])
+        );
     }
 }

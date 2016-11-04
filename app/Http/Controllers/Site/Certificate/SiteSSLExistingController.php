@@ -34,10 +34,10 @@ class SiteSSLExistingController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        $this->siteService->installExistingSSL(
-            Site::with('server')->findOrFail($siteId),
-            $request->get('key'),
-            $request->get('cert')
-        );
+//        $this->siteService->installExistingSSL(
+//            Site::with('server')->findOrFail($siteId),
+//            $request->get('key'),
+//            $request->get('cert')
+//        );
     }
 }
