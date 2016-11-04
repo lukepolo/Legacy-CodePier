@@ -30,13 +30,13 @@ class SiteCronJobController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        $siteCronJob = SiteCronJob::create([
-            'site_id' => $siteId,
-            'job' => $request->get('job'),
-            'user' => $request->get('user'),
-        ]);
-
-        return response()->json($siteCronJob);
+        return response()->json(
+            SiteCronJob::create([
+                'site_id' => $siteId,
+                'job' => $request->get('job'),
+                'user' => $request->get('user'),
+            ])
+        );
     }
 
     /**
@@ -63,12 +63,12 @@ class SiteCronJobController extends Controller
     {
         $siteCronJob = SiteCronJob::where('site_id', $siteId)->findOrFail($id);
 
-        $siteCronJob->fill([
-            'job' => $request->get('job'),
-            'user' => $request->get('user'),
-        ]);
-
-        return response()->json($siteCronJob);
+        return response()->json(
+            $siteCronJob->update([
+                'job' => $request->get('job'),
+                'user' => $request->get('user'),
+            ])
+        );
     }
 
     /**

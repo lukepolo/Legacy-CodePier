@@ -30,13 +30,13 @@ class SiteSshKeyController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        $siteSshKey = SiteSshKey::create([
-            'site_id' => $siteId,
-            'name'      => $request->get('name'),
-            'ssh_key'   => trim($request->get('ssh_key')),
-        ]);
-
-        return response()->json($siteSshKey);
+        return response()->json(
+            SiteSshKey::create([
+                'site_id' => $siteId,
+                'name'      => $request->get('name'),
+                'ssh_key'   => trim($request->get('ssh_key')),
+            ])
+        );
     }
 
     /**
@@ -63,12 +63,12 @@ class SiteSshKeyController extends Controller
     {
         $siteSshKey = SiteSshKey::where('site_id', $siteId)->findOrFail($id);
 
-        $siteSshKey->fill([
-            'name'      => $request->get('name'),
-            'ssh_key'   => trim($request->get('ssh_key')),
-        ]);
-
-        return response()->json($siteSshKey);
+        return response()->json(
+            $siteSshKey->update([
+                'name'      => $request->get('name'),
+                'ssh_key'   => trim($request->get('ssh_key')),
+            ])
+        );
     }
 
     /**

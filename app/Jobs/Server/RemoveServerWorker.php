@@ -31,7 +31,7 @@ class RemoveServerWorker implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handle(ServerService $serverService)
     {

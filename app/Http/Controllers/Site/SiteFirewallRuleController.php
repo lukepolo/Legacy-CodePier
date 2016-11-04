@@ -31,14 +31,14 @@ class SiteFirewallRuleController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-        $siteFirewallRule = SiteFirewallRule::create([
-            'site_id' => $siteId,
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip', null),
-            'description' => $request->get('description'),
-        ]);
-
-        return response()->json($siteFirewallRule);
+        return response()->json(
+            SiteFirewallRule::create([
+                'site_id' => $siteId,
+                'port' => $request->get('port'),
+                'from_ip' => $request->get('from_ip', null),
+                'description' => $request->get('description'),
+            ])
+        );
     }
 
     /**
@@ -65,13 +65,13 @@ class SiteFirewallRuleController extends Controller
     {
         $siteFirewallRule = SiteFirewallRule::where('site_id', $siteId)->findOrFail($id);
 
-        $siteFirewallRule->fill([
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip', null),
-            'description' => $request->get('description'),
-        ]);
-
-        return response()->json($siteFirewallRule);
+        return response()->json(
+            $siteFirewallRule->update([
+                'port' => $request->get('port'),
+                'from_ip' => $request->get('from_ip', null),
+                'description' => $request->get('description'),
+            ])
+        );
     }
 
     /**

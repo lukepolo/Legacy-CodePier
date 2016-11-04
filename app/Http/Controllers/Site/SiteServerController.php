@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\CreateSite;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
@@ -13,18 +11,6 @@ use Illuminate\Http\Request;
  */
 class SiteServerController extends Controller
 {
-    private $siteService;
-
-    /**
-     * SiteController constructor.
-     *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    public function __construct(SiteService $siteService)
-    {
-        $this->siteService = $siteService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +24,13 @@ class SiteServerController extends Controller
         return response()->json(Site::where('id', $siteId)->firstorFail()->servers);
     }
 
+    /**
+     * Stores a site
+     *
+     * @param Request $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request, $siteId)
     {
         $site = Site::where('id', $siteId)->firstorFail();
@@ -46,8 +39,6 @@ class SiteServerController extends Controller
 
         $site->fireSavedEvent();
 
-        foreach ($site->servers as $server) {
-            $this->dispatch(new CreateSite($server, $site));
-        }
+        return response()->json($site);
     }
 }

@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallServerSshKey;
-use App\Jobs\Server\RemoveServerSshKey;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Http\Request;
 
@@ -14,18 +11,6 @@ use Illuminate\Http\Request;
  */
 class ServerSshKeyController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -49,13 +34,13 @@ class ServerSshKeyController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-        $serverSshKey = ServerSshKey::create([
-            'server_id' => $serverId,
-            'name'      => $request->get('name'),
-            'ssh_key'   => trim($request->get('ssh_key')),
-        ]);
-
-        return $this->dispatchNow(new InstallServerSshKey($serverSshKey));
+        return response()->json(
+            ServerSshKey::create([
+                'server_id' => $serverId,
+                'name'      => $request->get('name'),
+                'ssh_key'   => trim($request->get('ssh_key')),
+            ])
+        );
     }
 
     /**
@@ -81,6 +66,8 @@ class ServerSshKeyController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return $this->dispatchNow(new RemoveServerSshKey(ServerSshKey::where('server_id', $serverId)->findOrFail($id)));
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->findOrFail($id)->delete()
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Site\DeploymentLanguages;
+namespace App\Services\DeploymentServices;
 
 use App\Models\Server\Server;
 use App\Models\Site\Site;
