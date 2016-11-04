@@ -13,12 +13,12 @@ class AddKeyAndCertSslTables extends Migration
      */
     public function up()
     {
-        Schema::table('server_ssl_certificates', function(Blueprint $table) {
+        Schema::table('server_ssl_certificates', function (Blueprint $table) {
             $table->longText('key')->nullable();
             $table->longText('cert')->nullable();
         });
 
-        Schema::table('site_ssl_certificates', function(Blueprint $table) {
+        Schema::table('site_ssl_certificates', function (Blueprint $table) {
             $table->longText('key')->nullable();
             $table->longText('cert')->nullable();
         });
@@ -31,12 +31,12 @@ class AddKeyAndCertSslTables extends Migration
      */
     public function down()
     {
-        Schema::table('server_ssl_certificates', function(Blueprint $table) {
+        Schema::table('server_ssl_certificates', function (Blueprint $table) {
             $table->dropColumn('key');
             $table->dropColumn('cert');
         });
 
-        Schema::table('site_ssl_certificates', function(Blueprint $table) {
+        Schema::table('site_ssl_certificates', function (Blueprint $table) {
             $table->dropColumn('key');
             $table->dropColumn('cert');
         });

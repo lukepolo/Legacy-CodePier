@@ -38,8 +38,8 @@ class SiteSSLController extends Controller
     {
         $siteSslCertificate = false;
 
-        switch($type = $request->get('type')) {
-            case \App\Services\Systems\WebServers\NginxWebServerService::LETS_ENCRYPT :
+        switch ($type = $request->get('type')) {
+            case \App\Services\Systems\WebServers\NginxWebServerService::LETS_ENCRYPT:
 
                     $folder = explode(',', $request->get('domains'))[0];
 
@@ -53,14 +53,14 @@ class SiteSSLController extends Controller
                     ]);
 
                 break;
-            case 'existing' :
+            case 'existing':
 
                 $siteSslCertificate = SiteSslCertificate::create([
                     'site_id'   => $siteId,
                     'type'      => $request->get('type'),
                     'active'    => false,
                     'key' => $request->get('key'),
-                    'cert' => $request->get('cert')
+                    'cert' => $request->get('cert'),
                 ]);
                 break;
         }
@@ -79,7 +79,7 @@ class SiteSSLController extends Controller
         $siteSslCertificate = SiteSslCertificate::where('site_id', $siteId)->findOrFail($id);
 
         return response()->json($siteSslCertificate->update([
-            'active' => $request->get('active')
+            'active' => $request->get('active'),
         ]));
     }
 
