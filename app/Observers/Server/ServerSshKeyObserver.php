@@ -26,6 +26,7 @@ class ServerSshKeyObserver
     public function deleting(ServerSshKey $serverSshKey)
     {
         dispatch(new RemoveServerSshKey($serverSshKey));
+
         return false;
     }
 }

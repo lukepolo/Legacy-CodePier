@@ -26,6 +26,7 @@ class ServerCronJobObserver
     public function deleting(ServerCronJob $serverCronJob)
     {
         dispatch(new RemoveServerCronJob($serverCronJob));
+
         return false;
     }
 }
