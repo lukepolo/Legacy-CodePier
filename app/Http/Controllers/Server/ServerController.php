@@ -224,4 +224,15 @@ class ServerController extends Controller
 
         return $this->remoteResponse();
     }
+
+    /**
+     * Tests a ssh connection to server.
+     *
+     * @param Request $request
+     * @param $serverId
+     */
+    public function testSSHConnection(Request $request, $serverId)
+    {
+        $this->serverService->testSSHConnection(Server::findOrFail($serverId));
+    }
 }

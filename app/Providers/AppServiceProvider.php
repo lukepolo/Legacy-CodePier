@@ -33,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Site::observe(SiteObserver::class);
 
-        Server::observe(ServerObserver::class);
         ServerSshKey::observe(ServerSshKeyObserver::class);
         ServerWorker::observe(ServerWorkerObserver::class);
         ServerCronJob::observe(ServerCronJobObserver::class);

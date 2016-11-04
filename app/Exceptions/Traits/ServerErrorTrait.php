@@ -13,13 +13,18 @@ use Closure;
  */
 trait ServerErrorTrait
 {
+    private $error = false;
     private $remoteErrors;
     private $remoteSuccesses;
 
+    /**
+     * Runs a command on a external server
+     *
+     * @param Closure $function
+     * @throws \Exception
+     */
     public function runOnServer(Closure $function)
     {
-        $this->error = false;
-
         try {
             $remoteResponse = new SuccessRemoteResponse($function());
 
@@ -43,10 +48,22 @@ trait ServerErrorTrait
                 $this->error = true;
             }
         }
-
-        return $this->remoteResponse();
     }
 
+    /**
+     * Checks to see if the command was successful
+     * @return bool
+     */
+    public function wasSuccessful()
+    {
+        return ! $this->error;
+    }
+
+    /**
+     * Gets the remote response to return
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function remoteResponse()
     {
         if (count($this->remoteErrors)) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\InstallServerFirewallRule;
+use App\Jobs\Server\RemoveServerFirewallRule;
 use App\Models\Server\ServerFirewallRule;
 use Illuminate\Http\Request;
 
@@ -81,7 +82,7 @@ class ServerFirewallRuleController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return $this->dispatchNow(new InstallServerFirewallRule(ServerFirewallRule::where('server_id',
+        return $this->dispatchNow(new RemoveServerFirewallRule(ServerFirewallRule::where('server_id',
             $serverId)->findOrFail($id)));
     }
 }

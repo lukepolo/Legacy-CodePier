@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\InstallServerWorker;
+use App\Jobs\Server\RemoveServerWorker;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
 use Illuminate\Http\Request;
@@ -84,6 +85,6 @@ class ServerWorkerController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return $this->dispatchNow(new InstallServerWorker(ServerWorker::where('server_id', $serverId)->findOrFail($id)));
+        return $this->dispatchNow(new RemoveServerWorker(ServerWorker::where('server_id', $serverId)->findOrFail($id)));
     }
 }

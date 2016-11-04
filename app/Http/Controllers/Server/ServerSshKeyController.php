@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\InstallServerSshKey;
+use App\Jobs\Server\RemoveServerSshKey;
 use App\Models\Server\Server;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Http\Request;
@@ -48,23 +50,13 @@ class ServerSshKeyController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-        $server = Server::findOrFail($serverId);
-
         $serverSshKey = ServerSshKey::create([
             'server_id' => $serverId,
             'name'      => $request->get('name'),
             'ssh_key'   => trim($request->get('ssh_key')),
         ]);
 
-        $this->runOnServer(function () use ($server, $serverSshKey) {
-            $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
-        });
-
-        if (! $this->successful()) {
-            $serverSshKey->delete();
-        }
-
-        return $this->remoteResponse();
+        return $this->dispatchNow(new InstallServerSshKey($serverSshKey));
     }
 
     /**
@@ -77,7 +69,7 @@ class ServerSshKeyController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerSshKey::findOrFail($id));
+        return response()->json(ServerSshKey::where('server_id', $serverId)->findOrFail($id));
     }
 
     /**
@@ -90,26 +82,6 @@ class ServerSshKeyController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $serverSshKey = ServerSshKey::findOrFail($id);
-
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer(function () use ($server, $serverSshKey) {
-            $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
-            $serverSshKey->delete();
-        });
-
-        return $this->remoteResponse();
-    }
-
-    /**
-     * Tests a ssh connection to server.
-     *
-     * @param Request $request
-     * @param $serverId
-     */
-    public function testSSHConnection(Request $request, $serverId)
-    {
-        $this->serverService->testSSHConnection(Server::findOrFail($serverId));
+        return $this->dispatchNow(new RemoveServerSshKey(ServerSshKey::where('server_id', $serverId)->findOrFail($id)));
     }
 }
