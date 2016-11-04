@@ -30,6 +30,8 @@ class SiteCronJobObserver
      */
     public function deleting(SiteCronJob $siteCronJob)
     {
-        $siteCronJob->serverCronJobs->delete();
+        $siteCronJob->serverCronJobs->each(function($serverCronJob) {
+            $serverCronJob->delete();
+        });
     }
 }

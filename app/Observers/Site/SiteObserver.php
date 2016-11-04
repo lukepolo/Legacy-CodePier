@@ -47,13 +47,34 @@ class SiteObserver
      */
     public function deleting(Site $site)
     {
-        $site->ssls()->delete();
-        $site->files()->delete();
-        $site->workers()->delete();
-        $site->sshKeys()->delete();
-        $site->cronJobs()->delete();
+        // We need to trigger the delete events for some
+        // of the relations so they trickle down
+        $site->ssls->each(function($ssl) {
+            $ssl->delete();
+        });
+
+        $site->files->each(function($file) {
+            $file->delete();
+        });
+
+        $site->workers->each(function($worker) {
+            $worker->delete();
+        });
+
+        $site->sshKeys()->each(function($sshKey) {
+            $sshKey->delete();
+        });
+
+        $site->cronJobs()->each(function($cronJob) {
+            $cronJob->delete();
+        });
+
+        $site->firewallRules()->each(function($firewallRule) {
+            $firewallRule->delete();
+        });
+
+
         $site->deployments()->delete();
-        $site->firewallRules()->delete();
         $site->deploymentSteps()->delete();
     }
 }

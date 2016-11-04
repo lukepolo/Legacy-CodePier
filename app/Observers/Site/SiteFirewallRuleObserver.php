@@ -31,6 +31,8 @@ class SiteFirewallRuleObserver
      */
     public function deleting(SiteFirewallRule $siteFirewallRule)
     {
-        $siteFirewallRule->serverFirewallRules->delete();
+        $siteFirewallRule->serverFirewallRules->each(function($serverFirewallRule) {
+            $serverFirewallRule->delete();
+        });
     }
 }
