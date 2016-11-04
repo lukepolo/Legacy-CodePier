@@ -42,6 +42,7 @@ class SiteFileController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $siteId)
@@ -70,6 +71,11 @@ class SiteFileController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function find(Request $request, $siteId)
     {
         $file = SiteFile::where('site_id', $siteId)
