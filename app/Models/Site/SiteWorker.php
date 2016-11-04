@@ -2,7 +2,6 @@
 
 namespace App\Models\Site;
 
-use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
 use Illuminate\Database\Eloquent\Model;
 
