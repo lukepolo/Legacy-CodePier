@@ -14,15 +14,12 @@ class ServerFeatureObserver
      */
     public function created(ServerFeature $serverFeature)
     {
-
     }
-
 
     /**
      * @param ServerFeature $serverFeature
      */
     public function deleting(ServerFeature $serverFeature)
     {
-
     }
 }

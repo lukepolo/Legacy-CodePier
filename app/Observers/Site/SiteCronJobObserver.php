@@ -14,7 +14,6 @@ class SiteCronJobObserver
      */
     public function created(SiteCronJob $siteCronJob)
     {
-
     }
 
     /**
@@ -22,6 +21,5 @@ class SiteCronJobObserver
      */
     public function deleting(SiteCronJob $siteCronJob)
     {
-
     }
 }

@@ -14,15 +14,12 @@ class SiteFileObserver
      */
     public function created(SiteFile $siteFile)
     {
-
     }
-
 
     /**
      * @param SiteFile $siteFile
      */
     public function deleting(SiteFile $siteFile)
     {
-
     }
 }

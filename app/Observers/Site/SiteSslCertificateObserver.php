@@ -14,7 +14,6 @@ class SiteSslCertificateObserver
      */
     public function created(SiteSslCertificate $siteSslCertificate)
     {
-
     }
 
     /**
@@ -22,6 +21,5 @@ class SiteSslCertificateObserver
      */
     public function deleting(SiteSslCertificate $siteSslCertificate)
     {
-
     }
 }
