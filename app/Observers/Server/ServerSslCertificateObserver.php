@@ -14,12 +14,10 @@ class ServerSslCertificateObserver
      */
     public function created(ServerSslCertificate $serverSslCertificate)
     {
-
     }
 
     public function updated(ServerSslCertificate $serverSslCertificate)
     {
-
     }
 
     /**
@@ -27,6 +25,5 @@ class ServerSslCertificateObserver
      */
     public function deleting(ServerSslCertificate $serverSslCertificate)
     {
-
     }
 }
