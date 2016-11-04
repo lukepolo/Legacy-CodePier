@@ -38,7 +38,7 @@ class RemoveServerCronJob implements ShouldQueue
             $serverService->removeCron($this->serverCronJob);
         });
 
-        if($this->wasSuccessful()) {
+        if ($this->wasSuccessful()) {
             $this->serverCronJob->delete();
         }
 

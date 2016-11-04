@@ -38,7 +38,7 @@ class InstallServerCronJob implements ShouldQueue
             $serverService->installCron($this->serverCronJob);
         });
 
-        if(!$this->wasSuccessful()) {
+        if (! $this->wasSuccessful()) {
             $this->serverCronJob->delete();
         }
 

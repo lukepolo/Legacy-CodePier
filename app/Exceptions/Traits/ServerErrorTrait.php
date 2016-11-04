@@ -18,7 +18,7 @@ trait ServerErrorTrait
     private $remoteSuccesses;
 
     /**
-     * Runs a command on a external server
+     * Runs a command on a external server.
      *
      * @param Closure $function
      * @throws \Exception
@@ -51,7 +51,7 @@ trait ServerErrorTrait
     }
 
     /**
-     * Checks to see if the command was successful
+     * Checks to see if the command was successful.
      * @return bool
      */
     public function wasSuccessful()
@@ -60,7 +60,7 @@ trait ServerErrorTrait
     }
 
     /**
-     * Gets the remote response to return
+     * Gets the remote response to return.
      *
      * @return \Illuminate\Http\JsonResponse
      */
