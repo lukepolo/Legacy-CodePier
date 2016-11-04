@@ -15,12 +15,12 @@ class SiteSshKeyObserver
      */
     public function created(SiteSshKey $siteSshKey)
     {
-        foreach($siteSshKey->site->servers as $server) {
+        foreach ($siteSshKey->site->servers as $server) {
             ServerSshKey::create([
                 'key' => $siteSshKey->key,
                 'server_id' => $server->id,
                 'name' => $siteSshKey->name,
-                'site_ssh_key_id' => $siteSshKey->id
+                'site_ssh_key_id' => $siteSshKey->id,
             ]);
         }
     }
@@ -30,7 +30,7 @@ class SiteSshKeyObserver
      */
     public function deleting(SiteSshKey $siteSshKey)
     {
-        $siteSshKey->serverSshKeys->each(function($serverSshKey) {
+        $siteSshKey->serverSshKeys->each(function ($serverSshKey) {
             $serverSshKey->delete();
         });
     }
