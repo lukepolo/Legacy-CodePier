@@ -15,7 +15,7 @@ class CreateServerSslCertificatesTable extends Migration
     {
         Schema::create('server_ssl_certificates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('site_ssl_certificate_id');
+            $table->integer('site_ssl_certificate_id')->nullable();
             $table->integer('server_id');
             $table->string('type');
             $table->string('domains');

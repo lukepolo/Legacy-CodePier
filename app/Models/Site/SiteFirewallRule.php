@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Server\ServerFirewallRule;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteFirewallRule extends Model
@@ -18,4 +19,10 @@ class SiteFirewallRule extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    public function serverFirewallRules()
+    {
+        return $this->hasMany(ServerFirewallRule::class);
+    }
+
 }

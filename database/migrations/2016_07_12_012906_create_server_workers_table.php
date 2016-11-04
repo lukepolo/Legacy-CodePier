@@ -20,6 +20,7 @@ class CreateServerWorkersTable extends Migration
             $table->boolean('auto_start');
             $table->boolean('auto_restart');
             $table->integer('number_of_workers');
+            $table->integer('site_worker_id')->nullable();
             $table->timestamps();
         });
     }
