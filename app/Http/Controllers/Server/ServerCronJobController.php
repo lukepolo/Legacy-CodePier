@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallServerCronJob;
-use App\Jobs\Server\RemoveServerCronJob;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
 use Illuminate\Http\Request;

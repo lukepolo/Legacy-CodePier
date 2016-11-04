@@ -8,8 +8,7 @@ use App\Models\Site\SiteSslCertificate;
 use Illuminate\Http\Request;
 
 /**
- * Class SiteSSLLetsEncryptController
- * @package App\Http\Controllers\Site\Certificate
+ * Class SiteSSLLetsEncryptController.
  */
 class SiteSSLLetsEncryptController extends Controller
 {
