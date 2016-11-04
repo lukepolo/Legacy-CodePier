@@ -24,5 +24,4 @@ class SiteFirewallRule extends Model
     {
         return $this->hasMany(ServerFirewallRule::class);
     }
-
 }
