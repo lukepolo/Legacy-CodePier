@@ -26,6 +26,7 @@ class ServerFirewallRuleObserver
     public function deleting(ServerFirewallRule $serverFirewallRule)
     {
         dispatch(new RemoveServerFirewallRule($serverFirewallRule));
+
         return false;
     }
 }
