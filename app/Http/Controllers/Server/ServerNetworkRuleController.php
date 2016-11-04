@@ -30,7 +30,7 @@ class ServerNetworkRuleController extends Controller
      */
     public function store(Request $request, $serverId)
     {
-//        dispatch(new ServerNetworkRule());
+        //        dispatch(new ServerNetworkRule());
     }
 
     /**
@@ -50,7 +50,7 @@ class ServerNetworkRuleController extends Controller
      */
     public function update(Request $request)
     {
-//        $server = Server::findOrFail($request->get('server_id'));
+        //        $server = Server::findOrFail($request->get('server_id'));
 //
 //        $connectToServers = Server::whereIn('id', \Request::get('servers'))->whereDoesntHave('connectedServers')->get();
 //

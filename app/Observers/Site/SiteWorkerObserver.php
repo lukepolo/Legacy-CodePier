@@ -11,11 +11,9 @@ class SiteWorkerObserver
 {
     public function created(SiteWorker $siteWorker)
     {
-
     }
 
     public function deleting(SiteWorker $siteWorker)
     {
-
     }
 }

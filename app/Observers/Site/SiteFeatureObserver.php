@@ -9,11 +9,9 @@ class SiteFeatureObserver
 {
     public function created()
     {
-
     }
 
     public function deleting()
     {
-
     }
 }

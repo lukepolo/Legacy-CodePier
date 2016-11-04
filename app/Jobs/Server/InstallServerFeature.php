@@ -41,12 +41,11 @@ class InstallServerFeature implements ShouldQueue
      */
     public function handle()
     {
-        $this->runOnServer(function() {
-
+        $this->runOnServer(function () {
             call_user_func_array(
                 [
                     $this->serverService->getService($this->service, $this->server),
-                    'install'.$this->feature
+                    'install'.$this->feature,
                 ],
                 $this->parameters
             );
@@ -56,7 +55,7 @@ class InstallServerFeature implements ShouldQueue
             $serverFeatures[$this->service][$this->feature]['enabled'] = true;
 
             $this->server->update([
-                'server_features' => $serverFeatures
+                'server_features' => $serverFeatures,
             ]);
         });
     }
