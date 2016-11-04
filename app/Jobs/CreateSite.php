@@ -41,27 +41,27 @@ class CreateSite implements ShouldQueue
     {
         $siteService->create($this->server, $this->site);
 
-        $this->site->cronJobs->each(function($model) {
+        $this->site->cronJobs->each(function ($model) {
             $model->fireCreatedEvent();
         });
 
-        $this->site->files->each(function($model) {
+        $this->site->files->each(function ($model) {
             $model->fireCreatedEvent();
         });
 
-        $this->site->firewallRules->each(function($model) {
+        $this->site->firewallRules->each(function ($model) {
             $model->fireCreatedEvent();
         });
 
-        $this->site->sshKeys->each(function($model) {
+        $this->site->sshKeys->each(function ($model) {
             $model->fireCreatedEvent();
         });
 
-        $this->site->ssls->each(function($model) {
+        $this->site->ssls->each(function ($model) {
             $model->fireCreatedEvent();
         });
 
-        $this->site->workers->each(function($model) {
+        $this->site->workers->each(function ($model) {
             $model->fireCreatedEvent();
         });
     }
