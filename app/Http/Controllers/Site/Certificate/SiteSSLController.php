@@ -59,7 +59,7 @@ class SiteSSLController extends Controller
      */
     public function activateSSL(Request $request)
     {
-        dd("NEW METHOD");
+        dd('NEW METHOD');
     }
 
     /**
@@ -70,6 +70,6 @@ class SiteSSLController extends Controller
      */
     public function deactivateSSL(Request $request, $siteId)
     {
-        dd("NEW METHOD");
+        dd('NEW METHOD');
     }
 }

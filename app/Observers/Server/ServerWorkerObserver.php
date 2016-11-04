@@ -19,6 +19,7 @@ class ServerWorkerObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new InstallServerWorker($serverWorker));
+
             return false;
         }
     }
@@ -31,6 +32,7 @@ class ServerWorkerObserver
     {
         if (app()->runningInConsole()) {
             dispatch(new RemoveServerWorker($serverWorker));
+
             return false;
         }
     }
