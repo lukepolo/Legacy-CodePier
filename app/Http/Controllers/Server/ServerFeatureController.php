@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\InstallServerFeature;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
@@ -16,12 +17,15 @@ class ServerFeatureController extends Controller
 {
     public function store(Request $request, $serverId)
     {
-        return $this->remoteResponse($this->dispatch(
-            Server::findOrFail($serverId),
-            $request->get('feature'),
-            $request->get('service'),
-            $request->get('parameters', [])
-        ));
+
+        return $this->dispatch(
+            new InstallServerFeature(
+                Server::findOrFail($serverId),
+                $request->get('feature'),
+                $request->get('service'),
+                $request->get('parameters', [])
+            )
+        );
     }
 
     public function getServerFeatures()

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\Server;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
@@ -37,14 +38,16 @@ class InstallServerFeature implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function handle()
+    public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () {
+        $this->runOnServer(function () use($serverService) {
             call_user_func_array(
                 [
-                    $this->serverService->getService($this->service, $this->server),
+                    $serverService->getService($this->service, $this->server),
                     'install'.$this->feature,
                 ],
                 $this->parameters
