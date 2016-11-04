@@ -30,9 +30,9 @@ class SiteSslCertificateObserver
 
     public function updated(SiteSslCertificate $siteSslCertificate)
     {
-        $siteSslCertificate->serverSslCertificates->each(function($serverSslCertificate) use($siteSslCertificate) {
+        $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use ($siteSslCertificate) {
             $serverSslCertificate->update([
-                'active' => $siteSslCertificate->active
+                'active' => $siteSslCertificate->active,
             ]);
         });
     }
@@ -42,7 +42,7 @@ class SiteSslCertificateObserver
      */
     public function deleting(SiteSslCertificate $siteSslCertificate)
     {
-        $siteSslCertificate->serverSslCertificates->each(function($serverSslCertificate) {
+        $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) {
             $serverSslCertificate->delete();
         });
     }
