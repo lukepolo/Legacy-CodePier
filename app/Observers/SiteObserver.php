@@ -86,4 +86,9 @@ class SiteObserver
             }
         }
     }
+
+    public function deleted()
+    {
+        // todo - remove all their shit from the servers
+    }
 }
