@@ -18,7 +18,9 @@ class SiteCronJobController extends Controller
      */
     public function index($siteId)
     {
-        return response()->json(SiteCronJob::where('site_id', $siteId)->get());
+        return response()->json(
+            SiteCronJob::where('site_id', $siteId)->get()
+        );
     }
 
     /**
@@ -48,7 +50,9 @@ class SiteCronJobController extends Controller
      */
     public function show($siteId, $id)
     {
-        return response()->json(SiteCronJob::where('site_id', $siteId)->findOrFail($id));
+        return response()->json(
+            SiteCronJob::where('site_id', $siteId)->findOrFail($id)
+        );
     }
 
     /**
@@ -80,6 +84,8 @@ class SiteCronJobController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteCronJob::where('site_id', $siteId)->findOrFail($id)->delete());
+        return response()->json(
+            SiteCronJob::where('site_id', $siteId)->findOrFail($id)->delete()
+        );
     }
 }

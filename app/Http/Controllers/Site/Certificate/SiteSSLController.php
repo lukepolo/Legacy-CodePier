@@ -21,7 +21,9 @@ class SiteSSLController extends Controller
      */
     public function index(Request $request, $siteId)
     {
-        return response()->json(SiteSslCertificate::where('site_id', $siteId)->get());
+        return response()->json(
+            SiteSslCertificate::where('site_id', $siteId)->get()
+        );
     }
 
     /**
@@ -34,7 +36,9 @@ class SiteSSLController extends Controller
      */
     public function show($siteId, $id)
     {
-        return response()->json(SiteSslCertificate::where('site_id', $siteId)->findOrFail($id));
+        return response()->json(
+            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)
+        );
     }
 
     /**
@@ -47,7 +51,9 @@ class SiteSSLController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)->delete());
+        return response()->json(
+            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)->delete()
+        );
     }
 
     /**

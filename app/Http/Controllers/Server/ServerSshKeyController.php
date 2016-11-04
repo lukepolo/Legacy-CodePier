@@ -21,7 +21,9 @@ class ServerSshKeyController extends Controller
      */
     public function index(Request $request, $serverId)
     {
-        return response()->json(ServerSshKey::where('server_id', $serverId)->get());
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->get()
+        );
     }
 
     /**
@@ -53,7 +55,9 @@ class ServerSshKeyController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerSshKey::where('server_id', $serverId)->findOrFail($id));
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->findOrFail($id)
+        );
     }
 
     /**

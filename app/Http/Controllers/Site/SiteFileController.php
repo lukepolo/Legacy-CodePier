@@ -32,7 +32,9 @@ class SiteFileController extends Controller
      */
     public function index($siteId)
     {
-        return response()->json(SiteFile::findOrFail($siteId));
+        return response()->json(
+            SiteFile::findOrFail($siteId)
+        );
     }
 
     /**
