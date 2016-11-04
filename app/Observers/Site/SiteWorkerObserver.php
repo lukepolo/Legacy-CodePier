@@ -15,7 +15,7 @@ class SiteWorkerObserver
      */
     public function created(SiteWorker $siteWorker)
     {
-        foreach ($siteWorker->site->servers as $server) {
+        foreach ($siteWorker->site->provisionedServers as $server) {
             ServerWorker::create([
                 'server_id' => $server->id,
                 'command' => $siteWorker->command,

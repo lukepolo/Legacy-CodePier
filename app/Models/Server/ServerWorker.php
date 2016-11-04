@@ -13,6 +13,6 @@ class ServerWorker extends Model
 
     public function server()
     {
-        return $this->belongsTo(Server::class);
+        return $this->belongsTo(Server::class)->where('progress', '>=', 100);
     }
 }
