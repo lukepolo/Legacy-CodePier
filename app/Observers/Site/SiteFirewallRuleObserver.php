@@ -10,6 +10,9 @@ use App\Models\Site\SiteFirewallRule;
  */
 class SiteFirewallRuleObserver
 {
+    /**
+     * @param SiteFirewallRule $siteFirewallRule
+     */
     public function created(SiteFirewallRule $siteFirewallRule)
     {
         foreach ($siteFirewallRule->site->servers as $server) {
@@ -23,10 +26,11 @@ class SiteFirewallRuleObserver
         }
     }
 
+    /**
+     * @param SiteFirewallRule $siteFirewallRule
+     */
     public function deleting(SiteFirewallRule $siteFirewallRule)
     {
-        $siteFirewallRule->serverFirewallRules->each(function ($serverFirewallRule) {
-            $serverFirewallRule->delete();
-        });
+        $siteFirewallRule->serverFirewallRules->delete();
     }
 }

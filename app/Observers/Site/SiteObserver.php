@@ -28,6 +28,9 @@ class SiteObserver
         $this->repositoryService = $repositoryService;
     }
 
+    /**
+     * @param Site $site
+     */
     public function saved(Site $site)
     {
         if (! empty($site->repository)) {
@@ -39,8 +42,18 @@ class SiteObserver
         }
     }
 
-    public function deleted()
+    /**
+     * @param Site $site
+     */
+    public function deleting(Site $site)
     {
-        // todo - remove all their shit from the servers
+        $site->ssls()->delete();
+        $site->files()->delete();
+        $site->workers()->delete();
+        $site->sshKeys()->delete();
+        $site->cronJobs()->delete();
+        $site->deployments()->delete();
+        $site->firewallRules()->delete();
+        $site->deploymentSteps()->delete();
     }
 }

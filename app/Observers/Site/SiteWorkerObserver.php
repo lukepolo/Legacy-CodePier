@@ -10,6 +10,9 @@ use App\Models\Site\SiteWorker;
  */
 class SiteWorkerObserver
 {
+    /**
+     * @param SiteWorker $siteWorker
+     */
     public function created(SiteWorker $siteWorker)
     {
         foreach ($siteWorker->site->servers as $server) {
@@ -24,10 +27,13 @@ class SiteWorkerObserver
         }
     }
 
+    /**
+     * @param SiteWorker $siteWorker
+     * @return bool
+     */
     public function deleting(SiteWorker $siteWorker)
     {
-        $siteWorker->serverWorkers->each(function ($serverWorker) {
-            $serverWorker->delete();
-        });
+        $siteWorker->serverWorkers->delete();
+        return false;
     }
 }

@@ -33,8 +33,6 @@ class SiteSslCertificateObserver
      */
     public function deleting(SiteSslCertificate $siteSslCertificate)
     {
-        $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) {
-            $serverSslCertificate->delete();
-        });
+        $siteSslCertificate->serverSslCertificates->delete();
     }
 }
