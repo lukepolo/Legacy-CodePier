@@ -21,9 +21,11 @@ class ServerSshKeyObserver
 
     /**
      * @param ServerSshKey $serverSshKey
+     * @return bool
      */
     public function deleting(ServerSshKey $serverSshKey)
     {
         dispatch(new RemoveServerSshKey($serverSshKey));
+        return false;
     }
 }
