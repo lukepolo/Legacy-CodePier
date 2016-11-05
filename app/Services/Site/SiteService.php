@@ -215,7 +215,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * Gets the web server service
+     * Gets the web server service.
      *
      * @param Server $server
      * @return mixed
