@@ -5,6 +5,7 @@ namespace App\Jobs\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Events\Server\ServerProvisionStatusChanged;
+use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
 use App\Models\Server\ServerProvisionStep;
 use App\Services\Systems\SystemService;
@@ -34,9 +35,8 @@ class ProvisionServer implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Site\SiteService | SiteService $siteService
      */
-    public function handle(ServerService $serverService, SiteService $siteService)
+    public function handle(ServerService $serverService)
     {
         if (! $this->server->provisionSteps->count()) {
             $this->createProvisionSteps($this->server);
@@ -51,7 +51,7 @@ class ProvisionServer implements ShouldQueue
             }
 
             foreach ($this->server->sites as $site) {
-                $siteService->create($this->server, $site);
+                dispatch(new CreateSite($this->server, $site));
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

@@ -8,13 +8,14 @@ use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\User\User;
 use App\Models\User\UserRepositoryProvider;
+use App\Traits\FireEvents;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable;
+    use UsedByTeams, Notifiable, FireEvents;
 
     protected $guarded = ['id'];
 
@@ -168,11 +169,6 @@ class Site extends Model
     public function getSlackChannel()
     {
         return 'general';
-    }
-
-    public function fireSavedEvent()
-    {
-        $this->fireModelEvent('saved', false);
     }
 
     /**

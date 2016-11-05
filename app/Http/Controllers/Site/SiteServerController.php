@@ -36,7 +36,7 @@ class SiteServerController extends Controller
 
         $site->servers()->sync($request->get('connected_servers', []));
 
-        $site->fireSavedEvent();
+        $site->fire('saved');
 
         return response()->json($site);
     }

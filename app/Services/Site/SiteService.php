@@ -15,6 +15,7 @@ use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
 use App\Services\DeploymentServices\PHP;
+use App\Services\Systems\SystemService;
 
 class SiteService implements SiteServiceContract
 {
@@ -51,7 +52,7 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->createWebServerConfig($server, $site);
+        $this->getWebServerService($server)->createWebServerConfig($site);
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
@@ -70,7 +71,7 @@ class SiteService implements SiteServiceContract
      */
     public function updateWebServerConfig(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->updateWebServerConfig($server, $site);
+        $this->getWebServerService($server)->updateWebServerConfig($site);
 
         $this->serverService->restartWebServices($server);
 
@@ -222,7 +223,11 @@ class SiteService implements SiteServiceContract
      */
     private function getWebServerService(Server $server)
     {
-        dd($server);
-//        $this->serverService->getService();
+        $webServices = $server->server_features[SystemService::WEB];
+
+        if(isset($webServices['Nginx']['enabled'])) {
+            return $this->serverService->getService(SystemService::WEB ,$server);
+        }
     }
+
 }

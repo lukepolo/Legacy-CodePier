@@ -21,7 +21,8 @@ class NodeService
 
         $this->remoteTaskService->run('sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg');
         $this->remoteTaskService->run('echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list');
-        $this->remoteTaskService->run('sudo apt-get update && sudo apt-get install yarn');
+        $this->remoteTaskService->run('sudo apt-get update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y yarn');
     }
 
     public function installBower()
