@@ -62,7 +62,7 @@
                 form : {
                     user: 'root',
                     cron_timing: null,
-                    cron: this.site.path,
+                    cron: this.site.path ? this.site.path : null,
                 }
             }
         },
