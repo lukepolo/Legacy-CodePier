@@ -6,13 +6,12 @@ use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 class CheckServerStatus implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
     protected $provision;
@@ -45,9 +44,9 @@ class CheckServerStatus implements ShouldQueue
 
             if ($serverProviderClass->readyForProvisioningStatus() == $serverStatus) {
                 $serverService->saveInfo($this->server);
-                $this->dispatch(new CheckSshConnection($this->server));
+                dispatch(new CheckSshConnection($this->server));
             } else {
-                $this->dispatch((new self($this->server, $this->provision))->delay(10));
+                dispatch((new self($this->server, $this->provision))->delay(10));
             }
         }
     }

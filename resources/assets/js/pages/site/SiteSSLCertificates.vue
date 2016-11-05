@@ -46,7 +46,7 @@
                 this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
             installLetsEncryptCertificate() {
-                this.$store.dispatch('installLetsEncryptSslCertificate', {
+                this.$store.dispatch('installSslCertificate', {
                     site_id: this.site.id,
                     domains: this.domains,
                     type : 'Let\'s Encrypt'
@@ -64,7 +64,7 @@
                 return this.$store.state.sitesStore.site;
             },
             ssl_certificates() {
-                return this.$store.state.sitesStore.ssl_certificates;
+                return this.$store.state.siteSslCertificatesStore.ssl_certificates;
             }
         }
     }

@@ -2,19 +2,18 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\Server\ServerServiceContract;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateServer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
     protected $options;
@@ -35,17 +34,19 @@ class CreateServer implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
+     * @param \App\Services\Server\ServerService | ServerService $serverService
      *
      * @throws \Exception
      */
-    public function handle(ServerServiceContract $serverService)
+    public function handle(ServerService $serverService)
     {
         event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
         /* @var Server $server */
         $serverService->create($this->serverProvider, $this->server);
 
-        $this->dispatch(new CheckServerStatus($this->server, true));
+        dispatch(
+            (new CheckServerStatus($this->server, true))->delay(30)
+        );
     }
 }

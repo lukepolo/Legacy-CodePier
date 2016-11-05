@@ -8,13 +8,12 @@ use App\Events\Server\ServerProvisionStatusChanged;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 class CheckSshConnection implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 
@@ -41,7 +40,7 @@ class CheckSshConnection implements ShouldQueue
             dispatch(new ProvisionServer($this->server));
             //            ->onQueue('server_provision'));
         } else {
-            $this->dispatch((new self($this->server))->delay(10));
+            dispatch((new self($this->server))->delay(10));
         }
     }
 }
