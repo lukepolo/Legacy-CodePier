@@ -19,7 +19,7 @@ class ServerSslCertificateObserver
 
     public function updated(ServerSslCertificate $serverSslCertificate)
     {
-        if($serverSslCertificate->active) {
+        if ($serverSslCertificate->active) {
             dispatch(new ActivateServerSslCertificate($serverSslCertificate));
         }
     }
