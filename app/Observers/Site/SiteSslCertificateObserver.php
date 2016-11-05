@@ -27,9 +27,9 @@ class SiteSslCertificateObserver
 
     public function updating(SiteSslCertificate $siteSslCertificate)
     {
-        if($siteSslCertificate->active) {
+        if ($siteSslCertificate->active) {
             $siteSslCertificate->site->activeSsl->update([
-                'active'=> false
+                'active' => false,
             ]);
         }
     }

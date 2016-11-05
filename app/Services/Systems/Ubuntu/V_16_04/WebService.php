@@ -8,7 +8,7 @@ use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
 /**
- * // TODO - need to separate Apache and NGINX configs
+ * // TODO - need to separate Apache and NGINX configs.
  */
 class WebService
 {
@@ -27,9 +27,7 @@ class WebService
 //    {
 //    }
 
-    /**
-     *
-     */
+
     public function installCertBot()
     {
         $this->connectToServer();
@@ -37,9 +35,7 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
-    /**
-     *
-     */
+
     public function installNginx()
     {
         $this->connectToServer();
