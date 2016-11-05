@@ -13,4 +13,9 @@ class ServerSslCertificate extends Model
     {
         return $this->belongsTo(SiteSslCertificate::class);
     }
+
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
+    }
 }
