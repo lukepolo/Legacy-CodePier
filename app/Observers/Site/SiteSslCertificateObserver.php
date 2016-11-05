@@ -25,6 +25,15 @@ class SiteSslCertificateObserver
         }
     }
 
+    public function updating(SiteSslCertificate $siteSslCertificate)
+    {
+        if($siteSslCertificate->active) {
+            $siteSslCertificate->site->activeSsl->update([
+                'active'=> false
+            ]);
+        }
+    }
+
     public function updated(SiteSslCertificate $siteSslCertificate)
     {
         $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use ($siteSslCertificate) {

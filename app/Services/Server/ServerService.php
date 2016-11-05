@@ -10,6 +10,7 @@ use App\Exceptions\SshConnectionFailed;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
+use App\Models\Server\ServerSslCertificate;
 use App\Notifications\ServerProvisioned;
 use App\Services\Systems\SystemService;
 use phpseclib\Crypt\RSA;
@@ -21,6 +22,9 @@ class ServerService implements ServerServiceContract
     protected $remoteTaskService;
 
     public static $serverOperatingSystem = 'ubuntu-16-04-x64';
+
+    const SSL_FILES = '/etc/opt/ssl';
+    const LETS_ENCRYPT = 'Let\'s Encrypt';
 
     /**
      * SiteService constructor.
@@ -35,8 +39,8 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerProvider $serverProvider
-     * @param \App\Models\Server\Server         $server
+     * @param ServerProvider $serverProvider
+     * @param Server         $server
      *
      * @return mixed
      */
@@ -46,7 +50,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerProvider $serverProvider
+     * @param ServerProvider $serverProvider
      *
      * @return mixed
      */
@@ -56,7 +60,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerProvider $serverProvider
+     * @param ServerProvider $serverProvider
      *
      * @return mixed
      */
@@ -66,7 +70,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param string $user
      *
      * @return bool
@@ -100,7 +104,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @param bool $noDelete
      * @return mixed
@@ -135,7 +139,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @return bool
      */
@@ -161,7 +165,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param string $user
      *
      * @return bool
@@ -176,7 +180,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @return array
      */
@@ -186,7 +190,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @return bool
      */
@@ -196,7 +200,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @return bool
      */
@@ -206,7 +210,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $file
      * @param $content
      * @param string $user
@@ -223,7 +227,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $filePath
      * @param string $user
      *
@@ -246,7 +250,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $folder
      * @param string $user
      *
@@ -262,7 +266,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $folder
      * @param string $user
      *
@@ -278,7 +282,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $sshKey
      *
      * @return bool
@@ -293,7 +297,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param $sshKey
      *
      * @return bool
@@ -308,7 +312,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      *
      * @return DiskSpace
      */
@@ -323,7 +327,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerCronJob $serverCronJob
+     * @param ServerCronJob $serverCronJob
      *
      * @return array
      */
@@ -336,7 +340,7 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerCronJob $cronJob
+     * @param ServerCronJob $cronJob
      *
      * @return bool
      */
@@ -349,37 +353,90 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param \App\Models\Server\ServerProvider $serverProvider
-     *
-     * @return mixed
+     * @param ServerSslCertificate $serverSslCertificate
+     * @return array
      */
-    private function getProvider(ServerProvider $serverProvider)
+    public function installSslCertificate(ServerSslCertificate $serverSslCertificate)
     {
-        return new $serverProvider->provider_class($serverProvider->provider_name);
-    }
+        switch($serverSslCertificate->type) {
+            case self::LETS_ENCRYPT :
 
-    public function getService($service, Server $server)
-    {
-        return $this->systemService->createSystemService($service, $server);
-    }
+                return $this->installLetsEncryptSsl($serverSslCertificate);
 
-    public function removeSslFiles(Site $site)
-    {
-        $this->remoteTaskService->removeFile(self::WEB_SERVER_FILES."/$site->domain/before/ssl_redirect.conf");
+                break;
+            case 'existing' :
+
+                $server = $serverSslCertificate->server;
+
+                $this->remoteTaskService->ssh($server);
+
+                $sslCertPath = self::SSL_FILES.'/'.$server->site->domain.'/'.$serverSslCertificate->id;
+
+                $serverSslCertificate->key_path = $sslCertPath.'/server.key';
+                $serverSslCertificate->cert_path = $sslCertPath.'/server.crt';
+                $serverSslCertificate->save();
+
+
+                $this->remoteTaskService->writeToFile($serverSslCertificate->key_path, $serverSslCertificate->key);
+                $this->remoteTaskService->writeToFile($serverSslCertificate->cert_path, $serverSslCertificate->cert);
+
+                return $this->remoteTaskService->getErrors();
+
+                break;
+        }
     }
 
     /**
-     * @param \App\Models\Server\Server             $server
-     * @param SiteSslCertificate $siteSslCertificate
-     *
+     * @param ServerSslCertificate $serverSslCertificate
      * @return array
      */
-    public function installSSL(Server $server, SiteSslCertificate $siteSslCertificate)
+    public function activateSslCertificate(ServerSslCertificate $serverSslCertificate)
     {
+        $server = $serverSslCertificate->server;
+
+        $sslCertPath = self::SSL_FILES.'/'.$server->site->domain.'/'.$serverSslCertificate->id;
+
+        $this->remoteTaskService->makeDirectory($sslCertPath);
+
+        $this->remoteTaskService->run("ln -f -s $serverSslCertificate->key_path $sslCertPath/server.key");
+        $this->remoteTaskService->run("ln -f -s $serverSslCertificate->cert_path $sslCertPath/server.crt");
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param ServerSslCertificate $serverSslCertificate
+     * @return array
+     */
+    public function removeSslCertificate(ServerSslCertificate $serverSslCertificate)
+    {
+        $this->remoteTaskService->ssh($serverSslCertificate->server);
+
+        switch ($serverSslCertificate->type) {
+            case self::LETS_ENCRYPT:
+                // leave it be we don't want to erase them cause they aren't unique
+                break;
+            default:
+                $this->remoteTaskService->removeFile($serverSslCertificate->key_path);
+                $this->remoteTaskService->removeFile($serverSslCertificate->cert_path);
+                break;
+        }
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param ServerSslCertificate $serverSslCertificate
+     * @return array
+     */
+    private function installLetsEncryptSsl(ServerSslCertificate $serverSslCertificate)
+    {
+        $server = $serverSslCertificate->server;
+
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $siteSslCertificate->domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $serverSslCertificate->domains))
         );
 
         if (count($errors = $this->remoteTaskService->getErrors())) {
@@ -388,132 +445,27 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
 
-        $this->activateSSL($server, $siteSslCertificate);
-
         return $this->remoteTaskService->getErrors();
     }
 
+
     /**
-     * @param \App\Models\Server\Server $server
-     * @param Site   $site
-     * @param $key
-     * @param $cert
+     * @param ServerProvider $serverProvider
      *
-     * @return array
+     * @return mixed
      */
-    public function installExistingSSL(Server $server, Site $site, $key, $cert)
+    private function getProvider(ServerProvider $serverProvider)
     {
-        $this->remoteTaskService->ssh($server);
-
-        if ($site->hasActiveSSL()) {
-            $activeSSL = $site->activeSSL;
-            $activeSSL->active = false;
-            $activeSSL->save();
-        }
-
-        $siteSLL = SiteSslCertificate::create([
-            'site_id' => $site->id,
-            'domains' => null,
-            'type'    => self::LETS_ENCRYPT,
-            'active'  => true,
-        ]);
-
-        $sslCertPath = self::SSL_FILES.'/'.$site->domain.'/'.$siteSLL->id;
-
-        $siteSLL->key_path = $sslCertPath.'/server.key';
-        $siteSLL->cert_path = $sslCertPath.'/server.crt';
-        $siteSLL->save();
-
-
-        $this->remoteTaskService->writeToFile($siteSLL->key_path, $key);
-        $this->remoteTaskService->writeToFile($siteSLL->cert_path, $cert);
-
-        $this->updateWebServerConfig($server, $site);
-
-        return $this->remoteTaskService->getErrors();
+        return new $serverProvider->provider_class($serverProvider->provider_name);
     }
 
     /**
-     * @param \App\Models\Server\Server $server
-     * @param Site   $site
-     */
-    public function mapSSL(Server $server, Site $site)
-    {
-        $this->remoteTaskService->ssh($server);
-
-        $activeSSL = $site->load('activeSSL')->activeSSL;
-
-        $sslCertPath = self::SSL_FILES.'/'.$site->domain.'/'.$activeSSL->id;
-
-        $this->remoteTaskService->makeDirectory($sslCertPath);
-
-        $this->remoteTaskService->run("ln -f -s $activeSSL->key_path $sslCertPath/server.key");
-        $this->remoteTaskService->run("ln -f -s $activeSSL->cert_path $sslCertPath/server.crt");
-    }
-
-    /**
+     * @param $service
      * @param Server $server
-     * @param \App\Models\Site\Site   $site
-     *
-     * @return array
+     * @return mixed
      */
-    public function deactivateSSL(Server $server, Site $site)
+    public function getService($service, Server $server)
     {
-        $this->remoteTaskService->ssh($server);
-
-        $site->activeSSL->active = false;
-        $site->activeSSL->save();
-
-        $this->updateWebServerConfig($server, $site);
-
-        $this->getWebServerService()->removeSslFiles($site);
-
-        return $this->remoteTaskService->getErrors();
-    }
-
-    /**
-     * @param \App\Models\Server\Server $server
-     * @param SiteSslCertificate $siteSslCertificate
-     */
-    public function removeSSL(Server $server, SiteSslCertificate $siteSslCertificate)
-    {
-        $this->remoteTaskService->ssh($server);
-
-        switch ($siteSslCertificate->type) {
-            case self::LETS_ENCRYPT:
-                // leave it be we don't want to erase them cause they aren't unique
-                break;
-            default:
-                $this->remoteTaskService->removeFile($siteSslCertificate->key_path);
-                $this->remoteTaskService->removeFile($siteSslCertificate->cert_path);
-                break;
-        }
-
-        $siteSslCertificate->delete();
-    }
-
-    /**
-     * @param \App\Models\Server\Server             $server
-     * @param \App\Models\Site\SiteSslCertificate $siteSslCertificate
-     */
-    public function activateSSL(Server $server, SiteSslCertificate $siteSslCertificate)
-    {
-        $site = $siteSslCertificate->site;
-
-        if ($site->hasActiveSSL()) {
-            $site->activeSSL->active = false;
-            $site->activeSSL->save();
-        }
-
-        $siteSslCertificate->active = true;
-        $siteSslCertificate->save();
-
-        $site->load('activeSSL');
-
-        if ($siteSslCertificate->type == self::LETS_ENCRYPT) {
-            $this->mapSSL($server, $site);
-        }
-
-        $this->updateWebServerConfig($server, $site);
+        return $this->systemService->createSystemService($service, $server);
     }
 }

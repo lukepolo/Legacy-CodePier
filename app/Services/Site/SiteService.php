@@ -6,7 +6,6 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract;
-use App\Contracts\WebServers\NginxWebServerServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
@@ -52,11 +51,26 @@ class SiteService implements SiteServiceContract
      */
     public function create(Server $server, Site $site)
     {
-        $this->getWebServerService()->create($server, $site);
+        $this->getWebServerService($server)->createWebServerConfig($server, $site);
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
         $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
+
+        $this->serverService->restartWebServices($server);
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param \App\Models\Server\Server $server
+     * @param \App\Models\Site\Site $site
+     *
+     * @return array
+     */
+    public function updateWebServerConfig(Server $server, Site $site)
+    {
+        $this->getWebServerService($server)->updateWebServerConfig($server, $site);
 
         $this->serverService->restartWebServices($server);
 
@@ -93,14 +107,13 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
+     * @param Server $server
      * @param Site $site
-     *
      * @return array
      */
-    public function remove(Server $server, Site $site)
+    private function remove(Server $server, Site $site)
     {
-        $this->getWebServerService()->remove($server, $site);
+        $this->getWebServerService($server)->removeWebServerConfig($site);
 
         return $this->remoteTaskService->getErrors();
     }
@@ -186,21 +199,6 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * @param \App\Models\Server\Server $server
-     * @param \App\Models\Site\Site $site
-     *
-     * @return array
-     */
-    public function updateWebServerConfig(Server $server, Site $site)
-    {
-        $this->getWebServerService()->updateWebServerConfig($server, $site);
-
-        $this->serverService->restartWebServices($server);
-
-        return $this->remoteTaskService->getErrors();
-    }
-
-    /**
      * @param Site $site
      */
     public function createDeployHook(Site $site)
@@ -219,10 +217,12 @@ class SiteService implements SiteServiceContract
     /**
      * Gets the web server service
      *
+     * @param Server $server
      * @return mixed
      */
-    private function getWebServerService()
+    private function getWebServerService(Server $server)
     {
-        dd('THIS NEEDS TO GO TO THE SYSTEM SERVICE');
+        dd($server);
+//        $this->serverService->getService();
     }
 }

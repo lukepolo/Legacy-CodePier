@@ -2,9 +2,14 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Models\Site\Site;
+use App\Services\Site\SiteService;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
+/**
+ * // TODO - need to separate Apache and NGINX configs
+ */
 class WebService
 {
     use ServiceConstructorTrait;
@@ -15,13 +20,16 @@ class WebService
         ],
     ];
 
-    const WEB_SERVER_FILES = '/etc/nginx/codepier-conf';
+    const NGINX_SERVER_FILES = '/etc/nginx/codepier-conf';
 
 
 //    public function installApache()
 //    {
 //    }
 
+    /**
+     *
+     */
     public function installCertBot()
     {
         $this->connectToServer();
@@ -29,6 +37,9 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
+    /**
+     *
+     */
     public function installNginx()
     {
         $this->connectToServer();
@@ -63,17 +74,18 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     }
 
     /**
-     * @param \App\Models\Server\Server $server
      * @param Site $site
      */
-    public function updateWebServerConfig(Server $server, Site $site)
+    public function updateWebServerConfig(Site $site)
     {
+        $this->connectToServer();
+
         $site->load('activeSSL');
 
-        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->ssh($this->server);
 
         if ($site->hasActiveSSL()) {
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/server/listen', '
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
@@ -81,8 +93,8 @@ listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : nul
 root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 
 
-ssl_certificate_key '.$this->sslFilesPath.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.key;
-ssl_certificate '.$this->sslFilesPath.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.crt;
+ssl_certificate_key '.SiteService::SSL_FILES.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.key;
+ssl_certificate '.SiteService::SSL_FILES.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.crt;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;
@@ -95,7 +107,7 @@ ssl_stapling_verify on;
 add_header Strict-Transport-Security max-age=15768000;
 ');
 
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf', '
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf', '
 server {
     listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
     listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
@@ -103,7 +115,7 @@ server {
 }
 ');
         } else {
-            $this->remoteTaskService->writeToFile(self::WEB_SERVER_FILES.'/'.$site->domain.'/server/listen', '
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
@@ -120,12 +132,14 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
      */
     private function createWebServerSite($domain)
     {
+        $this->connectToServer();
+
         return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
 # codepier CONFIG (DO NOT REMOVE!)
-include '.self::WEB_SERVER_FILES.'/'.$domain.'/before/*;
+include '.self::NGINX_SERVER_FILES.'/'.$domain.'/before/*;
 
 server {
-    include '.self::WEB_SERVER_FILES.'/'.$domain.'/server/*;
+    include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
 
     index index.html index.htm index.php;
 
@@ -168,31 +182,35 @@ server {
 }
 
 # codepier CONFIG (DO NOT REMOVE!)
-include '.self::WEB_SERVER_FILES.'/'.$domain.'/after/*;
+include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
 ');
     }
 
     /**
-     * @param Server $server
      * @param Site   $site
      *
      * @return bool
      */
-    public function create(Server $server, Site $site)
+    public function createWebServerConfig(Site $site)
     {
-        $this->remoteTaskService->ssh($server);
+        $this->connectToServer();
 
-        $this->remoteTaskService->makeDirectory(self::WEB_SERVER_FILES."/$site->domain/before");
-        $this->remoteTaskService->makeDirectory(self::WEB_SERVER_FILES."/$site->domain/server");
-        $this->remoteTaskService->makeDirectory(self::WEB_SERVER_FILES."/$site->domain/after");
+        $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/before");
+        $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/server");
+        $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/after");
 
         $this->createWebServerSite($site->domain);
-        $this->updateWebServerConfig($server, $site);
+        $this->updateWebServerConfig($site);
     }
 
-    public function remove(Site $site)
+    /**
+     * @param Site $site
+     */
+    public function removeWebServerConfig(Site $site)
     {
+        $this->connectToServer();
+
         $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
-        $this->remoteTaskService->removeDirectory(self::WEB_SERVER_FILES."/$site->domain");
+        $this->remoteTaskService->removeDirectory(self::NGINX_SERVER_FILES."/$site->domain");
     }
 }
