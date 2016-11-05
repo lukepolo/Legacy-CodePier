@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Site;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Exceptions\DeploymentFailed;

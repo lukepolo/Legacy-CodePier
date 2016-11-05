@@ -3,7 +3,6 @@
 namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +34,7 @@ class CheckServerStatus implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerServiceContract $serverService
      */
-    public function handle(ServerService $serverService)
+    public function handle(ServerServiceContract $serverService)
     {
         $serverStatus = $serverService->getStatus($this->server, true);
 
