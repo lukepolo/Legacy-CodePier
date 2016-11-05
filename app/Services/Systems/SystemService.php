@@ -57,7 +57,7 @@ class SystemService implements SystemServiceContract
             }) as $provisionStep) {
                 $this->updateProgress($provisionStep->step);
 
-                $systemService = $this->createSystemService($provisionStep->service);
+                $systemService = $this->createSystemService($provisionStep->service, $server);
 
                 call_user_func_array([$systemService, $provisionStep->function], $provisionStep->parameters);
 
@@ -98,7 +98,7 @@ class SystemService implements SystemServiceContract
      *
      * @return mixed
      */
-    public function createSystemService($service, Server $server = null)
+    public function createSystemService($service, Server $server)
     {
         $service = 'App\Services\Systems\\'.$this->provisionSystems[$server->system_class].'\\'.$service;
 

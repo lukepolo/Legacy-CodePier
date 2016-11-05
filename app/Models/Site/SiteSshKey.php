@@ -3,10 +3,13 @@
 namespace App\Models\Site;
 
 use App\Models\Server\ServerSshKey;
+use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteSshKey extends Model
 {
+    use FireEvents;
+
     protected $guarded = ['id'];
 
     /*
