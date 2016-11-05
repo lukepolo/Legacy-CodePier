@@ -11,7 +11,7 @@ use App\Models\Site\SiteSslCertificate;
 use App\Services\Site\SiteService;
 
 /**
- * // TODO - https://galaxy.ansible.com/  - https://github.com/codepier
+ * // TODO - https://galaxy.ansible.com/  - https://github.com/codepier.
  */
 class NginxWebServerService implements WebServerContract
 {

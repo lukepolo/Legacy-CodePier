@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
             'SocialiteProviders\GitLab\GitLabExtendSocialite@handle',
             'SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite@handle',
 
-        ]
+        ],
     ];
 
     /**
