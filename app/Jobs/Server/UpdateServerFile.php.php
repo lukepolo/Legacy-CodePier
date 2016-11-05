@@ -3,7 +3,6 @@
 namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Site\Site;
 use App\Models\Site\SiteFile;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
