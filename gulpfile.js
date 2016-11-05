@@ -19,8 +19,8 @@ var paths = {
      */
 
     public_build: './public/build/',
-    fonts_build: './public/build/fonts/',
-    imgs_build: './public/build/img/',
+    fonts_build: 'public/build/fonts/',
+    imgs_build: 'public/build/img/',
 
     js_resources: './resources/assets/js/',
     js_public: './public/js/',
