@@ -2,8 +2,8 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\InstallServerCronJob;
-use App\Jobs\Server\RemoveServerCronJob;
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\Server\ServerCronJob;
 
 class ServerCronJobObserver
@@ -13,7 +13,7 @@ class ServerCronJobObserver
      */
     public function created(ServerCronJob $serverCronJob)
     {
-        dispatch(new InstallServerCronJob($serverCronJob));
+        dispatch(new \App\Jobs\Server\CronJobs\InstallServerCronJob($serverCronJob));
     }
 
     /**
@@ -22,7 +22,7 @@ class ServerCronJobObserver
      */
     public function deleting(ServerCronJob $serverCronJob)
     {
-        dispatch(new RemoveServerCronJob($serverCronJob));
+        dispatch(new \App\Jobs\Server\CronJobs\RemoveServerCronJob($serverCronJob));
 
         return false;
     }

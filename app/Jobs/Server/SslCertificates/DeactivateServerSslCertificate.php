@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\SslCertificates;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerFirewallRule;
+use App\Models\Server\ServerWorker;
 use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
@@ -11,36 +11,36 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RemoveServerFirewallRule implements ShouldQueue
+class DeactivateServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverFirewallRule;
+    private $serverWorker;
 
     /**
-     * RemoveServerFirewallRule constructor.
-     *
-     * @param ServerFirewallRule $serverFirewallRule
+     * InstallServerWorker constructor.
+     * @param ServerWorker $serverWorker
      */
-    public function __construct(ServerFirewallRule $serverFirewallRule)
+    public function __construct(ServerWorker $serverWorker)
     {
-        $this->serverFirewallRule = $serverFirewallRule;
+        $this->serverWorker = $serverWorker;
     }
 
     /**
-     * Execute the job.
+     * @param ServerService $serverService
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->removeFirewallRule($this->serverFirewallRule);
+            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
         });
 
-        if ($this->wasSuccessful()) {
-            $this->serverFirewallRule->delete();
+        if (! $this->wasSuccessful()) {
+            $this->serverWorker->delete();
         }
 
         return $this->remoteResponse();
