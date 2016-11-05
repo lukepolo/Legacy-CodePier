@@ -6,7 +6,6 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract;
-use App\Contracts\WebServers\NginxWebServerServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
@@ -217,7 +216,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * Gets the web server service
+     * Gets the web server service.
      *
      * @return mixed
      */
