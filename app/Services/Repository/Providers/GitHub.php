@@ -7,9 +7,6 @@ use App\Models\User\UserRepositoryProvider;
 use GitHub as GitHubService;
 use Github\Exception\ValidationFailedException;
 
-/**
- * Class GitHub.
- */
 class GitHub implements RepositoryContract
 {
     /**

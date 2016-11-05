@@ -7,9 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
-/**
- * Class RepositoryHookController.
- */
 class RepositoryHookController extends Controller
 {
     private $siteService;

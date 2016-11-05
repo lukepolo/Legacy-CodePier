@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Jobs\Server\UpdateServerFile;
 use App\Models\Site\SiteFile;
 
-/**
- * Class SiteFileObserver.
- */
 class SiteFileObserver
 {
     /**

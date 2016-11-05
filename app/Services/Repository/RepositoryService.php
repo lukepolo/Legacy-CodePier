@@ -7,9 +7,6 @@ use App\Models\RepositoryProvider;
 use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
 
-/**
- * Class RepositoryService.
- */
 class RepositoryService implements RepositoryServiceContract
 {
     protected $remoteTaskService;

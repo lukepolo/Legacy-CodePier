@@ -9,9 +9,6 @@ use App\Models\Server\Server;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 
-/**
- * Class RemoteTaskService.
- */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
     private $user;

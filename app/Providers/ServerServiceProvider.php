@@ -8,9 +8,6 @@ use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class ServerServiceProvider.
- */
 class ServerServiceProvider extends ServiceProvider
 {
     /**

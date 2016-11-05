@@ -5,9 +5,6 @@ namespace App\Services\Server\Providers;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 
-/**
- * Interface ServerProviderContract.
- */
 trait ServerProviderTrait
 {
     protected $providerName;

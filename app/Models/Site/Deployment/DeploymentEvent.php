@@ -5,9 +5,6 @@ namespace App\Models\Site\Deployment;
 use App\Models\Site\Site;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class DeploymentEvent.
- */
 class DeploymentEvent extends Model
 {
     protected $guarded = ['id'];

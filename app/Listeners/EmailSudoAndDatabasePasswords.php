@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\ServerProvisioned;
 
-/**
- * Class EmailSudoAndDatabasePasswords.
- */
 class EmailSudoAndDatabasePasswords
 {
     /**

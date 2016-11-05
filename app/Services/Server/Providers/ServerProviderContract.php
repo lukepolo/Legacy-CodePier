@@ -5,9 +5,6 @@ namespace app\Services\Server\Providers;
 use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 
-/**
- * Interface ServerProviderContract.
- */
 interface ServerProviderContract
 {
     /**

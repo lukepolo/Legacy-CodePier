@@ -5,9 +5,6 @@ namespace App\Events\Server;
 use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class ServerProvisioned.
- */
 class ServerProvisioned
 {
     use SerializesModels;

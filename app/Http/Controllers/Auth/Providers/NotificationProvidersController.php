@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Auth\Providers;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 
-/**
- * Class NotificationProvidersController.
- */
 class NotificationProvidersController extends Controller
 {
     /**

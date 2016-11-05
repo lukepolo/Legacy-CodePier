@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Bitt;
 use Illuminate\Http\Request;
 
-/**
- * Class BittsController.
- */
 class BittsController extends Controller
 {
     /**

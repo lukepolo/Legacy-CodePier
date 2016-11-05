@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Server\ServerSslCertificate;
 use App\Models\Site\SiteSslCertificate;
 
-/**
- * Class SiteSslCertificateObserver.
- */
 class SiteSslCertificateObserver
 {
     /**

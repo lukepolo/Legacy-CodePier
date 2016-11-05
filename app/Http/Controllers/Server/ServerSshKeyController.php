@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerSshKeyController.
- */
 class ServerSshKeyController extends Controller
 {
     /**

@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-/**
- * Class EventController.
- */
 class EventController extends Controller
 {
     /**

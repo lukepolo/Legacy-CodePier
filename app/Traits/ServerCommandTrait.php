@@ -8,9 +8,6 @@ use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use Closure;
 
-/**
- * Class ServerCommandTrait.
- */
 trait ServerCommandTrait
 {
     private $error = false;

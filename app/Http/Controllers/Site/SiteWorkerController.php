@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\SiteWorker;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteWorkerController.
- */
 class SiteWorkerController extends Controller
 {
     /**

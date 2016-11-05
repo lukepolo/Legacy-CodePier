@@ -7,9 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\Server\ProvisionServer;
 use App\Models\Server\Server;
 
-/**
- * Class ServerProvisionStepsController.
- */
 class ServerProvisionStepsController extends Controller
 {
     /**

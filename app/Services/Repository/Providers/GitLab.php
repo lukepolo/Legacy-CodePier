@@ -6,9 +6,6 @@ use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
 use Gitlab\Api\Repositories;
 
-/**
- * Class GitHub.
- */
 class GitLab implements RepositoryContract
 {
     private $client;

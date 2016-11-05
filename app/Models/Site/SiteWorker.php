@@ -5,9 +5,6 @@ namespace App\Models\Site;
 use App\Models\Server\ServerWorker;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class SiteWorker.
- */
 class SiteWorker extends Model
 {
     protected $guarded = ['id'];

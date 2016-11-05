@@ -7,9 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User\UserSshKey;
 use Illuminate\Http\Request;
 
-/**
- * Class UserSshKeyController.
- */
 class UserSshKeyController extends Controller
 {
     private $serverService;
@@ -39,7 +36,7 @@ class UserSshKeyController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -77,7 +74,7 @@ class UserSshKeyController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

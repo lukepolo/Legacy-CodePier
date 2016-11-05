@@ -7,9 +7,6 @@ use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerWorkerController.
- */
 class ServerWorkerController extends Controller
 {
     /**

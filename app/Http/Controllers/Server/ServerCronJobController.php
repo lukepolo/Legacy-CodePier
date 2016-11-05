@@ -7,9 +7,6 @@ use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerCronJobController.
- */
 class ServerCronJobController extends Controller
 {
     /**

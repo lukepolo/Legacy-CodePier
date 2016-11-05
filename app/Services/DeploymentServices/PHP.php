@@ -7,9 +7,6 @@ use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use Carbon\Carbon;
 
-/**
- * Class PHP.
- */
 class PHP
 {
     private $branch;

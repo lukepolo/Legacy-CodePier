@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\SiteCronJob;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteCronJobController.
- */
 class SiteCronJobController extends Controller
 {
     /**

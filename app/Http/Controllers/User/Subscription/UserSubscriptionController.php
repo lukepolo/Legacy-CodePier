@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Stripe\Token;
 
-/**
- * Class UserSubscriptionController.
- */
 class UserSubscriptionController extends Controller
 {
     /**

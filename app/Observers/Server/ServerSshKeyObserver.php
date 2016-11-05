@@ -6,9 +6,6 @@ use App\Jobs\Server\InstallServerSshKey;
 use App\Jobs\Server\RemoveServerSshKey;
 use App\Models\Server\ServerSshKey;
 
-/**
- * Class ServerSshKeyObserver.
- */
 class ServerSshKeyObserver
 {
     /**

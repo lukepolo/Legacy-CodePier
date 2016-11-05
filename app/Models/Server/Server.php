@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-/**
- * Class Server.
- */
 class Server extends Model
 {
     use SoftDeletes, UsedByTeams, Notifiable, Encryptable;

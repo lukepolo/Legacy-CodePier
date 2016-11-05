@@ -4,9 +4,6 @@ namespace App\Models\Server;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ServerCronJob.
- */
 class ServerCronJob extends Model
 {
     protected $guarded = ['id'];

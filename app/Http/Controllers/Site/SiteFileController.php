@@ -8,9 +8,6 @@ use App\Models\Site\Site;
 use App\Models\Site\SiteFile;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteFileController.
- */
 class SiteFileController extends Controller
 {
     private $serverService;

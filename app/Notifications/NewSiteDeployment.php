@@ -7,9 +7,6 @@ use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-/**
- * Class NewSiteDeployment.
- */
 class NewSiteDeployment extends Notification
 {
     use Queueable;

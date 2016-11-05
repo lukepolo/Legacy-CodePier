@@ -4,9 +4,6 @@ namespace App\Models\Server;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ServerNetworkRule.
- */
 class ServerNetworkRule extends Model
 {
     protected $guarded = ['id'];

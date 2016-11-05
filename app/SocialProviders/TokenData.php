@@ -2,9 +2,6 @@
 
 namespace App\SocialProviders;
 
-/**
- * Class TokenData.
- */
 class TokenData
 {
     public $token;

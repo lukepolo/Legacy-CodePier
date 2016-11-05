@@ -6,9 +6,6 @@ use App\Jobs\Server\InstallServerWorker;
 use App\Jobs\Server\RemoveServerWorker;
 use App\Models\Server\ServerWorker;
 
-/**
- * Class ServerWorkerObserver.
- */
 class ServerWorkerObserver
 {
     /**

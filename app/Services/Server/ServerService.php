@@ -15,9 +15,6 @@ use App\Services\Systems\SystemService;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;
 
-/**
- * Class ServerService.
- */
 class ServerService implements ServerServiceContract
 {
     protected $systemService;

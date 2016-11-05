@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Auth\Providers;
 use App\Http\Controllers\Controller;
 use App\Models\RepositoryProvider;
 
-/**
- * Class RepositoryProvidersController.
- */
 class RepositoryProvidersController extends Controller
 {
     /**

@@ -6,9 +6,6 @@ use App\Models\Server\ServerCronJob;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
-/**
- * Class Ubuntu16_04.
- */
 class PHP
 {
     use ServiceConstructorTrait;

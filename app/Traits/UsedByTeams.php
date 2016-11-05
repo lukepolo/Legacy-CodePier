@@ -2,20 +2,10 @@
 
 namespace App\Traits;
 
-/*
- * This file is part of Teamwork
- *
- * @license MIT
- * @package Teamwork
- */
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
-/**
- * Class UsedByTeams.
- */
 trait UsedByTeams
 {
     /**

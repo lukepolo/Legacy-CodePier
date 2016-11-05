@@ -9,9 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class GetServerRegions.
- */
 class GetServerRegions implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;

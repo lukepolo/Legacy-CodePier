@@ -2,9 +2,6 @@
 
 namespace App\Classes;
 
-/**
- * Class DiskSpace.
- */
 class DiskSpace
 {
     public $size;

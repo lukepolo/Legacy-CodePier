@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Server\ServerSshKey;
 use App\Models\Site\SiteSshKey;
 
-/**
- * Class SiteSshKeyObserver.
- */
 class SiteSshKeyObserver
 {
     /**

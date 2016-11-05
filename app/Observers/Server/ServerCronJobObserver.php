@@ -6,9 +6,6 @@ use App\Jobs\Server\InstallServerCronJob;
 use App\Jobs\Server\RemoveServerCronJob;
 use App\Models\Server\ServerCronJob;
 
-/**
- * Class ServerCronJobObserver.
- */
 class ServerCronJobObserver
 {
     /**

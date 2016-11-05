@@ -8,9 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Server\Provider\ServerProvider;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerController.
- */
 class DigitalOceanServerFeaturesController extends Controller
 {
     private $serverService;

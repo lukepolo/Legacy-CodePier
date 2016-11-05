@@ -10,9 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class CreateSite.
- */
 class CreateSite implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
