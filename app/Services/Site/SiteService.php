@@ -217,13 +217,12 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * Gets the web server based on their server sent in.
+     * Gets the web server service
      *
      * @return mixed
      */
     private function getWebServerService()
     {
-        // TODO - currently we only do NGINX
-        return app()->make(NginxWebServerServiceContract::class);
+        dd('THIS NEEDS TO GO TO THE SYSTEM SERVICE');
     }
 }

@@ -32,6 +32,9 @@ class SystemService implements SystemServiceContract
     const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
 
+    const SSL_FILES = '/etc/opt/ssl';
+    const LETS_ENCRYPT = 'Let\'s Encrypt';
+
     /**
      * @param RemoteTaskService $remoteTaskService
      */

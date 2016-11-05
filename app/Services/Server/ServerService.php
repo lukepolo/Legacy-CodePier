@@ -362,4 +362,158 @@ class ServerService implements ServerServiceContract
     {
         return $this->systemService->createSystemService($service, $server);
     }
+
+    public function removeSslFiles(Site $site)
+    {
+        $this->remoteTaskService->removeFile(self::WEB_SERVER_FILES."/$site->domain/before/ssl_redirect.conf");
+    }
+
+    /**
+     * @param \App\Models\Server\Server             $server
+     * @param SiteSslCertificate $siteSslCertificate
+     *
+     * @return array
+     */
+    public function installSSL(Server $server, SiteSslCertificate $siteSslCertificate)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $this->remoteTaskService->run(
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $siteSslCertificate->domains))
+        );
+
+        if (count($errors = $this->remoteTaskService->getErrors())) {
+            return $errors;
+        }
+
+        $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
+
+        $this->activateSSL($server, $siteSslCertificate);
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param \App\Models\Server\Server $server
+     * @param Site   $site
+     * @param $key
+     * @param $cert
+     *
+     * @return array
+     */
+    public function installExistingSSL(Server $server, Site $site, $key, $cert)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        if ($site->hasActiveSSL()) {
+            $activeSSL = $site->activeSSL;
+            $activeSSL->active = false;
+            $activeSSL->save();
+        }
+
+        $siteSLL = SiteSslCertificate::create([
+            'site_id' => $site->id,
+            'domains' => null,
+            'type'    => self::LETS_ENCRYPT,
+            'active'  => true,
+        ]);
+
+        $sslCertPath = self::SSL_FILES.'/'.$site->domain.'/'.$siteSLL->id;
+
+        $siteSLL->key_path = $sslCertPath.'/server.key';
+        $siteSLL->cert_path = $sslCertPath.'/server.crt';
+        $siteSLL->save();
+
+
+        $this->remoteTaskService->writeToFile($siteSLL->key_path, $key);
+        $this->remoteTaskService->writeToFile($siteSLL->cert_path, $cert);
+
+        $this->updateWebServerConfig($server, $site);
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param \App\Models\Server\Server $server
+     * @param Site   $site
+     */
+    public function mapSSL(Server $server, Site $site)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $activeSSL = $site->load('activeSSL')->activeSSL;
+
+        $sslCertPath = self::SSL_FILES.'/'.$site->domain.'/'.$activeSSL->id;
+
+        $this->remoteTaskService->makeDirectory($sslCertPath);
+
+        $this->remoteTaskService->run("ln -f -s $activeSSL->key_path $sslCertPath/server.key");
+        $this->remoteTaskService->run("ln -f -s $activeSSL->cert_path $sslCertPath/server.crt");
+    }
+
+    /**
+     * @param Server $server
+     * @param \App\Models\Site\Site   $site
+     *
+     * @return array
+     */
+    public function deactivateSSL(Server $server, Site $site)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        $site->activeSSL->active = false;
+        $site->activeSSL->save();
+
+        $this->updateWebServerConfig($server, $site);
+
+        $this->getWebServerService()->removeSslFiles($site);
+
+        return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param \App\Models\Server\Server $server
+     * @param SiteSslCertificate $siteSslCertificate
+     */
+    public function removeSSL(Server $server, SiteSslCertificate $siteSslCertificate)
+    {
+        $this->remoteTaskService->ssh($server);
+
+        switch ($siteSslCertificate->type) {
+            case self::LETS_ENCRYPT:
+                // leave it be we don't want to erase them cause they aren't unique
+                break;
+            default:
+                $this->remoteTaskService->removeFile($siteSslCertificate->key_path);
+                $this->remoteTaskService->removeFile($siteSslCertificate->cert_path);
+                break;
+        }
+
+        $siteSslCertificate->delete();
+    }
+
+    /**
+     * @param \App\Models\Server\Server             $server
+     * @param \App\Models\Site\SiteSslCertificate $siteSslCertificate
+     */
+    public function activateSSL(Server $server, SiteSslCertificate $siteSslCertificate)
+    {
+        $site = $siteSslCertificate->site;
+
+        if ($site->hasActiveSSL()) {
+            $site->activeSSL->active = false;
+            $site->activeSSL->save();
+        }
+
+        $siteSslCertificate->active = true;
+        $siteSslCertificate->save();
+
+        $site->load('activeSSL');
+
+        if ($siteSslCertificate->type == self::LETS_ENCRYPT) {
+            $this->mapSSL($server, $site);
+        }
+
+        $this->updateWebServerConfig($server, $site);
+    }
 }

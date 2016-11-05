@@ -3,6 +3,7 @@
 namespace App\Jobs\Server\SslCertificates;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Server\ServerSslCertificate;
 use App\Models\Server\ServerWorker;
 use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
@@ -15,15 +16,15 @@ class RemoveServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverWorker;
+    private $serverSslCertificate;
 
     /**
      * InstallServerWorker constructor.
-     * @param ServerWorker $serverWorker
+     * @param ServerSslCertificate $serverSslCertificate
      */
-    public function __construct(ServerWorker $serverWorker)
+    public function __construct(ServerSslCertificate $serverSslCertificate)
     {
-        $this->serverWorker = $serverWorker;
+        $this->serverSslCertificate = $serverSslCertificate;
     }
 
     /**
@@ -36,12 +37,8 @@ class RemoveServerSslCertificate implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
-        });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverWorker->delete();
-        }
+        });
 
         return $this->remoteResponse();
     }
