@@ -4,8 +4,6 @@ namespace App\Jobs\Server\SslCertificates;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\ServerSslCertificate;
-use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +35,6 @@ class RemoveServerSslCertificate implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-
         });
 
         return $this->remoteResponse();

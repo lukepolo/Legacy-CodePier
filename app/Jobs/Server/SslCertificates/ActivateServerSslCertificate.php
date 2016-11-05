@@ -35,7 +35,6 @@ class ActivateServerSslCertificate implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-
         });
 
         return $this->remoteResponse();
