@@ -225,9 +225,8 @@ class SiteService implements SiteServiceContract
     {
         $webServices = $server->server_features[SystemService::WEB];
 
-        if(isset($webServices['Nginx']['enabled'])) {
-            return $this->serverService->getService(SystemService::WEB ,$server);
+        if (isset($webServices['Nginx']['enabled'])) {
+            return $this->serverService->getService(SystemService::WEB, $server);
         }
     }
-
 }

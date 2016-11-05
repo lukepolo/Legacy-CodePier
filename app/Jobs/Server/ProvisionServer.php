@@ -3,7 +3,6 @@
 namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
