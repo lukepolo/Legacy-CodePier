@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\CreateSite;
+use App\Jobs\SIte\CreateSite;
 use App\Jobs\Server\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
