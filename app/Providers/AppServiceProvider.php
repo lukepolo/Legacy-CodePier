@@ -12,6 +12,7 @@ use App\Models\Site\Site;
 use App\Models\Site\SiteCronJob;
 use App\Models\Site\SiteFile;
 use App\Models\Site\SiteFirewallRule;
+use App\Models\Site\SiteSshKey;
 use App\Models\Site\SiteSslCertificate;
 use App\Models\Site\SiteWorker;
 use App\Models\User\User;
@@ -25,6 +26,7 @@ use App\Observers\Site\SiteCronJobObserver;
 use App\Observers\Site\SiteFileObserver;
 use App\Observers\Site\SiteFirewallRuleObserver;
 use App\Observers\Site\SiteObserver;
+use App\Observers\Site\SiteSshKeyObserver;
 use App\Observers\Site\SiteSslCertificateObserver;
 use App\Observers\Site\SiteWorkerObserver;
 use App\Observers\UserObserver;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         Site::observe(SiteObserver::class);
 //        SiteFeatureObserver::
         SiteFile::observe(SiteFileObserver::class);
+        SiteSshKey::observe(SiteSshKeyObserver::class);
         SiteWorker::observe(SiteWorkerObserver::class);
         SiteCronJob::observe(SiteCronJobObserver::class);
         SiteFirewallRule::observe(SiteFirewallRuleObserver::class);

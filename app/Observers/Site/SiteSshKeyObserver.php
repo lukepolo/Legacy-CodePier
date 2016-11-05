@@ -14,9 +14,9 @@ class SiteSshKeyObserver
     {
         foreach ($siteSshKey->site->provisionedServers as $server) {
             ServerSshKey::create([
-                'key' => $siteSshKey->key,
                 'server_id' => $server->id,
                 'name' => $siteSshKey->name,
+                'ssh_key' => $siteSshKey->ssh_key,
                 'site_ssh_key_id' => $siteSshKey->id,
             ]);
         }

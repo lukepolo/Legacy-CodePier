@@ -15,6 +15,7 @@ class SiteWorkerObserver
         foreach ($siteWorker->site->provisionedServers as $server) {
             ServerWorker::create([
                 'server_id' => $server->id,
+                'user' => $siteWorker->user,
                 'command' => $siteWorker->command,
                 'site_worker_id' => $siteWorker->id,
                 'auto_start' => $siteWorker->auto_start,
