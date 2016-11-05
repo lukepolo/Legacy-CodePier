@@ -3,7 +3,6 @@
 namespace App\Observers\Server;
 
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 use App\Models\Server\ServerSshKey;
 
 class ServerSshKeyObserver

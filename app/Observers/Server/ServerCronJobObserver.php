@@ -2,8 +2,6 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\Server\ServerCronJob;
 
 class ServerCronJobObserver
