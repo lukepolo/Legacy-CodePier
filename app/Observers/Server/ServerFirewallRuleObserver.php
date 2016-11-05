@@ -6,9 +6,6 @@ use App\Jobs\Server\InstallServerFirewallRule;
 use App\Jobs\Server\RemoveServerFirewallRule;
 use App\Models\Server\ServerFirewallRule;
 
-/**
- * Class ServerFirewallRuleObserver.
- */
 class ServerFirewallRuleObserver
 {
     /**

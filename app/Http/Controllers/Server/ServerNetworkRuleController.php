@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Server\ServerNetworkRule;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerNetworkRuleController.
- */
 class ServerNetworkRuleController extends Controller
 {
     /**

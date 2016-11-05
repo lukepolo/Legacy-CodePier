@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Server\ServerFirewallRule;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerFirewallRuleController.
- */
 class ServerFirewallRuleController extends Controller
 {
     /**

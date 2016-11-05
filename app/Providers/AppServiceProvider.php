@@ -30,9 +30,6 @@ use App\Observers\Site\SiteWorkerObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class AppServiceProvider.
- */
 class AppServiceProvider extends ServiceProvider
 {
     /**

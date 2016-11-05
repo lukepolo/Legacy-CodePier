@@ -12,9 +12,6 @@ use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-/**
- * Class Site.
- */
 class Site extends Model
 {
     use UsedByTeams, Notifiable;

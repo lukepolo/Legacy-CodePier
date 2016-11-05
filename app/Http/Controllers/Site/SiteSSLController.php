@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\SiteSslCertificate;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteSSLController.
- */
 class SiteSSLController extends Controller
 {
     /**

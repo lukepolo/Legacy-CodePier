@@ -10,9 +10,6 @@ use App\Scopes\UserScope;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Pile.
- */
 class Pile extends Model
 {
     use UsedByTeams;

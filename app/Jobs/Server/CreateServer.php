@@ -12,9 +12,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-/**
- * Class CreateServer.
- */
 class CreateServer implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;

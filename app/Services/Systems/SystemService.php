@@ -8,9 +8,6 @@ use App\Events\Server\ServerProvisionStatusChanged;
 use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 
-/**
- * Class SystemService.
- */
 class SystemService implements SystemServiceContract
 {
     protected $server;

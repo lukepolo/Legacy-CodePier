@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Stripe\Plan;
 use Stripe\Stripe;
 
-/**
- * Class SubscriptionController.
- */
 class SubscriptionController extends Controller
 {
     /**

@@ -4,9 +4,6 @@ namespace App\Http\Controllers\User\Subscription;
 
 use App\Http\Controllers\Controller;
 
-/**
- * Class UserSubscriptionController.
- */
 class UserSubscriptionUpcomingInvoiceController extends Controller
 {
     /**

@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Server\ServerWorker;
 use App\Models\Site\SiteWorker;
 
-/**
- * Class SiteWorkerObserver.
- */
 class SiteWorkerObserver
 {
     /**

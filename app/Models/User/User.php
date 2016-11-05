@@ -10,9 +10,6 @@ use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
-/**
- * Class User.
- */
 class User extends Authenticatable
 {
     use Notifiable, UserHasTeams, Billable, HasApiTokens;

@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Mail;
 use Mpociot\Teamwork\Facades\Teamwork;
 use Mpociot\Teamwork\TeamInvite;
 
-/**
- * Class UserTeamMemberController.
- */
 class UserTeamMemberController extends Controller
 {
     /**

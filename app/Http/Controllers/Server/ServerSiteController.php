@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Server;
 use App\Http\Controllers\Controller;
 use App\Models\Server\Server;
 
-/**
- * Class ServerController.
- */
 class ServerSiteController extends Controller
 {
     /**

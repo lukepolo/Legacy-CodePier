@@ -10,9 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
-/**
- * Class ServerFeatureController.
- */
 class ServerFeatureController extends Controller
 {
     public function store(Request $request, $serverId)

@@ -2,9 +2,6 @@
 
 namespace App\Classes;
 
-/**
- * Class FailedRemoteResponse.
- */
 class FailedRemoteResponse
 {
     public $log;

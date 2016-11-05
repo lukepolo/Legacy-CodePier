@@ -4,9 +4,6 @@ namespace App\Services\Repository\Providers;
 
 use App\Models\User\UserRepositoryProvider;
 
-/**
- * Interface RepositoryContract.
- */
 interface RepositoryContract
 {
     /**

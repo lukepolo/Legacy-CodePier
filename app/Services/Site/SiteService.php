@@ -17,9 +17,6 @@ use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
 use App\Services\DeploymentServices\PHP;
 
-/**
- * Class SiteService.
- */
 class SiteService implements SiteServiceContract
 {
     protected $serverService;

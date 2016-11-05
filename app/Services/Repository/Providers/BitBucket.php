@@ -10,9 +10,6 @@ use Bitbucket\API\Repositories\Deploykeys;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\User;
 
-/**
- * Class BitBucket.
- */
 class BitBucket implements RepositoryContract
 {
     private $oauthParams;

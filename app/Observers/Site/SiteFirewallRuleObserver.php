@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Server\ServerFirewallRule;
 use App\Models\Site\SiteFirewallRule;
 
-/**
- * Class SiteFirewallRuleObserver.
- */
 class SiteFirewallRuleObserver
 {
     /**

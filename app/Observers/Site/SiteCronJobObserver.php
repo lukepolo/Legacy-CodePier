@@ -5,9 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Server\ServerCronJob;
 use App\Models\Site\SiteCronJob;
 
-/**
- * Class SiteCronJobObserver.
- */
 class SiteCronJobObserver
 {
     /**

@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
 use Mpociot\Teamwork\Facades\Teamwork;
 
-/**
- * Class UserTeamController.
- */
 class UserTeamController extends Controller
 {
     /**

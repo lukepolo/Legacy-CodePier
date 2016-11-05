@@ -6,9 +6,6 @@ use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Models\Site\Site;
 
-/**
- * Class SiteObserver.
- */
 class SiteObserver
 {
     public static $originalServers = [];

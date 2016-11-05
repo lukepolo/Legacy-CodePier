@@ -9,9 +9,6 @@ use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteController.
- */
 class SiteController extends Controller
 {
     /**

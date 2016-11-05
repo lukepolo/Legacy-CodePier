@@ -16,9 +16,6 @@ use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Users;
 use Socialite;
 
-/**
- * Class OauthController.
- */
 class OauthController extends Controller
 {
     const SLACK = 'slack';

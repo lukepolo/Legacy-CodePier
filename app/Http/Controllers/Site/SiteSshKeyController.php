@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\SiteSshKey;
 use Illuminate\Http\Request;
 
-/**
- * Class SiteSshKeyController.
- */
 class SiteSshKeyController extends Controller
 {
     /**

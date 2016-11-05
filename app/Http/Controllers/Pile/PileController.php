@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Pile;
 use Illuminate\Http\Request;
 
-/**
- * Class PileController.
- */
 class PileController extends Controller
 {
     /**

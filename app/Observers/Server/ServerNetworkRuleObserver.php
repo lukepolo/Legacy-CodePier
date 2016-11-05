@@ -4,9 +4,6 @@ namespace App\Observers\Server;
 
 use App\Models\Server\ServerNetworkRule;
 
-/**
- * Class ServerNetworkRuleObserver.
- */
 class ServerNetworkRuleObserver
 {
     /**

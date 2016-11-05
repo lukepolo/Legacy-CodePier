@@ -6,9 +6,6 @@ use App\Models\NotificationProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class UserNotificationProvider.
- */
 class UserNotificationProvider extends Model
 {
     use SoftDeletes;

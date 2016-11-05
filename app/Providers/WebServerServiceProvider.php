@@ -6,9 +6,6 @@ use App\Contracts\WebServers\NginxWebServerServiceContract;
 use App\Services\Systems\WebServers\NginxWebServerService;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class ServerServiceProvider.
- */
 class WebServerServiceProvider extends ServiceProvider
 {
     /**

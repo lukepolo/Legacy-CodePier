@@ -6,9 +6,6 @@ use App\Contracts\Site\SiteServiceContract;
 use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class SiteServiceProvider.
- */
 class SiteServiceProvider extends ServiceProvider
 {
     /**

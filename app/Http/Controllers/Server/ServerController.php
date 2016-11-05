@@ -10,9 +10,6 @@ use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
-/**
- * Class ServerController.
- */
 class ServerController extends Controller
 {
     private $serverService;
