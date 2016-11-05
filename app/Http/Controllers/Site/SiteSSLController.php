@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Site\SiteSslCertificate;
+use App\Services\Server\ServerService;
 use Illuminate\Http\Request;
 
 class SiteSSLController extends Controller
@@ -36,7 +37,7 @@ class SiteSSLController extends Controller
         $siteSslCertificate = false;
 
         switch ($type = $request->get('type')) {
-            case \App\Services\Systems\WebServers\NginxWebServerService::LETS_ENCRYPT:
+            case ServerService::LETS_ENCRYPT:
 
                     $folder = explode(',', $request->get('domains'))[0];
 
