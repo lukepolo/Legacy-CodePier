@@ -358,13 +358,13 @@ class ServerService implements ServerServiceContract
      */
     public function installSslCertificate(ServerSslCertificate $serverSslCertificate)
     {
-        switch($serverSslCertificate->type) {
-            case self::LETS_ENCRYPT :
+        switch ($serverSslCertificate->type) {
+            case self::LETS_ENCRYPT:
 
                 return $this->installLetsEncryptSsl($serverSslCertificate);
 
                 break;
-            case 'existing' :
+            case 'existing':
 
                 $server = $serverSslCertificate->server;
 
@@ -447,7 +447,6 @@ class ServerService implements ServerServiceContract
 
         return $this->remoteTaskService->getErrors();
     }
-
 
     /**
      * @param ServerProvider $serverProvider
