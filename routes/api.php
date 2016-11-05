@@ -137,8 +137,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.certificate', 'SiteSSLController');
             Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
-            Route::resource('site.certificate-existing', 'Certificate\SiteSSLExistingController');
-            Route::resource('site.certificate-lets-encrypt', 'Certificate\SiteSSLLetsEncryptController');
+            Route::resource('site.ssl-certificate', 'SiteSslController');
         });
     });
 

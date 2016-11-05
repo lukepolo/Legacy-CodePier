@@ -113,7 +113,7 @@
         },
         computed: {
             workers() {
-                return this.$store.state.sitesStore.workers;
+                return this.$store.state.siteWorkersStore.workers;
             }
         }
     }

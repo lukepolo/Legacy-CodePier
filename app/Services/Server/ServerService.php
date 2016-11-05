@@ -44,7 +44,7 @@ class ServerService implements ServerServiceContract
      *
      * @return mixed
      */
-    public function create(\App\Models\Server\Provider\ServerProvider $serverProvider, Server $server)
+    public function create(ServerProvider $serverProvider, Server $server)
     {
         return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
     }
@@ -54,7 +54,7 @@ class ServerService implements ServerServiceContract
      *
      * @return mixed
      */
-    public function getServerOptions(\App\Models\Server\Provider\ServerProvider $serverProvider)
+    public function getServerOptions(ServerProvider $serverProvider)
     {
         return $this->getProvider($serverProvider)->getOptions();
     }
