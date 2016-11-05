@@ -1,28 +1,30 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\FirewallRules;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerSshKey;
+use App\Models\Server\ServerFirewallRule;
+use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class InstallServerSshKey implements ShouldQueue
+class RemoveServerFirewallRule implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverSshKey;
+    private $serverFirewallRule;
 
     /**
-     * InstallServerSshKey constructor.
-     * @param ServerSshKey $serverSshKey
+     * RemoveServerFirewallRule constructor.
+     *
+     * @param ServerFirewallRule $serverFirewallRule
      */
-    public function __construct(ServerSshKey $serverSshKey)
+    public function __construct(ServerFirewallRule $serverFirewallRule)
     {
-        $this->serverSshKey = $serverSshKey;
+        $this->serverFirewallRule = $serverFirewallRule;
     }
 
     /**
@@ -34,11 +36,11 @@ class InstallServerSshKey implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->installSshKey($this->serverSshKey->server, $this->serverSshKey->ssh_key);
+            $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->removeFirewallRule($this->serverFirewallRule);
         });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverSshKey->delete();
+        if ($this->wasSuccessful()) {
+            $this->serverFirewallRule->delete();
         }
 
         return $this->remoteResponse();

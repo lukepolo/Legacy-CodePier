@@ -2,8 +2,8 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\InstallServerFirewallRule;
-use App\Jobs\Server\RemoveServerFirewallRule;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Models\Server\ServerFirewallRule;
 
 class ServerFirewallRuleObserver

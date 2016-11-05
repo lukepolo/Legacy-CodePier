@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\SslCertificates;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\ServerWorker;

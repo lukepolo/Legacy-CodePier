@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\SslCertificates;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\ServerWorker;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class InstallServerSslCertificate implements ShouldQueue
+class RemoveServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 

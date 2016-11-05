@@ -1,46 +1,44 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\SshKeys;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
+use App\Models\Server\ServerSshKey;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RemoveServerSslCertificate implements ShouldQueue
+class InstallServerSshKey implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverWorker;
+    private $serverSshKey;
 
     /**
-     * InstallServerWorker constructor.
-     * @param ServerWorker $serverWorker
+     * InstallServerSshKey constructor.
+     * @param ServerSshKey $serverSshKey
      */
-    public function __construct(ServerWorker $serverWorker)
+    public function __construct(ServerSshKey $serverSshKey)
     {
-        $this->serverWorker = $serverWorker;
+        $this->serverSshKey = $serverSshKey;
     }
 
     /**
-     * @param ServerService $serverService
+     * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
+            $serverService->installSshKey($this->serverSshKey->server, $this->serverSshKey->ssh_key);
         });
 
         if (! $this->wasSuccessful()) {
-            $this->serverWorker->delete();
+            $this->serverSshKey->delete();
         }
 
         return $this->remoteResponse();

@@ -1,33 +1,32 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\CronJobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
+use App\Models\Server\ServerCronJob;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class DeactivateServerSslCertificate implements ShouldQueue
+class RemoveServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverWorker;
+    private $serverCronJob;
 
     /**
-     * InstallServerWorker constructor.
-     * @param ServerWorker $serverWorker
+     * RemoveServerCronJob constructor.
+     * @param ServerCronJob $serverCronJob
      */
-    public function __construct(ServerWorker $serverWorker)
+    public function __construct(ServerCronJob $serverCronJob)
     {
-        $this->serverWorker = $serverWorker;
+        $this->serverCronJob = $serverCronJob;
     }
 
     /**
-     * @param ServerService $serverService
+     * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      *
@@ -36,11 +35,11 @@ class DeactivateServerSslCertificate implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
+            $serverService->removeCron($this->serverCronJob);
         });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverWorker->delete();
+        if ($this->wasSuccessful()) {
+            $this->serverCronJob->delete();
         }
 
         return $this->remoteResponse();

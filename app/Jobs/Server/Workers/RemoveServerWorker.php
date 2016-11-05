@@ -1,32 +1,33 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\Workers;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerCronJob;
+use App\Models\Server\ServerWorker;
+use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RemoveServerCronJob implements ShouldQueue
+class RemoveServerWorker implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverCronJob;
+    private $serverWorker;
 
     /**
-     * RemoveServerCronJob constructor.
-     * @param ServerCronJob $serverCronJob
+     * InstallServerWorker constructor.
+     * @param ServerWorker $serverWorker
      */
-    public function __construct(ServerCronJob $serverCronJob)
+    public function __construct(ServerWorker $serverWorker)
     {
-        $this->serverCronJob = $serverCronJob;
+        $this->serverWorker = $serverWorker;
     }
 
     /**
-     * Execute the job.
+     * @param ServerService $serverService
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      *
@@ -35,11 +36,11 @@ class RemoveServerCronJob implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->removeCron($this->serverCronJob);
+            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->removeWorker($this->serverWorker);
         });
 
         if ($this->wasSuccessful()) {
-            $this->serverCronJob->delete();
+            $this->serverWorker->delete();
         }
 
         return $this->remoteResponse();

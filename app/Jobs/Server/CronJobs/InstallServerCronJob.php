@@ -1,46 +1,45 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\CronJobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerFirewallRule;
-use App\Services\Systems\SystemService;
+use App\Models\Server\ServerCronJob;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class InstallServerFirewallRule implements ShouldQueue
+class InstallServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverFirewallRule;
+    private $serverCronJob;
 
     /**
-     * InstallServerFirewallRule constructor.
-     *
-     * @param ServerFirewallRule $serverFirewallRule
+     * Create a new job instance.
+     * @param ServerCronJob $serverCronJob
      */
-    public function __construct(ServerFirewallRule $serverFirewallRule)
+    public function __construct(ServerCronJob $serverCronJob)
     {
-        $this->serverFirewallRule = $serverFirewallRule;
+        $this->serverCronJob = $serverCronJob;
     }
 
     /**
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->addFirewallRule($this->serverFirewallRule);
+            $serverService->installCron($this->serverCronJob);
         });
 
         if (! $this->wasSuccessful()) {
-            $this->serverFirewallRule->delete();
+            $this->serverCronJob->delete();
         }
 
         return $this->remoteResponse();
