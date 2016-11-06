@@ -27,14 +27,12 @@ class WebService
 //    {
 //    }
 
-
     public function installCertBot()
     {
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
-
 
     public function installNginx()
     {
