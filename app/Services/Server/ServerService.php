@@ -392,7 +392,7 @@ class ServerService implements ServerServiceContract
      */
     public function activateSslCertificate(ServerSslCertificate $serverSslCertificate)
     {
-        $this->remoteTaskService->ssh( $serverSslCertificate->server);
+        $this->remoteTaskService->ssh($serverSslCertificate->server);
 
         $sslCertPath = self::SSL_FILES.'/'.$serverSslCertificate->siteSslCertificate->site->domain.'/'.$serverSslCertificate->id;
 
