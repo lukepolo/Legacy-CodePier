@@ -23,7 +23,7 @@ class ServerService implements ServerServiceContract
 
     public static $serverOperatingSystem = 'ubuntu-16-04-x64';
 
-    const SSL_FILES = '/etc/opt/ssl';
+    const SSL_FILES = '/opt/codepier/ssl';
     const LETS_ENCRYPT = 'Let\'s Encrypt';
 
     /**
