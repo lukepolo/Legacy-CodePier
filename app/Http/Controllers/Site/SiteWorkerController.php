@@ -39,7 +39,7 @@ class SiteWorkerController extends Controller
                 'command' => $request->get('command'),
                 'auto_start' => true,
                 'auto_restart' => true,
-                'user' => 'codepier',
+                'user' => $request->get('user'),
                 'number_of_workers' => $request->get('number_of_workers'),
             ])
         );
