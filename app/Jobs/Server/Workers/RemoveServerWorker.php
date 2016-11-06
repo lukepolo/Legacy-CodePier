@@ -40,6 +40,7 @@ class RemoveServerWorker implements ShouldQueue
         });
 
         if ($this->wasSuccessful()) {
+            $this->serverWorker->unsetEventDispatcher();
             $this->serverWorker->delete();
         }
 

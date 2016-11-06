@@ -40,6 +40,7 @@ class InstallServerFirewallRule implements ShouldQueue
         });
 
         if (! $this->wasSuccessful()) {
+            $this->serverFirewallRule->unsetEventDispatcher();
             $this->serverFirewallRule->delete();
         }
 
