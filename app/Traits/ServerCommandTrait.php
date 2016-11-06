@@ -33,7 +33,7 @@ trait ServerCommandTrait
                     $message = $e->getMessage();
                     break;
                 default:
-                    throw new \Exception($e->getMessage());
+                    throw $e;
                     break;
             }
 

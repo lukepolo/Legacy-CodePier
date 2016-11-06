@@ -20,8 +20,8 @@
         <p v-for="ssl_certificate in ssl_certificates">
             {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
             {{ ssl_certificate.key_path }}
-            <a href="#" v-if="ssl_certificate.active">Deactivate</a>
-            <a href="#" v-else>Activate</a>
+            <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
+            <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
             <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
         </p>
     </div>
@@ -52,10 +52,24 @@
                     type : 'Let\'s Encrypt'
                 })
             },
+            activateSslCertificate : function(ssl_certificate_id) {
+                this.$store.dispatch('updateSslCertificate', {
+                    active : true,
+                    site : this.site.id,
+                    ssl_certificate : ssl_certificate_id,
+                })
+            },
+            deactivateSslCertificate : function(ssl_certificate_id) {
+                this.$store.dispatch('updateSslCertificate', {
+                    active : false,
+                    site : this.site.id,
+                    ssl_certificate : ssl_certificate_id,
+                })
+            },
             deleteSslCertificate: function (ssl_certificate_id) {
                 this.$store.dispatch('deleteSslCertificate', {
                     site : this.site.id,
-                    certificate : ssl_certificate_id,
+                    ssl_certificate : ssl_certificate_id,
                 })
             }
         },
