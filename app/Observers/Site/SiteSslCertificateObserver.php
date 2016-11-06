@@ -59,7 +59,7 @@ class SiteSslCertificateObserver
 
     private function deactivateCurrentSsl(SiteSslCertificate $activeSsl = null)
     {
-        if(!empty($activeSsl)) {
+        if (! empty($activeSsl)) {
             $activeSsl->update([
                 'active' => false,
             ]);
