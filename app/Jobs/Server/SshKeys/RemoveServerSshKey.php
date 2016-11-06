@@ -38,6 +38,7 @@ class RemoveServerSshKey implements ShouldQueue
         });
 
         if ($this->wasSuccessful()) {
+            $this->serverSshKey->unsetEventDispatcher();
             $this->serverSshKey->delete();
         }
 
