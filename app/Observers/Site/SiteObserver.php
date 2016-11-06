@@ -28,20 +28,6 @@ class SiteObserver
     /**
      * @param Site $site
      */
-    public function saved(Site $site)
-    {
-        if (! empty($site->repository)) {
-            $this->repositoryService->importSshKeyIfPrivate($site);
-        }
-
-        foreach ($site->provisionedServers() as $server) {
-            $this->siteService->create($server, $site);
-        }
-    }
-
-    /**
-     * @param Site $site
-     */
     public function deleting(Site $site)
     {
         // We need to trigger the delete events for some

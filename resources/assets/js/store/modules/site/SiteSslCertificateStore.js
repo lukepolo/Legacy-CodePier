@@ -15,8 +15,15 @@ export default {
             }, (errors) => {
             });
         },
+        updateSslCertificate: ({commit, rootState, dispatch}, data) => {
+            Vue.http.put(Vue.action('Site\SiteSslController@update', {site : data.site, ssl_certificate: data.ssl_certificate}), data).then((response) => {
+                dispatch('getSslCertificates', rootState.sitesStore.site.id);
+            }, (errors) => {
+
+            });
+        },
         deleteSslCertificate: ({commit, rootState, dispatch}, data) => {
-            Vue.http.delete(Vue.action('Site\SiteSslController@destroy', {site : data.site, certificate: data.certificate})).then((response) => {
+            Vue.http.delete(Vue.action('Site\SiteSslController@destroy', {site : data.site, ssl_certificate: data.ssl_certificate})).then((response) => {
                 dispatch('getSslCertificates', rootState.sitesStore.site.id);
             }, (errors) => {
 

@@ -16,7 +16,7 @@ class SiteSslCertificateObserver
             ServerSslCertificate::create([
                 'server_id' => $server->id,
                 'type' => $siteSslCertificate->type,
-                'active' => $siteSslCertificate->active,
+                'active' => true,
                 'domains' => $siteSslCertificate->domains,
                 'key_path' => $siteSslCertificate->key_path,
                 'cert_path' => $siteSslCertificate->cert_path,
@@ -25,15 +25,19 @@ class SiteSslCertificateObserver
         }
     }
 
+    /**
+     * @param SiteSslCertificate $siteSslCertificate
+     */
     public function updating(SiteSslCertificate $siteSslCertificate)
     {
         if ($siteSslCertificate->active) {
-            $siteSslCertificate->site->activeSsl->update([
-                'active' => false,
-            ]);
+            $this->deactivateCurrentSsl($siteSslCertificate->site->activeSsl);
         }
     }
 
+    /**
+     * @param SiteSslCertificate $siteSslCertificate
+     */
     public function updated(SiteSslCertificate $siteSslCertificate)
     {
         $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use ($siteSslCertificate) {
@@ -51,5 +55,14 @@ class SiteSslCertificateObserver
         $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) {
             $serverSslCertificate->delete();
         });
+    }
+
+    private function deactivateCurrentSsl(SiteSslCertificate $activeSsl = null)
+    {
+        if(!empty($activeSsl)) {
+            $activeSsl->update([
+                'active' => false,
+            ]);
+        }
     }
 }
