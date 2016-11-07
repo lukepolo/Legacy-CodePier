@@ -65,7 +65,7 @@ class SiteRepositoryController extends Controller
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
 
-        $this->repositoryService->importSshKeyIfPrivate($site->userRepositoryProvider, $repository, $sshKey);
+        $this->repositoryService->importSshKeyIfPrivate($site);
 
         $site->save();
 

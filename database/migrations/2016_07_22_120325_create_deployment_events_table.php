@@ -20,7 +20,7 @@ class CreateDeploymentEventsTable extends Migration
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
-            $table->json('log')->nullable();
+            $table->json('log');
             $table->timestamps();
         });
     }
