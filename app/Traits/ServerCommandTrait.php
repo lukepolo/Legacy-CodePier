@@ -24,7 +24,7 @@ trait ServerCommandTrait
      */
     public function makeCommand(Model $model, $siteConnection = null)
     {
-        if(empty($siteConnection)) {
+        if (empty($siteConnection)) {
             $siteConnection = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
         }
 
@@ -32,7 +32,7 @@ trait ServerCommandTrait
             Command::create([
                 'type' => get_class($model),
                 'server_id' => $model->server_id,
-                'site_connection' => $model->$siteConnection
+                'site_connection' => $model->$siteConnection,
             ])
         );
 
