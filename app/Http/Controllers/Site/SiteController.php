@@ -8,6 +8,7 @@ use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
+use App\Models\Site\SiteFirewallRule;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -39,6 +40,21 @@ class SiteController extends Controller
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
         ]);
+
+        SiteFirewallRule::create([
+            'site_id'   => $site->id,
+            'description' => 'HTTP',
+            'port'        => '80',
+            'from_ip'     => null,
+        ]);
+
+        SiteFirewallRule::create([
+            'site_id'   => $site->id,
+            'description' => 'HTTPS',
+            'port'        => '443',
+            'from_ip'     => null,
+        ]);
+
 
         $defaultSteps = [
             [
