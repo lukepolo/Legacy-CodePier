@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\CronJobs;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Command;
 use App\Models\Server\ServerCronJob;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
@@ -15,7 +14,6 @@ class InstallServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $command;
     private $serverCronJob;
 
     /**
@@ -24,13 +22,7 @@ class InstallServerCronJob implements ShouldQueue
      */
     public function __construct(ServerCronJob $serverCronJob)
     {
-        $this->command = Command::create([
-            'type' => ServerCronJob::class,
-            'server_id' => $serverCronJob->server_id,
-        ]);
-
-        $serverCronJob->commands()->attach($this->command);
-
+        $this->makeCommand($serverCronJob);
         $this->serverCronJob = $serverCronJob;
     }
 

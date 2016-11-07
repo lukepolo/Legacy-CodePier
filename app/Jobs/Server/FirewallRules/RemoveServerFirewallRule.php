@@ -18,12 +18,13 @@ class RemoveServerFirewallRule implements ShouldQueue
     private $serverFirewallRule;
 
     /**
-     * RemoveServerFirewallRule constructor.
+     * InstallServerFirewallRule constructor.
      *
      * @param ServerFirewallRule $serverFirewallRule
      */
     public function __construct(ServerFirewallRule $serverFirewallRule)
     {
+        $this->makeCommand($serverFirewallRule);
         $this->serverFirewallRule = $serverFirewallRule;
     }
 

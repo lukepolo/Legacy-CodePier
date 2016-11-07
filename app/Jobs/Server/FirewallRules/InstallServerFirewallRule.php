@@ -3,6 +3,7 @@
 namespace App\Jobs\Server\FirewallRules;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Command;
 use App\Models\Server\ServerFirewallRule;
 use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
@@ -24,6 +25,7 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function __construct(ServerFirewallRule $serverFirewallRule)
     {
+        $this->makeCommand($serverFirewallRule);
         $this->serverFirewallRule = $serverFirewallRule;
     }
 
