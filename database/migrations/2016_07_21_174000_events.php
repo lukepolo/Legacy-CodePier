@@ -19,7 +19,7 @@ class Events extends Migration
             $table->string('description');
             $table->string('internal_type');
             $table->longText('data')->nullable();
-            $table->json('log')->nullable();
+            $table->text('log')->nullable();
             $table->timestamps();
         });
     }
