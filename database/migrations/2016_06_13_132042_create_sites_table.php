@@ -18,7 +18,7 @@ class CreateSitesTable extends Migration
             $table->string('domain');
             $table->integer('user_id');
             $table->integer('pile_id');
-            $table->json('server_features');
+            $table->json('server_features')->nullable();
             $table->string('branch')->nullable();
             $table->text('repository')->nullable();
             $table->string('framework')->nullable();
