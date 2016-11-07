@@ -74,6 +74,7 @@ Route::get('/', function () {
     if (\Auth::check()) {
         return view('codepier', [
             'user' => \Auth::user()->load(['teams', 'piles.servers']),
+            'runningCommands' => \Auth::user()->getRunningCommands(),
         ]);
     }
 
