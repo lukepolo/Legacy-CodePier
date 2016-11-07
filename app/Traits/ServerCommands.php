@@ -6,8 +6,8 @@ use App\Models\Command;
 
 trait ServerCommands
 {
-   public function commands()
-   {
-       return $this->morphToMany(Command::class, 'commandable');
-   }
+    public function commands()
+    {
+        return $this->morphToMany(Command::class, 'commandable');
+    }
 }
