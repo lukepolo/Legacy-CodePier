@@ -15,7 +15,6 @@ class SiteFileObserver
         foreach ($siteFile->site->provisionedServers as $server) {
             dispatch(new UpdateServerFile($server, $siteFile));
         }
-
     }
 
     public function updated(SiteFile $siteFile)
