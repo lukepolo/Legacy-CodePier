@@ -6,7 +6,7 @@
                 <div class="jcf-input-group">
                     <input type="text" name="command" v-model="form.command">
                     <label for="command">
-                        <span class="float-label">Command {{ runningCommands }}</span>
+                        <span class="float-label">Command</span>
                     </label>
                 </div>
 
@@ -114,9 +114,6 @@
         computed: {
             workers() {
                 return this.$store.state.siteWorkersStore.workers;
-            },
-            runningCommands() {
-                return this.areCommandsRunning('App\\Models\\Server\\ServerCronJob');
             }
         }
     }

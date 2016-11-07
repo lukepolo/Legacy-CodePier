@@ -8,6 +8,6 @@ trait ServerCommands
 {
     public function commands()
     {
-        return $this->morphToMany(Command::class, 'commandable');
+        return $this->morphMany(Command::class, 'commandable');
     }
 }

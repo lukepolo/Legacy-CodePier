@@ -105,7 +105,6 @@ class User extends Authenticatable
             }
         }
 
-
         return collect($commandsRunning);
     }
 }
