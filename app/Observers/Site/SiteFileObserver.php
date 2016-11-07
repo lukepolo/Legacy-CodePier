@@ -12,11 +12,16 @@ class SiteFileObserver
      */
     public function created(SiteFile $siteFile)
     {
-        dispatch(new UpdateServerFile($siteFile));
+        foreach ($siteFile->site->provisionedServers as $server) {
+            dispatch(new UpdateServerFile($server, $siteFile));
+        }
+
     }
 
     public function updated(SiteFile $siteFile)
     {
-        dispatch(new UpdateServerFile($siteFile));
+        foreach ($siteFile->site->provisionedServers as $server) {
+            dispatch(new UpdateServerFile($server, $siteFile));
+        }
     }
 }
