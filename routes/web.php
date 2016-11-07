@@ -84,7 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{any}', function ($any) {
         return view('codepier', [
             'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands()
+            'runningCommands' => \Auth::user()->getRunningCommands(),
         ]);
     })->where('any', '.*');
 });
