@@ -3,10 +3,13 @@
 namespace App\Models\Server;
 
 use App\Models\Site\SiteSslCertificate;
+use App\Traits\ServerCommands;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerSslCertificate extends Model
 {
+    use ServerCommands;
+
     protected $guarded = ['id'];
 
     public function siteSslCertificate()

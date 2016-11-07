@@ -2,6 +2,7 @@
 
 namespace App\Models\Server;
 
+use App\Models\Command;
 use App\Models\Pile;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderFeatures;
@@ -101,6 +102,11 @@ class Server extends Model
     public function provisionSteps()
     {
         return $this->hasMany(ServerProvisionStep::class);
+    }
+
+    public function commands()
+    {
+        return $this->hasMany(Command::class);
     }
 
     /*

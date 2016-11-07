@@ -1,9 +1,11 @@
 export default {
     state: {
         user: user,
+        commands : [],
         server_providers: [],
         repository_providers: [],
         notification_providers: [],
+        runningCommands : runningCommands
     },
     actions: {
         getCurrentUser : ({commit}) => {

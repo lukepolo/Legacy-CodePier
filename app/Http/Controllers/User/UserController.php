@@ -43,4 +43,11 @@ class UserController extends Controller
 
         return response()->json($user->load(['currentTeam', 'currentPile']));
     }
+
+    public function getRunningCommands()
+    {
+        return response()->json(
+
+        );
+    }
 }

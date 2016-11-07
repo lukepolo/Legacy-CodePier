@@ -43,15 +43,15 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-    public function servers()
-    {
-        return $this->hasMany(Server::class);
-    }
+//    public function servers()
+//    {
+//        return $this->hasMany(Server::class);
+//    }
 
-    public function provisionedServers()
-    {
-        return $this->hasMany(Server::class)->where('progress', '>=', '100');
-    }
+//    public function provisionedServers()
+//    {
+//        return $this->hasMany(Server::class)->where('progress', '>=', '100');
+//    }
 
     public function userServerProviders()
     {
@@ -86,5 +86,26 @@ class User extends Authenticatable
     public function currentPile()
     {
         return $this->belongsTo(Pile::class, 'current_pile_id');
+    }
+
+    public function getRunningCommands()
+    {
+        $currentPile = $this->currentPile->with('servers.commands.commandable')->whereHas('servers.commands', function($query) {
+            $query->where('failed', 0)
+                ->where('completed', 0);
+        })->first();
+
+        $commandsRunning = [];
+
+        if(!empty($currentPile->servers)) {
+            foreach($currentPile->servers as $server) {
+                foreach($server->commands as $command) {
+                    $commandsRunning[$command->type][] = $command;
+                }
+            }
+        }
+
+
+        return collect($commandsRunning);
     }
 }

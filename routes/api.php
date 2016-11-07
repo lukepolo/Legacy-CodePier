@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('server-providers', 'Providers\UserServerProviderController');
             Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
+
+            Route::get('running-commands', 'UserController@getRunningCommands');
         });
 
         /*
