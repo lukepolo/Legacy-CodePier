@@ -14,6 +14,7 @@ class RemoveServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
+    private $command;
     private $serverCronJob;
 
     /**
@@ -22,6 +23,7 @@ class RemoveServerCronJob implements ShouldQueue
      */
     public function __construct(ServerCronJob $serverCronJob)
     {
+        $this->makeCommand($serverCronJob);
         $this->serverCronJob = $serverCronJob;
     }
 

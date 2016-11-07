@@ -23,6 +23,7 @@ class InstallServerSslCertificate implements ShouldQueue
      */
     public function __construct(ServerSslCertificate $serverSslCertificate)
     {
+        $this->makeCommand($serverSslCertificate);
         $this->serverSslCertificate = $serverSslCertificate;
     }
 

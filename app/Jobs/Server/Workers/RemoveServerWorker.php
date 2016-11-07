@@ -23,6 +23,7 @@ class RemoveServerWorker implements ShouldQueue
      */
     public function __construct(ServerWorker $serverWorker)
     {
+        $this->makeCommand($serverWorker);
         $this->serverWorker = $serverWorker;
     }
 

@@ -8,12 +8,30 @@ use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use App\Models\Command;
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 
 trait ServerCommandTrait
 {
     private $error = false;
     private $remoteErrors;
     private $remoteSuccesses;
+    private $command;
+
+    /**
+     * @param Model $model
+     * @return Command
+     */
+    public function makeCommand(Model $model)
+    {
+        $this->command = Command::create([
+            'type' => get_class($model),
+            'server_id' => $model->server_id,
+        ]);
+
+        $model->commands()->attach($this->command);
+
+        return $this->command;
+    }
 
     /**
      * Runs a command on a external server.

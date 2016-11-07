@@ -22,6 +22,7 @@ class RemoveServerSshKey implements ShouldQueue
      */
     public function __construct(ServerSshKey $serverSshKey)
     {
+        $this->makeCommand($serverSshKey);
         $this->serverSshKey = $serverSshKey;
     }
 
