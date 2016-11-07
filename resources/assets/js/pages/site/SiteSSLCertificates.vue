@@ -20,9 +20,14 @@
         <p v-for="ssl_certificate in ssl_certificates">
             {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
             {{ ssl_certificate.key_path }}
-            <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
-            <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
-            <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
+            <template v-if="isRunningCommandFor(ssl_certificate.id)">
+                RUNNING COMMAND YOU CANNOT TOUCH
+            </template>
+            <template v-else>
+                <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
+                <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
+            </template>
         </p>
     </div>
 </template>
@@ -71,6 +76,9 @@
                     site : this.site.id,
                     ssl_certificate : ssl_certificate_id,
                 })
+            },
+            isRunningCommandFor(id) {
+                return this.isCommandRunning('App\\Models\\Server\\ServerSslCertificate', id);
             }
         },
         computed: {

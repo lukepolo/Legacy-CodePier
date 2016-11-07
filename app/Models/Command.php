@@ -13,10 +13,11 @@ class Command extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * Get all of the owning commentable models.
      */
     public function commandable()
     {
-        return $this->hasOne(Commandable::class);
+        return $this->morphTo();
     }
+
 }

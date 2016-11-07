@@ -16,20 +16,16 @@ class CommandableTables extends Migration
         Schema::create('commands', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('server_id');
+            $table->integer('site_connection');
             $table->string('type');
             $table->boolean('started')->default(0);
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
             $table->longText('log')->nullable();
+            $table->integer('commandable_id')->nullable();
+            $table->string('commandable_type')->nullable();
             $table->timestamps();
-        });
-
-        Schema::create('commandables', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('command_id');
-            $table->integer('commandable_id');
-            $table->string('commandable_type');
         });
 
         Schema::dropIfExists('events');
@@ -43,6 +39,5 @@ class CommandableTables extends Migration
     public function down()
     {
         Schema::dropIfExists('commands');
-        Schema::dropIfExists('commandables');
     }
 }

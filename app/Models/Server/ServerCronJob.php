@@ -11,6 +11,12 @@ class ServerCronJob extends Model
 
     protected $guarded = ['id'];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
     public function server()
     {
         return $this->belongsTo(Server::class);
