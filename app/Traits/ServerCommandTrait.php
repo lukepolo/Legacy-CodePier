@@ -45,7 +45,6 @@ trait ServerCommandTrait
         $start = microtime(true);
 
         try {
-
             $this->command->update([
                 'started' => true,
             ]);
@@ -54,15 +53,13 @@ trait ServerCommandTrait
 
             $this->remoteSuccesses[] = $remoteResponse;
 
-            if(!empty($command)) {
+            if (! empty($command)) {
                 $this->command->update([
                     'runtime' => microtime(true) - $start,
                     'log' =>  $this->remoteSuccesses,
-                    'completed' => true
+                    'completed' => true,
                 ]);
             }
-
-
         } catch (\Exception $e) {
             switch (get_class($e)) {
                 case SshConnectionFailed::class:
@@ -74,16 +71,16 @@ trait ServerCommandTrait
                     break;
             }
 
-            $this->remoteErrors[] =  new FailedRemoteResponse($e, $message);
+            $this->remoteErrors[] = new FailedRemoteResponse($e, $message);
 
             if (count($this->remoteErrors)) {
                 $this->error = true;
 
-                if(!empty($command)) {
+                if (! empty($command)) {
                     $this->command->update([
                         'runtime' => microtime(true) - $start,
                         'log' => $this->remoteErrors,
-                        'failed' => true
+                        'failed' => true,
                     ]);
                 }
             }
@@ -110,7 +107,6 @@ trait ServerCommandTrait
             return response()->json([
                 'errors' => $this->remoteErrors,
             ]);
-
         }
 
         return response()->json();

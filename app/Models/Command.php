@@ -19,5 +19,4 @@ class Command extends Model
     {
         return $this->hasOne(Commandable::class);
     }
-
 }
