@@ -4,6 +4,7 @@ namespace App\Jobs\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Site\SiteFile;
+use App\Models\Server\Server;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,14 +15,18 @@ class UpdateServerFile implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
+    private $server;
     private $siteFile;
+
 
     /**
      * Create a new job instance.
+     * @param Server $server
      * @param SiteFile $siteFile
      */
-    public function __construct(SiteFile $siteFile)
+    public function __construct(Server $server, SiteFile $siteFile)
     {
+        $this->server = $server;
         $this->siteFile = $siteFile;
     }
 
@@ -35,9 +40,7 @@ class UpdateServerFile implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            foreach ($this->siteFile->site->provisionedServers as $server) {
-                $serverService->saveFile($server, $this->siteFile->file_path, $this->siteFile->content, 'codepier');
-            }
+                $serverService->saveFile($this->server, $this->siteFile->file_path, $this->siteFile->content, 'codepier');
         });
 
         return $this->remoteResponse();
