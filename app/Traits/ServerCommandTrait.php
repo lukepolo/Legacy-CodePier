@@ -6,6 +6,7 @@ use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
+use App\Models\Command;
 use Closure;
 
 trait ServerCommandTrait
@@ -18,14 +19,32 @@ trait ServerCommandTrait
      * Runs a command on a external server.
      *
      * @param Closure $function
+     * @param Command $command
      * @throws \Exception
      */
-    public function runOnServer(Closure $function)
+    public function runOnServer(Closure $function, Command $command = null)
     {
+        $start = microtime(true);
+
         try {
+
+            $this->command->update([
+                'started' => true,
+            ]);
+
             $remoteResponse = new SuccessRemoteResponse($function());
 
             $this->remoteSuccesses[] = $remoteResponse;
+
+            if(!empty($command)) {
+                $this->command->update([
+                    'runtime' => microtime(true) - $start,
+                    'log' =>  $this->remoteSuccesses,
+                    'completed' => true
+                ]);
+            }
+
+
         } catch (\Exception $e) {
             switch (get_class($e)) {
                 case SshConnectionFailed::class:
@@ -37,12 +56,18 @@ trait ServerCommandTrait
                     break;
             }
 
-            $remoteResponse = new FailedRemoteResponse($e, $message);
-
-            $this->remoteErrors[] = $remoteResponse;
+            $this->remoteErrors[] =  new FailedRemoteResponse($e, $message);
 
             if (count($this->remoteErrors)) {
                 $this->error = true;
+
+                if(!empty($command)) {
+                    $this->command->update([
+                        'runtime' => microtime(true) - $start,
+                        'log' => $this->remoteErrors,
+                        'failed' => true
+                    ]);
+                }
             }
         }
     }
@@ -67,6 +92,7 @@ trait ServerCommandTrait
             return response()->json([
                 'errors' => $this->remoteErrors,
             ]);
+
         }
 
         return response()->json();

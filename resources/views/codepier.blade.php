@@ -7,5 +7,6 @@
 @push('scripts')
 <script>
     var user = {!! $user->load(['currentTeam', 'currentPile']) !!};
+    var runningCommands = {!! $runningCommands->toJson() !!};
 </script>
 @endpush

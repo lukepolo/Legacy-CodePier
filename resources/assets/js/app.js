@@ -71,6 +71,14 @@ Vue.mixin({
         },
         serverHasFeature: function (server, feature) {
             return _.get(server.server_features, feature, false);
+        },
+        areCommandsRunning(type) {
+            return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
+                if(type == commandType) {
+                    return true;
+                }
+                return false;
+            }).length > 0;
         }
     }
 });
