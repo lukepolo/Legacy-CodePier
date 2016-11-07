@@ -77,9 +77,7 @@ Vue.mixin({
             return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
                 if(type == commandType) {
                     if(_.find(object, function(item) {
-                            console.log(item.commandable.commandable_id);
-                            console.log(model_id);
-                        return item.commandable.commandable_id == model_id;
+                            return item.site_connection == model_id;
                     })) {
                         return true;
                     }
