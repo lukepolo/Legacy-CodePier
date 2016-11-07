@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\FirewallRules;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Command;
 use App\Models\Server\ServerFirewallRule;
 use App\Services\Systems\SystemService;
 use App\Traits\ServerCommandTrait;
