@@ -50,8 +50,6 @@ iptables -I INPUT 1 -i lo -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 
 # DO NOT REMOVE - Custom Rules
-iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 iptables -P INPUT DROP
         ');
