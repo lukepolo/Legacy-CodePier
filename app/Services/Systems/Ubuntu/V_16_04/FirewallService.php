@@ -15,20 +15,6 @@ class FirewallService
     {
         $this->connectToServer();
 
-        ServerFirewallRule::create([
-            'server_id'   => $this->server->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
-
-        ServerFirewallRule::create([
-            'server_id'   => $this->server->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
-        ]);
-
         $this->remoteTaskService->writeToFile(self::IP_TABLES_FILE, '
 #!/bin/sh
 
