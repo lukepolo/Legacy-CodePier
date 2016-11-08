@@ -4,6 +4,11 @@
             <a>Repository</a>
         </router-link>
         <template v-if="site">
+            <router-link :to="{ name : 'site_deployment', params : { site_id : site.id } }" tag="li" class="wizard-item">
+                <a>Deployment</a>
+            </router-link>
+        </template>
+        <template v-if="site">
             <router-link :to="{ name : 'site_files', params : { site_id : site.id } }" tag="li" class="wizard-item">
                 <a>Files</a>
             </router-link>

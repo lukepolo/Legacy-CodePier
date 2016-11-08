@@ -3,6 +3,7 @@ export default {
         sites: [],
         site: null,
         site_servers: [],
+        site_deployment_options : []
     },
     actions: {
         getSite: ({commit}, site) => {
@@ -87,6 +88,11 @@ export default {
             }, (errors) => {
                 alert(error);
             });
+        },
+        getSiteDeploymentOptions: ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteDeploymentOptionsController@index', { site : site})).then((response) => {
+                commit('SET_SITE_DEPLOYMENT_OPTIONS', response.data);
+            });
         }
     },
     mutations: {
@@ -98,6 +104,9 @@ export default {
         },
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;
+        },
+        SET_SITE_DEPLOYMENT_OPTIONS : (state, deployment_options) => {
+            state.site_deployment_options = deployment_options;
         }
     }
 }
