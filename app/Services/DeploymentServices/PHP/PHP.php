@@ -11,8 +11,6 @@ use Carbon\Carbon;
 
 class PHP
 {
-    use Laravel;
-
     private $branch;
     private $release;
     private $repository;
