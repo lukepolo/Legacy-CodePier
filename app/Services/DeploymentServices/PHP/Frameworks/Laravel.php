@@ -2,13 +2,13 @@
 
 namespace App\Services\DeploymentServices\PHP\Frameworks;
 
-class Laravel
+trait Laravel
 {
     /**
      * @description Creates a symbolic link for the storage folder so it retains the storage files
      * @order 110
      */
-    public function createSymbolicStorageFolder()
+    public function laravelCreateSymbolicStorageFolder()
     {
         $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
         $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
@@ -22,7 +22,7 @@ class Laravel
      *
      * @return array
      */
-    public function runMigrations()
+    public function laravelRunMigrations()
     {
         $output = [];
         $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
@@ -37,7 +37,7 @@ class Laravel
      *
      * @return array
      */
-    public function cacheRoutes()
+    public function laravelCacheRoutes()
     {
         $output = [];
         $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache');
@@ -52,7 +52,7 @@ class Laravel
      *
      * @return array
      */
-    public function cacheConfig()
+    public function laravelCacheConfig()
     {
         $output = [];
         $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
@@ -67,7 +67,7 @@ class Laravel
      *
      * @return array
      */
-    public function restartWorkers()
+    public function laravelRestartWorkers()
     {
         $output = [];
         $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
