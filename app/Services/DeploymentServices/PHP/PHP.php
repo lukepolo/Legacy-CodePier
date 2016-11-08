@@ -63,7 +63,6 @@ class PHP
      * @description Install the vendors packages.
      *
      * @order 200
-     *
      */
     public function installPhpDependencies()
     {
@@ -74,7 +73,6 @@ class PHP
      * @description Install the node vendors packages.
      *
      * @order 300
-     *
      */
     public function installNodeDependencies()
     {
@@ -90,7 +88,6 @@ class PHP
      * @description Setups the folders for web service.
      *
      * @order 400
-     *
      */
     public function setupFolders()
     {
@@ -101,7 +98,6 @@ class PHP
      * @description Cleans up the old deploys.
      *
      * @order 500
-     *
      */
     public function cleanup()
     {
@@ -112,7 +108,6 @@ class PHP
      * @description Restarts PHP FPM Service to clear the OPcache
      *
      * @order 600
-     *
      */
     public function restartPhpFpm()
     {
