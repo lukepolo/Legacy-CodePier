@@ -15,6 +15,7 @@ class PHP
 
     private $branch;
     private $release;
+    private $site_folder;
     private $repository;
     private $remoteTaskService;
     private $repositoryProvider;
