@@ -4,7 +4,6 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 class Laravel
 {
-
     public function createSymbolicStorageFolder()
     {
         $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
@@ -43,5 +42,4 @@ class Laravel
 
         return $output;
     }
-
 }
