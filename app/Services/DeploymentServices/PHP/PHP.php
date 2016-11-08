@@ -5,6 +5,7 @@ namespace App\Services\DeploymentServices\PHP;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
+use App\Services\Systems\SystemService;
 use Carbon\Carbon;
 
 class PHP
@@ -35,7 +36,10 @@ class PHP
     }
 
     /**
-     * Updates the repository from the provider.
+     * @description Updates the repository from the provider.
+     *
+     * @order 100
+     *
      * @param null $sha
      * @return array
      */
@@ -56,13 +60,22 @@ class PHP
     }
 
     /**
-     * Install the vendors packages.
+     * @description Install the vendors packages.
+     *
+     * @order 200
+     *
      */
-    public function installPHPDependencies()
+    public function installPhpDependencies()
     {
         return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction --no-dev --prefer-dist');
     }
 
+    /**
+     * @description Install the node vendors packages.
+     *
+     * @order 300
+     *
+     */
     public function installNodeDependencies()
     {
         $output = [];
@@ -74,7 +87,10 @@ class PHP
     }
 
     /**
-     *  Setups the folders for web service.
+     * @description Setups the folders for web service.
+     *
+     * @order 400
+     *
      */
     public function setupFolders()
     {
@@ -82,10 +98,24 @@ class PHP
     }
 
     /**
-     * Cleans up the old deploys.
+     * @description Cleans up the old deploys.
+     *
+     * @order 500
+     *
      */
     public function cleanup()
     {
         return $this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf');
+    }
+
+    /**
+     * @description Restarts PHP FPM Service to clear the OPcache
+     *
+     * @order 600
+     *
+     */
+    public function restartPhpFpm()
+    {
+        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
     }
 }

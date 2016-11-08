@@ -180,4 +180,23 @@ class Site extends Model
     {
         return '/home/codepier/'.$this->domain;
     }
+
+    /**
+     * Gets the sites language that its using
+     *
+     * @return string
+     */
+    public function getSiteLanguage()
+    {
+        $language = collect($this->server_features)->filter(function($features, $index) {
+            return starts_with($index, 'Language');
+        })->keys()->first();
+
+        return substr($language, strpos($language, '\\') + 1);
+    }
+
+    public function getFrameworkClass()
+    {
+        return str_replace('.', '\\Frameworks\\', $this->framework);
+    }
 }
