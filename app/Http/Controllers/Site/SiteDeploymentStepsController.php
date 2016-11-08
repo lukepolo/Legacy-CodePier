@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use ReflectionClass;
 
-class SiteDeploymentOptionsController extends Controller
+class SiteDeploymentStepsController extends Controller
 {
     /**
-     * @param Request $request
      * @param $siteId
      * @return array
+     * @internal param Request $request
      */
-    public function index(Request $request, $siteId)
+    public function index($siteId)
     {
         $site = Site::findOrFail($siteId);
 
@@ -27,6 +28,19 @@ class SiteDeploymentOptionsController extends Controller
      */
     public function store(Request $request, $siteId)
     {
+        $site = Site::findOrFail($siteId);
+
+        $site->deploymentSteps()->delete();
+
+        $order = 0;
+
+        foreach ($request->get('deploymentSteps') as $deploymentStep) {
+            $site->deploymentSteps()->save(DeploymentStep::create([
+                'order' => ++$order,
+                'step' => $deploymentStep['step'],
+                'internal_deployment_function' => $deploymentStep['task']
+            ]));
+        }
     }
 
     /**
@@ -49,7 +63,8 @@ class SiteDeploymentOptionsController extends Controller
                     preg_match('/\@description\s(.*)/', $method->getDocComment(), $matches);
                     $description = $matches[1];
 
-                    $deploymentSteps[$reflection->getShortName()][] = [
+                    $deploymentSteps[] = [
+                        'name' => ucwords(str_replace('_', ' ',snake_case($method->name))),
                         'order' => $order,
                         'task' => $method->name,
                         'description' => $description,
