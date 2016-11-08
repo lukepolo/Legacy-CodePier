@@ -14,7 +14,7 @@ use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
-use App\Services\DeploymentServices\PHP;
+use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\Systems\SystemService;
 
 class SiteService implements SiteServiceContract

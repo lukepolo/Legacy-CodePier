@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\DeploymentServices;
+namespace App\Services\DeploymentServices\PHP;
 
 use App\Models\Server\Server;
 use App\Models\Site\Site;
@@ -34,11 +34,6 @@ class PHP
         $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
     }
 
-    public function updateRepository()
-    {
-        dd('this is for non zero time deployments');
-    }
-
     /**
      * Updates the repository from the provider.
      * @param null $sha
@@ -57,14 +52,6 @@ class PHP
             $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
         }
 
-        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
-        $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
-
-        // TODO - we need to add this to custom tasks, as not everyone will have a laravel or even PHP setup
-        $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/.env '.$this->release.'/.env');
-
         return $output;
     }
 
@@ -73,16 +60,16 @@ class PHP
      */
     public function installPHPDependencies()
     {
-        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-interaction --no-ansi');
+        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction --no-dev --prefer-dist');
     }
 
     public function installNodeDependencies()
     {
         $output = [];
-//
-//        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/node_modules ]) || (cd '.$this->release.'; npm install --no-progress --production; mv '.$this->release.'/node_modules '.$this->site_folder.')');
-//        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/node_modules '.$this->release);
-//
+
+        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/node_modules ]) || (cd '.$this->release.'; yarn install --silent --no-progress --production; mv '.$this->release.'/node_modules '.$this->site_folder.')');
+        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/node_modules '.$this->release);
+
         return $output;
     }
 
@@ -92,18 +79,6 @@ class PHP
     public function setupFolders()
     {
         return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->site_folder.($this->zerotimeDeployment ? '/current' : null));
-    }
-
-    /**
-     * Runs any migrations.
-     */
-    public function runMigrations()
-    {
-        $output = [];
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
-
-        return $output;
     }
 
     /**
