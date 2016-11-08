@@ -9,7 +9,6 @@ use ReflectionClass;
 
 class SiteDeploymentOptionsController extends Controller
 {
-
     /**
      * @param Request $request
      * @param $siteId
@@ -34,17 +33,16 @@ class SiteDeploymentOptionsController extends Controller
      * @param array ...$classes
      * @return array
      */
-    private function buildDeploymentOptions(... $classes)
+    private function buildDeploymentOptions(...$classes)
     {
         $deploymentSteps = [];
 
-        foreach($classes as $class) {
+        foreach ($classes as $class) {
             $reflection = new ReflectionClass($class);
 
             // TODO - get description or something from comment
             foreach ($reflection->getMethods() as $method) {
-                if($method->name != '__construct') {
-
+                if ($method->name != '__construct') {
                     preg_match('/\@order\s(.*)/', $method->getDocComment(), $matches);
                     $order = $matches[1];
 
@@ -54,13 +52,12 @@ class SiteDeploymentOptionsController extends Controller
                     $deploymentSteps[$reflection->getShortName()][] = [
                         'order' => $order,
                         'task' => $method->name,
-                        'description' => $description
+                        'description' => $description,
                     ];
                 }
             }
         }
 
         return $deploymentSteps;
-
     }
 }
