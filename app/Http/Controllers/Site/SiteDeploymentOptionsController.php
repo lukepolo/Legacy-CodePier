@@ -28,7 +28,6 @@ class SiteDeploymentOptionsController extends Controller
      */
     public function store(Request $request, $siteId)
     {
-
     }
 
     /**
