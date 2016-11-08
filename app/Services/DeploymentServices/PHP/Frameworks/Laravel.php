@@ -2,7 +2,7 @@
 
 namespace App\Services\DeploymentServices\PHP\Frameworks;
 
-trait Laravel
+class Laravel
 {
     /**
      * @description Creates a symbolic link for the storage folder so it retains the storage files
