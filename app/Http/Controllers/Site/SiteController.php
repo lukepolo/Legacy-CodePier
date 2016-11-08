@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
 use App\Models\Site\SiteFirewallRule;
 use Illuminate\Http\Request;
@@ -54,52 +53,6 @@ class SiteController extends Controller
             'port'        => '443',
             'from_ip'     => null,
         ]);
-
-
-        $defaultSteps = [
-            [
-                'step'                         => 'Clone Repository',
-                'order'                        => '1',
-                'internal_deployment_function' => 'cloneRepository',
-                'customizable'                 => false,
-            ],
-            [
-                'step'                         => 'Install PHP Dependencies',
-                'order'                        => '2',
-                'internal_deployment_function' => 'installPhpDependencies',
-                'customizable'                 => true,
-            ],
-            [
-                'step' => 'Install Node Dependencies',
-                'order' => '3',
-                'internal_deployment_function' => 'installNodeDependencies',
-                'customizable' => true,
-            ],
-            [
-                'step'                         => 'Run Migrations',
-                'order'                        => '4',
-                'internal_deployment_function' => 'runMigrations',
-                'customizable'                 => true,
-            ],
-            [
-                'step'                         => 'Setup Release',
-                'order'                        => '5',
-                'internal_deployment_function' => 'setupFolders',
-                'customizable'                 => false,
-            ],
-            [
-                'step'                         => 'Clean Up Old Releases',
-                'order'                        => '6',
-                'internal_deployment_function' => 'cleanup',
-                'customizable'                 => true,
-            ],
-        ];
-
-        foreach ($defaultSteps as $defaultStep) {
-            DeploymentStep::create(
-                array_merge(['site_id' => $site->id], $defaultStep)
-            );
-        }
 
         return response()->json($site);
     }

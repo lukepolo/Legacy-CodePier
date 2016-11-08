@@ -3,7 +3,8 @@ export default {
         sites: [],
         site: null,
         site_servers: [],
-        site_deployment_options : []
+        deployment_steps : [],
+        site_deployment_steps : [],
     },
     actions: {
         getSite: ({commit}, site) => {
@@ -89,9 +90,19 @@ export default {
                 alert(error);
             });
         },
-        getSiteDeploymentOptions: ({commit}, site) => {
-            Vue.http.get(Vue.action('Site\SiteDeploymentOptionsController@index', { site : site})).then((response) => {
-                commit('SET_SITE_DEPLOYMENT_OPTIONS', response.data);
+        getDeploymentSteps: ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@index', { site : site})).then((response) => {
+                commit('SET_DEPLOYMENT_STEPS', response.data);
+            });
+        },
+        getSiteDeploymentSteps: ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@index', { site : site})).then((response) => {
+                commit('SET_SITE_DEPLOYMENT_STEPS', response.data);
+            });
+        },
+        updatSiteDeployment: ({dispatch}, data) => {
+            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site, deployment_steps : data.deployment_steps})).then((response) => {
+                dispatch('getSiteDeploymentSteps', data.site);
             });
         }
     },
@@ -105,8 +116,11 @@ export default {
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;
         },
-        SET_SITE_DEPLOYMENT_OPTIONS : (state, deployment_options) => {
-            state.site_deployment_options = deployment_options;
+        SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
+            state.deployment_steps = deployment_steps;
+        },
+        SET_SITE_DEPLOYMENT_STEPS : (state, deployment_steps) => {
+            state.site_deployment_steps = deployment_steps;
         }
     }
 }

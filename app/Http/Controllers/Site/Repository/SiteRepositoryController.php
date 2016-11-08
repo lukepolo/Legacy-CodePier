@@ -27,36 +27,18 @@ class SiteRepositoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        // TODO - repository should be its own model
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @param $siteId
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, $siteId)
     {
         $repository = $request->get('repository');
 
         $site = Site::with('server')->findOrFail($siteId);
-
-        $sshKey = $this->serverService->getFile($site->server, '/home/codepier/.ssh/id_rsa.pub');
-
-        if (empty($sshKey)) {
-            return back()->withErrors('You seem to be missing a SSH key, please contact support.');
-        }
 
         $site->fill([
             'repository'                  => $repository,
@@ -69,86 +51,7 @@ class SiteRepositoryController extends Controller
 
         $site->save();
 
-        if ($site->zerotime_deployment) {
-
-            // TODO - move to proper area
-
-            $defaultSteps = [
-                [
-                    'step'                         => 'Clone Repository',
-                    'order'                        => '1',
-                    'internal_deployment_function' => 'cloneRepository',
-                    'customizable'                 => false,
-                ],
-                [
-                    'step'                         => 'Install PHP Dependencies',
-                    'order'                        => '2',
-                    'internal_deployment_function' => 'installPhpDependencies',
-                    'customizable'                 => true,
-                ],
-                [
-                    'step'                         => 'Install Node Dependencies',
-                    'order'                        => '3',
-                    'internal_deployment_function' => 'installNodeDependencies',
-                    'customizable'                 => true,
-                ],
-                [
-                    'step'                         => 'Run Migrations',
-                    'order'                        => '4',
-                    'internal_deployment_function' => 'runMigrations',
-                    'customizable'                 => true,
-                ],
-                [
-                    'step'                         => 'Setup Release',
-                    'order'                        => '5',
-                    'internal_deployment_function' => 'setupFolders',
-                    'customizable'                 => false,
-                ],
-                [
-                    'step'                         => 'Clean Up Old Releases',
-                    'order'                        => '6',
-                    'internal_deployment_function' => 'cleanup',
-                    'customizable'                 => true,
-                ],
-            ];
-
-            foreach ($defaultSteps as $defaultStep) {
-                DeploymentStep::firstOrCreate(
-                    array_merge(['site_id' => $site->id], $defaultStep)
-                );
-            }
-        } else {
-            dd('non zerotime deployment');
-        }
-
-        return back()->with('success', 'We have added the repository');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $siteId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param $siteId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $siteId, $id)
-    {
-        //
+        return response()->json($site);
     }
 
     /**
@@ -157,7 +60,7 @@ class SiteRepositoryController extends Controller
      * @param $siteId
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($siteId, $id)
     {
@@ -173,6 +76,6 @@ class SiteRepositoryController extends Controller
         $site->branch = null;
         $site->save();
 
-        return back()->with('success', 'deleted repo');
+        return response()->json($site);
     }
 }

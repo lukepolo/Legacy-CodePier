@@ -199,7 +199,7 @@ class OauthController extends Controller
      * @param $providerType
      * @param int $serviceID
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getDisconnectService($providerType, int $serviceID)
     {
@@ -225,7 +225,7 @@ class OauthController extends Controller
             }
         }
 
-        return back()->with('success', 'You have disconnected the service');
+        return response()->json('OK');
     }
 
     /**

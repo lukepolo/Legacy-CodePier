@@ -19,7 +19,6 @@ class CreateDeploymentStepsTable extends Migration
             $table->integer('order');
             $table->longText('script')->nullable();
             $table->string('internal_deployment_function')->nullable();
-            $table->boolean('customizable');
             $table->timestamps();
         });
     }
