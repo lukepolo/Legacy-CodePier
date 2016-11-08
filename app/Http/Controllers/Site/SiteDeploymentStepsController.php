@@ -38,7 +38,7 @@ class SiteDeploymentStepsController extends Controller
             $site->deploymentSteps()->save(DeploymentStep::create([
                 'order' => ++$order,
                 'step' => $deploymentStep['step'],
-                'internal_deployment_function' => $deploymentStep['task']
+                'internal_deployment_function' => $deploymentStep['task'],
             ]));
         }
     }
@@ -64,7 +64,7 @@ class SiteDeploymentStepsController extends Controller
                     $description = $matches[1];
 
                     $deploymentSteps[] = [
-                        'name' => ucwords(str_replace('_', ' ',snake_case($method->name))),
+                        'name' => ucwords(str_replace('_', ' ', snake_case($method->name))),
                         'order' => $order,
                         'task' => $method->name,
                         'description' => $description,
