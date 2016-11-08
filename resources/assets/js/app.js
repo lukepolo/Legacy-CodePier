@@ -131,6 +131,14 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: ':site_id/deployment',
+                    name: 'site_deployment',
+                    components: {
+                        default: sitePages.SiteDeployment,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
                     path: ':site_id/workers',
                     name: 'site_workers',
                     components: {
