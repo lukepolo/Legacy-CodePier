@@ -182,13 +182,13 @@ class Site extends Model
     }
 
     /**
-     * Gets the sites language that its using
+     * Gets the sites language that its using.
      *
      * @return string
      */
     public function getSiteLanguage()
     {
-        $language = collect($this->server_features)->filter(function($features, $index) {
+        $language = collect($this->server_features)->filter(function ($features, $index) {
             return starts_with($index, 'Language');
         })->keys()->first();
 
