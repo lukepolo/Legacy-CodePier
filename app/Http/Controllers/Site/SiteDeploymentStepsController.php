@@ -17,6 +17,15 @@ class SiteDeploymentStepsController extends Controller
      */
     public function index($siteId)
     {
+        return response()->json(Site::findOrFail($siteId)->deploymentSteps);
+    }
+
+    /**
+     * @param $siteId
+     * @return array
+     */
+    public function getDeploymentSteps($siteId)
+    {
         $site = Site::findOrFail($siteId);
 
         return $this->buildDeploymentOptions('App\Services\DeploymentServices\\'.$site->getSiteLanguage(), 'App\Services\DeploymentServices\\'.$site->getFrameworkClass());
@@ -32,14 +41,20 @@ class SiteDeploymentStepsController extends Controller
 
         $site->deploymentSteps()->delete();
 
+        $deploymentSteps = $this->buildDeploymentOptions('App\Services\DeploymentServices\\'.$site->getSiteLanguage(), 'App\Services\DeploymentServices\\'.$site->getFrameworkClass())->keyBy('name');
+
         $order = 0;
 
         foreach ($request->get('deploymentSteps') as $deploymentStep) {
-            $site->deploymentSteps()->save(DeploymentStep::create([
+
+            $deploymentStep = $deploymentSteps->get($deploymentStep);
+
+            DeploymentStep::create([
+                'site_id' => $site->id,
                 'order' => ++$order,
-                'step' => $deploymentStep['step'],
+                'step' => $deploymentStep['name'],
                 'internal_deployment_function' => $deploymentStep['task']
-            ]));
+            ]);
         }
     }
 
@@ -52,11 +67,20 @@ class SiteDeploymentStepsController extends Controller
         $deploymentSteps = [];
 
         foreach ($classes as $class) {
+
             $reflection = new ReflectionClass($class);
 
-            // TODO - get description or something from comment
-            foreach ($reflection->getMethods() as $method) {
-                if ($method->name != '__construct') {
+            $traitMethods = [];
+
+            foreach($reflection->getTraits() as $reflectionTraitClass) {
+                foreach($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                    $traitMethods[] = $method->name;
+                }
+            }
+
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+
+                if ($method->name != '__construct' && !in_array($method->name, $traitMethods)){
                     preg_match('/\@order\s(.*)/', $method->getDocComment(), $matches);
                     $order = $matches[1];
 
@@ -64,7 +88,7 @@ class SiteDeploymentStepsController extends Controller
                     $description = $matches[1];
 
                     $deploymentSteps[] = [
-                        'name' => ucwords(str_replace('_', ' ',snake_case($method->name))),
+                        'name' => ucwords(str_replace('_', ' ', snake_case($method->name))),
                         'order' => $order,
                         'task' => $method->name,
                         'description' => $description,
@@ -73,6 +97,6 @@ class SiteDeploymentStepsController extends Controller
             }
         }
 
-        return $deploymentSteps;
+        return collect($deploymentSteps);
     }
 }

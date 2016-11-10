@@ -91,7 +91,7 @@ export default {
             });
         },
         getDeploymentSteps: ({commit}, site) => {
-            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@index', { site : site})).then((response) => {
+            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site : site})).then((response) => {
                 commit('SET_DEPLOYMENT_STEPS', response.data);
             });
         },
@@ -100,8 +100,8 @@ export default {
                 commit('SET_SITE_DEPLOYMENT_STEPS', response.data);
             });
         },
-        updatSiteDeployment: ({dispatch}, data) => {
-            Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site, deployment_steps : data.deployment_steps})).then((response) => {
+        updateSiteDeployment: ({dispatch}, data) => {
+            Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data.deployment_steps).then((response) => {
                 dispatch('getSiteDeploymentSteps', data.site);
             });
         }
