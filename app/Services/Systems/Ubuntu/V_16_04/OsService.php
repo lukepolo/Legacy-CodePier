@@ -92,7 +92,7 @@ class OsService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/50unattended-upgrades','
+        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/50unattended-upgrades', '
 Unattended-Upgrade::Allowed-Origins {
 "Ubuntu xenial-security";
 };
@@ -101,7 +101,7 @@ Unattended-Upgrade::Package-Blacklist {
 };
 ');
 
-        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/10periodic','
+        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/10periodic', '
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
 APT::Periodic::AutocleanInterval "7";
