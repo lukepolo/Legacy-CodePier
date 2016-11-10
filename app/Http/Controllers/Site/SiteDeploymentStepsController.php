@@ -67,10 +67,10 @@ class SiteDeploymentStepsController extends Controller
     private function getDeploymentClasses($site)
     {
         $classes = [
-            'App\Services\DeploymentServices\\'.$site->getSiteLanguage()
+            'App\Services\DeploymentServices\\'.$site->getSiteLanguage(),
         ];
 
-        if(!empty($site->getFrameworkClass())) {
+        if (! empty($site->getFrameworkClass())) {
             $classes[] = 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();
         }
 
