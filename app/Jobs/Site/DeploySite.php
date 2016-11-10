@@ -36,7 +36,7 @@ class DeploySite implements ShouldQueue
         $this->site = $site;
         $this->servers = $site->provisionedServers;
 
-        foreach($this->servers as $server) {
+        foreach ($this->servers as $server) {
             $this->siteDeployments[$server->id] = SiteDeployment::create([
                 'site_id' => $site->id,
                 'server_id' => $server->id,
@@ -66,11 +66,10 @@ class DeploySite implements ShouldQueue
             }
         }
 
-        if($success) {
+        if ($success) {
             event(new DeploymentSuccessful($this->site));
         } else {
             event(new DeploymentSuccessful($this->site));
         }
-
     }
 }
