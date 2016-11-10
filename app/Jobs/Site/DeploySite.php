@@ -61,7 +61,7 @@ class DeploySite implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         $success = true;
-        foreach($this->siteDeployment->serverDeployments as $serverDeployment) {
+        foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
             try {
                 $siteService->deploy($serverDeployment->server, $this->site, $serverDeployment, $this->sha);
             } catch (DeploymentFailed $e) {
@@ -69,7 +69,7 @@ class DeploySite implements ShouldQueue
                 $this->site->notify(new SiteDeploymentFailed($this->site, $serverDeployment, $e->getMessage()));
             }
         }
-        
+
         if ($success) {
             $this->site->notify(new SiteDeploymentSuccessful($this->site));
         }
