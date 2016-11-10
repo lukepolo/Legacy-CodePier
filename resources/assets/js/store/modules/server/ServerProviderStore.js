@@ -10,28 +10,28 @@ export default {
             Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: rootState.userStore.user.id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getServerProviderOptions: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/options').then((response) => {
                 commit('SET_PROVIDER_SERVER_OPTIONS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getServerProviderRegions: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/regions').then((response) => {
                 commit('SET_PROVIDER_SERVER_REGIONS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getServerProviderFeatures: ({commit}, provider) => {
             Vue.http.get('/api/server/providers/' + provider + '/features').then((response) => {
                 commit('SET_PROVIDER_SERVER_FEATURES', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },

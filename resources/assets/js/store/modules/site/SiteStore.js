@@ -11,7 +11,7 @@ export default {
             Vue.http.get(Vue.action('Site\SiteController@show', {site: site})).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getSites: ({commit, rootState}, callback) => {
@@ -20,7 +20,7 @@ export default {
                     commit('SET_SITES', response.data);
                     typeof callback === 'function' && callback();
                 }, (errors) => {
-                    alert(error);
+                    app.showError(error);
                 });
             }
         },
@@ -33,14 +33,14 @@ export default {
                 app.$router.push('/site/' + response.data.id + '/repository');
                 dispatch('getSites');
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             })
         },
         updateSite: ({commit}, data) => {
             Vue.http.put(Vue.action('Site\SiteController@update', {site: data.site_id}), data.data).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteSite: ({commit, dispatch}, site_id) => {
@@ -55,7 +55,7 @@ export default {
             Vue.http.get(Vue.action('Site\SiteServerController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_SERVERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         updateLinkedServers: ({commit, dispatch}, data) => {
@@ -73,7 +73,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         updateSiteFile: ({commit}, data) => {
@@ -87,7 +87,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getDeploymentSteps: ({commit}, site) => {

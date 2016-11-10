@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Site\SiteFirewallRuleController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_FIREWALL_RULES', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         createSiteFirewallRule: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteFirewallRuleController@store', {site: data.site}), data).then((response) => {
                 dispatch('getSiteFirewallRules', data.site);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteSiteFirewallRule: ({commit, dispatch}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then((response) => {
                 dispatch('getSiteFirewallRules', data.site);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },
