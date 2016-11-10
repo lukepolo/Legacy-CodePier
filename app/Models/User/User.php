@@ -90,21 +90,23 @@ class User extends Authenticatable
 
     public function getRunningCommands()
     {
-        $currentPile = $this->currentPile->with('servers.commands.commandable')->whereHas('servers.commands', function ($query) {
-            $query->where('failed', 0)
-                ->where('completed', 0);
-        })->first();
-
         $commandsRunning = [];
 
-        if (! empty($currentPile->servers)) {
-            foreach ($currentPile->servers as $server) {
-                foreach ($server->commands as $command) {
-                    $commandsRunning[$command->type][] = $command;
+        if($this->currentPile) {
+            $currentPile = $this->currentPile->with('servers.commands.commandable')->whereHas('servers.commands', function ($query) {
+                $query->where('failed', 0)
+                    ->where('completed', 0);
+            })->first();
+
+
+            if (!empty($currentPile->servers)) {
+                foreach ($currentPile->servers as $server) {
+                    foreach ($server->commands as $command) {
+                        $commandsRunning[$command->type][] = $command;
+                    }
                 }
             }
         }
-
         return collect($commandsRunning);
     }
 }
