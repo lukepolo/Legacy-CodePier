@@ -29,7 +29,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     {
         $this->user = $server->user;
 
-        $this->serverID = $server->id;
+        $this->serverId = $server->id;
         $this->progress = $server->progress = $progress;
         $this->status = $server->status = $status;
         $this->ip = $server->ip;

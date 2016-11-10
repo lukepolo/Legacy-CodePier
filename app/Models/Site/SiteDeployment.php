@@ -35,6 +35,8 @@ class SiteDeployment extends Model
                 'deployment_step_id' => $deploymentStep->id,
             ]);
         }
+
+        return $this;
     }
 
     public function events()
