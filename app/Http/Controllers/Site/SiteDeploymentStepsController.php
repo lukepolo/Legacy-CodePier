@@ -46,14 +46,13 @@ class SiteDeploymentStepsController extends Controller
         $order = 0;
 
         foreach ($request->get('deploymentSteps') as $deploymentStep) {
-
             $deploymentStep = $deploymentSteps->get($deploymentStep);
 
             DeploymentStep::create([
                 'site_id' => $site->id,
                 'order' => ++$order,
                 'step' => $deploymentStep['name'],
-                'internal_deployment_function' => $deploymentStep['task']
+                'internal_deployment_function' => $deploymentStep['task'],
             ]);
         }
     }
@@ -67,20 +66,18 @@ class SiteDeploymentStepsController extends Controller
         $deploymentSteps = [];
 
         foreach ($classes as $class) {
-
             $reflection = new ReflectionClass($class);
 
             $traitMethods = [];
 
-            foreach($reflection->getTraits() as $reflectionTraitClass) {
-                foreach($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            foreach ($reflection->getTraits() as $reflectionTraitClass) {
+                foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     $traitMethods[] = $method->name;
                 }
             }
 
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-
-                if ($method->name != '__construct' && !in_array($method->name, $traitMethods)){
+                if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
                     preg_match('/\@order\s(.*)/', $method->getDocComment(), $matches);
                     $order = $matches[1];
 
