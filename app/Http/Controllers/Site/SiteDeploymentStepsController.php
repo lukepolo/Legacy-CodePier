@@ -28,7 +28,7 @@ class SiteDeploymentStepsController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        return $this->buildDeploymentOptions('App\Services\DeploymentServices\\'.$site->getSiteLanguage(), 'App\Services\DeploymentServices\\'.$site->getFrameworkClass());
+        return $this->buildDeploymentOptions($this->getDeploymentClasses($site));
     }
 
     /**
@@ -41,7 +41,7 @@ class SiteDeploymentStepsController extends Controller
 
         $site->deploymentSteps()->delete();
 
-        $deploymentSteps = $this->buildDeploymentOptions('App\Services\DeploymentServices\\'.$site->getSiteLanguage(), 'App\Services\DeploymentServices\\'.$site->getFrameworkClass())->keyBy('name');
+        $deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('name');
 
         $order = 0;
 
@@ -58,10 +58,27 @@ class SiteDeploymentStepsController extends Controller
     }
 
     /**
-     * @param array ...$classes
+     * @param $site
      * @return array
      */
-    private function buildDeploymentOptions(...$classes)
+    private function getDeploymentClasses($site)
+    {
+        $classes = [
+            'App\Services\DeploymentServices\\'.$site->getSiteLanguage()
+        ];
+
+        if(!empty($site->getFrameworkClass())) {
+            $classes[] = 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();
+        }
+
+        return $classes;
+    }
+
+    /**
+     * @param array $classes
+     * @return array
+     */
+    private function buildDeploymentOptions(array $classes)
     {
         $deploymentSteps = [];
 
