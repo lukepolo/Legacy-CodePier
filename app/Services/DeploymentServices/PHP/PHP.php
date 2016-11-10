@@ -107,14 +107,4 @@ class PHP
     {
         return $this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf');
     }
-
-    /**
-     * @description Restarts PHP FPM Service to clear the OPcache
-     *
-     * @order 600
-     */
-    public function restartPhpFpm()
-    {
-        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
-    }
 }
