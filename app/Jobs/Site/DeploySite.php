@@ -3,13 +3,12 @@
 namespace App\Jobs\Site;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Events\Site\DeploymentSuccessful;
 use App\Exceptions\DeploymentFailed;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
-use App\Notifications\NewSiteDeployment;
-use App\Notifications\SiteDeploymentFailed;
-use App\Notifications\SiteDeploymentSuccessful;
+use App\Notifications\Site\NewSiteDeployment;
+use App\Notifications\Site\SiteDeploymentFailed;
+use App\Notifications\Site\SiteDeploymentSuccessful;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -59,7 +58,6 @@ class DeploySite implements ShouldQueue
             $siteDeployment = $this->siteDeployments[$server->id];
             try {
                 $siteService->deploy($server, $this->site, $siteDeployment, $this->sha);
-                $this->site->notify(new SiteDeploymentSuccessful($this->site, $siteDeployment));
             } catch (DeploymentFailed $e) {
                 $success = false;
                 $this->site->notify(new SiteDeploymentFailed($this->site, $siteDeployment, $e->getMessage()));
@@ -67,9 +65,7 @@ class DeploySite implements ShouldQueue
         }
 
         if ($success) {
-            event(new DeploymentSuccessful($this->site));
-        } else {
-            event(new DeploymentSuccessful($this->site));
+            $this->site->notify(new SiteDeploymentSuccessful($this->site));
         }
     }
 }

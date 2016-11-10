@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -18,12 +17,10 @@ class SiteDeploymentSuccessful extends Notification
      * Create a new notification instance.
      *
      * @param Site           $site
-     * @param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment)
+    public function __construct(Site $site)
     {
         $this->site = $site;
-        $this->siteDeployment = $siteDeployment;
     }
 
     /**
@@ -49,7 +46,6 @@ class SiteDeploymentSuccessful extends Notification
     {
         return [
             'site'           => $this->site,
-            'siteDeployment' => $this->siteDeployment,
         ];
     }
 }
