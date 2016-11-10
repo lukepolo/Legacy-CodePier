@@ -47,12 +47,11 @@ class SiteDeploymentStepsController extends Controller
         $order = 0;
 
         foreach ($request->get('deploymentSteps') as $deploymentStep) {
-
             DeploymentStep::create([
                 'site_id' => $site->id,
                 'order' => ++$order,
                 'step' => $deploymentSteps->has($deploymentStep) ? $deploymentSteps->get($deploymentStep)['name'] : 'Custom Step',
-                'script' => !$deploymentSteps->has($deploymentStep) ? $deploymentStep: null,
+                'script' => ! $deploymentSteps->has($deploymentStep) ? $deploymentStep : null,
                 'internal_deployment_function' => $deploymentSteps->has($deploymentStep) ? $deploymentSteps->get($deploymentStep)['task'] : null,
             ]);
         }
