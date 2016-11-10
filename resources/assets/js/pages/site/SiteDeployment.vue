@@ -2,12 +2,13 @@
     <div v-if="site">
         Site Deployments
         <form @submit.prevent="updateSiteDeployment">
-            <div v-for="deploymentOption in deploymentOptions">
+            <div v-for="deploymentStep in deploymentSteps">
                 <p>
-                    {{ deploymentOption.name }} <br> <small>{{ deploymentOption.description }}</small>
-                    <input type="checkbox" name="" value="true">
+                    {{ deploymentStep.name }} <br> <small>{{ deploymentStep.description }}</small>
+                    <input type="checkbox" name="deploymentSteps[]" :value="deploymentStep.name" :checked="hasStep(deploymentStep.task)">
                 </p>
             </div>
+            <button type="submit">Update Deployment Steps</button>
         </form>
     </div>
 </template>
@@ -26,23 +27,28 @@
                 this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id);
                 this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id);
             },
+            updateSiteDeployment() {
+                this.$store.dispatch('updateSiteDeployment', {
+                    site : this.$route.params.site_id,
+                    deployment_steps : this.getFormData(this.$el)
+                })
+            },
+            hasStep(task) {
+                if(this.currentSiteDeploymentSteps.length) {
+                    return _.find(this.currentSiteDeploymentSteps, {'internal_deployment_function' : task});
+                }
+                return false;
+            }
         },
         computed: {
             site() {
                 return this.$store.state.sitesStore.site;
             },
-            deploymentOptions() {
+            deploymentSteps() {
                 return this.$store.state.sitesStore.deployment_steps;
             },
-            currentSiteDeployment() {
-                return this.$store.state.siteStore.current_deployment_steps;
-            },
-            updateSiteDeployment() {
-                alert('got here');
-//                this.$store.dispatch('updatSiteDeployment', {
-//                    site : this.$route.params.site_id,
-//                    deployment_steps : []
-//                })
+            currentSiteDeploymentSteps() {
+                return this.$store.state.sitesStore.site_deployment_steps;
             }
         }
     }

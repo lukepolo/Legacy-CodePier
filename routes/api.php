@@ -140,7 +140,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
             Route::resource('site.ssl-certificate', 'SiteSslController');
-            Route::resource('site.deployment-options', 'SiteDeploymentStepsController');
+
+            Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
+            Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
         });
     });
 
