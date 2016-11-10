@@ -3,6 +3,7 @@
 namespace App\Jobs\Site;
 
 use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Events\Site\DeploymentSuccessful;
 use App\Exceptions\DeploymentFailed;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
@@ -21,7 +22,7 @@ class DeploySite implements ShouldQueue
     public $sha;
     public $site;
     public $servers = [];
-    public $siteDeployment;
+    public $siteDeployments = [];
 
     /**
      * Create a new job instance.
@@ -35,14 +36,15 @@ class DeploySite implements ShouldQueue
         $this->site = $site;
         $this->servers = $site->provisionedServers;
 
-        $this->siteDeployment = SiteDeployment::create([
-            'site_id' => $site->id,
-            'status'  => 'queued for deployment',
-        ]);
+        foreach($this->servers as $server) {
+            $this->siteDeployments[$server->id] = SiteDeployment::create([
+                'site_id' => $site->id,
+                'server_id' => $server->id,
+                'status'  => 'queued for deployment',
+            ])->createSteps();
 
-        $this->siteDeployment->createSteps();
-
-        $site->notify(new NewSiteDeployment($site, $this->siteDeployment));
+            $site->notify(new NewSiteDeployment($site, last($this->siteDeployments)));
+        }
     }
 
     /**
@@ -52,13 +54,23 @@ class DeploySite implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        try {
-            foreach ($this->servers as $server) {
-                $siteService->deploy($server, $this->site, $this->siteDeployment, $this->sha);
-                $this->site->notify(new SiteDeploymentSuccessful($this->site, $this->siteDeployment));
+        $success = true;
+        foreach ($this->servers as $server) {
+            $siteDeployment = $this->siteDeployments[$server->id];
+            try {
+                $siteService->deploy($server, $this->site, $siteDeployment, $this->sha);
+                $this->site->notify(new SiteDeploymentSuccessful($this->site, $siteDeployment));
+            } catch (DeploymentFailed $e) {
+                $success = false;
+                $this->site->notify(new SiteDeploymentFailed($this->site, $siteDeployment, $e->getMessage()));
             }
-        } catch (DeploymentFailed $e) {
-            $this->site->notify(new SiteDeploymentFailed($this->site, $this->siteDeployment, $e->getMessage()));
         }
+
+        if($success) {
+            event(new DeploymentSuccessful($this->site));
+        } else {
+            event(new DeploymentSuccessful($this->site));
+        }
+
     }
 }

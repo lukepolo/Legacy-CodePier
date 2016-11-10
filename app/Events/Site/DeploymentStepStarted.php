@@ -18,14 +18,17 @@ class DeploymentStepStarted implements ShouldBroadcastNow
     public $step;
     public $deploymentEvent;
 
-    private $siteID;
+    private $siteId;
 
     /**
      * Create a new event instance.
+     * @param Site $site
+     * @param DeploymentEvent $deploymentEvent
+     * @param DeploymentStep $deploymentStep
      */
     public function __construct(Site $site, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep)
     {
-        $this->siteID = $site->id;
+        $this->siteId = $site->id;
 
         $deploymentEvent->started = true;
         $deploymentEvent->save();
@@ -41,6 +44,6 @@ class DeploymentStepStarted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteID);
+        return new PrivateChannel('App.Models.Site.'.$this->siteId);
     }
 }

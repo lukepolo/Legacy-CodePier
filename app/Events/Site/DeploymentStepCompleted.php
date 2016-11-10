@@ -23,8 +23,9 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      *
-     * @param Site            $site
+     * @param Site $site
      * @param DeploymentEvent $deploymentEvent
+     * @param DeploymentStep $deploymentStep
      * @param $log
      * @param $runtime
      */
