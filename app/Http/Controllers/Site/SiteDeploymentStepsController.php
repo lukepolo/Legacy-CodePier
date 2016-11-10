@@ -28,12 +28,13 @@ class SiteDeploymentStepsController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        return $this->buildDeploymentOptions($this->getDeploymentClasses($site));
+        return response()->json($this->buildDeploymentOptions($this->getDeploymentClasses($site))->values()->all());
     }
 
     /**
      * @param Request $request
      * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, $siteId)
     {
@@ -55,6 +56,8 @@ class SiteDeploymentStepsController extends Controller
                 'internal_deployment_function' => $deploymentStep['task'],
             ]);
         }
+
+        return response()->json('OK');
     }
 
     /**
@@ -103,7 +106,7 @@ class SiteDeploymentStepsController extends Controller
 
                     $deploymentSteps[] = [
                         'name' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                        'order' => $order,
+                        'order' => (int) $order,
                         'task' => $method->name,
                         'description' => $description,
                     ];
@@ -111,6 +114,6 @@ class SiteDeploymentStepsController extends Controller
             }
         }
 
-        return collect($deploymentSteps);
+        return collect($deploymentSteps)->sortBy('order');
     }
 }

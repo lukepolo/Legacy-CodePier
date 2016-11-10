@@ -5,8 +5,18 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 trait Laravel
 {
     /**
-     * @description Creates a symbolic link for the storage folder so it retains the storage files
+     * @description Creates a symbolic link for the env file
      * @order 110
+     */
+    public function laravelCreateSymbolicEnv()
+    {
+        $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
+        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/.env '.$this->release.'/.env');
+    }
+
+    /**
+     * @description Creates a symbolic link for the storage folder so it retains the storage files
+     * @order 150
      */
     public function laravelCreateSymbolicStorageFolder()
     {
