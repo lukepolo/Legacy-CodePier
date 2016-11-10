@@ -74,8 +74,8 @@ class ProvisionServer implements ShouldQueue
                     'step' => 'Adding CodePier User',
                 ],
                 'setupUnattendedSecurityUpgrades' => [
-                    'step' => 'Setup Unattended Security Upgrades'
-                ]
+                    'step' => 'Setup Unattended Security Upgrades',
+                ],
             ],
             SystemService::FIREWALL => [
                 'addBasicFirewallRules' => [
