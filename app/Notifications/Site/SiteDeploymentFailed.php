@@ -3,7 +3,7 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteServerDeployment;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,23 +19,24 @@ class SiteDeploymentFailed extends Notification
     public $domain;
     public $server;
     public $errorMessage;
-    public $siteDeployment;
+    public $siteServerDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Site\Site           $site
-     * @param SiteDeployment $siteDeployment
+     * @param \App\Models\Site\Site $site
+     * @param SiteServerDeployment $siteServerDeployment
      * @param $errorMessage
+     * @internal param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment, $errorMessage)
+    public function __construct(Site $site, SiteServerDeployment $siteServerDeployment, $errorMessage)
     {
         $this->site = $site;
         $this->domain = $this->site->domain;
         $this->errorMessage = $errorMessage;
         $this->pile = $this->site->pile->name;
-        $this->siteDeployment = $siteDeployment;
-        $this->server = $this->siteDeployment->server;
+        $this->siteServerDeployment = $siteServerDeployment;
+        $this->server = $this->siteServerDeployment->server;
     }
 
     /**
@@ -79,7 +80,7 @@ class SiteDeploymentFailed extends Notification
         return [
             'site'           => $this->site,
             'errorMessage'   => $this->errorMessage,
-            'siteDeployment' => $this->siteDeployment,
+            'siteDeployment' => $this->siteServerDeployment,
         ];
     }
 
