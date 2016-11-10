@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\DeploySiteRequest;
+use App\Http\Requests\Site\SiteRequest;
+use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteFirewallRule;
-use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -26,12 +28,10 @@ class SiteController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param SiteRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SiteRequest $request)
     {
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
@@ -74,12 +74,11 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param SiteRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SiteRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
@@ -126,17 +125,21 @@ class SiteController extends Controller
 
     /**
      * Deploys a site.
-     *
-     * @param Request $request
+     * @param DeploySiteRequest $request
      */
-    public function deploy(Request $request)
+    public function deploy(DeploySiteRequest $request)
     {
         $site = Site::with('servers')->findOrFail($request->get('site'));
 
         $this->dispatch(new DeploySite($site));
     }
 
-    public function updateSiteServerFeatures(Request $request, $id)
+    /**
+     * @param SiteServerFeatureRequest $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateSiteServerFeatures(SiteServerFeatureRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 

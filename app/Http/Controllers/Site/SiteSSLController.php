@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteSslRequest;
 use App\Models\Site\SiteSslCertificate;
 use App\Services\Server\ServerService;
-use Illuminate\Http\Request;
 
 class SiteSSLController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $siteId)
+    public function index($siteId)
     {
         return response()->json(
             SiteSslCertificate::where('site_id', $siteId)->get()
@@ -27,12 +26,11 @@ class SiteSSLController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param SiteSslRequest $request
      * @param $siteId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteSslRequest $request, $siteId)
     {
         $siteSslCertificate = false;
 
@@ -67,12 +65,12 @@ class SiteSSLController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SiteSslRequest $request
      * @param $siteId
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteSslRequest $request, $siteId, $id)
     {
         $siteSslCertificate = SiteSslCertificate::where('site_id', $siteId)->findOrFail($id);
 

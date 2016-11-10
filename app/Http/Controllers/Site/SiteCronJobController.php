@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteCronJobRequest;
 use App\Models\Site\SiteCronJob;
-use Illuminate\Http\Request;
 
 class SiteCronJobController extends Controller
 {
@@ -23,11 +23,11 @@ class SiteCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteCronJobRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteCronJobRequest $request, $siteId)
     {
         return response()->json(
             SiteCronJob::create([
@@ -55,12 +55,12 @@ class SiteCronJobController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteCronJobRequest $request
      * @param  int $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteCronJobRequest $request, $siteId, $id)
     {
         $siteCronJob = SiteCronJob::where('site_id', $siteId)->findOrFail($id);
 

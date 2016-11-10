@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteSshKeyRequest;
 use App\Models\Site\SiteSshKey;
-use Illuminate\Http\Request;
 
 class SiteSshKeyController extends Controller
 {
@@ -23,11 +23,11 @@ class SiteSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteSshKeyRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteSshKeyRequest $request, $siteId)
     {
         return response()->json(
             SiteSshKey::create([
@@ -55,12 +55,12 @@ class SiteSshKeyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteSshKeyRequest $request
      * @param  int $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteSshKeyRequest $request, $siteId, $id)
     {
         $siteSshKey = SiteSshKey::where('site_id', $siteId)->findOrFail($id);
 

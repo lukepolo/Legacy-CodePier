@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteServerRequest;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 
 class SiteServerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $siteId)
+    public function index($siteId)
     {
         return response()->json(
             Site::where('id', $siteId)->firstorFail()->servers
@@ -26,11 +25,11 @@ class SiteServerController extends Controller
     /**
      * Stores a site.
      *
-     * @param Request $request
+     * @param SiteServerRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteServerRequest $request, $siteId)
     {
         $site = Site::where('id', $siteId)->firstorFail();
 

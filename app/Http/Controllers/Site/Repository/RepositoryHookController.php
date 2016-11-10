@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Site\Repository;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 
 class RepositoryHookController extends Controller
 {
@@ -23,12 +22,11 @@ class RepositoryHookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store($siteId)
     {
         return response()->json(
             $this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId))
