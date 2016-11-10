@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Site\Repository;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 
