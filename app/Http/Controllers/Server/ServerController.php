@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Server;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerRequest;
 use App\Jobs\Server\CreateServer;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
@@ -39,12 +40,10 @@ class ServerController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param ServerRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServerRequest $request)
     {
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
@@ -131,6 +130,7 @@ class ServerController extends Controller
      *
      * @param Request $request
      *
+     * @param $serverId
      * @return \Illuminate\Http\JsonResponse
      */
     public function getFile(Request $request, $serverId)
@@ -142,6 +142,7 @@ class ServerController extends Controller
      * Saves a file to a server.
      *
      * @param Request $request
+     * @param $serverId
      */
     public function saveFile(Request $request, $serverId)
     {
@@ -151,12 +152,11 @@ class ServerController extends Controller
     /**
      * Restarts a server.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restartServer(Request $request, $serverId)
+    public function restartServer($serverId)
     {
         $server = Server::findOrFail($serverId);
 
@@ -170,12 +170,11 @@ class ServerController extends Controller
     /**
      * Restart the servers web services.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restartWebServices(Request $request, $serverId)
+    public function restartWebServices($serverId)
     {
         $server = Server::findOrFail($serverId);
 
@@ -189,12 +188,11 @@ class ServerController extends Controller
     /**
      * Restarts the databases on a server.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restartDatabases(Request $request, $serverId)
+    public function restartDatabases($serverId)
     {
         $server = Server::findOrFail($serverId);
 
@@ -208,12 +206,11 @@ class ServerController extends Controller
     /**
      * Restarts the worker services.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function restartWorkerServices(Request $request, $serverId)
+    public function restartWorkerServices($serverId)
     {
         $server = Server::findOrFail($serverId);
 
@@ -227,10 +224,9 @@ class ServerController extends Controller
     /**
      * Tests a ssh connection to server.
      *
-     * @param Request $request
      * @param $serverId
      */
-    public function testSSHConnection(Request $request, $serverId)
+    public function testSSHConnection($serverId)
     {
         $this->serverService->testSSHConnection(Server::findOrFail($serverId));
     }

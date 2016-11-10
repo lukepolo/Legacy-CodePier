@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteDeploymentStepsRequest;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use ReflectionClass;
 
 class SiteDeploymentStepsController extends Controller
@@ -32,11 +32,11 @@ class SiteDeploymentStepsController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SiteDeploymentStepsRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteDeploymentStepsRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

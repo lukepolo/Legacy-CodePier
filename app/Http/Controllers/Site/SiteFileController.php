@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteFileRequest;
 use App\Models\Site\Site;
 use App\Models\Site\SiteFile;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class SiteFileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
@@ -37,12 +39,11 @@ class SiteFileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param SiteFileRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteFileRequest $request, $siteId)
     {
         return response()->json(
             SiteFile::create([
@@ -56,12 +57,11 @@ class SiteFileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param $siteId
      * @param string $fileId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $siteId, $fileId)
+    public function show($siteId, $fileId)
     {
         return response()->json(
             SiteFile::with('site')->where('site_id', $siteId)->findOrFail($fileId)
@@ -94,13 +94,12 @@ class SiteFileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param SiteFileRequest $request
+     * @param $siteId
      * @param int $id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteFileRequest $request, $siteId, $id)
     {
         $file = SiteFile::with('site')->where('site_id', $siteId)->findOrFail($id);
 
