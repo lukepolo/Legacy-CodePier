@@ -13,7 +13,7 @@ class SiteWorkerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return \Auth::check();
     }
 
     /**
