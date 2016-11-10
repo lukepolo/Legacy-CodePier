@@ -4,7 +4,6 @@ namespace App\Events\Site;
 
 use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
