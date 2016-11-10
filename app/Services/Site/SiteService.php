@@ -6,6 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract;
+use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
@@ -145,15 +146,15 @@ class SiteService implements SiteServiceContract
             try {
                 $start = microtime(true);
 
-                event(new DeploymentStepStarted($site, $event, $event->step));
+                event(new DeploymentStepStarted($site, $server, $event, $event->step));
 
                 $internalFunction = $event->step->internal_deployment_function;
 
                 $log = $deploymentService->$internalFunction($sha);
 
-                event(new DeploymentStepCompleted($site, $event, $event->step, $log, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $log, microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $event, $e->getMessage()));
+                event(new DeploymentStepFailed($site, $server, $event, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
@@ -161,8 +162,8 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
         $this->serverService->restartWebServices($server);
 
-        // TODO - should be a notification
-//        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
+        $siteDeployment->log($this->remoteTaskService->getOutput());
+        event(new DeploymentCompleted($site, $server, $siteDeployment));
     }
 
     /**

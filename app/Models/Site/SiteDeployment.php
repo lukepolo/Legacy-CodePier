@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentEvent;
 use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,11 @@ class SiteDeployment extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
     }
 
     public function createSteps()

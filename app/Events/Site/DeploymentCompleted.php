@@ -3,46 +3,33 @@
 namespace App\Events\Site;
 
 use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentEvent;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
-class DeploymentStepCompleted implements ShouldBroadcastNow
+class DeploymentCompleted implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $step;
     public $siteId;
     public $serverId;
-    public $deploymentEvent;
+    public $siteDeployment;
 
     /**
      * Create a new event instance.
-     *
      * @param Site $site
      * @param Server $server
-     * @param DeploymentEvent $deploymentEvent
-     * @param DeploymentStep $deploymentStep
-     * @param $log
-     * @param $runtime
+     * @param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
+    public function __construct(Site $site, Server $server, SiteDeployment $siteDeployment)
     {
         $this->siteId = $site->id;
         $this->serverId = $server->id;
-
-        $deploymentEvent->log = $log;
-        $deploymentEvent->completed = true;
-        $deploymentEvent->runtime = $runtime;
-        $deploymentEvent->save();
-
-        $this->deploymentEvent = $deploymentEvent;
-        $this->step = $deploymentStep->step;
+        $this->siteDeployment = $siteDeployment;
     }
 
     /**

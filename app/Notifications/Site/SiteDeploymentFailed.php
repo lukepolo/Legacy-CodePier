@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
@@ -14,9 +14,10 @@ class SiteDeploymentFailed extends Notification
 {
     use Queueable;
 
+    public $pile;
     public $site;
     public $domain;
-    public $pile;
+    public $server;
     public $errorMessage;
     public $siteDeployment;
 
@@ -30,10 +31,11 @@ class SiteDeploymentFailed extends Notification
     public function __construct(Site $site, SiteDeployment $siteDeployment, $errorMessage)
     {
         $this->site = $site;
-        $this->pile = $this->site->pile->name;
         $this->domain = $this->site->domain;
         $this->errorMessage = $errorMessage;
+        $this->pile = $this->site->pile->name;
         $this->siteDeployment = $siteDeployment;
+        $this->server = $this->siteDeployment->server;
     }
 
     /**
@@ -59,7 +61,7 @@ class SiteDeploymentFailed extends Notification
     {
         return (new MailMessage())
             ->subject('('.$this->pile.') '.$this->domain.' Deployment Failed')
-            ->line('Your site failed to deploy because : ')
+            ->line('Your site failed to deploy on '. $this->server->name .' ('.$this->server->ip.') ' .' because : ')
             ->line($this->errorMessage)
             ->action('Go to your site', url('site/'.$this->site->id))
             ->error();
