@@ -15,6 +15,7 @@ use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteServerDeployment;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\Systems\SystemService;
 
@@ -123,12 +124,13 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
-     * @param \App\Models\Site\SiteDeployment $siteDeployment
+     * @param SiteServerDeployment $siteServerDeployment
      * @param null $sha
      *
      * @throws DeploymentFailed
+     * @internal param SiteDeployment $siteDeployment
      */
-    public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $sha = null)
+    public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, $sha = null)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
@@ -139,10 +141,10 @@ class SiteService implements SiteServiceContract
                 $site->branch);
         }
 
-        $siteDeployment->git_commit = $lastCommit;
-        $siteDeployment->save();
+        $siteServerDeployment->siteDeployment->git_commit = $lastCommit;
+        $siteServerDeployment->siteDeployment->save();
 
-        foreach ($siteDeployment->events as $event) {
+        foreach ($siteServerDeployment->events as $event) {
             try {
                 $start = microtime(true);
 
@@ -162,8 +164,11 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
         $this->serverService->restartWebServices($server);
 
-        $siteDeployment->log($this->remoteTaskService->getOutput());
-        event(new DeploymentCompleted($site, $server, $siteDeployment));
+        $siteServerDeployment->update([
+            'log' => $this->remoteTaskService->getOutput()
+        ]);
+
+        event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
 
     /**
