@@ -165,7 +165,7 @@ class SiteService implements SiteServiceContract
         $this->serverService->restartWebServices($server);
 
         $siteServerDeployment->update([
-            'log' => $this->remoteTaskService->getOutput()
+            'log' => $this->remoteTaskService->getOutput(),
         ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
