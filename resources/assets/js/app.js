@@ -13,6 +13,7 @@ import * as serverPages from "./pages/server";
 import store from "./store";
 import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";
+import PageNotFound from './core/PageNotFound.vue';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -257,7 +258,7 @@ const router = new VueRouter({
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
-        {path: '*', redirect: '/'},
+        {path: '*',  component: PageNotFound },
     ]
 });
 
