@@ -73,7 +73,6 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
-            console.log(type);
             return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
                 if(type == commandType) {
                     if(_.find(object, function(item) {
@@ -84,13 +83,17 @@ Vue.mixin({
                 }
                 return false;
             }).length > 0;
+        },
+        showError(message, title, timeout) {
+            this.$store.dispatch('addNotification', {
+                title: title ? title : "Error!!",
+                text: message,
+                class: "error",
+                timeout: timeout ? timeout : 10000,
+            })
         }
     }
 });
-
-
-// Vue.config.errorHandler = function (err, vm) {
-// }
 
 /*
  |--------------------------------------------------------------------------

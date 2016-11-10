@@ -10,35 +10,35 @@ export default {
             Vue.http.get(Vue.action('User\Subscription\UserSubscriptionController@index')).then((response) => {
                 commit('SET_USER_SUBSCRIPTION', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             })
         },
         getUpcomingSubscription: ({commit}) => {
             Vue.http.get(Vue.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index')).then((response) => {
                 commit('SET_USER_UPCOMING_SUBSCRIPTION', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         createUserSubscription: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
                 dispatch('getUserSubscription');
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         cancelSubscription: ({commit, dispatch}, subscription_id) => {
             Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', {subscription: subscription_id})).then((response) => {
                 dispatch('getUserSubscription');
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getUserInvoices: ({commit}) => {
             Vue.http.get(Vue.action('User\Subscription\UserSubscriptionInvoiceController@index')).then((response) => {
                 commit('SET_USER_INVOICES', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             })
         }
     },

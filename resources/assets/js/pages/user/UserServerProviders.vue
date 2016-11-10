@@ -56,7 +56,7 @@
             Vue.http.get(this.action('Auth\Providers\ServerProvidersController@index')).then((response) => {
                 this.server_providers = response.data;
             }, (errors) => {
-                alert(error);
+                app.showError(error);;
             });
 
             this.$store.dispatch('getUserServerProviders', this.$store.state.userStore.user.id);
