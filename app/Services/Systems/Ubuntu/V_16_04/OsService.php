@@ -21,6 +21,9 @@ class OsService
         $this->connectToServer();
 
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y ntpdate');
+        $this->remoteTaskService->run('ntpdate ntp.ubuntu.com');
     }
 
     public function setLocaleToUTF8()
@@ -83,5 +86,26 @@ class OsService
         $this->server->save();
 
         $this->remoteTaskService->run("echo \"codepier:$password\" | chpasswd");
+    }
+
+    public function setupUnattendedSecurityUpgrades()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/50unattended-upgrades','
+Unattended-Upgrade::Allowed-Origins {
+"Ubuntu xenial-security";
+};
+Unattended-Upgrade::Package-Blacklist {
+//
+};
+');
+
+        $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/10periodic','
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+');
     }
 }
