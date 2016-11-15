@@ -11,7 +11,7 @@ class SiteServerDeployment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'log' => 'array'
+        'log' => 'array',
     ];
 
     public function server()
