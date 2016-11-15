@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteFirewallRuleRequest;
 use App\Models\Site\SiteFirewallRule;
-use Illuminate\Http\Request;
 
 class SiteFirewallRuleController extends Controller
 {
@@ -24,11 +24,11 @@ class SiteFirewallRuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteFirewallRuleRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteFirewallRuleRequest $request, $siteId)
     {
         return response()->json(
             SiteFirewallRule::create([
@@ -57,12 +57,12 @@ class SiteFirewallRuleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SiteFirewallRuleRequest $request
      * @param  int $siteId
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteFirewallRuleRequest $request, $siteId, $id)
     {
         $siteFirewallRule = SiteFirewallRule::where('site_id', $siteId)->findOrFail($id);
 

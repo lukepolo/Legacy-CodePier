@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerSshKeyRequest;
 use App\Models\Server\ServerSshKey;
-use Illuminate\Http\Request;
 
 class ServerSshKeyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
         return response()->json(
             ServerSshKey::where('server_id', $serverId)->get()
@@ -26,12 +25,11 @@ class ServerSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ServerSshKeyRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerSshKeyRequest $request, $serverId)
     {
         return response()->json(
             ServerSshKey::create([

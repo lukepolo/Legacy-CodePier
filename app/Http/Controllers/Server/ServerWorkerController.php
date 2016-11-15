@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerWorkerRequest;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
-use Illuminate\Http\Request;
 
 class ServerWorkerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
-     *
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
         return response()->json(
             Server::findOrFail($serverId)->workers
@@ -27,12 +25,12 @@ class ServerWorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      *
+     * @param ServerWorkerRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerWorkerRequest $request, $serverId)
     {
         return response()->json(
             ServerWorker::create([

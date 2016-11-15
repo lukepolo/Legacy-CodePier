@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerCronJobRequest;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
-use Illuminate\Http\Request;
 
 class ServerCronJobController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
         return response()->json(
             Server::with('cronJobs')->findOrFail($serverId)->cronJobs
@@ -27,12 +26,11 @@ class ServerCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ServerCronJobRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerCronJobRequest $request, $serverId)
     {
         return response()->json(
             ServerCronJob::create([

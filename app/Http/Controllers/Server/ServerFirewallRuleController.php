@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerFireWallRuleRequest;
 use App\Models\Server\ServerFirewallRule;
-use Illuminate\Http\Request;
 
 class ServerFirewallRuleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
         return response()->json(
             ServerFirewallRule::where('server_id', $serverId)->get()
@@ -26,12 +25,11 @@ class ServerFirewallRuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ServerFireWallRuleRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerFireWallRuleRequest $request, $serverId)
     {
         return response()->json(
             ServerFirewallRule::create([

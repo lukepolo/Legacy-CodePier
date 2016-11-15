@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Server\ServerSshKeyController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_SSH_KEYS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         createServerSshKey: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerSshKeyController@store', {server: data.server}), data).then((response) => {
                 dispatch('getServerSshKeys', data.server);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteServerSshKey: ({commit, dispatch}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then((response) => {
                 dispatch('getServerSshKeys', data.server);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },

@@ -38,7 +38,7 @@
                 this.file_model = response.data;
                 this.content = this.file_model.unencrypted_content;
             }, (errors) => {
-                alert(error);
+                app.showError(error);;
             });
         },
         methods: {

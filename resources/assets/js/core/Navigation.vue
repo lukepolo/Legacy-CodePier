@@ -1,5 +1,6 @@
 <template>
     <header>
+        <notification-area></notification-area>
         <div class="logo-container">
             <router-link to="/">
                 <img src="/assets/img/kodi_h.svg" alt="CodePier">
@@ -87,7 +88,11 @@
 </template>
 
 <script>
+    import NotificationArea from './NotificationArea.vue';
     export default {
+        components: {
+            NotificationArea
+        },
         computed: {
             piles() {
                 return this.$store.state.pilesStore.piles;

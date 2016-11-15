@@ -8,7 +8,7 @@ export default {
             Vue.http.get(Vue.action('EventController@index', {page: page ? page : 1})).then((response) => {
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
-                alert('handle some error')
+                alert(errors);
             });
         }
     },

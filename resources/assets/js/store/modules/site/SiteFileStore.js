@@ -13,7 +13,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         updateSiteFile: ({commit}, data) => {
@@ -27,7 +27,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },

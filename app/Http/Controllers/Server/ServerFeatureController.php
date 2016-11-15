@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerFeatureRequest;
 use App\Jobs\InstallServerFeature;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
 class ServerFeatureController extends Controller
 {
-    public function store(Request $request, $serverId)
+    /**
+     * @param ServerFeatureRequest $request
+     * @param $serverId
+     * @return mixed
+     */
+    public function store(ServerFeatureRequest $request, $serverId)
     {
         return $this->dispatch(
             new InstallServerFeature(
@@ -24,6 +29,9 @@ class ServerFeatureController extends Controller
         );
     }
 
+    /**
+     * @return \Illuminate\Support\Collection|static
+     */
     public function getServerFeatures()
     {
         $availableFeatures = collect();
@@ -39,6 +47,9 @@ class ServerFeatureController extends Controller
         return $availableFeatures;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection|static
+     */
     public function getLanguages()
     {
         $availableLanguages = collect();
@@ -55,6 +66,9 @@ class ServerFeatureController extends Controller
         return $availableLanguages;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getFrameworks()
     {
         $availableFrameworks = collect();
@@ -73,6 +87,10 @@ class ServerFeatureController extends Controller
         return $availableFrameworks;
     }
 
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getEditableServerFiles($serverId)
     {
         $editableFiles = collect();
@@ -111,6 +129,10 @@ class ServerFeatureController extends Controller
         return response()->json($editableFiles);
     }
 
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getEditableFrameworkFiles($siteId)
     {
         $editableFiles = collect();
@@ -142,6 +164,10 @@ class ServerFeatureController extends Controller
         return response()->json($editableFiles);
     }
 
+    /**
+     * @param $file
+     * @return ReflectionClass
+     */
     private function buildReflection($file)
     {
         return new ReflectionClass(
@@ -161,6 +187,11 @@ class ServerFeatureController extends Controller
         );
     }
 
+    /**
+     * @param ReflectionClass $reflection
+     * @param null $path
+     * @return array
+     */
     private function buildFileArray(ReflectionClass $reflection, $path = null)
     {
         $files = [];
@@ -178,6 +209,10 @@ class ServerFeatureController extends Controller
         return $files;
     }
 
+    /**
+     * @param ReflectionClass $reflection
+     * @return array
+     */
     private function buildFeatureArray(ReflectionClass $reflection)
     {
         $features = [];
@@ -215,26 +250,45 @@ class ServerFeatureController extends Controller
         return $features;
     }
 
+    /**
+     * @return mixed
+     */
     private function getSystemsFiles()
     {
         return File::directories(app_path('Services/Systems'));
     }
 
+    /**
+     * @param $system
+     * @return mixed
+     */
     private function getVersionsFromSystem($system)
     {
         return File::directories($system);
     }
 
+    /**
+     * @param $version
+     * @return mixed
+     */
     private function getServicesFromVersion($version)
     {
         return File::files($version);
     }
 
+    /**
+     * @param $version
+     * @return mixed
+     */
     private function getLanguagesFromVersion($version)
     {
         return File::directories($version.'/Languages');
     }
 
+    /**
+     * @param $language
+     * @return mixed
+     */
     private function getFrameworksFromLanguage($language)
     {
         return File::files($language.'/Frameworks');

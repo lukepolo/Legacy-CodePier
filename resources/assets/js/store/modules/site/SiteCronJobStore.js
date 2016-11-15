@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Site\SiteCronJobController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_CRON_JOBS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         createSiteCronJob: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteCronJobController@store', {site: data.site}), data).then(() => {
                 dispatch('getSiteCronJobs', data.site);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteSiteCronJob: ({dispatch}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then(() => {
                 dispatch('getSiteCronJobs', data.site);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },

@@ -2,7 +2,6 @@
 
 namespace App\Models\Site;
 
-use App\Models\Site\Deployment\DeploymentEvent;
 use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,20 +26,8 @@ class SiteDeployment extends Model
         return $this->belongsTo(Site::class);
     }
 
-    public function createSteps()
+    public function serverDeployments()
     {
-        foreach ($this->site->deploymentSteps as $deploymentStep) {
-            DeploymentEvent::create([
-                'site_deployment_id' => $this->id,
-                'deployment_step_id' => $deploymentStep->id,
-            ]);
-        }
-
-        return $this;
-    }
-
-    public function events()
-    {
-        return $this->hasMany(DeploymentEvent::class);
+        return $this->hasMany(SiteServerDeployment::class);
     }
 }

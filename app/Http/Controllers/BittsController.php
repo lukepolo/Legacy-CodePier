@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BittRequest;
 use App\Models\Bitt;
-use Illuminate\Http\Request;
 
 class BittsController extends Controller
 {
@@ -20,10 +20,10 @@ class BittsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param BittRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BittRequest $request)
     {
         Bitt::create([
             'user_id' => \Auth::user()->id,
@@ -52,11 +52,11 @@ class BittsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param BittRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BittRequest $request, $id)
     {
         Bitt::findOrFail($id)->fill([
             'user_id' => \Auth::user()->id,
