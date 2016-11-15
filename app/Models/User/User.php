@@ -92,14 +92,14 @@ class User extends Authenticatable
     {
         $commandsRunning = [];
 
-        if($this->currentPile) {
+        if ($this->currentPile) {
             $currentPile = $this->currentPile->with('servers.commands.commandable')->whereHas('servers.commands', function ($query) {
                 $query->where('failed', 0)
                     ->where('completed', 0);
             })->first();
 
 
-            if (!empty($currentPile->servers)) {
+            if (! empty($currentPile->servers)) {
                 foreach ($currentPile->servers as $server) {
                     foreach ($server->commands as $command) {
                         $commandsRunning[$command->type][] = $command;
@@ -107,6 +107,7 @@ class User extends Authenticatable
                 }
             }
         }
+
         return collect($commandsRunning);
     }
 }
