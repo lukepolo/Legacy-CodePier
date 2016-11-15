@@ -17,8 +17,6 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $userId
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()

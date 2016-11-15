@@ -2,6 +2,7 @@
 
 namespace App\Events\Site;
 
+use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentEvent;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
@@ -16,22 +17,24 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     use InteractsWithSockets, SerializesModels;
 
     public $step;
+    public $siteId;
+    public $serverId;
     public $deploymentEvent;
-
-    private $siteId;
 
     /**
      * Create a new event instance.
      *
      * @param Site $site
+     * @param Server $server
      * @param DeploymentEvent $deploymentEvent
      * @param DeploymentStep $deploymentStep
      * @param $log
      * @param $runtime
      */
-    public function __construct(Site $site, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
     {
         $this->siteId = $site->id;
+        $this->serverId = $server->id;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;

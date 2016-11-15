@@ -55,7 +55,7 @@
             Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
                 this.repository_providers = response.data;
             }, (errors) => {
-                alert(error);
+                app.showError(error);;
             });
 
             this.$store.dispatch('getUserRepositoryProviders');

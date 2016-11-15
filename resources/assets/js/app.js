@@ -13,6 +13,7 @@ import * as serverPages from "./pages/server";
 import store from "./store";
 import Piles from "./pages/pile/Piles.vue";
 import Dashboard from "./pages/dashboard/Dashboard.vue";
+import PageNotFound from './core/PageNotFound.vue';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -73,7 +74,6 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
-            console.log(type);
             return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
                 if(type == commandType) {
                     if(_.find(object, function(item) {
@@ -84,13 +84,17 @@ Vue.mixin({
                 }
                 return false;
             }).length > 0;
+        },
+        showError(message, title, timeout) {
+            this.$store.dispatch('addNotification', {
+                title: title ? title : "Error!!",
+                text: message,
+                class: "error",
+                timeout: timeout ? timeout : 10000,
+            })
         }
     }
 });
-
-
-// Vue.config.errorHandler = function (err, vm) {
-// }
 
 /*
  |--------------------------------------------------------------------------
@@ -254,7 +258,7 @@ const router = new VueRouter({
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
-        {path: '*', redirect: '/'},
+        {path: '*',  component: PageNotFound },
     ]
 });
 

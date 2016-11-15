@@ -2,6 +2,7 @@
 
 namespace App\Events\Site;
 
+use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentEvent;
 use App\Models\Site\Site;
 use Illuminate\Broadcasting\Channel;
@@ -14,20 +15,22 @@ class DeploymentStepFailed implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
+    public $siteId;
+    public $serverId;
     public $deploymentEvent;
-
-    private $siteId;
 
     /**
      * Create a new event instance.
      *
-     * @param \App\Models\Site\Site            $site
+     * @param \App\Models\Site\Site $site
+     * @param Server $server
      * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
      * @param $log
      */
-    public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, $log)
     {
         $this->siteId = $site->id;
+        $this->serverId = $server->id;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;

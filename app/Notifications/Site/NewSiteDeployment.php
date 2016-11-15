@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;

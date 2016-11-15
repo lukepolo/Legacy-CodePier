@@ -11,7 +11,7 @@ use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
 use App\Models\Server\ServerSslCertificate;
-use App\Notifications\ServerProvisioned;
+use App\Notifications\Server\ServerProvisioned;
 use App\Services\Systems\SystemService;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SFTP;

@@ -14,6 +14,7 @@ use App\Models\User\UserServerProvider;
 use App\SocialProviders\TokenData;
 use Bitbucket\API\Http\Listener\OAuthListener;
 use Bitbucket\API\Users;
+use Illuminate\Http\Request;
 use Socialite;
 
 class OauthController extends Controller
@@ -69,16 +70,16 @@ class OauthController extends Controller
     /**
      * Handles the request from the provider.
      *
+     * @param Request $request
      * @param $provider
-     *
      * @return mixed
      */
-    public function getHandleProviderCallback($provider)
+    public function getHandleProviderCallback(Request $request, $provider)
     {
         try {
             switch ($provider) {
                 case self::SLACK:
-                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
+                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
 
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));

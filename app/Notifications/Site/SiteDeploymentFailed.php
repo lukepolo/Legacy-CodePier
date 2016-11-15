@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteServerDeployment;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,26 +14,29 @@ class SiteDeploymentFailed extends Notification
 {
     use Queueable;
 
+    public $pile;
     public $site;
     public $domain;
-    public $pile;
+    public $server;
     public $errorMessage;
-    public $siteDeployment;
+    public $siteServerDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param \App\Models\Site\Site           $site
-     * @param SiteDeployment $siteDeployment
+     * @param \App\Models\Site\Site $site
+     * @param SiteServerDeployment $siteServerDeployment
      * @param $errorMessage
+     * @internal param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment, $errorMessage)
+    public function __construct(Site $site, SiteServerDeployment $siteServerDeployment, $errorMessage)
     {
         $this->site = $site;
-        $this->pile = $this->site->pile->name;
         $this->domain = $this->site->domain;
         $this->errorMessage = $errorMessage;
-        $this->siteDeployment = $siteDeployment;
+        $this->pile = $this->site->pile->name;
+        $this->siteServerDeployment = $siteServerDeployment;
+        $this->server = $this->siteServerDeployment->server;
     }
 
     /**
@@ -59,7 +62,7 @@ class SiteDeploymentFailed extends Notification
     {
         return (new MailMessage())
             ->subject('('.$this->pile.') '.$this->domain.' Deployment Failed')
-            ->line('Your site failed to deploy because : ')
+            ->line('Your site failed to deploy on '.$this->server->name.' ('.$this->server->ip.') '.' because : ')
             ->line($this->errorMessage)
             ->action('Go to your site', url('site/'.$this->site->id))
             ->error();
@@ -77,7 +80,7 @@ class SiteDeploymentFailed extends Notification
         return [
             'site'           => $this->site,
             'errorMessage'   => $this->errorMessage,
-            'siteDeployment' => $this->siteDeployment,
+            'siteDeployment' => $this->siteServerDeployment,
         ];
     }
 

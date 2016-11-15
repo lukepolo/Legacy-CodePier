@@ -6,6 +6,7 @@ import * as SiteStore from "./modules/site";
 import * as ServerStore from "./modules/server";
 import PileStore from "./modules/PileStore";
 import EventsStore from "./modules/EventsStore";
+import NotificationStore from "./modules/NotificationStore";
 
 Vue.action = action;
 
@@ -13,6 +14,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
+        notificationsStore : NotificationStore,
+
         pilesStore: PileStore,
         eventsStore: EventsStore,
 

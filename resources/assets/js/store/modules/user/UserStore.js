@@ -12,21 +12,21 @@ export default {
             Vue.http.get(Vue.action('User\UserController@index')).then((response) => {
                 commit('SET_USER', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         getUserServerProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_SERVER_PROVIDERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         updateUser: ({commit}, form) => {
             Vue.http.put(Vue.action('User\UserController@update', {user: form.user_id}), form, {}).then((response) => {
                 commit('SET_USER', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteUserServerProvider: ({commit, dispatch}, data) => {
@@ -36,14 +36,14 @@ export default {
             })).then((response) => {
                 dispatch('getUserServerProviders');
             }, (errors) => {
-                alert('Trying to destory server');
+                alert(errors);
             })
         },
         getUserRepositoryProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserRepositoryProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_REPOSITORY_PROVIDERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteUserRepositoryProvider: ({commit, dispatch}, data) => {
@@ -53,14 +53,14 @@ export default {
             })).then((response) => {
                 dispatch('getUserRepositoryProviders');
             }, (errors) => {
-                alert('Trying to delete user repository');
+                alert(errors);
             })
         },
         getUserNotificationProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserNotificationProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         },
         deleteUserNotificationProvider: ({commit, dispatch}, data) => {
@@ -70,14 +70,14 @@ export default {
             })).then((response) => {
                 dispatch('getUserNotificationProviders');
             }, (errors) => {
-                alert('Trying to destroy notification');
+                alert(errors);
             })
         },
         getPlans: ({commit}) => {
             Vue.http.get(Vue.action('SubscriptionController@index')).then((response) => {
                 commit('SET_PLANS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(error);
             });
         }
     },

@@ -6,6 +6,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Site\SiteServiceContract;
+use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Events\Site\DeploymentStepStarted;
@@ -14,6 +15,7 @@ use App\Exceptions\FailedCommand;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\Site\SiteDeployment;
+use App\Models\Site\SiteServerDeployment;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\Systems\SystemService;
 
@@ -122,12 +124,13 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
-     * @param \App\Models\Site\SiteDeployment $siteDeployment
+     * @param SiteServerDeployment $siteServerDeployment
      * @param null $sha
      *
      * @throws DeploymentFailed
+     * @internal param SiteDeployment $siteDeployment
      */
-    public function deploy(Server $server, Site $site, SiteDeployment $siteDeployment, $sha = null)
+    public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, $sha = null)
     {
         $deploymentService = $this->getDeploymentService($server, $site);
 
@@ -138,22 +141,22 @@ class SiteService implements SiteServiceContract
                 $site->branch);
         }
 
-        $siteDeployment->git_commit = $lastCommit;
-        $siteDeployment->save();
+        $siteServerDeployment->siteDeployment->git_commit = $lastCommit;
+        $siteServerDeployment->siteDeployment->save();
 
-        foreach ($siteDeployment->events as $event) {
+        foreach ($siteServerDeployment->events as $event) {
             try {
                 $start = microtime(true);
 
-                event(new DeploymentStepStarted($site, $event, $event->step));
+                event(new DeploymentStepStarted($site, $server, $event, $event->step));
 
                 $internalFunction = $event->step->internal_deployment_function;
 
                 $log = $deploymentService->$internalFunction($sha);
 
-                event(new DeploymentStepCompleted($site, $event, $event->step, $log, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $log, microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $event, $e->getMessage()));
+                event(new DeploymentStepFailed($site, $server, $event, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
@@ -161,8 +164,11 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->ssh($server);
         $this->serverService->restartWebServices($server);
 
-        // TODO - should be a notification
-//        event(new DeploymentCompleted($site, $siteDeployment, 'Commit #####', $this->remoteTaskService->getOutput()));
+        $siteServerDeployment->update([
+            'log' => $this->remoteTaskService->getOutput(),
+        ]);
+
+        event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
 
     /**

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Site\Repository;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 
 class SiteRepositoryController extends Controller
 {
@@ -28,12 +28,11 @@ class SiteRepositoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param SiteRepositoryRequest $request
      * @param $siteId
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteRepositoryRequest $request, $siteId)
     {
         $repository = $request->get('repository');
 

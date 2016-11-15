@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteWorkerRequest;
 use App\Models\Site\SiteWorker;
-use Illuminate\Http\Request;
 
 class SiteWorkerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $siteId)
+    public function index($siteId)
     {
         return response()->json(
             SiteWorker::where('site_id', $siteId)->get()
@@ -26,12 +25,11 @@ class SiteWorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param SiteWorkerRequest $request
      * @param $siteId
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteWorkerRequest $request, $siteId)
     {
         return response()->json(
             SiteWorker::create([
