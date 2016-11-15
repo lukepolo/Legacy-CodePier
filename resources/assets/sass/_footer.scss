@@ -1,6 +1,7 @@
 // FOOTER STYLES ===========================================
 // =========================================================
 footer {
+    position: relative;
     background-color: $black;
     @include card(1);
 

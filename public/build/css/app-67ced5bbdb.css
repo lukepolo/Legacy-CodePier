@@ -4351,6 +4351,7 @@ header {
     transition: all 1.5s ease-out; }
 
 footer {
+  position: relative;
   background-color: #2B2B2B;
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12); }
   footer .toggle {
