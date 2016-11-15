@@ -9,11 +9,192 @@
         </div>
 
         <div class="collapse" id="collapseEvents">
+            <ul class="filter">
+                <li>
+                    <span>Event Filters</span>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                        <strong>Pile:</strong> <span class="filter-selection">Dev</span> <span class="icon-arrow-up"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropup">
+                        <div class="jcf-form-wrap">
+                            <form>
+                                <div class="jcf-input-group input-checkbox">
+                                    <label class="select-all">
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Select All
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Dev
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        QA
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Prod
+                                    </label>
+                                </div>
+                            </form>
+
+                            <div class="btn-footer">
+                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small btn-primary">Apply</a>
+                            </div>
+
+                        </div>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                        <strong>Site:</strong> <span class="filter-selection">All Sites</span> <span class="icon-arrow-up"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropup">
+                        <div class="jcf-form-wrap">
+                            <form>
+                                <div class="jcf-input-group input-checkbox">
+                                    <label class="select-all">
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Select All
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        dev.lukepolo.com
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        lukepolo.com
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        dev.jfalotico.com
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        jfalotico.com
+                                    </label>
+                                </div>
+                            </form>
+
+                            <div class="btn-footer">
+                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small btn-primary">Apply</a>
+                            </div>
+
+                        </div>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                        <strong>Server:</strong> <span class="filter-selection">All Servers</span> <span class="icon-arrow-up"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropup">
+                        <div class="jcf-form-wrap">
+                            <form>
+                                <div class="jcf-input-group input-checkbox">
+                                    <label class="select-all">
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Select All
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Server 1
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Server 2
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Server 3
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Server 4
+                                    </label>
+                                </div>
+                            </form>
+
+                            <div class="btn-footer">
+                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small btn-primary">Apply</a>
+                            </div>
+
+                        </div>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                        <strong>Event Type:</strong> <span class="filter-selection">Deployments</span> <span class="icon-arrow-up"></span>
+                    </a>
+
+                    <ul class="dropdown-menu dropup">
+                        <div class="jcf-form-wrap">
+                            <form>
+                                <div class="jcf-input-group input-checkbox">
+                                    <label class="select-all">
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Select All
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Deployments
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Something Else
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Blah Blah
+                                    </label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="icon"></span>
+                                        Woo
+                                    </label>
+                                </div>
+                            </form>
+
+                            <div class="btn-footer">
+                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small btn-primary">Apply</a>
+                            </div>
+
+                        </div>
+                    </ul>
+                </li>
+
+            </ul>
             <div class="events-container">
-                <div>
-                    <a href="#">Servers</a>
-                    <a href="#">Deployments</a>
-                </div>
+
 
                 <!-- TODO Add in for when there are no events -->
                 <!--

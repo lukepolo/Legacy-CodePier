@@ -4473,6 +4473,10 @@ footer {
   background-color: #48ACF0;
   color: #FFFFFF !important; }
 
+.btn-small {
+  font-size: 14px;
+  padding: 5px 10px; }
+
 .btn-footer {
   text-align: center;
   border-top: 1px solid #2B2B2B;
@@ -4707,6 +4711,9 @@ a.server:hover {
   border-radius: 0px;
   margin: 0px;
   padding: 0px; }
+  .dropdown-menu.dropup {
+    top: auto;
+    bottom: 100%; }
   .dropdown-menu li > a,
   .dropdown-menu li > span {
     font-size: 14px;
@@ -4953,6 +4960,63 @@ a.server:hover {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+.filter {
+  display: -webkit-box;
+  display: flex;
+  list-style: none;
+  margin: 10px 20px;
+  padding: 0px; }
+  .filter > li > a {
+    display: block;
+    color: #FFFFFF;
+    border: 1px solid #3C3F41;
+    margin-right: 20px;
+    padding: 5px 40px 5px 10px;
+    position: relative; }
+    .filter > li > a:hover, .filter > li > a:active, .filter > li > a:focus {
+      background-color: rgba(255, 255, 255, 0.05); }
+    .filter > li > a [class^="icon-"], .filter > li > a [class*=" icon-"] {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      padding: 0px 6.6666666667px;
+      border-left: 1px solid #3C3F41;
+      font-size: 20px;
+      line-height: 26px; }
+      .filter > li > a [class^="icon-"]:before, .filter > li > a [class*=" icon-"]:before {
+        color: #48ACF0; }
+  .filter > li > span {
+    display: block;
+    color: #48ACF0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 20px;
+    padding: 5px 0px; }
+  .filter strong {
+    text-transform: uppercase;
+    letter-spacing: .5px; }
+  .filter .dropdown-menu {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
+    min-width: 200px;
+    background-color: #343536; }
+    .filter .dropdown-menu .select-all {
+      position: absolute;
+      top: -30px;
+      bottom: auto;
+      border-bottom: 1px solid #3C3F41;
+      padding-bottom: 5px; }
+      .filter .dropdown-menu .select-all + label {
+        margin-top: 30px; }
+  .filter .jcf-form-wrap {
+    padding: 20px; }
+    .filter .jcf-form-wrap .jcf-input-group {
+      margin: 0px; }
+  .filter .btn-footer {
+    border-top: 1px solid #3C3F41;
+    margin: 20px -20px -20px;
+    padding: 5px 20px; }
 
 .float-label-active, .jcf-form-wrap input:focus + label .float-label, .jcf-form-wrap input.active + label .float-label {
   position: relative;
