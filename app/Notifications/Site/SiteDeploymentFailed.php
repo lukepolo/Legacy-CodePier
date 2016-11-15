@@ -48,7 +48,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', 'broadcast', SlackMessageChannel::class];
+        return ['mail', 'broadcast', SlackMessageChannel::class];
     }
 
     /**

@@ -1,5 +1,17 @@
+<style>
+    #drag {
+        position: absolute;
+        left: -4px;
+        top: 0;
+        bottom: 0;
+        height: 8px;
+        width: 100%;
+        cursor: ns-resize;
+    }
+</style>
 <template>
-    <footer v-watch-scroll="events_pagination">
+    <footer v-watch-scroll="events_pagination" v-resizeable>
+        <div id="drag"></div>
         <div class="header">
             <h4>
                 <a class="toggle collapsed" data-toggle="collapse" href="#collapseEvents">
@@ -273,6 +285,41 @@
 <script>
 
     import ServerEvent from './components/ServerEvent.vue';
+
+    Vue.directive('resizeable', {
+        inserted: function (el, bindings) {
+
+            var isResizing = false,
+                lastOffset = null,
+                container = $('#app-layout'),
+                top = $('#main'),
+                bottom = $(el),
+                handle = $('#drag');
+
+
+            handle.on('mousedown', function (e) {
+                isResizing = true;
+            });
+
+            $('#collapseEvents').on('hide.bs.collapse', function () {
+                bottom.css('height', 'auto');
+            });
+
+            $(document).on('mousemove', function (e) {
+                if (!isResizing || !$('#collapseEvents').hasClass('in')) {
+                    return;
+                }
+
+                lastOffset = container.height() - (e.clientY - container.offset().top);
+
+                top.css('height', lastOffset);
+                bottom.css('height', lastOffset);
+            }).on('mouseup', function (e) {
+                isResizing = false;
+            });
+
+        }
+    });
 
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
