@@ -36,7 +36,6 @@ class DeploySite implements ShouldQueue
         $this->site = $site;
         $this->servers = $site->provisionedServers;
 
-
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
             'status'  => 'queued for deployment',
