@@ -4384,6 +4384,15 @@ footer {
   -webkit-box-flex: 0;
   flex: 0 0 auto;
   margin-right: 20px; }
+  .event-status.event-status-neutral {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    float: right;
+    border-radius: 50%;
+    position: relative;
+    top: 2px;
+    background-color: #B6B6B6; }
   .event-status.event-status-success {
     height: 1em;
     width: 1em;
@@ -4415,7 +4424,7 @@ footer {
 .event-name {
   -webkit-box-flex: 1;
   flex: 1 1 auto; }
-  .event-name a:not(.collapsed) {
+  .event-name a:first-child:not(.collapsed) {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
     position: relative;

@@ -36,8 +36,14 @@ class DeploymentStepStarted implements ShouldBroadcastNow
         $deploymentEvent->started = true;
         $deploymentEvent->save();
 
+        $deploymentEvent->serverDeployment->update([
+            'status' => $deploymentStep->step
+        ]);
+
         $this->deploymentEvent = $deploymentEvent;
         $this->step = $deploymentStep->step;
+
+
     }
 
     /**

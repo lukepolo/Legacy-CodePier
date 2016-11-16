@@ -1,10 +1,9 @@
 <style>
     #drag {
         position: absolute;
-        left: -4px;
         top: 0;
         bottom: 0;
-        height: 8px;
+        height: 10px;
         width: 100%;
         cursor: ns-resize;
     }
@@ -208,76 +207,113 @@
             <div class="events-container">
 
 
-                <!-- TODO Add in for when there are no events -->
-                <!--
-                <div class="event-none">
-                    There are no events yet.
-                </div>
-                -->
+                <!--&lt;!&ndash; TODO Add in for when there are no events &ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="event-none">&ndash;&gt;-->
+                    <!--&lt;!&ndash;Get going!&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-                <template v-for="server in servers">
-                    <server-event :server="server"></server-event>
-                </template>
-                <div class="event">
-                <div class="event-status event-status-success"></div>
-                <div class="event-name">Deployment Successful</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-server"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-success"></div>
-                <div class="event-name">Site Installed</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-error"></div>
-                <div class="event-name"><a class="collapsed" data-toggle="collapse" href="#collapseError1"><span class="icon-play"></span> </a>Deployment Failed
-                <div class="event-details collapse" id="collapseError1">
-                <span class="text-error"><strong>ERROR STUFF HERE.</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-                </div>
-                </div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-warning"></div>
-                <div class="event-name">Deployment Started</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-success"></div>
-                <div class="event-name">Deployment Successful</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-server"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-success"></div>
-                <div class="event-name">Site Installed</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-server"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-error"></div>
-                <div class="event-name">Deployment Failed</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>
-                </div>
-                <div class="event">
-                <div class="event-status event-status-warning"></div>
-                <div class="event-name">Deployment Started</div>
-                <div class="event-pile"><span class="icon-layers"></span> Dev</div>
-                <div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>
-                </div>
+                <!--&lt;!&ndash;<template v-for="server in servers">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<server-event :server="server"></server-event>&ndash;&gt;-->
+                <!--&lt;!&ndash;</template>&ndash;&gt;-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-success"></div>-->
+                <!--<div class="event-name">Deployment Successful</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-success"></div>-->
+                <!--<div class="event-name">Site Installed</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                    <!--<div class="event-status event-status-error"></div>-->
+                    <!--<div class="event-name">-->
+                        <!--<a class="collapsed" data-toggle="collapse" href="#collapseError1">-->
+                            <!--<span class="icon-play"></span>-->
+                        <!--</a> Deployment Failed-->
+                        <!--<div class="event-details collapse" id="collapseError1">-->
+                            <!--<span class="text-error">-->
+                                <!--<strong>ERROR STUFF HERE.</strong>-->
+                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                            <!--</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                    <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-warning"></div>-->
+                <!--<div class="event-name">Deployment Started</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-success"></div>-->
+                <!--<div class="event-name">Deployment Successful</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-success"></div>-->
+                <!--<div class="event-name">Site Installed</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-error"></div>-->
+                <!--<div class="event-name">Deployment Failed</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
+                <!--</div>-->
+                <!--<div class="event">-->
+                <!--<div class="event-status event-status-warning"></div>-->
+                <!--<div class="event-name">Deployment Started</div>-->
+                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
+                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
+                <!--</div>-->
+
+                <section v-for="event in events">
+                    <div class="event">
+                        <div class="event-status" :class="event.class"></div>
+                        <div class="event-name">
+                            <a class="collapsed" data-toggle="collapse" :href="'#' + event.id">
+                                <span class="icon-play"></span>
+                            </a> Deployment
+
+                            <a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit">view commit</a>
+
+                            <div class="event-details collapse" :id="event.id">
+                                <template v-for="server_deployment in event.server_deployments">
+                                    <a class="collapsed" data-toggle="collapse" :href="'#' + event.id + '_server_deployment_' + server_deployment.server.id">
+                                        <span class="icon-play"></span>
+                                    </a> {{ server_deployment.server.name }} ({{ server_deployment.server.ip }}) - {{ server_deployment.status }}
+                                    <div class="event-details collapse" :id="event.id + '_server_deployment_' + server_deployment.server.id">
+                                        <ul>
+                                            <template v-for="deployment_event in server_deployment.events">
+                                                <li>
+                                                    {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
+                                                    <a class="collapsed" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id">
+                                                        <span class="icon-play"></span>
+                                                    </a>
+                                                    <div class="event-details collapse" :id="'deployment_event_'+deployment_event.id">
+                                                        {{ deployment_event.log }}
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
+                        <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
+                    </div>
+                </section>
             </div>
-
-
-            <p v-for="event in events">
-                {{ event.id }} - {{ event.internal_type }} - {{ event.event_type }} - {{ event.description }} - {{ event.data }} - {{ event.log }} - {{ event.created_at }}
-            </p>
         </div>
-
 
     </footer>
 </template>
@@ -300,10 +336,10 @@
             handle.on('mousedown', function (e) {
                 isResizing = true;
             });
-
-            $('#collapseEvents').on('hide.bs.collapse', function () {
-                bottom.css('height', 'auto');
-            });
+//
+//            $('#collapseEvents').on('hide.bs.collapse', function () {
+//                bottom.css('height', 'auto');
+//            });
 
             $(document).on('mousemove', function (e) {
                 if (!isResizing || !$('#collapseEvents').hasClass('in')) {
@@ -384,6 +420,9 @@
                 });
 
                 store.dispatch('getEvents');
+            },
+            formatSeconds(number) {
+                return parseFloat(number).toFixed(2);
             }
         },
         computed: {
