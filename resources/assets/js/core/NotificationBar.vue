@@ -384,7 +384,10 @@
         },
         methods: {
             filterArray(data) {
-              return data.filter(String);
+                if(Array.isArray(data)) {
+                    return data.filter(String);
+                }
+              return [];
             },
             fetchData() {
 
