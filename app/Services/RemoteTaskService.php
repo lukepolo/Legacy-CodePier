@@ -40,7 +40,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $output = null;
 
         try {
-            $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
             if (! str_contains($output, 'codepier-done')) {
                 \Log::info($output);
                 $this->output[] = $output;
@@ -63,7 +63,11 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         \Log::debug($this->session->getExitStatus());
 
-        $this->output[] = $output;
+        $output = $this->cleanResponse($output);
+
+        if(!empty($output)) {
+            $this->output[] = $output;
+        }
 
         if ($this->session->getExitStatus() != 0) {
             \Log::error($output);
@@ -73,7 +77,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             throw new FailedCommand(json_encode($output));
         }
 
-        return $this->cleanResponse($output);
+        return $output;
     }
 
     /**
@@ -217,11 +221,11 @@ echo "Wrote" ', $read);
 
     public function getOutput()
     {
-        return $this->output;
+        return array_filter($this->output);
     }
 
     private function cleanResponse($response)
     {
-        return str_replace('codepier-done', '', $response);
+        return trim(str_replace('codepier-done', '', $response));
     }
 }

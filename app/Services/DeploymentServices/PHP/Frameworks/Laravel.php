@@ -10,8 +10,11 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
+        $output = [];
         $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/.env '.$this->release.'/.env');
+
+        return $output;
     }
 
     /**
@@ -20,9 +23,12 @@ trait Laravel
      */
     public function laravelCreateSymbolicStorageFolder()
     {
+        $output = [];
         $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
         $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
+
+        return $output;
     }
 
     /**
@@ -34,10 +40,7 @@ trait Laravel
      */
     public function laravelRunMigrations()
     {
-        $output = [];
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
-
-        return $output;
+        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction')];
     }
 
     /**
@@ -49,10 +52,7 @@ trait Laravel
      */
     public function laravelCacheRoutes()
     {
-        $output = [];
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache');
-
-        return $output;
+        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache')];
     }
 
     /**
@@ -64,10 +64,7 @@ trait Laravel
      */
     public function laravelCacheConfig()
     {
-        $output = [];
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
-
-        return $output;
+        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache')];
     }
 
     /**
@@ -79,9 +76,6 @@ trait Laravel
      */
     public function laravelRestartWorkers()
     {
-        $output = [];
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
-
-        return $output;
+        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart')];
     }
 }

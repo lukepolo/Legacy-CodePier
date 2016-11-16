@@ -50,8 +50,8 @@ class PHP
     {
         $output = [];
 
-        $output[] = $this->remoteTaskService->run('mkdir -p '.$this->site_folder);
-        $output[] = $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
+        $this->remoteTaskService->run('mkdir -p '.$this->site_folder);
+        $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
         $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$this->repositoryProvider->git_url.':'.$this->repository.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
 
@@ -69,7 +69,7 @@ class PHP
      */
     public function installPhpDependencies()
     {
-        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction --no-dev --prefer-dist');
+        return [$this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction --no-dev --prefer-dist')];
     }
 
     /**
@@ -94,7 +94,7 @@ class PHP
      */
     public function setupFolders()
     {
-        return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->site_folder.($this->zerotimeDeployment ? '/current' : null));
+        return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->site_folder.($this->zerotimeDeployment ? '/current' : null))];
     }
 
     /**
@@ -104,6 +104,6 @@ class PHP
      */
     public function cleanup()
     {
-        return $this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf');
+        return [$this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf')];
     }
 }
