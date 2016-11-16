@@ -13,13 +13,20 @@ class SiteFirewallRuleObserver
     public function created(SiteFirewallRule $siteFirewallRule)
     {
         foreach ($siteFirewallRule->site->provisionedServers as $server) {
-            ServerFirewallRule::create([
-                'server_id' => $server->id,
-                'port' => $siteFirewallRule->port,
-                'from_ip' => $siteFirewallRule->from_ip,
-                'description' => $siteFirewallRule->description,
-                'site_firewall_rule_id' => $siteFirewallRule->id,
-            ]);
+
+            if(!ServerFirewallRule::where('port', $siteFirewallRule->port)
+                ->where('from_ip', $siteFirewallRule->from_ip)
+                ->where('description', $siteFirewallRule->description)
+                ->count()
+            ) {
+                ServerFirewallRule::create([
+                    'server_id' => $server->id,
+                    'port' => $siteFirewallRule->port,
+                    'from_ip' => $siteFirewallRule->from_ip,
+                    'description' => $siteFirewallRule->description,
+                    'site_firewall_rule_id' => $siteFirewallRule->id,
+                ]);
+            }
         }
     }
 
