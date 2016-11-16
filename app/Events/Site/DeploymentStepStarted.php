@@ -37,13 +37,11 @@ class DeploymentStepStarted implements ShouldBroadcastNow
         $deploymentEvent->save();
 
         $deploymentEvent->serverDeployment->update([
-            'status' => $deploymentStep->step
+            'status' => $deploymentStep->step,
         ]);
 
         $this->deploymentEvent = $deploymentEvent;
         $this->step = $deploymentStep->step;
-
-
     }
 
     /**
