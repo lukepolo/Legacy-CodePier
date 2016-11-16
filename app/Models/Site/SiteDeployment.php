@@ -17,7 +17,7 @@ class SiteDeployment extends Model
 
     protected $appends = [
         'type',
-        'class'
+        'class',
     ];
 
     /*
