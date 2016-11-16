@@ -34,5 +34,4 @@ class DeploymentEvent extends Model
     {
         return $this->belongsTo(SiteServerDeployment::class, 'site_server_deployment_id');
     }
-
 }
