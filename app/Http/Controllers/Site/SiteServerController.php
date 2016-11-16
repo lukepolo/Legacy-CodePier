@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteServerRequest;
+use App\Jobs\Site\CreateSite;
+use App\Models\Server\Server;
 use App\Models\Site\Site;
 
 class SiteServerController extends Controller
@@ -33,9 +35,11 @@ class SiteServerController extends Controller
     {
         $site = Site::where('id', $siteId)->firstorFail();
 
-        $site->servers()->sync($request->get('connected_servers', []));
+        $changes = $site->servers()->sync($request->get('connected_servers', []));
 
-        $site->fire('saved');
+        foreach($changes['attached'] as $attached) {
+            $this->dispatch(new CreateSite(Server::findOrFail($attached), $site));
+        }
 
         return response()->json($site);
     }

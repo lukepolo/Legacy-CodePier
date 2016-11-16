@@ -28,13 +28,13 @@ trait ServerCommandTrait
             $siteConnection = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
         }
 
-        $model->commands()->save(
-            Command::create([
-                'type' => get_class($model),
-                'server_id' => $model->server_id,
-                'site_connection' => $model->$siteConnection,
-            ])
-        );
+        $this->command = Command::create([
+            'type' => get_class($model),
+            'server_id' => $model->server_id,
+            'site_connection' => $model->$siteConnection,
+        ]);
+
+        $model->commands()->save($this->command);
 
         return $this->command;
     }
