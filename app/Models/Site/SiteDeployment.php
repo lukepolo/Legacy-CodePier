@@ -15,6 +15,11 @@ class SiteDeployment extends Model
         'log' => 'array',
     ];
 
+    protected $appends = [
+        'type',
+        'class'
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -29,5 +34,26 @@ class SiteDeployment extends Model
     public function serverDeployments()
     {
         return $this->hasMany(SiteServerDeployment::class);
+    }
+
+    public function getTypeAttribute()
+    {
+        return get_class($this);
+    }
+
+    public function getClassAttribute()
+    {
+        //        event-status-neutral
+        //        event-status-success
+        //        event-status-error
+        //        event-status-warning
+
+
+//        $statuses = $this->serverDeployments->pluck('status');
+//
+//        dd($statuses);
+
+
+        return 'event-status-success';
     }
 }

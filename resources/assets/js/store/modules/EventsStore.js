@@ -14,6 +14,7 @@ export default {
     },
     mutations: {
         SET_EVENTS: (state, events_pagination) => {
+
             _.forEach(events_pagination.data, function (event) {
                 state.events.push(event);
             });

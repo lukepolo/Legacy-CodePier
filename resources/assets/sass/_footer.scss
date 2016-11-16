@@ -48,6 +48,10 @@ footer {
     flex: 0 0 auto;
     margin-right: $spacing;
 
+    &.event-status-neutral {
+        @include status(null);
+    }
+
     &.event-status-success {
         @include status(success);
     }
@@ -64,7 +68,7 @@ footer {
 .event-name {
     flex: 1 1 auto;
 
-    a:not(.collapsed) {
+    a:first-child:not(.collapsed) {
         transform: rotate(90deg);
         position: relative;
         left: -4px;

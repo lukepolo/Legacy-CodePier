@@ -29,6 +29,11 @@ class DeploymentCompleted implements ShouldBroadcastNow
     {
         $this->siteId = $site->id;
         $this->serverId = $server->id;
+
+        $siteServerDeploymentDeployment->update([
+            'status' =>  'Deployment Completed'
+        ]);
+
         $this->siteServerDeployment = $siteServerDeploymentDeployment;
     }
 

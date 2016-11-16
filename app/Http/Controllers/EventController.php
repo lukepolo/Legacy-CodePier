@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site\SiteDeployment;
+
 class EventController extends Controller
 {
     /**
@@ -11,7 +13,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        return response()->json();
+        $siteDeployments = SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step', 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->paginate(10);
+
+        return response()->json($siteDeployments);
     }
 
     /**
