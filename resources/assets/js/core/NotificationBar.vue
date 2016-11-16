@@ -297,7 +297,7 @@
                                                         <span class="icon-play"></span>
                                                     </a> {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
                                                     <div class="event-details collapse" :id="'deployment_event_'+deployment_event.id">
-                                                        <pre v-for="log in filterArray(deployment_event.log)">{{ log }}</pre>
+                                                        <pre v-for="log in filterArray(deployment_event.log)" v-if="deployment_event.log">{{ log }}</pre>
                                                     </div>
                                                 </li>
                                             </template>
@@ -384,8 +384,7 @@
         },
         methods: {
             filterArray(data) {
-              return data.filter(String)
-                      ;
+              return data.filter(String);
             },
             fetchData() {
 
