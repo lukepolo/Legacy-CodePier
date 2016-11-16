@@ -65,7 +65,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = $this->cleanResponse($output);
 
-        if(!empty($output)) {
+        if (! empty($output)) {
             $this->output[] = $output;
         }
 
