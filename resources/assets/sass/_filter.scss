@@ -1,6 +1,7 @@
 // FILTER STYLES ===========================================
 // =========================================================
 .filter {
+  flex: 0 0 auto;
   display: flex;
   list-style: none;
   margin: ($spacing/2) $spacing;
