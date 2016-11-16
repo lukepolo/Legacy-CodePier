@@ -13,15 +13,21 @@ class SiteSslCertificateObserver
     public function created(SiteSslCertificate $siteSslCertificate)
     {
         foreach ($siteSslCertificate->site->provisionedServers as $server) {
-            ServerSslCertificate::create([
-                'server_id' => $server->id,
-                'type' => $siteSslCertificate->type,
-                'active' => true,
-                'domains' => $siteSslCertificate->domains,
-                'key_path' => $siteSslCertificate->key_path,
-                'cert_path' => $siteSslCertificate->cert_path,
-                'site_ssl_certificate_id' => $siteSslCertificate->id,
-            ]);
+
+            if(!ServerSslCertificate::where('type', $siteSslCertificate->type)
+                ->where('domains', $siteSslCertificate->domains)
+                ->count()
+            ) {
+                ServerSslCertificate::create([
+                    'server_id' => $server->id,
+                    'type' => $siteSslCertificate->type,
+                    'active' => true,
+                    'domains' => $siteSslCertificate->domains,
+                    'key_path' => $siteSslCertificate->key_path,
+                    'cert_path' => $siteSslCertificate->cert_path,
+                    'site_ssl_certificate_id' => $siteSslCertificate->id,
+                ]);
+            }
         }
     }
 
