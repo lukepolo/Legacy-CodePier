@@ -4353,7 +4353,13 @@ header {
 footer {
   position: relative;
   background-color: #2B2B2B;
-  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12); }
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  min-height: 40px !important;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column; }
   footer .toggle {
     display: block;
     color: #FFFFFF;
@@ -4369,10 +4375,21 @@ footer {
 
 #collapseEvents {
   border-top: 2px solid rgba(255, 255, 255, 0.2); }
+  #collapseEvents.in {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column; }
 
 .events-container {
-  max-height: 25vh;
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1; }
 
 .event {
   display: -webkit-box;
@@ -4972,6 +4989,8 @@ a.server:hover {
     transform: rotate(360deg); } }
 
 .filter {
+  -webkit-box-flex: 0;
+  flex: 0 0 auto;
   display: -webkit-box;
   display: flex;
   list-style: none;
