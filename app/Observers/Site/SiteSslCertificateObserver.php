@@ -13,8 +13,7 @@ class SiteSslCertificateObserver
     public function created(SiteSslCertificate $siteSslCertificate)
     {
         foreach ($siteSslCertificate->site->provisionedServers as $server) {
-
-            if(!ServerSslCertificate::where('type', $siteSslCertificate->type)
+            if (! ServerSslCertificate::where('type', $siteSslCertificate->type)
                 ->where('domains', $siteSslCertificate->domains)
                 ->count()
             ) {

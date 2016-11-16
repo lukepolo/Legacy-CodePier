@@ -13,8 +13,7 @@ class SiteSshKeyObserver
     public function created(SiteSshKey $siteSshKey)
     {
         foreach ($siteSshKey->site->provisionedServers as $server) {
-
-            if(!ServerSshKey::where('name', $siteSshKey->name)
+            if (! ServerSshKey::where('name', $siteSshKey->name)
                 ->where('ssh_key', $siteSshKey->ssh_key)
                 ->count()
             ) {
