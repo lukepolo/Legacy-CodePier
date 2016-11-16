@@ -293,10 +293,9 @@
                                         <ul>
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
-                                                    {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
                                                     <a class="collapsed" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id">
                                                         <span class="icon-play"></span>
-                                                    </a>
+                                                    </a> {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
                                                     <div class="event-details collapse" :id="'deployment_event_'+deployment_event.id">
                                                         {{ deployment_event.log }}
                                                     </div>
@@ -332,14 +331,15 @@
                 bottom = $(el),
                 handle = $('#drag');
 
-
             handle.on('mousedown', function (e) {
                 isResizing = true;
             });
-//
-//            $('#collapseEvents').on('hide.bs.collapse', function () {
-//                bottom.css('height', 'auto');
-//            });
+
+            $('#collapseEvents').on('hide.bs.collapse', function (el) {
+                if($(el.target).attr('id') == 'collapseEvents') {
+                    bottom.css('height', 'auto');
+                }
+            });
 
             $(document).on('mousemove', function (e) {
                 if (!isResizing || !$('#collapseEvents').hasClass('in')) {
