@@ -27,7 +27,8 @@ class UpdateServerFile implements ShouldQueue
     {
         $this->server = $server;
         $this->siteFile = $siteFile;
-        $this->makeCommand($siteFile);
+        $siteFile->server_id = $server->id;
+        $this->makeCommand($siteFile, 'site_id');
     }
 
     /**

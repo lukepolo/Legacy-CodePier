@@ -105,14 +105,15 @@ add_header Strict-Transport-Security max-age=15768000;
 server {
     listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
     listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).' ipv6only=on;
+    server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
     return 301 https://$host$request_uri;
 }
 ');
         } else {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
-server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).' ipv6only=on;
+server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 
 root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 ');
