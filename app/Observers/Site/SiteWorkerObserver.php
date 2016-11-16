@@ -13,8 +13,7 @@ class SiteWorkerObserver
     public function created(SiteWorker $siteWorker)
     {
         foreach ($siteWorker->site->provisionedServers as $server) {
-
-            if(!ServerWorker::where('user', $siteWorker->user)
+            if (! ServerWorker::where('user', $siteWorker->user)
                 ->where('command', $siteWorker->command)
                 ->where('auto_start', $siteWorker->auto_start)
                 ->where('auto_restart', $siteWorker->auto_restart)
