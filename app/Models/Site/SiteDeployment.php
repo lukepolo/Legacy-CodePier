@@ -48,11 +48,11 @@ class SiteDeployment extends Model
         $failed = $serverDeployments->sum('failed');
         $completed = $serverDeployments->sum('completed');
 
-        if($failed > 0) {
+        if ($failed > 0) {
             return 'Failed';
         }
 
-        if($completed == $serverDeployments->count()) {
+        if ($completed == $serverDeployments->count()) {
             return 'Completed';
         }
     }
