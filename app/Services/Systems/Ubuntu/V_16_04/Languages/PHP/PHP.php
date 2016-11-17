@@ -39,7 +39,7 @@ class PHP
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
 
         $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini',';date.timezone.','date.timezone = UTC');
+        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service php7.0-fpm restart');
     }
