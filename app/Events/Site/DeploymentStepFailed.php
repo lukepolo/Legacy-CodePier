@@ -16,10 +16,9 @@ class DeploymentStepFailed implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $step;
-    public $siteId;
-    public $serverId;
+    private $siteId;
     public $deploymentEvent;
+    public $siteDeploymentId;
 
     /**
      * Create a new event instance.
@@ -39,7 +38,8 @@ class DeploymentStepFailed implements ShouldBroadcastNow
             'completed' => true,
         ]);
 
-        $this->deploymentEvent->serverDeployment->update([
+
+        $deploymentEvent->serverDeployment->update([
             'status' => 'Deployment Failed',
             'failed' => true,
         ]);

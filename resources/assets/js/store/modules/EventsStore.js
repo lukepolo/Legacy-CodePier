@@ -29,7 +29,6 @@ export default {
             var server_deployment = _.find(site_deployment.server_deployments, {id : deploymentEvent.deployment_event.site_server_deployment_id });
             var eventKey = _.findKey(server_deployment.events, { id : deploymentEvent.deployment_event.id });
             Vue.set(server_deployment.events, eventKey, deploymentEvent.deployment_event);
-
         }
     }
 }
