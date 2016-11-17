@@ -76,20 +76,6 @@ export default {
                 app.showError(error);
             });
         },
-        updateSiteFile: ({commit}, data) => {
-            Vue.http.put(Vue.action('Site\SiteFileController@update', {
-                site: data.site,
-                file: data.file_id
-            }), {
-                file_path: data.file,
-                content: data.content,
-                servers: data.servers,
-            }).then((response) => {
-
-            }, (errors) => {
-                app.showError(error);
-            });
-        },
         getDeploymentSteps: ({commit}, site) => {
             Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site : site})).then((response) => {
                 commit('SET_DEPLOYMENT_STEPS', response.data);
