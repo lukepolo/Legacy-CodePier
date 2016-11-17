@@ -32,21 +32,20 @@ class DeploymentStepFailed implements ShouldBroadcastNow
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log)
     {
         $this->siteId = $site->id;
-        $this->serverId = $server->id;
 
-        $deploymentEvent->log = $log;
-        $deploymentEvent->completed = true;
-        $deploymentEvent->failed = true;
-        $deploymentEvent->save();
-
-        $this->deploymentEvent = $deploymentEvent;
+        $deploymentEvent->update([
+            'log' => $log,
+            'failed' => true,
+            'completed' => true,
+        ]);
 
         $this->deploymentEvent->serverDeployment->update([
             'status' => 'Deployment Failed',
             'failed' => true,
         ]);
 
-        $this->step = $deploymentStep->step;
+        $this->deploymentEvent = $deploymentEvent;
+        $this->siteDeploymentId = $deploymentEvent->serverDeployment->siteDeployment->id;
     }
 
     /**
@@ -57,5 +56,18 @@ class DeploymentStepFailed implements ShouldBroadcastNow
     public function broadcastOn()
     {
         return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'deployment_event' => $this->deploymentEvent->load('step'),
+            'site_deployment_id' => $this->siteDeploymentId,
+        ];
     }
 }
