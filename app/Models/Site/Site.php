@@ -11,11 +11,12 @@ use App\Models\User\UserRepositoryProvider;
 use App\Traits\FireEvents;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents;
+    use UsedByTeams, Notifiable, FireEvents, SoftDeletes;
 
     protected $guarded = ['id'];
 

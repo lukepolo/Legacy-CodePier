@@ -88,7 +88,7 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($id)->update([
             'name' => $request->get('name'),
-        ]);
+        ])->restore();
 
         return response()->json($server);
     }
@@ -102,9 +102,6 @@ class ServerController extends Controller
      */
     public function show($id)
     {
-        print_r(Server::with('sites')->findOrFail($id)->server_features);
-        die;
-
         return response()->json(Server::with('sites')->findOrFail($id));
     }
 
