@@ -16,6 +16,9 @@
         components: {
             ServerSelector
         },
+        created() {
+            this.fetchData();
+        },
         data() {
             return {
                 content: null,
@@ -27,21 +30,24 @@
             'content'() {
                 ace.edit($(this.$el).find('.editor')[0]).setValue(this.content);
                 ace.edit($('.editor')[0]).clearSelection(1);
+            },
+            watch: {
+                '$route': 'fetchData'
             }
         },
-        mounted() {
-            Vue.http.post(laroute.action('Site\SiteFileController@find', {
-                site: this.site.id,
-            }), {
-                file: this.file,
-            }).then((response) => {
-                this.file_model = response.data;
-                this.content = this.file_model.unencrypted_content;
-            }, (errors) => {
-                app.showError(error);;
-            });
-        },
         methods: {
+            fetchData() {
+                Vue.http.post(laroute.action('Site\SiteFileController@find', {
+                    site: this.site.id,
+                }), {
+                    file: this.file,
+                }).then((response) => {
+                    this.file_model = response.data;
+                    this.content = this.file_model.unencrypted_content;
+                }, (errors) => {
+                    app.showError(error);
+                });
+            },
             saveFile() {
                 if (this.file_model) {
                     this.$store.dispatch('updateSiteFile', {
