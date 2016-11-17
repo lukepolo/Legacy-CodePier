@@ -2,9 +2,9 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
-                    <feature-area :site="site" selectable="true" :area="serverFeatureArea" :features="features"
+                    <feature-area :site_server_features="siteFeatures" selectable="true" :area="serverFeatureArea" :features="features"
                                   v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                    <feature-area :site="site" selectable="true" :area="serverLanguageArea" :features="features"
+                    <feature-area :site_server_features="site.server_features" selectable="true" :area="serverLanguageArea" :features="features"
                                   :frameworks="true"
                                   v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
 
@@ -35,6 +35,8 @@
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');
                 this.$store.dispatch('getServerAvailableFrameworks');
+
+                this.$store.dispatch('getSiteSuggestedFeatures', this.$route.params.site_id);
             },
             saveSiteServerFeatures() {
                 this.$store.dispatch('updateSiteServerFeatures', {
@@ -55,6 +57,14 @@
             },
             availableServerFrameworks() {
                 return this.$store.state.serversStore.available_server_frameworks;
+            },
+            siteFeatures() {
+                if(this.site && !this.site.server_features) {
+                    alert();
+                    return this.$store.state.siteServersFeaturesStore.suggestedFeatures;
+                }
+
+                return this.site.server_features;
             }
         }
     }
