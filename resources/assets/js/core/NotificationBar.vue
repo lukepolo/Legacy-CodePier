@@ -429,11 +429,16 @@
                     _(store.state.sitesStore.sites).forEach(function (site) {
                         Echo.private('App.Models.Site.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
+                                    console.info('NEED TO DO STARTED EVENT');
                                 })
                                 .listen('Site\\DeploymentStepCompleted', (data) => {
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepFailed', (data) => {
+                                    console.info('NEED TO DO FAILED EVENT');
+                                })
+                                .listen('Site\\DeploymentCompleted', (data) => {
+                                    console.info('NEED TO DO COMPLETED EVENT');
                                 })
                                 .notification((notification) => {
                                     if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
