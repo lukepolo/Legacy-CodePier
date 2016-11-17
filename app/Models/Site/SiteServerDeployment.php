@@ -40,4 +40,10 @@ class SiteServerDeployment extends Model
     {
         return $this->hasMany(DeploymentEvent::class);
     }
+
+    public function delete()
+    {
+        $this->events->delete();
+        return parent::delete();
+    }
 }

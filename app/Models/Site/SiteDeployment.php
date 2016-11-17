@@ -56,4 +56,10 @@ class SiteDeployment extends Model
             return 'Completed';
         }
     }
+
+    public function delete()
+    {
+        $this->serverDeployments()->delete();
+        return parent::delete();
+    }
 }
