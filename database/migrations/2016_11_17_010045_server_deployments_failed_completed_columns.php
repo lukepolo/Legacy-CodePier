@@ -13,7 +13,7 @@ class ServerDeploymentsFailedCompletedColumns extends Migration
      */
     public function up()
     {
-        Schema::table('site_server_deployments', function(Blueprint $table) {
+        Schema::table('site_server_deployments', function (Blueprint $table) {
             $table->integer('completed')->default(0);
             $table->integer('failed')->default(0);
         });
@@ -26,7 +26,7 @@ class ServerDeploymentsFailedCompletedColumns extends Migration
      */
     public function down()
     {
-        Schema::table('site_server_deployments', function(Blueprint $table) {
+        Schema::table('site_server_deployments', function (Blueprint $table) {
             $table->dropColumn('completed');
             $table->dropColumn('failed');
         });
