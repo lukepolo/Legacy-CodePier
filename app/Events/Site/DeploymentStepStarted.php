@@ -51,6 +51,6 @@ class DeploymentStepStarted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteId);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
     }
 }

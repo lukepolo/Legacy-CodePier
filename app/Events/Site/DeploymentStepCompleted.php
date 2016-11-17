@@ -16,10 +16,9 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $step;
-    public $siteId;
-    public $serverId;
+    private $siteId;
     public $deploymentEvent;
+    public $siteDeploymentId;
 
     /**
      * Create a new event instance.
@@ -34,7 +33,6 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
     {
         $this->siteId = $site->id;
-        $this->serverId = $server->id;
 
         $deploymentEvent->log = $log;
         $deploymentEvent->completed = true;
@@ -42,7 +40,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
         $deploymentEvent->save();
 
         $this->deploymentEvent = $deploymentEvent;
-        $this->step = $deploymentStep->step;
+        $this->siteDeploymentId = $deploymentEvent->serverDeployment->siteDeployment->id;
     }
 
     /**
@@ -52,6 +50,19 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteId);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'deployment_event' => $this->deploymentEvent->load('step'),
+            'site_deployment_id' => $this->siteDeploymentId
+        ];
     }
 }
