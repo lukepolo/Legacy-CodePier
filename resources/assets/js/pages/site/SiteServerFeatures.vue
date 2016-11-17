@@ -4,7 +4,7 @@
             <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
                     <feature-area :site_server_features="siteFeatures" selectable="true" :area="serverFeatureArea" :features="features"
                                   v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                    <feature-area :site_server_features="site.server_features" selectable="true" :area="serverLanguageArea" :features="features"
+                    <feature-area :site_server_features="siteFeatures" selectable="true" :area="serverLanguageArea" :features="features"
                                   :frameworks="true"
                                   v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
 
@@ -60,7 +60,6 @@
             },
             siteFeatures() {
                 if(this.site && !this.site.server_features) {
-                    alert();
                     return this.$store.state.siteServersFeaturesStore.suggestedFeatures;
                 }
 
