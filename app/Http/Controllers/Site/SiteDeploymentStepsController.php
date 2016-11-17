@@ -77,28 +77,6 @@ class SiteDeploymentStepsController extends Controller
     }
 
     /**
-     * @param $siteId
-     * @return array
-     */
-    public function getSuggestedFeatures($siteId)
-    {
-        $site = Site::findOrFail($siteId);
-
-
-        $class = $this->getSiteClass($site);
-        $reflectionClass = new ReflectionClass($class);
-        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
-
-        if (! empty($site->getFrameworkClass())) {
-            $class = $this->getFrameworkClass($site);
-            $reflectionClass = new ReflectionClass($class);
-            $suggestedFeatures = array_merge($suggestedFeatures, $reflectionClass->getDefaultProperties()['frameworkSuggestedFeatures']);
-        }
-
-        return $suggestedFeatures;
-    }
-
-    /**
      * @param $site
      * @return array
      */

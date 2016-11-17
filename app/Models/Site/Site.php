@@ -189,6 +189,7 @@ class Site extends Model
     public function getSiteLanguage()
     {
         return 'PHP\\PHP';
+
         $language = collect($this->server_features)->filter(function ($features, $index) {
             return starts_with($index, 'Language');
         })->keys()->first();
