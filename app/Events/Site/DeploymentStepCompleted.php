@@ -37,7 +37,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
         $deploymentEvent->update([
             'log' => $log,
             'completed' => true,
-            'runtime' => $runtime
+            'runtime' => $runtime,
         ]);
 
         $this->deploymentEvent = $deploymentEvent;
