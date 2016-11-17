@@ -276,7 +276,7 @@
 
                 <section v-for="event in events">
                     <div class="event">
-                        <div class="event-status" :class="{'event-status-neutral' : event.status == '', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed' }"></div>
+                        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed' }"></div>
                         <div class="event-name">
                             <a class="collapsed" data-toggle="collapse" :href="'#' + event.id">
                                 <span class="icon-play"></span>
@@ -416,28 +416,31 @@
                         if(server.progress < 100) {
                             store.dispatch('getServersCurrentProvisioningStep', server.id)
                         }
-
-                        Echo.private('App.Models.Server.' + server.id)
+//
+                        Echo.private('App.Models.Server.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     store.commit("UPDATE_SERVER", data.server)
                                     store.commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
-                                });
+                                })
                     });
                 });
 
                 store.dispatch('getSites', function () {
                     _(store.state.sitesStore.sites).forEach(function (site) {
-                        Echo.private('App.Models.Site.' + site.id)
+                        Echo.private('App.Models.Site.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
-                                    console.info(data.step + ' started');
                                 })
                                 .listen('Site\\DeploymentStepCompleted', (data) => {
-                                    console.log(data);
-                                    console.info(data.step + ' completed in ' + data.deploymentEvent.runtime + ' seconds');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepFailed', (data) => {
-                                    console.info(data.step + ' failed');
                                 })
+                                .notification((notification) => {
+                                    if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
+                                       store.commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
+                                    }
+                                });
+
                     });
                 });
 

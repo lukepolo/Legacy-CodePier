@@ -4,6 +4,7 @@ namespace App\Events\Site;
 
 use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentEvent;
+use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -15,6 +16,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
+    public $step;
     public $siteId;
     public $serverId;
     public $deploymentEvent;
@@ -27,7 +29,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
      * @param $log
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, $log)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log)
     {
         $this->siteId = $site->id;
         $this->serverId = $server->id;
@@ -43,6 +45,8 @@ class DeploymentStepFailed implements ShouldBroadcastNow
             'status' => 'Deployment Failed',
             'failed' => true
         ]);
+
+        $this->step = $deploymentStep->step;
     }
 
     /**
@@ -52,6 +56,6 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteId);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
     }
 }

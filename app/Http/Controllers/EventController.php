@@ -15,7 +15,7 @@ class EventController extends Controller
     {
         $siteDeployments = SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
             $query->withTrashed();
-        }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->paginate(10);
+        }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->latest()->paginate(10);
 
         return response()->json($siteDeployments);
     }

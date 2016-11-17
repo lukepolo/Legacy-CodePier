@@ -48,6 +48,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.'.$this->server->id);
+        return new PrivateChannel('App.Models.Server.Server.'.$this->server->id);
     }
 }
