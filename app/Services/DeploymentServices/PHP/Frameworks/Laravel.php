@@ -4,10 +4,6 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 trait Laravel
 {
-    public $frameworkSuggestedFeatures = [
-
-    ];
-
     /**
      * @description Creates a symbolic link for the env file
      * @order 110

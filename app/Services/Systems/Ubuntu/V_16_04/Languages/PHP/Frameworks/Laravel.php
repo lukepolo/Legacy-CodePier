@@ -12,6 +12,8 @@ class Laravel
         '.env',
     ];
 
+    public $suggestedFeatures = [];
+
     public function installEnvoy()
     {
         $this->connectToServer('codepier');

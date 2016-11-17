@@ -165,6 +165,38 @@ class ServerFeatureController extends Controller
     }
 
     /**
+     * @param $siteId
+     * @return array
+     */
+    public function getSuggestedFeatures($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+        $suggestedFeatures = [];
+
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    if(strtolower(basename($language)) == strtolower($site->type)) {
+
+                        $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
+
+                        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
+
+                        if(!empty($site->framework)) {
+                            $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
+                            $suggestedFeatures = array_merge($suggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $suggestedFeatures;
+    }
+
+    /**
      * @param $file
      * @return ReflectionClass
      */

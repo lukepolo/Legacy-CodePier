@@ -31,6 +31,72 @@ class PHP
         'Laravel Scheduler' => '* * * * * php {site_path} schedule:run >> /dev/null 2>&1',
     ];
 
+    public $suggestedFeatures = [
+        'OsService' => [
+            'Swap' => [
+                'enabled' => 1,
+            ],
+            'parameters' => [
+                'size' => '1G',
+                'swappiness' => 10,
+                'vfsCachePressure' => 50,
+            ],
+        ],
+        'WebService' => [
+            'Nginx' => [
+                'enabled' => 1,
+            ],
+            'CertBot' => [
+                'enabled' => 1,
+            ],
+        ],
+        'NodeService' => [
+            'Yarn' => [
+                'enabled' => 1,
+            ],
+            'NodeJs' => [
+                'enabled' => 1,
+            ],
+        ],
+        'WorkerService' => [
+            'Beanstalk' => [
+                'enabled' => 1,
+            ],
+            'Supervisor' => [
+                'enabled' => 1,
+            ],
+        ],
+        'DatabaseService' => [
+            'Redis' => [
+                'enabled' => 1,
+            ],
+            'MariaDB' => [
+                'enabled' => 1,
+            ],
+        ],
+        'Languages\PHP\PHP' => [
+            'PHP7' => [
+                'enabled' => 1,
+            ],
+            'PhpFpm' => [
+                'enabled' => 1,
+            ],
+            'Composer' => [
+                'enabled' => 1,
+            ],
+        ],
+        'MonitoringService' => [
+            'DiskMonitoringScript' => [
+                'enabled' => 1,
+            ],
+        ],
+        'RepositoryService' => [
+            'Git' => [
+                'enabled' => 1,
+            ],
+        ],
+    ];
+
     public function installPHP7()
     {
         $this->connectToServer();

@@ -129,7 +129,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::group(['prefix' => 'sites'], function () {
                 Route::post('deploy', 'SiteController@deploy');
                 Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
-                Route::get('{site}/suggested-features', 'SiteDeploymentStepsController@getSuggestedFeatures');
             });
 
             Route::resource('site.file', 'SiteFileController');
@@ -150,6 +149,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
     Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
+    Route::get('site/{site}/suggested-features', 'Server\ServerFeatureController@getSuggestedFeatures');
     Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableServerFiles');
     Route::get('site/{site}/framework/editable-files', 'Server\ServerFeatureController@getEditableFrameworkFiles');
 
