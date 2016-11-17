@@ -47,17 +47,16 @@ class SiteDeploymentStepsController extends Controller
 
         $newDeploymentSteps = collect($request->get('deploymentSteps'));
 
-        $site->deploymentSteps->each(function($siteDeploymentStep) use($newDeploymentSteps) {
-            if(!$newDeploymentSteps->first(function($deploymentStep) use($siteDeploymentStep) {
-
-                if(!empty($siteDeploymentStep->script)) {
+        $site->deploymentSteps->each(function ($siteDeploymentStep) use ($newDeploymentSteps) {
+            if (! $newDeploymentSteps->first(function ($deploymentStep) use ($siteDeploymentStep) {
+                if (! empty($siteDeploymentStep->script)) {
                     return $siteDeploymentStep->script == $this->getScript($deploymentStep);
                 }
 
-                return $siteDeploymentStep->internal_deployment_function ==  $this->getInternalDeploymentFunction($deploymentStep);
+                return $siteDeploymentStep->internal_deployment_function == $this->getInternalDeploymentFunction($deploymentStep);
             })) {
                 $siteDeploymentStep->delete();
-            };
+            }
         });
 
         $order = 0;
