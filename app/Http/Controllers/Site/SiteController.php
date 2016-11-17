@@ -84,7 +84,8 @@ class SiteController extends Controller
 
         $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domain'),
+            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'name'                        => $request->get('domain'),
             'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
@@ -98,7 +99,7 @@ class SiteController extends Controller
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
-                $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
+                $this->dispatch(new CreateSite(Server::findOrFail($serverID), $site));
             }
 
             foreach ($changes['detached'] as $serverID) {

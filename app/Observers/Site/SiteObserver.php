@@ -4,6 +4,7 @@ namespace App\Observers\Site;
 
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Jobs\Site\RenameSiteDomain;
 use App\Models\Site\Site;
 
 class SiteObserver
@@ -23,6 +24,14 @@ class SiteObserver
     {
         $this->siteService = $siteService;
         $this->repositoryService = $repositoryService;
+    }
+
+    public function updating(Site $site)
+    {
+        $dirty = $site->getDirty();
+        if(isset($dirty['domain'])) {
+            dispatch(new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')));
+        }
     }
 
     /**
