@@ -301,7 +301,13 @@
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
 
-                                                    <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
+                                                    <template v-if="!deployment_event.started || (deployment_event.started && deployment_event.completed) || (deployment_event.started && deployment_event.failed)">
+                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
+                                                    </template>
+                                                    <template v-else>
+                                                        <i class="fa fa-cog fa-spin fa-fw"></i>
+                                                    </template>
+
                                                     <a class="collapsed" :class="{ 'in' : deployment_event.failed }" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
                                                         <span class="icon-play"></span>
                                                     </a>
@@ -429,7 +435,7 @@
                     _(store.state.sitesStore.sites).forEach(function (site) {
                         Echo.private('App.Models.Site.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
-                                    console.info('NEED TO DO STARTED EVENT');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepCompleted', (data) => {
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);

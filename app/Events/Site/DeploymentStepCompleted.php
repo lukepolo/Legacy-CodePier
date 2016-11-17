@@ -34,10 +34,11 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     {
         $this->siteId = $site->id;
 
-        $deploymentEvent->log = $log;
-        $deploymentEvent->completed = true;
-        $deploymentEvent->runtime = $runtime;
-        $deploymentEvent->save();
+        $deploymentEvent->update([
+            'log' => $log,
+            'completed' => true,
+            'runtime' => $runtime
+        ]);
 
         $this->deploymentEvent = $deploymentEvent;
         $this->siteDeploymentId = $deploymentEvent->serverDeployment->siteDeployment->id;
