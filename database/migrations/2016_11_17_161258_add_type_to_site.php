@@ -13,7 +13,7 @@ class AddTypeToSite extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->string('type');
         });
     }
@@ -25,7 +25,7 @@ class AddTypeToSite extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('type');
         });
     }
