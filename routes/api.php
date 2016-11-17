@@ -128,6 +128,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::group(['namespace' => 'Site'], function () {
             Route::group(['prefix' => 'sites'], function () {
                 Route::post('deploy', 'SiteController@deploy');
+                Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
+                Route::get('{site}/suggested-features', 'SiteDeploymentStepsController@getSuggestedFeatures');
             });
 
             Route::resource('site.file', 'SiteFileController');
@@ -141,7 +143,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
             Route::resource('site.ssl-certificate', 'SiteSslController');
 
-            Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
             Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
         });
     });

@@ -19,7 +19,7 @@ class PHP
     private $remoteTaskService;
     private $repositoryProvider;
 
-    public $suggestedProvisioning = [
+    public $suggestedFeatures= [
         'OsService' => [
             'Swap' => [
                 'enabled' => 1,
