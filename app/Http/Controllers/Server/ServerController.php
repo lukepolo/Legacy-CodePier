@@ -80,6 +80,20 @@ class ServerController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $server = Server::findOrFail($id)->update([
+            'name' => $request->get('name')
+        ]);
+
+        return response()->json($server);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param int $id
