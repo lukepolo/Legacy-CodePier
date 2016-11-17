@@ -99,6 +99,5 @@ class PHP
 
     private function getNginxConfig()
     {
-
     }
 }
