@@ -48,7 +48,7 @@ trait ServerCommandTrait
      */
     public function runOnServer(Closure $function, Command $command = null)
     {
-        if(!empty($command)) {
+        if (! empty($command)) {
             $this->command = $command;
         }
 
