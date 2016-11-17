@@ -37,7 +37,7 @@ class SiteController extends Controller
             'user_id'             => \Auth::user()->id,
             'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
             'pile_id'             => $request->get('pile_id'),
-            'name'                => $request->get('domain'),
+            'name'                => $request->get('domain')
         ]);
 
         SiteFirewallRule::create([
@@ -93,6 +93,7 @@ class SiteController extends Controller
             'wildcard_domain'             => (int) $request->get('wildcard_domain'),
             'zerotime_deployment'         => true,
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
+            'type'                        => $request->get('type')
         ]);
 
         if ($request->has('servers')) {
