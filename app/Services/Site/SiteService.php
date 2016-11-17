@@ -83,26 +83,23 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
-     * @param $domain
-     *
+     * @param $newDomain
+     * @param $oldDomain
      * @return array
      */
-    public function renameDomain(Server $server, Site $site, $domain)
+    public function renameDomain(Server $server, Site $site, $newDomain, $oldDomain)
     {
-        // TODO
-        dd('Needs to be tested');
-
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mv /home/codepier/'.$site->domain.' /home/codepier/'.$domain);
+        $site->domain = $oldDomain;
 
-        $this->remove($server, $site);
+        $this->getWebServerService($server)->removeWebServerConfig($site);
 
-        $this->create($server, $site);
+        $site->domain = $newDomain;
 
-        $site->domain = $domain;
+        $this->remoteTaskService->run('mv /home/codepier/'.$oldDomain.' /home/codepier/'.$site->domain);
 
-        $site->save();
+        $this->getWebServerService($server)->createWebServerConfig($site);
 
         $this->serverService->restartWebServices($server);
 
@@ -116,6 +113,8 @@ class SiteService implements SiteServiceContract
      */
     private function remove(Server $server, Site $site)
     {
+        $this->remoteTaskService->removeDirectory('/home/codepier/'.$site->domain);
+
         $this->getWebServerService($server)->removeWebServerConfig($site);
 
         return $this->remoteTaskService->getErrors();
