@@ -96,4 +96,9 @@ class PHP
         $this->remoteTaskService->run('service blackfire-agent restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
     }
+
+    private function getNginxConfig()
+    {
+
+    }
 }
