@@ -13,12 +13,17 @@ class SiteSshKeyObserver
     public function created(SiteSshKey $siteSshKey)
     {
         foreach ($siteSshKey->site->provisionedServers as $server) {
-            ServerSshKey::create([
-                'server_id' => $server->id,
-                'name' => $siteSshKey->name,
-                'ssh_key' => $siteSshKey->ssh_key,
-                'site_ssh_key_id' => $siteSshKey->id,
-            ]);
+            if (! ServerSshKey::where('name', $siteSshKey->name)
+                ->where('ssh_key', $siteSshKey->ssh_key)
+                ->count()
+            ) {
+                ServerSshKey::create([
+                    'server_id' => $server->id,
+                    'name' => $siteSshKey->name,
+                    'ssh_key' => $siteSshKey->ssh_key,
+                    'site_ssh_key_id' => $siteSshKey->id,
+                ]);
+            }
         }
     }
 

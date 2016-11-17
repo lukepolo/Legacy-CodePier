@@ -21,6 +21,7 @@
         },
         methods: {
             fetchData() {
+                this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
             }

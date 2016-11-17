@@ -276,7 +276,7 @@
 
                 <section v-for="event in events">
                     <div class="event">
-                        <div class="event-status" :class="event.class"></div>
+                        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed' }"></div>
                         <div class="event-name">
                             <a class="collapsed" data-toggle="collapse" :href="'#' + event.id">
                                 <span class="icon-play"></span>
@@ -285,25 +285,48 @@
                             <a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit">view commit</a>
 
                             <div class="event-details collapse" :id="event.id">
+
                                 <template v-for="server_deployment in event.server_deployments">
+
+                                    <div class="event-status" :class="{'event-status-neutral' : (! server_deployment.failed && ! server_deployment.completed), 'event-status-success' : server_deployment.completed, 'event-status-error' : server_deployment.failed }"></div>
                                     <a class="collapsed" data-toggle="collapse" :href="'#' + event.id + '_server_deployment_' + server_deployment.server.id">
                                         <span class="icon-play"></span>
-                                    </a> {{ server_deployment.server.name }} ({{ server_deployment.server.ip }}) - {{ server_deployment.status }}
+                                    </a>
+
+                                    {{ server_deployment.server.name }} ({{ server_deployment.server.ip }}) - {{ server_deployment.status }}
+
                                     <div class="event-details collapse" :id="event.id + '_server_deployment_' + server_deployment.server.id">
+
                                         <ul>
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
-                                                    <a class="collapsed" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
+
+                                                    <template v-if="!deployment_event.started || (deployment_event.started && deployment_event.completed) || (deployment_event.started && deployment_event.failed)">
+                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
+                                                    </template>
+                                                    <template v-else>
+                                                        <i class="fa fa-cog fa-spin fa-fw"></i>
+                                                    </template>
+
+                                                    <a class="collapsed" :class="{ 'in' : deployment_event.failed }" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
                                                         <span class="icon-play"></span>
-                                                    </a> {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
-                                                    <div class="event-details collapse out" :id="'deployment_event_'+deployment_event.id">
+                                                    </a>
+
+                                                    {{ deployment_event.step.step }}
+                                                    <template v-if="deployment_event.completed">
+                                                        took {{ formatSeconds(deployment_event.runtime) }} seconds
+                                                    </template>
+
+                                                    <div class="event-details collapse" :class="{ 'in' : deployment_event.failed, 'out' : !deployment_event.failed }" :id="'deployment_event_'+deployment_event.id">
                                                         <pre v-for="log in filterArray(deployment_event.log)" v-if="deployment_event.log">{{ log }}</pre>
                                                     </div>
                                                 </li>
                                             </template>
                                         </ul>
+
                                     </div>
                                 </template>
+
                             </div>
                         </div>
                         <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
@@ -384,7 +407,10 @@
         },
         methods: {
             filterArray(data) {
-              return data.filter(String);
+                if(Array.isArray(data)) {
+                    return data.filter(String);
+                }
+              return [];
             },
             fetchData() {
 
@@ -396,28 +422,37 @@
                         if(server.progress < 100) {
                             store.dispatch('getServersCurrentProvisioningStep', server.id)
                         }
-
-                        Echo.private('App.Models.Server.' + server.id)
+//
+                        Echo.private('App.Models.Server.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     store.commit("UPDATE_SERVER", data.server)
                                     store.commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
-                                });
+                                })
                     });
                 });
 
                 store.dispatch('getSites', function () {
                     _(store.state.sitesStore.sites).forEach(function (site) {
-                        Echo.private('App.Models.Site.' + site.id)
+                        Echo.private('App.Models.Site.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
-                                    console.info(data.step + ' started');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepCompleted', (data) => {
-                                    console.log(data);
-                                    console.info(data.step + ' completed in ' + data.deploymentEvent.runtime + ' seconds');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepFailed', (data) => {
-                                    console.info(data.step + ' failed');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
+                                .listen('Site\\DeploymentCompleted', (data) => {
+                                    alert('deployment completed');
+                                    console.info('NEED TO DO COMPLETED EVENT');
+                                })
+                                .notification((notification) => {
+                                    if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
+                                       store.commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
+                                    }
+                                });
+
                     });
                 });
 
