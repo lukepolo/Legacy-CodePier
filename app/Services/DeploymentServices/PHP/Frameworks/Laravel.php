@@ -4,7 +4,7 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 trait Laravel
 {
-    public $suggestedProvisioning = [
+    public $frameworkSuggestedFeatures = [
 
     ];
 

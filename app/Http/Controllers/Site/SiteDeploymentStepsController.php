@@ -77,20 +77,58 @@ class SiteDeploymentStepsController extends Controller
     }
 
     /**
+     * @param $siteId
+     * @return array
+     */
+    public function getSuggestedFeatures($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+
+        $class = $this->getSiteClass($site);
+        $reflectionClass = new ReflectionClass($class);
+        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
+
+        if (! empty($site->getFrameworkClass())) {
+            $class = $this->getFrameworkClass($site);
+            $reflectionClass = new ReflectionClass($class);
+            $suggestedFeatures = array_merge($suggestedFeatures, $reflectionClass->getDefaultProperties()['frameworkSuggestedFeatures']);
+        }
+
+        return $suggestedFeatures;
+    }
+
+    /**
      * @param $site
      * @return array
      */
     private function getDeploymentClasses(Site $site)
     {
-        $classes = [
-            'App\Services\DeploymentServices\\'.$site->getSiteLanguage(),
-        ];
+        $classes = [$this->getSiteClass($site)];
 
         if (! empty($site->getFrameworkClass())) {
-            $classes[] = 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();
+            $classes[] = $this->getFrameworkClass($site);
         }
 
         return $classes;
+    }
+
+    /**
+     * @param Site $site
+     * @return string
+     */
+    private function getSiteClass(Site $site)
+    {
+        return 'App\Services\DeploymentServices\\'.$site->getSiteLanguage();
+    }
+
+    /**
+     * @param Site $site
+     * @return string
+     */
+    private function getFrameworkClass(Site $site)
+    {
+        return 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();;
     }
 
     /**
