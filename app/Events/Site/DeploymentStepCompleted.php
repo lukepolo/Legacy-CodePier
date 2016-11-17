@@ -62,7 +62,7 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     {
         return [
             'deployment_event' => $this->deploymentEvent->load('step'),
-            'site_deployment_id' => $this->siteDeploymentId
+            'site_deployment_id' => $this->siteDeploymentId,
         ];
     }
 }
