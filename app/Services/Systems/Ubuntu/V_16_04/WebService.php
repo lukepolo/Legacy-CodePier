@@ -34,7 +34,7 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
-    public function installNginx()
+    public function installNginx($workerProcesses = 1, $workerConnections = 512)
     {
         $this->connectToServer();
 
@@ -43,8 +43,18 @@ class WebService
         $this->remoteTaskService->removeFile('/etc/nginx/sites-enabled/default');
         $this->remoteTaskService->removeFile('/etc/nginx/sites-available/default');
 
-        $this->remoteTaskService->run('sed -i "s/user www-data;/user codepier;/" /etc/nginx/nginx.conf');
-        $this->remoteTaskService->run('sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf');
+        $this->remoteTaskService->appendTextToFile('/etc/nginx/nginx.conf', "worker_processes $workerProcesses;");
+        $this->remoteTaskService->appendTextToFile('/etc/nginx/nginx.conf', "worker_connections $workerConnections;");
+
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip', 'gzip on;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 5;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_min_length', 'gzip_min_length 256;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_types', 'gzip_types application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component;');
+
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', '# server_names_hash_bucket_size', 'server_names_hash_bucket_size 64');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
