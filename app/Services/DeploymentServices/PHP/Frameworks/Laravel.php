@@ -4,6 +4,10 @@ namespace App\Services\DeploymentServices\PHP\Frameworks;
 
 trait Laravel
 {
+    public $suggestedProvisioning = [
+
+    ];
+
     /**
      * @description Creates a symbolic link for the env file
      * @order 110
@@ -36,7 +40,7 @@ trait Laravel
      *
      * @order 210
      *
-     * @return array
+     * @return [
      */
     public function laravelRunMigrations()
     {
@@ -48,7 +52,7 @@ trait Laravel
      *
      * @order 310
      *
-     * @return array
+     * @return [
      */
     public function laravelCacheRoutes()
     {
@@ -60,7 +64,7 @@ trait Laravel
      *
      * @order 320
      *
-     * @return array
+     * @return [
      */
     public function laravelCacheConfig()
     {
@@ -72,7 +76,7 @@ trait Laravel
      *
      * @order 410
      *
-     * @return array
+     * @return [
      */
     public function laravelRestartWorkers()
     {

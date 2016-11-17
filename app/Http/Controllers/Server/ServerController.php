@@ -102,6 +102,8 @@ class ServerController extends Controller
      */
     public function show($id)
     {
+        print_r(Server::with('sites')->findOrFail($id)->server_features);
+        die;
         return response()->json(Server::with('sites')->findOrFail($id));
     }
 
