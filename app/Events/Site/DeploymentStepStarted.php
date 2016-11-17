@@ -30,7 +30,6 @@ class DeploymentStepStarted implements ShouldBroadcastNow
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep)
     {
         $this->siteId = $site->id;
-        $this->deploymentEvent = $deploymentEvent;
 
         $deploymentEvent->update([
             'started' => true,

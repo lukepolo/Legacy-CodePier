@@ -441,9 +441,10 @@
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepFailed', (data) => {
-                                    console.info('NEED TO DO FAILED EVENT');
+                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentCompleted', (data) => {
+                                    alert('deployment completed');
                                     console.info('NEED TO DO COMPLETED EVENT');
                                 })
                                 .notification((notification) => {
