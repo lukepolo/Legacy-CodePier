@@ -3,6 +3,7 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Server\ServerWorker;
+use App\Services\RemoteTaskService;
 use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
 
@@ -18,7 +19,7 @@ class WorkerService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
-        $this->remoteTaskService->run('sed -i "s/#START=yes/START=yes/" /etc/default/beanstalkd');
+        $this->remoteTaskService->updateText('/etc/default/beanstalkd','#START=yes', 'START=yes');
         $this->remoteTaskService->run('service beanstalkd restart');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service beanstalkd restart');
