@@ -60,6 +60,7 @@ class SiteDeployment extends Model
     public function delete()
     {
         $this->serverDeployments()->delete();
+
         return parent::delete();
     }
 }

@@ -44,6 +44,7 @@ class SiteServerDeployment extends Model
     public function delete()
     {
         $this->events->delete();
+
         return parent::delete();
     }
 }
