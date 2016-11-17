@@ -128,7 +128,7 @@ class SiteDeploymentStepsController extends Controller
      */
     private function getFrameworkClass(Site $site)
     {
-        return 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();;
+        return 'App\Services\DeploymentServices\\'.$site->getFrameworkClass();
     }
 
     /**
