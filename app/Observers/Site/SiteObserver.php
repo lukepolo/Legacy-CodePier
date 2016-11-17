@@ -29,7 +29,7 @@ class SiteObserver
     public function updating(Site $site)
     {
         $dirty = $site->getDirty();
-        if(isset($dirty['domain'])) {
+        if (isset($dirty['domain'])) {
             dispatch(new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')));
         }
     }
