@@ -38,7 +38,7 @@ class RenameSiteDomain implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        foreach($this->site->provisionedServers as $server) {
+        foreach ($this->site->provisionedServers as $server) {
             $siteService->renameDomain($server, $this->site, $this->newDomain, $this->oldDomain);
         }
     }
