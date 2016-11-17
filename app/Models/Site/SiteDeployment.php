@@ -17,7 +17,7 @@ class SiteDeployment extends Model
 
     protected $appends = [
         'type',
-        'class',
+        'status',
     ];
 
     /*
@@ -41,19 +41,19 @@ class SiteDeployment extends Model
         return get_class($this);
     }
 
-    public function getClassAttribute()
+    public function getStatusAttribute()
     {
-        //        event-status-neutral
-        //        event-status-success
-        //        event-status-error
-        //        event-status-warning
+        $serverDeployments = $this->serverDeployments;
 
+        $failed = $serverDeployments->sum('failed');
+        $completed = $serverDeployments->sum('completed');
 
-//        $statuses = $this->serverDeployments->pluck('status');
-//
-//        dd($statuses);
+        if ($failed > 0) {
+            return 'Failed';
+        }
 
-
-        return 'event-status-success';
+        if ($completed == $serverDeployments->count()) {
+            return 'Completed';
+        }
     }
 }

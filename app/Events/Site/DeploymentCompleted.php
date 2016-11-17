@@ -32,6 +32,7 @@ class DeploymentCompleted implements ShouldBroadcastNow
 
         $siteServerDeploymentDeployment->update([
             'status' =>  'Deployment Completed',
+            'completed' => true,
         ]);
 
         $this->siteServerDeployment = $siteServerDeploymentDeployment;
@@ -44,6 +45,6 @@ class DeploymentCompleted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteId);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
     }
 }

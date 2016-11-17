@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteDeploymentStepsRequest;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
+use Illuminate\Support\Collection;
 use ReflectionClass;
 
 class SiteDeploymentStepsController extends Controller
 {
+    private $deploymentSteps = [];
+
     /**
      * @param $siteId
      * @return array
@@ -38,22 +41,36 @@ class SiteDeploymentStepsController extends Controller
      */
     public function store(SiteDeploymentStepsRequest $request, $siteId)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('deploymentSteps')->findOrFail($siteId);
 
-        $site->deploymentSteps()->delete();
+        $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('name');
 
-        $deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('name');
+        $newDeploymentSteps = collect($request->get('deploymentSteps'));
+
+        $site->deploymentSteps->each(function ($siteDeploymentStep) use ($newDeploymentSteps) {
+            if (! $newDeploymentSteps->first(function ($deploymentStep) use ($siteDeploymentStep) {
+                if (! empty($siteDeploymentStep->script)) {
+                    return $siteDeploymentStep->script == $this->getScript($deploymentStep);
+                }
+
+                return $siteDeploymentStep->internal_deployment_function == $this->getInternalDeploymentFunction($deploymentStep);
+            })) {
+                $siteDeploymentStep->delete();
+            }
+        });
 
         $order = 0;
 
-        foreach ($request->get('deploymentSteps') as $deploymentStep) {
-            DeploymentStep::create([
+        foreach ($newDeploymentSteps as $deploymentStep) {
+            $deploymentStep = DeploymentStep::firstOrnew([
                 'site_id' => $site->id,
-                'order' => ++$order,
-                'step' => $deploymentSteps->has($deploymentStep) ? $deploymentSteps->get($deploymentStep)['name'] : 'Custom Step',
-                'script' => ! $deploymentSteps->has($deploymentStep) ? $deploymentStep : null,
-                'internal_deployment_function' => $deploymentSteps->has($deploymentStep) ? $deploymentSteps->get($deploymentStep)['task'] : null,
+                'step' => $this->getStep($deploymentStep),
+                'script' => $this->getScript($deploymentStep),
+                'internal_deployment_function' => $this->getInternalDeploymentFunction($deploymentStep),
             ]);
+
+            $deploymentStep->order = ++$order;
+            $deploymentStep->save();
         }
 
         return response()->json('OK');
@@ -63,7 +80,7 @@ class SiteDeploymentStepsController extends Controller
      * @param $site
      * @return array
      */
-    private function getDeploymentClasses($site)
+    private function getDeploymentClasses(Site $site)
     {
         $classes = [
             'App\Services\DeploymentServices\\'.$site->getSiteLanguage(),
@@ -78,7 +95,7 @@ class SiteDeploymentStepsController extends Controller
 
     /**
      * @param array $classes
-     * @return array
+     * @return Collection
      */
     private function buildDeploymentOptions(array $classes)
     {
@@ -114,5 +131,32 @@ class SiteDeploymentStepsController extends Controller
         }
 
         return collect($deploymentSteps)->sortBy('order');
+    }
+
+    /**
+     * @param $deploymentStep
+     * @return null
+     */
+    private function getScript($deploymentStep)
+    {
+        return ! $this->deploymentSteps->has($deploymentStep) ? $deploymentStep : null;
+    }
+
+    /**
+     * @param $deploymentStep
+     * @return null
+     */
+    private function getInternalDeploymentFunction($deploymentStep)
+    {
+        return $this->deploymentSteps->has($deploymentStep) ? $this->deploymentSteps->get($deploymentStep)['task'] : null;
+    }
+
+    /**
+     * @param $deploymentStep
+     * @return string
+     */
+    private function getStep($deploymentStep)
+    {
+        return $this->deploymentSteps->has($deploymentStep) ? $this->deploymentSteps->get($deploymentStep)['name'] : 'Custom Step';
     }
 }
