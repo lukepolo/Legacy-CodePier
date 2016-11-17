@@ -276,7 +276,7 @@
 
                 <section v-for="event in events">
                     <div class="event">
-                        <div class="event-status" :class="event.class"></div>
+                        <div class="event-status" :class="{'event-status-neutral' : event.status == '', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed' }"></div>
                         <div class="event-name">
                             <a class="collapsed" data-toggle="collapse" :href="'#' + event.id">
                                 <span class="icon-play"></span>
@@ -285,25 +285,42 @@
                             <a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit">view commit</a>
 
                             <div class="event-details collapse" :id="event.id">
+
                                 <template v-for="server_deployment in event.server_deployments">
+
+                                    <div class="event-status" :class="{'event-status-neutral' : (! server_deployment.failed && ! server_deployment.completed), 'event-status-success' : server_deployment.completed, 'event-status-error' : server_deployment.failed }"></div>
                                     <a class="collapsed" data-toggle="collapse" :href="'#' + event.id + '_server_deployment_' + server_deployment.server.id">
                                         <span class="icon-play"></span>
-                                    </a> {{ server_deployment.server.name }} ({{ server_deployment.server.ip }}) - {{ server_deployment.status }}
+                                    </a>
+
+                                    {{ server_deployment.server.name }} ({{ server_deployment.server.ip }}) - {{ server_deployment.status }}
+
                                     <div class="event-details collapse" :id="event.id + '_server_deployment_' + server_deployment.server.id">
+
                                         <ul>
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
-                                                    <a class="collapsed" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
+
+                                                    <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
+                                                    <a class="collapsed" :class="{ 'in' : deployment_event.failed }" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
                                                         <span class="icon-play"></span>
-                                                    </a> {{ deployment_event.step.step }} took {{ formatSeconds(deployment_event.runtime) }} seconds
-                                                    <div class="event-details collapse out" :id="'deployment_event_'+deployment_event.id">
+                                                    </a>
+
+                                                    {{ deployment_event.step.step }}
+                                                    <template v-if="deployment_event.completed">
+                                                        took {{ formatSeconds(deployment_event.runtime) }} seconds
+                                                    </template>
+
+                                                    <div class="event-details collapse" :class="{ 'in' : deployment_event.failed, 'out' : !deployment_event.failed }" :id="'deployment_event_'+deployment_event.id">
                                                         <pre v-for="log in filterArray(deployment_event.log)" v-if="deployment_event.log">{{ log }}</pre>
                                                     </div>
                                                 </li>
                                             </template>
                                         </ul>
+
                                     </div>
                                 </template>
+
                             </div>
                         </div>
                         <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>

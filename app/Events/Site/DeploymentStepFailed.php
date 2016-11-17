@@ -38,6 +38,11 @@ class DeploymentStepFailed implements ShouldBroadcastNow
         $deploymentEvent->save();
 
         $this->deploymentEvent = $deploymentEvent;
+
+        $this->deploymentEvent->serverDeployment->update([
+            'status' => 'Deployment Failed',
+            'failed' => true
+        ]);
     }
 
     /**
