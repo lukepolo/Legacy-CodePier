@@ -13,7 +13,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $siteDeployments = SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function($query) {
+        $siteDeployments = SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
             $query->withTrashed();
         }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->paginate(10);
 

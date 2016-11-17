@@ -13,7 +13,7 @@ class DeploymentStepsSoftDeletes extends Migration
      */
     public function up()
     {
-        Schema::table('deployment_steps', function(Blueprint $table) {
+        Schema::table('deployment_steps', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -25,7 +25,7 @@ class DeploymentStepsSoftDeletes extends Migration
      */
     public function down()
     {
-        Schema::table('deployment_steps', function(Blueprint $table) {
+        Schema::table('deployment_steps', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }
