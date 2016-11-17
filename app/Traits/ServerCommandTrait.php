@@ -48,6 +48,10 @@ trait ServerCommandTrait
      */
     public function runOnServer(Closure $function, Command $command = null)
     {
+        if(!empty($command)) {
+            $this->command = $command;
+        }
+
         $start = microtime(true);
 
         try {
@@ -59,7 +63,7 @@ trait ServerCommandTrait
 
             $this->remoteSuccesses[] = $remoteResponse;
 
-            if (! empty($command)) {
+            if (! empty($this->command)) {
                 $this->command->update([
                     'runtime' => microtime(true) - $start,
                     'log' =>  $this->remoteSuccesses,
@@ -82,7 +86,7 @@ trait ServerCommandTrait
             if (count($this->remoteErrors)) {
                 $this->error = true;
 
-                if (! empty($command)) {
+                if (! empty($this->command)) {
                     $this->command->update([
                         'runtime' => microtime(true) - $start,
                         'log' => $this->remoteErrors,
