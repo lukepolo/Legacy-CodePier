@@ -21,6 +21,5 @@ class Laravel
 
     private function getNginxConfig()
     {
-
     }
 }
