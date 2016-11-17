@@ -217,14 +217,9 @@ class ServerFeatureController extends Controller
     {
         $features = [];
         $required = [];
-        $suggestedDefaults = [];
 
         if ($reflection->hasProperty('required')) {
             $required = $reflection->getProperty('required')->getValue();
-        }
-
-        if ($reflection->hasProperty('suggestedDefaults')) {
-            $suggestedDefaults = $reflection->getProperty('suggestedDefaults')->getValue();
         }
 
         // TODO - get description or something from comment
@@ -240,7 +235,6 @@ class ServerFeatureController extends Controller
                     'name' => str_replace('install', '', $method->name),
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
-                    'suggestedDefaults' => $suggestedDefaults,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
                     'description' => trim(preg_replace('/[^a-zA-Z0-9]/', ' ', $method->getDocComment())),
                 ];
