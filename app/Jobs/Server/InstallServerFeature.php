@@ -46,7 +46,7 @@ class InstallServerFeature implements ShouldQueue
     {
         $serverFeatures = $this->server->server_features;
 
-        if(!$serverFeatures[$this->service][$this->feature]['enabled']) {
+        if (! $serverFeatures[$this->service][$this->feature]['enabled']) {
             $this->runOnServer(function () use ($serverService, $serverFeatures) {
                 call_user_func_array(
                     [
