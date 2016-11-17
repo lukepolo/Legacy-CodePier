@@ -87,7 +87,7 @@ class ServerController extends Controller
     public function update(Request $request, $id)
     {
         $server = Server::findOrFail($id)->update([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
         ]);
 
         return response()->json($server);
