@@ -80,13 +80,6 @@ footer {
 
 .event-name {
     flex: 1 1 auto;
-
-    a:first-child:not(.collapsed) {
-        transform: rotate(90deg);
-        position: relative;
-        left: -4px;
-        top: 2px;
-    }
 }
 
 .event-pile {
@@ -102,9 +95,53 @@ footer {
     padding: $spacing;
 }
 
+.event-commit {
+    padding: 0px ($spacing/2);
+}
 
-// ERROR DETAILS
+//a:first-child:not(.collapsed) {
+[data-toggle="collapse"]:not(.collapsed) .icon-play {
+    display: block;
+    transform: rotate(90deg);
+    position: relative;
+    left: -4px;
+    top: 2px;
+}
+
+
+// EVENT DETAILS -------------------------------------------
+// ---------------------------------------------------------
 .event-details {
+    margin-left: $spacing;
+
+    // can't do margin-top -- makes collapse jump
+    &:before {
+        content: '';
+        display: block;
+        height: $spacing/2;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+
+        li {
+            padding-bottom: $spacing/4;
+        }
+    }
+}
+.event-details .error {
     padding: ($spacing/2) $spacing 0px;
     color: rgba($white, .6);
+}
+
+.event-details pre {
+    margin: 0px 0px $spacing ($spacing *2);
+        white-space: pre-wrap;       /* css-3 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    
 }
