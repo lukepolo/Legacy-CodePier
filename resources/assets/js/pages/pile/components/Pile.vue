@@ -26,7 +26,7 @@
             <button @click="cancel" class="btn">Cancel</button>
             <button @click="savePile" class="btn btn-primary">Save</button>
         </div>
-        <div v-else>
+        <div class="btn-footer text-center" v-else>
             <button @click="edit" class="btn">Edit</button>
             <button @click="deletePile()" class="btn">Delete</button>
 

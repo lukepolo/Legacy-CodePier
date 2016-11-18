@@ -31,10 +31,10 @@
   display: inline-block;
   width: 1em;
   height: 1em;
-  border: .5em solid rgba($color-text-primary, .3);
+  border: .5em solid rgba($color-text-primary, .2);
   border-radius: 50%;
   border-top-color: $yellow;
-  animation: spin 1s ease-in-out infinite;
+  animation: spin .7s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite;
 }
 
@@ -52,9 +52,7 @@
     padding-right: 4px;
 }
 
-//.icon-spinner:before {
-//  content: "\e981";
-//}
+
 .icon-github:before {
   content: "\eab0";
 }

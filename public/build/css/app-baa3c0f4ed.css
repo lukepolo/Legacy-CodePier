@@ -4176,7 +4176,7 @@ footer {
   display: -webkit-box;
   display: flex;
   overflow: hidden; }
-  #main div, .view div {
+  #main > div, .view > div {
     -webkit-box-flex: 1;
     flex: 1 1 auto; }
 
@@ -4573,10 +4573,10 @@ footer {
   display: inline-block;
   width: 1em;
   height: 1em;
-  border: 0.5em solid rgba(255, 255, 255, 0.3);
+  border: 0.5em solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   border-top-color: #FEC07A;
-  animation: spin 1s ease-in-out infinite;
+  animation: spin .7s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite; }
 
 @keyframes spin {
@@ -4724,12 +4724,12 @@ footer {
   margin-bottom: 5px;
   padding-right: 1.4em; }
 
-.server > a {
+.server {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative; }
-  .server > a.router-link-active {
+  .server.selected {
     background-color: #343536; }
 
 .server-name {
@@ -4737,44 +4737,6 @@ footer {
   font-size: 1.2em;
   margin-bottom: 5px;
   padding-right: 1.4em; }
-
-.server-connection {
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  float: right;
-  border-radius: 50%;
-  position: relative;
-  top: 2px;
-  right: -1.4em; }
-  .server-connection.server-success {
-    background-color: #83B692; }
-  .server-connection.server-error {
-    background-color: #F4645F; }
-
-.server-status {
-  margin-top: 10px; }
-
-.server-progress-container {
-  height: 20px;
-  border: 1px solid #2B2B2B;
-  margin: 10px 0;
-  position: relative; }
-
-.server-progress-number {
-  position: absolute;
-  right: 0px;
-  font-size: .9em;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 0px 5px; }
-
-.server-progress {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: #48ACF0; }
 
 .server-list .server:last-child {
   border: none; }
@@ -4845,9 +4807,23 @@ a.server:hover {
     border-bottom: 1px solid #3a3d3f;
     margin: -20px -20px 20px;
     padding: 20px; }
+    .group .group-heading h4 {
+      text-transform: none; }
+    .group .group-heading input {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: .5px;
+      background-color: transparent;
+      border: 1px solid #2B2B2B;
+      width: calc(100% + 10px);
+      margin: -10px;
+      padding: 9px; }
+      .group .group-heading input:focus {
+        outline: 2px solid #48ACF0; }
   .group .group-content {
     -webkit-box-flex: 1;
-    flex: 1 0 auto;
+    flex: 1 0 100px;
     position: relative; }
   .group .btn-footer {
     margin: 20px -20px -20px;
