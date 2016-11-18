@@ -9,6 +9,6 @@ class UserNotificationSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'services' => 'array'
+        'services' => 'array',
     ];
 }

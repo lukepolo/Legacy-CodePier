@@ -21,8 +21,8 @@ class NotificationSettings extends Seeder
                 'description' => 'Sends a notification that a deployment has been queued',
                 'services' => [
                     self::MAIL,
-                    self::SLACK
-                ]
+                    self::SLACK,
+                ],
             ],
             \App\Notifications\Site\SiteDeploymentFailed::class => [
                 'name' => 'Site Deployment Failed',
@@ -30,8 +30,8 @@ class NotificationSettings extends Seeder
                 'description' => 'Sends a notification that a deployment failed with details of the error and server',
                 'services' => [
                     self::MAIL,
-                    self::SLACK
-                ]
+                    self::SLACK,
+                ],
             ],
             \App\Notifications\Site\SiteDeploymentSuccessful::class => [
                 'name' => 'Site Deployment Successful',
@@ -39,9 +39,9 @@ class NotificationSettings extends Seeder
                 'description' => 'Sends a notification that a deployment has been been successful for all servers',
                 'services' => [
                     self::MAIL,
-                    self::SLACK
-                ]
-            ]
+                    self::SLACK,
+                ],
+            ],
         ];
 
         foreach ($settings as $event => $data) {
