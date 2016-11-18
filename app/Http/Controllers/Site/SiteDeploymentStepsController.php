@@ -50,11 +50,12 @@ class SiteDeploymentStepsController extends Controller
         $site->deploymentSteps->each(function ($siteDeploymentStep) use ($newDeploymentSteps) {
             if (! $newDeploymentSteps->first(function ($deploymentStep) use ($siteDeploymentStep) {
 
-                if (! empty($siteDeploymentStep->script)) {
+                if (! empty($deploymentStep['script'])) {
                     return $siteDeploymentStep->script == $deploymentStep['script'];
                 }
 
                 $deploymentStep = $this->getDeploymentStep($deploymentStep);
+
                 if($deploymentStep) {
                     return $siteDeploymentStep->internal_deployment_function == $deploymentStep['internal_deployment_function'];
                 }
@@ -73,7 +74,7 @@ class SiteDeploymentStepsController extends Controller
 
             $deploymentStep = DeploymentStep::firstOrnew([
                 'site_id' => $site->id,
-                'step' => !empty($internalStep) ? $internalStep['step'] : 'Custom Step',
+                'step' => !empty($internalStep) ? $internalStep['step'] : $deploymentStep['step'],
                 'script' => empty($internalStep) ? $deploymentStep['script'] : null,
                 'internal_deployment_function' => !empty($internalStep) ? $internalStep['internal_deployment_function'] : null,
             ]);
@@ -165,8 +166,6 @@ class SiteDeploymentStepsController extends Controller
      */
     private function getDeploymentStep($deploymentStep)
     {
-        $deploymentStep = $deploymentStep['internal_deployment_function'];
-
-        return $this->deploymentSteps->has($deploymentStep) ? $this->deploymentSteps->get($deploymentStep) : null;
+        return !empty($deploymentStep['internal_deployment_function']) ? $this->deploymentSteps->get($deploymentStep['internal_deployment_function']) : null;
     }
 }
