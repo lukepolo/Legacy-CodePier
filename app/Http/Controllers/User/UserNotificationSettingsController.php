@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class UserNotificationSettingsController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -27,15 +26,14 @@ class UserNotificationSettingsController extends Controller
      */
     public function store(Request $request)
     {
-        foreach($request->get('notification_setting') as $notificationSettingId => $services) {
-
+        foreach ($request->get('notification_setting') as $notificationSettingId => $services) {
             $userNotification = UserNotificationSetting::firstOrNew([
                 'user_id' => \Auth::user()->id,
-                'notification_setting_id' => $notificationSettingId
+                'notification_setting_id' => $notificationSettingId,
             ]);
 
             $userNotification->fill([
-                'services' => array_keys($services)
+                'services' => array_keys($services),
             ]);
 
             $userNotification->save();
@@ -53,7 +51,7 @@ class UserNotificationSettingsController extends Controller
      */
     public function show($id)
     {
-//        return response()->json();
+        //        return response()->json();
     }
 
     /**
@@ -65,6 +63,5 @@ class UserNotificationSettingsController extends Controller
      */
     public function destroy($id)
     {
-
     }
 }
