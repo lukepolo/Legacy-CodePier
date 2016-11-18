@@ -282,8 +282,6 @@
                                 <span class="icon-play"></span>
                             </a> Deployment
 
-                            <a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit">view commit</a>
-
                             <div class="event-details collapse" :id="event.id">
 
                                 <template v-for="server_deployment in event.server_deployments">
@@ -298,6 +296,8 @@
                                     <div class="event-details collapse" :id="event.id + '_server_deployment_' + server_deployment.server.id">
 
                                         <ul>
+                                            <li><span class="icon-spinner"></span></li>
+
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
 
@@ -305,7 +305,7 @@
                                                         <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
                                                     </template>
                                                     <template v-else>
-                                                        <i class="fa fa-cog fa-spin fa-fw"></i>
+                                                        <span class="icon-spinner"></span>
                                                     </template>
 
                                                     <a class="collapsed" :class="{ 'in' : deployment_event.failed }" data-toggle="collapse" :href="'#deployment_event_' + deployment_event.id" v-if="deployment_event.log && filterArray(deployment_event.log).length">
@@ -331,6 +331,7 @@
                         </div>
                         <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
                         <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
+                        <div class="event-commit"><a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit"><span class="icon-github"></span> </a></div>
                     </div>
                 </section>
             </div>
