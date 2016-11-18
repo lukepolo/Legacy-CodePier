@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(NotificationSettings::class);
         $this->call(ServerProvidersSeeder::class);
         $this->call(RepositoryProvidersSeeder::class);
         $this->call(NotificationProvidersSeeder::class);
