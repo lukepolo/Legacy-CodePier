@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->belongsTo(Pile::class, 'current_pile_id');
     }
 
+    public function notificationSettings()
+    {
+        return $this->hasMany(UserNotificationSetting::class);
+    }
+
     public function getRunningCommands()
     {
         $commandsRunning = [];
