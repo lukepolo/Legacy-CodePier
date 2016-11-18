@@ -44,6 +44,13 @@ export default {
                 app.showError(error);
             });
         },
+        updateUserNotificationSettings: ({commit}, data) => {
+            Vue.http.post(Vue.action('User\UserNotificationSettingsController@store'), data).then((response) => {
+
+            }, (errors) => {
+                app.showError(error);
+            });
+        }
     },
     mutations: {
         SET_NOTIFICATION_SETTINGS: (state, settings) => {
