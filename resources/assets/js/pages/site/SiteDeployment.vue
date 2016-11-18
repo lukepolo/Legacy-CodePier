@@ -1,18 +1,24 @@
+<style>
+    .dragArea {
+        min-height: 20px;
+    }
+</style>
 <template>
     <div v-if="site">
         Site Deployments
+        <div @click="addCustomStep" class="btn btn-primary">Add Custom Step</div>
         <form @submit.prevent="updateSiteDeployment">
             <div class="drag">
                 <h2>Inactive</h2>
-                <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}">
+                <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
                     <div v-for="deploymentStep in inactive">
-                        {{ deploymentStep.step }} <br> <small>{{ deploymentStep.description }}</small>
+                        <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
                     </div>
                 </draggable>
                 <h2>Active</h2>
-                <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
+                <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
                     <div v-for="deploymentStep in active">
-                        {{ deploymentStep.step }} <br> <small>{{ deploymentStep.description }}</small>
+                        <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
                     </div>
                 </draggable>
             </div>
@@ -24,9 +30,11 @@
 
 <script>
     import draggable from 'vuedraggable';
+    import deploymentStepCard from './components/DeploymentStepCard.vue';
     export default {
         components: {
-            draggable
+            draggable,
+            deploymentStepCard
         },
         data() {
             return {
@@ -38,7 +46,7 @@
             this.fetchData();
         },
         watch: {
-            '$route': 'fetchData',
+            '$route': 'fetchData'
         },
         methods: {
             fetchData() {
@@ -51,7 +59,7 @@
 
                         _.each(currentDeploymentSteps, (step) => {
                             if(step.script) {
-                               alert('custom script, need to fix');
+                                this.active.push(step);
                             } else {
                                 this.active.push(_.find(possibleDeploymentSteps, { internal_deployment_function : step.internal_deployment_function }));
                             }
@@ -78,7 +86,27 @@
                     return _.find(this.currentSiteDeploymentSteps, {'internal_deployment_function' : task});
                 }
                 return false;
-            }
+            },
+            addCustomStep() {
+                this.active.push({
+                    order: null,
+                    script : '',
+                    step: "Custom Step",
+                    description: "Custom Step",
+                })
+            },
+            sortInactiveList: function(){
+                this.$nextTick(function(){
+                    console.info('List must be sorted by its order')
+                    this.inactive = _.sortBy(this.inactive, 'order');
+                });
+            },
+            sortActiveList: function(){
+                this.$nextTick(function(){
+                    console.info('List must be sorted by its order')
+                    this.active = _.sortBy(this.active, 'order');
+                });
+            },
         },
         computed: {
             site() {
