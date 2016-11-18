@@ -23,6 +23,7 @@ export default new Vuex.Store({
         teamsStore: UserStore.teams,
         userSshKeysStore: UserStore.sshKeys,
         userSubscriptionsStore: UserStore.subscriptions,
+        userNotificationsStore: UserStore.notifications,
 
         sitesStore: SiteStore.site,
         siteFilesStore: SiteStore.siteFiles,
