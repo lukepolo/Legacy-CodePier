@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\UserNotificationSetting;
 use Illuminate\Http\Request;
 
 class UserNotificationSettingsController extends Controller
@@ -26,7 +27,21 @@ class UserNotificationSettingsController extends Controller
      */
     public function store(Request $request)
     {
+        foreach($request->get('notification_setting') as $notificationSettingId => $services) {
 
+            $userNotification = UserNotificationSetting::firstOrNew([
+                'user_id' => \Auth::user()->id,
+                'notification_setting_id' => $notificationSettingId
+            ]);
+
+            $userNotification->fill([
+                'services' => array_keys($services)
+            ]);
+
+            $userNotification->save();
+        }
+
+        return response()->json('OK');
     }
 
     /**

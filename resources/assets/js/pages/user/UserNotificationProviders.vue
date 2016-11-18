@@ -14,13 +14,18 @@
             <br>
             <br>
             <br>
-            <template v-for="notification_setting in notification_settings">
-                {{ notification_setting.name }}
-                <template v-for="service in notification_setting.services">
-                    {{ service }} <input type="checkbox" :checked="hasNotificationSetting(notification_setting, service)">
+            <form @submit.prevent="updateUserNotifications">
+                <input type="hidden" name="user" :value="$store.state.userStore.user.id">
+                <template v-for="notification_setting in notification_settings">
+                    {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
+                    <template v-for="service in notification_setting.services">
+                       {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
+                    </template>
+                    <br>
                 </template>
-                <br>
-            </template>
+                <button type="submit">Update Settings</button>
+            </form>
+
         </p>
     </section>
 </template>
@@ -76,6 +81,9 @@
                     user_id: this.$store.state.userStore.user.id,
                     user_notification_provider_id: user_notification_provider_id
                 });
+            },
+            updateUserNotifications() {
+                this.$store.dispatch('updateUserNotificationSettings', this.getFormData(this.$el));
             }
         },
         mounted() {
