@@ -46,8 +46,8 @@
                 <div class="jcf-input-group">
                     <div class="input-question">Select Type</div>
                     <div class="select-wrap">
-                        <select v-model="form.framework" name="framework">
-                            <option :value="language" v-for="language in availableLanguages">
+                        <select v-model="form.type" name="type">
+                            <option :value="language" v-for="(features, language) in availableLanguages">
                                 {{ language }}
                             </option>
                         </select>
@@ -140,6 +140,7 @@
                 var site = this.$store.state.sitesStore.site;
 
                 if (site) {
+                    this.form.type = site.type;
                     this.form.branch = site.branch;
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
