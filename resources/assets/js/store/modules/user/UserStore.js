@@ -4,7 +4,6 @@ export default {
         commands : [],
         server_providers: [],
         repository_providers: [],
-        notification_providers: [],
         runningCommands : runningCommands
     },
     actions: {
@@ -56,23 +55,7 @@ export default {
                 alert(errors);
             })
         },
-        getUserNotificationProviders: ({commit}, user_id) => {
-            Vue.http.get(Vue.action('User\Providers\UserNotificationProviderController@index', {user: user_id})).then((response) => {
-                commit('SET_NOTIFICATION_PROVIDERS', response.data);
-            }, (errors) => {
-                app.showError(error);
-            });
-        },
-        deleteUserNotificationProvider: ({commit, dispatch}, data) => {
-            Vue.http.delete(Vue.action('User\Providers\UserNotificationProviderController@destroy', {
-                user: data.user_id,
-                notification_provider: data.user_notification_provider_id
-            })).then((response) => {
-                dispatch('getUserNotificationProviders');
-            }, (errors) => {
-                alert(errors);
-            })
-        },
+
         getPlans: ({commit}) => {
             Vue.http.get(Vue.action('SubscriptionController@index')).then((response) => {
                 commit('SET_PLANS', response.data);
@@ -90,9 +73,6 @@ export default {
         },
         SET_REPOSITORY_PROVIDERS: (state, providers) => {
             state.repository_providers = providers;
-        },
-        SET_NOTIFICATION_PROVIDERS: (state, providers) => {
-            state.notification_providers = providers;
         },
         SET_PLANS: (state, plans) => {
             state.plans = plans;

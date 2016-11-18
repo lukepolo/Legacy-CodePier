@@ -22,18 +22,17 @@
             LeftNav,
             UserNav
         },
-        data() {
-            return {
-                notification_providers: []
-            }
-        },
         computed: {
+            notification_providers() {
+                return this.$store.state.userNotificationsStore.notification_providers;
+            },
             user_notification_providers() {
-                return this.$store.state.userStore.notification_providers;
-            }
+                return this.$store.state.userNotificationsStore.user_notification_providers;
+            },
         },
         methods: {
             isConnected: function (notification_provider_id) {
+
                 if (_.some(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
                     return true;
                 }
@@ -52,13 +51,7 @@
             }
         },
         mounted() {
-
-            Vue.http.get(this.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
-                this.notification_providers = response.data;
-            }, (errors) => {
-                alert(errors);
-            });
-
+            this.$store.dispatch('getNotificationProviders');
             this.$store.dispatch('getUserNotificationProviders');
         },
     }
