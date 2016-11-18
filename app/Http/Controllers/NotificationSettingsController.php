@@ -13,6 +13,6 @@ class NotificationSettingsController extends Controller
      */
     public function index()
     {
-       return response()->json(NotificationSetting::all());
+        return response()->json(NotificationSetting::all());
     }
 }
