@@ -89,6 +89,12 @@ class PHP
             'DiskMonitoringScript' => [
                 'enabled' => 1,
             ],
+            'LoadMonitoringScript' => [
+                'enabled' => 1,
+            ],
+            'ServerMemoryMonitoringScript' => [
+                'enabled' => 1,
+            ],
         ],
         'RepositoryService' => [
             'Git' => [
