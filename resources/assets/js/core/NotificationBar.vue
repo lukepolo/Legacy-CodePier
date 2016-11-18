@@ -296,8 +296,6 @@
                                     <div class="event-details collapse" :id="event.id + '_server_deployment_' + server_deployment.server.id">
 
                                         <ul>
-                                            <li><span class="icon-spinner"></span></li>
-
                                             <template v-for="deployment_event in server_deployment.events">
                                                 <li>
 
