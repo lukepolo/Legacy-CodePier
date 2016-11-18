@@ -34,9 +34,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
             Route::resource('subscription', 'Subscription\UserSubscriptionController');
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
-
             Route::resource('ssh-keys', 'UserSshKeyController');
             Route::resource('server-providers', 'Providers\UserServerProviderController');
+            Route::resource('notification-settings', 'UserNotificationSettingsController');
             Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
 
@@ -145,6 +145,8 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
         });
     });
+
+    Route::resource('notification-settings', 'NotificationSettingsController');
 
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');

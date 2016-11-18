@@ -1,9 +1,18 @@
 export default {
     state: {
+        notification_settings : [],
         notification_providers: [],
+        user_notification_settings : [],
         user_notification_providers : [],
     },
     actions: {
+        getNotificationSettings: ({commit}) => {
+            Vue.http.get(Vue.action('NotificationSettingsController@index')).then((response) => {
+                commit('SET_NOTIFICATION_SETTINGS', response.data);
+            }, (errors) => {
+                app.showError(error);
+            });
+        },
         getNotificationProviders: ({commit}) => {
             Vue.http.get(Vue.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
                 commit('SET_NOTIFICATION_PROVIDERS', response.data);
@@ -28,10 +37,23 @@ export default {
                 alert(errors);
             })
         },
+        getUserNotificationSettings: ({commit}, user_id) => {
+            Vue.http.get(Vue.action('User\UserNotificationSettingsController@index')).then((response) => {
+                commit('SET_USER_NOTIFICATION_SETTINGS', response.data);
+            }, (errors) => {
+                app.showError(error);
+            });
+        },
     },
     mutations: {
+        SET_NOTIFICATION_SETTINGS: (state, settings) => {
+            state.notification_settings = settings;
+        },
         SET_NOTIFICATION_PROVIDERS: (state, providers) => {
             state.notification_providers = providers;
+        },
+        SET_USER_NOTIFICATION_SETTINGS : (state, settings) =>{
+            state.user_notification_settings = settings;
         },
         SET_USER_NOTIFICATION_PROVIDERS: (state, providers) => {
             state.user_notification_providers = providers;
