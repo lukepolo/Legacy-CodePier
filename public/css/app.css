@@ -4490,6 +4490,8 @@ footer {
     /* Opera 7 */
     word-wrap: break-word;
     /* Internet Explorer 5.5+ */ }
+  .event-details .icon-spinner {
+    margin-right: 20px; }
 
 .event-details pre {
   color: #FEC07A; }
@@ -4571,7 +4573,7 @@ footer {
   display: inline-block;
   width: 1em;
   height: 1em;
-  border: 0.2em solid rgba(255, 255, 255, 0.3);
+  border: 0.5em solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #FEC07A;
   animation: spin 1s ease-in-out infinite;
