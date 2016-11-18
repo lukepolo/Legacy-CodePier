@@ -41,10 +41,6 @@ class SiteObserver
     {
         // We need to trigger the delete events for some
         // of the relations so they trickle down
-        $site->ssls->each(function ($ssl) {
-            $ssl->delete();
-        });
-
         $site->files->each(function ($file) {
             $file->delete();
         });
@@ -53,20 +49,10 @@ class SiteObserver
             $worker->delete();
         });
 
-        $site->sshKeys()->each(function ($sshKey) {
-            $sshKey->delete();
-        });
-
         $site->cronJobs()->each(function ($cronJob) {
             $cronJob->delete();
         });
 
-        $site->firewallRules()->each(function ($firewallRule) {
-            $firewallRule->delete();
-        });
-
-
         $site->deployments()->delete();
-        $site->deploymentSteps()->delete();
     }
 }

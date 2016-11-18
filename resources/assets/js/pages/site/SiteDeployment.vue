@@ -1,20 +1,41 @@
 <template>
     <div v-if="site">
+        <div style="display: none">
+            {{ deploymentSteps }}
+        </div>
+
         Site Deployments
         <form @submit.prevent="updateSiteDeployment">
-            <div v-for="deploymentStep in deploymentSteps">
-                <p>
-                    {{ deploymentStep.name }} <br> <small>{{ deploymentStep.description }}</small>
-                    <input type="checkbox" name="deploymentSteps[]" :value="deploymentStep.name" :checked="hasStep(deploymentStep.task)">
-                </p>
+            <div class="drag">
+                <h2>Inactive</h2>
+                <draggable :list="inactive" class="dragArea">
+                    <div v-for="deploymentStep in inactive">
+                        {{ deploymentStep.name }} <br> <small>{{ deploymentStep.description }}</small>
+                    </div>
+                </draggable>
+                <h2>Active</h2>
+                <draggable :list="active" class="dragArea">
+                    <div v-for="deploymentStep in active">
+                        {{ deploymentStep.name }} <br> <small>{{ deploymentStep.description }}</small>
+                    </div>
+                </draggable>
             </div>
-            <button type="submit">Update Deployment Steps</button>
         </form>
     </div>
 </template>
 
 <script>
+    import draggable from 'vuedraggable';
     export default {
+        components: {
+            draggable
+        },
+        data() {
+            return {
+                active: [],
+                inactive:[],
+            }
+        },
         created() {
             this.fetchData();
         },
@@ -45,7 +66,19 @@
                 return this.$store.state.sitesStore.site;
             },
             deploymentSteps() {
-                return this.$store.state.sitesStore.deployment_steps;
+                var steps = this.$store.state.sitesStore.deployment_steps;
+
+                this.active = [];
+                this.inactive = [];
+                _.each(steps, (value) => {
+                    if(this.hasStep(value.task)) {
+                        this.active.push(value);
+                    } else {
+                        this.inactive.push(value);
+                    }
+                });
+
+                return steps;
             },
             currentSiteDeploymentSteps() {
                 return this.$store.state.sitesStore.site_deployment_steps;

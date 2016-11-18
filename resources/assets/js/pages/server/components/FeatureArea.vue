@@ -60,15 +60,15 @@
 <script>
     export default {
         name: 'featureArea',
-        props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site'],
+        props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
         methods: {
             hasFeature: function (feature) {
                 var areaFeatures = null;
 
                 if (this.server && this.server.server_features) {
                     areaFeatures = this.server.server_features[feature.service];
-                } else if (this.site && this.site.server_features) {
-                    areaFeatures = this.site.server_features[feature.service];
+                } else if (this.site_server_features && this.site_server_features) {
+                    areaFeatures = this.site_server_features[feature.service];
                 }
 
                 if (areaFeatures && areaFeatures[feature.name] && areaFeatures[feature.name].enabled) {

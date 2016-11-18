@@ -14,7 +14,7 @@ class AddTypeToSite extends Migration
     public function up()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->string('type');
+            $table->string('type')->nullable();
         });
     }
 
