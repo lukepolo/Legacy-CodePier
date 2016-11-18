@@ -130,18 +130,22 @@ footer {
             padding-bottom: $spacing/4;
         }
     }
-}
-.event-details .error {
-    padding: ($spacing/2) $spacing 0px;
-    color: rgba($white, .6);
-}
 
-.event-details pre {
-    margin: 0px 0px $spacing ($spacing *2);
+    pre {
+        margin: 0px 0px $spacing ($spacing *2);
         white-space: pre-wrap;       /* css-3 */
         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
         white-space: -pre-wrap;      /* Opera 4-6 */
         white-space: -o-pre-wrap;    /* Opera 7 */
         word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    
+
+    }
+}
+
+.event-details pre {
+    color: $yellow;
+}
+
+.event-details .event-error  pre {
+    color: $red;
 }

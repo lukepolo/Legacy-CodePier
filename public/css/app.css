@@ -5,6 +5,7 @@
  * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
  */
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i';
+@import url("https://fonts.googleapis.com/css?family=Cutive+Mono");
 @import 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i';
 html {
   font-family: sans-serif;
@@ -4113,6 +4114,9 @@ a {
 p.info {
   font-size: 1.2em; }
 
+pre {
+  font-family: 'Cutive Mono', monospace; }
+
 .primary {
   color: #48ACF0; }
 
@@ -4474,23 +4478,24 @@ footer {
     padding: 0px; }
     .event-details ul li {
       padding-bottom: 5px; }
-
-.event-details .error {
-  padding: 10px 20px 0px;
-  color: rgba(255, 255, 255, 0.6); }
+  .event-details pre {
+    margin: 0px 0px 20px 40px;
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */ }
 
 .event-details pre {
-  margin: 0px 0px 20px 40px;
-  white-space: pre-wrap;
-  /* css-3 */
-  white-space: -moz-pre-wrap;
-  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;
-  /* Opera 4-6 */
-  white-space: -o-pre-wrap;
-  /* Opera 7 */
-  word-wrap: break-word;
-  /* Internet Explorer 5.5+ */ }
+  color: #FEC07A; }
+
+.event-details .event-error pre {
+  color: #F4645F; }
 
 .btn {
   background-color: #2B2B2B;
