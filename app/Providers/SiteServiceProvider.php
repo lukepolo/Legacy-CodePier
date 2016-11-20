@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class SiteServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -38,5 +37,4 @@ class SiteServiceProvider extends ServiceProvider
     {
         return [SiteServiceContract::class];
     }
-
 }
