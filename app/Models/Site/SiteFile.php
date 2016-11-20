@@ -11,7 +11,9 @@ class SiteFile extends Model
 {
     use Encryptable, FireEvents, ServerCommands;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+    ];
 
     protected $encryptable = [
         'content',

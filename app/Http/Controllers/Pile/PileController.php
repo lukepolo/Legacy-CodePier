@@ -53,12 +53,11 @@ class PileController extends Controller
     public function update(PileRequest $request, $id)
     {
         $pile = Pile::findOrFail($id);
-        $pile->fill([
+
+        $pile->update([
             'user_id' => \Auth::user()->id,
             'name'    => $request->get('name'),
         ]);
-
-        $pile->save();
 
         return response()->json($pile);
     }

@@ -18,7 +18,13 @@ class Server extends Model
 {
     use SoftDeletes, UsedByTeams, Notifiable, Encryptable;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+        'sudo_password',
+        'public_ssh_key',
+        'private_ssh_key',
+        'database_password',
+    ];
 
     public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;
