@@ -18,7 +18,9 @@ class Site extends Model
 {
     use UsedByTeams, Notifiable, FireEvents, SoftDeletes;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id'
+    ];
 
     public static $teamworkModel = 'pile.teams';
     public $teamworkSync = false;

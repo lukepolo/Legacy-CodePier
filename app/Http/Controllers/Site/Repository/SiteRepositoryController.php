@@ -38,7 +38,7 @@ class SiteRepositoryController extends Controller
 
         $site = Site::with('server')->findOrFail($siteId);
 
-        $site->fill([
+        $site->update([
             'repository'                  => $repository,
             'branch'                      => $request->get('branch'),
             'zerotime_deployment'         => $request->get('zerotime_deployment'),
@@ -46,8 +46,6 @@ class SiteRepositoryController extends Controller
         ]);
 
         $this->repositoryService->importSshKeyIfPrivate($site);
-
-        $site->save();
 
         return response()->json($site);
     }
