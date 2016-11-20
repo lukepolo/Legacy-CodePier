@@ -10,15 +10,13 @@ use Illuminate\Support\ServiceProvider;
 
 class ServerServiceProvider extends ServiceProvider
 {
+
     /**
-     * Bootstrap the application services.
+     * Indicates if loading of the provider is deferred.
      *
-     * @return void
+     * @var bool
      */
-    public function boot()
-    {
-        //
-    }
+    protected $defer = true;
 
     /**
      * Register the application services.
@@ -37,4 +35,15 @@ class ServerServiceProvider extends ServiceProvider
             SystemService::class
         );
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [SystemServiceContract::class];
+    }
+
 }
