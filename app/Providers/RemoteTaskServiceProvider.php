@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class RemoteTaskServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -38,5 +37,4 @@ class RemoteTaskServiceProvider extends ServiceProvider
     {
         return [RemoteTaskServiceContract::class];
     }
-
 }
