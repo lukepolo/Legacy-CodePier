@@ -74,7 +74,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
             $this->errors[] = $output;
 
-            throw new FailedCommand(json_encode($output));
+            throw new FailedCommand($output);
         }
 
         return $output;
