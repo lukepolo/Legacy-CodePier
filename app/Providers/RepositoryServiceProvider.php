@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -38,5 +37,4 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         return [RepositoryServiceContract::class];
     }
-
 }

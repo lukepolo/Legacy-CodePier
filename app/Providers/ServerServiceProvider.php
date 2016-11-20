@@ -10,7 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class ServerServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -45,5 +44,4 @@ class ServerServiceProvider extends ServiceProvider
     {
         return [SystemServiceContract::class];
     }
-
 }
