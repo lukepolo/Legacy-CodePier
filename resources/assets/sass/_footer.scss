@@ -1,109 +1,155 @@
 // FOOTER STYLES ===========================================
 // =========================================================
 footer {
-    position: relative;
-    background-color: $black;
-    @include card(1);
-    min-height: 40px !important;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  background-color: $black;
+  @include card(1);
+  min-height: 40px !important;
+  display: flex;
+  flex-direction: column;
 
 
-    .toggle {
-        display: block;
-        color: $white;
-        text-align: right;
-        padding: ($spacing/2) $spacing;
+  .toggle {
+    display: block;
+    color: $white;
+    text-align: right;
+    padding: ($spacing/2) $spacing;
 
-        &:hover {
-            color: $blue;
-            background-color: rgba($gray, .2);
-        }
-
-        &:not(.collapsed) {
-          background-color: rgba($gray, .6);
-        }
-
-        [class^="icon-"], [class*=" icon-"] {
-            font-size: 1.2em;
-        }
+    &:hover {
+      color: $blue;
+      background-color: rgba($gray, .2);
     }
+
+    &:not(.collapsed) {
+      background-color: rgba($gray, .6);
+    }
+
+    [class^="icon-"], [class*=" icon-"] {
+      font-size: 1.2em;
+    }
+  }
 }
 
 
 // EVENTS COLLAPSE -----------------------------------------
 // ---------------------------------------------------------
 #collapseEvents {
-    border-top: 2px solid rgba($white, .2);
+  border-top: 2px solid rgba($white, .2);
 
-    &.in {
-        flex-grow: 1;
-        flex-shrink: 1;
-        display: flex;
-        flex-direction: column;
-    }
+  &.in {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .events-container {
-    overflow-y: scroll;
-    flex-grow: 1;
-    flex-shrink: 1;
+  overflow-y: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-top: 1px solid rgba($white, .1);
 }
 
 .event {
-    display: flex;
-    padding: ($spacing/2) $spacing;
-    border-top: 1px solid rgba($white, .1);
+  display: flex;
+  padding: ($spacing/2) $spacing;
+  border-bottom: 1px solid rgba($white, .1);
 }
 
 .event-status {
-    flex: 0 0 auto;
-    margin-right: $spacing;
+  flex: 0 0 auto;
+  margin-right: $spacing;
 
-    &.event-status-neutral {
-        @include status(null);
-    }
+  &.event-status-neutral {
+    @include status(null);
+  }
 
-    &.event-status-success {
-        @include status(success);
-    }
+  &.event-status-success {
+    @include status(success);
+  }
 
-    &.event-status-error {
-        @include status(error);
-    }
+  &.event-status-error {
+    @include status(error);
+  }
 
-    &.event-status-warning {
-        @include status(warning);
-    }
+  &.event-status-warning {
+    @include status(warning);
+  }
 }
 
 .event-name {
-    flex: 1 1 auto;
-
-    a:first-child:not(.collapsed) {
-        transform: rotate(90deg);
-        position: relative;
-        left: -4px;
-        top: 2px;
-    }
+  flex: 1 1 auto;
 }
 
 .event-pile {
-    flex: 0 0 15%;
+  flex: 0 0 15%;
 }
 
 .event-site {
-    flex: 0 0 15%;
+  flex: 0 0 15%;
 }
 
 .event-none {
-    text-align: center;
-    padding: $spacing;
+  text-align: center;
+  padding: $spacing;
+}
+
+.event-commit {
+  padding: 0px ($spacing/2);
+}
+
+//a:first-child:not(.collapsed) {
+[data-toggle="collapse"]:not(.collapsed) .icon-play {
+  display: block;
+  transform: rotate(90deg);
+  position: relative;
+  left: -4px;
+  top: 2px;
 }
 
 
-// ERROR DETAILS
+// EVENT DETAILS -------------------------------------------
+// ---------------------------------------------------------
 .event-details {
-    padding: ($spacing/2) $spacing 0px;
-    color: rgba($white, .6);
+  margin-left: $spacing;
+
+  // can't do margin-top -- makes collapse jump
+  &:before {
+    content: '';
+    display: block;
+    height: $spacing/2;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+
+    li {
+      padding-bottom: $spacing/4;
+    }
+  }
+
+  pre {
+    margin: 0px 0px $spacing ($spacing *2);
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+  }
+
+  .icon-spinner {
+    margin-right: $spacing;
+  }
+}
+
+.event-details pre {
+  color: $yellow;
+}
+
+.event-details .event-error  pre {
+  color: $red;
 }

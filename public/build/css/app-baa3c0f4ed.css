@@ -5,6 +5,7 @@
  * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
  */
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i';
+@import url("https://fonts.googleapis.com/css?family=Cutive+Mono");
 @import 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i';
 html {
   font-family: sans-serif;
@@ -4113,6 +4114,9 @@ a {
 p.info {
   font-size: 1.2em; }
 
+pre {
+  font-family: 'Cutive Mono', monospace; }
+
 .primary {
   color: #48ACF0; }
 
@@ -4172,7 +4176,7 @@ footer {
   display: -webkit-box;
   display: flex;
   overflow: hidden; }
-  #main div, .view div {
+  #main > div, .view > div {
     -webkit-box-flex: 1;
     flex: 1 1 auto; }
 
@@ -4389,13 +4393,14 @@ footer {
   overflow-y: scroll;
   -webkit-box-flex: 1;
   flex-grow: 1;
-  flex-shrink: 1; }
+  flex-shrink: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
 .event {
   display: -webkit-box;
   display: flex;
   padding: 10px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 
 .event-status {
   -webkit-box-flex: 0;
@@ -4405,7 +4410,6 @@ footer {
     height: 1em;
     width: 1em;
     display: inline-block;
-    float: right;
     border-radius: 50%;
     position: relative;
     top: 2px;
@@ -4414,7 +4418,6 @@ footer {
     height: 1em;
     width: 1em;
     display: inline-block;
-    float: right;
     border-radius: 50%;
     position: relative;
     top: 2px;
@@ -4423,7 +4426,6 @@ footer {
     height: 1em;
     width: 1em;
     display: inline-block;
-    float: right;
     border-radius: 50%;
     position: relative;
     top: 2px;
@@ -4432,7 +4434,6 @@ footer {
     height: 1em;
     width: 1em;
     display: inline-block;
-    float: right;
     border-radius: 50%;
     position: relative;
     top: 2px;
@@ -4441,12 +4442,6 @@ footer {
 .event-name {
   -webkit-box-flex: 1;
   flex: 1 1 auto; }
-  .event-name a:first-child:not(.collapsed) {
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    position: relative;
-    left: -4px;
-    top: 2px; }
 
 .event-pile {
   -webkit-box-flex: 0;
@@ -4460,9 +4455,49 @@ footer {
   text-align: center;
   padding: 20px; }
 
+.event-commit {
+  padding: 0px 10px; }
+
+[data-toggle="collapse"]:not(.collapsed) .icon-play {
+  display: block;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  position: relative;
+  left: -4px;
+  top: 2px; }
+
 .event-details {
-  padding: 10px 20px 0px;
-  color: rgba(255, 255, 255, 0.6); }
+  margin-left: 20px; }
+  .event-details:before {
+    content: '';
+    display: block;
+    height: 10px; }
+  .event-details ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px; }
+    .event-details ul li {
+      padding-bottom: 5px; }
+  .event-details pre {
+    margin: 0px 0px 20px 40px;
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */ }
+  .event-details .icon-spinner {
+    margin-right: 20px; }
+
+.event-details pre {
+  color: #FEC07A; }
+
+.event-details .event-error pre {
+  color: #F4645F; }
 
 .btn {
   background-color: #2B2B2B;
@@ -4534,19 +4569,37 @@ footer {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 0.5em solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: #FEC07A;
+  animation: spin .7s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite; }
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
 .icon-browser,
 .icon-server,
 .icon-play {
   padding-right: 4px; }
 
-.icon-warning:before {
-  content: "\e900"; }
+.icon-github:before {
+  content: "\eab0"; }
 
-.icon-browser:before {
-  content: "\e902"; }
+.icon-play:before {
+  content: "\e901"; }
 
-.icon-server:before {
-  content: "\e903"; }
+.icon-spinner8:before {
+  content: "\e982"; }
 
 .icon-arrow-up:before {
   content: "\f106"; }
@@ -4560,35 +4613,14 @@ footer {
 .icon-arrow-left:before {
   content: "\f104"; }
 
-.icon-play:before {
-  content: "\e901"; }
+.icon-browser:before {
+  content: "\e902"; }
 
-.icon-layers:before {
-  content: "\e53b"; }
+.icon-server:before {
+  content: "\e903"; }
 
-.icon-search:before {
-  content: "\e8b6"; }
-
-.icon-group_add:before {
-  content: "\e7f0"; }
-
-.icon-people:before {
-  content: "\e7fb"; }
-
-.icon-person:before {
-  content: "\e7fd"; }
-
-.icon-backup:before {
-  content: "\e864"; }
-
-.icon-power_settings_new:before {
-  content: "\e8ac"; }
-
-.icon-settings:before {
-  content: "\e8b8"; }
-
-.icon-supervisor_account:before {
-  content: "\e8d3"; }
+.icon-warning:before {
+  content: "\e900"; }
 
 .icon-check_box:before {
   content: "\e834"; }
@@ -4599,17 +4631,41 @@ footer {
 .icon-indeterminate_check_box:before {
   content: "\e909"; }
 
-.icon-radio_button_unchecked:before {
-  content: "\e836"; }
-
 .icon-radio_button_checked:before {
   content: "\e837"; }
+
+.icon-radio_button_unchecked:before {
+  content: "\e836"; }
 
 .icon-check_circle:before {
   content: "\e86c"; }
 
 .icon-cancel:before {
   content: "\e5c9"; }
+
+.icon-person:before {
+  content: "\e7fd"; }
+
+.icon-people:before {
+  content: "\e7fb"; }
+
+.icon-group_add:before {
+  content: "\e7f0"; }
+
+.icon-layers:before {
+  content: "\e53b"; }
+
+.icon-search:before {
+  content: "\e8b6"; }
+
+.icon-backup:before {
+  content: "\e864"; }
+
+.icon-power:before {
+  content: "\e8ac"; }
+
+.icon-settings:before {
+  content: "\e8b8"; }
 
 .section-column {
   display: -webkit-box;
@@ -4668,12 +4724,12 @@ footer {
   margin-bottom: 5px;
   padding-right: 1.4em; }
 
-.server > a {
+.server {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative; }
-  .server > a.router-link-active {
+  .server.selected {
     background-color: #343536; }
 
 .server-name {
@@ -4681,44 +4737,6 @@ footer {
   font-size: 1.2em;
   margin-bottom: 5px;
   padding-right: 1.4em; }
-
-.server-connection {
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  float: right;
-  border-radius: 50%;
-  position: relative;
-  top: 2px;
-  right: -1.4em; }
-  .server-connection.server-success {
-    background-color: #83B692; }
-  .server-connection.server-error {
-    background-color: #F4645F; }
-
-.server-status {
-  margin-top: 10px; }
-
-.server-progress-container {
-  height: 20px;
-  border: 1px solid #2B2B2B;
-  margin: 10px 0;
-  position: relative; }
-
-.server-progress-number {
-  position: absolute;
-  right: 0px;
-  font-size: .9em;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 0px 5px; }
-
-.server-progress {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: #48ACF0; }
 
 .server-list .server:last-child {
   border: none; }
@@ -4789,9 +4807,23 @@ a.server:hover {
     border-bottom: 1px solid #3a3d3f;
     margin: -20px -20px 20px;
     padding: 20px; }
+    .group .group-heading h4 {
+      text-transform: none; }
+    .group .group-heading input {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: .5px;
+      background-color: transparent;
+      border: 1px solid #2B2B2B;
+      width: calc(100% + 10px);
+      margin: -10px;
+      padding: 9px; }
+      .group .group-heading input:focus {
+        outline: 2px solid #48ACF0; }
   .group .group-content {
     -webkit-box-flex: 1;
-    flex: 1 0 auto;
+    flex: 1 0 100px;
     position: relative; }
   .group .btn-footer {
     margin: 20px -20px -20px;
