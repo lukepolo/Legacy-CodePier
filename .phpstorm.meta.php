@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-11-18.
+    * Generated on 2016-11-21.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -61,11 +61,6 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -153,6 +148,11 @@ namespace PHPSTORM_META {
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
+            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -206,11 +206,6 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -298,6 +293,11 @@ namespace PHPSTORM_META {
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
+            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
         ],
         \App::make('') => [
             '' == '@',
@@ -351,11 +351,6 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -443,6 +438,11 @@ namespace PHPSTORM_META {
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
+            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
         ],
         \app('') => [
             '' == '@',
@@ -496,11 +496,6 @@ namespace PHPSTORM_META {
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -588,6 +583,11 @@ namespace PHPSTORM_META {
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
+            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
+            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
+            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
+            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
         ],
     ];
 }
