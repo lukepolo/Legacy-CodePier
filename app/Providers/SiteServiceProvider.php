@@ -9,13 +9,6 @@ use Illuminate\Support\ServiceProvider;
 class SiteServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Register the application services.
      *
      * @return void
@@ -26,15 +19,5 @@ class SiteServiceProvider extends ServiceProvider
             SiteServiceContract::class,
             SiteService::class
         );
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [SiteServiceContract::class];
     }
 }
