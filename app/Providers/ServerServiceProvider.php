@@ -42,6 +42,9 @@ class ServerServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [SystemServiceContract::class];
+        return [
+            ServerServiceContract::class,
+            SystemServiceContract::class,
+        ];
     }
 }
