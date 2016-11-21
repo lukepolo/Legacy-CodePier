@@ -21,6 +21,9 @@
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="drop1">
+                    <li>
+                        <span class="dropdown-heading">Change Pile</span>
+                    </li>
                     <template v-for="pile in piles">
                         <li>
                             <a @click="changePile(pile.id)"
