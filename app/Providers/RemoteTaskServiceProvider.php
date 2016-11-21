@@ -9,6 +9,13 @@ use Illuminate\Support\ServiceProvider;
 class RemoteTaskServiceProvider extends ServiceProvider
 {
     /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * Register the application services.
      *
      * @return void
@@ -19,5 +26,15 @@ class RemoteTaskServiceProvider extends ServiceProvider
             RemoteTaskServiceContract::class,
             RemoteTaskService::class
         );
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [RemoteTaskServiceContract::class];
     }
 }
