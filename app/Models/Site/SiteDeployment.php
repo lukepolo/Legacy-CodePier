@@ -47,19 +47,21 @@ class SiteDeployment extends Model
         $serverDeployments = $this->serverDeployments;
 
         $failed = $serverDeployments->sum('failed');
+        $started = $serverDeployments->sum('started');
         $completed = $serverDeployments->sum('completed');
+
 
         if ($failed > 0) {
             return 'Failed';
         }
 
-        $totalSteps = $serverDeployments->count();
+        $totalServerDeployments = $serverDeployments->count();
 
-        if ($completed == $totalSteps) {
+        if ($completed == $totalServerDeployments) {
             return 'Completed';
         }
 
-        if($this->getOriginal('status') != DeploySite::QUEUED_FOR_DEPLOYMENT) {
+        if($started > 0) {
             return 'Running';
         }
     }
