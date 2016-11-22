@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Site\SiteSshKeyController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_SSH_KEYS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         createSiteSshKey: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteSshKeyController@store', {site: data.site}), data).then((response) => {
                 dispatch('getSiteSshKeys', data.site);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         deleteSiteSshKey: ({commit, dispatch}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then((response) => {
                 dispatch('getSiteSshKeys', data.site);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         }
     },

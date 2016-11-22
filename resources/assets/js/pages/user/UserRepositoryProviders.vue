@@ -14,13 +14,7 @@
 </template>
 
 <script>
-    import UserNav from './components/UserNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components: {
-            LeftNav,
-            UserNav
-        },
         data() {
             return {
                 repository_providers: []

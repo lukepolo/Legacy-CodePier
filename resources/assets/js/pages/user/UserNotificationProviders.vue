@@ -31,14 +31,7 @@
 </template>
 
 <script>
-    import UserNav from './components/UserNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
-
     export default {
-        components: {
-            LeftNav,
-            UserNav
-        },
         computed: {
             notification_settings() {
                 return this.$store.state.userNotificationsStore.notification_settings;

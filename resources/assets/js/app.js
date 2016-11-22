@@ -10,9 +10,9 @@ import * as userPages from "./pages/user";
 import * as teamPages from "./pages/team";
 import * as sitePages from "./pages/site";
 import * as serverPages from "./pages/server";
+
 import store from "./store";
 import Piles from "./pages/pile/Piles.vue";
-import Dashboard from "./pages/dashboard/Dashboard.vue";
 import PageNotFound from './core/PageNotFound.vue';
 
 /**
@@ -92,6 +92,9 @@ Vue.mixin({
                 class: "error",
                 timeout: timeout ? timeout : 10000,
             })
+        },
+        back() {
+            window.history.back();
         }
     }
 });
@@ -103,23 +106,92 @@ Vue.mixin({
  |
  */
 
+Vue.component('back', require('./core/Back.vue'));
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('NotificationBar', require('./core/NotificationBar.vue'));
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {path: '/', component: Dashboard},
+        {path: '/', name: 'dashboard', component: Piles},
 
-        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
-        {path: '/server/:server_id/sites', name: 'server_sites', component: serverPages.ServerSites},
-        {path: '/server/:server_id/files', name: 'server_files', component: serverPages.ServerFiles},
-        {path: '/server/:server_id/workers', name: 'server_workers', component: serverPages.ServerWorkers},
-        {path: '/server/:server_id/ssh-keys', name: 'server_ssh_keys', component: serverPages.ServerSshKeys},
-        {path: '/server/:server_id/features', name: 'server_features', component: serverPages.ServerFeatures},
-        {path: '/server/:server_id/cron-jobs', name: 'server_cron_jobs', component: serverPages.ServerCronJobs},
-        {path: '/server/:server_id/monitoring', name: 'server_monitoring', component: serverPages.ServerMonitoring},
-        {path: '/server/:server_id/firewall-rules', name: 'server_firewall_rules', component: serverPages.ServerFirewallRules},
+        {
+            path: '/server', component: serverPages.ServerArea,
+            children: [
+                {
+                    path: 'create/:site/:type',
+                    name: 'server_form',
+                    components: {
+                        default: serverPages.ServerForm,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/sites',
+                    name: 'server_sites',
+                    components: {
+                        default: serverPages.ServerSites,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/files',
+                    name: 'server_files',
+                    components: {
+                        default: serverPages.ServerFiles,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/workers',
+                    name: 'server_workers',
+                    components: {
+                        default: serverPages.ServerWorkers,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/ssh-keys',
+                    name: 'server_ssh_keys',
+                    components: {
+                        default: serverPages.ServerSshKeys,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/features',
+                    name: 'server_features',
+                    components: {
+                        default: serverPages.ServerFeatures,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/cron-jobs',
+                    name: 'server_cron_jobs',
+                    components: {
+                        default: serverPages.ServerCronJobs,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/',
+                    name: 'server_monitoring',
+                    components: {
+                        default: serverPages.ServerMonitoring,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/firewall-rules',
+                    name: 'server_firewall_rules',
+                    components: {
+                        default: serverPages.ServerFirewallRules,
+                        nav: serverPages.ServerNav
+                    }
+                },
+            ]
+        },
 
         {path: '/piles', name: 'piles', component: Piles},
 

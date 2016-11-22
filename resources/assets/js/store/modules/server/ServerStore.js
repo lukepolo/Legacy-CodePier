@@ -15,21 +15,21 @@ export default {
             Vue.http.get(Vue.action('Server\ServerController@show', {server: server_id})).then((response) => {
                 commit('SET_SERVER', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServersCurrentProvisioningStep: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         retryProvisioning:  ({commit}, server_id) => {
             Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServers: ({commit, rootState}, callback) => {
@@ -44,56 +44,56 @@ export default {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 alert('probably should notify them or something ?')
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then((response) => {
                 app.$router.push('/');
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerSites: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerSiteController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_SITES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableFeatures: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getServerFeatures')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FEATURES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableLanguages: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getLanguages')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_LANGUAGES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableFrameworks: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getFrameworks')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getEditableServerFiles: ({commit}, server) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableServerFiles', {server: server})).then((response) => {
                 commit('SET_EDITABLE_SERVER_FILES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getEditableFrameworkFiles: ({commit}, site) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFrameworkFiles', {site: site})).then((response) => {
                 commit('SET_EDITABLE_FRAMEWORK_FILES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         installFeature: ({commit, dispatch}, data) => {
@@ -104,7 +104,7 @@ export default {
             }).then((response) => {
                 dispatch('getServer', data.server);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         saveServerFile: ({commit}, data) => {
@@ -116,7 +116,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         }
     },
