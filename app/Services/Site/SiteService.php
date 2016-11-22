@@ -158,9 +158,6 @@ class SiteService implements SiteServiceContract
             }
         }
 
-        $this->remoteTaskService->ssh($server);
-        $this->serverService->restartWebServices($server);
-
         $siteServerDeployment->update([
             'log' => $this->remoteTaskService->getOutput(),
         ]);
