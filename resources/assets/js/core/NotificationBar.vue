@@ -452,8 +452,8 @@
                                     store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentCompleted', (data) => {
-                                    alert('deployment completed');
-                                    console.info('NEED TO DO COMPLETED EVENT');
+                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .notification((notification) => {
                                     if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {

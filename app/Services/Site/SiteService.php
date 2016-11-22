@@ -158,10 +158,6 @@ class SiteService implements SiteServiceContract
             }
         }
 
-        $siteServerDeployment->update([
-            'log' => $this->remoteTaskService->getOutput(),
-        ]);
-
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
 

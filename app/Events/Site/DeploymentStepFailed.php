@@ -17,9 +17,9 @@ class DeploymentStepFailed implements ShouldBroadcastNow
     use InteractsWithSockets, SerializesModels;
 
     private $siteId;
-    public $siteDeployment;
-    public $deploymentEvent;
-    public $serverDeployment;
+    private $siteDeployment;
+    private $deploymentEvent;
+    private $serverDeployment;
 
     /**
      * Create a new event instance.
@@ -27,6 +27,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      * @param \App\Models\Site\Site $site
      * @param Server $server
      * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
+     * @param DeploymentStep $deploymentStep
      * @param $log
      */
     public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log)
@@ -68,9 +69,9 @@ class DeploymentStepFailed implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'site_deployment' => $this->siteDeployment,
-            'server_deployment' => $this->serverDeployment,
-            'deployment_event' => $this->deploymentEvent->load('step'),
+            'site_deployment' => strip_relations($this->siteDeployment),
+            'server_deployment' => strip_relations($this->serverDeployment),
+            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
         ];
     }
 }
