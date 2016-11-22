@@ -2,7 +2,6 @@
 
 namespace App\Models\Site;
 
-use App\Jobs\Site\DeploySite;
 use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,7 +59,7 @@ class SiteDeployment extends Model
             return 'Completed';
         }
 
-        if($started > 0) {
+        if ($started > 0) {
             return 'Running';
         }
     }
