@@ -6,6 +6,7 @@ use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
 use App\Services\RemoteTaskService;
+use App\Services\Systems\SystemService;
 use Carbon\Carbon;
 
 class PHP
@@ -27,8 +28,9 @@ class PHP
     public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
     {
         $this->remoteTaskService = $remoteTaskService;
-        $this->remoteTaskService->ssh($server, 'codepier', true);
+        $this->remoteTaskService->ssh($server, 'codepier');
 
+        $this->server = $server;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
         $this->site_folder = '/home/codepier/'.$site->domain;
@@ -105,5 +107,17 @@ class PHP
     public function cleanup()
     {
         return [$this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf')];
+    }
+
+    /**
+     * @description Restart the web services
+     *
+     * @order 600
+     */
+    public function restartWebServices()
+    {
+        $this->remoteTaskService->ssh($this->server, 'root');
+
+        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP)];
     }
 }
