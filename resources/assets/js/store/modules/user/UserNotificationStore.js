@@ -34,7 +34,7 @@ export default {
             })).then((response) => {
                 dispatch('getUserNotificationProviders');
             }, (errors) => {
-                alert(errors);
+                app.showError(errors);
             })
         },
         getUserNotificationSettings: ({commit}, user_id) => {

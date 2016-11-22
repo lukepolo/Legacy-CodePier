@@ -35,7 +35,7 @@ export default {
             })).then((response) => {
                 dispatch('getUserServerProviders');
             }, (errors) => {
-                alert(errors);
+                app.showError(errors);
             })
         },
         getUserRepositoryProviders: ({commit}, user_id) => {
@@ -52,7 +52,7 @@ export default {
             })).then((response) => {
                 dispatch('getUserRepositoryProviders');
             }, (errors) => {
-                alert(errors);
+                app.showError(errors);
             })
         },
 

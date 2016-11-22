@@ -17,7 +17,7 @@ class DeploymentCompleted implements ShouldBroadcastNow
 
     public $siteId;
     public $serverId;
-    public $siteServerDeployment;
+//    public $siteServerDeployment;
 
     /**
      * Create a new event instance.
@@ -35,7 +35,7 @@ class DeploymentCompleted implements ShouldBroadcastNow
             'completed' => true,
         ]);
 
-        $this->siteServerDeployment = $siteServerDeploymentDeployment;
+//        $this->siteServerDeployment = $siteServerDeploymentDeployment;
     }
 
     /**

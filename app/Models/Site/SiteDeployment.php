@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Jobs\Site\DeploySite;
 use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
@@ -52,8 +53,14 @@ class SiteDeployment extends Model
             return 'Failed';
         }
 
-        if ($completed == $serverDeployments->count()) {
+        $totalSteps = $serverDeployments->count();
+
+        if ($completed == $totalSteps) {
             return 'Completed';
+        }
+
+        if($this->getOriginal('status') != DeploySite::QUEUED_FOR_DEPLOYMENT) {
+            return 'Running';
         }
     }
 

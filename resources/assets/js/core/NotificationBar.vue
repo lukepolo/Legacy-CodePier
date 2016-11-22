@@ -276,7 +276,7 @@
 
                 <section v-for="event in events">
                     <div class="event">
-                        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed' }"></div>
+                        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
                         <div class="event-name">
                             <a class="collapsed" data-toggle="collapse" :href="'#' + event.id">
                                 <span class="icon-play"></span>
@@ -286,7 +286,8 @@
 
                                 <template v-for="server_deployment in event.server_deployments">
 
-                                    <div class="event-status" :class="{'event-status-neutral' : (! server_deployment.failed && ! server_deployment.completed), 'event-status-success' : server_deployment.completed, 'event-status-error' : server_deployment.failed }"></div>
+                                    <div class="event-status" :class="{'event-status-neutral' : (! server_deployment.failed && ! server_deployment.completed && !server_deployment.started), 'event-status-success' : server_deployment.completed, 'event-status-error' : server_deployment.failed, 'icon-spinner' : (!server_deployment.failed && !server_deployment.completed && server_deployment.started) }"></div>
+
                                     <a class="collapsed" data-toggle="collapse" :href="'#' + event.id + '_server_deployment_' + server_deployment.server.id">
                                         <span class="icon-play"></span>
                                     </a>
@@ -300,7 +301,7 @@
                                                 <li :class="{'event-error' : deployment_event.failed }">
 
                                                     <template v-if="!deployment_event.started || (deployment_event.started && deployment_event.completed) || (deployment_event.started && deployment_event.failed)">
-                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed }"></div>
+                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed, 'icon-spinner' : event.status == 'Running'}"></div>
                                                     </template>
                                                     <template v-else>
                                                         <span class="icon-spinner"></span>
@@ -381,19 +382,21 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-//            $(el).unbind('scroll');
-//
-//            var pagination = bindings.value;
-//
-//            var nextPage = pagination.current_page + 1;
-//            if (nextPage <= pagination.last_page) {
-//                $(el).bind('scroll', function() {
-//                    var $el = $(el);
-//                    if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
-//                        eventStore.dispatch('getEvents', nextPage);
-//                    }
-//                });
-//            }
+            $(el).unbind('scroll');
+
+            var pagination = bindings.value;
+
+            var nextPage = pagination.current_page + 1;
+
+            if (nextPage <= pagination.last_page) {
+
+                $(el).bind('scroll', function() {
+                    var $el = $(el);
+                    if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
+                        eventStore.dispatch('getEvents', nextPage);
+                    }
+                });
+            }
         }
     });
 
@@ -421,7 +424,7 @@
                         if(server.progress < 100) {
                             store.dispatch('getServersCurrentProvisioningStep', server.id)
                         }
-//
+
                         Echo.private('App.Models.Server.Server.' + server.id)
                                 .listen('Server\\ServerProvisionStatusChanged', (data) => {
                                     store.commit("UPDATE_SERVER", data.server)
@@ -435,12 +438,18 @@
                         Echo.private('App.Models.Site.Site.' + site.id)
                                 .listen('Site\\DeploymentStepStarted', (data) => {
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepCompleted', (data) => {
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentStepFailed', (data) => {
                                     store.commit('UPDATE_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .listen('Site\\DeploymentCompleted', (data) => {
                                     alert('deployment completed');

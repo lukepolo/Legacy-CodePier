@@ -37,7 +37,7 @@ export default {
                 commit('SET_SERVERS', response.data);
                 typeof callback === 'function' && callback();
             }, (errors) => {
-                alert(errors);
+                app.showError(errors);
             });
         },
         createServer: ({commit}, form) => {
