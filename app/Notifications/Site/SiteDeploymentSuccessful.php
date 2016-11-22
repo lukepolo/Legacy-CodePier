@@ -45,7 +45,7 @@ class SiteDeploymentSuccessful extends Notification
     public function toArray($notifiable)
     {
         return [
-            'site'           => $this->site,
+            'site' => strip_relations($this->site),
         ];
     }
 }
