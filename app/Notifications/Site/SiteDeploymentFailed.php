@@ -48,7 +48,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'broadcast', SlackMessageChannel::class];
+        return ['mail', SlackMessageChannel::class];
     }
 
     /**
@@ -66,22 +66,6 @@ class SiteDeploymentFailed extends Notification
             ->line($this->errorMessage)
             ->action('Go to your site', url('site/'.$this->site->id))
             ->error();
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     *
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'site'           => $this->site,
-            'errorMessage'   => $this->errorMessage,
-            'siteDeployment' => $this->siteServerDeployment,
-        ];
     }
 
     /**
