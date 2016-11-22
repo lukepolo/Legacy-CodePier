@@ -301,7 +301,7 @@
                                                 <li :class="{'event-error' : deployment_event.failed }">
 
                                                     <template v-if="!deployment_event.started || (deployment_event.started && deployment_event.completed) || (deployment_event.started && deployment_event.failed)">
-                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed, 'icon-spinner' : event.status == 'Running'}"></div>
+                                                        <div class="event-status" :class="{'event-status-neutral' : (! deployment_event.failed && ! deployment_event.completed), 'event-status-success' : deployment_event.completed, 'event-status-error' : deployment_event.failed}"></div>
                                                     </template>
                                                     <template v-else>
                                                         <span class="icon-spinner"></span>
