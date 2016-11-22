@@ -34,14 +34,7 @@
 </template>
 
 <script>
-    import ServerNav from './components/ServerNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
-
     export default {
-        components: {
-            LeftNav,
-            ServerNav
-        },
         data() {
             return {
                 form: {

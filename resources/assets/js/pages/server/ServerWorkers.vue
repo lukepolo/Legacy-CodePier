@@ -1,8 +1,6 @@
 <template>
     <section>
-        <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
-            <server-nav :server="server"></server-nav>
             <form @submit.prevent="createServerWorker">
                 Command
                 <input type="text" name="command" v-model="form.command">
@@ -46,14 +44,7 @@
 </template>
 
 <script>
-    import ServerNav from './components/ServerNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
-
     export default {
-        components: {
-            LeftNav,
-            ServerNav
-        },
         data() {
             return {
                 form: {

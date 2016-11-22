@@ -10,21 +10,21 @@ export default {
             Vue.http.get(Vue.action('NotificationSettingsController@index')).then((response) => {
                 commit('SET_NOTIFICATION_SETTINGS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getNotificationProviders: ({commit}) => {
             Vue.http.get(Vue.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
                 commit('SET_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getUserNotificationProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserNotificationProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         deleteUserNotificationProvider: ({commit, dispatch}, data) => {
@@ -41,14 +41,14 @@ export default {
             Vue.http.get(Vue.action('User\UserNotificationSettingsController@index')).then((response) => {
                 commit('SET_USER_NOTIFICATION_SETTINGS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         updateUserNotificationSettings: ({commit}, data) => {
             Vue.http.post(Vue.action('User\UserNotificationSettingsController@store'), data).then((response) => {
 
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         }
     },

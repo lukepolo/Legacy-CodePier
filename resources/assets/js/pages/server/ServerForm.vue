@@ -1,6 +1,5 @@
 <template>
     <section>
-        <left-nav></left-nav>
         <section id="middle" class="section-column">
             <h3 class="section-header primary">Create New Server</h3>
 
@@ -92,11 +91,10 @@
 </template>
 
 <script>
-    import LeftNav from './../../core/LeftNav.vue';
-    import FeatureArea from './components/FeatureArea.vue'
+    import FeatureArea from './components/FeatureArea.vue';
+
     export default {
         components: {
-            LeftNav,
             FeatureArea
         },
         created() {
