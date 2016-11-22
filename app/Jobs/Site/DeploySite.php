@@ -17,12 +17,15 @@ use Illuminate\Queue\SerializesModels;
 
 class DeploySite implements ShouldQueue
 {
+    const QUEUED_FOR_DEPLOYMENT = 'queued for deployment';
+
     use InteractsWithQueue, Queueable, SerializesModels;
 
     public $sha;
     public $site;
     public $servers = [];
     public $siteDeployment;
+
 
     /**
      * Create a new job instance.
@@ -38,7 +41,7 @@ class DeploySite implements ShouldQueue
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
-            'status'  => 'queued for deployment',
+            'status'  => self::QUEUED_FOR_DEPLOYMENT,
         ]);
 
         foreach ($this->servers as $server) {
