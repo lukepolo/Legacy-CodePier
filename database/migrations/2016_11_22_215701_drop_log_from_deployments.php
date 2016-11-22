@@ -13,7 +13,7 @@ class DropLogFromDeployments extends Migration
      */
     public function up()
     {
-        Schema::table('site_server_deployments', function(Blueprint $table) {
+        Schema::table('site_server_deployments', function (Blueprint $table) {
             $table->dropColumn('log');
         });
     }
@@ -25,7 +25,7 @@ class DropLogFromDeployments extends Migration
      */
     public function down()
     {
-        Schema::table('site_server_deployments', function(Blueprint $table) {
+        Schema::table('site_server_deployments', function (Blueprint $table) {
             $table->text('log')->nullable();
         });
     }

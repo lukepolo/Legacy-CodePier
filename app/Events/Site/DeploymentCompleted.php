@@ -57,7 +57,7 @@ class DeploymentCompleted implements ShouldBroadcastNow
     {
         return [
             'site_deployment' => strip_relations($this->siteDeployment),
-            'server_deployment' => strip_relations($this->serverDeployment)
+            'server_deployment' => strip_relations($this->serverDeployment),
         ];
     }
 }
