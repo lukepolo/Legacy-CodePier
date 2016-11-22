@@ -12,14 +12,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServerCommandTrait;
 
-//
-//    /**
-//     * Controller constructor.
-//     */
-//    public function __construct()
-//    {
-//        $site = \App\Models\Site\Site::has('servers')->first();
-//
-//        event(new \App\Events\Site\DeploymentCompleted($site, $site->servers->first(), $site->deployments->last()->serverDeployments->last()));
-//    }
 }
