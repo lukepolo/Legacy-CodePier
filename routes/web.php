@@ -78,7 +78,8 @@ Route::get('/', function () {
         ]);
     }
 
-    return view('landing');
+    return redirect('/login');
+//    return view('landing');
 });
 
 Route::group(['middleware' => 'auth'], function () {
