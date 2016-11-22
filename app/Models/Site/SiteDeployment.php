@@ -59,7 +59,7 @@ class SiteDeployment extends Model
             return 'Completed';
         }
 
-        if($this->getOriginal('status') != DeploySite::QUEUED_FOR_DEPLOYMENT) {
+        if ($this->getOriginal('status') != DeploySite::QUEUED_FOR_DEPLOYMENT) {
             return 'Running';
         }
     }
