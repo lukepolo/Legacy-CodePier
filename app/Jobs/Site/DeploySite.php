@@ -26,7 +26,6 @@ class DeploySite implements ShouldQueue
     public $servers = [];
     public $siteDeployment;
 
-
     /**
      * Create a new job instance.
      *
