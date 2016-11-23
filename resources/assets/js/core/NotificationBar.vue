@@ -40,7 +40,7 @@
                                     </label>
 
                                     <label v-for="pile in piles">
-                                        <input type="checkbox">
+                                        <input type="checkbox" v-model="form.filters.piles" :value="pile.id">
                                         <span class="icon"></span>
                                         {{ pile.name }}
                                     </label>
@@ -49,7 +49,7 @@
 
                             <div class="btn-footer">
                                 <a class="btn btn-small">Cancel</a>
-                                <a class="btn btn-small btn-primary">Apply</a>
+                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
                         </div>
@@ -70,32 +70,17 @@
                                         <span class="icon"></span>
                                         Select All
                                     </label>
-                                    <label>
-                                        <input type="checkbox">
+                                    <label v-for="site in sites">
+                                        <input type="checkbox" v-model="form.filters.sites" :value="site.id">
                                         <span class="icon"></span>
-                                        dev.lukepolo.com
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        lukepolo.com
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        dev.jfalotico.com
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        jfalotico.com
+                                        {{ site.name }}
                                     </label>
                                 </div>
                             </form>
 
                             <div class="btn-footer">
                                 <a class="btn btn-small">Cancel</a>
-                                <a class="btn btn-small btn-primary">Apply</a>
+                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
                         </div>
@@ -116,32 +101,17 @@
                                         <span class="icon"></span>
                                         Select All
                                     </label>
-                                    <label>
-                                        <input type="checkbox">
+                                    <label v-for="server in servers">
+                                        <input type="checkbox" v-model="form.filters.servers" :value="server.id">
                                         <span class="icon"></span>
-                                        Server 1
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Server 2
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Server 3
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Server 4
+                                        {{ server.name }} ({{ server.ip }})
                                     </label>
                                 </div>
                             </form>
 
                             <div class="btn-footer">
                                 <a class="btn btn-small">Cancel</a>
-                                <a class="btn btn-small btn-primary">Apply</a>
+                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
                         </div>
@@ -163,31 +133,16 @@
                                         Select All
                                     </label>
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" v-model="form.filters.types">
                                         <span class="icon"></span>
                                         Deployments
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Something Else
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Blah Blah
-                                    </label>
-                                    <label>
-                                        <input type="checkbox">
-                                        <span class="icon"></span>
-                                        Woo
                                     </label>
                                 </div>
                             </form>
 
                             <div class="btn-footer">
                                 <a class="btn btn-small">Cancel</a>
-                                <a class="btn btn-small btn-primary">Apply</a>
+                                <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
                         </div>
@@ -197,73 +152,13 @@
             </ul>
             <div class="events-container">
 
+                <!--<div class="event-none">-->
+                    <!--There are no events with these filters.-->
+                <!--</div>-->
 
-                <!--&lt;!&ndash; TODO Add in for when there are no events &ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="event-none">&ndash;&gt;-->
-                    <!--&lt;!&ndash;Get going!&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<template v-for="server in servers">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<server-event :server="server"></server-event>&ndash;&gt;-->
-                <!--&lt;!&ndash;</template>&ndash;&gt;-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-success"></div>-->
-                <!--<div class="event-name">Deployment Successful</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-success"></div>-->
-                <!--<div class="event-name">Site Installed</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                    <!--<div class="event-status event-status-error"></div>-->
-                    <!--<div class="event-name">-->
-                        <!--<a class="collapsed" data-toggle="collapse" href="#collapseError1">-->
-                            <!--<span class="icon-play"></span>-->
-                        <!--</a> Deployment Failed-->
-                        <!--<div class="event-details collapse" id="collapseError1">-->
-                            <!--<span class="text-error">-->
-                                <!--<strong>ERROR STUFF HERE.</strong>-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
-                            <!--</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                    <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-warning"></div>-->
-                <!--<div class="event-name">Deployment Started</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-success"></div>-->
-                <!--<div class="event-name">Deployment Successful</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-success"></div>-->
-                <!--<div class="event-name">Site Installed</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-server"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-error"></div>-->
-                <!--<div class="event-name">Deployment Failed</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
-                <!--</div>-->
-                <!--<div class="event">-->
-                <!--<div class="event-status event-status-warning"></div>-->
-                <!--<div class="event-name">Deployment Started</div>-->
-                <!--<div class="event-pile"><span class="icon-layers"></span> Dev</div>-->
-                <!--<div class="event-site"><span class="icon-browser"></span> jfalotico.com</div>-->
-                <!--</div>-->
+                <!--<template v-for="server in servers">-->
+                    <!--<server-event :server="server"></server-event>-->
+                <!--</template>-->
 
                 <section v-for="event in events">
                     <deployment-event :event="event"></deployment-event>
@@ -341,6 +236,18 @@
             ServerEvent,
             DeploymentEvent,
         },
+        data() {
+            return {
+                form : {
+                    filters : {
+                        types : [],
+                        piles : [],
+                        sites : [],
+                        servers : [],
+                    }
+                }
+            }
+        },
         created() {
             this.fetchData();
         },
@@ -396,6 +303,9 @@
                 });
 
                 store.dispatch('getEvents');
+            },
+            updateFilters() {
+                this.$store.dispatch('getEvents', this.form);
             }
         },
         computed: {
@@ -410,6 +320,12 @@
             },
             piles() {
                 return this.$store.state.pilesStore.piles;
+            },
+            sites() {
+                return this.$store.state.sitesStore.sites;
+            },
+            servers() {
+                return this.$store.state.serversStore.servers;
             }
         },
     }
