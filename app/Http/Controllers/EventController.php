@@ -26,12 +26,12 @@ class EventController extends Controller
 
         $queryTypes = [
             'site_deployments' => '(SELECT site_deployments.id, site_deployments.created_at, "'.self::SITE_DEPLOYMENTS.'" as type FROM site_deployments)',
-            'commands' => '(SELECT commands.id, commands.created_at, "'.self::COMMANDS.'" as type FROM commands)'
+            'commands' => '(SELECT commands.id, commands.created_at, "'.self::COMMANDS.'" as type FROM commands)',
         ];
 
         $queries = [];
 
-        if(empty($types)) {
+        if (empty($types)) {
             $queries = $queryTypes;
         } else {
             dd('we need to add them there');
@@ -39,7 +39,7 @@ class EventController extends Controller
 
         $statement = null;
 
-        foreach($queries as $type => $query) {
+        foreach ($queries as $type => $query) {
             $statement .= ' UNION '.$query;
         }
 
@@ -50,14 +50,14 @@ class EventController extends Controller
         return response()->json([
 
             'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
-                    $query->withTrashed();
-                }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->whereIn('id', $topResults->filter(function($event) {
-                    return $event->type ==  self::SITE_DEPLOYMENTS;
-                })->keyBy('id')->keys())->get(),
+                $query->withTrashed();
+            }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->whereIn('id', $topResults->filter(function ($event) {
+                return $event->type == self::SITE_DEPLOYMENTS;
+            })->keyBy('id')->keys())->get(),
 
-            'commands' => Command::whereIn('id', $topResults->filter(function($event) {
-                    return $event->type ==  self::COMMANDS;
-                })->keyBy('id')->keys())->get()
+            'commands' => Command::whereIn('id', $topResults->filter(function ($event) {
+                return $event->type == self::COMMANDS;
+            })->keyBy('id')->keys())->get(),
         ]);
     }
 
