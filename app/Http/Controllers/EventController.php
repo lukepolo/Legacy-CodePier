@@ -2,22 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Command;
 use App\Models\Site\SiteDeployment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
+    const COMMANDS = 'commands';
+    const SITE_DEPLOYMENTS = 'site_deployments';
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siteDeployments = SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
-            $query->withTrashed();
-        }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->latest()->paginate(10);
+        $types = $request->get('types', []);
+        $piles = $request->get('piles');
+        $sites = $request->get('sites');
+        $servers = $request->get('servers');
 
-        return response()->json($siteDeployments);
+        $queryTypes = [
+            'site_deployments' => '(SELECT site_deployments.id, site_deployments.created_at, "'.self::SITE_DEPLOYMENTS.'" as type FROM site_deployments)',
+            'commands' => '(SELECT commands.id, commands.created_at, "'.self::COMMANDS.'" as type FROM commands)'
+        ];
+
+        $queries = [];
+
+        if(empty($types)) {
+            $queries = $queryTypes;
+        } else {
+            dd('we need to add them there');
+        }
+
+        $statement = null;
+
+        foreach($queries as $type => $query) {
+            $statement .= ' UNION '.$query;
+        }
+
+        $statement .= ' ORDER BY created_at DESC LIMIT 10';
+
+        $topResults = collect(DB::select(ltrim($statement, ' UNION ')));
+
+        return response()->json([
+
+            'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
+                    $query->withTrashed();
+                }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider'])->whereIn('id', $topResults->filter(function($event) {
+                    return $event->type ==  self::SITE_DEPLOYMENTS;
+                })->keyBy('id')->keys())->get(),
+
+            'commands' => Command::whereIn('id', $topResults->filter(function($event) {
+                    return $event->type ==  self::COMMANDS;
+                })->keyBy('id')->keys())->get()
+        ]);
     }
 
     /**

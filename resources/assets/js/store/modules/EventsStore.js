@@ -4,8 +4,17 @@ export default {
         events_pagination: null
     },
     actions: {
-        getEvents: ({commit}, page) => {
-            Vue.http.get(Vue.action('EventController@index', {page: page ? page : 1})).then((response) => {
+        getEvents: ({commit}, data) => {
+
+            var filters = (data && data.filters) ? data.filters : null;
+
+            Vue.http.get(Vue.action('EventController@index', {
+                page: (data && data.page) ? data.page : 1,
+                types : filters ? filters.types : [],
+                piles : filters ? filters.piles : [],
+                sites : filters ? filters.sites : [],
+                servers : filters ? filters.servers : []
+            })).then((response) => {
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
                 app.showError(errors);
