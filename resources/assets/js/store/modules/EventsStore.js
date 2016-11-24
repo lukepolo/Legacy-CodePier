@@ -1,20 +1,27 @@
 export default {
     state: {
         events: [],
-        events_pagination: null
+        filters : {},
+        events_pagination: null,
     },
     actions: {
-        getEvents: ({commit}, data) => {
+        getEvents: ({commit, state}, data) => {
 
             var filters = (data && data.filters) ? data.filters : null;
 
-            Vue.http.post(Vue.action('EventController@store'), _.omitBy({
+            Vue.http.post(Vue.action('EventController@store'), _.omitBy(_.omitBy({
                 page: (data && data.page) ? data.page : 1,
                 types : filters ? filters.types : null,
                 piles : filters ? filters.piles : null,
                 sites : filters ? filters.sites : null,
                 servers : filters ? filters.servers : null
-            }, _.isNil)).then((response) => {
+            }, _.isNil), _.isEmpty)).then((response) => {
+
+                if(filters != this.filters) {
+                    commit('SET_FILTERS', filters);
+                    commit('CLEAR_EVENTS');
+                }
+
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
                 app.showError(errors);
@@ -22,6 +29,12 @@ export default {
         }
     },
     mutations: {
+        SET_FILTERS :(state, filters) => {
+            state.filters = filters;
+        },
+        CLEAR_EVENTS : (state) =>{
+            state.events = [];
+        },
         SET_EVENTS: (state, events_pagination) => {
 
             _.forEach(events_pagination.data, function (event) {

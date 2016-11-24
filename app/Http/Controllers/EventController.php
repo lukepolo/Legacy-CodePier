@@ -35,33 +35,35 @@ class EventController extends Controller
 
         $queryTypes = collect([
             'site_deployments' => DB::table('site_deployments')
-                ->select(['id', 'created_at', DB::raw('"'.self::SITE_DEPLOYMENTS.'" as type')])
-                ->when($piles, function($query) {
-                    dd('piles');
-                    return $query;
+                ->select(['site_deployments.id', 'site_deployments.created_at', DB::raw('"'.self::SITE_DEPLOYMENTS.'" as type')])
+                ->when($piles, function(Builder $query) use($piles) {
+                    return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
+                        ->whereIn('sites.pile_id', $piles);
                 })
-                ->when($sites, function($query) use($sites) {
+                ->when($sites, function(Builder $query) use($sites) {
                     return $query->whereIn('site_id', $sites);
                 })
-                ->when($servers, function($query) {
-                    dd('servers');
-                    return $query;
+                ->when($servers, function(Builder $query) use($servers) {
+                    return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
+                        ->join('server_site', 'sites.id', '=', 'server_site.site_id')
+                        ->whereIn('server_site.server_id', $servers);
                 })
             ,
             'commands' => DB::table('commands')
-                ->select(['id', 'created_at', DB::raw('"'.self::COMMANDS.'" as type')])
-                ->when($piles, function($query) {
-                    dd('piles');
-                    return $query;
+                ->select(['commands.id', 'commands.created_at', DB::raw('"'.self::COMMANDS.'" as type')])
+                ->when($piles, function(Builder $query) use($piles) {
+                    return $query->join('sites', 'commands.site_id', '=', 'sites.id')
+                        ->whereIn('sites.pile_id', $piles);
                 })
-                ->when($sites, function($query) use($sites) {
+                ->when($sites, function(Builder $query) use($sites) {
                     return $query->whereIn('site_id', $sites);
                 })
-                ->when($servers, function($query) use($servers) {
+                ->when($servers, function(Builder $query) use($servers) {
                     return $query->whereIn('server_id', $servers);
                 })
         ])->only($types);
 
+        /** @var Builder $combinedQuery */
         $combinedQuery = $queryTypes->shift();
 
         foreach($queryTypes as $type => $query) {
@@ -76,7 +78,7 @@ class EventController extends Controller
                 $tempCombinedQuery,
                 collect([
                     'site_deployments' =>
-                        SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
+                        SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function (Builder $query) {
                                 $query->withTrashed();
                             },
                             'site.pile',
@@ -92,9 +94,9 @@ class EventController extends Controller
                             ])
                             ->whereIn(
                             'id', $topResults->filter(function($event) {
-                            return $event->type ==  self::COMMANDS;
+                                return $event->type ==  self::COMMANDS;
                         })->keyBy('id')->keys())
-                ])->only($types)->map(function($query) {
+                ])->only($types)->map(function(Builder $query) {
                     return $query->get();
                 })
                 ->flatten()
