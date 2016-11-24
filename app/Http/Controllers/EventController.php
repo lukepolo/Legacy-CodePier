@@ -76,7 +76,7 @@ class EventController extends Controller
             $this->getPaginatedObject(
                 $tempCombinedQuery,
                 collect([
-                    'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function (Builder $query) {
+                    'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
                         $query->withTrashed();
                     },
                             'site.pile',
@@ -93,7 +93,7 @@ class EventController extends Controller
                             'id', $topResults->filter(function ($event) {
                                 return $event->type == self::COMMANDS;
                             })->keyBy('id')->keys()),
-                ])->only($types)->map(function (Builder $query) {
+                ])->only($types)->map(function ($query) {
                     return $query->get();
                 })
                 ->flatten()
