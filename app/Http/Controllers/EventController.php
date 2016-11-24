@@ -76,9 +76,11 @@ class EventController extends Controller
             $this->getPaginatedObject(
                 $tempCombinedQuery,
                 collect([
-                    'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
-                        $query->withTrashed();
-                    },
+                    'site_deployments' => SiteDeployment::with([
+                            'serverDeployments.server',
+                            'serverDeployments.events.step' => function ($query) {
+                                $query->withTrashed();
+                            },
                             'site.pile',
                             'site.userRepositoryProvider.repositoryProvider',
                         ])
