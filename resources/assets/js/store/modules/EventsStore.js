@@ -8,13 +8,13 @@ export default {
 
             var filters = (data && data.filters) ? data.filters : null;
 
-            Vue.http.get(Vue.action('EventController@index', {
+            Vue.http.post(Vue.action('EventController@store'), _.omitBy({
                 page: (data && data.page) ? data.page : 1,
-                types : filters ? filters.types : [],
-                piles : filters ? filters.piles : [],
-                sites : filters ? filters.sites : [],
-                servers : filters ? filters.servers : []
-            })).then((response) => {
+                types : filters ? filters.types : null,
+                piles : filters ? filters.piles : null,
+                sites : filters ? filters.sites : null,
+                servers : filters ? filters.servers : null
+            }, _.isNil)).then((response) => {
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
                 app.showError(errors);
@@ -33,6 +33,8 @@ export default {
         ADD_NEW_SITE_DEPLOYMENT: (state, deployment) => {
             state.events.unshift(deployment);
         },
+
+        // TODO - we need to add the type
         UPDATE_DEPLOYMENT_EVENT : (state, event) => {
 
             var site_deployment = _.find(state.events, {id : event.site_deployment.id});

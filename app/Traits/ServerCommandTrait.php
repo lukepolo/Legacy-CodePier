@@ -19,19 +19,19 @@ trait ServerCommandTrait
 
     /**
      * @param Model $model
-     * @param null $siteConnection
+     * @param null $siteId
      * @return Command
      */
-    public function makeCommand(Model $model, $siteConnection = null)
+    public function makeCommand(Model $model, $siteId = null)
     {
-        if (empty($siteConnection)) {
-            $siteConnection = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
+        if (empty($siteId)) {
+            $siteId = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
         }
 
         $this->command = Command::create([
             'type' => get_class($model),
             'server_id' => $model->server_id,
-            'site_connection' => $model->$siteConnection,
+            'site_id' => $model->$siteId,
         ]);
 
         $model->commands()->save($this->command);

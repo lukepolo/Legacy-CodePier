@@ -5,7 +5,12 @@
     "license": "MIT",
     "type": "project",
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/lukepolo/dbal" }
+        { "type": "vcs", "url": "https://github.com/lukepolo/dbal" },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        { "packagist": false }
     ],
     "require": {
         "php": ">=5.6.4",
