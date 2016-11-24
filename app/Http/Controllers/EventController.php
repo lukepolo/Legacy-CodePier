@@ -88,13 +88,13 @@ class EventController extends Controller
                             return $event->type == self::SITE_DEPLOYMENTS;
                         })->keyBy('id')->keys()),
                     'commands' => Command::with([
-                                'server',
-                                'site.pile',
-                            ])
-                            ->whereIn(
-                            'id', $topResults->filter(function ($event) {
-                                return $event->type == self::COMMANDS;
-                            })->keyBy('id')->keys()),
+                            'server',
+                            'site.pile',
+                        ])
+                        ->whereIn(
+                        'id', $topResults->filter(function ($event) {
+                            return $event->type == self::COMMANDS;
+                        })->keyBy('id')->keys()),
                 ])->only($types)->map(function ($query) {
                     return $query->get();
                 })
