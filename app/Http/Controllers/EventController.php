@@ -26,7 +26,7 @@ class EventController extends Controller
     {
         $types = $request->get('types', [
             self::COMMANDS,
-            self::SITE_DEPLOYMENTS
+            self::SITE_DEPLOYMENTS,
         ]);
 
         $piles = $request->get('piles', []);
@@ -36,37 +36,36 @@ class EventController extends Controller
         $queryTypes = collect([
             'site_deployments' => DB::table('site_deployments')
                 ->select(['site_deployments.id', 'site_deployments.created_at', DB::raw('"'.self::SITE_DEPLOYMENTS.'" as type')])
-                ->when($piles, function(Builder $query) use($piles) {
+                ->when($piles, function (Builder $query) use ($piles) {
                     return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
                         ->whereIn('sites.pile_id', $piles);
                 })
-                ->when($sites, function(Builder $query) use($sites) {
+                ->when($sites, function (Builder $query) use ($sites) {
                     return $query->whereIn('site_id', $sites);
                 })
-                ->when($servers, function(Builder $query) use($servers) {
+                ->when($servers, function (Builder $query) use ($servers) {
                     return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
                         ->join('server_site', 'sites.id', '=', 'server_site.site_id')
                         ->whereIn('server_site.server_id', $servers);
-                })
-            ,
+                }),
             'commands' => DB::table('commands')
                 ->select(['commands.id', 'commands.created_at', DB::raw('"'.self::COMMANDS.'" as type')])
-                ->when($piles, function(Builder $query) use($piles) {
+                ->when($piles, function (Builder $query) use ($piles) {
                     return $query->join('sites', 'commands.site_id', '=', 'sites.id')
                         ->whereIn('sites.pile_id', $piles);
                 })
-                ->when($sites, function(Builder $query) use($sites) {
+                ->when($sites, function (Builder $query) use ($sites) {
                     return $query->whereIn('site_id', $sites);
                 })
-                ->when($servers, function(Builder $query) use($servers) {
+                ->when($servers, function (Builder $query) use ($servers) {
                     return $query->whereIn('server_id', $servers);
-                })
+                }),
         ])->only($types);
 
         /** @var Builder $combinedQuery */
         $combinedQuery = $queryTypes->shift();
 
-        foreach($queryTypes as $type => $query) {
+        foreach ($queryTypes as $type => $query) {
             $combinedQuery->unionAll($query);
         }
 
@@ -77,26 +76,24 @@ class EventController extends Controller
             $this->getPaginatedObject(
                 $tempCombinedQuery,
                 collect([
-                    'site_deployments' =>
-                        SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function (Builder $query) {
-                                $query->withTrashed();
-                            },
+                    'site_deployments' => SiteDeployment::with(['serverDeployments.server', 'serverDeployments.events.step' => function (Builder $query) {
+                        $query->withTrashed();
+                    },
                             'site.pile',
-                            'site.userRepositoryProvider.repositoryProvider'
+                            'site.userRepositoryProvider.repositoryProvider',
                         ])
-                        ->whereIn('id', $topResults->filter(function($event) {
-                            return $event->type ==  self::SITE_DEPLOYMENTS;
+                        ->whereIn('id', $topResults->filter(function ($event) {
+                            return $event->type == self::SITE_DEPLOYMENTS;
                         })->keyBy('id')->keys()),
-                    'commands' =>
-                        Command::with([
+                    'commands' => Command::with([
                                 'server',
-                                'site.pile'
+                                'site.pile',
                             ])
                             ->whereIn(
-                            'id', $topResults->filter(function($event) {
-                                return $event->type ==  self::COMMANDS;
-                        })->keyBy('id')->keys())
-                ])->only($types)->map(function(Builder $query) {
+                            'id', $topResults->filter(function ($event) {
+                                return $event->type == self::COMMANDS;
+                            })->keyBy('id')->keys()),
+                ])->only($types)->map(function (Builder $query) {
                     return $query->get();
                 })
                 ->flatten()
@@ -117,7 +114,7 @@ class EventController extends Controller
         return new LengthAwarePaginator(
             $items->values()->all(),
             DB::query()
-                ->selectRaw('count(id) as total FROM ('. $combinedQuery->toSql() .') as total')
+                ->selectRaw('count(id) as total FROM ('.$combinedQuery->toSql().') as total')
                 ->setBindings($combinedQuery->getBindings())
                 ->first()->total,
             $perPage,
