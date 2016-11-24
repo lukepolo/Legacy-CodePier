@@ -41,7 +41,7 @@ class EventController extends Controller
                         ->whereIn('sites.pile_id', $piles);
                 })
                 ->when($sites, function (Builder $query) use ($sites) {
-                    return $query->whereIn('site_id', $sites);
+                    return $query->whereIn('site_deployments.site_id', $sites);
                 })
                 ->when($servers, function (Builder $query) use ($servers) {
                     return $query->join('sites', 'site_deployments.site_id', '=', 'sites.id')
@@ -55,10 +55,10 @@ class EventController extends Controller
                         ->whereIn('sites.pile_id', $piles);
                 })
                 ->when($sites, function (Builder $query) use ($sites) {
-                    return $query->whereIn('site_id', $sites);
+                    return $query->whereIn('commands.site_id', $sites);
                 })
                 ->when($servers, function (Builder $query) use ($servers) {
-                    return $query->whereIn('server_id', $servers);
+                    return $query->whereIn('commands.server_id', $servers);
                 }),
         ])->only($types);
 
