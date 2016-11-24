@@ -161,7 +161,15 @@
                 <!--</template>-->
 
                 <section v-for="event in events">
-                    <deployment-event :event="event"></deployment-event>
+                    <template v-if="event.type == 'App\\Models\\Site\\SiteDeployment'">
+                        <deployment-event :event="event"></deployment-event>
+                    </template>
+                    <template v-else-if="event.type == 'App\\Models\\Command'">
+                        <command-event :event="event"></command-event>
+                    </template>
+                    <template v-else>
+                        Invalid type {{ event.type }}
+                    </template>
                 </section>
             </div>
         </div>
@@ -171,8 +179,9 @@
 
 <script>
 
-    import ServerEvent from './components/ServerEvent.vue';
-    import DeploymentEvent from './components/DeploymentEvent.vue';
+    import ServerEvent from './components/Events/ServerEvent.vue';
+    import CommandEvent from './components/Events/CommandEvent.vue';
+    import DeploymentEvent from './components/Events/DeploymentEvent.vue';
 
     Vue.directive('resizeable', {
         inserted: function (el, bindings) {
@@ -234,6 +243,7 @@
     export default {
         components : {
             ServerEvent,
+            CommandEvent,
             DeploymentEvent,
         },
         data() {
@@ -294,6 +304,7 @@
                                     store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                                 })
                                 .notification((notification) => {
+                                    console.info(notification);
                                     if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
                                        store.commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
                                     }
