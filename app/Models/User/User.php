@@ -98,7 +98,6 @@ class User extends Authenticatable
         $commandsRunning = [];
 
         if ($this->currentPile) {
-
             $currentPile = $this->currentPile->sites()->with('commands')->whereHas('commands.serverCommands', function ($query) {
                 $query->where('failed', 0)
                     ->where('completed', 0);
