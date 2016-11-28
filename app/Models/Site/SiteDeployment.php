@@ -16,8 +16,8 @@ class SiteDeployment extends Model
     ];
 
     protected $appends = [
-        'event_type',
         'status',
+        'event_type',
     ];
 
     /*
