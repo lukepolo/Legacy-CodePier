@@ -6,6 +6,7 @@ use App\Models\Command;
 use App\Models\Pile;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderFeatures;
+use App\Models\ServerCommand;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Traits\Encryptable;
@@ -112,7 +113,7 @@ class Server extends Model
 
     public function commands()
     {
-        return $this->hasMany(Command::class);
+        return $this->hasMany(ServerCommand::class);
     }
 
     /*
