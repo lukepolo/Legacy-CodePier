@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerFirewallRule extends Model
 {
-    use ServerCommands;
-
     protected $guarded = ['id'];
 
     public function server()

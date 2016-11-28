@@ -7,6 +7,7 @@ use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use App\Models\Command;
+use App\Models\ServerCommand;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,8 +15,8 @@ trait ServerCommandTrait
 {
     private $error = false;
     private $remoteErrors;
+    private $serverCommand;
     private $remoteSuccesses;
-    private $command;
 
     /**
      * @param Model $model
@@ -27,26 +28,30 @@ trait ServerCommandTrait
             $siteId = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
         }
 
-        $model->commands()->save($this->command = $this->getCommand($model, $siteId));
+        $this->serverCommand = ServerCommand::create([
+            'server_id' => $model->server_id,
+            'command_id' => $this->getCommand($model, $siteId)->id,
+        ]);
+
     }
 
     /**
      * Runs a command on a external server.
      *
      * @param Closure $function
-     * @param Command $command
+     * @param ServerCommand $serverCommand
      * @throws \Exception
      */
-    public function runOnServer(Closure $function, Command $command = null)
+    public function runOnServer(Closure $function, ServerCommand $serverCommand = null)
     {
-        if (! empty($command)) {
-            $this->command = $command;
+        if (! empty($serverCommand)) {
+            $this->serverCommand = $serverCommand;
         }
 
         $start = microtime(true);
 
         try {
-            $this->command->update([
+            $this->serverCommand->update([
                 'started' => true,
             ]);
 
@@ -54,8 +59,8 @@ trait ServerCommandTrait
 
             $this->remoteSuccesses[] = $remoteResponse;
 
-            if (! empty($this->command)) {
-                $this->command->update([
+            if (! empty($this->serverCommand)) {
+                $this->serverCommand->update([
                     'runtime' => microtime(true) - $start,
                     'log' =>  $this->remoteSuccesses,
                     'completed' => true,
@@ -77,8 +82,8 @@ trait ServerCommandTrait
             if (count($this->remoteErrors)) {
                 $this->error = true;
 
-                if (! empty($this->command)) {
-                    $this->command->update([
+                if (! empty($this->serverCommand)) {
+                    $this->serverCommand->update([
                         'runtime' => microtime(true) - $start,
                         'log' => $this->remoteErrors,
                         'failed' => true,
@@ -130,7 +135,6 @@ trait ServerCommandTrait
 
         return Command::create([
             'type' => get_class($model),
-            'server_id' => $model->server_id,
             'site_id' => $model->$siteId,
         ]);
     }

@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerCronJob extends Model
 {
-    use ServerCommands;
-
     protected $guarded = ['id'];
 
     /*
