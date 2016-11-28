@@ -20,7 +20,6 @@ trait ServerCommandTrait
     /**
      * @param Model $model
      * @param null $siteId
-     * @return Command
      */
     public function makeCommand(Model $model, $siteId = null)
     {
@@ -28,15 +27,7 @@ trait ServerCommandTrait
             $siteId = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
         }
 
-        $this->command = Command::create([
-            'type' => get_class($model),
-            'server_id' => $model->server_id,
-            'site_id' => $model->$siteId,
-        ]);
-
-        $model->commands()->save($this->command);
-
-        return $this->command;
+        $model->commands()->save($this->command = $this->getCommand($model, $siteId));
     }
 
     /**
@@ -120,5 +111,27 @@ trait ServerCommandTrait
         }
 
         return response()->json();
+    }
+
+    /**
+     * Gets the command that was already created
+     *
+     * @param Model $model
+     * @param $siteId
+     * @return Command
+     */
+    private function getCommand(Model $model, $siteId)
+    {
+        $hiddenAttributes = $model->getHidden();
+
+        if(isset($hiddenAttributes['command'])) {
+            return $hiddenAttributes['command'];
+        }
+
+        return Command::create([
+            'type' => get_class($model),
+            'server_id' => $model->server_id,
+            'site_id' => $model->$siteId,
+        ]);
     }
 }
