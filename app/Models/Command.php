@@ -10,10 +10,10 @@ class Command extends Model
     protected $guarded = ['id'];
 
     protected $appends = [
-        'type',
+        'event_type',
     ];
 
-    public function getTypeAttribute()
+    public function getEventTypeAttribute()
     {
         return get_class($this);
     }
