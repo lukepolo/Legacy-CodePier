@@ -23,6 +23,7 @@ class RemoveServerNetworkRule implements ShouldQueue
      */
     public function __construct(ServerNetworkRule $serverNetworkRule)
     {
+        $this->makeCommand($serverNetworkRule);
         $this->serverNetworkRule = $serverNetworkRule;
     }
 
@@ -34,6 +35,15 @@ class RemoveServerNetworkRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $serverService->getService(SystemService::FIREWALL, $this->serverNetworkRule->server)->removeServerNetworkRule($this->serverNetworkRule->server->ip);
+        $this->runOnServer(function () use ($serverService) {
+            $serverService->getService(SystemService::FIREWALL, $this->serverNetworkRule->server)->removeServerNetworkRule($this->serverNetworkRule->server->ip);
+        });
+
+        if (! $this->wasSuccessful()) {
+            $this->serverNetworkRule->unsetEventDispatcher();
+            $this->serverNetworkRule->delete();
+        }
+
+        return $this->remoteResponse();
     }
 }
