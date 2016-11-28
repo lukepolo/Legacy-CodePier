@@ -90,6 +90,7 @@ class EventController extends Controller
                         })->keyBy('id')->keys()),
                     'commands' => Command::with([
                             'site.pile',
+                            'commandable',
                             'serverCommands.server',
                         ])
                         ->whereIn(

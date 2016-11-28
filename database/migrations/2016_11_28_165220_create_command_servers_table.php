@@ -14,15 +14,13 @@ class CreateCommandServersTable extends Migration
     public function up()
     {
         Schema::table('commands', function (Blueprint $table) {
-            $table->integer('type_id');
             $table->dropColumn('server_id');
             $table->dropColumn('started');
             $table->dropColumn('failed');
             $table->dropColumn('completed');
             $table->dropColumn('runtime');
             $table->dropColumn('log');
-            $table->dropColumn('commandable_id');
-            $table->dropColumn('commandable_type');
+            $table->dropColumn('type');
         });
 
         Schema::create('server_commands', function (Blueprint $table) {
@@ -55,8 +53,6 @@ class CreateCommandServersTable extends Migration
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
             $table->longText('log')->nullable();
-            $table->integer('commandable_id')->nullable();
-            $table->string('commandable_type')->nullable();
         });
     }
 }
