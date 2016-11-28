@@ -2,29 +2,27 @@
     <section class="event">
         <div class="event-status" :class="{'event-status-neutral' : (!event.started && !event.completed && !event.failed), 'event-status-success' : event.completed, 'event-status-error' : event.failed, 'icon-spinner' : (event.started && !event.completed && !event.failed) }"></div>
         <div class="event-name">
-            <a class="collapsed" :class="{ 'in' : event.failed }" data-toggle="collapse" :href="'#command_event_' + event.id" v-if="event.log && filterArray(event.log).length">
-                <span class="icon-play"></span>
-            </a>
-           {{ event.commandable_type }}
-
-            <template v-if="event.completed">
-                took {{ formatSeconds(event.runtime) }} seconds
-            </template>
-
-            <div class="event-details collapse" :class="{ 'in' : event.failed, 'out' : !event.failed }" :id="'command_event_'+event.id">
-                <pre v-for="logObject in event.log" v-if="event.log">
-                    {{ logObject.message }} {{ logObject.log }}
-                </pre>
-            </div>
+            <drop-down-event :title="event.type" :event="event" :type="event.type">
+                <template v-for="command in event.server_commands">
+                    <drop-down-event :title="command.server.name + ' (' + command.server.ip + ')'" :event="command" :type="event.type" :prefix="command.id" :dropdown="command.failed">
+                        <template v-if="command.failed">
+                            {{ command.log[0].log }}
+                        </template>
+                    </drop-down-event>
+                </template>
+            </drop-down-event>
         </div>
         <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
         <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
-        <div class="event-site"><span class="icon-server"></span> {{ event.server.name }} ({{ event.server.ip }})</div>
     </section>
 </template>
 
 <script>
+    import DropDownEvent from './DropDownEvent.vue';
     export default {
+        components : {
+            DropDownEvent,
+        },
         props : ['event'],
         methods: {
             filterArray(data) {

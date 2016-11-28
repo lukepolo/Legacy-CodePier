@@ -16,7 +16,7 @@ class SiteDeployment extends Model
     ];
 
     protected $appends = [
-        'type',
+        'event_type',
         'status',
     ];
 
@@ -36,7 +36,7 @@ class SiteDeployment extends Model
         return $this->hasMany(SiteServerDeployment::class);
     }
 
-    public function getTypeAttribute()
+    public function getEventTypeAttribute()
     {
         return get_class($this);
     }

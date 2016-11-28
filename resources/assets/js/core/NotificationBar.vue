@@ -161,14 +161,14 @@
                 <!--</template>-->
 
                 <section v-for="event in events">
-                    <template v-if="event.type == 'App\\Models\\Site\\SiteDeployment'">
+                    <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
                         <deployment-event :event="event"></deployment-event>
                     </template>
-                    <template v-else-if="event.type == 'App\\Models\\Command'">
+                    <template v-else-if="event.event_type == 'App\\Models\\Command'">
                         <command-event :event="event"></command-event>
                     </template>
                     <template v-else>
-                        Invalid type {{ event.type }}
+                        Invalid type {{ event.event_type }}
                     </template>
                 </section>
             </div>
