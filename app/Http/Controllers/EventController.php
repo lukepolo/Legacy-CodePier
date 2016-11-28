@@ -58,7 +58,8 @@ class EventController extends Controller
                     return $query->whereIn('commands.site_id', $sites);
                 })
                 ->when($servers, function (Builder $query) use ($servers) {
-                    return $query->whereIn('commands.server_id', $servers);
+                    return $query->join('server_commands', 'server_commands.command_id', '=', 'commands.id')
+                        ->whereIn('server_commands.server_id', $servers);
                 }),
         ])->only($types);
 
@@ -88,9 +89,8 @@ class EventController extends Controller
                             return $event->type == self::SITE_DEPLOYMENTS;
                         })->keyBy('id')->keys()),
                     'commands' => Command::with([
-                        // TODO - need to add server back in
-//                            'server',
                             'site.pile',
+                            'serverCommands.server',
                         ])
                         ->whereIn(
                         'id', $topResults->filter(function ($event) {
