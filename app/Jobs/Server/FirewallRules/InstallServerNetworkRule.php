@@ -45,6 +45,5 @@ class InstallServerNetworkRule implements ShouldQueue
         }
 
         return $this->remoteResponse();
-
     }
 }
