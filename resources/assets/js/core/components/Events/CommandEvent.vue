@@ -3,7 +3,7 @@
         <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
         <div class="event-name">
             <drop-down-event
-                    :title="event.type"
+                    :title="eventTitle"
                     :event="event"
                     :type="event.type"
                     :prefix="event.id"
@@ -48,6 +48,16 @@
                 if(!isNaN(seconds)) {
                     return seconds;
                 }
+            }
+        },
+        computed : {
+            eventTitle() {
+                var str = this.event.type;
+                var title = str.substring(str.lastIndexOf('\\') + 1);
+
+                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(str) {
+                    return str.toUpperCase();
+                });
             }
         }
     }
