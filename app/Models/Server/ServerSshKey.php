@@ -2,7 +2,6 @@
 
 namespace App\Models\Server;
 
-use App\Traits\ServerCommands;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerSshKey extends Model
