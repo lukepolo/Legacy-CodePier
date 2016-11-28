@@ -28,7 +28,7 @@ class SiteSshKeyObserver
                 ]);
 
                 $serverSshKey->addHidden([
-                    'command' => $this->makeCommand($serverSshKey, $siteSshKey->site_id),
+                    'command' => $this->makeCommand($siteSshKey),
                 ]);
 
                 $serverSshKey->save();

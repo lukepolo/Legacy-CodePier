@@ -31,7 +31,7 @@ class SiteSslCertificateObserver
                 ]);
 
                 $serverSslCertificate->addHidden([
-                    'command' => $this->makeCommand($serverSslCertificate, $siteSslCertificate->site_id),
+                    'command' => $this->makeCommand($siteSslCertificate),
                 ]);
 
                 $serverSslCertificate->save();
