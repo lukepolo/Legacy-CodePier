@@ -4,12 +4,11 @@ namespace App\Models\Site;
 
 use App\Traits\Encryptable;
 use App\Traits\FireEvents;
-use App\Traits\ServerCommands;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteFile extends Model
 {
-    use Encryptable, FireEvents, ServerCommands;
+    use Encryptable, FireEvents;
 
     protected $guarded = [
         'id',

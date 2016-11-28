@@ -32,7 +32,6 @@ trait ServerCommandTrait
             'server_id' => $model->server_id,
             'command_id' => $this->getCommand($model, $siteId)->id,
         ]);
-
     }
 
     /**
