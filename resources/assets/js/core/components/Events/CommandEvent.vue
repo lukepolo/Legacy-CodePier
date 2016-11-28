@@ -2,9 +2,20 @@
     <section class="event">
         <div class="event-status" :class="{'event-status-neutral' : (!event.started && !event.completed && !event.failed), 'event-status-success' : event.completed, 'event-status-error' : event.failed, 'icon-spinner' : (event.started && !event.completed && !event.failed) }"></div>
         <div class="event-name">
-            <drop-down-event :title="event.type" :event="event" :type="event.type">
+            <drop-down-event
+                    :title="event.type"
+                    :event="event"
+                    :type="event.type"
+                    :prefix="event.id"
+            >
                 <template v-for="command in event.server_commands">
-                    <drop-down-event :title="command.server.name + ' (' + command.server.ip + ')'" :event="command" :type="event.type" :prefix="command.id" :dropdown="command.failed">
+                    <drop-down-event
+                            :title="command.server.name + ' (' + command.server.ip + ')'"
+                            :event="command"
+                            :type="event.type"
+                            :prefix="'command_'+command.id"
+                            :dropdown="command.failed"
+                    >
                         <template v-if="command.failed">
                             {{ command.log[0].log }}
                         </template>
