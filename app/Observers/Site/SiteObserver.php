@@ -6,9 +6,12 @@ use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Jobs\Site\RenameSiteDomain;
 use App\Models\Site\Site;
+use App\Traits\ModelCommandTrait;
 
 class SiteObserver
 {
+    use ModelCommandTrait;
+
     public static $originalServers = [];
 
     private $siteService;

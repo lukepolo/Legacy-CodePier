@@ -4,9 +4,12 @@ namespace App\Observers\Site;
 
 use App\Models\Server\ServerCronJob;
 use App\Models\Site\SiteCronJob;
+use App\Traits\ModelCommandTrait;
 
 class SiteCronJobObserver
 {
+    use ModelCommandTrait;
+
     /**
      * @param SiteCronJob $siteCronJob
      */
@@ -17,12 +20,18 @@ class SiteCronJobObserver
                 ->where('user', $siteCronJob->user)
                 ->count()
             ) {
-                ServerCronJob::create([
+                $serverCronJob = new ServerCronJob([
                     'server_id' => $server->id,
                     'job' => $siteCronJob->job,
                     'user' => $siteCronJob->user,
                     'site_cron_job_id' => $siteCronJob->id,
                 ]);
+
+                $serverCronJob->addHidden([
+                    'command' => $this->makeCommand($serverCronJob, $siteCronJob->site_id)
+                ]);
+
+                $serverCronJob->save();
             }
         }
     }
