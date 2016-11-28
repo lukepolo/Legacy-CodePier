@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerSshKey extends Model
 {
-    use ServerCommands;
-
     protected $guarded = ['id'];
 
     public function server()

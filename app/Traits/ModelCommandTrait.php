@@ -15,7 +15,6 @@ trait ModelCommandTrait
     {
         return Command::create([
             'type' => get_class($model),
-            'server_id' => $model->server_id,
             'site_id' => $siteId,
         ]);
     }
