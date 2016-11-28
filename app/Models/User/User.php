@@ -95,6 +95,7 @@ class User extends Authenticatable
 
     public function getRunningCommands()
     {
+        // TODO - need to get running commands again
         return collect([]);
 //        $commandsRunning = [];
 //

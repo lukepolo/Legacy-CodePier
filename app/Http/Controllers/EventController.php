@@ -88,6 +88,7 @@ class EventController extends Controller
                             return $event->type == self::SITE_DEPLOYMENTS;
                         })->keyBy('id')->keys()),
                     'commands' => Command::with([
+                        // TODO - need to add server back in
 //                            'server',
                             'site.pile',
                         ])
