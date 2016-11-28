@@ -28,7 +28,7 @@ class SiteCronJobObserver
                 ]);
 
                 $serverCronJob->addHidden([
-                    'command' => $this->makeCommand($serverCronJob, $siteCronJob->site_id),
+                    'command' => $this->makeCommand($siteCronJob),
                 ]);
 
                 $serverCronJob->save();

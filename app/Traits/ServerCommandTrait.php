@@ -134,6 +134,7 @@ trait ServerCommandTrait
 
         return Command::create([
             'type' => get_class($model),
+            'type_id' => $model->id,
             'site_id' => $model->$siteId,
         ]);
     }

@@ -3,19 +3,20 @@
 namespace App\Traits;
 
 use App\Models\Command;
+use Illuminate\Database\Eloquent\Model;
 
 trait ModelCommandTrait
 {
     /**
      * @param $model
-     * @param $siteId
      * @return Command
      */
-    private function makeCommand($model, $siteId)
+    private function makeCommand(Model $model)
     {
         return Command::create([
+            'type_id' => $model->id,
             'type' => get_class($model),
-            'site_id' => $siteId,
+            'site_id' => $model->site_id,
         ]);
     }
 }
