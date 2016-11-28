@@ -2,7 +2,6 @@
 
 namespace App\Models\Server;
 
-use App\Models\Command;
 use App\Models\Pile;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderFeatures;

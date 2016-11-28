@@ -17,5 +17,4 @@ class ServerCommand extends Model
     {
         return $this->belongsTo(Server::class);
     }
-
 }
