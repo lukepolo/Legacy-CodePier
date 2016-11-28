@@ -1,6 +1,6 @@
 <template>
     <section class="event">
-        <div class="event-status" :class="{'event-status-neutral' : (!event.started && !event.completed && !event.failed), 'event-status-success' : event.completed, 'event-status-error' : event.failed, 'icon-spinner' : (event.started && !event.completed && !event.failed) }"></div>
+        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
         <div class="event-name">
             <drop-down-event
                     :title="event.type"
