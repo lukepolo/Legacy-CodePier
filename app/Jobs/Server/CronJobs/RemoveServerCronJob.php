@@ -14,7 +14,6 @@ class RemoveServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $command;
     private $serverCronJob;
 
     /**
