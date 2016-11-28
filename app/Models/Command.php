@@ -51,4 +51,12 @@ class Command extends Model
             return 'Running';
         }
     }
+
+    /**
+     * Get all of the owning commentable models.
+     */
+    public function commandable()
+    {
+        return $this->morphTo();
+    }
 }

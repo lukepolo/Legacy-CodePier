@@ -14,9 +14,9 @@ trait ModelCommandTrait
     private function makeCommand(Model $model)
     {
         return Command::create([
-            'type_id' => $model->id,
-            'type' => get_class($model),
             'site_id' => $model->site_id,
+            'commandable_id' => $model->id,
+            'commandable_type' => get_class($model),
         ]);
     }
 }

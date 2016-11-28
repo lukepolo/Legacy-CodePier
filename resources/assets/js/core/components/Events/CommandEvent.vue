@@ -5,14 +5,14 @@
             <drop-down-event
                     :title="eventTitle"
                     :event="event"
-                    :type="event.type"
+                    :type="event.commandable_type"
                     :prefix="event.id"
             >
                 <template v-for="command in event.server_commands">
                     <drop-down-event
                             :title="command.server.name + ' (' + command.server.ip + ')'"
                             :event="command"
-                            :type="event.type"
+                            :type="event.commandable_type"
                             :prefix="'command_'+command.id"
                             :dropdown="command.failed"
                     >
@@ -52,7 +52,7 @@
         },
         computed : {
             eventTitle() {
-                var str = this.event.type;
+                var str = this.event.commandable_type;
                 var title = str.substring(str.lastIndexOf('\\') + 1);
 
                 return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(str) {
