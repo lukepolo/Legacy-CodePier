@@ -34,11 +34,10 @@ class SiteWorkerObserver
                 ]);
 
                 $serverWorker->addHidden([
-                    'command' => $this->makeCommand($serverWorker, $siteWorker->site_id)
+                    'command' => $this->makeCommand($serverWorker, $siteWorker->site_id),
                 ]);
 
                 $serverWorker->save();
-
             }
         }
     }

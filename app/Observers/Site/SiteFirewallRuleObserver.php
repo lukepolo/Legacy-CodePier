@@ -30,7 +30,7 @@ class SiteFirewallRuleObserver
                 ]);
 
                 $serverFirewallRule->addHidden([
-                    'command' => $this->makeCommand($serverFirewallRule, $siteFirewallRule->site_id)
+                    'command' => $this->makeCommand($serverFirewallRule, $siteFirewallRule->site_id),
                 ]);
 
                 $serverFirewallRule->save();
