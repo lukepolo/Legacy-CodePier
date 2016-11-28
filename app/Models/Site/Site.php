@@ -3,6 +3,7 @@
 namespace App\Models\Site;
 
 use App\Http\Controllers\Auth\OauthController;
+use App\Models\Command;
 use App\Models\Pile;
 use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentStep;
@@ -80,6 +81,11 @@ class Site extends Model
     public function servers()
     {
         return $this->belongsToMany(Server::class);
+    }
+
+    public function commands()
+    {
+        return $this->hasMany(Command::class);
     }
 
     public function ssls()

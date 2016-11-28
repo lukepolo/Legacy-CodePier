@@ -95,26 +95,23 @@ class User extends Authenticatable
 
     public function getRunningCommands()
     {
-        // TODO - need to get running commands again
-        return collect([]);
-//        $commandsRunning = [];
-//
-//        if ($this->currentPile) {
-//            $currentPile = $this->currentPile->with('servers.commands.commandable')->whereHas('servers.commands', function ($query) {
-//                $query->where('failed', 0)
-//                    ->where('completed', 0);
-//            })->first();
-//
-//
-//            if (! empty($currentPile->servers)) {
-//                foreach ($currentPile->servers as $server) {
-//                    foreach ($server->commands as $command) {
-//                        $commandsRunning[$command->type][] = $command;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return collect($commandsRunning);
+        $commandsRunning = [];
+
+        if ($this->currentPile) {
+
+            $currentPile = $this->currentPile->sites()->with('commands')->whereHas('commands.serverCommands', function ($query) {
+                $query->where('failed', 0)
+                    ->where('completed', 0);
+            })->first();
+
+
+            if (! empty($currentPile->commands)) {
+                foreach ($currentPile->commands as $command) {
+                    $commandsRunning[$command->type][] = $command;
+                }
+            }
+        }
+
+        return collect($commandsRunning);
     }
 }
