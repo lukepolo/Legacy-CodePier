@@ -114,7 +114,7 @@ trait ServerCommandTrait
     }
 
     /**
-     * Gets the command that was already created
+     * Gets the command that was already created.
      *
      * @param Model $model
      * @param $siteId
@@ -124,7 +124,7 @@ trait ServerCommandTrait
     {
         $hiddenAttributes = $model->getHidden();
 
-        if(isset($hiddenAttributes['command'])) {
+        if (isset($hiddenAttributes['command'])) {
             return $hiddenAttributes['command'];
         }
 
