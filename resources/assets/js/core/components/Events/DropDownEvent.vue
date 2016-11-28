@@ -25,10 +25,10 @@
                     if(this.event.hasOwnProperty('failed') && this.event.hasOwnProperty('completed') && this.event.hasOwnProperty('started')) {
                         if(!this.event.failed && ! this.event.completed && !this.event.started) {
                             return 'event-status-neutral';
-                        } else if(this.event.completed) {
-                            return 'event-status-success';
                         } else if(this.event.failed) {
                             return 'event-status-error';
+                        } else if(this.event.completed) {
+                            return 'event-status-success';
                         } else if(!this.event.failed && !this.event.completed && this.event.started) {
                             return 'icon-spinner';
                         }
