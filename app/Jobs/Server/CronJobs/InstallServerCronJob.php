@@ -37,7 +37,7 @@ class InstallServerCronJob implements ShouldQueue
     {
         $this->runOnServer(function () use ($serverService) {
             $serverService->installCron($this->serverCronJob);
-        }, $this->command);
+        });
 
         if (! $this->wasSuccessful()) {
             $this->serverCronJob->unsetEventDispatcher();
