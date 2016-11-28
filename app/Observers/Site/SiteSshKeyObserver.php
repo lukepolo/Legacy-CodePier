@@ -15,13 +15,11 @@ class SiteSshKeyObserver
      */
     public function created(SiteSshKey $siteSshKey)
     {
-
         foreach ($siteSshKey->site->provisionedServers as $server) {
             if (! ServerSshKey::where('name', $siteSshKey->name)
                 ->where('ssh_key', $siteSshKey->ssh_key)
                 ->count()
             ) {
-
                 $serverSshKey = new ServerSshKey([
                     'server_id' => $server->id,
                     'name' => $siteSshKey->name,
@@ -30,7 +28,7 @@ class SiteSshKeyObserver
                 ]);
 
                 $serverSshKey->addHidden([
-                    'command' => $this->makeCommand($serverSshKey, $siteSshKey->site_id)
+                    'command' => $this->makeCommand($serverSshKey, $siteSshKey->site_id),
                 ]);
 
                 $serverSshKey->save();
