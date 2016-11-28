@@ -4,9 +4,12 @@ namespace App\Observers\Site;
 
 use App\Jobs\Server\UpdateServerFile;
 use App\Models\Site\SiteFile;
+use App\Traits\ModelCommandTrait;
 
 class SiteFileObserver
 {
+    use ModelCommandTrait;
+
     /**
      * @param SiteFile $siteFile
      */

@@ -4,9 +4,12 @@ namespace App\Observers\Site;
 
 use App\Models\Server\ServerSslCertificate;
 use App\Models\Site\SiteSslCertificate;
+use App\Traits\ModelCommandTrait;
 
 class SiteSslCertificateObserver
 {
+    use ModelCommandTrait;
+
     /**
      * @param SiteSslCertificate $siteSslCertificate
      */
@@ -17,15 +20,21 @@ class SiteSslCertificateObserver
                 ->where('domains', $siteSslCertificate->domains)
                 ->count()
             ) {
-                ServerSslCertificate::create([
+                $serverSslCertificate = new ServerSslCertificate([
+                    'active' => true,
                     'server_id' => $server->id,
                     'type' => $siteSslCertificate->type,
-                    'active' => true,
                     'domains' => $siteSslCertificate->domains,
                     'key_path' => $siteSslCertificate->key_path,
                     'cert_path' => $siteSslCertificate->cert_path,
                     'site_ssl_certificate_id' => $siteSslCertificate->id,
                 ]);
+
+                $serverSslCertificate->addHidden([
+                    'command' => $this->makeCommand($serverSslCertificate, $siteSslCertificate->site_id)
+                ]);
+
+                $serverSslCertificate->save();
             }
         }
     }

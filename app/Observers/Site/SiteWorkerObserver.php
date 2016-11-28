@@ -4,9 +4,12 @@ namespace App\Observers\Site;
 
 use App\Models\Server\ServerWorker;
 use App\Models\Site\SiteWorker;
+use App\Traits\ModelCommandTrait;
 
 class SiteWorkerObserver
 {
+    use ModelCommandTrait;
+
     /**
      * @param SiteWorker $siteWorker
      */
@@ -20,7 +23,7 @@ class SiteWorkerObserver
                 ->where('number_of_workers', $siteWorker->number_of_workers)
                 ->count()
             ) {
-                ServerWorker::create([
+                $serverWorker = new ServerWorker([
                     'server_id' => $server->id,
                     'user' => $siteWorker->user,
                     'command' => $siteWorker->command,
@@ -29,6 +32,13 @@ class SiteWorkerObserver
                     'auto_restart' => $siteWorker->auto_restart,
                     'number_of_workers' => $siteWorker->number_of_workers,
                 ]);
+
+                $serverWorker->addHidden([
+                    'command' => $this->makeCommand($serverWorker, $siteWorker->site_id)
+                ]);
+
+                $serverWorker->save();
+
             }
         }
     }

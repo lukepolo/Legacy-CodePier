@@ -4,9 +4,12 @@ namespace App\Observers\Site;
 
 use App\Models\Server\ServerFirewallRule;
 use App\Models\Site\SiteFirewallRule;
+use App\Traits\ModelCommandTrait;
 
 class SiteFirewallRuleObserver
 {
+    use ModelCommandTrait;
+
     /**
      * @param SiteFirewallRule $siteFirewallRule
      */
@@ -18,13 +21,19 @@ class SiteFirewallRuleObserver
                 ->where('description', $siteFirewallRule->description)
                 ->count()
             ) {
-                ServerFirewallRule::create([
+                $serverFirewallRule = ServerFirewallRule::create([
                     'server_id' => $server->id,
                     'port' => $siteFirewallRule->port,
                     'from_ip' => $siteFirewallRule->from_ip,
                     'description' => $siteFirewallRule->description,
                     'site_firewall_rule_id' => $siteFirewallRule->id,
                 ]);
+
+                $serverFirewallRule->addHidden([
+                    'command' => $this->makeCommand($serverFirewallRule, $siteFirewallRule->site_id)
+                ]);
+
+                $serverFirewallRule->save();
             }
         }
     }
