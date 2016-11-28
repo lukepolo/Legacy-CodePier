@@ -26,6 +26,7 @@ class CreateCommandServersTable extends Migration
 
         Schema::create('server_commands', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('command_id');
             $table->integer('server_id');
             $table->boolean('started')->default(0);
             $table->boolean('failed')->default(0);
