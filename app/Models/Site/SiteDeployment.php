@@ -2,12 +2,15 @@
 
 namespace App\Models\Site;
 
+use App\Traits\ConnectedToUser;
 use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteDeployment extends Model
 {
-    use FireEvents;
+    use FireEvents, ConnectedToUser;
+
+    static $userModel = 'site.user';
 
     protected $guarded = ['id'];
 
