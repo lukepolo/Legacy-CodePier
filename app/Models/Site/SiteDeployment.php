@@ -10,7 +10,7 @@ class SiteDeployment extends Model
 {
     use FireEvents, ConnectedToUser;
 
-    static $userModel = 'site.user';
+    static $userModel = 'site';
 
     protected $guarded = ['id'];
 
