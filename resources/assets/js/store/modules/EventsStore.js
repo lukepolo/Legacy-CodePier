@@ -11,7 +11,7 @@ export default {
 
             Vue.http.post(Vue.action('EventController@store'), _.omitBy(_.omitBy({
                 page: (data && data.page) ? data.page : 1,
-                types : filters ? filters.types : null,
+                types : filters ? _.omitBy(filters.types, _.isEmpty) : null,
                 piles : filters ? filters.piles : null,
                 sites : filters ? filters.sites : null,
                 servers : filters ? filters.servers : null

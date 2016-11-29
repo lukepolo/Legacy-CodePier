@@ -18,6 +18,7 @@
             window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
                 'pusherKey' => env('PUSHER_KEY'),
+                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES
             ]); ?>
         </script>
     </head>
