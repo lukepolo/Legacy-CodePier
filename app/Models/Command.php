@@ -10,7 +10,7 @@ class Command extends Model
 {
     use ConnectedToUser;
 
-    static $userModel = 'site.user';
+    public static $userModel = 'site.user';
 
     protected $guarded = ['id'];
 

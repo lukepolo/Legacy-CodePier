@@ -11,7 +11,7 @@ class SiteSslCertificate extends Model
 {
     use FireEvents, ConnectedToUser;
 
-    static $userModel = 'site';
+    public static $userModel = 'site';
 
     protected $guarded = ['id'];
 

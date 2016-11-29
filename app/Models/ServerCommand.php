@@ -10,7 +10,7 @@ class ServerCommand extends Model
 {
     use ConnectedToUser;
 
-    static $userModel = 'server';
+    public static $userModel = 'server';
 
     protected $guarded = ['id'];
 
