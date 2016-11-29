@@ -11,7 +11,7 @@ class SiteFile extends Model
 {
     use Encryptable, FireEvents, ConnectedToUser;
 
-    static $userModel = 'site';
+    public static $userModel = 'site';
 
     protected $guarded = [
         'id',
