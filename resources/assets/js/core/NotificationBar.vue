@@ -132,11 +132,22 @@
                                         <span class="icon"></span>
                                         Select All
                                     </label>
-                                    <label>
-                                        <input type="checkbox" v-model="form.filters.types">
-                                        <span class="icon"></span>
-                                        Deployments
-                                    </label>
+
+                                    <template v-for="(types, area) in defaultNotificationTypes">
+                                        <template v-for="type in types">
+                                            <label>
+                                                <template v-if="area == 'site_deployments'">
+                                                    <input type="checkbox" v-model="form.filters.types.site_deployments" :value="type">
+                                                </template>
+                                                <template v-else-if="area == 'commands'">
+                                                    <input type="checkbox" v-model="form.filters.types.commands" :value="type">
+                                                </template>
+                                                <span class="icon"></span>
+                                                {{ renderType(type) }}
+                                            </label>
+                                        </template>
+
+                                    </template>
                                 </div>
                             </form>
 
@@ -152,15 +163,12 @@
             </ul>
             <div class="events-container">
 
-                <!--<div class="event-none">-->
-                    <!--There are no events with these filters.-->
-                <!--</div>-->
-
-                <!--<template v-for="server in servers">-->
-                    <!--<server-event :server="server"></server-event>-->
-                <!--</template>-->
-
-                <section v-for="event in events">
+                <section v-if="!events">
+                    <div class="event-none">
+                        There are no events with these filters.
+                    </div>
+                </section>
+                <section v-else v-for="event in events">
                     <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
                         <deployment-event :event="event"></deployment-event>
                     </template>
@@ -248,9 +256,13 @@
         },
         data() {
             return {
+                defaultNotificationTypes : Laravel.defaultNotificationTypes,
                 form : {
                     filters : {
-                        types : [],
+                        types : {
+                            commands : [],
+                            site_deployments : [],
+                        },
                         piles : [],
                         sites : [],
                         servers : [],
@@ -317,6 +329,13 @@
             },
             updateFilters() {
                 this.$store.dispatch('getEvents', this.form);
+            },
+            renderType(type) {
+                var title = type.substring(type.lastIndexOf('\\') + 1);
+
+                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(type) {
+                    return type.toUpperCase();
+                }) + 's';
             }
         },
         computed: {
