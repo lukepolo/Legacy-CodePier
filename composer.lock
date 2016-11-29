@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f7dc79c5ab3921b0d4b22a3c0976d585",
-    "content-hash": "f57faa31a4580d69600b37a0004e1de3",
+    "hash": "d1e473493ff3392e16d6c526dbc25a03",
+    "content-hash": "576d8a6c79f9cd75b9eacd5c9d325957",
     "packages": [
         {
             "name": "authy/php",
@@ -2727,28 +2727,27 @@
         },
         {
             "name": "mpociot/teamwork",
-            "version": "3.5.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpociot/teamwork.git",
-                "reference": "aa17c5bde482d7185fd299218e37ee33cab13535"
+                "reference": "0c5e6a43399698e4dc09b0adb45a3b977e9a8607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpociot/teamwork/zipball/aa17c5bde482d7185fd299218e37ee33cab13535",
-                "reference": "aa17c5bde482d7185fd299218e37ee33cab13535",
+                "url": "https://api.github.com/repos/mpociot/teamwork/zipball/0c5e6a43399698e4dc09b0adb45a3b977e9a8607",
+                "reference": "0c5e6a43399698e4dc09b0adb45a3b977e9a8607",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.0",
-                "php": ">=5.5.9"
+                "laravel/framework": "~5.3",
+                "php": ">=5.6.4"
             },
             "require-dev": {
                 "illuminate/database": "~5.0",
                 "mockery/mockery": "dev-master",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.1",
-                "sami/sami": "dev-master"
+                "orchestra/testbench": "3.3.*@dev",
+                "phpunit/phpunit": "~4.1"
             },
             "type": "library",
             "autoload": {
@@ -2772,7 +2771,7 @@
                 "Invite",
                 "Teams"
             ],
-            "time": "2016-06-13 20:59:24"
+            "time": "2016-11-19 12:52:22"
         },
         {
             "name": "mtdowling/cron-expression",

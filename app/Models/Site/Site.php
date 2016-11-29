@@ -9,6 +9,7 @@ use App\Models\Server\Server;
 use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\User\User;
 use App\Models\User\UserRepositoryProvider;
+use App\Traits\ConnectedToUser;
 use App\Traits\FireEvents;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
@@ -17,13 +18,14 @@ use Illuminate\Notifications\Notifiable;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents, SoftDeletes;
+    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser;
 
     protected $guarded = [
         'id',
     ];
 
     public static $teamworkModel = 'pile.teams';
+
     public $teamworkSync = false;
 
     protected $appends = ['path'];

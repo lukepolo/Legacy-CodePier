@@ -27,6 +27,7 @@ class Server extends Model
     ];
 
     public static $teamworkModel = 'pile.teams';
+
     public $teamworkSync = false;
 
     protected $casts = [
