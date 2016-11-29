@@ -11,7 +11,7 @@ class ServerCronJob extends Model
 
     protected $guarded = ['id'];
 
-    static $userModel = 'server';
+    public static $userModel = 'server';
 
     /*
     |--------------------------------------------------------------------------

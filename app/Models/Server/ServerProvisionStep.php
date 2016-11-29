@@ -11,7 +11,7 @@ class ServerProvisionStep extends Model
 
     protected $guarded = ['id'];
 
-    static $userModel = 'server';
+    public static $userModel = 'server';
 
     protected $casts = [
         'log' => 'array',

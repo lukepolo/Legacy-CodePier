@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-/**
+/*
  * This file is part of Teamwork
  *
  * @license MIT
@@ -14,22 +14,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class UsedByTeams
- * @package Mpociot\Teamwork\Traits
+ * Class UsedByTeams.
  */
 trait UsedByTeams
 {
     /**
-     * Boot the global scope
+     * Boot the global scope.
      */
     protected static function bootUsedByTeams()
     {
         $teamworkModel = static::$teamworkModel;
 
         static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
-            if(auth()->user()->current_team_id) {
+            if (auth()->user()->current_team_id) {
                 $builder->whereHas($teamworkModel, function ($query) {
-
                     $query->whereHas('users', function ($query) {
                         $query->where('user_id', auth()->user()->id);
                     })->where('team_id', auth()->user()->currentTeam->getKey());
@@ -40,7 +38,7 @@ trait UsedByTeams
         });
 
         static::saved(function (Model $model) {
-            if(auth()->user()->current_team_id && $model->teamworkSync) {
+            if (auth()->user()->current_team_id && $model->teamworkSync) {
                 $model->teams()->attach(auth()->user()->currentTeam->getKey());
             }
         });

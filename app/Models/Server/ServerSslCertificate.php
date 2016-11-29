@@ -12,7 +12,7 @@ class ServerSslCertificate extends Model
 
     protected $guarded = ['id'];
 
-    static $userModel = 'server';
+    public static $userModel = 'server';
 
     public function siteSslCertificate()
     {
