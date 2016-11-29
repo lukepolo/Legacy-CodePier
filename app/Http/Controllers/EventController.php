@@ -42,8 +42,8 @@ class EventController extends Controller
             SiteSslCertificate::class,
         ],
         self::SITE_DEPLOYMENTS => [
-            SiteDeployment::class
-        ]
+            SiteDeployment::class,
+        ],
     ];
 
     /**
@@ -89,7 +89,7 @@ class EventController extends Controller
                     return $query->join('server_commands', 'server_commands.command_id', '=', 'commands.id')
                         ->whereIn('server_commands.server_id', $servers);
                 })
-                ->when($types->has('commands'), function (Builder $query) use($types) {
+                ->when($types->has('commands'), function (Builder $query) use ($types) {
                     return $query->whereIn('commands.commandable_type', $types->get('commands'));
                 }),
         ])->only($types->keys()->toArray());
