@@ -17,7 +17,7 @@ trait ConnectedToUser
 
                 if(!empty($userModel)) {
                     $builder->whereHas($userModel, function(Builder $builder) {
-                        $builder->where('id', auth()->user()->id);
+                        $builder->where('user_id', auth()->user()->id);
                     });
                 } else {
                     $builder->where('user_id', auth()->user()->id);
