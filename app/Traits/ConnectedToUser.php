@@ -13,7 +13,7 @@ trait ConnectedToUser
     {
         $userModel = isset(static::$userModel) ? static::$userModel : null;
         static::addGlobalScope('user', function (Builder $builder) use ($userModel) {
-            if(auth()->check()) {
+            if (auth()->check()) {
                 if (empty(auth()->user()->current_team_id)) {
                     if (! empty($userModel)) {
                         $builder->whereHas($userModel, function (Builder $builder) {
