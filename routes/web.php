@@ -66,27 +66,8 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 
 /*
 |--------------------------------------------------------------------------
-| Catch All Routes
+| Catch All Route
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/', function () {
-    if (\Auth::check()) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands(),
-        ]);
-    }
-
-    return redirect('/login');
-//    return view('landing');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', function ($any) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands(),
-        ]);
-    })->where('any', '.*');
-});
+Route::get('/{any}', 'Controller@direct')->where('any', '.*');s
