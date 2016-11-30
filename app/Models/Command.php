@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class Command extends Model
 {
+    use ConnectedToUser;
+
+    public static $userModel = 'site.user';
+
     protected $guarded = ['id'];
 
     protected $appends = [

@@ -27,7 +27,7 @@
         "phpseclib/phpseclib": "^2.0",
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
-        "mpociot/teamwork": "~3.0",
+        "mpociot/teamwork": "~4.0",
         "laravel/cashier": "~7.0",
         "dompdf/dompdf" : "~0.6",
         "gentle/bitbucket-api": "^0.8.1",

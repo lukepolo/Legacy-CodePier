@@ -8,6 +8,7 @@ use App\Models\Server\Provider\ServerProviderFeatures;
 use App\Models\ServerCommand;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Traits\ConnectedToUser;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams, Notifiable, Encryptable;
+    use SoftDeletes, UsedByTeams, Notifiable, Encryptable, ConnectedToUser;
 
     protected $guarded = [
         'id',
@@ -27,6 +28,7 @@ class Server extends Model
     ];
 
     public static $teamworkModel = 'pile.teams';
+
     public $teamworkSync = false;
 
     protected $casts = [
