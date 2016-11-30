@@ -12,15 +12,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServerCommandTrait;
 
-    public function direct()
+    public function app()
     {
-        if (\Auth::check()) {
-            return view('codepier', [
-                'user' => \Auth::user()->load(['teams', 'piles.servers']),
-                'runningCommands' => \Auth::user()->getRunningCommands(),
-            ]);
-        }
-
-        return redirect('/login');
+        return view('codepier', [
+            'user' => \Auth::user()->load(['teams', 'piles.servers']),
+            'runningCommands' => \Auth::user()->getRunningCommands(),
+        ]);
     }
 }

@@ -70,4 +70,6 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/{any}', 'Controller@direct')->where('any', '.*');s
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/{any}', 'Controller@app')->where('any', '.*');
+});
