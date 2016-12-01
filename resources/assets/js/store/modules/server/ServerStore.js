@@ -2,7 +2,9 @@ export default {
     state: {
         servers: [],
         server: null,
+        all_servers : [],
         server_sites: [],
+        servers_listening_to : [],
         editable_server_files: [],
         editable_framework_files: [],
         available_server_features: [],
@@ -39,6 +41,35 @@ export default {
             }, (errors) => {
                 app.showError(errors);
             });
+        },
+        getAllServers: ({commit, dispatch}) => {
+            return Vue.http.get(Vue.action('Server\ServerController@index')).then((response) => {
+                commit('SET_ALL_SERVERS', response.data);
+
+                _.each(response.data, function(server) {
+                    dispatch('listenToServer', server)
+                });
+                return response.data;
+            }, (errors) => {
+                app.showError(errors);
+            });
+        },
+        listenToServer : ({commit, state}, server) => {
+            if (_.indexOf(state.servers_listening_to, server.id) == -1) {
+
+                commit('SET_SERVERS_LISTENING_TO', server);
+
+                if(server.progress < 100) {
+                    store.dispatch('getServersCurrentProvisioningStep', server.id)
+                }
+
+                console.info('listen to ' + server.id)
+                Echo.private('App.Models.Server.Server.' + server.id)
+                    .listen('Server\\ServerProvisionStatusChanged', (data) => {
+                        commit("UPDATE_SERVER", data.server);
+                        commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
+                    })
+            }
         },
         createServer: ({commit}, form) => {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
@@ -166,6 +197,12 @@ export default {
             _.each(server, function(value, index) {
                 foundServer[index] = value;
             });
+        },
+        SET_ALL_SERVERS : (state, servers) => {
+            state.all_servers = servers;
+        },
+        SET_SERVERS_LISTENING_TO : (state, server) => {
+            state.servers_listening_to.push(server.id);
         }
     }
 }
