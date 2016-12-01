@@ -9,6 +9,7 @@ use App\Jobs\Server\CreateServer;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ServerController extends Controller
@@ -34,7 +35,11 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])->where('pile_id', $request->get('pile_id'))->get()
+            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])
+                ->when($request->has('pile_id'), function(Builder $query) use($request) {
+                    return $query->where('pile_id', $request->get('pile_id')) ;
+                })
+                ->get()
         );
     }
 

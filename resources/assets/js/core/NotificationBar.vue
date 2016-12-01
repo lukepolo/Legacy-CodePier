@@ -275,57 +275,9 @@
         },
         methods: {
             fetchData() {
-
-                var store = this.$store;
-
-                store.dispatch('getServers', function () {
-                    _(store.state.serversStore.servers).forEach(function (server) {
-
-                        if(server.progress < 100) {
-                            store.dispatch('getServersCurrentProvisioningStep', server.id)
-                        }
-
-                        Echo.private('App.Models.Server.Server.' + server.id)
-                                .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                                    store.commit("UPDATE_SERVER", data.server)
-                                    store.commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
-                                })
-                    });
-                });
-
-                store.dispatch('getSites', function () {
-                    _(store.state.sitesStore.sites).forEach(function (site) {
-                        Echo.private('App.Models.Site.Site.' + site.id)
-                                .listen('Site\\DeploymentStepStarted', (data) => {
-                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-                                })
-                                .listen('Site\\DeploymentStepCompleted', (data) => {
-                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-                                })
-                                .listen('Site\\DeploymentStepFailed', (data) => {
-                                    store.commit('UPDATE_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-                                })
-                                .listen('Site\\DeploymentCompleted', (data) => {
-                                    store.commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-                                    store.commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-                                })
-                                .notification((notification) => {
-                                    console.info(notification);
-                                    if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
-                                       store.commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
-                                    }
-                                });
-
-                    });
-                });
-
-                store.dispatch('getEvents');
+                this.$store.dispatch('getEvents');
+                this.$store.dispatch('getAllSites');
+                this.$store.dispatch('getAllServers');
             },
             updateFilters() {
                 this.$store.dispatch('getEvents', this.form);
@@ -352,7 +304,7 @@
                 return this.$store.state.pilesStore.piles;
             },
             sites() {
-                return this.$store.state.sitesStore.sites;
+                return this.$store.state.sitesStore.allSites;
             },
             servers() {
                 return this.$store.state.serversStore.servers;
