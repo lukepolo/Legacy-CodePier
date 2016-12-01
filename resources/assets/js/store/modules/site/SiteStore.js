@@ -79,6 +79,9 @@ export default {
                 pile_id: rootState.userStore.user.current_pile_id
             }).then((response) => {
                 app.$router.push('/site/' + response.data.id + '/repository');
+
+                dispatch('listenToSite', response.data);
+
                 dispatch('getSites');
             }, (errors) => {
                 app.showError(errors);
