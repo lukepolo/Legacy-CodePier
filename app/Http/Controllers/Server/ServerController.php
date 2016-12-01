@@ -36,8 +36,8 @@ class ServerController extends Controller
     {
         return response()->json(
             $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])
-                ->when($request->has('pile_id'), function(Builder $query) use($request) {
-                    return $query->where('pile_id', $request->get('pile_id')) ;
+                ->when($request->has('pile_id'), function (Builder $query) use ($request) {
+                    return $query->where('pile_id', $request->get('pile_id'));
                 })
                 ->get()
         );
