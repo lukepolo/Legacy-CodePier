@@ -292,7 +292,7 @@
         },
         computed: {
             servers() {
-                return this.$store.state.serversStore.servers;
+                return this.$store.state.serversStore.all_servers;
             },
             events() {
                 return this.$store.state.eventsStore.events;
@@ -304,10 +304,7 @@
                 return this.$store.state.pilesStore.piles;
             },
             sites() {
-                return this.$store.state.sitesStore.allSites;
-            },
-            servers() {
-                return this.$store.state.serversStore.servers;
+                return this.$store.state.sitesStore.all_sites;
             }
         },
     }
