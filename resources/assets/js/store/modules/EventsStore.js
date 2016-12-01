@@ -1,7 +1,6 @@
 export default {
     state: {
         events: [],
-        filters : {},
         events_pagination: null,
     },
     actions: {
@@ -9,19 +8,18 @@ export default {
 
             var filters = (data && data.filters) ? data.filters : null;
 
-            Vue.http.post(Vue.action('EventController@store'), _.omitBy(_.omitBy({
-                page: (data && data.page) ? data.page : 1,
-                types : filters ? _.omitBy(filters.types, _.isEmpty) : null,
-                piles : filters ? filters.piles : null,
-                sites : filters ? filters.sites : null,
-                servers : filters ? filters.servers : null
-            }, _.isNil), _.isEmpty)).then((response) => {
+            filters =_.merge({
+                    page: data ? data.page : 1
+                },
+                _.omitBy({
+                    types : filters ? _.omitBy(filters.types, _.isEmpty) : null,
+                    piles : filters ? filters.piles : null,
+                    sites : filters ? filters.sites : null,
+                    servers : filters ? filters.servers : null
+                }, _.isEmpty)
+            );
 
-                if(filters != this.filters) {
-                    commit('SET_FILTERS', filters);
-                    commit('CLEAR_EVENTS');
-                }
-
+            Vue.http.post(Vue.action('EventController@store'), filters).then((response) => {
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
                 app.showError(errors);
@@ -29,9 +27,6 @@ export default {
         }
     },
     mutations: {
-        SET_FILTERS :(state, filters) => {
-            state.filters = filters;
-        },
         CLEAR_EVENTS : (state) =>{
             state.events = [];
         },

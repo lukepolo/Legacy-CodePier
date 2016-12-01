@@ -45,6 +45,7 @@ class EventController extends Controller
             SiteDeployment::class,
         ],
     ];
+    const PER_PAGE = 10;
 
     /**
      * Display a listing of the resource.
@@ -102,7 +103,7 @@ class EventController extends Controller
         }
 
         $tempCombinedQuery = clone $combinedQuery;
-        $topResults = $combinedQuery->latest()->take(10)->get();
+        $topResults = $combinedQuery->latest()->offset($request->get('page', 1) * self::PER_PAGE)->take(self::PER_PAGE)->get();
 
         return response()->json(
             $this->getPaginatedObject(
@@ -144,7 +145,7 @@ class EventController extends Controller
      * @param int $perPage
      * @return LengthAwarePaginator
      */
-    private function getPaginatedObject(Builder $combinedQuery, Collection $items, $currentPage = 1, $perPage = 10)
+    private function getPaginatedObject(Builder $combinedQuery, Collection $items, $currentPage = 1, $perPage = self::PER_PAGE)
     {
         return new LengthAwarePaginator(
             $items->values()->all(),

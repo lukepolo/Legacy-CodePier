@@ -97,13 +97,11 @@
             },
             sortInactiveList: function(){
                 this.$nextTick(function(){
-                    console.info('List must be sorted by its order')
                     this.inactive = _.sortBy(this.inactive, 'order');
                 });
             },
             sortActiveList: function(){
                 this.$nextTick(function(){
-                    console.info('List must be sorted by its order')
                     this.active = _.sortBy(this.active, 'order');
                 });
             },

@@ -9,7 +9,7 @@
     }
 </style>
 <template>
-    <footer v-watch-scroll="events_pagination" v-resizeable>
+    <footer v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div id="drag"></div>
         <div class="header">
             <h4>
@@ -230,21 +230,24 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-//            $(el).unbind('scroll');
-//
-//            var pagination = bindings.value;
-//
-//            var nextPage = pagination.current_page + 1;
-//
-//            if (nextPage <= pagination.last_page) {
-//
-//                $(el).bind('scroll', function() {
-//                    var $el = $(el);
-//                    if (el.scrollHeight - $el.scrollTop() - $el.outerHeight() < 1) {
-//                        eventStore.dispatch('getEvents', nextPage);
-//                    }
-//                });
-//            }
+            var container = $(el).find('.events-container');
+
+            container.unbind('scroll');
+
+            var pagination = bindings.value.events_pagination;
+            var form = bindings.value.form;
+
+            if(pagination) {
+                var nextPage = pagination.current_page + 1;
+                if (nextPage <= pagination.last_page) {
+                    container.bind('scroll', function() {
+                        if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
+                            form.page = nextPage;
+                            app.$store.dispatch('getEvents', form);
+                        }
+                    });
+                }
+            }
         }
     });
 
@@ -258,6 +261,7 @@
             return {
                 defaultNotificationTypes : Laravel.defaultNotificationTypes,
                 form : {
+                    page : 1,
                     filters : {
                         types : {
                             commands : [],
@@ -280,6 +284,8 @@
                 this.$store.dispatch('getAllServers');
             },
             updateFilters() {
+                this.$store.commit('CLEAR_EVENTS');
+                this.form.page = 1;
                 this.$store.dispatch('getEvents', this.form);
             },
             renderType(type) {

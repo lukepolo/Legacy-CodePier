@@ -63,7 +63,6 @@ export default {
                     store.dispatch('getServersCurrentProvisioningStep', server.id)
                 }
 
-                console.info('listen to ' + server.id)
                 Echo.private('App.Models.Server.Server.' + server.id)
                     .listen('Server\\ServerProvisionStatusChanged', (data) => {
                         commit("UPDATE_SERVER", data.server);
