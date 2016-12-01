@@ -71,8 +71,11 @@ export default {
                     })
             }
         },
-        createServer: ({commit}, form) => {
+        createServer: ({dispatch}, form) => {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+
+                dispatch('listenToServer', response.data);
+
                 alert('probably should notify them or something ?')
             }, (errors) => {
                 app.showError(errors);
