@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerCronJobRequest;
 use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
 use App\Models\Server\ServerCronJob;
+use App\Http\Requests\Server\ServerCronJobRequest;
 
 class ServerCronJobController extends Controller
 {

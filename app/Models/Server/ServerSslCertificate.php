@@ -2,8 +2,8 @@
 
 namespace App\Models\Server;
 
-use App\Models\Site\SiteSslCertificate;
 use App\Traits\ConnectedToUser;
+use App\Models\Site\SiteSslCertificate;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerSslCertificate extends Model

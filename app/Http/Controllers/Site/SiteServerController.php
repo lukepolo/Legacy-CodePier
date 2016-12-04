@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteServerRequest;
+use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
-use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteServerRequest;
 
 class SiteServerController extends Controller
 {

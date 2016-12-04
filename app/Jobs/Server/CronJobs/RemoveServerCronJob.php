@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Server\CronJobs;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerCronJob;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use App\Models\Server\ServerCronJob;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerCronJob implements ShouldQueue
 {

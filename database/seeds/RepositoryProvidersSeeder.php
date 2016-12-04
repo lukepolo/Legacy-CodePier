@@ -41,7 +41,6 @@ class RepositoryProvidersSeeder extends Seeder
                 'name'          => $data['name'],
             ]);
 
-
             $providerModel->fill([
                 'url'              => $data['url'],
                 'git_url'          => $data['git_url'],

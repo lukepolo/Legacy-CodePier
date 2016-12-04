@@ -3,17 +3,17 @@
 namespace App\Models\Server;
 
 use App\Models\Pile;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Provider\ServerProviderFeatures;
-use App\Models\ServerCommand;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use App\Traits\ConnectedToUser;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\ServerCommand;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Provider\ServerProviderFeatures;
 
 class Server extends Model
 {

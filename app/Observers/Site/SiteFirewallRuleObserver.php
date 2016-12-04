@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Server\ServerFirewallRule;
-use App\Models\Site\SiteFirewallRule;
 use App\Traits\ModelCommandTrait;
+use App\Models\Site\SiteFirewallRule;
+use App\Models\Server\ServerFirewallRule;
 
 class SiteFirewallRuleObserver
 {

@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Server\ServerCronJob;
 use App\Models\Site\SiteCronJob;
 use App\Traits\ModelCommandTrait;
+use App\Models\Server\ServerCronJob;
 
 class SiteCronJobObserver
 {

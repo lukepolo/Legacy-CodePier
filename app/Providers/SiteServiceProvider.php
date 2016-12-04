@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\Site\SiteServiceContract;
 use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\Site\SiteServiceContract;
 
 class SiteServiceProvider extends ServiceProvider
 {

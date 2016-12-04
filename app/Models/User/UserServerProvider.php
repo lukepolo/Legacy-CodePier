@@ -2,10 +2,10 @@
 
 namespace App\Models\User;
 
-use App\Models\Server\Provider\ServerProvider;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Server\Provider\ServerProvider;
 
 class UserServerProvider extends Model
 {

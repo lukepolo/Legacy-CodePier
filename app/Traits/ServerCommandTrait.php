@@ -2,13 +2,13 @@
 
 namespace App\Traits;
 
-use App\Classes\FailedRemoteResponse;
-use App\Classes\SuccessRemoteResponse;
-use App\Exceptions\FailedCommand;
-use App\Exceptions\SshConnectionFailed;
+use Closure;
 use App\Models\Command;
 use App\Models\ServerCommand;
-use Closure;
+use App\Exceptions\FailedCommand;
+use App\Classes\FailedRemoteResponse;
+use App\Classes\SuccessRemoteResponse;
+use App\Exceptions\SshConnectionFailed;
 use Illuminate\Database\Eloquent\Model;
 
 trait ServerCommandTrait

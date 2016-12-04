@@ -2,11 +2,11 @@
 
 namespace App\Observers\Server;
 
+use App\Models\Server\ServerSslCertificate;
+use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
 use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
-use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
-use App\Models\Server\ServerSslCertificate;
 
 class ServerSslCertificateObserver
 {
