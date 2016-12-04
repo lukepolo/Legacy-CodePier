@@ -149,10 +149,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
-    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
-    Route::get('site/{site}/suggested-features', 'Server\ServerFeatureController@getSuggestedFeatures');
-    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableServerFiles');
-    Route::get('site/{site}/framework/editable-files', 'Server\ServerFeatureController@getEditableFrameworkFiles');
+    Route::get('server/features', 'Server\ServerFeatureController@getFeatures');
+    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableFiles');
+
+    Route::get('site/{site}/suggested-features', 'Site\SiteFeatureController@getSuggestedFeatures');
+    Route::get('site/{site}/framework/editable-files', 'Site\SiteFeatureController@getEditableFrameworkFiles');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {

@@ -15,7 +15,7 @@ class WebService
     use ServiceConstructorTrait;
 
     public static $files = [
-        'installNginx' => [
+        'Nginx' => [
             '/etc/nginx/nginx.conf',
         ],
     ];

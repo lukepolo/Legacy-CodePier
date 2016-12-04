@@ -4,7 +4,7 @@ export default {
     },
     actions: {
         getSiteSuggestedFeatures: ({commit}, siteId) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getSuggestedFeatures', {site: siteId})).then((response) => {
+            Vue.http.get(Vue.action('Site\SiteFeatureController@getSuggestedFeatures', {site: siteId})).then((response) => {
                 commit('SET_SITE_SUGGESTED_FEATURES', response.data);
             }, (errors) => {
                 app.showError(errors);
