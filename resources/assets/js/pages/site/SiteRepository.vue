@@ -69,7 +69,8 @@
             </form>
 
             <div class="btn-footer">
-                <button @click="deleteSite(site.id)" class="btn">Delete Site</button>
+
+                <confirm class="btn" dispatch="deleteSite" :params="site.id"> Delete Site </confirm>
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
@@ -130,9 +131,6 @@
                         user_repository_provider_id: this.form.user_repository_provider_id
                     }
                 });
-            },
-            deleteSite: function (site_id) {
-                this.$store.dispatch('deleteSite', site_id);
             }
         },
         computed: {
