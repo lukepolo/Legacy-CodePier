@@ -67,11 +67,20 @@
                                     </template>
                                 </div>
 
-                                <feature-area :site="site" :area="serverFeatureArea" :features="features"
-                                              v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                                <feature-area :site="site" :area="serverLanguageArea" :features="features"
-                                              :frameworks="true"
-                                              v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+                                <feature-area
+                                    :features="features"
+                                    :area="serverFeatureArea"
+                                    :site_server_features="site.server_features"
+                                    v-for="(features, serverFeatureArea) in availableServerFeatures"
+                                ></feature-area>
+
+                                <feature-area
+                                    :frameworks="true"
+                                    :features="features"
+                                    :area="serverLanguageArea"
+                                    :site_server_features="site.server_features"
+                                    v-for="(features, serverLanguageArea) in availableServerLanguages"
+                                ></feature-area>
 
                                 <div class="btn-footer">
                                     <button class="btn">Cancel</button>
@@ -126,10 +135,7 @@
         },
         computed: {
             user_server_providers() {
-                var providers = this.$store.state.serverProvidersStore.user_server_providers;
-                if (providers.length == 1) {
-                }
-                return providers;
+                return this.$store.state.serverProvidersStore.user_server_providers;
             },
             server_options() {
                 return this.$store.state.serverProvidersStore.server_provider_options;
