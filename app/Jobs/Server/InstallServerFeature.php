@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Server\Server;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerFeature implements ShouldQueue
 {

@@ -4,11 +4,11 @@ namespace App\Models\User;
 
 use App\Models\Pile;
 use App\Models\Server\Server;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -102,7 +102,6 @@ class User extends Authenticatable
                 $query->where('failed', 0)
                     ->where('completed', 0);
             })->first();
-
 
             if (! empty($currentPile->commands)) {
                 foreach ($currentPile->commands as $command) {

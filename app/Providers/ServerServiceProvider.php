@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Systems\SystemServiceContract;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\Server\ServerServiceContract;
+use App\Contracts\Systems\SystemServiceContract;
 
 class ServerServiceProvider extends ServiceProvider
 {

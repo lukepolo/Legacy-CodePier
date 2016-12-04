@@ -3,8 +3,8 @@
 namespace App\Services\Repository\Providers;
 
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
 use Gitlab\Api\Repositories;
+use App\Models\User\UserRepositoryProvider;
 
 class GitLab implements RepositoryContract
 {

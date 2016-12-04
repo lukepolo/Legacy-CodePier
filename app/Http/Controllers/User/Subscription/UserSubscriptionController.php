@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
+use Stripe\Token;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
-use Stripe\Token;
 
 class UserSubscriptionController extends Controller
 {

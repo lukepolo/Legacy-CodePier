@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteRepositoryRequest;
-use App\Models\Site\Site;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 
 class SiteRepositoryController extends Controller
 {

@@ -54,7 +54,6 @@ Route::group(['prefix' => 'webhook'], function () {
     })->name('webhook/deploy');
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | Accept Team Request Route
@@ -62,7 +61,6 @@ Route::group(['prefix' => 'webhook'], function () {
 |
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
-
 
 /*
 |--------------------------------------------------------------------------

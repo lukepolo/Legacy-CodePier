@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class RepositoryHookController extends Controller
 {
