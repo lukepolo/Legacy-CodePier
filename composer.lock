@@ -224,20 +224,20 @@
         },
         {
             "name": "classpreloader/classpreloader",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ClassPreloader/ClassPreloader.git",
-                "reference": "9b10b913c2bdf90c3d2e0d726b454fb7f77c552a"
+                "reference": "bc7206aa892b5a33f4680421b69b191efd32b096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ClassPreloader/ClassPreloader/zipball/9b10b913c2bdf90c3d2e0d726b454fb7f77c552a",
-                "reference": "9b10b913c2bdf90c3d2e0d726b454fb7f77c552a",
+                "url": "https://api.github.com/repos/ClassPreloader/ClassPreloader/zipball/bc7206aa892b5a33f4680421b69b191efd32b096",
+                "reference": "bc7206aa892b5a33f4680421b69b191efd32b096",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "^1.0|^2.0",
+                "nikic/php-parser": "^1.0|^2.0|^3.0",
                 "php": ">=5.5.9"
             },
             "require-dev": {
@@ -246,7 +246,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -274,7 +274,7 @@
                 "class",
                 "preload"
             ],
-            "time": "2015-11-09 22:51:51"
+            "time": "2016-09-16 12:50:15"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -515,16 +515,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "223a2925acb40578fdc338deddbd461b091501ac"
+                "reference": "5954c297e9d93ff84554906c2fbbc2a133c43941"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/223a2925acb40578fdc338deddbd461b091501ac",
-                "reference": "223a2925acb40578fdc338deddbd461b091501ac",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/5954c297e9d93ff84554906c2fbbc2a133c43941",
+                "reference": "5954c297e9d93ff84554906c2fbbc2a133c43941",
                 "shasum": ""
             },
             "require": {
@@ -584,7 +584,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2016-11-30 16:40:55"
+            "time": "2016-12-03 08:15:01"
         },
         {
             "name": "doctrine/dbal",
@@ -2033,16 +2033,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v1.0.15",
+            "version": "v1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "18a3c7f56cf1fb9fac93e5d721516e6055dcb3db"
+                "reference": "7ed1a0b80c1da9a3bf25eb180068ddd005a82068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/18a3c7f56cf1fb9fac93e5d721516e6055dcb3db",
-                "reference": "18a3c7f56cf1fb9fac93e5d721516e6055dcb3db",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/7ed1a0b80c1da9a3bf25eb180068ddd005a82068",
+                "reference": "7ed1a0b80c1da9a3bf25eb180068ddd005a82068",
                 "shasum": ""
             },
             "require": {
@@ -2093,7 +2093,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2016-11-29 14:36:12"
+            "time": "2016-12-03 16:07:20"
         },
         {
             "name": "laravel/socialite",
@@ -3641,16 +3641,16 @@
         },
         {
             "name": "socialiteproviders/manager",
-            "version": "v2.1.9",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SocialiteProviders/Manager.git",
-                "reference": "904283bdc4fa149f7455cc29f0bbcafa181149f2"
+                "reference": "775bd7f25c71ed88e9ae73ed52ba129fecc7abd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/904283bdc4fa149f7455cc29f0bbcafa181149f2",
-                "reference": "904283bdc4fa149f7455cc29f0bbcafa181149f2",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/775bd7f25c71ed88e9ae73ed52ba129fecc7abd0",
+                "reference": "775bd7f25c71ed88e9ae73ed52ba129fecc7abd0",
                 "shasum": ""
             },
             "require": {
@@ -3679,7 +3679,7 @@
                 }
             ],
             "description": "Easily add new or override built-in providers in Laravel Socialite.",
-            "time": "2016-11-01 08:49:52"
+            "time": "2016-12-04 07:11:20"
         },
         {
             "name": "socialiteproviders/slack",
@@ -5710,16 +5710,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.6.7",
+            "version": "5.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "38810e97481723ef918f6e35c03cb1014a645bd5"
+                "reference": "336aff0ac52e306c98e7455bc3e8d7b0bf777a5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/38810e97481723ef918f6e35c03cb1014a645bd5",
-                "reference": "38810e97481723ef918f6e35c03cb1014a645bd5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/336aff0ac52e306c98e7455bc3e8d7b0bf777a5e",
+                "reference": "336aff0ac52e306c98e7455bc3e8d7b0bf777a5e",
                 "shasum": ""
             },
             "require": {
@@ -5738,7 +5738,7 @@
                 "phpunit/phpunit-mock-objects": "^3.2",
                 "sebastian/comparator": "~1.2.2",
                 "sebastian/diff": "~1.2",
-                "sebastian/environment": "^1.3 || ^2.0",
+                "sebastian/environment": "^1.3.4 || ^2.0",
                 "sebastian/exporter": "~2.0",
                 "sebastian/global-state": "~1.0",
                 "sebastian/object-enumerator": "~2.0",
@@ -5762,7 +5762,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.6.x-dev"
+                    "dev-master": "5.7.x-dev"
                 }
             },
             "autoload": {
@@ -5788,7 +5788,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-11-28 16:04:24"
+            "time": "2016-12-03 08:33:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
