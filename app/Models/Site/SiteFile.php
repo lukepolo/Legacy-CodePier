@@ -2,9 +2,9 @@
 
 namespace App\Models\Site;
 
-use App\Traits\ConnectedToUser;
-use App\Traits\Encryptable;
 use App\Traits\FireEvents;
+use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteFile extends Model

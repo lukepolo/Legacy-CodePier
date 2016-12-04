@@ -3,8 +3,8 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
 
 class NewSiteDeployment extends Notification

@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Server\Workers;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use App\Models\Server\ServerWorker;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerWorker implements ShouldQueue
 {

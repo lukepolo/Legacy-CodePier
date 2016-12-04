@@ -2,11 +2,11 @@
 
 namespace App\Observers\Site;
 
-use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Jobs\Site\RenameSiteDomain;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\RenameSiteDomain;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 
 class SiteObserver
 {

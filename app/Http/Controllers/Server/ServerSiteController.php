@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
 use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
 
 class ServerSiteController extends Controller
 {

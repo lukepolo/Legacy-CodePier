@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Jobs\Server\UpdateServerFile;
 use App\Models\Site\SiteFile;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\UpdateServerFile;
 
 class SiteFileObserver
 {

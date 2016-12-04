@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Server\ServerSslCertificate;
-use App\Models\Site\SiteSslCertificate;
 use App\Traits\ModelCommandTrait;
+use App\Models\Site\SiteSslCertificate;
+use App\Models\Server\ServerSslCertificate;
 
 class SiteSslCertificateObserver
 {

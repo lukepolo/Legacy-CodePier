@@ -2,11 +2,11 @@
 
 namespace App\Services\Systems;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Models\Server\Server;
+use App\Exceptions\FailedCommand;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Exceptions\FailedCommand;
-use App\Models\Server\Server;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class SystemService implements SystemServiceContract
 {

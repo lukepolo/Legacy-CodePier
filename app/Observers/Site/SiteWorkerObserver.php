@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Server\ServerWorker;
 use App\Models\Site\SiteWorker;
 use App\Traits\ModelCommandTrait;
+use App\Models\Server\ServerWorker;
 
 class SiteWorkerObserver
 {

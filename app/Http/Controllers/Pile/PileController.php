@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Pile\PileRequest;
 use App\Models\Pile;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Pile\PileRequest;
 
 class PileController extends Controller
 {

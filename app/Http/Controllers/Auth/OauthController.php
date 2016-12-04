@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Socialite;
+use Bitbucket\API\Users;
+use App\Models\User\User;
+use Illuminate\Http\Request;
+use App\Models\RepositoryProvider;
+use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
-use App\Models\RepositoryProvider;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
 use App\Models\User\UserLoginProvider;
-use App\Models\User\UserNotificationProvider;
-use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserServerProvider;
-use App\SocialProviders\TokenData;
+use App\Models\User\UserRepositoryProvider;
+use App\Models\User\UserNotificationProvider;
+use App\Models\Server\Provider\ServerProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
-use Bitbucket\API\Users;
-use Illuminate\Http\Request;
-use Socialite;
 
 class OauthController extends Controller
 {
@@ -128,7 +128,6 @@ class OauthController extends Controller
                 $newUserServerProvider->delete();
             }
 
-
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
             }
@@ -188,8 +187,6 @@ class OauthController extends Controller
             'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
-
-
 
         return $userModel;
     }

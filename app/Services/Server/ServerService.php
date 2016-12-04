@@ -2,19 +2,19 @@
 
 namespace App\Services\Server;
 
+use phpseclib\Net\SFTP;
+use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Systems\SystemServiceContract;
-use App\Exceptions\SshConnectionFailed;
-use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
-use App\Models\Server\ServerSslCertificate;
-use App\Notifications\Server\ServerProvisioned;
+use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SFTP;
+use App\Models\Server\ServerSslCertificate;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract;
+use App\Notifications\Server\ServerProvisioned;
+use App\Contracts\Systems\SystemServiceContract;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerService implements ServerServiceContract
 {
@@ -375,7 +375,6 @@ class ServerService implements ServerServiceContract
                 $serverSslCertificate->key_path = $sslCertPath.'/server.key';
                 $serverSslCertificate->cert_path = $sslCertPath.'/server.crt';
                 $serverSslCertificate->save();
-
 
                 $this->remoteTaskService->writeToFile($serverSslCertificate->key_path, $serverSslCertificate->key);
                 $this->remoteTaskService->writeToFile($serverSslCertificate->cert_path, $serverSslCertificate->cert);
