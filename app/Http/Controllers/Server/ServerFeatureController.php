@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFeatureRequest;
-use App\Jobs\InstallServerFeature;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
-use Illuminate\Support\Facades\File;
 use ReflectionClass;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
+use App\Jobs\InstallServerFeature;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\Server\ServerFeatureRequest;
 
 class ServerFeatureController extends Controller
 {
@@ -160,7 +160,6 @@ class ServerFeatureController extends Controller
             }
         }
 
-
         return response()->json($editableFiles);
     }
 
@@ -232,7 +231,6 @@ class ServerFeatureController extends Controller
             foreach ($classFiles as $index => $classFile) {
                 $classFiles[$index] = $path.$classFile;
             }
-
 
             $files[$reflection->getShortName()] = $classFiles;
         }

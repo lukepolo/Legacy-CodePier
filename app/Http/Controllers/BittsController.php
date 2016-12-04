@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BittRequest;
 use App\Models\Bitt;
+use App\Http\Requests\BittRequest;
 
 class BittsController extends Controller
 {

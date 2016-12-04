@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerNetworkRule;
-use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use App\Models\Server\ServerNetworkRule;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerNetworkRule implements ShouldQueue
 {

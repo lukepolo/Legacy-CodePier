@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Models\User\Team;
 use App\Models\User\User;
 use App\Scopes\UserScope;
-use App\Traits\ConnectedToUser;
 use App\Traits\UsedByTeams;
+use App\Models\Server\Server;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class Pile extends Model

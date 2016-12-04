@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\RemoteTaskServiceContract;
 use App\Services\RemoteTaskService;
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\RemoteTaskServiceContract;
 
 class RemoteTaskServiceProvider extends ServiceProvider
 {

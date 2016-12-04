@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFireWallRuleRequest;
 use App\Models\Server\ServerFirewallRule;
+use App\Http\Requests\Server\ServerFireWallRuleRequest;
 
 class ServerFirewallRuleController extends Controller
 {

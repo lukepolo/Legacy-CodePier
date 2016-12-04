@@ -2,9 +2,9 @@
 
 namespace App\Models\Site;
 
-use App\Models\Server\ServerSshKey;
-use App\Traits\ConnectedToUser;
 use App\Traits\FireEvents;
+use App\Traits\ConnectedToUser;
+use App\Models\Server\ServerSshKey;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteSshKey extends Model

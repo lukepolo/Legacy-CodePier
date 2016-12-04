@@ -2,13 +2,13 @@
 
 namespace App\Services\Repository\Providers;
 
+use Bitbucket\API\User;
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\Repositories\Deploykeys;
-use Bitbucket\API\Repositories\Hooks;
-use Bitbucket\API\User;
+use App\Models\User\UserRepositoryProvider;
+use Bitbucket\API\Http\Listener\OAuthListener;
 
 class BitBucket implements RepositoryContract
 {

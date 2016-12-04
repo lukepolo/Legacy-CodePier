@@ -2,19 +2,19 @@
 
 namespace App\Models\Site;
 
-use App\Http\Controllers\Auth\OauthController;
-use App\Models\Command;
 use App\Models\Pile;
-use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Command;
 use App\Models\User\User;
-use App\Models\User\UserRepositoryProvider;
-use App\Traits\ConnectedToUser;
 use App\Traits\FireEvents;
 use App\Traits\UsedByTeams;
+use App\Models\Server\Server;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\User\UserRepositoryProvider;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {

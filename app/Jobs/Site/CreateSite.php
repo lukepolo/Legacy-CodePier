@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class CreateSite implements ShouldQueue
 {

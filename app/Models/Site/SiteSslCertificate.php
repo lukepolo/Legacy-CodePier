@@ -2,10 +2,10 @@
 
 namespace App\Models\Site;
 
-use App\Models\Server\ServerSslCertificate;
-use App\Traits\ConnectedToUser;
 use App\Traits\FireEvents;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Server\ServerSslCertificate;
 
 class SiteSslCertificate extends Model
 {

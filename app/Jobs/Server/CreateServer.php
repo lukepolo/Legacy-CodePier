@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\Server\ServerProvisionStatusChanged;
-use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Server\Provider\ServerProvider;
+use App\Events\Server\ServerProvisionStatusChanged;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class CreateServer implements ShouldQueue
 {

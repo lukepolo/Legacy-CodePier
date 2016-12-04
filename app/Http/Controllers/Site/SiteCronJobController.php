@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\SiteCronJob;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteCronJobRequest;
-use App\Models\Site\SiteCronJob;
 
 class SiteCronJobController extends Controller
 {
