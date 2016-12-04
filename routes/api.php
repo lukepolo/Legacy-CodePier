@@ -88,7 +88,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::resource('servers', 'Server\ServerController');
 
-
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('restore/{server}', 'ServerController@restore');

@@ -2,9 +2,9 @@
 
 namespace App\Observers\Site;
 
-use App\Models\Server\ServerSshKey;
 use App\Models\Site\SiteSshKey;
 use App\Traits\ModelCommandTrait;
+use App\Models\Server\ServerSshKey;
 
 class SiteSshKeyObserver
 {

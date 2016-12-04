@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use Illuminate\Console\Command;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
-use Illuminate\Console\Command;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class GetServerProviderOptions extends Command
 {

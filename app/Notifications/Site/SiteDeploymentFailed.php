@@ -3,12 +3,12 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteServerDeployment;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackMessage;
+use App\Models\Site\SiteServerDeployment;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class SiteDeploymentFailed extends Notification
 {

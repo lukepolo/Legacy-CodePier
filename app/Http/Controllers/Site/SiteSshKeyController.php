@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\SiteSshKey;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteSshKeyRequest;
-use App\Models\Site\SiteSshKey;
 
 class SiteSshKeyController extends Controller
 {

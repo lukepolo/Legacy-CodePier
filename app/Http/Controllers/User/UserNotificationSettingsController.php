@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User\UserNotificationSetting;
-use Illuminate\Http\Request;
 
 class UserNotificationSettingsController extends Controller
 {

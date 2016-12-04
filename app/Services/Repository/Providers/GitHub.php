@@ -3,8 +3,8 @@
 namespace App\Services\Repository\Providers;
 
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
 use GitHub as GitHubService;
+use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract

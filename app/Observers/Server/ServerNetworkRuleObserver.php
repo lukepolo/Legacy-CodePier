@@ -2,9 +2,9 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\FirewallRules\InstallServerNetworkRule;
-use App\Jobs\Server\FirewallRules\RemoveServerNetworkRule;
 use App\Models\Server\ServerNetworkRule;
+use App\Jobs\Server\FirewallRules\RemoveServerNetworkRule;
+use App\Jobs\Server\FirewallRules\InstallServerNetworkRule;
 
 class ServerNetworkRuleObserver
 {

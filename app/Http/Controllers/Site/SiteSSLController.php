@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteSslRequest;
-use App\Models\Site\SiteSslCertificate;
 use App\Services\Server\ServerService;
+use App\Models\Site\SiteSslCertificate;
+use App\Http\Requests\Site\SiteSslRequest;
 
 class SiteSSLController extends Controller
 {

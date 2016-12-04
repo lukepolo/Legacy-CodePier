@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerRequest;
-use App\Jobs\Server\CreateServer;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Jobs\Server\CreateServer;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\Server\ServerRequest;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ServerController extends Controller
 {

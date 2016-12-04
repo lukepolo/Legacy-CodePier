@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerWorkerRequest;
 use App\Models\Server\Server;
 use App\Models\Server\ServerWorker;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerWorkerRequest;
 
 class ServerWorkerController extends Controller
 {

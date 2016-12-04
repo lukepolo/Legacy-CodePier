@@ -2,9 +2,9 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Models\Server\ServerWorker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Jobs\Server\Workers\InstallServerWorker;
 
 class ServerWorkerObserver
 {

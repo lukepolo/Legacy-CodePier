@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\NotificationSetting;
 use App\Models\Pile;
 use App\Models\User\User;
+use App\Models\NotificationSetting;
 use App\Models\User\UserNotificationSetting;
 
 class UserObserver

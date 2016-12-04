@@ -39,7 +39,6 @@ done');
     {
         $this->connectToServer();
 
-
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
     current_load=$(cat /proc/loadavg | grep / | awk \'{ print $1 " " $2 " " $3}\')
@@ -62,7 +61,6 @@ done');
     public function installServerMemoryMonitoringScript()
     {
         $this->connectToServer();
-
 
         $this->remoteTaskService->writeToFile('/opt/codepier/memory_monitor', '
         current_memory=$(free -m | grep Mem | awk \'{ print $2 " " $3 " " $4 " " $7}\')

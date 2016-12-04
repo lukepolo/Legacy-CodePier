@@ -2,16 +2,16 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Provider\ServerProviderOption;
-use App\Models\Server\Provider\ServerProviderRegion;
-use App\Models\Server\Server;
-use App\Models\User\UserServerProvider;
-use App\Services\Server\ServerService;
-use Carbon\Carbon;
 use DigitalOcean;
-use DigitalOceanV2\Entity\Droplet;
+use Carbon\Carbon;
 use Guzzle\Http\Client;
 use phpseclib\Crypt\RSA;
+use App\Models\Server\Server;
+use DigitalOceanV2\Entity\Droplet;
+use App\Services\Server\ServerService;
+use App\Models\User\UserServerProvider;
+use App\Models\Server\Provider\ServerProviderOption;
+use App\Models\Server\Provider\ServerProviderRegion;
 
 /**
  * Class DigitalOcean.
