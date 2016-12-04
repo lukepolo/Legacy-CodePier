@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFeatureRequest;
-use App\Jobs\InstallServerFeature;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
+use App\Models\Server\Server;
+use App\Jobs\InstallServerFeature;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerFeatureRequest;
 
 class ServerFeatureController extends Controller
 {
@@ -38,11 +38,8 @@ class ServerFeatureController extends Controller
         $availableFeatures = collect();
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getServicesFromVersion($version) as $service) {
-
                     $availableFeatures = $availableFeatures->merge(
                         $this->buildFeatureArray(
                             $this->buildReflection($service)
@@ -63,12 +60,9 @@ class ServerFeatureController extends Controller
         $availableLanguages = collect();
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
-                    $language .= '/' . basename($language) . '.php';
+                    $language .= '/'.basename($language).'.php';
                     $availableLanguages = $availableLanguages->merge(
                         $this->buildFeatureArray(
                             $this->buildReflection($language)
@@ -89,13 +83,9 @@ class ServerFeatureController extends Controller
         $availableFrameworks = collect();
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-
                         $availableFrameworks[substr($language, strrpos($language, '/') + 1)] = $this->buildFeatureArray(
                             $this->buildReflection($framework)
                         );
@@ -120,11 +110,8 @@ class ServerFeatureController extends Controller
         $files = collect();
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getServicesFromVersion($version) as $service) {
-
                     $files = $files->merge(
                         $this->buildFileArray(
                             $this->buildReflection($service)
@@ -133,10 +120,9 @@ class ServerFeatureController extends Controller
                 }
 
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                     $files = $files->merge(
                         $this->buildFileArray(
-                            $this->buildReflection($language . '/' . basename($language) . '.php')
+                            $this->buildReflection($language.'/'.basename($language).'.php')
                         )
                     );
                 }
@@ -145,7 +131,7 @@ class ServerFeatureController extends Controller
 
         foreach ($server->server_features as $service => $features) {
             if (isset($server->server_features[$service])) {
-                foreach($features as $feature => $params) {
+                foreach ($features as $feature => $params) {
                     if ($files->has($feature)) {
                         $editableFiles = $editableFiles->merge($files->get($feature));
                     }
@@ -169,23 +155,18 @@ class ServerFeatureController extends Controller
         $files = [];
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-
                         $language = substr($language, strrpos($language, '/') + 1);
                         $reflectionClass = $this->buildReflection($framework);
-                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path . '/');
+                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path.'/');
                     }
                 }
             }
         }
 
-        if (!empty($site->framework)) {
-
+        if (! empty($site->framework)) {
             $languageAndFramework = explode('.', $site->framework);
 
             if (isset($files[$languageAndFramework[0]][$languageAndFramework[1]])) {
@@ -206,20 +187,16 @@ class ServerFeatureController extends Controller
         $suggestedFeatures = [];
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                     if (strtolower(basename($language)) == strtolower($site->type)) {
-
-                        $reflectionClass = $this->buildReflection($language . '/' . basename($language) . '.php');
+                        $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
                         $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
-                        if (!empty($site->framework)) {
-                            $reflectionClass = $this->buildReflection($language . '/Frameworks' . str_replace(basename($language) . '.',
-                                    '/', $site->framework) . '.php');
+                        if (! empty($site->framework)) {
+                            $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.',
+                                    '/', $site->framework).'.php');
                             $suggestedFeatures = array_merge($suggestedFeatures,
                                 $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                         }

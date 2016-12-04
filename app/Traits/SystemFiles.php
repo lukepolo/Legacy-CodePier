@@ -5,7 +5,8 @@ namespace App\Traits;
 use ReflectionClass;
 use Illuminate\Support\Facades\File;
 
-trait SystemFiles {
+trait SystemFiles
+{
     /**
      * @param $file
      * @return ReflectionClass
@@ -39,13 +40,11 @@ trait SystemFiles {
         $files = [];
 
         if ($reflection->hasProperty('files')) {
-
             $classFiles = $reflection->getProperty('files')->getValue();
 
             foreach ($classFiles as $index => $classFile) {
-
-                if(is_array($classFile)) {
-                    $classFile = array_map(function($file) use($path) {
+                if (is_array($classFile)) {
+                    $classFile = array_map(function ($file) use ($path) {
                         return $path.$file;
                     }, $classFile);
                 } else {

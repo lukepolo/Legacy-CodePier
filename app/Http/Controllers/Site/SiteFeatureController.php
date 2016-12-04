@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Traits\SystemFiles;
 use App\Models\Site\Site;
+use App\Traits\SystemFiles;
 use App\Http\Controllers\Controller;
 
 class SiteFeatureController extends Controller
@@ -20,17 +20,12 @@ class SiteFeatureController extends Controller
         $site = Site::findOrFail($siteId);
 
         if (! empty($site->framework)) {
-
             $files = [];
 
             foreach ($this->getSystemsFiles() as $system) {
-
                 foreach ($this->getVersionsFromSystem($system) as $version) {
-
                     foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                         foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-
                             $language = substr($language, strrpos($language, '/') + 1);
                             $reflectionClass = $this->buildReflection($framework);
                             $files[$language][$reflectionClass->getShortName()] = $this->buildFileArray($reflectionClass, $site->path.'/');
@@ -59,13 +54,9 @@ class SiteFeatureController extends Controller
         $suggestedFeatures = [];
 
         foreach ($this->getSystemsFiles() as $system) {
-
             foreach ($this->getVersionsFromSystem($system) as $version) {
-
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-
                     if (strtolower(basename($language)) == strtolower($site->type)) {
-
                         $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
                         $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
