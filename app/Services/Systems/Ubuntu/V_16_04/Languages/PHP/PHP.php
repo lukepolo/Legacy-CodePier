@@ -15,12 +15,12 @@ class PHP
     private $remoteTaskService;
 
     public static $required = [
-        'installPHP7',
-        'installPhpFpm',
+        'PHP7',
+        'PhpFpm',
     ];
 
     public static $files = [
-        'installPHP7' => [
+        'PHP7' => [
             '/etc/php/7.0/fpm/php.ini',
             '/etc/php/7.0/cli/php.ini',
             '/etc/php/7.0/fpm/php-fpm.conf',

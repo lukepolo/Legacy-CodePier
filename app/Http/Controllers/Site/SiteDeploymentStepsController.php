@@ -47,6 +47,7 @@ class SiteDeploymentStepsController extends Controller
 
         $newDeploymentSteps = collect($request->get('deployment_steps'));
 
+        // We must delete old deployment steps
         $site->deploymentSteps->each(function ($siteDeploymentStep) use ($newDeploymentSteps) {
             if (! $newDeploymentSteps->first(function ($deploymentStep) use ($siteDeploymentStep) {
                 if (! empty($deploymentStep['script'])) {
@@ -67,6 +68,7 @@ class SiteDeploymentStepsController extends Controller
 
         $order = 0;
 
+        // We then attach the deployment steps with the new order they give
         foreach ($newDeploymentSteps as $deploymentStep) {
             $internalStep = $this->getDeploymentStep($deploymentStep);
 
