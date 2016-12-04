@@ -19,9 +19,12 @@
                                 <div class="input-question">Server Provider</div>
                                 <template v-for="user_server_provider in user_server_providers">
                                     <label>
-                                        <input @change="getProviderData(user_server_provider.server_provider.provider_name)"
-                                               type="radio" name="server_provider_id"
-                                               :value="user_server_provider.server_provider_id">
+                                        <input
+                                            @change="getProviderData(user_server_provider.server_provider.provider_name)"
+                                            type="radio"
+                                            name="server_provider_id"
+                                            :value="user_server_provider.server_provider_id"
+                                        >
                                         <span class="icon"></span>
                                         {{ user_server_provider.server_provider.name }}
                                     </label>
@@ -38,10 +41,12 @@
                                     <div class="input-question">Server Option</div>
 
                                     <select name="server_option">
-                                        <option v-for="option in server_options" :value="option.id">{{ option.memory }}
-                                            MB
-                                            RAM - {{ option.cpus }} CPUS - {{ option.space }} SSD - ${{
-                                            option.priceHourly }} / Hour - ${{ option.priceMonthly }} / Month
+                                        <option v-for="option in server_options" :value="option.id">
+                                            {{ option.memory }} MB RAM
+                                            - {{ option.cpus }} CPUS
+                                            - {{ option.space }} SSD
+                                            - ${{ option.priceHourly }} / Hour
+                                            - ${{ option.priceMonthly }} / Month
                                         </option>
                                     </select>
                                 </div>
