@@ -5701,6 +5701,11 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   color: #FFFFFF !important;
 }
 
+.btn-danger {
+  background-color: #F4645F;
+  color: #FFFFFF !important;
+}
+
 .btn-small {
   font-size: 14px;
   padding: 5px 10px;
