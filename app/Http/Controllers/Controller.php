@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site\Site;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -15,11 +14,6 @@ class Controller extends BaseController
 
     public function app()
     {
-
-        $repositoryService = new \App\Services\Repository\RepositoryService();
-
-        $repositoryService->importSshKeyIfPrivate(Site::findOrFail(9));
-
         return view('codepier', [
             'user' => \Auth::user()->load(['teams', 'piles.servers']),
             'runningCommands' => \Auth::user()->getRunningCommands(),
