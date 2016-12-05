@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Models\Site\Site;
+use Gitlab\Client;
 use Gitlab\Api\Projects;
+use App\Models\Site\Site;
 use Gitlab\Api\Repositories;
 use App\Models\User\UserRepositoryProvider;
-use Gitlab\Client;
 
 class GitLab implements RepositoryContract
 {
@@ -27,17 +27,16 @@ class GitLab implements RepositoryContract
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
-
             $repositoryInfo = $this->getRepositoryInfo($repository);
 
             $client = new \Guzzle\Http\Client();
 
             $client->post('https://gitlab.com/api/v3/projects/'.$repositoryInfo['id'].'/deploy_keys', [
                 'Authorization' => 'Bearer 091867cdd5d0b0f3a6b12615f98e58faae08e1da9e8e19db0ff2688148544219',
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ], [
                 'title' => 'CodePier',
-                'key' => $sshKey
+                'key' => $sshKey,
             ])->send();
         }
     }

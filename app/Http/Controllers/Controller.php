@@ -15,7 +15,6 @@ class Controller extends BaseController
 
     public function app()
     {
-
         $repositoryService = new \App\Services\Repository\RepositoryService();
 
         $repositoryService->importSshKeyIfPrivate(Site::findOrFail(9));
