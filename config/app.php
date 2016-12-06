@@ -174,8 +174,6 @@ return [
         /*
          * Third Party Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
