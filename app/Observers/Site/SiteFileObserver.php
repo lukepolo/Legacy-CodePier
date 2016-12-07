@@ -16,14 +16,18 @@ class SiteFileObserver
     public function created(SiteFile $siteFile)
     {
         foreach ($siteFile->site->provisionedServers as $server) {
-            dispatch(new UpdateServerFile($server, $siteFile));
+            dispatch(
+                (new UpdateServerFile($server, $siteFile))->onQueue('SERVER_COMMAND_QUEUE')
+            );
         }
     }
 
     public function updated(SiteFile $siteFile)
     {
         foreach ($siteFile->site->provisionedServers as $server) {
-            dispatch(new UpdateServerFile($server, $siteFile));
+            dispatch(
+                (new UpdateServerFile($server, $siteFile))->onQueue('SERVER_COMMAND_QUEUE')
+            );
         }
     }
 }

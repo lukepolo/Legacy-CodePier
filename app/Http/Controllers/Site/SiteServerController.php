@@ -38,7 +38,9 @@ class SiteServerController extends Controller
         $changes = $site->servers()->sync($request->get('connected_servers', []));
 
         foreach ($changes['attached'] as $attached) {
-            $this->dispatch(new CreateSite(Server::findOrFail($attached), $site));
+            $this->dispatch(
+                (new CreateSite(Server::findOrFail($attached), $site))->onQueue('SERVER_COMMAND_QUEUE')
+            );
         }
 
         return response()->json($site);

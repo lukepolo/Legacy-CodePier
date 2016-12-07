@@ -100,7 +100,9 @@ class SiteController extends Controller
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
-                $this->dispatch(new CreateSite(Server::findOrFail($serverID), $site));
+                $this->dispatch(
+                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue('SERVER_COMMAND_QUEUE')
+                );
             }
 
             foreach ($changes['detached'] as $serverID) {
@@ -133,7 +135,9 @@ class SiteController extends Controller
     {
         $site = Site::with('servers')->findOrFail($request->get('site'));
 
-        $this->dispatch(new DeploySite($site));
+        $this->dispatch(
+            (new DeploySite($site))->onQueue('SERVER_COMMAND_QUEUE')
+        );
     }
 
     /**

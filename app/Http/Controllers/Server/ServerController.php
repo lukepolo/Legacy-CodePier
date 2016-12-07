@@ -75,11 +75,10 @@ class ServerController extends Controller
             $site->servers()->save($server);
         }
 
-        $this->dispatch(new CreateServer(
+        $this->dispatch((new CreateServer(
             ServerProvider::findorFail($request->get('server_provider_id')),
             $server
-        ));
-//            ->onQueue('server_creations'));
+        ))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
 
         return response()->json($server->load(['serverProvider', 'pile']));
     }
