@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateDeploymentEventsTable extends Migration
 {
@@ -20,7 +20,7 @@ class CreateDeploymentEventsTable extends Migration
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
-            $table->json('log')->nullable();
+            $table->longText('log')->nullable();
             $table->timestamps();
         });
     }

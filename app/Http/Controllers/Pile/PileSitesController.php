@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Pile;
 
-use App\Http\Controllers\Controller;
 use App\Models\Pile;
+use App\Http\Controllers\Controller;
 
-/**
- * Class PileSitesController.
- */
 class PileSitesController extends Controller
 {
     /**

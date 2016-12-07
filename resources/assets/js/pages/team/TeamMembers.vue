@@ -55,7 +55,7 @@
                             <label class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input v-model="email" type="email" class="form-control" name="email">
+                                <input v-model="email" type="email" name="email">
                             </div>
                         </div>
 

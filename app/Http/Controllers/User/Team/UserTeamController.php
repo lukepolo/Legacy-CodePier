@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\User\Team;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
+use App\Http\Requests\UserTeamRequest;
 use Mpociot\Teamwork\Facades\Teamwork;
+use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
 
-/**
- * Class UserTeamController.
- */
 class UserTeamController extends Controller
 {
     /**
@@ -42,11 +39,10 @@ class UserTeamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param UserTeamRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserTeamRequest $request)
     {
         $teamModel = config('teamwork.team_model');
 
@@ -71,12 +67,11 @@ class UserTeamController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param UserTeamRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserTeamRequest $request, $id)
     {
         $teamModel = config('teamwork.team_model');
 

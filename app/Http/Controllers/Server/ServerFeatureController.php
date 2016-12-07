@@ -2,60 +2,49 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Site\Site;
+use App\Traits\SystemFiles;
+use App\Models\Server\Server;
+use App\Jobs\InstallServerFeature;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\Site;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use ReflectionClass;
+use App\Http\Requests\Server\ServerFeatureRequest;
 
-/**
- * Class ServerFeatureController.
- */
 class ServerFeatureController extends Controller
 {
-    private $serverService;
+    use SystemFiles;
 
     /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param ServerFeatureRequest $request
+     * @param $serverId
+     * @return mixed
      */
-    public function __construct(ServerService $serverService)
+    public function store(ServerFeatureRequest $request, $serverId)
     {
-        $this->serverService = $serverService;
+        return $this->dispatch(
+            new InstallServerFeature(
+                Server::findOrFail($serverId),
+                $request->get('feature'),
+                $request->get('service'),
+                $request->get('parameters', [])
+            )
+        );
     }
 
-    public function store(Request $request, $serverId)
-    {
-        $server = Server::findOrFail($serverId);
-        $feature = $request->get('feature');
-        $service = $request->get('service');
-        $parameters = $request->get('parameters', []);
-
-        $this->runOnServer($server, function () use ($server, $feature, $service, $parameters) {
-            call_user_func_array([$this->serverService->getService($service, $server), 'install'.$feature],
-                $parameters);
-
-            $serverFeatures = $server->server_features;
-            $serverFeatures[$service][$feature]['enabled'] = true;
-
-            $server->server_features = $serverFeatures;
-            $server->save();
-        });
-
-        return $this->remoteResponse();
-    }
-
-    public function getServerFeatures()
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFeatures()
     {
         $availableFeatures = collect();
 
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getServicesFromVersion($version) as $service) {
-                    $availableFeatures = $availableFeatures->merge($this->buildFeatureArray($this->buildReflection($service)));
+                    $availableFeatures = $availableFeatures->merge(
+                        $this->buildFeatureArray(
+                            $this->buildReflection($service)
+                        )
+                    );
                 }
             }
         }
@@ -63,6 +52,9 @@ class ServerFeatureController extends Controller
         return $availableFeatures;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getLanguages()
     {
         $availableLanguages = collect();
@@ -71,7 +63,11 @@ class ServerFeatureController extends Controller
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
                     $language .= '/'.basename($language).'.php';
-                    $availableLanguages = $availableLanguages->merge($this->buildFeatureArray($this->buildReflection($language)));
+                    $availableLanguages = $availableLanguages->merge(
+                        $this->buildFeatureArray(
+                            $this->buildReflection($language)
+                        )
+                    );
                 }
             }
         }
@@ -79,6 +75,9 @@ class ServerFeatureController extends Controller
         return $availableLanguages;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getFrameworks()
     {
         $availableFrameworks = collect();
@@ -87,8 +86,9 @@ class ServerFeatureController extends Controller
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                        $availableFrameworks[substr($language, strrpos($language,
-                                '/') + 1)] = $this->buildFeatureArray($this->buildReflection($framework));
+                        $availableFrameworks[substr($language, strrpos($language, '/') + 1)] = $this->buildFeatureArray(
+                            $this->buildReflection($framework)
+                        );
                     }
                 }
             }
@@ -97,7 +97,11 @@ class ServerFeatureController extends Controller
         return $availableFrameworks;
     }
 
-    public function getEditableServerFiles($serverId)
+    /**
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getEditableFiles($serverId)
     {
         $editableFiles = collect();
 
@@ -108,26 +112,29 @@ class ServerFeatureController extends Controller
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getServicesFromVersion($version) as $service) {
-                    $files = $files->merge($this->buildFileArray($this->buildReflection($service)));
+                    $files = $files->merge(
+                        $this->buildFileArray(
+                            $this->buildReflection($service)
+                        )
+                    );
                 }
 
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
                     $files = $files->merge(
                         $this->buildFileArray(
-                            $this->buildReflection(
-                                $language.'/'.basename($language).'.php'
-                            ),
-                            'Languages\\'.basename($language).'\\'
+                            $this->buildReflection($language.'/'.basename($language).'.php')
                         )
                     );
                 }
             }
         }
 
-        foreach ($server->server_features as $service => $feature) {
+        foreach ($server->server_features as $service => $features) {
             if (isset($server->server_features[$service])) {
-                if ($files->has($service)) {
-                    $editableFiles = $editableFiles->merge($files->get($service));
+                foreach ($features as $feature => $params) {
+                    if ($files->has($feature)) {
+                        $editableFiles = $editableFiles->merge($files->get($feature));
+                    }
                 }
             }
         }
@@ -135,6 +142,10 @@ class ServerFeatureController extends Controller
         return response()->json($editableFiles);
     }
 
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getEditableFrameworkFiles($siteId)
     {
         $editableFiles = collect();
@@ -156,111 +167,46 @@ class ServerFeatureController extends Controller
         }
 
         if (! empty($site->framework)) {
-            $languageAndframework = explode('.', $site->framework);
-            if (isset($files[$languageAndframework[0]][$languageAndframework[1]])) {
-                $editableFiles = $editableFiles->merge($files[$languageAndframework[0]][$languageAndframework[1]]);
+            $languageAndFramework = explode('.', $site->framework);
+
+            if (isset($files[$languageAndFramework[0]][$languageAndFramework[1]])) {
+                $editableFiles = $editableFiles->merge($files[$languageAndFramework[0]][$languageAndFramework[1]]);
             }
         }
-
 
         return response()->json($editableFiles);
     }
 
-    private function buildReflection($file)
+    /**
+     * @param $siteId
+     * @return array
+     */
+    public function getSuggestedFeatures($siteId)
     {
-        return new ReflectionClass(
-            str_replace(
-                '.php',
-                '',
-                'App'.str_replace(
-                    '/',
-                    '\\',
-                    str_replace(
-                        app_path(),
-                        '',
-                        $file
-                    )
-                )
-            )
-        );
-    }
+        $site = Site::findOrFail($siteId);
+        $suggestedFeatures = [];
 
-    private function buildFileArray(ReflectionClass $reflection, $path = null)
-    {
-        $files = [];
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    if (strtolower(basename($language)) == strtolower($site->type)) {
+                        $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
-        if ($reflection->hasProperty('files')) {
-            $classFiles = $reflection->getProperty('files')->getValue();
-            foreach ($classFiles as $index => $classFile) {
-                $classFiles[$index] = $path.$classFile;
-            }
+                        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
+                        if (! empty($site->framework)) {
+                            $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.',
+                                    '/', $site->framework).'.php');
+                            $suggestedFeatures = array_merge($suggestedFeatures,
+                                $reflectionClass->getDefaultProperties()['suggestedFeatures']);
+                        }
 
-            $files[$reflection->getShortName()] = $classFiles;
-        }
-
-        return $files;
-    }
-
-    private function buildFeatureArray(ReflectionClass $reflection)
-    {
-        $features = [];
-        $required = [];
-        $suggestedDefaults = [];
-
-        if ($reflection->hasProperty('required')) {
-            $required = $reflection->getProperty('required')->getValue();
-        }
-
-        if ($reflection->hasProperty('suggestedDefaults')) {
-            $suggestedDefaults = $reflection->getProperty('suggestedDefaults')->getValue();
-        }
-
-        // TODO - get description or something from comment
-        foreach ($reflection->getMethods() as $method) {
-            if (str_contains($method->name, 'install')) {
-                $parameters = [];
-
-                foreach ($method->getParameters() as $parameter) {
-                    $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
+                        break;
+                    }
                 }
-
-                $features[$reflection->getShortName()][] = [
-                    'name' => str_replace('install', '', $method->name),
-                    'required' => in_array($method->name, $required),
-                    'parameters' => $parameters,
-                    'suggestedDefaults' => $suggestedDefaults,
-                    'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
-                    'description' => trim(preg_replace('/[^a-zA-Z0-9]/', ' ', $method->getDocComment())),
-                ];
             }
         }
 
-        return $features;
-    }
-
-    private function getSystemsFiles()
-    {
-        return File::directories(app_path('Services/Systems'));
-    }
-
-    private function getVersionsFromSystem($system)
-    {
-        return File::directories($system);
-    }
-
-    private function getServicesFromVersion($version)
-    {
-        return File::files($version);
-    }
-
-    private function getLanguagesFromVersion($version)
-    {
-        return File::directories($version.'/Languages');
-    }
-
-    private function getFrameworksFromLanguage($language)
-    {
-        return File::files($language.'/Frameworks');
+        return $suggestedFeatures;
     }
 }

@@ -1,8 +1,6 @@
 <template>
     <section>
-        <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
-            <server-nav :server="server"></server-nav>
             <div class="row" v-if="availableServers.length">
                 Connect to :
                 <form @submit.prevent="onSubmit">
@@ -51,14 +49,7 @@
 
 
 <script>
-    import ServerNav from './components/ServerNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
-
     export default {
-        components: {
-            LeftNav,
-            ServerNav
-        },
         data() {
             return {
                 form: {
@@ -92,10 +83,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             firewall_rules() {
-                return serverFirewallStore.state.server_firewall_rules;
+                return this.$store.state.serverFirewallStore.server_firewall_rules;
             },
             availableServers() {
                 return [];

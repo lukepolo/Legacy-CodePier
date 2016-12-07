@@ -174,8 +174,6 @@ return [
         /*
          * Third Party Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
@@ -185,6 +183,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         TomSchlick\ServerPush\ServiceProvider::class,
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
          * Custom Service Providers
@@ -249,6 +248,7 @@ return [
         'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
         'Hashids'      => Vinkla\Hashids\Facades\Hashids::class,
+        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];

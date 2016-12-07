@@ -33,13 +33,14 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
             Route::resource('subscription', 'Subscription\UserSubscriptionController');
-            Route::resource('subscription/invoice/next',
-                'Subscription\UserSubscriptionUpcomingInvoiceController');
-
+            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
             Route::resource('ssh-keys', 'UserSshKeyController');
             Route::resource('server-providers', 'Providers\UserServerProviderController');
+            Route::resource('notification-settings', 'UserNotificationSettingsController');
             Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
+
+            Route::get('running-commands', 'UserController@getRunningCommands');
         });
 
         /*
@@ -64,8 +65,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('team.members', 'UserTeamMemberController');
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}',
-                'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
 
         /*
@@ -88,7 +88,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::resource('servers', 'Server\ServerController');
 
-
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('restore/{server}', 'ServerController@restore');
@@ -106,8 +105,8 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.features', 'ServerFeatureController');
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
             Route::resource('servers.workers', 'ServerWorkerController');
-            Route::resource('servers.firewall', 'ServerFirewallController');
-            Route::resource('servers.network', 'ServerNetworkController');
+            Route::resource('servers.firewall', 'ServerFirewallRuleController');
+            Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
 
             Route::resource('servers.sites', 'ServerSiteController');
@@ -128,24 +127,33 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::group(['namespace' => 'Site'], function () {
             Route::group(['prefix' => 'sites'], function () {
                 Route::post('deploy', 'SiteController@deploy');
+                Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
             });
 
             Route::resource('site.file', 'SiteFileController');
             Route::resource('site.servers', 'SiteServerController');
             Route::resource('site.workers', 'SiteWorkerController');
+            Route::resource('site.ssh-keys', 'SiteSshKeyController');
+            Route::resource('site.cron-jobs', 'SiteCronJobController');
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
-            Route::resource('site.certificate', 'Certificate\SiteSSLController');
+            Route::resource('site.certificate', 'SiteSSLController');
+            Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('site.repository', 'Repository\SiteRepositoryController');
-            Route::resource('site.certificate-existing', 'Certificate\SiteSSLExistingController');
-            Route::resource('site.certificate-lets-encrypt', 'Certificate\SiteSSLLetsEncryptController');
+            Route::resource('site.ssl-certificate', 'SiteSslController');
+
+            Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
         });
     });
 
+    Route::resource('notification-settings', 'NotificationSettingsController');
+
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
-    Route::get('server/features', 'Server\ServerFeatureController@getServerFeatures');
-    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableServerFiles');
-    Route::get('site/{site}/framework/editable-files', 'Server\ServerFeatureController@getEditableFrameworkFiles');
+    Route::get('server/features', 'Server\ServerFeatureController@getFeatures');
+    Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableFiles');
+
+    Route::get('site/{site}/suggested-features', 'Site\SiteFeatureController@getSuggestedFeatures');
+    Route::get('site/{site}/framework/editable-files', 'Site\SiteFeatureController@getEditableFrameworkFiles');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {

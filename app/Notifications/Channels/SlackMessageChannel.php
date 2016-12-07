@@ -3,13 +3,10 @@
 namespace App\Notifications\Channels;
 
 use GuzzleHttp\Client as HttpClient;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
 
-/**
- * Class SlackMessageChannel.
- */
 class SlackMessageChannel
 {
     /**

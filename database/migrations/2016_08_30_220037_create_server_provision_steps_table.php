@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateServerProvisionStepsTable extends Migration
 {
@@ -19,7 +19,7 @@ class CreateServerProvisionStepsTable extends Migration
             $table->string('service');
             $table->string('function');
             $table->string('step');
-            $table->json('parameters');
+            $table->text('parameters');
             $table->boolean('completed')->default(0);
             $table->boolean('failed')->default(0);
             $table->longText('log')->nullable();

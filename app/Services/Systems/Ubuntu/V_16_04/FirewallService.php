@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\ServerFirewallRule;
+use App\Models\Server\ServerFirewallRule;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService
@@ -14,20 +14,6 @@ class FirewallService
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
-
-        ServerFirewallRule::create([
-            'server_id'   => $this->server->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
-
-        ServerFirewallRule::create([
-            'server_id'   => $this->server->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
-        ]);
 
         $this->remoteTaskService->writeToFile(self::IP_TABLES_FILE, '
 #!/bin/sh
@@ -50,8 +36,6 @@ iptables -I INPUT 1 -i lo -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 
 # DO NOT REMOVE - Custom Rules
-iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 iptables -P INPUT DROP
         ');
@@ -123,9 +107,6 @@ iptables -P INPUT DROP
         $this->connectToServer();
 
         $this->remoteTaskService->run(self::IP_TABLES_FILE_COMMAND);
-        // TODO - we may need to use a different firewall service, this seems to fail randomly
-//        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
-//        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
 
         return $this->remoteTaskService->getErrors();
     }

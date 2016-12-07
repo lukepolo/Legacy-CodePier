@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateDeploymentStepsTable extends Migration
 {
@@ -19,7 +19,6 @@ class CreateDeploymentStepsTable extends Migration
             $table->integer('order');
             $table->longText('script')->nullable();
             $table->string('internal_deployment_function')->nullable();
-            $table->boolean('customizable');
             $table->timestamps();
         });
     }

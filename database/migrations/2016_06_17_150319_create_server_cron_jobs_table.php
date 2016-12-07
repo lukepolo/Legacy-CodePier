@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateServerCronJobsTable extends Migration
 {
@@ -15,7 +15,7 @@ class CreateServerCronJobsTable extends Migration
         Schema::create('server_cron_jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('server_id');
-            $table->integer('site_cron_job_id');
+            $table->integer('site_cron_job_id')->nullable();
             $table->string('job');
             $table->string('user');
             $table->timestamps();

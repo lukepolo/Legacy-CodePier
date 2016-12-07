@@ -15,7 +15,7 @@ return [
     | This is the Auth model used by Teamwork.
     |
     */
-    'user_model' => App\Models\User::class,
+    'user_model' => \App\Models\User\User::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ return [
     | the team if it is in a different namespace.
     |
     */
-    'team_model' => App\Models\Team::class,
+    'team_model' => \App\Models\User\Team::class,
 
     /*
     |--------------------------------------------------------------------------

@@ -1,8 +1,6 @@
 <template>
     <section>
-        <left-nav></left-nav>
         <section id="middle" class="section-column" v-if="server">
-            <server-nav :server="server"></server-nav>
             <form @submit.prevent="createKey">
                 <div class="form-group">
                     <label>Name</label>
@@ -34,14 +32,7 @@
 </template>
 
 <script>
-    import ServerNav from './components/ServerNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
-
     export default {
-        components: {
-            LeftNav,
-            ServerNav
-        },
         data() {
             return {
                 form: {
@@ -74,10 +65,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStoreserver;
+                return this.$store.state.serversStore.server;
             },
             ssh_keys() {
-                return serverSshKeyStore.state.server_ssh_keys;
+                return this.$store.state.serverSshKeysStore.server_ssh_keys;
             }
         }
     }

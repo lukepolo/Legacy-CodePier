@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
   "css/app.css": "css/app-58c498650f.css",
   "js/all.js": "js/all-6055bdad3a.js"
+=======
+  "css/app.css": "css/app-4e41a857b3.css",
+  "js/all.js": "js/all-eab023246f.js"
+>>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }

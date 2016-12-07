@@ -1,46 +1,50 @@
-<style>
-    input {
-        color: black;
-    }
-</style>
 <template>
     <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <user-nav></user-nav>
-            <form @submit.prevent="onSubmit">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input name="name" type="name" v-model="form.name">
+        <div class="jcf-form-wrap">
+            <form @submit.prevent="onSubmit" class="floating-labels">
+
+                <div class="jcf-input-group">
+                    <input name="name" type="text" v-model="form.name">
+                    <label for="name">
+                        <span class="float-label">Name</span>
+                    </label>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
+
+                <div class="jcf-input-group">
                     <input name="email" type="email" v-model="form.email">
+                    <label for="email">
+                        <span class="float-label">Email - need to include email as a type for jcf forms</span>
+                    </label>
                 </div>
+
                 <section v-if="user.password">
-                    <div class="form-group">
-                        <label>New Password</label>
+
+                    <div class="jcf-input-group">
                         <input name="new_password" type="password">
+                        <label for="new_password">
+                            <span class="float-label">New Password</span>
+                        </label>
                     </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
+                    <div class="jcf-input-group">
                         <input name="confirm_password" type="password">
+                        <label for="confirm_password">
+                            <span class="float-label">Confirm Password</span>
+                        </label>
                     </div>
                 </section>
-                <button type="submit">Update Profile</button>
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Update Profile</button>
+                </div>
+
             </form>
-        </section>
+        </div>
     </section>
+
 </template>
 
 <script>
-    import UserNav from './components/UserNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components: {
-            LeftNav,
-            UserNav
-        },
         data() {
             return {
                 form: {

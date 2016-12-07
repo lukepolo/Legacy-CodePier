@@ -2,21 +2,18 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repository\RepositoryServiceContract;
-use App\Services\Repository\RepositoryService;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Repository\RepositoryService;
+use App\Contracts\Repository\RepositoryServiceContract;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Indicates if loading of the provider is deferred.
      *
-     * @return void
+     * @var bool
      */
-    public function boot()
-    {
-        //
-    }
+    protected $defer = true;
 
     /**
      * Register the application services.
@@ -29,5 +26,15 @@ class RepositoryServiceProvider extends ServiceProvider
             RepositoryServiceContract::class,
             RepositoryService::class
         );
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [RepositoryServiceContract::class];
     }
 }

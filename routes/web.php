@@ -48,12 +48,11 @@ Route::resource('subscription/plans', 'SubscriptionController');
 
 Route::group(['prefix' => 'webhook'], function () {
     Route::get('/deploy/{siteHashID}', function ($siteHashID) {
-        dispatch(new \App\Jobs\DeploySite(
-            App\Models\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
+        dispatch(new \App\Jobs\Site\DeploySite(
+            \App\Models\Site\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
         ));
     })->name('webhook/deploy');
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -63,27 +62,12 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
-
 /*
 |--------------------------------------------------------------------------
-| Catch All Routes
+| Catch All Route
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/', function () {
-    if (\Auth::check()) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-        ]);
-    }
-
-    return view('landing');
-});
-
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', function ($any) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-        ]);
-    })->where('any', '.*');
+    Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

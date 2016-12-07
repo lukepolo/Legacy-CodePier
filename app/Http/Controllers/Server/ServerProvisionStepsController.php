@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Events\Server\ServerProvisionStatusChanged;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Jobs\ProvisionServer;
-use App\Models\Server;
+use App\Jobs\Server\ProvisionServer;
+use App\Events\Server\ServerProvisionStatusChanged;
+use App\Http\Requests\Server\ServerProvisioningStepsRequest;
 
-/**
- * Class ServerProvisionStepsController.
- */
 class ServerProvisionStepsController extends Controller
 {
     /**
@@ -20,17 +18,19 @@ class ServerProvisionStepsController extends Controller
      */
     public function index($serverId)
     {
-        return response()->json(Server::findOrFail($serverId)->currentProvisioningStep());
+        return response()->json(
+            Server::findOrFail($serverId)->currentProvisioningStep()
+        );
     }
 
     /**
      * Starts the provisioning process again.
      *
+     * @param ServerProvisioningStepsRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store($serverId)
+    public function store(ServerProvisioningStepsRequest $request, $serverId)
     {
         $server = Server::with(['provisionSteps'])->findOrFail($serverId);
 

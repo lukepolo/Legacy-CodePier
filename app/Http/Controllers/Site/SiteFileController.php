@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\Site;
-use App\Models\SiteFile;
+use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\Site\SiteFile;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteFileRequest;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
-/**
- * Class SiteFileController.
- */
 class SiteFileController extends Controller
 {
     private $serverService;
@@ -29,52 +26,53 @@ class SiteFileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
     public function index($siteId)
     {
-        return response()->json(SiteFile::findOrFail($siteId));
+        return response()->json(
+            SiteFile::findOrFail($siteId)
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param SiteFileRequest $request
+     * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(SiteFileRequest $request, $siteId)
     {
-        SiteFile::create([
-            'site_id' => $siteId,
-            'file_path' => $request->get('file_path'),
-            'content' => $request->get('content'),
-        ]);
-
-        foreach ($request->get('servers') as $serverId) {
-            $server = Server::findOrFail($serverId);
-        }
-
-
-        return response()->json();
+        return response()->json(
+            SiteFile::create([
+                'site_id' => $siteId,
+                'file_path' => $request->get('file_path'),
+                'content' => $request->get('content'),
+            ])
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Request $request
      * @param $siteId
      * @param string $fileId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $siteId, $fileId)
+    public function show($siteId, $fileId)
     {
-        return response()->json(SiteFile::with('site')
-            ->where('site_id', $siteId)
-            ->findOrFail($fileId)
+        return response()->json(
+            SiteFile::with('site')->where('site_id', $siteId)->findOrFail($fileId)
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function find(Request $request, $siteId)
     {
         $file = SiteFile::where('site_id', $siteId)
@@ -96,30 +94,19 @@ class SiteFileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
+     * @param SiteFileRequest $request
+     * @param $siteId
      * @param int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $siteId, $id)
+    public function update(SiteFileRequest $request, $siteId, $id)
     {
-        $file = SiteFile::with('site')->findOrFail($id);
+        $file = SiteFile::with('site')->where('site_id', $siteId)->findOrFail($id);
 
-        $file->fill([
-            'content' => $request->get('content'),
-        ]);
-
-        $file->save();
-
-        foreach ($request->get('servers') as $serverId) {
-            $server = Server::findOrFail($serverId);
-
-            $this->runOnServer($server, function () use ($server, $file) {
-                $this->serverService->saveFile($server, $file->file_path, $file->content, 'codepier');
-            });
-        }
-
-        return $this->remoteResponse();
+        return response()->json(
+            $file->update([
+                'content' => $request->get('content'),
+            ])
+        );
     }
 }

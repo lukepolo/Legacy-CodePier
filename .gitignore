@@ -1,7 +1,11 @@
 /vendor
 /node_modules
 /public/storage
+/storage/*.key
 /.idea
 Homestead.yaml
 Homestead.json
 .env
+/resources/assets/bower
+/public/.DS_Store
+/.DS_Store

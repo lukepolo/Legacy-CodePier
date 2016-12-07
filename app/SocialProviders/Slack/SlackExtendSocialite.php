@@ -4,9 +4,6 @@ namespace App\SocialProviders\Slack;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-/**
- * Class SlackExtendSocialite.
- */
 class SlackExtendSocialite
 {
     /**

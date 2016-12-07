@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class Events extends Migration
 {
@@ -19,7 +19,7 @@ class Events extends Migration
             $table->string('description');
             $table->string('internal_type');
             $table->longText('data')->nullable();
-            $table->json('log')->nullable();
+            $table->text('log')->nullable();
             $table->timestamps();
         });
     }

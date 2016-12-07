@@ -2,16 +2,13 @@
 
 namespace App\Services;
 
-use App\Contracts\RemoteTaskServiceContract;
+use phpseclib\Net\SSH2;
+use phpseclib\Crypt\RSA;
+use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SSH2;
+use App\Contracts\RemoteTaskServiceContract;
 
-/**
- * Class RemoteTaskService.
- */
 class RemoteTaskService implements RemoteTaskServiceContract
 {
     private $user;
@@ -43,7 +40,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $output = null;
 
         try {
-            $output = $this->session->exec(rtrim($command, ';').' && echo codepier-done;');
+            $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
             if (! str_contains($output, 'codepier-done')) {
                 \Log::info($output);
                 $this->output[] = $output;
@@ -66,17 +63,21 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         \Log::debug($this->session->getExitStatus());
 
-        $this->output[] = $output;
+        $output = $this->cleanResponse($output);
+
+        if (! empty($output)) {
+            $this->output[] = $output;
+        }
 
         if ($this->session->getExitStatus() != 0) {
             \Log::error($output);
 
             $this->errors[] = $output;
 
-            throw new FailedCommand(json_encode($output));
+            throw new FailedCommand($output);
         }
 
-        return $this->cleanResponse($output);
+        return $output;
     }
 
     /**
@@ -169,7 +170,7 @@ echo "Wrote" ', $read);
     }
 
     /**
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      * @param string $user
      *
      * @throws SshConnectionFailed
@@ -220,11 +221,11 @@ echo "Wrote" ', $read);
 
     public function getOutput()
     {
-        return $this->output;
+        return array_filter($this->output);
     }
 
     private function cleanResponse($response)
     {
-        return str_replace('codepier-done', '', $response);
+        return trim(str_replace('codepier-done', '', $response));
     }
 }

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Stripe\Token;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserSubscriptionRequest;
 
-/**
- * Class UserSubscriptionController.
- */
 class UserSubscriptionController extends Controller
 {
     /**
@@ -32,11 +29,10 @@ class UserSubscriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param UserSubscriptionRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserSubscriptionRequest $request)
     {
         $user = \Auth::user();
 

@@ -2,6 +2,7 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="updateSite" class="floating-labels">
+                <h3>Repository</h3>
                 <div class="jcf-input-group">
                     <input type="text" v-model="form.repository" name="repository">
                     <label for="repository">
@@ -41,13 +42,26 @@
                         {{ user_repository_provider.repository_provider.name }}
                     </label>
                 </div>
+
+                <div class="jcf-input-group">
+                    <div class="input-question">Select Type</div>
+                    <div class="select-wrap">
+                        <select v-model="form.type" name="type">
+                            <option :value="language" v-for="(features, language) in availableLanguages">
+                                {{ language }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="jcf-input-group">
                     <div class="input-question">Select Framework</div>
                     <!-- TODO allow user to de-select a framework. Have an option of "none" -->
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
+                            <select>None</select>
                             <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}></option>
+                                <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
                             </optgroup>
                         </select>
                     </div>
@@ -55,7 +69,8 @@
             </form>
 
             <div class="btn-footer">
-                <button @click="deleteSite(site.id)" class="btn">Delete Site</button>
+
+                <confirm class="btn" dispatch="deleteSite" :params="site.id"> Delete Site </confirm>
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
@@ -74,6 +89,7 @@
         data() {
             return {
                 form: {
+                    type : null,
                     branch: null,
                     framework: null,
                     repository: null,
@@ -103,6 +119,7 @@
                 this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
                     data: {
+                        type : this.form.type,
                         branch: this.form.branch,
                         domain: this.site.domain,
                         pile_id: this.site.pile_id,
@@ -114,9 +131,6 @@
                         user_repository_provider_id: this.form.user_repository_provider_id
                     }
                 });
-            },
-            deleteSite: function (site_id) {
-                this.$store.dispatch('deleteSite', site_id);
             }
         },
         computed: {
@@ -124,6 +138,7 @@
                 var site = this.$store.state.sitesStore.site;
 
                 if (site) {
+                    this.form.type = site.type;
                     this.form.branch = site.branch;
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;

@@ -2,42 +2,52 @@
 
 namespace App\Events\Site;
 
-use App\Models\DeploymentEvent;
-use App\Models\Site;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Deployment\DeploymentEvent;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-/**
- * Class ServerCreated.
- */
 class DeploymentStepFailed implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $deploymentEvent;
-
     private $siteId;
+    private $siteDeployment;
+    private $deploymentEvent;
+    private $serverDeployment;
 
     /**
      * Create a new event instance.
      *
-     * @param Site            $site
-     * @param DeploymentEvent $deploymentEvent
+     * @param \App\Models\Site\Site $site
+     * @param Server $server
+     * @param \App\Models\Site\Deployment\DeploymentEvent $deploymentEvent
+     * @param DeploymentStep $deploymentStep
      * @param $log
      */
-    public function __construct(Site $site, DeploymentEvent $deploymentEvent, $log)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log)
     {
         $this->siteId = $site->id;
 
-        $deploymentEvent->log = $log;
-        $deploymentEvent->completed = true;
-        $deploymentEvent->failed = true;
-        $deploymentEvent->save();
+        $deploymentEvent->update([
+            'log' => $log,
+            'failed' => true,
+            'completed' => true,
+        ]);
+
+        $deploymentEvent->serverDeployment->update([
+            'status' => 'Deployment Failed',
+            'failed' => true,
+        ]);
 
         $this->deploymentEvent = $deploymentEvent;
+        $this->serverDeployment = $deploymentEvent->serverDeployment;
+        $this->siteDeployment = $this->serverDeployment->siteDeployment;
     }
 
     /**
@@ -47,6 +57,20 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteId);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'site_deployment' => strip_relations($this->siteDeployment),
+            'server_deployment' => strip_relations($this->serverDeployment),
+            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
+        ];
     }
 }

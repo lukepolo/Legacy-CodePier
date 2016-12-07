@@ -2,27 +2,75 @@ export default {
     state: {
         sites: [],
         site: null,
-        workers: [],
+        all_sites: [],
         site_servers: [],
-        ssl_certificates: []
+        deployment_steps: [],
+        sites_listening_to : [],
+        site_deployment_steps: [],
     },
     actions: {
         getSite: ({commit}, site) => {
             Vue.http.get(Vue.action('Site\SiteController@show', {site: site})).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
-        getSites: ({commit, rootState}, callback) => {
+        getSites: ({commit, rootState}) => {
             if (rootState.userStore.user.current_pile_id != null) {
-                Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile: rootState.userStore.user.current_pile_id})).then((response) => {
+                return Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile: rootState.userStore.user.current_pile_id})).then((response) => {
                     commit('SET_SITES', response.data);
-                    typeof callback === 'function' && callback();
+                    return response.data;
                 }, (errors) => {
-                    alert(error);
+                    app.showError(errors);
                 });
             }
+        },
+        getAllSites : ({commit, dispatch}) => {
+            return Vue.http.get(Vue.action('Site\SiteController@index')).then((response) => {
+
+                _.each(response.data, function(site) {
+                    dispatch('listenToSite', site);
+                });
+
+                commit('SET_ALL_SITES', response.data);
+
+                return response.data;
+            }, (errors) => {
+                app.showError(errors);
+            });
+        },
+        listenToSite : ({commit, state}, site) => {
+            if (_.indexOf(state.sites_listening_to, site.id) == -1) {
+                commit('SET_SITES_LISTENING_TO', site);
+                Echo.private('App.Models.Site.Site.' + site.id)
+                    .listen('Site\\DeploymentStepStarted', (data) => {
+                        commit('UPDATE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                    })
+                    .listen('Site\\DeploymentStepCompleted', (data) => {
+                        commit('UPDATE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                    })
+                    .listen('Site\\DeploymentStepFailed', (data) => {
+                        commit('UPDATE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                    })
+                    .listen('Site\\DeploymentCompleted', (data) => {
+                        commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                    })
+                    .notification((notification) => {
+                        console.info(notification);
+                        if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
+                            commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
+                        }
+                    });
+            }
+
         },
         createSite: ({commit, dispatch, rootState}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@store'), {
@@ -30,24 +78,21 @@ export default {
                 domainless: data.domainless,
                 pile_id: rootState.userStore.user.current_pile_id
             }).then((response) => {
-                app.$router.push('/site/' + response.data.id + '/repository');
+
+                app.$router.push({ name : 'site_repository', params : { site_id : response.data.id}});
+
+                dispatch('listenToSite', response.data);
+
                 dispatch('getSites');
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             })
         },
         updateSite: ({commit}, data) => {
             Vue.http.put(Vue.action('Site\SiteController@update', {site: data.site_id}), data.data).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                alert(error);
-            });
-        },
-        updateSiteServerFeatures: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\SiteController@updateSiteServerFeatures', {site: data.site}), data.form).then((response) => {
-                dispatch('getSite', data.site);
-            }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
         deleteSite: ({commit, dispatch}, site_id) => {
@@ -58,52 +103,11 @@ export default {
 
             })
         },
-        getWorkers: ({commit}, site_id) => {
-            Vue.http.get(Vue.action('Site\SiteWorkerController@show', {site: site_id})).then((response) => {
-                commit('SET_WORKERS', response.data);
-            }, (errors) => {
-            });
-        },
-        installWorker: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
-                dispatch('getWorkers', data.site_id);
-            }, (errors) => {
-                alert(error);
-            });
-        },
-        deleteWorker: ({commit, dispatch}, data) => {
-            Vue.http.delete(Vue.action('Site\SiteWorkerController@destroy', {
-                site: data.site,
-                worker: data.worker
-            })).then((response) => {
-                dispatch('getWorkers', data.site);
-            }, (errors) => {
-            });
-        },
-        getSslCertificates: ({commit}, site_id) => {
-            Vue.http.get(Vue.action('Site\Certificate\SiteSSLController@index', {site: site_id})).then((response) => {
-                commit('SET_SSL_CERTIFICATES', response.data);
-            }, (errors) => {
-            });
-        },
-        installLetsEncryptSslCertificate: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\Certificate\SiteSSLLetsEncryptController@store', {site: data.site_id}), data).then((response) => {
-                dispatch('getSslCertificates', data.site_id);
-            }, (errors) => {
-            });
-        },
-        deleteSslCertificate: ({commit, dispatch}, ssl_certificate_id) => {
-            Vue.http.delete(Vue.action('Site\Certificate\SiteSSLController@destroy', {ssl: ssl_certificate_id})).then((response) => {
-                dispatch('getSslCertificates', this.$store.state.sitesStore.site.id);
-            }, (errors) => {
-
-            });
-        },
         getSiteServers: ({commit}, site_id) => {
             Vue.http.get(Vue.action('Site\SiteServerController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_SERVERS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
         updateLinkedServers: ({commit, dispatch}, data) => {
@@ -112,7 +116,7 @@ export default {
             });
         },
         saveSiteFile: ({commit}, data) => {
-            Vue.http.post(laroute.Vue.action('Site\SiteFileController@store', {
+            Vue.http.post(Vue.action('Site\SiteFileController@store', {
                 site: data.site
             }), {
                 file_path: data.file,
@@ -121,21 +125,24 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
-        updateSiteFile: ({commit}, data) => {
-            Vue.http.put(laroute.Vue.action('Site\SiteFileController@update', {
-                site: data.site,
-                file: data.file_id
-            }), {
-                file_path: data.file,
-                content: data.content,
-                servers: data.servers,
-            }).then((response) => {
-
-            }, (errors) => {
-                alert(error);
+        getDeploymentSteps: ({commit}, site) => {
+            return Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site : site})).then((response) => {
+                commit('SET_DEPLOYMENT_STEPS', response.data);
+                return response.data;
+            });
+        },
+        getSiteDeploymentSteps: ({commit}, site) => {
+            return Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@index', { site : site})).then((response) => {
+                commit('SET_SITE_DEPLOYMENT_STEPS', response.data);
+                return response.data;
+            });
+        },
+        updateSiteDeployment: ({dispatch}, data) => {
+            Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then((response) => {
+                dispatch('getSiteDeploymentSteps', data.site);
             });
         }
     },
@@ -146,14 +153,20 @@ export default {
         SET_SITES: (state, sites) => {
             state.sites = sites;
         },
-        SET_WORKERS: (state, workers) => {
-            state.workers = workers;
-        },
-        SET_SSL_CERTIFICATES: (state, ssl_certificates) => {
-            state.ssl_certificates = ssl_certificates;
+        SET_ALL_SITES : (state, sites) => {
+            state.all_sites = sites;
         },
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;
+        },
+        SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
+            state.deployment_steps = deployment_steps;
+        },
+        SET_SITE_DEPLOYMENT_STEPS : (state, deployment_steps) => {
+            state.site_deployment_steps = deployment_steps;
+        },
+        SET_SITES_LISTENING_TO : (state, site) => {
+            state.sites_listening_to.push(site.id);
         }
     }
 }

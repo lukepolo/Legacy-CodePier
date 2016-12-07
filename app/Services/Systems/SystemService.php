@@ -2,15 +2,12 @@
 
 namespace App\Services\Systems;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Models\Server\Server;
+use App\Exceptions\FailedCommand;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Exceptions\FailedCommand;
-use App\Models\Server;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
-/**
- * Class SystemService.
- */
 class SystemService implements SystemServiceContract
 {
     protected $server;
@@ -46,7 +43,7 @@ class SystemService implements SystemServiceContract
     /**
      * Provisions a server based on its operating system.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      *
      * @return bool
      */
@@ -60,7 +57,7 @@ class SystemService implements SystemServiceContract
             }) as $provisionStep) {
                 $this->updateProgress($provisionStep->step);
 
-                $systemService = $this->createSystemService($provisionStep->service);
+                $systemService = $this->createSystemService($provisionStep->service, $server);
 
                 call_user_func_array([$systemService, $provisionStep->function], $provisionStep->parameters);
 
@@ -97,15 +94,13 @@ class SystemService implements SystemServiceContract
 
     /**
      * @param $service
-     * @param Server|null $server
+     * @param \App\Models\Server\Server|null $server
      *
      * @return mixed
      */
-    public function createSystemService($service, Server $server = null)
+    public function createSystemService($service, Server $server)
     {
-        // TODO - server needs to send in the correct system
-
-        $service = 'App\Services\Systems\\'.$this->provisionSystems['ubuntu 16.04'].'\\'.$service;
+        $service = 'App\Services\Systems\\'.$this->provisionSystems[$server->system_class].'\\'.$service;
 
         return new $service($this->remoteTaskService, ! empty($server) ? $server : $this->server);
     }
