@@ -1,3 +1,4 @@
+export const Servers = require("./Servers.vue");
 export const ServerForm = require("./ServerForm.vue");
 export const ServerArea = require("./ServerArea.vue");
 export const ServerSites = require("./ServerSites.vue");

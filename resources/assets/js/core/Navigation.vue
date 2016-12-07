@@ -73,13 +73,16 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link to="/my-profile"><span class="icon-person"></span>My Profile</router-link>
+                        <router-link :to="{ name: 'my_profile' }"><span class="icon-person"></span>My Profile</router-link>
                     </li>
                     <li>
-                        <router-link to="/my/teams"><span class="icon-people"></span>Manage Teams</router-link>
+                        <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                     </li>
                     <li>
-                        <router-link to="/piles"><span class="icon-layers"></span>My Piles</router-link>
+                        <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                     </li>
                     <li>
                         <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
