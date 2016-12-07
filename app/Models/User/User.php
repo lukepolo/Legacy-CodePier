@@ -43,15 +43,15 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-//    public function servers()
-//    {
-//        return $this->hasMany(Server::class);
-//    }
+    public function servers()
+    {
+        return $this->hasMany(Server::class);
+    }
 
-//    public function provisionedServers()
-//    {
-//        return $this->hasMany(Server::class)->where('progress', '>=', '100');
-//    }
+    public function provisionedServers()
+    {
+        return $this->hasMany(Server::class)->where('progress', '>=', '100');
+    }
 
     public function userServerProviders()
     {

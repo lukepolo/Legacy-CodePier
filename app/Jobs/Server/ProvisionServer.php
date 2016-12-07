@@ -50,7 +50,9 @@ class ProvisionServer implements ShouldQueue
             }
 
             foreach ($this->server->sites as $site) {
-                dispatch(new CreateSite($this->server, $site));
+                dispatch(
+                    (new CreateSite($this->server, $site))->onQueue('SERVER_COMMAND_QUEUE')
+                );
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));
