@@ -135,7 +135,14 @@
                 this.$store.dispatch('getServerProviderFeatures', provider);
             },
             createServer() {
+
                 this.$store.dispatch('createServer', this.getFormData(this.$el));
+
+                if (this.$route.params.site) {
+                    app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}});
+                } else {
+                    app.$router.push('/');
+                }
             }
         },
         computed: {

@@ -78,7 +78,8 @@ export default {
                 domainless: data.domainless,
                 pile_id: rootState.userStore.user.current_pile_id
             }).then((response) => {
-                app.$router.push('/site/' + response.data.id + '/repository');
+
+                app.$router.push({ name : 'site_repository', params : { site_id : response.data.id}});
 
                 dispatch('listenToSite', response.data);
 

@@ -34,10 +34,9 @@ export default {
                 app.showError(errors);
             });
         },
-        getServers: ({commit, rootState}, callback) => {
+        getServers: ({commit, rootState}) => {
             Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.userStore.user.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
-                typeof callback === 'function' && callback();
             }, (errors) => {
                 app.showError(errors);
             });
@@ -54,13 +53,13 @@ export default {
                 app.showError(errors);
             });
         },
-        listenToServer : ({commit, state}, server) => {
+        listenToServer : ({commit, state, dispatch}, server) => {
             if (_.indexOf(state.servers_listening_to, server.id) == -1) {
 
                 commit('SET_SERVERS_LISTENING_TO', server);
 
                 if(server.progress < 100) {
-                    store.dispatch('getServersCurrentProvisioningStep', server.id)
+                    dispatch('getServersCurrentProvisioningStep', server.id)
                 }
 
                 Echo.private('App.Models.Server.Server.' + server.id)
@@ -72,10 +71,7 @@ export default {
         },
         createServer: ({dispatch}, form) => {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
-
                 dispatch('listenToServer', response.data);
-
-                alert('probably should notify them or something ?')
             }, (errors) => {
                 app.showError(errors);
             });

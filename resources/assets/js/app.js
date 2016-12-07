@@ -115,6 +115,10 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/', name: 'dashboard', component: Piles},
+        {path: '/piles', name: 'piles', component: Piles},
+        {path: '/servers', name: 'servers', component: serverPages.Servers},
+        {path: '/my/teams', name: 'teams', component: teamPages.Teams},
+        {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
         {
             path: '/server', component: serverPages.ServerArea,
@@ -193,9 +197,6 @@ const router = new VueRouter({
                 },
             ]
         },
-
-        {path: '/piles', name: 'piles', component: Piles},
-
         {
             path: '/site', component: sitePages.SiteArea,
             children: [
@@ -327,9 +328,6 @@ const router = new VueRouter({
                 },
             ]
         },
-
-        {path: '/my/teams', name: 'teams', component: teamPages.Teams},
-        {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
         {path: '*',  component: PageNotFound },
     ]
