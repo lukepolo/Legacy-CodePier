@@ -3,11 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Pile;
-use App\Models\User;
+use App\Models\User\User;
+use App\Models\NotificationSetting;
+use App\Models\User\UserNotificationSetting;
 
-/**
- * Class UserObserver.
- */
 class UserObserver
 {
     /**
@@ -29,6 +28,14 @@ class UserObserver
             Pile::create([
                 'name'    => $defaultPile,
                 'user_id' => $user->id,
+            ]);
+        }
+
+        foreach (NotificationSetting::all() as $notificationSetting) {
+            UserNotificationSetting::create([
+                'user_id' => $user->id,
+                'services' => $notificationSetting->services,
+                'notification_setting_id' => $notificationSetting->id,
             ]);
         }
     }

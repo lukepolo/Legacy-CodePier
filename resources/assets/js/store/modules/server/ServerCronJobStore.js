@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Server\ServerCronJobController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_CRON_JOBS', response.data);
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
         createServerCronJob: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Server\ServerCronJobController@store', {server: data.server}), data).then(() => {
                 dispatch('getServerCronJobs', data.server);
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         },
         deleteServerCronJob: ({dispatch}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then(() => {
                 dispatch('getServerCronJobs', data.server);
             }, (errors) => {
-                alert(error);
+                app.showError(errors);
             });
         }
     },

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateSitesTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateSitesTable extends Migration
             $table->string('domain');
             $table->integer('user_id');
             $table->integer('pile_id');
-            $table->json('server_features')->nullable();
+            $table->text('server_features')->nullable();
             $table->string('branch')->nullable();
             $table->text('repository')->nullable();
             $table->string('framework')->nullable();

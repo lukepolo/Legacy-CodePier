@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateSiteDeploymentsTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateSiteDeploymentsTable extends Migration
             $table->increments('id');
             $table->integer('site_id');
             $table->string('status');
-            $table->json('log')->nullable();
+            $table->text('log')->nullable();
             $table->string('git_commit')->nullable();
             $table->timestamps();
         });

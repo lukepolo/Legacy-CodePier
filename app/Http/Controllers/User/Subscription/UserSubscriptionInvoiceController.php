@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Laravel\Cashier\Invoice;
+use App\Http\Controllers\Controller;
 
-/**
- * Class UserSubscriptionInvoiceController.
- */
 class UserSubscriptionInvoiceController extends Controller
 {
     /**

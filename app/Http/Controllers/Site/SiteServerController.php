@@ -2,52 +2,45 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
+use App\Jobs\Site\CreateSite;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateSite;
-use App\Models\Site;
-use Illuminate\Http\Request;
+use App\Http\Requests\Site\SiteServerRequest;
 
-/**
- * Class SiteServerController.
- */
 class SiteServerController extends Controller
 {
-    private $siteService;
-
-    /**
-     * SiteController constructor.
-     *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    public function __construct(SiteService $siteService)
-    {
-        $this->siteService = $siteService;
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $siteId)
+    public function index($siteId)
     {
-        return response()->json(Site::where('id', $siteId)->firstorFail()->servers);
+        return response()->json(
+            Site::where('id', $siteId)->firstorFail()->servers
+        );
     }
 
-    public function store(Request $request, $siteId)
+    /**
+     * Stores a site.
+     *
+     * @param SiteServerRequest $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(SiteServerRequest $request, $siteId)
     {
         $site = Site::where('id', $siteId)->firstorFail();
 
-        $site->servers()->sync($request->get('connected_servers', []));
+        $changes = $site->servers()->sync($request->get('connected_servers', []));
 
-        $site->fireSavedEvent();
-
-        foreach ($site->servers as $server) {
-            $this->dispatch(new CreateSite($server, $site));
+        foreach ($changes['attached'] as $attached) {
+            $this->dispatch(new CreateSite(Server::findOrFail($attached), $site));
         }
+
+        return response()->json($site);
     }
 }

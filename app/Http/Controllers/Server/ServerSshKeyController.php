@@ -2,69 +2,42 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Server\ServerSshKey;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\ServerSshKey;
-use Illuminate\Http\Request;
+use App\Http\Requests\Server\ServerSshKeyRequest;
 
-/**
- * Class ServerSshKeyController.
- */
 class ServerSshKeyController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
-        return response()->json(ServerSshKey::where('server_id', $serverId)->get());
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->get()
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ServerSshKeyRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerSshKeyRequest $request, $serverId)
     {
-        $server = Server::findOrFail($serverId);
-
-        $serverSshKey = ServerSshKey::create([
-            'server_id' => $serverId,
-            'name'      => $request->get('name'),
-            'ssh_key'   => trim($request->get('ssh_key')),
-        ]);
-
-        $this->runOnServer($server, function () use ($server, $serverSshKey) {
-            $this->serverService->installSshKey($server, $serverSshKey->ssh_key);
-        });
-
-        if (! $this->successful()) {
-            $serverSshKey->delete();
-        }
-
-        return $this->remoteResponse();
+        return response()->json(
+            ServerSshKey::create([
+                'server_id' => $serverId,
+                'name'      => $request->get('name'),
+                'ssh_key'   => trim($request->get('ssh_key')),
+            ])
+        );
     }
 
     /**
@@ -77,7 +50,9 @@ class ServerSshKeyController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerSshKey::findOrFail($id));
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->findOrFail($id)
+        );
     }
 
     /**
@@ -90,26 +65,8 @@ class ServerSshKeyController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $serverSshKey = ServerSshKey::findOrFail($id);
-
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer($server, function () use ($server, $serverSshKey) {
-            $this->serverService->removeSshKey($server, $serverSshKey->ssh_key);
-            $serverSshKey->delete();
-        });
-
-        return $this->remoteResponse();
-    }
-
-    /**
-     * Tests a ssh connection to server.
-     *
-     * @param Request $request
-     * @param $serverId
-     */
-    public function testSSHConnection(Request $request, $serverId)
-    {
-        $this->serverService->testSSHConnection(Server::findOrFail($serverId));
+        return response()->json(
+            ServerSshKey::where('server_id', $serverId)->findOrFail($id)->delete()
+        );
     }
 }

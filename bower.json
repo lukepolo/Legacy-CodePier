@@ -22,7 +22,7 @@
     "bootstrap": "^3.3.6",
     "font-awesome": "fontawesome#^4.6.3",
     "jcf-forms": "JCF-Forms#*",
-    "jquery": "^2.0.0",
+    "jquery": "^3.1.1",
     "jquery-confirm2": "^2.5.1",
     "jquery-cron": "^0.1.4",
     "moment": "^2.13.0",

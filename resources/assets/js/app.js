@@ -10,9 +10,10 @@ import * as userPages from "./pages/user";
 import * as teamPages from "./pages/team";
 import * as sitePages from "./pages/site";
 import * as serverPages from "./pages/server";
+
 import store from "./store";
 import Piles from "./pages/pile/Piles.vue";
-import Dashboard from "./pages/dashboard/Dashboard.vue";
+import PageNotFound from './core/PageNotFound.vue';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,6 +28,18 @@ Vue.directive('file-editor', {
         editor.$blockScrolling = Infinity;
         editor.getSession().setMode("ace/mode/sh");
         editor.setOption("maxLines", 45);
+    }
+});
+
+Vue.directive('cronjob', {
+    bind: function (el) {
+        $(el).cron({
+            onChange() {
+                var cronTiming = $(this).cron("value");
+                $('#cron-preview').text(cronTiming);
+                $('input[name="cron_timing"]').val(cronTiming);
+            }
+        });
     }
 });
 
@@ -59,13 +72,40 @@ Vue.mixin({
         },
         serverHasFeature: function (server, feature) {
             return _.get(server.server_features, feature, false);
+        },
+        isCommandRunning(type, model_id) {
+            return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
+                if(type == commandType) {
+                    if(_.find(object, function(item) {
+                            return item.site_id == model_id;
+                    })) {
+                        return true;
+                    }
+                }
+                return false;
+            }).length > 0;
+        },
+        showError(message, title, timeout) {
+            this.$store.dispatch('addNotification', {
+                title: title ? title : "Error!!",
+                text: message,
+                class: "error",
+                timeout: false,
+            })
+        },
+        showSuccess(message, title, timeout) {
+            this.$store.dispatch('addNotification', {
+                title: title ? title : "Success!!",
+                text: message,
+                class: "success",
+                timeout: false,
+            })
+        },
+        back() {
+            window.history.back();
         }
     }
 });
-
-
-// Vue.config.errorHandler = function (err, vm) {
-// }
 
 /*
  |--------------------------------------------------------------------------
@@ -74,26 +114,97 @@ Vue.mixin({
  |
  */
 
+Vue.component('back', require('./core/Back.vue'));
+Vue.component('Confirm', require('./components/Confirm.vue'));
 Vue.component('Navigation', require('./core/Navigation.vue'));
 Vue.component('NotificationBar', require('./core/NotificationBar.vue'));
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        {path: '/', component: Dashboard},
-
-        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
-        {path: '/server/:server_id/sites', name: 'server_sites', component: serverPages.ServerSites},
-        {path: '/server/:server_id/files', name: 'server_files', component: serverPages.ServerFiles},
-        {path: '/server/:server_id/workers', name: 'server_workers', component: serverPages.ServerWorkers},
-        {path: '/server/:server_id/ssh-keys', name: 'server_ssh_keys', component: serverPages.ServerSshKeys},
-        {path: '/server/:server_id/features', name: 'server_features', component: serverPages.ServerFeatures},
-        {path: '/server/:server_id/cron-jobs', name: 'server_cron_jobs', component: serverPages.ServerCronJobs},
-        {path: '/server/:server_id/monitoring', name: 'server_monitoring', component: serverPages.ServerMonitoring},
-        {path: '/server/:server_id/firewall-rules', name: 'server_firewall_rules', component: serverPages.ServerFirewallRules},
-
+        {path: '/', name: 'dashboard', component: Piles},
         {path: '/piles', name: 'piles', component: Piles},
+        {path: '/servers', name: 'servers', component: serverPages.Servers},
+        {path: '/my/teams', name: 'teams', component: teamPages.Teams},
+        {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
+        {
+            path: '/server', component: serverPages.ServerArea,
+            children: [
+                {
+                    path: 'create/:site/:type',
+                    name: 'server_form',
+                    components: {
+                        default: serverPages.ServerForm,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/sites',
+                    name: 'server_sites',
+                    components: {
+                        default: serverPages.ServerSites,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/files',
+                    name: 'server_files',
+                    components: {
+                        default: serverPages.ServerFiles,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/workers',
+                    name: 'server_workers',
+                    components: {
+                        default: serverPages.ServerWorkers,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/ssh-keys',
+                    name: 'server_ssh_keys',
+                    components: {
+                        default: serverPages.ServerSshKeys,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/features',
+                    name: 'server_features',
+                    components: {
+                        default: serverPages.ServerFeatures,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/cron-jobs',
+                    name: 'server_cron_jobs',
+                    components: {
+                        default: serverPages.ServerCronJobs,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/',
+                    name: 'server_monitoring',
+                    components: {
+                        default: serverPages.ServerMonitoring,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
+                    path: ':server_id/firewall-rules',
+                    name: 'server_firewall_rules',
+                    components: {
+                        default: serverPages.ServerFirewallRules,
+                        nav: serverPages.ServerNav
+                    }
+                },
+            ]
+        },
         {
             path: '/site', component: sitePages.SiteArea,
             children: [
@@ -106,18 +217,42 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: ':site_id/deployment',
+                    name: 'site_deployment',
+                    components: {
+                        default: sitePages.SiteDeployment,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
                     path: ':site_id/workers',
                     name: 'site_workers',
                     components: {
-                        default: sitePages.SiteWorkers,
+                        default: sitePages.SiteJobs,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
+                    path: ':site_id/firewall-rules',
+                    name: 'site_firewall_rules',
+                    components: {
+                        default: sitePages.SiteFirewallRules,
+                        nav: sitePages.SiteNav
+                    }
+                },
+                {
+                    path: ':site_id/ssh-keys',
+                    name: 'site_ssh_keys',
+                    components: {
+                        default: sitePages.SiteSshKeys,
                         nav: sitePages.SiteNav
                     }
                 },
                 {
                     path: ':site_id/framework-files',
-                    name: 'site_framework_files',
+                    name: 'site_files',
                     components: {
-                        default: sitePages.SiteFrameworkFiles,
+                        default: sitePages.SiteFiles,
                         nav: sitePages.SiteNav
                     }
                 },
@@ -140,19 +275,69 @@ const router = new VueRouter({
 
             ]
         },
+        {
+            path: '/my-profile', component: userPages.UserArea,
+            children: [
+                {
+                    path: '/',
+                    name: 'my_profile',
+                    components: {
+                        default: userPages.UserInfo,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'oauth',
+                    name: 'oauth',
+                    components: {
+                        default: userPages.UserOauth,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'ssh-keys',
+                    name: 'user_ssh_keys',
+                    components: {
+                        default: userPages.UserSshKeys,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'subscription',
+                    name: 'subscription',
+                    components: {
+                        default: userPages.UserSubscription,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'server-providers',
+                    name: 'user_server_providers',
+                    components: {
+                        default: userPages.UserServerProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'repository-providers',
+                    name: 'user_repository_providers',
+                    components: {
+                        default: userPages.UserRepositoryProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+                {
+                    path: 'notification-providers',
+                    name: 'user_notification_providers',
+                    components: {
+                        default: userPages.UserNotificationProviders,
+                        nav: userPages.UserNav
+                    }
+                },
+            ]
+        },
 
-        {path: '/my-profile', name: 'my_profile', component: userPages.UserInfo},
-        {path: '/my-profile/oauth', name: 'oauth', component: userPages.UserOauth},
-        {path: '/my-profile/ssh-keys', name: 'user_ssh_keys', component: userPages.UserSshKeys},
-        {path: '/my-profile/subscription', name: 'subscription', component: userPages.UserSubscription},
-        {path: '/my-profile/server-providers', name: 'user_server_providers', component: userPages.UserServerProviders},
-        {path: '/my-profile/repository-providers', name: 'user_repository_providers', component: userPages.UserRepositoryProviders},
-        {path: '/my-profile/notification-providers', name: 'user_notification_providers', component: userPages.UserNotificationProviders},
-
-        {path: '/my/teams', name: 'teams', component: teamPages.Teams},
-        {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
-
-        {path: '*', redirect: '/'},
+        {path: '*',  component: PageNotFound },
     ]
 });
 

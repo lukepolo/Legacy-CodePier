@@ -2,39 +2,48 @@
 
 namespace App\Events\Site;
 
-use App\Models\DeploymentEvent;
-use App\Models\DeploymentStep;
-use App\Models\Site;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Deployment\DeploymentEvent;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-/**
- * Class ServerCreated.
- */
 class DeploymentStepStarted implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $step;
-    public $deploymentEvent;
-
-    private $siteID;
+    private $siteId;
+    private $siteDeployment;
+    private $deploymentEvent;
+    private $serverDeployment;
 
     /**
      * Create a new event instance.
+     * @param Site $site
+     * @param Server $server
+     * @param DeploymentEvent $deploymentEvent
+     * @param DeploymentStep $deploymentStep
      */
-    public function __construct(Site $site, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep)
     {
-        $this->siteID = $site->id;
+        $this->siteId = $site->id;
 
-        $deploymentEvent->started = true;
-        $deploymentEvent->save();
+        $deploymentEvent->update([
+            'started' => true,
+        ]);
+
+        $deploymentEvent->serverDeployment->update([
+            'started' => true,
+            'status' => $deploymentStep->step,
+        ]);
 
         $this->deploymentEvent = $deploymentEvent;
-        $this->step = $deploymentStep->step;
+        $this->serverDeployment = $deploymentEvent->serverDeployment;
+        $this->siteDeployment = $this->serverDeployment->siteDeployment;
     }
 
     /**
@@ -44,6 +53,20 @@ class DeploymentStepStarted implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Site.'.$this->siteID);
+        return new PrivateChannel('App.Models.Site.Site.'.$this->siteId);
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'site_deployment' => strip_relations($this->siteDeployment),
+            'server_deployment' => strip_relations($this->serverDeployment),
+            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
+        ];
     }
 }

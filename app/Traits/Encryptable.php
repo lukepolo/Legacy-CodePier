@@ -2,9 +2,6 @@
 
 namespace App\Traits;
 
-/**
- * Class Encryptable.
- */
 trait Encryptable
 {
     public function getAttribute($key)

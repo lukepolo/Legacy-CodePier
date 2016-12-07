@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
-use App\Models\Site;
-use Illuminate\Http\Request;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
-/**
- * Class RepositoryHookController.
- */
 class RepositoryHookController extends Controller
 {
     private $siteService;
@@ -26,31 +22,28 @@ class RepositoryHookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      * @param $siteId
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store($siteId)
     {
-        // TODO - i think hooks should have their own model as well
-        $site = Site::with('server')->findOrFail($siteId);
-
-        $this->siteService->createDeployHook($site);
+        return response()->json(
+            $this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId))
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param $siteId
-     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($siteId, $id)
+    public function destroy($siteId)
     {
-        $site = Site::with('server')->findOrFail($id);
-
-        $this->siteService->deleteDeployHook($site);
+        return response()->json(
+            $this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId))
+        );
     }
 }

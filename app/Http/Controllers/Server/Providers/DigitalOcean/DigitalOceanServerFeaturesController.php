@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Auth\OauthController;
 use App\Http\Controllers\Controller;
-use App\Models\ServerProvider;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
-/**
- * Class ServerController.
- */
 class DigitalOceanServerFeaturesController extends Controller
 {
     private $serverService;
@@ -30,8 +26,10 @@ class DigitalOceanServerFeaturesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return response()->json(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures);
+        return response()->json(
+            ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures
+        );
     }
 }

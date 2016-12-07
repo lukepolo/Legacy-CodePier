@@ -2,14 +2,11 @@
 
 namespace App\Services\Repository;
 
-use App\Contracts\Repository\RepositoryServiceContract;
+use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
-use App\Models\Site;
-use App\Models\UserRepositoryProvider;
+use App\Models\User\UserRepositoryProvider;
+use App\Contracts\Repository\RepositoryServiceContract;
 
-/**
- * Class RepositoryService.
- */
 class RepositoryService implements RepositoryServiceContract
 {
     protected $remoteTaskService;
@@ -42,17 +39,31 @@ class RepositoryService implements RepositoryServiceContract
         return new $repositoryProvider->repository_class();
     }
 
+    /**
+     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param $repository
+     * @param $branch
+     * @return mixed
+     */
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         return $this->getProvider($userRepositoryProvider->repositoryProvider)->getLatestCommit($userRepositoryProvider,
             $repository, $branch);
     }
 
+    /**
+     * @param Site $site
+     * @return mixed
+     */
     public function createDeployHook(Site $site)
     {
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->createDeployHook($site);
     }
 
+    /**
+     * @param Site $site
+     * @return mixed
+     */
     public function deleteDeployHook(Site $site)
     {
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->deleteDeployHook($site);

@@ -26,6 +26,24 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+// SPINNER
+.icon-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: .5em solid rgba($color-text-primary, .2);
+  border-radius: 50%;
+  border-top-color: $yellow;
+  animation: spin .7s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
 
 // EXTRA PADDING
 .icon-browser, 
@@ -35,14 +53,14 @@
 }
 
 
-.icon-warning:before {
-  content: "\e900";
+.icon-github:before {
+  content: "\eab0";
 }
-.icon-browser:before {
-  content: "\e902";
+.icon-play:before {
+  content: "\e901";
 }
-.icon-server:before {
-  content: "\e903";
+.icon-spinner8:before {
+  content: "\e982";
 }
 .icon-arrow-up:before {
   content: "\f106";
@@ -56,35 +74,14 @@
 .icon-arrow-left:before {
   content: "\f104";
 }
-.icon-play:before {
-  content: "\e901";
+.icon-browser:before {
+  content: "\e902";
 }
-.icon-layers:before {
-  content: "\e53b";
+.icon-server:before {
+  content: "\e903";
 }
-.icon-search:before {
-  content: "\e8b6";
-}
-.icon-group_add:before {
-  content: "\e7f0";
-}
-.icon-people:before {
-  content: "\e7fb";
-}
-.icon-person:before {
-  content: "\e7fd";
-}
-.icon-backup:before {
-  content: "\e864";
-}
-.icon-power_settings_new:before {
-  content: "\e8ac";
-}
-.icon-settings:before {
-  content: "\e8b8";
-}
-.icon-supervisor_account:before {
-  content: "\e8d3";
+.icon-warning:before {
+  content: "\e900";
 }
 .icon-check_box:before {
   content: "\e834";
@@ -95,15 +92,39 @@
 .icon-indeterminate_check_box:before {
   content: "\e909";
 }
-.icon-radio_button_unchecked:before {
-  content: "\e836";
-}
 .icon-radio_button_checked:before {
   content: "\e837";
+}
+.icon-radio_button_unchecked:before {
+  content: "\e836";
 }
 .icon-check_circle:before {
   content: "\e86c";
 }
 .icon-cancel:before {
   content: "\e5c9";
+}
+.icon-person:before {
+  content: "\e7fd";
+}
+.icon-people:before {
+  content: "\e7fb";
+}
+.icon-group_add:before {
+  content: "\e7f0";
+}
+.icon-layers:before {
+  content: "\e53b";
+}
+.icon-search:before {
+  content: "\e8b6";
+}
+.icon-backup:before {
+  content: "\e864";
+}
+.icon-power:before {
+  content: "\e8ac";
+}
+.icon-settings:before {
+  content: "\e8b8";
 }

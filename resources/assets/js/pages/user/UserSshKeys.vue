@@ -1,46 +1,48 @@
 <template>
     <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column">
-            <user-nav></user-nav>
-            <form @submit.prevent="createSshkey">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input v-model="form.name" name="name" type="text" class="form-control">
+        <div class="jcf-form-wrap">
+            <form @submit.prevent="createSshkey" class="floating-labels">
+
+                <div class="jcf-input-group">
+                    <input name="name" type="text" v-model="form.name">
+                    <label for="name">
+                        <span class="float-label">Name</span>
+                    </label>
                 </div>
-                <div class="form-group">
-                    <label>Public Key</label>
-                    <textarea v-model="form.ssh_key" name="ssh_key" class="form-control"></textarea>
+
+                <div class="jcf-input-group">
+                    <input type="text" name="ssh_key" v-model="form.ssh_key">
+                    <label for="ssh_key">
+                        <span class="float-label">Public Key - Should be textarea</span>
+                    </label>
                 </div>
-                <input type="submit" value="Install SSH Key">
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Install SSH Key</button>
+                </div>
             </form>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Key Name</th>
-                    <th>key info</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="key in user_ssh_keys">
-                    <td>{{ key.name }}</td>
-                    <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
+        </div>
+
+        <table class="">
+            <thead>
+            <tr>
+                <th>Key Name</th>
+                <th>key info</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="key in user_ssh_keys">
+                <td>{{ key.name }}</td>
+                <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 </template>
 
 <script>
-    import UserNav from './components/UserNav.vue';
-    import LeftNav from './../../core/LeftNav.vue';
     export default {
-        components: {
-            LeftNav,
-            UserNav
-        },
         data() {
             return {
                 form: {

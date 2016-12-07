@@ -3,11 +3,9 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-/**
- * Class Kernel.
- */
 class Kernel extends ConsoleKernel
 {
     /**
@@ -16,6 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        GetServerProviderOptions::class,
     ];
 
     /**

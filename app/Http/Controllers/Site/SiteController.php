@@ -2,31 +2,18 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Models\Site\Site;
+use App\Jobs\Site\CreateSite;
+use App\Jobs\Site\DeploySite;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Jobs\CreateSite;
-use App\Jobs\DeploySite;
-use App\Models\Server;
-use App\Models\Site;
-use Illuminate\Http\Request;
+use App\Models\Site\SiteFirewallRule;
+use App\Http\Requests\Site\SiteRequest;
+use App\Http\Requests\Site\DeploySiteRequest;
+use App\Http\Requests\Site\SiteServerFeatureRequest;
 
-/**
- * Class SiteController.
- */
 class SiteController extends Controller
 {
-    private $siteService;
-
-    /**
-     * SiteController constructor.
-     *
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    public function __construct(SiteService $siteService)
-    {
-        $this->siteService = $siteService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -34,26 +21,38 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return response()->json(Site::get());
+        return response()->json(
+            Site::get()
+        );
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param SiteRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SiteRequest $request)
     {
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
             'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
             'pile_id'             => $request->get('pile_id'),
-            'name'                 => $request->get('domain'),
+            'name'                => $request->get('domain'),
         ]);
 
-        $site->servers()->sync($request->get('servers', []));
+        SiteFirewallRule::create([
+            'site_id'   => $site->id,
+            'description' => 'HTTP',
+            'port'        => '80',
+            'from_ip'     => null,
+        ]);
+
+        SiteFirewallRule::create([
+            'site_id'   => $site->id,
+            'description' => 'HTTPS',
+            'port'        => '443',
+            'from_ip'     => null,
+        ]);
 
         return response()->json($site);
     }
@@ -67,24 +66,26 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        return response(Site::with('servers')->findOrFail($id));
+        return response(
+            Site::with('servers')->findOrFail($id)
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param SiteRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SiteRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
-        $site->fill([
+        $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domain'),
+            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'name'                        => $request->get('domain'),
             'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
@@ -92,20 +93,20 @@ class SiteController extends Controller
             'wildcard_domain'             => (int) $request->get('wildcard_domain'),
             'zerotime_deployment'         => true,
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
+            'type'                        => $request->get('type'),
         ]);
 
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
+
             foreach ($changes['attached'] as $serverID) {
-                $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
+                $this->dispatch(new CreateSite(Server::findOrFail($serverID), $site));
             }
 
             foreach ($changes['detached'] as $serverID) {
                 dd('site needs to be deleted');
             }
         }
-
-        $site->save();
 
         return response()->json($site);
     }
@@ -119,31 +120,35 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        Site::findOrFail($id)->delete();
-
-        // TODO - dispatch deletling of site
+        return response()->json(
+            Site::findOrFail($id)->delete()
+        );
     }
 
     /**
      * Deploys a site.
-     *
-     * @param Request $request
+     * @param DeploySiteRequest $request
      */
-    public function deploy(Request $request)
+    public function deploy(DeploySiteRequest $request)
     {
         $site = Site::with('servers')->findOrFail($request->get('site'));
 
         $this->dispatch(new DeploySite($site));
     }
 
-    public function updateSiteServerFeatures(Request $request, $id)
+    /**
+     * @param SiteServerFeatureRequest $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateSiteServerFeatures(SiteServerFeatureRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
-        $site->server_features = $request->get('services');
-
-        $site->save();
-
-        return response()->json();
+        return response()->json(
+            $site->update([
+                'server_features' => $request->get('services'),
+            ])
+        );
     }
 }

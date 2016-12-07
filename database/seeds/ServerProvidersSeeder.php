@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Class ServerProvidersSeeder.
+ */
 class ServerProvidersSeeder extends Seeder
 {
     /**
@@ -24,14 +27,14 @@ class ServerProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            $serverProvider = \App\Models\ServerProvider::firstOrCreate([
+            $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrCreate([
                 'provider_name' => $provider,
                 'name'          => $data['name'],
                 'provider_class' => $data['class'],
             ]);
 
             foreach ($data['features'] as $feature) {
-                $serverFeature = \App\Models\ServerProviderFeatures::firstOrNew([
+                $serverFeature = \App\Models\Server\Provider\ServerProviderFeatures::firstOrNew([
                     'server_provider_id' => $serverProvider->id,
                     'feature'            => $feature['feature'],
                 ]);

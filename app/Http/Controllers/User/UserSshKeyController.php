@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\User\UserSshKey;
 use App\Http\Controllers\Controller;
-use App\Models\UserSshKey;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserSshKeyRequest;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
-/**
- * Class UserSshKeyController.
- */
 class UserSshKeyController extends Controller
 {
     private $serverService;
@@ -37,20 +34,19 @@ class UserSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserSshKeyRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(UserSshKeyRequest $request)
     {
         $userSshKey = UserSshKey::create([
             'user_id' => \Auth::user()->id,
-            'name'    => \Request::get('name'),
-            'ssh_key' => trim(\Request::get('ssh_key')),
+            'name'    => $request->get('name'),
+            'ssh_key' => trim($request->get('ssh_key')),
         ]);
 
         foreach (\Auth::user()->provisionedServers as $server) {
-            $this->runOnServer($server, function () use ($server, $userSshKey) {
+            $this->runOnServer(function () use ($server, $userSshKey) {
                 if ($server->ssh_connection) {
                     $this->serverService->installSshKey($server, $userSshKey->ssh_key);
                 }
@@ -77,14 +73,14 @@ class UserSshKeyController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $sshKey = UserSshKey::findOrFail($id);
 
         foreach (\Auth::user()->servers as $server) {
-            $this->runOnServer($server, function () use ($server, $sshKey) {
+            $this->runOnServer(function () use ($server, $sshKey) {
                 if ($server->ssh_connection) {
                     $this->serverService->removeSshKey($server, $sshKey->ssh_key);
                 }

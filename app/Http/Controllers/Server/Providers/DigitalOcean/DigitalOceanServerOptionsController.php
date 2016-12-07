@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Auth\OauthController;
 use App\Http\Controllers\Controller;
-use App\Models\ServerProvider;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
-/**
- * Class ServerController.
- */
 class DigitalOceanServerOptionsController extends Controller
 {
     private $serverService;
@@ -27,23 +23,23 @@ class DigitalOceanServerOptionsController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return response()->json(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverOptions);
+        return response()->json(
+            ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverOptions
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        return response()->json($this->serverService->getServerOptions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()));
+        return response()->json(
+            $this->serverService->getServerOptions(ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail())
+        );
     }
 }

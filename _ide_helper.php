@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.19 on 2016-10-22.
+ * Generated for Laravel 5.3.26 on 2016-12-07.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -2291,7 +2291,7 @@ if (! function_exists('with')) {
         /**
          * Get the currently authenticated user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Models\User\User|null 
          * @static 
          */
         public static function user(){
@@ -2395,7 +2395,7 @@ if (! function_exists('with')) {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \App\Models\User|false 
+         * @return \App\Models\User\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -2406,7 +2406,7 @@ if (! function_exists('with')) {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \App\Models\User|false 
+         * @return \App\Models\User\User|false 
          * @static 
          */
         public static function onceUsingId($id){
@@ -2500,7 +2500,7 @@ if (! function_exists('with')) {
         /**
          * Return the currently cached user.
          *
-         * @return \App\Models\User|null 
+         * @return \App\Models\User\User|null 
          * @static 
          */
         public static function getUser(){
@@ -2542,7 +2542,7 @@ if (! function_exists('with')) {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \App\Models\User 
+         * @return \App\Models\User\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -2582,7 +2582,7 @@ if (! function_exists('with')) {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \App\Models\User 
+         * @return \App\Models\User\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */
@@ -3674,6 +3674,18 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Bind values to their parameters in the given statement.
+         *
+         * @param \PDOStatement $statement
+         * @param array $bindings
+         * @return void 
+         * @static 
+         */
+        public static function bindValues($statement, $bindings){
+            \Illuminate\Database\MySqlConnection::bindValues($statement, $bindings);
+        }
+        
+        /**
          * Set the query grammar to the default implementation.
          *
          * @return void 
@@ -3782,26 +3794,17 @@ if (! function_exists('with')) {
         }
         
         /**
-         * 
+         * Run a select statement against the database and returns a generator.
          *
+         * @param string $query
+         * @param array $bindings
+         * @param bool $useReadPdo
+         * @return \Generator 
          * @static 
          */
         public static function cursor($query, $bindings = array(), $useReadPdo = true){
             //Method inherited from \Illuminate\Database\Connection            
             return \Illuminate\Database\MySqlConnection::cursor($query, $bindings, $useReadPdo);
-        }
-        
-        /**
-         * Bind values to their parameters in the given statement.
-         *
-         * @param \PDOStatement $statement
-         * @param array $bindings
-         * @return void 
-         * @static 
-         */
-        public static function bindValues($statement, $bindings){
-            //Method inherited from \Illuminate\Database\Connection            
-            \Illuminate\Database\MySqlConnection::bindValues($statement, $bindings);
         }
         
         /**
@@ -4063,7 +4066,6 @@ if (! function_exists('with')) {
          *
          * @param \PDO|null $pdo
          * @return $this 
-         * @throws \RuntimeException
          * @static 
          */
         public static function setPdo($pdo){
@@ -6354,6 +6356,18 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Get or set UNIX mode of a file or directory.
+         *
+         * @param string $path
+         * @param int $mode
+         * @return mixed 
+         * @static 
+         */
+        public static function chmod($path, $mode = null){
+            return \Illuminate\Filesystem\Filesystem::chmod($path, $mode);
+        }
+        
+        /**
          * Delete the file at a given path.
          *
          * @param string|array $paths
@@ -8041,11 +8055,12 @@ if (! function_exists('with')) {
          *
          * @param int $status
          * @param array $headers
+         * @param string $fallback
          * @return \Illuminate\Http\RedirectResponse 
          * @static 
          */
-        public static function back($status = 302, $headers = array()){
-            return \Illuminate\Routing\Redirector::back($status, $headers);
+        public static function back($status = 302, $headers = array(), $fallback = false){
+            return \Illuminate\Routing\Redirector::back($status, $headers, $fallback);
         }
         
         /**
@@ -9745,6 +9760,17 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Checks whether the method is cacheable or not.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function isMethodCacheable(){
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::isMethodCacheable();
+        }
+        
+        /**
          * Returns the request body content.
          *
          * @param bool $asResource If true, a resource will be returned
@@ -9841,7 +9867,7 @@ if (! function_exists('with')) {
          * It works if your JavaScript library sets an X-Requested-With HTTP header.
          * It is known to work with common JavaScript frameworks:
          *
-         * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
+         * @see http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
          * @return bool true if the request is an XMLHttpRequest, false otherwise
          * @static 
          */
@@ -10754,12 +10780,12 @@ if (! function_exists('with')) {
          *
          * @param string $table
          * @param \Closure $callback
-         * @return \Illuminate\Database\Schema\Blueprint 
+         * @return void 
          * @static 
          */
         public static function table($table, $callback){
             //Method inherited from \Illuminate\Database\Schema\Builder            
-            return \Illuminate\Database\Schema\MySqlBuilder::table($table, $callback);
+            \Illuminate\Database\Schema\MySqlBuilder::table($table, $callback);
         }
         
         /**
@@ -10767,36 +10793,36 @@ if (! function_exists('with')) {
          *
          * @param string $table
          * @param \Closure $callback
-         * @return \Illuminate\Database\Schema\Blueprint 
+         * @return void 
          * @static 
          */
         public static function create($table, $callback){
             //Method inherited from \Illuminate\Database\Schema\Builder            
-            return \Illuminate\Database\Schema\MySqlBuilder::create($table, $callback);
+            \Illuminate\Database\Schema\MySqlBuilder::create($table, $callback);
         }
         
         /**
          * Drop a table from the schema.
          *
          * @param string $table
-         * @return \Illuminate\Database\Schema\Blueprint 
+         * @return void 
          * @static 
          */
         public static function drop($table){
             //Method inherited from \Illuminate\Database\Schema\Builder            
-            return \Illuminate\Database\Schema\MySqlBuilder::drop($table);
+            \Illuminate\Database\Schema\MySqlBuilder::drop($table);
         }
         
         /**
          * Drop a table from the schema if it exists.
          *
          * @param string $table
-         * @return \Illuminate\Database\Schema\Blueprint 
+         * @return void 
          * @static 
          */
         public static function dropIfExists($table){
             //Method inherited from \Illuminate\Database\Schema\Builder            
-            return \Illuminate\Database\Schema\MySqlBuilder::dropIfExists($table);
+            \Illuminate\Database\Schema\MySqlBuilder::dropIfExists($table);
         }
         
         /**
@@ -10804,12 +10830,12 @@ if (! function_exists('with')) {
          *
          * @param string $from
          * @param string $to
-         * @return \Illuminate\Database\Schema\Blueprint 
+         * @return void 
          * @static 
          */
         public static function rename($from, $to){
             //Method inherited from \Illuminate\Database\Schema\Builder            
-            return \Illuminate\Database\Schema\MySqlBuilder::rename($from, $to);
+            \Illuminate\Database\Schema\MySqlBuilder::rename($from, $to);
         }
         
         /**
@@ -11163,6 +11189,18 @@ if (! function_exists('with')) {
         }
         
         /**
+         * Get an item from the session, or store the default value.
+         *
+         * @param string $key
+         * @param \Closure $callback
+         * @return mixed 
+         * @static 
+         */
+        public static function remember($key, $callback){
+            return \Illuminate\Session\Store::remember($key, $callback);
+        }
+        
+        /**
          * Push a value onto a session array.
          *
          * @param string $key
@@ -11211,8 +11249,7 @@ if (! function_exists('with')) {
         }
         
         /**
-         * Flash a key / value pair to the session
-         * for immediate use.
+         * Flash a key / value pair to the session for immediate use.
          *
          * @param string $key
          * @param mixed $value
@@ -13692,6 +13729,445 @@ if (! function_exists('with')) {
         public static function getConfig(){
             //Method inherited from \GrahamCampbell\Manager\AbstractManager            
             return \Vinkla\Hashids\HashidsManager::getConfig();
+        }
+        
+    }
+
+
+    class Sentry extends \Sentry\SentryLaravel\SentryFacade{
+        
+        /**
+         * Installs any available automated hooks (such as error_reporting).
+         *
+         * @static 
+         */
+        public static function install(){
+            return \Raven_Client::install();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getRelease(){
+            return \Raven_Client::getRelease();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setRelease($value){
+            return \Raven_Client::setRelease($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getEnvironment(){
+            return \Raven_Client::getEnvironment();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setEnvironment($value){
+            return \Raven_Client::setEnvironment($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getAppPath(){
+            return \Raven_Client::getAppPath();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setAppPath($value){
+            return \Raven_Client::setAppPath($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getExcludedAppPaths(){
+            return \Raven_Client::getExcludedAppPaths();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setExcludedAppPaths($value){
+            return \Raven_Client::setExcludedAppPaths($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getPrefixes(){
+            return \Raven_Client::getPrefixes();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setPrefixes($value){
+            return \Raven_Client::setPrefixes($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getSendCallback(){
+            return \Raven_Client::getSendCallback();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setSendCallback($value){
+            return \Raven_Client::setSendCallback($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getTransport(){
+            return \Raven_Client::getTransport();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getServerEndpoint($value){
+            return \Raven_Client::getServerEndpoint($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getUserAgent(){
+            return \Raven_Client::getUserAgent();
+        }
+        
+        /**
+         * Set a custom transport to override how Sentry events are sent upstream.
+         * 
+         * The bound function will be called with ``$client`` and ``$data`` arguments
+         * and is responsible for encoding the data, authenticating, and sending
+         * the data to the upstream Sentry server.
+         *
+         * @param \function $value Function to be called
+         * @static 
+         */
+        public static function setTransport($value){
+            return \Raven_Client::setTransport($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getDefaultProcessors(){
+            return \Raven_Client::getDefaultProcessors();
+        }
+        
+        /**
+         * Sets the Raven_Processor sub-classes to be used when data is processed before being
+         * sent to Sentry.
+         *
+         * @param $options
+         * @return array 
+         * @static 
+         */
+        public static function setProcessorsFromOptions($options){
+            return \Raven_Client::setProcessorsFromOptions($options);
+        }
+        
+        /**
+         * Parses a Raven-compatible DSN and returns an array of its values.
+         *
+         * @param string $dsn Raven compatible DSN: http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
+         * @return array parsed DSN
+         * @static 
+         */
+        public static function parseDSN($dsn){
+            return \Raven_Client::parseDSN($dsn);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getLastError(){
+            return \Raven_Client::getLastError();
+        }
+        
+        /**
+         * Given an identifier, returns a Sentry searchable string.
+         *
+         * @static 
+         */
+        public static function getIdent($ident){
+            return \Raven_Client::getIdent($ident);
+        }
+        
+        /**
+         * Deprecated
+         *
+         * @static 
+         */
+        public static function message($message, $params = array(), $level = 'info', $stack = false, $vars = null){
+            return \Raven_Client::message($message, $params, $level, $stack, $vars);
+        }
+        
+        /**
+         * Deprecated
+         *
+         * @static 
+         */
+        public static function exception($exception){
+            return \Raven_Client::exception($exception);
+        }
+        
+        /**
+         * Log a message to sentry
+         *
+         * @param string $message The message (primary description) for the event.
+         * @param array $params params to use when formatting the message.
+         * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @static 
+         */
+        public static function captureMessage($message, $params = array(), $data = array(), $stack = false, $vars = null){
+            return \Raven_Client::captureMessage($message, $params, $data, $stack, $vars);
+        }
+        
+        /**
+         * Log an exception to sentry
+         *
+         * @param \Exception $exception The Exception object.
+         * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @static 
+         */
+        public static function captureException($exception, $data = null, $logger = null, $vars = null){
+            return \Raven_Client::captureException($exception, $data, $logger, $vars);
+        }
+        
+        /**
+         * Capture the most recent error (obtained with ``error_get_last``).
+         *
+         * @static 
+         */
+        public static function captureLastError(){
+            return \Raven_Client::captureLastError();
+        }
+        
+        /**
+         * Log an query to sentry
+         *
+         * @static 
+         */
+        public static function captureQuery($query, $level = 'info', $engine = ''){
+            return \Raven_Client::captureQuery($query, $level, $engine);
+        }
+        
+        /**
+         * Return the last captured event's ID or null if none available.
+         *
+         * @static 
+         */
+        public static function getLastEventID(){
+            return \Raven_Client::getLastEventID();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function get_default_data(){
+            return \Raven_Client::get_default_data();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function capture($data, $stack = null, $vars = null){
+            return \Raven_Client::capture($data, $stack, $vars);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function sanitize($data){
+            return \Raven_Client::sanitize($data);
+        }
+        
+        /**
+         * Process data through all defined Raven_Processor sub-classes
+         *
+         * @param array $data Associative array of data to log
+         * @static 
+         */
+        public static function process($data){
+            return \Raven_Client::process($data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function sendUnsentErrors(){
+            return \Raven_Client::sendUnsentErrors();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function encode($data){
+            return \Raven_Client::encode($data);
+        }
+        
+        /**
+         * Wrapper to handle encoding and sending data to the Sentry API server.
+         *
+         * @param array $data Associative array of data to log
+         * @static 
+         */
+        public static function send($data){
+            return \Raven_Client::send($data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getAuthHeader(){
+            return \Raven_Client::getAuthHeader();
+        }
+        
+        /**
+         * Translate a PHP Error constant into a Sentry log level group
+         *
+         * @param string $severity PHP E_$x error constant
+         * @return string Sentry log level group
+         * @static 
+         */
+        public static function translateSeverity($severity){
+            return \Raven_Client::translateSeverity($severity);
+        }
+        
+        /**
+         * Provide a map of PHP Error constants to Sentry logging groups to use instead
+         * of the defaults in translateSeverity()
+         *
+         * @param array $map
+         * @static 
+         */
+        public static function registerSeverityMap($map){
+            return \Raven_Client::registerSeverityMap($map);
+        }
+        
+        /**
+         * Convenience function for setting a user's ID and Email
+         *
+         * @deprecated 
+         * @param string $id User's ID
+         * @param string|null $email User's email
+         * @param array $data Additional user data
+         * @static 
+         */
+        public static function set_user_data($id, $email = null, $data = array()){
+            return \Raven_Client::set_user_data($id, $email, $data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function onShutdown(){
+            return \Raven_Client::onShutdown();
+        }
+        
+        /**
+         * Sets user context.
+         *
+         * @param array $data Associative array of user data
+         * @static 
+         */
+        public static function user_context($data){
+            return \Raven_Client::user_context($data);
+        }
+        
+        /**
+         * Appends tags context.
+         *
+         * @param array $data Associative array of tags
+         * @static 
+         */
+        public static function tags_context($data){
+            return \Raven_Client::tags_context($data);
+        }
+        
+        /**
+         * Appends additional context.
+         *
+         * @param array $data Associative array of extra data
+         * @static 
+         */
+        public static function extra_context($data){
+            return \Raven_Client::extra_context($data);
+        }
+        
+        /**
+         * 
+         *
+         * @param array $processors
+         * @static 
+         */
+        public static function setProcessors($processors){
+            return \Raven_Client::setProcessors($processors);
         }
         
     }

@@ -3,7 +3,9 @@
         {{ file }}
         <div v-file-editor class="editor"></div>
         <server-selector :servers="servers" :param="selected_servers"></server-selector>
-        <button type="submit">Update</button>
+        <div class="btn-footer">
+            <button class="btn btn-primary" type="submit">Update File</button>
+        </div>
     </form>
 </template>
 
@@ -13,6 +15,9 @@
         props: ['site', 'servers', 'file'],
         components: {
             ServerSelector
+        },
+        created() {
+            this.fetchData();
         },
         data() {
             return {
@@ -25,21 +30,24 @@
             'content'() {
                 ace.edit($(this.$el).find('.editor')[0]).setValue(this.content);
                 ace.edit($('.editor')[0]).clearSelection(1);
+            },
+            watch: {
+                '$route': 'fetchData'
             }
         },
-        mounted() {
-            Vue.http.post(laroute.action('Site\SiteFileController@find', {
-                site: this.site.id,
-            }), {
-                file: this.file,
-            }).then((response) => {
-                this.file_model = response.data;
-                this.content = this.file_model.unencrypted_content;
-            }, (errors) => {
-                alert(error);
-            });
-        },
         methods: {
+            fetchData() {
+                Vue.http.post(laroute.action('Site\SiteFileController@find', {
+                    site: this.site.id,
+                }), {
+                    file: this.file,
+                }).then((response) => {
+                    this.file_model = response.data;
+                    this.content = this.file_model.unencrypted_content;
+                }, (errors) => {
+                    app.showError(error);
+                });
+            },
             saveFile() {
                 if (this.file_model) {
                     this.$store.dispatch('updateSiteFile', {

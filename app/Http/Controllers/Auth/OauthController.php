@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Socialite;
+use Bitbucket\API\Users;
+use App\Models\User\User;
+use Illuminate\Http\Request;
+use App\Models\RepositoryProvider;
+use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
-use App\Models\RepositoryProvider;
-use App\Models\ServerProvider;
-use App\Models\User;
-use App\Models\UserLoginProvider;
-use App\Models\UserNotificationProvider;
-use App\Models\UserRepositoryProvider;
-use App\Models\UserServerProvider;
-use App\SocialProviders\TokenData;
+use App\Models\User\UserLoginProvider;
+use App\Models\User\UserServerProvider;
+use App\Models\User\UserRepositoryProvider;
+use App\Models\User\UserNotificationProvider;
+use App\Models\Server\Provider\ServerProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
-use Bitbucket\API\Users;
-use Socialite;
 
-/**
- * Class OauthController.
- */
 class OauthController extends Controller
 {
     const SLACK = 'slack';
@@ -72,16 +70,16 @@ class OauthController extends Controller
     /**
      * Handles the request from the provider.
      *
+     * @param Request $request
      * @param $provider
-     *
      * @return mixed
      */
-    public function getHandleProviderCallback($provider)
+    public function getHandleProviderCallback(Request $request, $provider)
     {
         try {
             switch ($provider) {
                 case self::SLACK:
-                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse(\Request::get('code'));
+                    $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
 
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
@@ -129,7 +127,6 @@ class OauthController extends Controller
             if (! empty($newUserServerProvider)) {
                 $newUserServerProvider->delete();
             }
-
 
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
@@ -191,8 +188,6 @@ class OauthController extends Controller
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
 
-
-
         return $userModel;
     }
 
@@ -202,7 +197,7 @@ class OauthController extends Controller
      * @param $providerType
      * @param int $serviceID
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getDisconnectService($providerType, int $serviceID)
     {
@@ -228,7 +223,7 @@ class OauthController extends Controller
             }
         }
 
-        return back()->with('success', 'You have disconnected the service');
+        return response()->json('OK');
     }
 
     /**

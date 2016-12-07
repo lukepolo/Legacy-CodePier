@@ -2,17 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Models\UserRepositoryProvider;
+use App\Models\User\UserRepositoryProvider;
 
-/**
- * Interface RepositoryContract.
- */
 interface RepositoryContract
 {
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
      *
@@ -23,7 +20,7 @@ interface RepositoryContract
     /**
      * Sets the token so we can connect to the users account.
      *
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      *
      * @throws \Exception
      *

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\User\Providers;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserServerProvider;
+use App\Models\User\UserServerProvider;
 
-/**
- * Class UserServerProviderController.
- */
 class UserServerProviderController extends Controller
 {
     /**

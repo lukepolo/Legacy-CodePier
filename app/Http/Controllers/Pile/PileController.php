@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Pile;
 
-use App\Http\Controllers\Controller;
 use App\Models\Pile;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Pile\PileRequest;
 
-/**
- * Class PileController.
- */
 class PileController extends Controller
 {
     /**
@@ -32,11 +30,10 @@ class PileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param PileRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PileRequest $request)
     {
         $pile = Pile::create([
             'user_id' => \Auth::user()->id,
@@ -49,20 +46,18 @@ class PileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param PileRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PileRequest $request, $id)
     {
         $pile = Pile::findOrFail($id);
-        $pile->fill([
+
+        $pile->update([
             'user_id' => \Auth::user()->id,
             'name'    => $request->get('name'),
         ]);
-
-        $pile->save();
 
         return response()->json($pile);
     }
@@ -94,6 +89,7 @@ class PileController extends Controller
     /**
      * Changes the users pile.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function changePile(Request $request)

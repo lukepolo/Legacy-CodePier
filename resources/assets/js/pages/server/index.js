@@ -1,9 +1,12 @@
+export const Servers = require("./Servers.vue");
 export const ServerForm = require("./ServerForm.vue");
+export const ServerArea = require("./ServerArea.vue");
 export const ServerSites = require("./ServerSites.vue");
 export const ServerFiles = require("./ServerFiles.vue");
 export const ServerSshKeys = require("./ServerSshKeys.vue");
 export const ServerWorkers = require("./ServerWorkers.vue");
 export const ServerCronJobs = require("./ServerCronJobs.vue");
 export const ServerFeatures = require("./ServerFeatures.vue");
+export const ServerNav = require("./components/ServerNav.vue");
 export const ServerMonitoring = require("./ServerMonitoring.vue");
 export const ServerFirewallRules = require("./ServerFirewallRules.vue");

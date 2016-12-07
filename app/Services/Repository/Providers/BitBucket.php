@@ -2,17 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Models\Site;
-use App\Models\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\User;
+use App\Models\Site\Site;
+use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\Repositories\Deploykeys;
-use Bitbucket\API\Repositories\Hooks;
-use Bitbucket\API\User;
+use App\Models\User\UserRepositoryProvider;
+use Bitbucket\API\Http\Listener\OAuthListener;
 
-/**
- * Class BitBucket.
- */
 class BitBucket implements RepositoryContract
 {
     private $oauthParams;
@@ -20,7 +17,7 @@ class BitBucket implements RepositoryContract
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $sshKey
      *
@@ -58,7 +55,7 @@ class BitBucket implements RepositoryContract
     /**
      * Sets the token so we can connect to the users account.
      *
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      *
      * @throws \Exception
      *

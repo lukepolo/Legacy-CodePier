@@ -24,7 +24,15 @@
             </form>
 
             <div class="btn-container text-center" v-if="current_pile_id">
-                <div @click="adding_site = !adding_site" class="btn btn-primary">Create Site</div>
+                <div @click="adding_site = !adding_site" class="btn" :class="{ 'btn-primary' : !adding_site}">
+                    <template v-if="!adding_site">
+                        Create Site
+                    </template>
+                    <template v-else>
+                        Cancel
+                    </template>
+
+                </div>
             </div>
 
         </div>

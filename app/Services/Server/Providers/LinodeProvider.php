@@ -2,7 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 
 class LinodeProvider implements ServerProviderContract
 {
@@ -56,7 +56,7 @@ class LinodeProvider implements ServerProviderContract
     /**
      * Gets the server IP.
      *
-     * @param Server $server
+     * @param \App\Models\Server\Server $server
      */
     public function savePublicIP(Server $server)
     {

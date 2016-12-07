@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\User\Providers;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserNotificationProvider;
+use App\Models\User\UserNotificationProvider;
 
-/**
- * Class UserNotificationProviderController.
- */
 class UserNotificationProviderController extends Controller
 {
     /**

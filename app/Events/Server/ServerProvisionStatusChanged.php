@@ -2,16 +2,13 @@
 
 namespace App\Events\Server;
 
-use App\Models\Server;
+use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-/**
- * Class ServerCreated.
- */
 class ServerProvisionStatusChanged implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
@@ -32,7 +29,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     {
         $this->user = $server->user;
 
-        $this->serverID = $server->id;
+        $this->serverId = $server->id;
         $this->progress = $server->progress = $progress;
         $this->status = $server->status = $status;
         $this->ip = $server->ip;
@@ -51,6 +48,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.Server.'.$this->server->id);
+        return new PrivateChannel('App.Models.Server.Server.'.$this->server->id);
     }
 }

@@ -2,69 +2,43 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Server;
-use App\Models\ServerCronJob;
-use Illuminate\Http\Request;
+use App\Models\Server\ServerCronJob;
+use App\Http\Requests\Server\ServerCronJobRequest;
 
-/**
- * Class ServerCronJobController.
- */
 class ServerCronJobController extends Controller
 {
-    private $serverService;
-
-    /**
-     * ServerController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param $serverId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $serverId)
+    public function index($serverId)
     {
-        return response()->json(Server::with('cronJobs')->findOrFail($serverId)->cronJobs);
+        return response()->json(
+            Server::with('cronJobs')->findOrFail($serverId)->cronJobs
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param ServerCronJobRequest $request
      * @param $serverId
-     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(ServerCronJobRequest $request, $serverId)
     {
-        $serverCronJob = ServerCronJob::create([
-            'server_id' => $serverId,
-            'job'       => $request->get('cron_timing').' '.$request->get('cron'),
-            'user'      => $request->get('user'),
-        ]);
-
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            $this->serverService->installCron($serverCronJob);
-        });
-
-        if (! $this->successful()) {
-            $serverCronJob->delete();
-        }
-
-        return $this->remoteResponse();
+        return response()->json(
+            ServerCronJob::create([
+                'server_id' => $serverId,
+                'job' => $request->get('cron_timing').' '.$request->get('cron'),
+                'user' => $request->get('user'),
+            ])
+        );
     }
 
     /**
@@ -77,7 +51,9 @@ class ServerCronJobController extends Controller
      */
     public function show($serverId, $id)
     {
-        return response()->json(ServerCronJob::findOrFail($id));
+        return response()->json(
+            ServerCronJob::where('server_id', $serverId->findOrFail($id))
+        );
     }
 
     /**
@@ -90,15 +66,8 @@ class ServerCronJobController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        $serverCronJob = ServerCronJob::findorFail($id);
-
-        $server = Server::findOrFail($serverId);
-
-        $this->runOnServer($server, function () use ($server, $serverCronJob) {
-            $this->serverService->installCron($serverCronJob);
-            $serverCronJob->delete();
-        });
-
-        return $this->remoteResponse();
+        return response()->json(
+            ServerCronJob::where('server_id', $serverId)->findorFail($id)->delete()
+        );
     }
 }
