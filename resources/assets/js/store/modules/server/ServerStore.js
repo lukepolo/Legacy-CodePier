@@ -79,6 +79,7 @@ export default {
         archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then((response) => {
                 app.$router.push('/');
+                app.showSuccess('Your server is in queue to be provisioned');
             }, (errors) => {
                 app.showError(errors);
             });

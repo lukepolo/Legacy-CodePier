@@ -46,7 +46,6 @@ class CreateCommandServersTable extends Migration
         Schema::dropIfExists('server_commands');
 
         Schema::table('commands', function (Blueprint $table) {
-            $table->dropColumn('type_id');
             $table->integer('server_id');
             $table->boolean('started')->default(0);
             $table->boolean('failed')->default(0);
