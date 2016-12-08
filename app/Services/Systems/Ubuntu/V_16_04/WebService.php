@@ -42,8 +42,8 @@ class WebService
         $this->remoteTaskService->removeFile('/etc/nginx/sites-enabled/default');
         $this->remoteTaskService->removeFile('/etc/nginx/sites-available/default');
 
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', "worker_processes", "worker_processes $workerProcesses;");
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', "worker_connections","worker_connections $workerConnections;");
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_processes', "worker_processes $workerProcesses;");
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_connections', "worker_connections $workerConnections;");
 
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip', 'gzip on;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 5;');
