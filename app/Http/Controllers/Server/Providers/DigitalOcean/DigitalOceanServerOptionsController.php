@@ -26,9 +26,13 @@ class DigitalOceanServerOptionsController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverOptions
-        );
+        $options = ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->first()->serverOptions;
+
+        if($options->isEmpty()) {
+            return $this->store();
+        }
+
+        return response()->json($options);
     }
 
     /**
