@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Server\Workers;
 
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\Server\ServerWorker;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,7 +42,7 @@ class RemoveServerWorker implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverWorker->unsetEventDispatcher();
             $this->serverWorker->delete();
-            if(\App::runningInConsole()) {
+            if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }

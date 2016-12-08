@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerFirewallRule;
@@ -45,7 +45,7 @@ class InstallServerFirewallRule implements ShouldQueue
         if (! $this->wasSuccessful()) {
             $this->serverFirewallRule->unsetEventDispatcher();
             $this->serverFirewallRule->delete();
-            if(\App::runningInConsole()) {
+            if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }
