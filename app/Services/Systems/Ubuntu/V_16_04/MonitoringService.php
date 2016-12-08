@@ -29,7 +29,6 @@ done');
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
         $this->createCronJob($this->server->id, $cronJob, 'root');
-
     }
 
     public function installLoadMonitoringScript()
