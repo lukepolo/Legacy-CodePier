@@ -9,7 +9,6 @@
             <server-info :server="server"></server-info>
         </template>
 
-        <hr>
         <template v-if="availableServers.length">
             Available Servers
             <form @submit.prevent="linkServers">
@@ -22,19 +21,19 @@
             </form>
         </template>
 
+        <hr>
         <div v-if="site.server_features">
             <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }" tag="div">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
-            <hr>
-            <div class="btn btn-primary">Create A Web Server</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Load Balance</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Database Server</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Queue Worker Serer</div>
-            - not available during beta
+            <!--<div class="btn btn-primary">Create A Web Server</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Load Balance</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Database Server</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Queue Worker Serer</div>-->
+            <!-- - not available during beta-->
         </div>
 
         </div>
