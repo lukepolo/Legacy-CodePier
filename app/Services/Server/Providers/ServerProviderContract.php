@@ -29,13 +29,12 @@ interface ServerProviderContract
      * Creates a new server.
      *
      * @param Server $server
-     * @param $sshKey
      *
      * @throws \Exception
      *
      * @return static
      */
-    public function create(Server $server, $sshKey);
+    public function create(Server $server);
 
     /**
      * Gets the status of a server.

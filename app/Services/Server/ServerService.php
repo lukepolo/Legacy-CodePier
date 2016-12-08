@@ -47,7 +47,14 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
+        $sshKey = $this->createSshKey();
+
+        $server->public_ssh_key = $sshKey['publickey'];
+        $server->private_ssh_key = $sshKey['privatekey'];
+
+        $server->save();
+
+        return $this->getProvider($serverProvider)->create($server);
     }
 
     /**
