@@ -36,7 +36,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </section>
 </template>
