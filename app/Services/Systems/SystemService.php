@@ -67,7 +67,6 @@ class SystemService implements SystemServiceContract
                 $provisionStep->save();
             }
         } catch (FailedCommand $e) {
-
             $provisionStep->failed = true;
             $provisionStep->log = $systemService->getErrors();
             $provisionStep->save();
