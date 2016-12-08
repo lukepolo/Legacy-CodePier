@@ -44,9 +44,13 @@ class CheckServerStatus implements ShouldQueue
 
             if ($serverProviderClass->readyForProvisioningStatus() == $serverStatus) {
                 $serverService->saveInfo($this->server);
-                dispatch(new CheckSshConnection($this->server));
+                dispatch(
+                    (new CheckSshConnection($this->server))->onQueue('SERVER_PROVISIONING_QUEUE')
+                );
             } else {
-                dispatch((new self($this->server, $this->provision))->delay(10));
+                dispatch(
+                    (new self($this->server, $this->provision))->delay(10)->onQueue('SERVER_PROVISIONING_QUEUE')
+                );
             }
         }
     }

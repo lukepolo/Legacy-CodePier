@@ -13,7 +13,9 @@ class ServerFirewallRuleObserver
      */
     public function created(ServerFirewallRule $serverFirewallRule)
     {
-        dispatch(new InstallServerFirewallRule($serverFirewallRule));
+        dispatch(
+            (new InstallServerFirewallRule($serverFirewallRule))->onQueue('SERVER_COMMAND_QUEUE')
+        );
     }
 
     /**
@@ -22,7 +24,9 @@ class ServerFirewallRuleObserver
      */
     public function deleting(ServerFirewallRule $serverFirewallRule)
     {
-        dispatch(new RemoveServerFirewallRule($serverFirewallRule));
+        dispatch(
+            (new RemoveServerFirewallRule($serverFirewallRule))->onQueue('SERVER_COMMAND_QUEUE')
+        );
 
         return false;
     }

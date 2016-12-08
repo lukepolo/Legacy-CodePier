@@ -13,7 +13,9 @@ class ServerWorkerObserver
      */
     public function created(ServerWorker $serverWorker)
     {
-        dispatch(new InstallServerWorker($serverWorker));
+        dispatch(
+            (new InstallServerWorker($serverWorker))->onQueue('SERVER_COMMAND_QUEUE')
+        );
     }
 
     /**
@@ -22,7 +24,9 @@ class ServerWorkerObserver
      */
     public function deleting(ServerWorker $serverWorker)
     {
-        dispatch(new RemoveServerWorker($serverWorker));
+        dispatch(
+            (new RemoveServerWorker($serverWorker))->onQueue('SERVER_COMMAND_QUEUE')
+        );
 
         return false;
     }

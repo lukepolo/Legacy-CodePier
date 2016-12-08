@@ -15,15 +15,21 @@ class ServerSslCertificateObserver
      */
     public function created(ServerSslCertificate $serverSslCertificate)
     {
-        dispatch(new InstallServerSslCertificate($serverSslCertificate));
+        dispatch(
+            (new InstallServerSslCertificate($serverSslCertificate))->onQueue('SERVER_COMMAND_QUEUE')
+        );
     }
 
     public function updated(ServerSslCertificate $serverSslCertificate)
     {
         if ($serverSslCertificate->active) {
-            dispatch(new ActivateServerSslCertificate($serverSslCertificate));
+            dispatch(
+                (new ActivateServerSslCertificate($serverSslCertificate))->onQueue('SERVER_COMMAND_QUEUE')
+            );
         } else {
-            dispatch(new DeactivateServerSslCertificate($serverSslCertificate));
+            dispatch(
+                (new DeactivateServerSslCertificate($serverSslCertificate))->onQueue('SERVER_COMMAND_QUEUE')
+            );
         }
     }
 
@@ -32,6 +38,8 @@ class ServerSslCertificateObserver
      */
     public function deleting(ServerSslCertificate $serverSslCertificate)
     {
-        dispatch(new RemoveServerSslCertificate($serverSslCertificate));
+        dispatch(
+            (new RemoveServerSslCertificate($serverSslCertificate))->onQueue('SERVER_COMMAND_QUEUE')
+        );
     }
 }
