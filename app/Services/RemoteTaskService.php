@@ -196,7 +196,7 @@ echo "Wrote" ', $read);
                 $server->ssh_connection = false;
                 $server->save();
 
-                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name. ' ('.$this->server->ip.').');
+                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
