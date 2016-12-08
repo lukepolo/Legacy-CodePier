@@ -67,6 +67,10 @@ export default {
                         commit("UPDATE_SERVER", data.server);
                         commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
                     })
+                    .listen('Server\\ServerSshConnectionFailed', (data) => {
+                        commit("UPDATE_SERVER", data.server);
+                        commit("UPDATE_SITE_SERVER", data.server);
+                    })
             }
         },
         createServer: ({dispatch}, form) => {
@@ -177,7 +181,7 @@ export default {
         },
         SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server_id, current_step]) => {
 
-            var servers_current_provisioning_steps = {};
+            let servers_current_provisioning_steps = {};
 
             servers_current_provisioning_steps[server_id] = current_step;
 
@@ -188,8 +192,7 @@ export default {
             state.servers_current_provisioning_step = servers_current_provisioning_steps;
         },
         UPDATE_SERVER : (state, server) => {
-
-            var foundServer = _.find(state.servers, function(tempServer) {
+            let foundServer = _.find(state.servers, function(tempServer) {
                return tempServer.id == server.id
             });
 

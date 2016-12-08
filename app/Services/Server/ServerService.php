@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Events\Server\ServerSshConnectionFailed;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
@@ -85,9 +86,7 @@ class ServerService implements ServerServiceContract
 
             return true;
         } catch (SshConnectionFailed $e) {
-            $server->ssh_connection = false;
-            $server->save();
-
+            event(new ServerSshConnectionFailed($server, $e->getMessage()));
             return false;
         }
     }

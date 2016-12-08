@@ -167,6 +167,16 @@ export default {
         },
         SET_SITES_LISTENING_TO : (state, site) => {
             state.sites_listening_to.push(site.id);
+        },
+        UPDATE_SITE_SERVER: (state, server) => {
+            let foundServer = _.find(state.site_servers, function(tempServer) {
+                return tempServer.id == server.id
+            });
+
+            console.info(foundServer)
+            _.each(server, function(value, index) {
+                foundServer[index] = value;
+            });
         }
     }
 }
