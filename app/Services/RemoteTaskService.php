@@ -196,12 +196,12 @@ echo "Wrote" ', $read);
                 $server->ssh_connection = false;
                 $server->save();
 
-                throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name. ' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
             $server->save();
-            throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+            throw new SshConnectionFailed($e->getMessage());
         }
 
         $ssh->setTimeout(0);

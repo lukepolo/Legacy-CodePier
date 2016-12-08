@@ -1,6 +1,6 @@
 <template>
     <section class="event">
-        <div class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-neutral' : !server.ssh_connection}"></div>
+        <div class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }"></div>
             <div class="event-name">
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.name }} - {{ server.ip }}

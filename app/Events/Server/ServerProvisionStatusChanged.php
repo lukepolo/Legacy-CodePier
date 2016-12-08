@@ -13,8 +13,6 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
-    private $user;
-
     public $server;
     public $serverCurrentProvisioningStep;
 
@@ -27,13 +25,9 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function __construct(Server $server, $status, $progress)
     {
-        $this->user = $server->user;
-
-        $this->serverId = $server->id;
-        $this->progress = $server->progress = $progress;
-        $this->status = $server->status = $status;
-        $this->ip = $server->ip;
-        $this->connected = $server->ssh_connection;
+        $server->progress = $progress;
+        $server->status = $status;
+        $server->ip;
 
         $server->save();
 

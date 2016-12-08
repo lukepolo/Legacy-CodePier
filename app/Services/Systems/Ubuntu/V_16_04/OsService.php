@@ -40,8 +40,6 @@ class OsService
 
         $rootPassword = $this->server->sudo_password;
 
-        $this->remoteTaskService->run('echo \'root:'.$rootPassword.'\' | chpasswd');
-
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
 
         $this->remoteTaskService->run('echo \'codepier:'.$rootPassword.'\' | chpasswd');
