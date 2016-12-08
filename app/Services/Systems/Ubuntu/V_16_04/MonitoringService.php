@@ -83,6 +83,5 @@ done');
         $serverCronJob->save();
 
         $serverCronJob->addObservableEvents($observables);
-
     }
 }
