@@ -85,7 +85,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $contents
      * @param bool $read
      *
-     * @return bool
+     * @return array
      */
     public function writeToFile($file, $contents, $read = false)
     {
@@ -102,11 +102,11 @@ echo "Wrote" ', $read);
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function appendTextToFile($file, $text)
     {
-        return $this->run("echo $text >> $file");
+        return $this->run("echo \"$text\" >> $file");
     }
 
     /**
@@ -114,22 +114,22 @@ echo "Wrote" ', $read);
      * @param $findText
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run("sed -i '/$findText/a $text' ".$file);
+        return $this->run('sed -i /'.$this->cleanText($findText).'/a '.$this->cleanText($text).' '. $file);
     }
 
     /**
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function removeLineByText($file, $text)
     {
-        $text = str_replace('/', '\/', $text);
+        $text = $this->cleanText($text);
 
         return $this->run("sed -i '/$text/d' ".$file);
     }
@@ -137,7 +137,7 @@ echo "Wrote" ', $read);
     /**
      * @param $directory
      *
-     * @return bool
+     * @return array
      */
     public function makeDirectory($directory)
     {
@@ -147,7 +147,7 @@ echo "Wrote" ', $read);
     /**
      * @param $directory
      *
-     * @return bool
+     * @return array
      */
     public function removeDirectory($directory)
     {
@@ -157,7 +157,7 @@ echo "Wrote" ', $read);
     /**
      * @param $file
      *
-     * @return bool
+     * @return array
      */
     public function removeFile($file)
     {
@@ -166,7 +166,7 @@ echo "Wrote" ', $read);
 
     public function updateText($file, $text, $replaceWithText)
     {
-        return $this->run('sed -i "s/'.$text.' .*/'.$replaceWithText.'/" '.$file);
+        return $this->run('sed -i "s/'.$this->cleanText($text).' .*/'.$this->cleanText($replaceWithText).'/" '.$file);
     }
 
     /**
@@ -227,5 +227,14 @@ echo "Wrote" ', $read);
     private function cleanResponse($response)
     {
         return trim(str_replace('codepier-done', '', $response));
+    }
+
+    private function cleanText($text)
+    {
+        $text = str_replace('/', '\/', $text);
+        $text = str_replace('&', '\&', $text);
+        $text = str_replace('\\', '\\\\', $text);
+
+        return $text;
     }
 }

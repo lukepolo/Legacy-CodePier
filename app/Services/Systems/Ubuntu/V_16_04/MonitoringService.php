@@ -28,11 +28,8 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        ServerCronJob::create([
-            'server_id' => $this->server->id,
-            'job'       => $cronJob,
-            'user'      => 'root',
-        ]);
+        $this->createCronJob($this->server->id, $cronJob, 'root');
+
     }
 
     public function installLoadMonitoringScript()
@@ -51,11 +48,7 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        ServerCronJob::create([
-            'server_id' => $this->server->id,
-            'job'       => $cronJob,
-            'user'      => 'root',
-        ]);
+        $this->createCronJob($this->server->id, $cronJob, 'root');
     }
 
     public function installServerMemoryMonitoringScript()
@@ -63,8 +56,8 @@ done');
         $this->connectToServer();
 
         $this->remoteTaskService->writeToFile('/opt/codepier/memory_monitor', '
-        current_memory=$(free -m | grep Mem | awk \'{ print $2 " " $3 " " $4 " " $7}\')
-        curl "'.env('APP_URL').'/webhook/memory?key='.$this->server->encode().'&memory=$current_memory"
+    current_memory=$(free -m | grep Mem | awk \'{ print $2 " " $3 " " $4 " " $7}\')
+    curl "'.env('APP_URL').'/webhook/memory?key='.$this->server->encode().'&memory=$current_memory"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/memory_monitor');
@@ -73,10 +66,19 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        ServerCronJob::create([
-            'server_id' => $this->server->id,
+        $this->createCronJob($this->server->id, $cronJob, 'root');
+    }
+
+    private function createCronJob($serverId, $cronJob, $user)
+    {
+        $serverCronJob = new ServerCronJob([
+            'server_id' => $serverId,
             'job'       => $cronJob,
-            'user'      => 'root',
+            'user'      => $user,
         ]);
+
+        $serverCronJob->flushEventListeners();
+
+        $serverCronJob->save();
     }
 }

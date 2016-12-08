@@ -92,10 +92,10 @@ class OsService
 
         $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/50unattended-upgrades', '
 Unattended-Upgrade::Allowed-Origins {
-"Ubuntu xenial-security";
+    "Ubuntu xenial-security";
 };
 Unattended-Upgrade::Package-Blacklist {
-//
+
 };
 ');
 
