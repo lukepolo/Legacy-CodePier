@@ -17,13 +17,13 @@
                     }} - {{ server.name }} - {{ server.ip }}
                     <br>
                 </template>
-                <button type="submit">Link Servers</button>
+                <button class="btn btn-primary" type="submit">Link Servers</button>
             </form>
         </template>
 
         <hr>
         <div v-if="site.server_features">
-            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }" tag="div">
+            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
             <!--<div class="btn btn-primary">Create A Web Server</div>-->
