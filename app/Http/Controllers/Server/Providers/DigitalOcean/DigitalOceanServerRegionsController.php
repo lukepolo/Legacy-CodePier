@@ -28,12 +28,11 @@ class DigitalOceanServerRegionsController extends Controller
      */
     public function index()
     {
-
         $regions = ServerProvider::with(['serverRegions' => function ($query) {
             $query->orderBy('name');
         }])->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions;
 
-        if($regions->isEmpty()) {
+        if ($regions->isEmpty()) {
             return $this->store();
         }
 
