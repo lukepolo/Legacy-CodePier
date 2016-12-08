@@ -26,7 +26,7 @@ trait UsedByTeams
         $teamworkModel = static::$teamworkModel;
 
         static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
-            if(auth()->user()) {
+            if (auth()->user()) {
                 if (auth()->user()->current_team_id) {
                     $builder->whereHas($teamworkModel, function ($query) {
                         $query->whereHas('users', function ($query) {
@@ -40,7 +40,7 @@ trait UsedByTeams
         });
 
         static::saved(function (Model $model) {
-            if(auth()->user()) {
+            if (auth()->user()) {
                 if (auth()->user()->current_team_id && $model->teamworkSync) {
                     $model->teams()->attach(auth()->user()->currentTeam->getKey());
                 }
