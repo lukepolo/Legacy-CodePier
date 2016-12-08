@@ -118,7 +118,7 @@ echo "Wrote" ', $read);
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run('sed -i /'.$this->cleanText($findText).'/a '.$this->cleanText($text).' '. $file);
+        return $this->run('sed -i /'.$this->cleanText($findText).'/a '.$this->cleanText($text).' '.$file);
     }
 
     /**
