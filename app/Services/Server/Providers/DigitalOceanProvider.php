@@ -2,17 +2,17 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Http\Controllers\Auth\OauthController;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
 use DigitalOcean;
 use Carbon\Carbon;
 use Guzzle\Http\Client;
 use phpseclib\Crypt\RSA;
+use App\Models\User\User;
 use App\Models\Server\Server;
 use DigitalOceanV2\Entity\Droplet;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
 
@@ -223,7 +223,7 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     private function getTokenFromUser(User $user)
     {
-        $server_provider_id = \Cache::rememberForever('digitalOceanId', function() {
+        $server_provider_id = \Cache::rememberForever('digitalOceanId', function () {
             return ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->first()->id;
         });
 
