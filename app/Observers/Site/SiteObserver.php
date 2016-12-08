@@ -34,7 +34,7 @@ class SiteObserver
         $dirty = $site->getDirty();
         if (isset($dirty['domain'])) {
             dispatch(
-                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue('SERVER_COMMAND_QUEUE')
+                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
     }

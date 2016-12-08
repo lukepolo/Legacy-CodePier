@@ -187,7 +187,6 @@
 
 <script>
 
-    import ServerEvent from './components/Events/ServerEvent.vue';
     import CommandEvent from './components/Events/CommandEvent.vue';
     import DeploymentEvent from './components/Events/DeploymentEvent.vue';
 
@@ -253,7 +252,6 @@
 
     export default {
         components : {
-            ServerEvent,
             CommandEvent,
             DeploymentEvent,
         },

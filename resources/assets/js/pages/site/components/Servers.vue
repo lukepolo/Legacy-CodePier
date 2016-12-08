@@ -6,26 +6,7 @@
 
         <div class="section-content">
         <template v-for="server in servers">
-            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                {{ server.name }}
-            </router-link>
-            {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
-            <p>4 / 40 GB</p>
-            <p>1.2 Avg Load</p>
-            <div class="dropdown">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    Actions
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Restart Web Services</a></li>
-                    <li><a href="#">Restart Server</a></li>
-                    <li><a href="#">Restart Database</a></li>
-                    <li><a href="#">Restart Workers</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Archive Server</a></li>
-                </ul>
-            </div>
+            <server-info :server="server"></server-info>
         </template>
 
         <hr>
@@ -61,7 +42,11 @@
 </template>
 
 <script>
+    import ServerInfo from './ServerInfo.vue';
     export default {
+        components : {
+            ServerInfo
+        },
         data()  {
             return {
                 form: {

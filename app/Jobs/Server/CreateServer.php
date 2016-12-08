@@ -46,7 +46,7 @@ class CreateServer implements ShouldQueue
         $serverService->create($this->serverProvider, $this->server);
 
         dispatch(
-            (new CheckServerStatus($this->server, true))->delay(30)->onQueue('SERVER_COMMAND_QUEUE')
+            (new CheckServerStatus($this->server, true))->delay(30)->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
 }
