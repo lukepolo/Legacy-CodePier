@@ -103,7 +103,11 @@ class EventController extends Controller
         }
 
         $tempCombinedQuery = clone $combinedQuery;
-        $topResults = $combinedQuery->latest()->offset($request->get('page', 1) * self::PER_PAGE)->take(self::PER_PAGE)->get();
+
+        $topResults = $combinedQuery->latest()
+            ->offset(($request->get('page', 1) - 1) * self::PER_PAGE)
+            ->take(self::PER_PAGE)
+            ->get();
 
         return response()->json(
             $this->getPaginatedObject(
@@ -150,10 +154,11 @@ class EventController extends Controller
         return new LengthAwarePaginator(
             $items->values()->all(),
             DB::query()
-                ->selectRaw('count(id) as total FROM ('.$combinedQuery->toSql().') as total')
+                ->selectRaw('count(*) as total FROM ('.$combinedQuery->toSql().') as total')
                 ->setBindings($combinedQuery->getBindings())
                 ->first()->total,
             $perPage,
-            $currentPage);
+            $currentPage
+        );
     }
 }

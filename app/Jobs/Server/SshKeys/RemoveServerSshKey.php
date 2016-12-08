@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SshKeys;
 
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\Server\ServerSshKey;
@@ -31,6 +32,7 @@ class RemoveServerSshKey implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -41,6 +43,9 @@ class RemoveServerSshKey implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverSshKey->unsetEventDispatcher();
             $this->serverSshKey->delete();
+            if(\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
         }
 
         return $this->remoteResponse();

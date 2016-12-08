@@ -118,7 +118,10 @@ echo "Wrote" ', $read);
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run('sed -i /'.$this->cleanText($findText).'/a '.$this->cleanText($text).' '.$file);
+        $findText = $this->cleanText($findText);
+        $text = $this->cleanText($text);
+
+        return $this->run("sed -i '/$findText/a $text' $file");
     }
 
     /**
@@ -131,7 +134,7 @@ echo "Wrote" ', $read);
     {
         $text = $this->cleanText($text);
 
-        return $this->run("sed -i '/$text/d' ".$file);
+        return $this->run("sed -i '/$text/d' $file");
     }
 
     /**
@@ -166,7 +169,10 @@ echo "Wrote" ', $read);
 
     public function updateText($file, $text, $replaceWithText)
     {
-        return $this->run('sed -i "s/'.$this->cleanText($text).' .*/'.$this->cleanText($replaceWithText).'/" '.$file);
+        $text = $this->cleanText($text);
+        $replaceWithText = $this->cleanText($replaceWithText);
+
+        return $this->run("sed -i \"s/$text.*/$replaceWithText/\" $file");
     }
 
     /**

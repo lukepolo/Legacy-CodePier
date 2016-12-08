@@ -55,8 +55,9 @@ iptables -P INPUT DROP
                 "iptables -A INPUT -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT"
             );
         } else {
-            $this->remoteTaskService->removeLineByText(
+            $this->remoteTaskService->findTextAndAppend(
                 '/opt/codepier/iptables',
+                '# DO NOT REMOVE - Custom Rules',
                 "iptables -A INPUT -s $serverFirewallRule->from_ip -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT"
             );
         }
@@ -69,11 +70,9 @@ iptables -P INPUT DROP
         $this->connectToServer();
 
         if (empty($firewallRule->from_ip)) {
-            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE,
-                "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         } else {
-            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE,
-                "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
         }
 
         if (empty($errors)) {
@@ -87,8 +86,7 @@ iptables -P INPUT DROP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->findTextAndAppend(self::IP_TABLES_FILE, '# DO NOT REMOVE - Custom Rules',
-            "iptables -A INPUT -s $serverIP -j ACCEPT");
+        $this->remoteTaskService->findTextAndAppend(self::IP_TABLES_FILE, '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
 
         return $this->rebuildFirewall();
     }

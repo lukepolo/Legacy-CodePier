@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\CronJobs;
 
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\Server\ServerCronJob;
@@ -30,8 +31,8 @@ class RemoveServerCronJob implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -42,6 +43,10 @@ class RemoveServerCronJob implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverCronJob->unsetEventDispatcher();
             $this->serverCronJob->delete();
+            if(\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
         }
 
         return $this->remoteResponse();
