@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
@@ -32,6 +33,7 @@ class InstallServerNetworkRule implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -42,6 +44,9 @@ class InstallServerNetworkRule implements ShouldQueue
         if (! $this->wasSuccessful()) {
             $this->serverNetworkRule->unsetEventDispatcher();
             $this->serverNetworkRule->delete();
+            if(\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
         }
 
         return $this->remoteResponse();

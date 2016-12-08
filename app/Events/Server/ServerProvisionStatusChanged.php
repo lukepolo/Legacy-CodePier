@@ -44,4 +44,19 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     {
         return new PrivateChannel('App.Models.Server.Server.'.$this->server->id);
     }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        unset($this->server->server_features);
+
+        return [
+            'server' => strip_relations($this->server),
+            'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep
+        ];
+    }
 }
