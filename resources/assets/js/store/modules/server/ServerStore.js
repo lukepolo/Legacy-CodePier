@@ -65,6 +65,7 @@ export default {
                 Echo.private('App.Models.Server.Server.' + server.id)
                     .listen('Server\\ServerProvisionStatusChanged', (data) => {
                         commit("UPDATE_SERVER", data.server);
+                        commit("UPDATE_SITE_SERVER", data.server);
                         commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
                     })
                     .listen('Server\\ServerSshConnectionFailed', (data) => {
