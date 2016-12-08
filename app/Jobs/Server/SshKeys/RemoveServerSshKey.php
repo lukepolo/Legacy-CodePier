@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Server\SshKeys;
 
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -43,7 +43,7 @@ class RemoveServerSshKey implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverSshKey->unsetEventDispatcher();
             $this->serverSshKey->delete();
-            if(\App::runningInConsole()) {
+            if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }

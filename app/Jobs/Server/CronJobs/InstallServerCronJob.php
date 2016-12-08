@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Server\CronJobs;
 
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use App\Models\Server\ServerCronJob;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -43,7 +43,7 @@ class InstallServerCronJob implements ShouldQueue
         if (! $this->wasSuccessful()) {
             $this->serverCronJob->unsetEventDispatcher();
             $this->serverCronJob->delete();
-            if(\App::runningInConsole()) {
+            if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }

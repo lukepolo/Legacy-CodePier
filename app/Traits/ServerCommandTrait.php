@@ -140,7 +140,7 @@ trait ServerCommandTrait
     }
 
     /**
-     * Gets the errors from the command
+     * Gets the errors from the command.
      *
      * @return mixed
      */

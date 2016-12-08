@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
-use App\Exceptions\ServerCommandFailed;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use App\Models\Server\ServerNetworkRule;
 use Illuminate\Queue\InteractsWithQueue;
@@ -44,7 +44,7 @@ class InstallServerNetworkRule implements ShouldQueue
         if (! $this->wasSuccessful()) {
             $this->serverNetworkRule->unsetEventDispatcher();
             $this->serverNetworkRule->delete();
-            if(\App::runningInConsole()) {
+            if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }

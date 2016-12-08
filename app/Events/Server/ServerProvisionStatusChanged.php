@@ -56,7 +56,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
 
         return [
             'server' => strip_relations($this->server),
-            'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep
+            'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep,
         ];
     }
 }
