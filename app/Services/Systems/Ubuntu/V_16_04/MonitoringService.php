@@ -76,8 +76,13 @@ done');
             'user'      => $user,
         ]);
 
+        $observables = $serverCronJob->getObservableEvents();
+
         $serverCronJob->flushEventListeners();
 
         $serverCronJob->save();
+
+        $serverCronJob->addObservableEvents($observables);
+
     }
 }
