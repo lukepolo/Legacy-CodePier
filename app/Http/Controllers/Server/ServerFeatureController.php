@@ -21,12 +21,12 @@ class ServerFeatureController extends Controller
     public function store(ServerFeatureRequest $request, $serverId)
     {
         return $this->dispatch(
-            new InstallServerFeature(
+            (new InstallServerFeature(
                 Server::findOrFail($serverId),
                 $request->get('feature'),
                 $request->get('service'),
                 $request->get('parameters', [])
-            )
+            ))->onQueue(env('SERVER_FEATURE_QUEUE'))
         );
     }
 

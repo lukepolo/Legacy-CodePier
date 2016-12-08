@@ -37,10 +37,9 @@ class CheckSshConnection implements ShouldQueue
         if ($serverService->testSshConnection($this->server)) {
             event(new ServerProvisionStatusChanged($this->server, 'Queue for Provisioning', 0));
 
-            dispatch(new ProvisionServer($this->server));
-            //            ->onQueue('server_provision'));
+            dispatch((new ProvisionServer($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
         } else {
-            dispatch((new self($this->server))->delay(10));
+            dispatch((new self($this->server))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE')));
         }
     }
 }

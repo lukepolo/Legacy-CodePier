@@ -2,6 +2,9 @@
 
 namespace App\Services\Server\Providers;
 
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\User\User;
 use DigitalOcean;
 use Carbon\Carbon;
 use Guzzle\Http\Client;
@@ -32,7 +35,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $options = [];
 
-        $this->setToken(env('ADMIN_DIGITAL_OCEAN_API_KEY'));
+        $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach (DigitalOcean::size()->getAll() as $size) {
             $options[] = ServerProviderOption::firstOrCreate([
@@ -59,7 +62,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $regions = [];
 
-        $this->setToken(env('ADMIN_DIGITAL_OCEAN_API_KEY'));
+        $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach (DigitalOcean::region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
@@ -197,6 +200,36 @@ class DigitalOceanProvider implements ServerProviderContract
         if ($serverProvider = $server->user->userServerProviders->where(
             'server_provider_id',
             $server->server_provider_id
+        )->first()
+        ) {
+            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+                return $this->refreshToken($serverProvider);
+            }
+
+            return $serverProvider->token;
+        }
+
+        throw new \Exception('No server provider found for this user');
+    }
+
+    /**
+     * Gets the token from the server.
+     *
+     * @param User $user
+     *
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    private function getTokenFromUser(User $user)
+    {
+        $server_provider_id = \Cache::rememberForever('digitalOceanId', function() {
+            return ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->first()->id;
+        });
+
+        if ($serverProvider = $user->userServerProviders->where(
+            'server_provider_id',
+            $server_provider_id
         )->first()
         ) {
             if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
