@@ -14,7 +14,7 @@ class ServerSshKeyObserver
     public function created(ServerSshKey $serverSshKey)
     {
         dispatch(
-            (new InstallServerSshKey($serverSshKey))->onQueue('SERVER_COMMAND_QUEUE')
+            (new InstallServerSshKey($serverSshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
 
@@ -25,7 +25,7 @@ class ServerSshKeyObserver
     public function deleting(ServerSshKey $serverSshKey)
     {
         dispatch(
-            (new RemoveServerSshKey($serverSshKey))->onQueue('SERVER_COMMAND_QUEUE')
+            (new RemoveServerSshKey($serverSshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return false;
