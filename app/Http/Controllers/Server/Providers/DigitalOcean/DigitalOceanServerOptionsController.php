@@ -28,7 +28,7 @@ class DigitalOceanServerOptionsController extends Controller
     {
         $options = ServerProvider::with('serverRegions')->where('provider_name', OauthController::DIGITAL_OCEAN)->first()->serverOptions;
 
-        if($options->isEmpty()) {
+        if ($options->isEmpty()) {
             return $this->store();
         }
 
