@@ -85,7 +85,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $contents
      * @param bool $read
      *
-     * @return bool
+     * @return array
      */
     public function writeToFile($file, $contents, $read = false)
     {
@@ -102,11 +102,11 @@ echo "Wrote" ', $read);
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function appendTextToFile($file, $text)
     {
-        return $this->run("echo $text >> $file");
+        return $this->run("echo \"$text\" >> $file");
     }
 
     /**
@@ -114,30 +114,33 @@ echo "Wrote" ', $read);
      * @param $findText
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run("sed -i '/$findText/a $text' ".$file);
+        $findText = $this->cleanText($findText);
+        $text = $this->cleanText($text);
+
+        return $this->run("sed -i '/$findText/a $text' $file");
     }
 
     /**
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return array
      */
     public function removeLineByText($file, $text)
     {
-        $text = str_replace('/', '\/', $text);
+        $text = $this->cleanText($text);
 
-        return $this->run("sed -i '/$text/d' ".$file);
+        return $this->run("sed -i '/$text/d' $file");
     }
 
     /**
      * @param $directory
      *
-     * @return bool
+     * @return array
      */
     public function makeDirectory($directory)
     {
@@ -147,7 +150,7 @@ echo "Wrote" ', $read);
     /**
      * @param $directory
      *
-     * @return bool
+     * @return array
      */
     public function removeDirectory($directory)
     {
@@ -157,7 +160,7 @@ echo "Wrote" ', $read);
     /**
      * @param $file
      *
-     * @return bool
+     * @return array
      */
     public function removeFile($file)
     {
@@ -166,7 +169,10 @@ echo "Wrote" ', $read);
 
     public function updateText($file, $text, $replaceWithText)
     {
-        return $this->run('sed -i "s/'.$text.' .*/'.$replaceWithText.'/" '.$file);
+        $text = $this->cleanText($text);
+        $replaceWithText = $this->cleanText($replaceWithText);
+
+        return $this->run("sed -i \"s/$text.*/$replaceWithText/\" $file");
     }
 
     /**
@@ -196,12 +202,12 @@ echo "Wrote" ', $read);
                 $server->ssh_connection = false;
                 $server->save();
 
-                throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
             $server->save();
-            throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+            throw new SshConnectionFailed($e->getMessage());
         }
 
         $ssh->setTimeout(0);
@@ -227,5 +233,14 @@ echo "Wrote" ', $read);
     private function cleanResponse($response)
     {
         return trim(str_replace('codepier-done', '', $response));
+    }
+
+    private function cleanText($text)
+    {
+        $text = str_replace('/', '\/', $text);
+        $text = str_replace('&', '\&', $text);
+        $text = str_replace('\\', '\\\\', $text);
+
+        return $text;
     }
 }

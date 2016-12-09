@@ -26,20 +26,24 @@ trait UsedByTeams
         $teamworkModel = static::$teamworkModel;
 
         static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
-            if (auth()->user()->current_team_id) {
-                $builder->whereHas($teamworkModel, function ($query) {
-                    $query->whereHas('users', function ($query) {
-                        $query->where('user_id', auth()->user()->id);
-                    })->where('team_id', auth()->user()->currentTeam->getKey());
-                });
-            } else {
-                $builder->doesntHave($teamworkModel);
+            if (auth()->user()) {
+                if (auth()->user()->current_team_id) {
+                    $builder->whereHas($teamworkModel, function ($query) {
+                        $query->whereHas('users', function ($query) {
+                            $query->where('user_id', auth()->user()->id);
+                        })->where('team_id', auth()->user()->currentTeam->getKey());
+                    });
+                } else {
+                    $builder->doesntHave($teamworkModel);
+                }
             }
         });
 
         static::saved(function (Model $model) {
-            if (auth()->user()->current_team_id && $model->teamworkSync) {
-                $model->teams()->attach(auth()->user()->currentTeam->getKey());
+            if (auth()->user()) {
+                if (auth()->user()->current_team_id && $model->teamworkSync) {
+                    $model->teams()->attach(auth()->user()->currentTeam->getKey());
+                }
             }
         });
     }

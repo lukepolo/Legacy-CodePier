@@ -5,6 +5,7 @@ namespace App\Jobs\Server\FirewallRules;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerFirewallRule;
@@ -33,6 +34,7 @@ class RemoveServerFirewallRule implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -43,6 +45,9 @@ class RemoveServerFirewallRule implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverFirewallRule->unsetEventDispatcher();
             $this->serverFirewallRule->delete();
+            if (\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
         }
 
         return $this->remoteResponse();

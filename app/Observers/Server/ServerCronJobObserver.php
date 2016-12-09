@@ -12,7 +12,7 @@ class ServerCronJobObserver
     public function created(ServerCronJob $serverCronJob)
     {
         dispatch(
-            (new \App\Jobs\Server\CronJobs\InstallServerCronJob($serverCronJob))->onQueue('SERVER_COMMAND_QUEUE')
+            (new \App\Jobs\Server\CronJobs\InstallServerCronJob($serverCronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
 
@@ -23,7 +23,7 @@ class ServerCronJobObserver
     public function deleting(ServerCronJob $serverCronJob)
     {
         dispatch(
-            (new \App\Jobs\Server\CronJobs\RemoveServerCronJob($serverCronJob))->onQueue('SERVER_COMMAND_QUEUE')
+            (new \App\Jobs\Server\CronJobs\RemoveServerCronJob($serverCronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return false;

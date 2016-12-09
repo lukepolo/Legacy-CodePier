@@ -48,9 +48,16 @@ class NewSiteDeployment extends Notification
     public function toArray($notifiable)
     {
         return [
-            'siteDeployment' => $this->siteDeployment->load(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
-                $query->withTrashed();
-            }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider']),
+            'siteDeployment' => $this->siteDeployment->load([
+                'serverDeployments.server' => function ($query) {
+                    $query->select('id', 'status', 'name', 'ip');
+                },
+                'serverDeployments.events.step' => function ($query) {
+                    $query->withTrashed();
+                },
+                'site.pile',
+                'site.userRepositoryProvider.repositoryProvider',
+            ]),
         ];
     }
 }

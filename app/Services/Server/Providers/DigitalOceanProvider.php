@@ -2,17 +2,17 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Http\Controllers\Auth\OauthController;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
 use DigitalOcean;
 use Carbon\Carbon;
 use Guzzle\Http\Client;
 use phpseclib\Crypt\RSA;
+use App\Models\User\User;
 use App\Models\Server\Server;
 use DigitalOceanV2\Entity\Droplet;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
 
@@ -79,16 +79,15 @@ class DigitalOceanProvider implements ServerProviderContract
      * Creates a new server.
      *
      * @param Server $server
-     * @param $sshKey
      *
      * @throws \Exception
      *
      * @return static
      */
-    public function create(Server $server, $sshKey)
+    public function create(Server $server)
     {
         $sshPublicKey = new RSA();
-        $sshPublicKey->loadKey($sshKey['publickey']);
+        $sshPublicKey->loadKey($server->public_ssh_key);
 
         $ipv6 = false;
         $backups = false;
@@ -104,7 +103,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $this->setToken($this->getTokenFromServer($server));
 
-        DigitalOcean::key()->create($server->name, $sshKey['publickey']);
+        DigitalOcean::key()->create($server->name, $server->public_ssh_key);
 
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
@@ -121,7 +120,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $userData = null
         );
 
-        return $this->saveServer($server, $droplet->id, $sshKey);
+        return $this->saveServer($server, $droplet->id);
     }
 
     /**
@@ -223,7 +222,7 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     private function getTokenFromUser(User $user)
     {
-        $server_provider_id = \Cache::rememberForever('digitalOceanId', function() {
+        $server_provider_id = \Cache::rememberForever('digitalOceanId', function () {
             return ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->first()->id;
         });
 
