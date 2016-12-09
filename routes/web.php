@@ -47,11 +47,7 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 Route::group(['prefix' => 'webhook'], function () {
-    Route::get('/deploy/{siteHashID}', function ($siteHashID) {
-        dispatch(new \App\Jobs\Site\DeploySite(
-            \App\Models\Site\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
-        ));
-    })->name('webhook/deploy');
+    Route::get('/deploy/{siteHashID}')->name('webhook/deploy');
 });
 
 /*
