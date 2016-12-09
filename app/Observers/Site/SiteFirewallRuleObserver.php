@@ -16,12 +16,12 @@ class SiteFirewallRuleObserver
     public function created(SiteFirewallRule $siteFirewallRule)
     {
         foreach ($siteFirewallRule->site->provisionedServers as $server) {
-            if (! ServerFirewallRule::where('port', $siteFirewallRule->port)
+            if (! ServerFirewallRule::where('server_id', $server->id)
+                ->where('port', $siteFirewallRule->port)
                 ->where('from_ip', $siteFirewallRule->from_ip)
-                ->where('description', $siteFirewallRule->description)
                 ->count()
             ) {
-                $serverFirewallRule = ServerFirewallRule::create([
+                $serverFirewallRule = new ServerFirewallRule([
                     'server_id' => $server->id,
                     'port' => $siteFirewallRule->port,
                     'from_ip' => $siteFirewallRule->from_ip,
@@ -34,6 +34,8 @@ class SiteFirewallRuleObserver
                 ]);
 
                 $serverFirewallRule->save();
+            } else {
+                $siteFirewallRule->delete();
             }
         }
     }
@@ -43,7 +45,12 @@ class SiteFirewallRuleObserver
      */
     public function deleting(SiteFirewallRule $siteFirewallRule)
     {
-        $siteFirewallRule->serverFirewallRules->each(function ($serverFirewallRule) {
+        $siteFirewallRule->serverFirewallRules->each(function ($serverFirewallRule) use($siteFirewallRule) {
+
+            $serverFirewallRule->addHidden([
+                'command' => $this->makeCommand($siteFirewallRule),
+            ]);
+
             $serverFirewallRule->delete();
         });
     }

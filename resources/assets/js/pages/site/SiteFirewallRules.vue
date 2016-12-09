@@ -63,7 +63,6 @@
                     port: null,
                     from_ip: null,
                     description: null,
-                    site : this.$route ? this.$route.params.site_id : null,
                 }
             }
         },
@@ -79,6 +78,9 @@
                 this.$store.dispatch('getSite', this.$route.params.site_id);
             },
             createFirewallRule() {
+
+                this.form.site = this.$route.params.site_id;
+
                 this.$store.dispatch('createSiteFirewallRule', this.form);
                 this.form = this.$options.data().form;
             },

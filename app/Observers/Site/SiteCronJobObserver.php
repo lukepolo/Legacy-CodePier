@@ -16,7 +16,8 @@ class SiteCronJobObserver
     public function created(SiteCronJob $siteCronJob)
     {
         foreach ($siteCronJob->site->provisionedServers as $server) {
-            if (! ServerCronJob::where('job', $siteCronJob->job)
+            if (! ServerCronJob::where('server_id', $server->id)
+                ->where('job', $siteCronJob->job)
                 ->where('user', $siteCronJob->user)
                 ->count()
             ) {
@@ -32,6 +33,8 @@ class SiteCronJobObserver
                 ]);
 
                 $serverCronJob->save();
+            } else {
+                $siteCronJob->delete();
             }
         }
     }
@@ -41,7 +44,12 @@ class SiteCronJobObserver
      */
     public function deleting(SiteCronJob $siteCronJob)
     {
-        $siteCronJob->serverCronJobs->each(function ($serverCronJob) {
+        $siteCronJob->serverCronJobs->each(function ($serverCronJob) use($siteCronJob) {
+
+            $serverCronJob->addHidden([
+                'command' => $this->makeCommand($siteCronJob),
+            ]);
+
             $serverCronJob->delete();
         });
     }

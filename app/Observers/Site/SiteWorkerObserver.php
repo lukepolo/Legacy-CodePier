@@ -16,7 +16,8 @@ class SiteWorkerObserver
     public function created(SiteWorker $siteWorker)
     {
         foreach ($siteWorker->site->provisionedServers as $server) {
-            if (! ServerWorker::where('user', $siteWorker->user)
+            if (! ServerWorker::where('server_id', $server->id)
+                ->where('user', $siteWorker->user)
                 ->where('command', $siteWorker->command)
                 ->where('auto_start', $siteWorker->auto_start)
                 ->where('auto_restart', $siteWorker->auto_restart)
@@ -38,6 +39,8 @@ class SiteWorkerObserver
                 ]);
 
                 $serverWorker->save();
+            } else {
+                $siteWorker->delete();
             }
         }
     }
@@ -48,7 +51,12 @@ class SiteWorkerObserver
      */
     public function deleting(SiteWorker $siteWorker)
     {
-        $siteWorker->serverWorkers->each(function ($serverWorker) {
+        $siteWorker->serverWorkers->each(function ($serverWorker) use($siteWorker) {
+
+            $serverWorker->addHidden([
+                'command' => $this->makeCommand($siteWorker),
+            ]);
+
             $serverWorker->delete();
         });
     }
