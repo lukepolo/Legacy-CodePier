@@ -47,7 +47,7 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 Route::group(['prefix' => 'webhook'], function () {
-    Route::get('/deploy/{siteHashID}')->name('webhook/deploy');
+    Route::get('/deploy/{siteHashID}', 'WebHookController@deploy');
 });
 
 /*
