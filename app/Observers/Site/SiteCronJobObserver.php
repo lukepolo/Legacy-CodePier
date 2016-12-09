@@ -44,8 +44,7 @@ class SiteCronJobObserver
      */
     public function deleting(SiteCronJob $siteCronJob)
     {
-        $siteCronJob->serverCronJobs->each(function ($serverCronJob) use($siteCronJob) {
-
+        $siteCronJob->serverCronJobs->each(function ($serverCronJob) use ($siteCronJob) {
             $serverCronJob->addHidden([
                 'command' => $this->makeCommand($siteCronJob),
             ]);
