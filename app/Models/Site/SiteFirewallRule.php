@@ -28,6 +28,6 @@ class SiteFirewallRule extends Model
 
     public function serverFirewallRules()
     {
-        return $this->hasMany(ServerFirewallRule::class)->where('progress', '>=', '100');
+        return $this->hasMany(ServerFirewallRule::class);
     }
 }

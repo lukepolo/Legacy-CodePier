@@ -39,7 +39,7 @@ class SiteServerController extends Controller
 
         foreach ($changes['attached'] as $attached) {
             $this->dispatch(
-                (new CreateSite(Server::findOrFail($attached), $site))->onQueue('SERVER_COMMAND_QUEUE')
+                (new CreateSite(Server::findOrFail($attached), $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
 

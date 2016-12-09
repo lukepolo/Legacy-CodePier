@@ -14,7 +14,7 @@ class ServerNetworkRuleObserver
     public function created(ServerNetworkRule $serverNetworkRule)
     {
         dispatch(
-            (new InstallServerNetworkRule($serverNetworkRule))->onQueue('SERVER_COMMAND_QUEUE')
+            (new InstallServerNetworkRule($serverNetworkRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
 
@@ -24,7 +24,7 @@ class ServerNetworkRuleObserver
     public function deleting(ServerNetworkRule $serverNetworkRule)
     {
         dispatch(
-            (new RemoveServerNetworkRule($serverNetworkRule))->onQueue('SERVER_COMMAND_QUEUE')
+            (new RemoveServerNetworkRule($serverNetworkRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
 }

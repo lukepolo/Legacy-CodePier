@@ -25,7 +25,7 @@ trait ServerCommandTrait
     public function makeCommand(Model $model, $siteId = null)
     {
         if (empty($siteId)) {
-            $siteId = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
+            $siteId = $model->server->site_id;
         }
 
         $this->serverCommand = ServerCommand::create([
@@ -137,5 +137,15 @@ trait ServerCommandTrait
             'commandable_id' => $model->id,
             'commandable_type' => get_class($model),
         ]);
+    }
+
+    /**
+     * Gets the errors from the command.
+     *
+     * @return mixed
+     */
+    private function getCommandErrors()
+    {
+        return json_encode($this->remoteErrors);
     }
 }

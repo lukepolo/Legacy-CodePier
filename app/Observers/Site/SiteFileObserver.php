@@ -17,7 +17,7 @@ class SiteFileObserver
     {
         foreach ($siteFile->site->provisionedServers as $server) {
             dispatch(
-                (new UpdateServerFile($server, $siteFile))->onQueue('SERVER_COMMAND_QUEUE')
+                (new UpdateServerFile($server, $siteFile))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
     }
@@ -26,7 +26,7 @@ class SiteFileObserver
     {
         foreach ($siteFile->site->provisionedServers as $server) {
             dispatch(
-                (new UpdateServerFile($server, $siteFile))->onQueue('SERVER_COMMAND_QUEUE')
+                (new UpdateServerFile($server, $siteFile))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
     }

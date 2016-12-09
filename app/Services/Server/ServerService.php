@@ -14,6 +14,7 @@ use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract;
 use App\Notifications\Server\ServerProvisioned;
 use App\Contracts\Systems\SystemServiceContract;
+use App\Events\Server\ServerSshConnectionFailed;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerService implements ServerServiceContract
@@ -46,7 +47,14 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
+        $sshKey = $this->createSshKey();
+
+        $server->public_ssh_key = $sshKey['publickey'];
+        $server->private_ssh_key = $sshKey['privatekey'];
+
+        $server->save();
+
+        return $this->getProvider($serverProvider)->create($server);
     }
 
     /**
@@ -85,8 +93,7 @@ class ServerService implements ServerServiceContract
 
             return true;
         } catch (SshConnectionFailed $e) {
-            $server->ssh_connection = false;
-            $server->save();
+            event(new ServerSshConnectionFailed($server, $e->getMessage()));
 
             return false;
         }

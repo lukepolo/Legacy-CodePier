@@ -48,11 +48,14 @@ export default {
             var site_deployment = _.find(state.events, {id : event.site_deployment.id});
             var server_deployment = _.find(site_deployment.server_deployments, {id : event.server_deployment.id });
 
-            Vue.set(
-                server_deployment.events,
-                _.findKey(server_deployment.events, { id : event.deployment_event.id }),
-                event.deployment_event
-            );
+            if(server_deployment) {
+                Vue.set(
+                    server_deployment.events,
+                    _.findKey(server_deployment.events, { id : event.deployment_event.id }),
+                    event.deployment_event
+                );
+            }
+
         },
         UPDATE_SITE_DEPLOYMENT_EVENT : (state, event) => {
 
