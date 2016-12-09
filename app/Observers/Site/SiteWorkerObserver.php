@@ -51,8 +51,7 @@ class SiteWorkerObserver
      */
     public function deleting(SiteWorker $siteWorker)
     {
-        $siteWorker->serverWorkers->each(function ($serverWorker) use($siteWorker) {
-
+        $siteWorker->serverWorkers->each(function ($serverWorker) use ($siteWorker) {
             $serverWorker->addHidden([
                 'command' => $this->makeCommand($siteWorker),
             ]);

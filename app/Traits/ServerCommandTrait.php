@@ -32,7 +32,6 @@ trait ServerCommandTrait
             if (isset($hiddenAttributes['command'])) {
                 $command = $hiddenAttributes['command'];
             }
-
         } else {
             $command = Command::create([
                 'site_id' => $siteId,
@@ -41,7 +40,7 @@ trait ServerCommandTrait
             ]);
         }
 
-        if(!empty($command)) {
+        if (! empty($command)) {
             $this->serverCommand = ServerCommand::create([
                 'server_id' => $model->server_id,
                 'command_id' => $command->id,

@@ -43,8 +43,7 @@ class SiteSshKeyObserver
      */
     public function deleting(SiteSshKey $siteSshKey)
     {
-        $siteSshKey->serverSshKeys->each(function ($serverSshKey) use($siteSshKey) {
-
+        $siteSshKey->serverSshKeys->each(function ($serverSshKey) use ($siteSshKey) {
             $serverSshKey->addHidden([
                 'command' => $this->makeCommand($siteSshKey),
             ]);
