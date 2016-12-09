@@ -8,6 +8,8 @@
         Site Deployments
         <div @click="addCustomStep" class="btn btn-primary">Add Custom Step</div>
         <form @submit.prevent="updateSiteDeployment">
+            <div class="btn btn-primary" @click="selectAllDeployments">Select All</div>
+            <div class="btn btn-primary" @click="deselectAllDeployments">Deselect All</div>
             <div class="drag">
                 <h2>Inactive</h2>
                 <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
@@ -105,6 +107,24 @@
                     this.active = _.sortBy(this.active, 'order');
                 });
             },
+            deselectAllDeployments() {
+                _.each(this.active, (step) => {
+                    this.inactive.push(step);
+                });
+
+                this.active = [];
+
+                this.sortInactiveList();
+            },
+            selectAllDeployments() {
+                _.each(this.inactive, (step) => {
+                    this.active.push(step);
+                });
+
+                this.inactive = [];
+
+                this.sortActiveList();
+            }
         },
         computed: {
             site() {
