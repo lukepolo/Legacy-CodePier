@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.26 on 2016-12-07.
+ * Generated for Laravel 5.3.26 on 2016-12-09.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -14134,10 +14134,11 @@ if (! function_exists('with')) {
          * Sets user context.
          *
          * @param array $data Associative array of user data
+         * @param bool $merge Merge existing context with new context
          * @static 
          */
-        public static function user_context($data){
-            return \Raven_Client::user_context($data);
+        public static function user_context($data, $merge = true){
+            return \Raven_Client::user_context($data, $merge);
         }
         
         /**
@@ -14260,4 +14261,6 @@ if (! function_exists('with')) {
 
 
 }
+
+
 
