@@ -50,9 +50,13 @@ trait ServerCommandTrait
         $start = microtime(true);
 
         try {
-            $this->serverCommand->update([
-                'started' => true,
-            ]);
+
+            if(! empty($this->serverCommand)) {
+                $this->serverCommand->update([
+                    'started' => true,
+                ]);
+            }
+
 
             $remoteResponse = new SuccessRemoteResponse($function());
 
