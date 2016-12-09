@@ -13,7 +13,7 @@ class CommandSiteNullable extends Migration
      */
     public function up()
     {
-        Schema::table('commands', function(Blueprint $table) {
+        Schema::table('commands', function (Blueprint $table) {
             $table->integer('site_id')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class CommandSiteNullable extends Migration
      */
     public function down()
     {
-        Schema::table('commands', function(Blueprint $table) {
+        Schema::table('commands', function (Blueprint $table) {
             $table->integer('site_id')->nullable()->change();
         });
     }
