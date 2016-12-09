@@ -16,7 +16,7 @@ class SiteSshKeyObserver
     public function created(SiteSshKey $siteSshKey)
     {
         foreach ($siteSshKey->site->provisionedServers as $server) {
-            if (! ServerSshKey::where('name', $siteSshKey->name)
+            if (! ServerSshKey::where('server_id', $server->id)
                 ->where('ssh_key', $siteSshKey->ssh_key)
                 ->count()
             ) {
@@ -32,6 +32,8 @@ class SiteSshKeyObserver
                 ]);
 
                 $serverSshKey->save();
+            } else {
+                $siteSshKey->delete();
             }
         }
     }
@@ -41,7 +43,12 @@ class SiteSshKeyObserver
      */
     public function deleting(SiteSshKey $siteSshKey)
     {
-        $siteSshKey->serverSshKeys->each(function ($serverSshKey) {
+        $siteSshKey->serverSshKeys->each(function ($serverSshKey) use($siteSshKey) {
+
+            $serverSshKey->addHidden([
+                'command' => $this->makeCommand($siteSshKey),
+            ]);
+
             $serverSshKey->delete();
         });
     }
