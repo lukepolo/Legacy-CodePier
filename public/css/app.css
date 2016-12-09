@@ -4540,8 +4540,6 @@ tbody.collapse.in {
 .fa-font-awesome:before {
   content: "";
 }
-<<<<<<< HEAD
-=======
 
 .fa-handshake-o:before {
   content: "";
@@ -4720,7 +4718,6 @@ tbody.collapse.in {
 .fa-meetup:before {
   content: "";
 }
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .sr-only {
   position: absolute;
@@ -5159,13 +5156,10 @@ a:hover, a:focus, a:active {
 p.info {
   font-size: 1.2em;
 }
-<<<<<<< HEAD
-=======
 
 pre {
   font-family: 'Cutive Mono', monospace;
 }
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .primary {
   color: #48ACF0;
@@ -5243,11 +5237,7 @@ footer {
   overflow: hidden;
 }
 
-<<<<<<< HEAD
-#main div, .view div {
-=======
 #main > div, .view > div {
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   -webkit-box-flex: 1;
   flex: 1 1 auto;
 }
@@ -5289,7 +5279,6 @@ footer {
 .card, .jcf-form-wrap {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
 }
-<<<<<<< HEAD
 
 .card hr, .jcf-form-wrap hr {
   border: none;
@@ -5304,58 +5293,6 @@ footer {
   border-top: 10px solid #48ACF0;
   padding: 20px 40px;
   margin: -40px -40px 40px;
-}
-
-.card .heading h1, .jcf-form-wrap .heading h1, .card .heading h2, .jcf-form-wrap .heading h2, .card .heading h3, .jcf-form-wrap .heading h3, .card .heading h4, .jcf-form-wrap .heading h4, .card .heading h5, .jcf-form-wrap .heading h5, .card .heading h6, .jcf-form-wrap .heading h6 {
-  color: #FFFFFF;
-  margin: 0px;
-  padding: 0px;
-}
-
-.card .heading p, .jcf-form-wrap .heading p {
-  font-size: .9em;
-  margin: 10px 0px 0px;
-  padding: 0px;
-}
-
-header {
-  background-color: #2B2B2B;
-  display: -webkit-box;
-  display: flex;
-}
-
-header .muted {
-  font-size: .8em;
-  text-transform: uppercase;
-  opacity: .5;
-  display: inline-block;
-  padding-right: 5px;
-}
-
-.logo-container {
-  -webkit-box-flex: 0;
-  flex: 0 0 265px;
-  padding: 5px 10px;
-}
-
-.logo-container a {
-  width: 100%;
-=======
-
-.card hr, .jcf-form-wrap hr {
-  border: none;
-  border-bottom: 1px solid #2B2B2B;
-  margin: 40px -40px;
-}
-
-.card .heading, .jcf-form-wrap .heading {
-  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
-  background-color: #48ACF0;
-  color: rgba(255, 255, 255, 0.8);
-  border-top: 10px solid #48ACF0;
-  padding: 20px 40px;
-  margin: -40px -40px 40px;
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .card .heading h1, .jcf-form-wrap .heading h1, .card .heading h2, .jcf-form-wrap .heading h2, .card .heading h3, .jcf-form-wrap .heading h3, .card .heading h4, .jcf-form-wrap .heading h4, .card .heading h5, .jcf-form-wrap .heading h5, .card .heading h6, .jcf-form-wrap .heading h6 {
@@ -5537,15 +5474,12 @@ footer {
   position: relative;
   background-color: #2B2B2B;
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
-<<<<<<< HEAD
-=======
   min-height: 40px !important;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 footer .toggle {
@@ -5571,12 +5505,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 #collapseEvents {
   border-top: 2px solid rgba(255, 255, 255, 0.2);
 }
-<<<<<<< HEAD
-
-.events-container {
-  max-height: 25vh;
-  overflow-y: scroll;
-=======
 
 #collapseEvents.in {
   -webkit-box-flex: 1;
@@ -5595,18 +5523,13 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   flex-grow: 1;
   flex-shrink: 1;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .event {
   display: -webkit-box;
   display: flex;
   padding: 10px 20px;
-<<<<<<< HEAD
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-=======
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .event-status {
@@ -5615,8 +5538,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   margin-right: 20px;
 }
 
-<<<<<<< HEAD
-=======
 .event-status.event-status-neutral {
   height: 1em;
   width: 1em;
@@ -5627,15 +5548,10 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   background-color: #B6B6B6;
 }
 
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 .event-status.event-status-success {
   height: 1em;
   width: 1em;
   display: inline-block;
-<<<<<<< HEAD
-  float: right;
-=======
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   border-radius: 50%;
   position: relative;
   top: 2px;
@@ -5646,10 +5562,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   height: 1em;
   width: 1em;
   display: inline-block;
-<<<<<<< HEAD
-  float: right;
-=======
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   border-radius: 50%;
   position: relative;
   top: 2px;
@@ -5660,10 +5572,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   height: 1em;
   width: 1em;
   display: inline-block;
-<<<<<<< HEAD
-  float: right;
-=======
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   border-radius: 50%;
   position: relative;
   top: 2px;
@@ -5674,17 +5582,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
 }
-<<<<<<< HEAD
-
-.event-name a:not(.collapsed) {
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-  position: relative;
-  left: -4px;
-  top: 2px;
-}
-=======
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .event-pile {
   -webkit-box-flex: 0;
@@ -5700,12 +5597,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   text-align: center;
   padding: 20px;
 }
-<<<<<<< HEAD
-
-.event-details {
-  padding: 10px 20px 0px;
-  color: rgba(255, 255, 255, 0.6);
-=======
 
 .event-commit {
   padding: 0px 10px;
@@ -5764,7 +5655,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 
 .event-details .event-error pre {
   color: #F4645F;
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .btn {
@@ -5810,8 +5700,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   background-color: #48ACF0;
   color: #FFFFFF !important;
 }
-<<<<<<< HEAD
-=======
 
 .btn-danger {
   background-color: #F4645F;
@@ -5822,7 +5710,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   font-size: 14px;
   padding: 5px 10px;
 }
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .btn-footer {
   text-align: center;
@@ -5857,8 +5744,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-<<<<<<< HEAD
-=======
 
 .icon-spinner {
   display: inline-block;
@@ -5882,7 +5767,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
     -webkit-transform: rotate(360deg);
   }
 }
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .icon-browser,
 .icon-server,
@@ -5890,18 +5774,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding-right: 4px;
 }
 
-<<<<<<< HEAD
-.icon-warning:before {
-  content: "\e900";
-}
-
-.icon-browser:before {
-  content: "\e902";
-}
-
-.icon-server:before {
-  content: "\e903";
-=======
 .icon-github:before {
   content: "\eab0";
 }
@@ -5912,7 +5784,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 
 .icon-spinner8:before {
   content: "\e982";
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .icon-arrow-up:before {
@@ -5931,74 +5802,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   content: "\f104";
 }
 
-<<<<<<< HEAD
-.icon-play:before {
-  content: "\e901";
-}
-
-.icon-layers:before {
-  content: "\e53b";
-}
-
-.icon-search:before {
-  content: "\e8b6";
-}
-
-.icon-group_add:before {
-  content: "\e7f0";
-}
-
-.icon-people:before {
-  content: "\e7fb";
-}
-
-.icon-person:before {
-  content: "\e7fd";
-}
-
-.icon-backup:before {
-  content: "\e864";
-}
-
-.icon-power_settings_new:before {
-  content: "\e8ac";
-}
-
-.icon-settings:before {
-  content: "\e8b8";
-}
-
-.icon-supervisor_account:before {
-  content: "\e8d3";
-}
-
-.icon-check_box:before {
-  content: "\e834";
-}
-
-.icon-check_box_outline_blank:before {
-  content: "\e835";
-}
-
-.icon-indeterminate_check_box:before {
-  content: "\e909";
-}
-
-.icon-radio_button_unchecked:before {
-  content: "\e836";
-}
-
-.icon-radio_button_checked:before {
-  content: "\e837";
-}
-
-.icon-check_circle:before {
-  content: "\e86c";
-}
-
-.icon-cancel:before {
-  content: "\e5c9";
-=======
 .icon-browser:before {
   content: "\e902";
 }
@@ -6069,7 +5872,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 
 .icon-settings:before {
   content: "\e8b8";
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 }
 
 .section-column {
@@ -6154,11 +5956,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   position: relative;
 }
 
-<<<<<<< HEAD
-.server > a.router-link-active {
-=======
 .server.selected {
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   background-color: #343536;
 }
 
@@ -6168,56 +5966,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   margin-bottom: 5px;
   padding-right: 1.4em;
 }
-<<<<<<< HEAD
-
-.server-connection {
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  float: right;
-  border-radius: 50%;
-  position: relative;
-  top: 2px;
-  right: -1.4em;
-}
-
-.server-connection.server-success {
-  background-color: #83B692;
-}
-
-.server-connection.server-error {
-  background-color: #F4645F;
-}
-
-.server-status {
-  margin-top: 10px;
-}
-
-.server-progress-container {
-  height: 20px;
-  border: 1px solid #2B2B2B;
-  margin: 10px 0;
-  position: relative;
-}
-
-.server-progress-number {
-  position: absolute;
-  right: 0px;
-  font-size: .9em;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 0px 5px;
-}
-
-.server-progress {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: #48ACF0;
-}
-=======
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .server-list .server:last-child {
   border: none;
@@ -6243,14 +5991,11 @@ a.server:hover:before {
   padding: 0px;
 }
 
-<<<<<<< HEAD
-=======
 .dropdown-menu.dropup {
   top: auto;
   bottom: 100%;
 }
 
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 .dropdown-menu li > a,
 .dropdown-menu li > span {
   font-size: 14px;
@@ -6311,11 +6056,6 @@ a.server:hover:before {
   padding: 20px;
 }
 
-<<<<<<< HEAD
-.group .group-content {
-  -webkit-box-flex: 1;
-  flex: 1 0 auto;
-=======
 .group .group-heading h4 {
   text-transform: none;
 }
@@ -6339,7 +6079,6 @@ a.server:hover:before {
 .group .group-content {
   -webkit-box-flex: 1;
   flex: 1 0 100px;
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
   position: relative;
 }
 
@@ -6592,8 +6331,6 @@ a.server:hover:before {
     transform: rotate(360deg);
   }
 }
-<<<<<<< HEAD
-=======
 
 .filter {
   -webkit-box-flex: 0;
@@ -6678,7 +6415,6 @@ a.server:hover:before {
   margin: 20px -20px -20px;
   padding: 5px 20px;
 }
->>>>>>> d9a9c895184d851d582142dae64fbf9d24be6152
 
 .float-label-active, .jcf-form-wrap input:focus + label .float-label, .jcf-form-wrap input.active + label .float-label {
   position: relative;
