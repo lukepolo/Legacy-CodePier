@@ -17,7 +17,7 @@ class CreateUserNotificationSettingsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('event');
-            $table->json('services');
+            $table->longText('services');
             $table->boolean('default');
             $table->string('description');
             $table->timestamps();
@@ -25,7 +25,7 @@ class CreateUserNotificationSettingsTable extends Migration
 
         Schema::create('user_notification_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->json('services');
+            $table->longText('services');
             $table->integer('user_id');
             $table->integer('notification_setting_id');
             $table->timestamps();
