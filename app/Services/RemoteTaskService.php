@@ -143,6 +143,7 @@ echo \"Wrote\"", $read);
     public function removeLineByText($file, $text)
     {
         $text = $this->cleanRegex($text);
+
         return $this->run("sed -i '/$text/d' $file");
     }
 
@@ -186,6 +187,7 @@ echo \"Wrote\"", $read);
     {
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
+
         return $this->run("sed -i 's/$text.*/$replaceWithText/' $file");
     }
 
@@ -257,7 +259,7 @@ echo \"Wrote\"", $read);
     }
 
     /**
-     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script
+     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
      *
      * @param $text
      * @return mixed
@@ -266,13 +268,13 @@ echo \"Wrote\"", $read);
     {
         $text = str_replace("'", "'\\''", $text);
 
-        $text = preg_replace('#(&|\\\|\/)#', "\\\\$1", $text);
+        $text = preg_replace('#(&|\\\|\/)#', '\\\$1', $text);
 
         return $text;
     }
 
     /**
-     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script
+     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
      *
      * @param $text
      * @return mixed
@@ -281,7 +283,7 @@ echo \"Wrote\"", $read);
     {
         $text = str_replace("'", "'\\''", $text);
 
-        $text = preg_replace('#(\$|\.|\*|\/|\[|\\\|\]|\^)#', "\\\\$1", $text);
+        $text = preg_replace('#(\$|\.|\*|\/|\[|\\\|\]|\^)#', '\\\$1', $text);
 
         return $text;
     }
