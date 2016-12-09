@@ -58,7 +58,6 @@ class SiteSslCertificateObserver
     public function updated(SiteSslCertificate $siteSslCertificate)
     {
         $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use ($siteSslCertificate) {
-
             $serverSslCertificate->addHidden([
                 'command' => $this->makeCommand($siteSslCertificate),
             ]);
@@ -74,8 +73,7 @@ class SiteSslCertificateObserver
      */
     public function deleting(SiteSslCertificate $siteSslCertificate)
     {
-        $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use($siteSslCertificate) {
-
+        $siteSslCertificate->serverSslCertificates->each(function ($serverSslCertificate) use ($siteSslCertificate) {
             $serverSslCertificate->addHidden([
                 'command' => $this->makeCommand($siteSslCertificate),
             ]);
@@ -87,7 +85,6 @@ class SiteSslCertificateObserver
     private function deactivateCurrentSsl(SiteSslCertificate $activeSsl = null, $siteSslCertificate)
     {
         if (! empty($activeSsl)) {
-
             $activeSsl->addHidden([
                 'command' => $this->makeCommand($siteSslCertificate),
             ]);

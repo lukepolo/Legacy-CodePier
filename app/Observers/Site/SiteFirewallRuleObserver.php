@@ -45,8 +45,7 @@ class SiteFirewallRuleObserver
      */
     public function deleting(SiteFirewallRule $siteFirewallRule)
     {
-        $siteFirewallRule->serverFirewallRules->each(function ($serverFirewallRule) use($siteFirewallRule) {
-
+        $siteFirewallRule->serverFirewallRules->each(function ($serverFirewallRule) use ($siteFirewallRule) {
             $serverFirewallRule->addHidden([
                 'command' => $this->makeCommand($siteFirewallRule),
             ]);
