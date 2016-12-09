@@ -74,7 +74,6 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 -----END DH PARAMETERS-----');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service nginx restart');
-
     }
 
     /**
