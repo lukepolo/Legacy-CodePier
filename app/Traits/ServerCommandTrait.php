@@ -133,8 +133,7 @@ trait ServerCommandTrait
         }
 
         return Command::create([
-//            'site_id' => $model->$siteId,
-            'site_id' => 1,
+            'site_id' => $model->$siteId,
             'commandable_id' => $model->id,
             'commandable_type' => get_class($model),
         ]);
