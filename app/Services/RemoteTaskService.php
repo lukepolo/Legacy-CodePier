@@ -27,7 +27,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @throws SshConnectionFailed
      * @throws \Exception
      *
-     * @return array
+     * @return string
      */
     public function run($command, $read = false, $expectedFailure = false)
     {
@@ -85,7 +85,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $contents
      * @param bool $read
      *
-     * @return array
+     * @return string
      */
     public function writeToFile($file, $contents, $read = false)
     {
@@ -97,20 +97,13 @@ class RemoteTaskService implements RemoteTaskServiceContract
 $contents
 EOF
 echo \"Wrote\"", $read);
-
-//
-//        return $this->run('
-//cat > '.$file.' <<    \'EOF\'
-//'.trim($contents).'
-//EOF
-//echo "Wrote" ', $read);
     }
 
     /**
      * @param $file
      * @param $text
      *
-     * @return array
+     * @return string
      */
     public function appendTextToFile($file, $text)
     {
@@ -124,7 +117,7 @@ echo \"Wrote\"", $read);
      * @param $findText
      * @param $text
      *
-     * @return array
+     * @return string
      */
     public function findTextAndAppend($file, $findText, $text)
     {
@@ -138,7 +131,7 @@ echo \"Wrote\"", $read);
      * @param $file
      * @param $text
      *
-     * @return array
+     * @return string
      */
     public function removeLineByText($file, $text)
     {
@@ -150,7 +143,7 @@ echo \"Wrote\"", $read);
     /**
      * @param $directory
      *
-     * @return array
+     * @return string
      */
     public function makeDirectory($directory)
     {
@@ -160,7 +153,7 @@ echo \"Wrote\"", $read);
     /**
      * @param $directory
      *
-     * @return array
+     * @return string
      */
     public function removeDirectory($directory)
     {
@@ -170,7 +163,7 @@ echo \"Wrote\"", $read);
     /**
      * @param $file
      *
-     * @return array
+     * @return string
      */
     public function removeFile($file)
     {
@@ -181,7 +174,7 @@ echo \"Wrote\"", $read);
      * @param $file
      * @param $text
      * @param $replaceWithText
-     * @return array
+     * @return string
      */
     public function updateText($file, $text, $replaceWithText)
     {
