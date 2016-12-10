@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => 'server@codepier.io',
+        'address' => 'info@codepier.io',
         'name'    => 'CodePier',
     ],
 

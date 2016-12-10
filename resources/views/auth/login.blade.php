@@ -8,39 +8,43 @@
             </router-link>
         </div>
 
-        <div class="jcf-form-wrap" id="login-form">
-            <div class="heading">
-                <h2>Login</h2>
-            </div>
+        @if(empty(session('auth_code')))
+            <div class="jcf-form-wrap" id="login-form">
+                <div class="heading">
+                    <h2>Login</h2>
+                </div>
 
-            <form method="post" class="validation-form floating-labels">
-                {{ csrf_field() }}
-                <div class="jcf-input-group">
-                    <input type="email" id="email" name="email" required>
-                    <label for="email"><span class="float-label">Email</span></label>
-                </div>
-                <div class="jcf-input-group">
-                    <input type="password" id="password" name="password" required>
-                    <label for="password"><span class="float-label">Password</span></label>
-                </div>
-                <div class="btn-footer">
-                    @if(env('APP_REGISTRATION'))
-                        {{--<button class="btn">Create Account</button>--}}
-                    @endif
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </div>
-                <br><br>
-                <div class="text-center">
-                    @if (count($errors) > 0)
-                        <ul style="list-style: none; padding: 0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-                </div>
-            </form>
-        </div><!-- end form-wrap -->
+                <form method="post" class="validation-form floating-labels">
+                    {{ csrf_field() }}
+                    <div class="jcf-input-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email"><span class="float-label">Email</span></label>
+                    </div>
+                    <div class="jcf-input-group">
+                        <input type="password" id="password" name="password" required>
+                        <label for="password"><span class="float-label">Password</span></label>
+                    </div>
+                    <div class="btn-footer">
+                        @if(env('APP_REGISTRATION'))
+                            {{--<button class="btn">Create Account</button>--}}
+                        @endif
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                    <br><br>
+                    <div class="text-center">
+                        @if (count($errors) > 0)
+                            <ul style="list-style: none; padding: 0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </form>
+            </div><!-- end form-wrap -->
+        @else
+            <h3 class="text-center">Thanks for joining the Alpha!</h3>
+        @endif
 
 
         <div class="jcf-form-wrap hide" id="login-form">
@@ -73,7 +77,19 @@
             </form>
         </div><!-- end form-wrap -->
 
-        <h5 class="text-center"> - Or sign in using -</h5>
+        @if(empty(session('auth_code')))
+            <h5 class="text-center"> - Or sign in using -</h5>
+        @else
+            <div class="text-center">
+                @if (count($errors) > 0)
+                    <ul style="list-style: none; padding: 0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        @endif
         <ul class="list-inline text-center">
             <li>
                 <a href="{{ action('Auth\OauthController@newProvider', 'github') }}" class="btn btn-primary btn-circle"><i class="fa fa-github"></i></a>
