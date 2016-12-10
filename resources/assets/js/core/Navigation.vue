@@ -118,9 +118,12 @@
         },
         methods: {
             logout() {
-                Vue.http.post(this.action('Auth\LoginController@logout')).then(function () {
+                Vue.http.post(this.action('Auth\LoginController@logout')).then((response) => {
+                    window.location = '/';
+                }, (errors) => {
                     window.location = '/';
                 });
+
             },
             changeTeam: function (teamID) {
                 this.$store.dispatch('changeTeams', teamID);

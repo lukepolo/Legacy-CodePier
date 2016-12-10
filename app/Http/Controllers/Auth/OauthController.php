@@ -87,10 +87,15 @@ class OauthController extends Controller
                 default:
                     $user = Socialite::driver($provider)->user();
 
+
                     if (! \Auth::user()) {
                         if (! $userProvider = UserLoginProvider::has('user')->where('provider_id',
                             $user->getId())->first()
                         ) {
+                            if(!env('APP_REGISTRATION')) {
+                                return back()->withErrors('Registration is disabled');
+                            }
+
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
                             $newUserModel = $this->createUser($user, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id);
