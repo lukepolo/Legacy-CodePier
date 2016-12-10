@@ -7,7 +7,7 @@ use App\Services\Server\ServerService;
 use App\Models\Site\SiteSslCertificate;
 use App\Http\Requests\Site\SiteSslRequest;
 
-class SiteSSLController extends Controller
+class SiteSslController extends Controller
 {
     /**
      * Display a listing of the resource.
