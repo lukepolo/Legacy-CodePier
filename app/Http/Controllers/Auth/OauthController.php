@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\AuthCode;
 use Socialite;
 use Bitbucket\API\Users;
 use App\Models\User\User;
@@ -89,15 +90,18 @@ class OauthController extends Controller
 
 
                     if (! \Auth::user()) {
-                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id',
-                            $user->getId())->first()
-                        ) {
+                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
+
+                            $authCode = session('auth_code');
+
                             if(!env('APP_REGISTRATION')) {
-                                return back()->withErrors('Registration is disabled');
+                                if(empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
+                                    return back()->withErrors('Registration is disabled');
+                                }
                             }
 
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
-                            $newUserModel = $this->createUser($user, $newLoginProvider);
+                            $newUserModel = $this->createUser($user, $newLoginProvider, $authCode);
                             \Auth::loginUsingId($newUserModel->id);
                         } else {
                             \Auth::loginUsingId($userProvider->user->id);
@@ -147,11 +151,11 @@ class OauthController extends Controller
      * @param $user
      * @param UserLoginProvider $userLoginProvider
      *
-     * @throws \Exception
-     *
+     * @param AuthCode $authCode
      * @return mixed
+     * @throws \Exception
      */
-    public function createUser($user, UserLoginProvider $userLoginProvider)
+    public function createUser($user, UserLoginProvider $userLoginProvider, AuthCode $authCode = null)
     {
         switch ($userLoginProvider->provider) {
             case self::BITBUCKET:
@@ -192,6 +196,12 @@ class OauthController extends Controller
             'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
+
+        if(!empty($authCode)) {
+            $authCode->update([
+                'user_id' => $userModel->id
+            ]);
+        }
 
         return $userModel;
     }
