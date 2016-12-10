@@ -19,7 +19,7 @@ trait ServerCommandTrait
     private $remoteSuccesses;
 
     /**
-     * This must have a connected `server_id` attribute
+     * This must have a connected `server_id` attribute.
      *
      * @param Model $model
      */
