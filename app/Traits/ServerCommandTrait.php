@@ -19,33 +19,32 @@ trait ServerCommandTrait
     private $remoteSuccesses;
 
     /**
+     * This must have a connected `server_id` attribute
+     *
      * @param Model $model
-     * @param null $siteId
      */
-    public function makeCommand(Model $model, $siteId = null)
+    public function makeCommand(Model $model)
     {
         $command = null;
 
-        if (empty($siteId)) {
-            $hiddenAttributes = $model->getHidden();
+        $hiddenAttributes = $model->getHidden();
 
-            if (isset($hiddenAttributes['command'])) {
-                $command = $hiddenAttributes['command'];
-            }
-        } else {
+        if (isset($hiddenAttributes['command'])) {
+            $command = $hiddenAttributes['command'];
+        }
+
+        if (empty($command)) {
             $command = Command::create([
-                'site_id' => $siteId,
+                'server_id' => $model->server_id,
                 'commandable_id' => $model->id,
                 'commandable_type' => get_class($model),
             ]);
         }
 
-        if (! empty($command)) {
-            $this->serverCommand = ServerCommand::create([
-                'server_id' => $model->server_id,
-                'command_id' => $command->id,
-            ]);
-        }
+        $this->serverCommand = ServerCommand::create([
+            'server_id' => $model->server_id,
+            'command_id' => $command->id,
+        ]);
     }
 
     /**
