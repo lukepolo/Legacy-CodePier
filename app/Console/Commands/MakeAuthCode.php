@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\NewAuthCode;
 use App\Models\AuthCode;
+use App\Mail\NewAuthCode;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,7 +34,7 @@ class MakeAuthCode extends Command
 
         $authCode = AuthCode::create([
             'email' => $email,
-            'code' => str_random()
+            'code' => str_random(),
         ]);
 
         Mail::to($email)->send(new NewAuthCode($authCode));

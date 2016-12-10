@@ -6,7 +6,6 @@ use App\Models\AuthCode;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewAuthCode extends Mailable
 {
@@ -36,4 +35,3 @@ class NewAuthCode extends Mailable
             ->view('emails.codePierInvite');
     }
 }
-
