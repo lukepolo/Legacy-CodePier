@@ -13,8 +13,8 @@
                 <h2>Login</h2>
             </div>
 
-            <form action="#0" method="post" class="validation-form floating-labels">
-
+            <form method="post" class="validation-form floating-labels">
+                {{ csrf_field() }}
                 <div class="jcf-input-group">
                     <input type="email" id="email" name="email" required>
                     <label for="email"><span class="float-label">Email</span></label>
@@ -24,8 +24,20 @@
                     <label for="password"><span class="float-label">Password</span></label>
                 </div>
                 <div class="btn-footer">
-                    <button class="btn">Create Account</button>
+                    @if(env('APP_REGISTRATION'))
+                        {{--<button class="btn">Create Account</button>--}}
+                    @endif
                     <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+                <br><br>
+                <div class="text-center">
+                    @if (count($errors) > 0)
+                        <ul style="list-style: none; padding: 0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </form>
         </div><!-- end form-wrap -->

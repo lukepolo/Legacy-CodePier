@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -64,6 +64,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if(!env('APP_REGISTRATION')) {
+            return abort('Registration is disabled');
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
