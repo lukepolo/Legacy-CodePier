@@ -64,7 +64,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if(!env('APP_REGISTRATION')) {
+        if (! env('APP_REGISTRATION')) {
             return abort('Registration is disabled');
         }
 
