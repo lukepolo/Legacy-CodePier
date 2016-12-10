@@ -15,6 +15,19 @@
                 </div>
 
                 <form method="post" class="validation-form floating-labels">
+                    @if (count($errors) > 0)
+                        <p class="text-error">
+                            <div class="text-center">
+                                <ul style="list-style: none; padding: 0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <br>
+                        </p>
+                    @endif
+
                     {{ csrf_field() }}
                     <div class="jcf-input-group">
                         <input type="email" id="email" name="email" required>
@@ -29,16 +42,6 @@
                             {{--<button class="btn">Create Account</button>--}}
                         @endif
                         <button class="btn btn-primary" type="submit">Login</button>
-                    </div>
-                    <br><br>
-                    <div class="text-center">
-                        @if (count($errors) > 0)
-                            <ul style="list-style: none; padding: 0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
                     </div>
                 </form>
             </div><!-- end form-wrap -->
@@ -80,15 +83,18 @@
         @if(empty(session('auth_code')))
             <h5 class="text-center"> - Or sign in using -</h5>
         @else
-            <div class="text-center">
-                @if (count($errors) > 0)
-                    <ul style="list-style: none; padding: 0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
+            @if (count($errors) > 0)
+                <p class="text-error">
+                    <div class="text-center">
+                        <ul style="list-style: none; padding: 0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <br>
+                </p>
+            @endif
         @endif
         <ul class="list-inline text-center">
             <li>
