@@ -15,7 +15,7 @@ class AuthCode
      */
     public function handle($request, Closure $next)
     {
-        if($request->has('code')) {
+        if ($request->has('code')) {
             \Session::put('auth_code', $request->get('code'));
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\AuthCode;
 use Socialite;
+use App\Models\AuthCode;
 use Bitbucket\API\Users;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -90,11 +90,10 @@ class OauthController extends Controller
 
                     if (! \Auth::user()) {
                         if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
-
                             $authCode = session('auth_code');
 
-                            if(!env('APP_REGISTRATION')) {
-                                if(empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
+                            if (! env('APP_REGISTRATION')) {
+                                if (empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
                                     return back()->withErrors('Registration is disabled');
                                 }
                             }
@@ -196,9 +195,9 @@ class OauthController extends Controller
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
 
-        if(!empty($authCode)) {
+        if (! empty($authCode)) {
             $authCode->update([
-                'user_id' => $userModel->id
+                'user_id' => $userModel->id,
             ]);
         }
 
