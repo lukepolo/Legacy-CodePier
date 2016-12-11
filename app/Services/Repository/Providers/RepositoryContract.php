@@ -45,5 +45,4 @@ interface RepositoryContract
      * @return mixed
      */
     public function getRepositorySlug($repository);
-
 }

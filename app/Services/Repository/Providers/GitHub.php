@@ -26,7 +26,6 @@ class GitHub implements RepositoryContract
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
-
             $this->isPrivate($site, true);
 
             try {
@@ -43,6 +42,7 @@ class GitHub implements RepositoryContract
                     throw new \Exception($e->getMessage());
                 }
             }
+
             return;
         }
 

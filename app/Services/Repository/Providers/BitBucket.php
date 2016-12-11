@@ -22,7 +22,6 @@ class BitBucket implements RepositoryContract
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
      * @param $sshKey
-     *
      */
     public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
     {
@@ -45,7 +44,6 @@ class BitBucket implements RepositoryContract
         });
 
         if ($repositoryInfo['is_private']) {
-
             $this->isPrivate($site, true);
 
             $deployKey = new Deploykeys();
