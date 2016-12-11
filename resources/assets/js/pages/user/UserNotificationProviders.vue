@@ -23,7 +23,7 @@
                     </template>
                     <br>
                 </template>
-                <button type="submit">Update Settings</button>
+                <button class="btn btn-primary" type="submit">Update Settings</button>
             </form>
 
         </p>

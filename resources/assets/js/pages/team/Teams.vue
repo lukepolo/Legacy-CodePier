@@ -55,27 +55,52 @@
             </div>
         </section>
         <section id="right" v-if="creating_team || updating_team">
-            <form @submit.prevent="createTeam()" v-if="creating_team">
-                Team Name :
-                <input v-model="create_form.name" name="name" type="text">
+            <div class="jcf-form-wrap">
+                <form @submit.prevent="createTeam()" v-if="creating_team" class="floating-labels">
 
-                <template v-for="pile in user_piles">
-                    <input v-model="create_form.piles" name="piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
-                </template>
+                    <div class="jcf-input-group">
+                        <input v-model="create_form.name" name="name" type="text">
+                        <label for="name"><span class="float-label">Team Name</span></label>
+                    </div>
 
-                <button type="submit">Create Team</button>
-            </form>
+                    <div class="jcf-input-group input-checkbox">
+                        <div class="input-question">Which piles do you want to assign to your team? </div>
+                        <template v-for="pile in user_piles">
+                            <label>
+                                <input v-model="create_form.piles" name="piles[]" type="checkbox" :value="pile.id">
+                                <span class="icon"></span>{{ pile.name }}
+                            </label>
+                        </template>
+                    </div>
+                    <div class="btn-footer">
+                        <button type="submit" class="btn btn-primary">Create Team</button>
+                    </div>
 
-            <form @submit.prevent="updateTeam()" v-if="updating_team">
-                Team Name :
-                <input v-model="edit_form.name" name="name" type="text">
+                </form>
 
-                <template v-for="pile in user_piles">
-                    <input v-model="edit_form.piles" name="piles[]" type="checkbox" :value="pile.id"> {{ pile.name }}
-                </template>
+                <form @submit.prevent="updateTeam()" v-if="updating_team" class="floating-labels">
 
-                <button type="submit">Update Team</button>
-            </form>
+                    <div class="jcf-input-group">
+                        <input v-model="edit_form.name" name="name" type="text" required>
+                        <label for="name"><span class="float-label">Team Name</span></label>
+                    </div>
+
+                    <div class="jcf-input-group input-checkbox">
+                        <div class="input-question">Which piles do you want to assign to your team? </div>
+                        <template v-for="pile in user_piles">
+                            <label>
+                                <input v-model="edit_form.piles" name="piles[]" type="checkbox" :value="pile.id">
+                                <span class="icon"></span>{{ pile.name }}
+                            </label>
+                        </template>
+                    </div>
+
+                    <div class="btn-footer">
+                        <button type="submit" class="btn btn-primary">Create Team</button>
+                    </div>
+                </form>
+            </div>
+
         </section>
     </section>
 </template>
