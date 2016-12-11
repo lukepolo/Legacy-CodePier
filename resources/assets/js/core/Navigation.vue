@@ -35,6 +35,10 @@
             </li>
         </ul>
 
+        <section v-if="current_version != version">
+            We have updated CodePier.io , reload to get the latest changes!
+        </section>
+
         <ul class="nav navbar-right nav-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -99,7 +103,15 @@
         components: {
             NotificationArea
         },
+        data() {
+            return {
+                current_version : Laravel.version
+            }
+        },
         computed: {
+            version() {
+                return this.$store.state.eventsStore.version
+            },
             piles() {
                 return this.$store.state.pilesStore.piles;
             },
