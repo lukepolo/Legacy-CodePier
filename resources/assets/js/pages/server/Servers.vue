@@ -1,6 +1,5 @@
 <template>
     <section>
-        <left-nav></left-nav>
         <section id="middle" class="section-column">
             <h3 class="section-header primary">My Servers</h3>
             <div class="section-content">
@@ -26,12 +25,10 @@
 </template>
 
 <script>
-    import LeftNav from './../../core/LeftNav.vue';
+
 
     export default {
-        components: {
-            LeftNav
-        },
+
         created() {
             this.fetchData();
         },

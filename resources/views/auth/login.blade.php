@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <section class="view">
+        <section id="middle" class="section-column">
+            <div class="section-content">
     <div class="login-wrap">
         <div class="img-wrap">
             <router-link to="/">
@@ -109,7 +112,7 @@
         </ul>
     </div>
 
-
-
-
+            </div>
+        </section>
+    </section>
 @endsection

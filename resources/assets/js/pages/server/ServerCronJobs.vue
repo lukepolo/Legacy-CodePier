@@ -1,35 +1,31 @@
 <template>
-    <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column" v-if="server">
-            <server-nav :server="server"></server-nav>
-            <span id="cron-preview"></span>
-            <form @submit.prevent="createServerCronJob">
-                <input type="text" name="cron" v-model="form.cron">
-                <input type="hidden" name="cron_timing">
-                <select name="user" v-model="form.user">
-                    <option value="root">Root User</option>
-                    <option value="codepier">CodePier User</option>
-                </select>
-                <div v-cronjob></div>
-                <button type="submit">Create Cron</button>
-            </form>
+    <section v-if="server">
+        <span id="cron-preview"></span>
+        <form @submit.prevent="createServerCronJob">
+            <input type="text" name="cron" v-model="form.cron">
+            <input type="hidden" name="cron_timing">
+            <select name="user" v-model="form.user">
+                <option value="root">Root User</option>
+                <option value="codepier">CodePier User</option>
+            </select>
+            <div v-cronjob></div>
+            <button type="submit">Create Cron</button>
+        </form>
 
-            <table class="table" v-if="cron_jobs" v-for="cron_job in cron_jobs">
-                <thead>
-                <tr>
-                    <th>Job</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ cron_job.job }}</td>
-                    <td><a @click="deleteCronJob(cron_job.id)" href="#" class="fa fa-remove">X</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
+        <table class="table" v-if="cron_jobs" v-for="cron_job in cron_jobs">
+            <thead>
+            <tr>
+                <th>Job</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ cron_job.job }}</td>
+                <td><a @click="deleteCronJob(cron_job.id)" href="#" class="fa fa-remove">X</a></td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 </template>
 
