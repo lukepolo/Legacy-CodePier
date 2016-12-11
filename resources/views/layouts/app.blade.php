@@ -26,6 +26,7 @@
                 'csrfToken' => csrf_token(),
                 'pusherKey' => env('PUSHER_KEY'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
+                'app_registration' => env('APP_REGISTRATION')
             ]); ?>
         </script>
     </head>
