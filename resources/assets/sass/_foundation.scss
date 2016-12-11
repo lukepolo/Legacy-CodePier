@@ -136,30 +136,26 @@ footer {
 
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
-.container {
-    .jcf-form-wrap {
-        //padding: 0px;
+.jcf-form-wrap {
+  .input-checkbox,
+  .input-radio{
+    margin-bottom: $spacing*2;
 
-      .input-checkbox,
-      .input-radio{
-        margin-bottom: $spacing*2;
-
-        label {
-          margin-bottom: $spacing;
-        }
-      }
-      h3 {
-        margin-bottom: $spacing*2;
-      }
-      .input-question {
-        margin-bottom: $spacing;
-      }
-
-      input[type="text"] + label,
-      input[type="integer"] + label {
-        pointer-events: none;
-
-
-      }
+    label {
+      margin-bottom: $spacing;
     }
+  }
+  h3 {
+    margin-bottom: $spacing*2;
+  }
+  .input-question {
+    margin-bottom: $spacing;
+  }
+
+  input[type="text"] + label,
+  input[type="integer"] + label {
+    pointer-events: none;
+
+
+  }
 }

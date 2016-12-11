@@ -24,11 +24,17 @@ class UserObserver
             'qa',
             'production',
         ];
-        foreach ($defaultPiles as $defaultPile) {
-            Pile::create([
+        foreach ($defaultPiles as $index => $defaultPile) {
+            $pile = Pile::create([
                 'name'    => $defaultPile,
                 'user_id' => $user->id,
             ]);
+
+            if($index == 0) {
+                \Auth::user()->update([
+                    'current_pile' => $pile->id
+                ]);
+            }
         }
 
         foreach (NotificationSetting::all() as $notificationSetting) {

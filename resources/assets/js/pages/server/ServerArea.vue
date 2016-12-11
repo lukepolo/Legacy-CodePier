@@ -35,6 +35,7 @@
         <left-nav></left-nav>
 
         <section id="middle" class="section-column">
+            <server-header></server-header>
             <div class="section-content">
                 <div class="container">
 
@@ -54,10 +55,12 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
+    import ServerHeader from './components/ServerHeader.vue';
 
     export default {
         components: {
             LeftNav,
+            ServerHeader,
         },
         data() {
             return {

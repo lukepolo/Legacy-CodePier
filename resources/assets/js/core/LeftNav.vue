@@ -10,18 +10,26 @@
                     </div>
                 </router-link>
             </div>
-            <form @submit.prevent="saveSite" v-if="adding_site">
-                <template v-if="!form.domainless">
-                    Domain
-                </template>
-                <template v-else>
-                    Alias
-                </template>
+            <div class="jcf-form-wrap">
+                <form @submit.prevent="saveSite" v-if="adding_site" class="floating-labels">
+                    <div class="jcf-input-group">
+                        <input name="domain" v-model="form.domain" type="text">
+                        <label for="domain">
+                            <span class="float-label">
+                                <template v-if="!form.domainless">
+                                    Domain
+                                </template>
+                                <template v-else>
+                                    Alias
+                                </template>
+                            </span>
+                        </label>
+                    </div>
 
-                <input v-model="form.domain" type="text">
-                <input type="checkbox" v-model="form.domainless"> Not a domain
-                <button class="btn btn-primary">Save</button>
-            </form>
+                    <input type="checkbox" v-model="form.domainless"> Not a domain
+                    <button class="btn btn-primary">Save</button>
+                </form>
+            </div>
 
             <div class="btn-container text-center" v-if="current_pile_id">
                 <div @click="adding_site = !adding_site" class="btn" :class="{ 'btn-primary' : !adding_site}">
