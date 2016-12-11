@@ -54,14 +54,6 @@ export default {
             }, (errors) => {
                 app.showError(errors);
             })
-        },
-
-        getPlans: ({commit}) => {
-            Vue.http.get(Vue.action('SubscriptionController@index')).then((response) => {
-                commit('SET_PLANS', response.data);
-            }, (errors) => {
-                app.showError(errors);
-            });
         }
     },
     mutations: {
@@ -73,9 +65,6 @@ export default {
         },
         SET_REPOSITORY_PROVIDERS: (state, providers) => {
             state.repository_providers = providers;
-        },
-        SET_PLANS: (state, plans) => {
-            state.plans = plans;
         }
     }
 }

@@ -31,7 +31,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController');
+            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController',  [
+                'except' => [
+                    'show'
+                ]
+            ]);
             Route::resource('subscription', 'Subscription\UserSubscriptionController');
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
             Route::resource('ssh-keys', 'UserSshKeyController');

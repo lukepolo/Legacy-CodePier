@@ -1,5 +1,6 @@
 export default {
     state: {
+        plans : [],
         user_invoices: [],
         user_subscription: null,
         valid_subscription: false,
@@ -21,7 +22,7 @@ export default {
             });
         },
         createUserSubscription: ({commit, dispatch}, data) => {
-            Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
+            return Vue.http.post(Vue.action('User\Subscription\UserSubscriptionController@store'), data).then((response) => {
                 dispatch('getUserSubscription');
             }, (errors) => {
                 app.showError(errors);
@@ -40,16 +41,19 @@ export default {
             }, (errors) => {
                 app.showError(errors);
             })
+        },
+        getPlans: ({commit}) => {
+            Vue.http.get(Vue.action('SubscriptionController@index')).then((response) => {
+                commit('SET_PLANS', response.data);
+            }, (errors) => {
+                app.showError(errors);
+            });
         }
     },
     mutations: {
         SET_USER_SUBSCRIPTION: (state, subscription) => {
-            if (!_.isEmpty(subscription)) {
+            if (subscription) {
                 state.valid_subscription = true;
-
-                alert('see how we can do dispatch here');
-
-                userSubscriptionStore.dispatch('getUpcomingSubscription');
             } else {
                 state.valid_subscription = false;
             }
@@ -61,6 +65,9 @@ export default {
         },
         SET_USER_INVOICES: (state, invoices) => {
             state.user_invoices = invoices;
+        },
+        SET_PLANS: (state, plans) => {
+            state.plans = plans;
         }
     }
 }
