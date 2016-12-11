@@ -1,5 +1,5 @@
 <template>
-    <button @click.prevent="confirm=!confirm">
+    <button @click.stop="confirm=!confirm">
         <span
             v-show="!confirm"
             :class="btnClass"
@@ -48,9 +48,15 @@
         },
         methods: {
             confirmMethod() {
+                $(this.$el).find('button').dropdown('toggle');
                 this.confirm = close ? close : true;
                 this.$store.dispatch(this.dispatch, this.params);
             }
+        },
+        mounted() {
+            $('.dropdown-menu a.removefromcart').click(function(e) {
+                e.stopPropagation();
+            });
         }
     }
 </script>

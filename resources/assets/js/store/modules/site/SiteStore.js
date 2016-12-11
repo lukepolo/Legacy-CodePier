@@ -144,6 +144,18 @@ export default {
             Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then((response) => {
                 dispatch('getSiteDeploymentSteps', data.site);
             });
+        },
+        restartSiteWebServices: () => {
+            alert('restartWebServices');
+        },
+        restartSiteServers: () => {
+            alert('restartServers');
+        },
+        restartSiteDatabases: () => {
+            alert('restartDatabases');
+        },
+        restartSiteWorkers: () => {
+            alert('restartWorkers');
         }
     },
     mutations: {
