@@ -9,9 +9,9 @@
         Pusher.logToConsole = true;
     @endif
 
-    Echo.private('App.Models.User.User.' + '{{ \Auth::user()->id }}');
+    {{--Echo.private('App.Models.User.User.' + '{{ \Auth::user()->id }}');--}}
 
     @foreach(\Auth::user()->teams as $team)
-            Echo.private('App.Models.User.Team.' + '{{ $team->id }}');
+        {{--Echo.private('App.Models.User.Team.' + '{{ $team->id }}');--}}
     @endforeach
 </script>

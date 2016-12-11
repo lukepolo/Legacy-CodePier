@@ -340,3 +340,7 @@ var app = new Vue({
 }).$mount('#app-layout');
 
 window.app = app;
+
+Echo.channel('app').listen('update_version', (data) => {
+    app.$store.dispatch('setVersion', data);
+});
