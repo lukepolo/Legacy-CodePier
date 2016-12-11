@@ -109,6 +109,9 @@
             <li>
                 <a href="{{ action('Auth\OauthController@newProvider', 'digitalocean') }}" class="btn btn-primary btn-circle"><i class="fa fa-server"></i></a>
             </li>
+            <li>
+                <a href="{{ action('Auth\OauthController@newProvider', 'gitlab') }}" class="btn btn-primary btn-circle"><i class="fa fa-gitlab"></i></a>
+            </li>
         </ul>
     </div>
 
