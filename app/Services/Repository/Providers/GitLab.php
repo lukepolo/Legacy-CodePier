@@ -10,6 +10,8 @@ use App\Models\User\UserRepositoryProvider;
 
 class GitLab implements RepositoryContract
 {
+    use RepositoryTrait;
+
     /** @var Client $client */
     private $client;
 
@@ -17,16 +19,19 @@ class GitLab implements RepositoryContract
      * Imports a deploy key so we can clone the repositories.
      *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
+     * @param Site $site
      * @param $sshKey
      *
-     * @throws \Exception
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
     {
+        $repository = $site->repository;
+
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
+
+            $this->isPrivate($site, true);
             $repositoryInfo = $this->getRepositoryInfo($repository);
 
             $client = new \Guzzle\Http\Client();
@@ -38,7 +43,10 @@ class GitLab implements RepositoryContract
                 'title' => 'CodePier',
                 'key' => $sshKey,
             ])->send();
+            return;
         }
+
+        $this->isPrivate($site, false);
     }
 
     public function isRepositoryPrivate($repository)

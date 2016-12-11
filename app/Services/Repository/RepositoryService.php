@@ -24,7 +24,7 @@ class RepositoryService implements RepositoryServiceContract
         foreach ($site->provisionedServers as $server) {
             $providerService->importSshKeyIfPrivate(
                 $site->userRepositoryProvider,
-                $site->repository,
+                $site,
                 $server->public_ssh_key
             );
         }

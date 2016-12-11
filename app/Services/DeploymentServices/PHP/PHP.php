@@ -13,12 +13,15 @@ class PHP
 {
     use Laravel;
 
+    private $site;
     private $branch;
+    private $server;
     private $release;
     private $site_folder;
     private $repository;
     private $remoteTaskService;
     private $repositoryProvider;
+    private $zerotimeDeployment;
 
     /**
      * @param RemoteTaskService $remoteTaskService
@@ -30,6 +33,7 @@ class PHP
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
 
+        $this->site = $site;
         $this->server = $server;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
@@ -55,7 +59,13 @@ class PHP
         $this->remoteTaskService->run('mkdir -p '.$this->site_folder);
         $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
-        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$this->repositoryProvider->git_url.':'.$this->repository.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
+        $url = 'git://'.$this->repositoryProvider->url.'/'.$this->repository.'.git';
+
+        if($this->site->private) {
+            $url = $this->repositoryProvider->git_url.':'.$this->repository;
+        }
+
+        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$url.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
 
         if (! empty($sha)) {
             $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");

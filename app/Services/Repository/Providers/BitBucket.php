@@ -12,19 +12,22 @@ use Bitbucket\API\Http\Listener\OAuthListener;
 
 class BitBucket implements RepositoryContract
 {
+    use RepositoryTrait;
+
     private $oauthParams;
 
     /**
      * Imports a deploy key so we can clone the repositories.
      *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
+     * @param Site $site
      * @param $sshKey
      *
-     * @throws \Exception
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
     {
+        $repository = $site->repository;
+
         $this->setToken($userRepositoryProvider);
 
         $user = new User();
@@ -42,6 +45,9 @@ class BitBucket implements RepositoryContract
         });
 
         if ($repositoryInfo['is_private']) {
+
+            $this->isPrivate($site, true);
+
             $deployKey = new Deploykeys();
 
             $deployKey->getClient()->addListener(
@@ -49,7 +55,11 @@ class BitBucket implements RepositoryContract
             );
 
             $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey, 'https://codepier.io');
+
+            return;
         }
+
+        $this->isPrivate($site, false);
     }
 
     /**

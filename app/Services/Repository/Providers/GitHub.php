@@ -9,20 +9,26 @@ use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
 {
+    use RepositoryTrait;
+
     /**
      * Imports a deploy key so we can clone the repositories.
      *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
+     * @param Site $site
      * @param $sshKey
-     *
      * @throws \Exception
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
     {
+        $repository = $site->repository;
+
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
+
+            $this->isPrivate($site, true);
+
             try {
                 GitHubService::api('repo')->keys()->create(
                     $this->getRepositoryUser($repository),
@@ -37,7 +43,10 @@ class GitHub implements RepositoryContract
                     throw new \Exception($e->getMessage());
                 }
             }
+            return;
         }
+
+        $this->isPrivate($site, false);
     }
 
     public function isRepositoryPrivate($repository)

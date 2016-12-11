@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Models\Site\Site;
 use App\Models\User\UserRepositoryProvider;
 
 interface RepositoryContract
@@ -10,12 +11,11 @@ interface RepositoryContract
      * Imports a deploy key so we can clone the repositories.
      *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
+     * @param Site $site
      * @param $sshKey
-     *
-     * @throws \Exception
+     * @return
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey);
+    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey);
 
     /**
      * Sets the token so we can connect to the users account.
@@ -45,4 +45,5 @@ interface RepositoryContract
      * @return mixed
      */
     public function getRepositorySlug($repository);
+
 }
