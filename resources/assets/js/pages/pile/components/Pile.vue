@@ -30,9 +30,9 @@
             <button @click="edit" class="btn">Edit</button>
             <button @click="deletePile()" class="btn">Delete</button>
 
-            <router-link to="/server/create" class="btn btn-primary">
-                Create Server
-            </router-link>
+            <!--<router-link :to="{ name : 'server_form' }">-->
+                <!--<a class="btn btn-primary">Create A Server</a>-->
+            <!--</router-link>-->
         </div>
     </div>
 </template>
