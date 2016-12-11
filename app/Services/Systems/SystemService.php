@@ -31,6 +31,7 @@ class SystemService implements SystemServiceContract
     const WEB_SERVICE_GROUP = 'web_services';
     const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
+    const DEPLOYMENT_SERVICE_GROUP = 'deployment_services';
 
     /**
      * @param RemoteTaskService $remoteTaskService

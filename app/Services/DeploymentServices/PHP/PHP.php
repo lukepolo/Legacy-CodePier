@@ -120,14 +120,14 @@ class PHP
     }
 
     /**
-     * @description Restart the web services
+     * @description Restart the deployment services
      *
      * @order 600
      */
-    public function restartWebServices()
+    public function restartPhpFpm()
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP)];
+        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP)];
     }
 }
