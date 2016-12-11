@@ -26,9 +26,8 @@ export default {
                 app.showError(errors);
             });
         },
-        setVersion : (commit, version) => {
-            console.info(version);
-            commit('SET_VERSION', version);
+        setVersion : ({commit}, data) => {
+            commit('SET_VERSION', data.version);
         }
     },
     mutations: {

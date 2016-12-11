@@ -341,6 +341,6 @@ var app = new Vue({
 
 window.app = app;
 
-Echo.channel('app').listen('update_version', (data) => {
+Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('setVersion', data);
 });
