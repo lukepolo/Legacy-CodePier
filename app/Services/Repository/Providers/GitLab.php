@@ -21,7 +21,6 @@ class GitLab implements RepositoryContract
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
      * @param $sshKey
-     *
      */
     public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
     {
@@ -30,7 +29,6 @@ class GitLab implements RepositoryContract
         $this->setToken($userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
-
             $this->isPrivate($site, true);
             $repositoryInfo = $this->getRepositoryInfo($repository);
 
@@ -43,6 +41,7 @@ class GitLab implements RepositoryContract
                 'title' => 'CodePier',
                 'key' => $sshKey,
             ])->send();
+
             return;
         }
 
