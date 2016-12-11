@@ -2,6 +2,7 @@ export default {
     state: {
         events: [],
         events_pagination: null,
+        version : Laravel.version,
     },
     actions: {
         getEvents: ({commit, state}, data) => {
@@ -24,6 +25,10 @@ export default {
             }, (errors) => {
                 app.showError(errors);
             });
+        },
+        setVersion : (commit, version) => {
+            console.info(version);
+            commit('SET_VERSION', version);
         }
     },
     mutations: {
@@ -70,12 +75,15 @@ export default {
         },
         UPDATE_SERVER_DEPLOYMENT_EVENT : (state, event) => {
 
-            var site_deployment = _.find(state.events, {id : event.site_deployment.id});
-            var server_deployment = _.find(site_deployment.server_deployments, {id : event.server_deployment.id });
+            var site_deployment = _.find(state.events, {id: event.site_deployment.id});
+            var server_deployment = _.find(site_deployment.server_deployments, {id: event.server_deployment.id});
 
-            _.each(event.server_deployment, function(value, key) {
+            _.each(event.server_deployment, function (value, key) {
                 server_deployment[key] = value;
             });
+        },
+        SET_VERSION : (state, version) => {
+            state.version = version;
         }
     }
 }
