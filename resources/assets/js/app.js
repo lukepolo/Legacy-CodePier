@@ -128,17 +128,10 @@ const router = new VueRouter({
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
+        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
         {
             path: '/server', component: serverPages.ServerArea,
             children: [
-                {
-                    path: 'create/:site/:type',
-                    name: 'server_form',
-                    components: {
-                        default: serverPages.ServerForm,
-                        nav: serverPages.ServerNav
-                    }
-                },
                 {
                     path: ':server_id/sites',
                     name: 'server_sites',

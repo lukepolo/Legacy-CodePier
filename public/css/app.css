@@ -5253,26 +5253,26 @@ footer {
   flex: 1 1 1em;
 }
 
-.container .jcf-form-wrap .input-checkbox,
-.container .jcf-form-wrap .input-radio {
+.jcf-form-wrap .input-checkbox,
+.jcf-form-wrap .input-radio {
   margin-bottom: 40px;
 }
 
-.container .jcf-form-wrap .input-checkbox label,
-.container .jcf-form-wrap .input-radio label {
+.jcf-form-wrap .input-checkbox label,
+.jcf-form-wrap .input-radio label {
   margin-bottom: 20px;
 }
 
-.container .jcf-form-wrap h3 {
+.jcf-form-wrap h3 {
   margin-bottom: 40px;
 }
 
-.container .jcf-form-wrap .input-question {
+.jcf-form-wrap .input-question {
   margin-bottom: 20px;
 }
 
-.container .jcf-form-wrap input[type="text"] + label,
-.container .jcf-form-wrap input[type="integer"] + label {
+.jcf-form-wrap input[type="text"] + label,
+.jcf-form-wrap input[type="integer"] + label {
   pointer-events: none;
 }
 
