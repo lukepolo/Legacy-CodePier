@@ -27,7 +27,7 @@
                 'pusherKey' => env('PUSHER_KEY'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
                 'app_registration' => env('APP_REGISTRATION'),
-                'version' => app()->make('gitCommit')
+                'version' => app()->make('gitCommit'),
             ]); ?>
         </script>
     </head>
