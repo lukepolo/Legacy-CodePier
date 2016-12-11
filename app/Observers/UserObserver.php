@@ -30,9 +30,9 @@ class UserObserver
                 'user_id' => $user->id,
             ]);
 
-            if($index == 0) {
+            if ($index == 0) {
                 \Auth::user()->update([
-                    'current_pile' => $pile->id
+                    'current_pile' => $pile->id,
                 ]);
             }
         }
