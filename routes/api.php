@@ -31,10 +31,10 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController',  [
+            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
                 'except' => [
-                    'show'
-                ]
+                    'show',
+                ],
             ]);
             Route::resource('subscription', 'Subscription\UserSubscriptionController');
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');

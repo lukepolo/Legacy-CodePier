@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \TomSchlick\ServerPush\Http2ServerPushMiddleware::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
-            \App\Http\Middleware\GitCommit::class
+            \App\Http\Middleware\GitCommit::class,
         ],
 
         'api' => [

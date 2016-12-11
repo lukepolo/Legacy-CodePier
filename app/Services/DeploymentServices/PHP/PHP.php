@@ -61,7 +61,7 @@ class PHP
 
         $url = 'git://'.$this->repositoryProvider->url.'/'.$this->repository.'.git';
 
-        if($this->site->private) {
+        if ($this->site->private) {
             $url = $this->repositoryProvider->git_url.':'.$this->repository;
         }
 
