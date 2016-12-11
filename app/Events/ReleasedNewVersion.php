@@ -18,7 +18,7 @@ class ReleasedNewVersion implements ShouldBroadcastNow
      */
     public function __construct()
     {
-        $this->version = exec('git rev-parse --short HEAD');
+        $this->version = current_version();
     }
 
     /**

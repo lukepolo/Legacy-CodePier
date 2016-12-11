@@ -16,7 +16,7 @@ class GitCommit
     public function handle($request, Closure $next)
     {
         app()->singleton('gitCommit', function () {
-            return exec('git rev-parse --short HEAD');
+            return current_version();
         });
 
         return $next($request);
