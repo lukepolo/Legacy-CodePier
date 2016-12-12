@@ -100,8 +100,8 @@ export default {
                 dispatch('getSites');
                 app.$router.push('/');
             }, (errors) => {
-
-            })
+                app.showError(errors);
+            });
         },
         getSiteServers: ({commit}, site_id) => {
             Vue.http.get(Vue.action('Site\SiteServerController@index', {site: site_id})).then((response) => {
@@ -132,30 +132,52 @@ export default {
             return Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site : site})).then((response) => {
                 commit('SET_DEPLOYMENT_STEPS', response.data);
                 return response.data;
+            }, (errors) => {
+                app.showError(errors);
             });
         },
         getSiteDeploymentSteps: ({commit}, site) => {
             return Vue.http.get(Vue.action('Site\SiteDeploymentStepsController@index', { site : site})).then((response) => {
                 commit('SET_SITE_DEPLOYMENT_STEPS', response.data);
                 return response.data;
+            }, (errors) => {
+                app.showError(errors);
             });
         },
         updateSiteDeployment: ({dispatch}, data) => {
-            Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then((response) => {
+            Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then(() => {
                 dispatch('getSiteDeploymentSteps', data.site);
+            }, (errors) => {
+                app.showError(errors);
             });
         },
-        restartSiteWebServices: () => {
-            alert('restartWebServices');
+        restartSiteWebServices: ({}, data) => {
+            Vue.http.post(Vue.action('Site\SiteController@restartWebServices', {site : data.site})).then(() => {
+                app.showSuccess('You have restarted your sites web services.');
+            }, (errors) => {
+                app.showError(errors);
+            });
         },
-        restartSiteServers: () => {
-            alert('restartServers');
+        restartSiteServers: ({}, data) => {
+            Vue.http.post(Vue.action('Site\SiteController@restartServer', {site : data.site})).then(() => {
+                app.showSuccess('You have restarted your sites servers.');
+            }, (errors) => {
+                app.showError(errors);
+            });
         },
-        restartSiteDatabases: () => {
-            alert('restartDatabases');
+        restartSiteDatabases: ({}, data) => {
+            Vue.http.post(Vue.action('Site\SiteController@restartDatabases', {site : data.site})).then(() => {
+                app.showSuccess('You have restarted your sites databases.');
+            }, (errors) => {
+                app.showError(errors);
+            });
         },
-        restartSiteWorkers: () => {
-            alert('restartWorkers');
+        restartSiteWorkers: ({}, data) => {
+            Vue.http.post(Vue.action('Site\SiteController@restartWorkerServices', {site : data.site})).then(() => {
+                app.showSuccess('You have restarted your sites workers.');
+            }, (errors) => {
+                app.showError(errors);
+            });
         }
     },
     mutations: {
