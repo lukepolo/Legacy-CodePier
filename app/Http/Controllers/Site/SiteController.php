@@ -30,6 +30,7 @@ class SiteController extends Controller
         $this->serverService = $serverService;
         $this->repositoryService = $repositoryService;
     }
+
     /**
      * Display a listing of the resource.
      *
