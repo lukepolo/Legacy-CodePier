@@ -4,8 +4,23 @@
           {{ deploymentStep.step }} <br> <small>{{ deploymentStep.description }}</small>
       </template>
       <template v-else>
-          <input type="text" name="step" v-model="step">
-          <textarea name="script" v-model="script"></textarea>
+          <div class="jcf-form-wrap">
+              <form @submit.prevent class="floating-labels">
+                <div class="jcf-input-group">
+                    <input type="text" name="step" v-model="step">
+                    <label for="step">
+                        <span class="float-label">Step Name</span>
+                    </label>
+                </div>
+
+              <div class="jcf-input-group">
+                  <input type="text" name="script" v-model="script">
+                  <label for="script">
+                      <span class="float-label">Script</span>
+                  </label>
+              </div>
+              </form>
+          </div>
       </template>
   </section>
 </template>

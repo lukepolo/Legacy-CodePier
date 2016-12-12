@@ -141,18 +141,22 @@ class SiteDeploymentStepsController extends Controller
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
                     preg_match('/\@order\s(.*)/', $method->getDocComment(), $matches);
-                    $order = $matches[1];
 
-                    preg_match('/\@description\s(.*)/', $method->getDocComment(), $matches);
+                    if(isset($matches[1])) {
+                        $order = $matches[1];
 
-                    $description = $matches[1];
+                        preg_match('/\@description\s(.*)/', $method->getDocComment(), $matches);
 
-                    $deploymentSteps[] = [
-                        'order' => (int) $order,
-                        'description' => $description,
-                        'internal_deployment_function' => $method->name,
-                        'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                    ];
+                        $description = $matches[1];
+
+                        $deploymentSteps[] = [
+                            'order' => (int) $order,
+                            'description' => $description,
+                            'internal_deployment_function' => $method->name,
+                            'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
+                        ];
+                    }
+
                 }
             }
         }
