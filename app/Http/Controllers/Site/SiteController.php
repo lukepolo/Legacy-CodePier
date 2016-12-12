@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
@@ -12,6 +11,7 @@ use App\Models\Site\SiteFirewallRule;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class SiteController extends Controller
 {
@@ -180,7 +180,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $this->runOnServer(function () use ($site) {
-            foreach($site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 $this->serverService->restartServer($server);
             }
         });
@@ -200,7 +200,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $this->runOnServer(function () use ($site) {
-            foreach($site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 $this->serverService->restartWebServices($server);
             }
         });
@@ -220,7 +220,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $this->runOnServer(function () use ($site) {
-            foreach($site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 $this->serverService->restartDatabase($server);
             }
         });
@@ -240,7 +240,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $this->runOnServer(function () use ($site) {
-            foreach($site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 $this->serverService->restartWorkers($server);
             }
         });
