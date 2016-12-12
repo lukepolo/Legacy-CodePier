@@ -9,16 +9,16 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <confirm dispatch="restartSiteWebServices"><a href="#">Restart Web Services</a></confirm>
+                        <confirm dispatch="restartSiteWebServices" :params="{site: site.id}"><a href="#">Restart Web Services</a></confirm>
                     </li>
                     <li>
-                        <confirm dispatch="restartSiteServers"><a href="#">Restart Servers</a></confirm>
+                        <confirm dispatch="restartSiteServers" :params="{site: site.id}"><a href="#">Restart Servers</a></confirm>
                     </li>
                     <li>
-                        <confirm dispatch="restartSiteDatabases"><a href="#">Restart Databases</a></confirm>
+                        <confirm dispatch="restartSiteDatabases" :params="{site: site.id}"><a href="#">Restart Databases</a></confirm>
                     </li>
                     <li>
-                        <confirm dispatch="restartSiteWorkers"><a href="#">Restart Workers</a></confirm>
+                        <confirm dispatch="restartSiteWorkers" :params="{site: site.id}"><a href="#">Restart Workers</a></confirm>
                     </li>
                 </ul>
             </div>
