@@ -46,7 +46,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
-
         });
 
         /*
@@ -116,7 +115,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
-
         });
 
         /*
