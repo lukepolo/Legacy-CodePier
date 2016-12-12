@@ -149,16 +149,14 @@ class SiteService implements SiteServiceContract
 
                 event(new DeploymentStepStarted($site, $server, $event, $event->step));
 
-                if(!empty($event->step->script)) {
-
-                    $script = preg_replace("/[\n\r]/"," && ", $event->step->script);
+                if (! empty($event->step->script)) {
+                    $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
 
                     $deploymentStepResult = $deploymentService->customStep($script);
                 } else {
                     $internalFunction = $event->step->internal_deployment_function;
                     $deploymentStepResult = $deploymentService->$internalFunction($sha);
                 }
-
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
             } catch (FailedCommand $e) {
