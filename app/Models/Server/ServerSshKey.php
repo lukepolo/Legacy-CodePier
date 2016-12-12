@@ -2,8 +2,8 @@
 
 namespace App\Models\Server;
 
-use App\Traits\ConnectedToUser;
 use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerSshKey extends Model

@@ -2,8 +2,8 @@
 
 namespace App\Models\Site;
 
-use App\Traits\Encryptable;
 use App\Traits\FireEvents;
+use App\Traits\Encryptable;
 use App\Traits\ConnectedToUser;
 use App\Models\Server\ServerSshKey;
 use Illuminate\Database\Eloquent\Model;
