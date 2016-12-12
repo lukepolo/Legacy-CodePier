@@ -11,9 +11,21 @@ use App\Models\Site\SiteFirewallRule;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class SiteController extends Controller
 {
+    private $serverService;
+
+    /**
+     * SiteController constructor.
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     */
+    public function __construct(ServerService $serverService)
+    {
+        $this->serverService = $serverService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -154,5 +166,85 @@ class SiteController extends Controller
                 'server_features' => $request->get('services'),
             ])
         );
+    }
+
+    /**
+     * Restarts a sites servers.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartServer($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartServer($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restart the sites web services.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartWebServices($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartWebServices($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restarts the sites databases.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartDatabases($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartDatabase($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restarts the sites worker services.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartWorkerServices($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartWorkers($server);
+            }
+        });
+
+        return $this->remoteResponse();
     }
 }
