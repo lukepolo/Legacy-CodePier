@@ -17,11 +17,10 @@ if (! function_exists('strip_relations')) {
     }
 }
 
-
 if (! function_exists('current_version')) {
 
     /**
-     * Gets the version of what is currently installed
+     * Gets the version of what is currently installed.
      * @return mixed
      */
     function current_version()
@@ -29,4 +28,3 @@ if (! function_exists('current_version')) {
         exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
     }
 }
-

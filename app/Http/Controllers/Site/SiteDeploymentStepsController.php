@@ -142,7 +142,7 @@ class SiteDeploymentStepsController extends Controller
                 if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
                     preg_match('/\@order\s(.*)/', $method->getDocComment(), $matches);
 
-                    if(isset($matches[1])) {
+                    if (isset($matches[1])) {
                         $order = $matches[1];
 
                         preg_match('/\@description\s(.*)/', $method->getDocComment(), $matches);
@@ -156,7 +156,6 @@ class SiteDeploymentStepsController extends Controller
                             'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
                         ];
                     }
-
                 }
             }
         }
