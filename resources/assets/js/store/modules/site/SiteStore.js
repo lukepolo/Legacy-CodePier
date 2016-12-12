@@ -178,6 +178,20 @@ export default {
             }, (errors) => {
                 app.showError(errors);
             });
+        },
+        createDeployHook: ({commit}, site) => {
+            Vue.http.post(Vue.action('Site\Repository\RepositoryHookController@store', {site : site})).then((response) => {
+                commit('SET_SITE', response.data);
+            }, (errors) => {
+                app.showError(errors);
+            });
+        },
+        removeDeployHook: ({commit}, data) => {
+            Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {site : data.site, hook : data.hook})).then((response) => {
+                commit('SET_SITE', response.data);
+            }, (errors) => {
+                app.showError(errors);
+            });
         }
     },
     mutations: {

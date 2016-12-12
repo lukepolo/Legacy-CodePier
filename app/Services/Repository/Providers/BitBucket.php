@@ -139,7 +139,7 @@ class BitBucket implements RepositoryContract
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository), [
             'description' => 'CodePier',
-            'url'         => route('webhook/deploy', $site->encode()),
+            'url'         => action('WebHookController@deploy', $site->encode()),
             'active'      => true,
             'events'      => [
                 'repo:push',
@@ -149,6 +149,8 @@ class BitBucket implements RepositoryContract
 
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -169,5 +171,7 @@ class BitBucket implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }

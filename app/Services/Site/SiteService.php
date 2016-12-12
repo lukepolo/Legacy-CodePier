@@ -206,6 +206,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
+     * @return Site $site
      */
     public function createDeployHook(Site $site)
     {
@@ -214,6 +215,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
+     * @return Site $site
      */
     public function deleteDeployHook(Site $site)
     {

@@ -136,13 +136,15 @@ class GitHub implements RepositoryContract
                 'pull_request',
             ],
             'config' => [
-                'url'          => route('webhook/deploy', $site->encode()),
+                'url'          => action('WebHookController@deploy', $site->encode()),
                 'content_type' => 'json',
             ],
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -157,5 +159,7 @@ class GitHub implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }
