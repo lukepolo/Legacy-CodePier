@@ -130,4 +130,13 @@ class PHP
 
         return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP)];
     }
+
+    /**
+     * Runs a custom step on the server
+     * @param $script
+     */
+    public function customStep($script)
+    {
+        $this->remoteTaskService->run('cd '.$this->release.' && '.$script);
+    }
 }
