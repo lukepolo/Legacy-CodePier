@@ -25,6 +25,6 @@ if (! function_exists('current_version')) {
      */
     function current_version()
     {
-        exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
+        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
     }
 }
