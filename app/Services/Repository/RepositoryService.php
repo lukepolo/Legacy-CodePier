@@ -53,7 +53,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param Site $site
-     * @return mixed
+     * @return Site $site
      */
     public function createDeployHook(Site $site)
     {
@@ -62,7 +62,7 @@ class RepositoryService implements RepositoryServiceContract
 
     /**
      * @param Site $site
-     * @return mixed
+     * @return Site $site
      */
     public function deleteDeployHook(Site $site)
     {

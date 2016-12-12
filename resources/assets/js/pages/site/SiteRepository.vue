@@ -76,9 +76,16 @@
         </div>
         <template v-if="site.repository">
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-            <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
-                Deployments</a>
-            <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
+
+            <template v-if="!site.automatic_deployment_id">
+                <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
+                <template v-if="!site.private">
+                    <small>Please make sure you own the public repository otherwise we cannot create the deploy hook</small>
+                </template>
+            </template>
+            <template v-else>
+                <a class="btn btn-primary" @click.prevent="removeDeployHook">Stop Automatic Deployments</a>
+            </template>
         </template>
     </div>
 </template>
@@ -130,6 +137,15 @@
                         zerotime_deployment: this.form.zerotime_deployment,
                         user_repository_provider_id: this.form.user_repository_provider_id
                     }
+                });
+            },
+            createDeployHook() {
+                return this.$store.dispatch('createDeployHook', this.site.id);
+            },
+            removeDeployHook() {
+                this.$store.dispatch('removeDeployHook', {
+                    site : this.site.id,
+                    hook : this.site.automatic_deployment_id
                 });
             }
         },

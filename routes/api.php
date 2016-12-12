@@ -149,7 +149,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
             Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
-            Route::resource('site.repository', 'Repository\SiteRepositoryController');
         });
     });
 
