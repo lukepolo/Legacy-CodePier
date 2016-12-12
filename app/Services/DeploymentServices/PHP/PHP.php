@@ -132,7 +132,7 @@ class PHP
     }
 
     /**
-     * Runs a custom step on the server
+     * Runs a custom step on the server.
      * @param $script
      */
     public function customStep($script)
