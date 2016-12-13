@@ -48,6 +48,11 @@
             server() {
                 return this.$store.state.serversStore.server;
             }
+        },
+        methods: {
+            archiveServer: function (server_id) {
+                this.$store.dispatch('archiveServer', server_id);
+            }
         }
     }
 </script>
