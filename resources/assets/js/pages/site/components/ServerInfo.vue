@@ -20,7 +20,7 @@
             </template>
 
             <h4>Disk Usage</h4>
-            <template v-if="server.stats.disk_usage">
+            <template v-if="server.stats && server.stats.disk_usage">
                 <p v-for="(stats, disk) in server.stats.disk_usage">
                     {{ disk }} : {{ stats.used }} / {{ stats.available }} ({{ stats.percent }})
                 </p>
@@ -30,7 +30,7 @@
             </template>
 
             <h4>Memory</h4>
-            <template v-if="server.stats.memory">
+            <template v-if="server.stats && server.stats.memory">
                 <p v-for="(stats, memory_name) in server.stats.memory">
                     {{ memory_name }} : {{ stats.used }} / {{ stats.available }}
                 </p>
@@ -40,7 +40,7 @@
             </template>
 
             <h4>CPU Load</h4>
-            <template v-if="server.stats.loads">
+            <template v-if="server.stats && server.stats.loads">
                 <p>1 / 5 / 10 minutes ago</p>
                 <template v-for="(load, ago, index) in server.stats.loads">
                     <span>
