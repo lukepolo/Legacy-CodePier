@@ -104,7 +104,7 @@ class RepositoryService implements RepositoryServiceContract
             $this->remoteTaskService->writeToFile($sshFile, $site->private_ssh_key);
             $this->remoteTaskService->writeToFile($sshFile.'.pub', $site->public_ssh_key);
 
-            $this->remoteTaskService->writeToFile("~/.ssh/config", "IdentityFile $sshFile");
+            $this->remoteTaskService->appendTextToFile("~/.ssh/config", "IdentityFile $sshFile");
 
             \Log::info("$sshFile");
         }
