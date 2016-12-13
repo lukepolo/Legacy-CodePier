@@ -20,6 +20,10 @@ class SiteSshKey extends Model
         'ssh_key',
     ];
 
+    protected $hidden = [
+        'ssh_key',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
