@@ -2,6 +2,8 @@
 
 namespace App\Services\Repository;
 
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Models\User\UserRepositoryProvider;
@@ -10,6 +12,15 @@ use App\Contracts\Repository\RepositoryServiceContract;
 class RepositoryService implements RepositoryServiceContract
 {
     protected $remoteTaskService;
+
+    /**
+     * RepositoryService constructor.
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     */
+    public function __construct(RemoteTaskService $remoteTaskService)
+    {
+        $this->remoteTaskService = $remoteTaskService;
+    }
 
     /**
      * Imports a ssh key into the specific provider.
@@ -21,12 +32,16 @@ class RepositoryService implements RepositoryServiceContract
     public function importSshKeyIfPrivate(Site $site)
     {
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
-        foreach ($site->provisionedServers as $server) {
-            $providerService->importSshKeyIfPrivate(
-                $site->userRepositoryProvider,
-                $site,
-                $server->public_ssh_key
-            );
+
+        if(empty($site->public_ssh_key)) {
+            $this->generateNewSshKeys($site);
+        }
+
+        try {
+            $providerService->importSshKeyIfPrivate($site);
+        } catch(DeployKeyAlreadyUsed $e) {
+            $this->generateNewSshKeys($site);
+            $providerService->importSshKeyIfPrivate($site);
         }
     }
 
@@ -67,5 +82,25 @@ class RepositoryService implements RepositoryServiceContract
     public function deleteDeployHook(Site $site)
     {
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->deleteDeployHook($site);
+    }
+
+    /**
+     * Generates keys based for the site
+     * @param Site $site
+     */
+    private function generateNewSshKeys(Site $site)
+    {
+        $sshKey = $this->remoteTaskService->createSshKey();
+        $site->public_ssh_key = $sshKey['publickey'];
+        $site->private_ssh_key = $sshKey['privatekey'];
+        $site->save();
+
+        $sshFile = '~/.ssh/'.$site->id.'_id_rsa';
+        foreach ($site->provisionedServers as $server) {
+            $this->remoteTaskService->writeToFile($sshFile, $site->private_ssh_key);
+            $this->remoteTaskService->writeToFile($sshFile.'.pub', $site->public_ssh_key);
+            $this->remoteTaskService->ssh($server);
+            $this->remoteTaskService->run("ssh-add $sshFile");
+        }
     }
 }
