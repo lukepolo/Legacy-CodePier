@@ -49,7 +49,7 @@ class BitBucket implements RepositoryContract
                 new OAuthListener($this->oauthParams)
             );
 
-            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->ssh_key, 'https://codepier.io');
+            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->public_ssh_key, 'https://codepier.io');
 
             return;
         }
