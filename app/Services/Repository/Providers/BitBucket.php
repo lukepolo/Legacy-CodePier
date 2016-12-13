@@ -18,16 +18,13 @@ class BitBucket implements RepositoryContract
 
     /**
      * Imports a deploy key so we can clone the repositories.
-     *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
-     * @param $sshKey
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
         $repository = $site->repository;
 
-        $this->setToken($userRepositoryProvider);
+        $this->setToken($site->userRepositoryProvider);
 
         $user = new User();
 
@@ -52,7 +49,7 @@ class BitBucket implements RepositoryContract
                 new OAuthListener($this->oauthParams)
             );
 
-            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey, 'https://codepier.io');
+            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->ssh_key, 'https://codepier.io');
 
             return;
         }

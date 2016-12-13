@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
 use App\Models\User\UserRepositoryProvider;
@@ -13,17 +14,15 @@ class GitHub implements RepositoryContract
 
     /**
      * Imports a deploy key so we can clone the repositories.
-     *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
-     * @param $sshKey
+     * @return string|void
      * @throws \Exception
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
         $repository = $site->repository;
 
-        $this->setToken($userRepositoryProvider);
+        $this->setToken($site->userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
             $this->isPrivate($site, true);
@@ -34,13 +33,14 @@ class GitHub implements RepositoryContract
                     $this->getRepositorySlug($repository),
                     [
                         'title' => 'CodePier',
-                        'key'   => $sshKey,
+                        'key'   => $site->ssh_key,
                     ]
                 );
             } catch (ValidationFailedException $e) {
                 if (! $e->getMessage() == 'Validation Failed: key is already in use') {
                     throw new \Exception($e->getMessage());
                 }
+                throw new DeployKeyAlreadyUsed();
             }
 
             return;

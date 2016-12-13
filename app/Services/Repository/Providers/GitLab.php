@@ -3,7 +3,6 @@
 namespace App\Services\Repository\Providers;
 
 use Gitlab\Client;
-use Gitlab\Api\Projects;
 use App\Models\Site\Site;
 use Gitlab\Api\Repositories;
 use App\Models\User\UserRepositoryProvider;
@@ -18,15 +17,13 @@ class GitLab implements RepositoryContract
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
-     * @param $sshKey
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
         $repository = $site->repository;
 
-        $this->setToken($userRepositoryProvider);
+        $this->setToken($site->userRepositoryProvider);
 
         if ($this->isRepositoryPrivate($repository)) {
             $this->isPrivate($site, true);
@@ -39,7 +36,7 @@ class GitLab implements RepositoryContract
                 'Content-Type' => 'application/json',
             ], [
                 'title' => 'CodePier',
-                'key' => $sshKey,
+                'key' => $site->ssh_key,
             ])->send();
 
             return;

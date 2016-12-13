@@ -280,4 +280,16 @@ echo \"Wrote\"", $read);
 
         return $text;
     }
+
+    /**
+     * Creates a new ssh key
+     * @return array
+     */
+    public function createSshKey()
+    {
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
+        return $rsa->createKey();
+    }
 }

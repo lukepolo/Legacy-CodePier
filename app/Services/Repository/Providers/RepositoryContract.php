@@ -10,12 +10,10 @@ interface RepositoryContract
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
      * @param Site $site
-     * @param $sshKey
      * @return
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, Site $site, $sshKey);
+    public function importSshKeyIfPrivate(Site $site);
 
     /**
      * Sets the token so we can connect to the users account.

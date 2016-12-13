@@ -5,6 +5,7 @@ namespace App\Models\Site;
 use App\Models\Pile;
 use App\Models\Command;
 use App\Models\User\User;
+use App\Traits\Encryptable;
 use App\Traits\FireEvents;
 use App\Traits\UsedByTeams;
 use App\Models\Server\Server;
@@ -18,10 +19,17 @@ use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser;
+    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser, Encryptable;
 
     protected $guarded = [
         'id',
+        'public_ssh_key',
+        'private_ssh_key',
+    ];
+
+    protected $encryptable = [
+        'public_ssh_key',
+        'private_ssh_key',
     ];
 
     public static $teamworkModel = 'pile.teams';

@@ -47,7 +47,7 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        $sshKey = $this->createSshKey();
+        $sshKey = $this->remoteTaskService->createSshKey();
 
         $server->public_ssh_key = $sshKey['publickey'];
         $server->private_ssh_key = $sshKey['privatekey'];
@@ -97,17 +97,6 @@ class ServerService implements ServerServiceContract
 
             return false;
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function createSshKey()
-    {
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-
-        return $rsa->createKey();
     }
 
     /**
