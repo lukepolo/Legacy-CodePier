@@ -32,7 +32,7 @@
             <h4>Memory</h4>
             <template v-if="server.stats && server.stats.memory">
                 <p v-for="(stats, memory_name) in server.stats.memory">
-                    {{ memory_name }} : {{ stats.used }} / {{ stats.available }}
+                    {{ memory_name }} : {{ stats.used }} / {{ stats.total }}
                 </p>
             </template>
             <template v-else>
