@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.26 on 2016-12-10.
+ * Generated for Laravel 5.3.26 on 2016-12-13.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -917,6 +917,18 @@ if (! function_exists('strip_relations')) {
         }
 
         return $model;
+    }
+}
+
+if (! function_exists('current_version')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @return mixed
+     */
+    function current_version()
+    {
+        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
     }
 }
 
@@ -9769,6 +9781,8 @@ if (! function_exists('strip_relations')) {
         /**
          * Checks whether the method is safe or not.
          *
+         * @see https://tools.ietf.org/html/rfc7231#section-4.2.1
+         * @param bool $andCacheable Adds the additional condition that the method should be cacheable. True by default.
          * @return bool 
          * @static 
          */
@@ -9780,6 +9794,7 @@ if (! function_exists('strip_relations')) {
         /**
          * Checks whether the method is cacheable or not.
          *
+         * @see https://tools.ietf.org/html/rfc7231#section-4.2.3
          * @return bool 
          * @static 
          */
