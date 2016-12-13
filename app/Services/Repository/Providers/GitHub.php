@@ -120,8 +120,15 @@ class GitHub implements RepositoryContract
         $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
 
         if (! empty($lastCommit)) {
-            return $lastCommit['sha'];
+            return [
+                'git_commit' => $lastCommit['sha'],
+                'commit_message' => $lastCommit['commit']['message'],
+            ];
         }
+    }
+
+    public function getCommitMessage(UserRepositoryProvider $userRepositoryProvider, $repository, $branch, $commit)
+    {
     }
 
     public function createDeployHook(Site $site)
