@@ -95,10 +95,10 @@ class RepositoryService implements RepositoryServiceContract
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
 
-        $sshFile = '~/.ssh/'.$site->id.'_id_rsa';
+        $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
 
         foreach ($site->provisionedServers as $server) {
-
+            \Log::critical($server->id);
             $this->remoteTaskService->ssh($server, 'codepier');
 
             $this->remoteTaskService->writeToFile($sshFile, $site->private_ssh_key);
@@ -106,7 +106,7 @@ class RepositoryService implements RepositoryServiceContract
 
             $this->remoteTaskService->appendTextToFile("~/.ssh/config", "IdentityFile $sshFile");
 
-            \Log::info("$sshFile");
+            \Log::critical("$sshFile");
         }
     }
 }
