@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +50,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // If the request wants JSON + exception is not ValidationException
+        if ($request->wantsJson()) {
+
+            $response = [
+                'errors' => 'Sorry, something went wrong.'
+            ];
+
+            // If the app is in debug mode
+            if (config('app.debug')) {
+                $response['exception'] = get_class($exception);
+                $response['message'] = $exception->getMessage();
+                $response['trace'] = $exception->getTrace();
+            }
+
+            $status = 400;
+
+            if ($this->isHttpException($exception)) {
+                $status = $exception->getCode();
+            }
+
+            return response()->json($response, $status);
+        }
+
         return parent::render($request, $exception);
     }
 
