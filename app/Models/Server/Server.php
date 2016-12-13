@@ -32,9 +32,10 @@ class Server extends Model
     public $teamworkSync = false;
 
     protected $casts = [
+        'stats' => 'array',
         'options'  => 'array',
-        'server_provider_features' => 'array',
         'server_features' => 'array',
+        'server_provider_features' => 'array',
     ];
 
     protected $encryptable = [
