@@ -12,7 +12,7 @@ class WebHookController extends Controller
     public function deploy($siteHashID)
     {
         dispatch(new \App\Jobs\Site\DeploySite(
-            Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
+            Site::findOrFail(\Hashids::decode($siteHashID)[0])
         ));
     }
 }
