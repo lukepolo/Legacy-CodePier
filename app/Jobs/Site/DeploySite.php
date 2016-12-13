@@ -72,7 +72,7 @@ class DeploySite implements ShouldQueue
         }
 
         if ($success) {
-            $this->site->notify(new SiteDeploymentSuccessful($this->site));
+            $this->site->notify(new SiteDeploymentSuccessful($this->site, $this->siteDeployment));
         }
     }
 }

@@ -36,7 +36,7 @@
         </div>
         <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
         <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
-        <div class="event-commit"><a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/commit/' + event.git_commit"><span class="icon-github"></span> </a></div>
+        <div class="event-commit"><a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/'+event.site.user_repository_provider.repository_provider.commit_url+'/' + event.git_commit"><span class="icon-github"></span> </a></div>
     </div>
 </template>
 
