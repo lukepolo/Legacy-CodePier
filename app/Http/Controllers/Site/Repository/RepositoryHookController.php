@@ -29,7 +29,7 @@ class RepositoryHookController extends Controller
     public function store($siteId)
     {
         return response()->json(
-            $this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId))
+            $this->siteService->createDeployHook(Site::findOrFail($siteId))
         );
     }
 
@@ -43,7 +43,7 @@ class RepositoryHookController extends Controller
     public function destroy($siteId)
     {
         return response()->json(
-            $this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId))
+            $this->siteService->deleteDeployHook(Site::findOrFail($siteId))
         );
     }
 }

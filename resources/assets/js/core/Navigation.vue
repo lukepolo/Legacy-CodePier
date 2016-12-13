@@ -36,7 +36,9 @@
         </ul>
 
         <section v-if="current_version != version">
-            Hello, We've got a new version of CodePier ready for you. <a href="/">Reload now</a> to make it yours.
+            <div>
+                Hello, We've got a new version of CodePier ready for you. <a href="">Refresh now</a> to make it yours.
+            </div>
         </section>
 
         <ul class="nav navbar-right nav-right">
