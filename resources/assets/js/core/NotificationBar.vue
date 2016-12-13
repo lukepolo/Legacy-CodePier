@@ -162,21 +162,22 @@
 
             </ul>
             <div class="events-container">
-
                 <section v-if="!events">
                     <div class="event-none">
                         There are no events with these filters.
                     </div>
                 </section>
-                <section v-else v-for="event in events">
-                    <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
-                        <deployment-event :event="event"></deployment-event>
-                    </template>
-                    <template v-else-if="event.event_type == 'App\\Models\\Command'">
-                        <command-event :event="event"></command-event>
-                    </template>
-                    <template v-else>
-                        Invalid type {{ event.event_type }}
+                <section v-else>
+                    <template  v-for="event in events">
+                        <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
+                            <deployment-event :event="event"></deployment-event>
+                        </template>
+                        <template v-else-if="event.event_type == 'App\\Models\\Command'">
+                            <command-event :event="event"></command-event>
+                        </template>
+                        <template v-else>
+                            Invalid type {{ event.event_type }}
+                        </template>
                     </template>
                 </section>
             </div>
