@@ -96,10 +96,13 @@ class RepositoryService implements RepositoryServiceContract
         $site->save();
 
         $sshFile = '~/.ssh/'.$site->id.'_id_rsa';
+
         foreach ($site->provisionedServers as $server) {
+            $this->remoteTaskService->ssh($server);
+
             $this->remoteTaskService->writeToFile($sshFile, $site->private_ssh_key);
             $this->remoteTaskService->writeToFile($sshFile.'.pub', $site->public_ssh_key);
-            $this->remoteTaskService->ssh($server);
+
             $this->remoteTaskService->run("ssh-add $sshFile");
         }
     }
