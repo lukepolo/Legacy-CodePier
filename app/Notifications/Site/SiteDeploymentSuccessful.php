@@ -3,8 +3,8 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
 use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -76,7 +76,7 @@ class SiteDeploymentSuccessful extends Notification
                 $attachment->title('('.$site->pile->name.') '.$site->domain, $url)
                     ->fields([
                         'Commit' => 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit,
-                        'Message' =>  $siteDeployment->commit_message
+                        'Message' =>  $siteDeployment->commit_message,
                     ]);
             });
     }

@@ -137,12 +137,12 @@ class SiteService implements SiteServiceContract
 
         if (empty($sha)) {
             $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
-            if(!empty($lastCommit)) {
+            if (! empty($lastCommit)) {
                 $siteServerDeployment->siteDeployment->update($lastCommit);
             }
         } else {
             $siteServerDeployment->siteDeployment->update([
-                'git_commit' => $sha
+                'git_commit' => $sha,
             ]);
         }
 
