@@ -23,6 +23,7 @@
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
+                'env' => env('APP_ENV'),
                 'csrfToken' => csrf_token(),
                 'pusherKey' => env('PUSHER_KEY'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
