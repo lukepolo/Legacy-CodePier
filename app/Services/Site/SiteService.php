@@ -135,13 +135,16 @@ class SiteService implements SiteServiceContract
 
         $this->repositoryService->importSshKeyIfPrivate($site);
 
-        if (empty($lastCommit = $sha)) {
-            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository,
-                $site->branch);
+        if (empty($sha)) {
+            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
+            if(!empty($lastCommit)) {
+                $siteServerDeployment->siteDeployment->update($lastCommit);
+            }
+        } else {
+            $siteServerDeployment->siteDeployment->update([
+                'git_commit' => $sha
+            ]);
         }
-
-        $siteServerDeployment->siteDeployment->git_commit = $lastCommit;
-        $siteServerDeployment->siteDeployment->save();
 
         foreach ($siteServerDeployment->events as $event) {
             try {

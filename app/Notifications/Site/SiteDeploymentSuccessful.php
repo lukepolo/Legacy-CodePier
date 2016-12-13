@@ -3,6 +3,7 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use App\Notifications\Channels\SlackMessageChannel;
@@ -18,11 +19,13 @@ class SiteDeploymentSuccessful extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param Site           $site
+     * @param Site $site
+     * @param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, SiteDeployment $siteDeployment)
     {
         $this->site = $site;
+        $this->siteDeployment = $siteDeployment;
     }
 
     /**
@@ -62,12 +65,19 @@ class SiteDeploymentSuccessful extends Notification
     {
         $url = url('site/'.$this->site->id);
         $site = $this->site;
+        $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
+
+        $repositoryProvider = $this->site->userRepositoryProvider->repositoryProvider;
 
         return (new SlackMessage())
             ->success()
             ->content('Deployment Completed')
-            ->attachment(function ($attachment) use ($url, $site) {
-                $attachment->title('('.$site->pile->name.') '.$site->domain, $url);
+            ->attachment(function ($attachment) use ($url, $site, $siteDeployment, $repositoryProvider) {
+                $attachment->title('('.$site->pile->name.') '.$site->domain, $url)
+                    ->fields([
+                        'Commit' => 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit,
+                        'Message' =>  $siteDeployment->commit_message
+                    ]);
             });
     }
 }
