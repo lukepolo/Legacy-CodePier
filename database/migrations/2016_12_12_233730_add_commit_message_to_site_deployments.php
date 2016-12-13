@@ -13,7 +13,7 @@ class AddCommitMessageToSiteDeployments extends Migration
      */
     public function up()
     {
-        Schema::table('site_deployments', function(Blueprint $table) {
+        Schema::table('site_deployments', function (Blueprint $table) {
             $table->string('commit_message')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddCommitMessageToSiteDeployments extends Migration
      */
     public function down()
     {
-        Schema::table('site_deployments', function(Blueprint $table) {
+        Schema::table('site_deployments', function (Blueprint $table) {
             $table->dropColumn('commit_message');
         });
     }

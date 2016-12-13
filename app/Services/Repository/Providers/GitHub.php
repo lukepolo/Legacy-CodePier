@@ -122,7 +122,7 @@ class GitHub implements RepositoryContract
         if (! empty($lastCommit)) {
             return [
                 'git_commit' => $lastCommit['sha'],
-                'commit_message' => $lastCommit['commit']['message']
+                'commit_message' => $lastCommit['commit']['message'],
             ];
         }
     }
