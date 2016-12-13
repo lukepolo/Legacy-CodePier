@@ -15,4 +15,8 @@ class UserSshKey extends Model
     protected $encryptable = [
         'ssh_key',
     ];
+
+    protected $hidden = [
+        'ssh_key',
+    ];
 }

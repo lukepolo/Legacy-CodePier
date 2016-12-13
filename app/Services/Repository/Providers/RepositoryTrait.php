@@ -17,5 +17,13 @@ trait RepositoryTrait
         $site->update([
             'private' =>  $isPrivate,
         ]);
+
+        if(!$isPrivate) {
+            $site->update([
+                'public_ssh_key' =>  null,
+                'private_ssh_key' =>  null,
+            ]);
+        }
+
     }
 }

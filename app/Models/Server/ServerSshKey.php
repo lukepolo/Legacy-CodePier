@@ -18,6 +18,10 @@ class ServerSshKey extends Model
         'ssh_key',
     ];
 
+    protected $hidden = [
+        'ssh_key',
+    ];
+
     public function server()
     {
         return $this->belongsTo(Server::class);

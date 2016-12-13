@@ -113,8 +113,6 @@ class SiteController extends Controller
             'type'                        => $request->get('type'),
         ]);
 
-        $this->repositoryService->importSshKeyIfPrivate($site);
-
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
 
