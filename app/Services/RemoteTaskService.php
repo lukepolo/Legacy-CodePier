@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Site\Site;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
 use App\Models\Server\Server;
@@ -291,5 +292,26 @@ echo \"Wrote\"", $read);
         $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
 
         return $rsa->createKey();
+    }
+
+    /**
+     * @param Site $site
+     * @param Server $server
+     */
+    public function saveSshKeyToServer(Site $site, Server $server)
+    {
+        if(!empty($site->public_ssh_key)) {
+            $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
+
+            $this->ssh($server, 'codepier');
+
+            $this->writeToFile($sshFile, $site->private_ssh_key);
+            $this->writeToFile($sshFile.'.pub', $site->public_ssh_key);
+
+            $this->appendTextToFile("~/.ssh/config", "IdentityFile $sshFile");
+
+            $this->run('chmod 600 /home/codepier/.ssh/* -R');
+        }
+
     }
 }

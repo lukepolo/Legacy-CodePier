@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -33,8 +34,9 @@ class CreateSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    public function handle(SiteService $siteService)
+    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
     {
         $siteService->create($this->server, $this->site);
 
@@ -61,5 +63,7 @@ class CreateSite implements ShouldQueue
         $this->site->workers->each(function ($model) {
             $model->fire('created');
         });
+
+        $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
     }
 }
