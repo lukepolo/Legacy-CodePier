@@ -9,17 +9,17 @@ class MonitoringService
 {
     use ServiceConstructorTrait;
 
+    CONST LOAD_AVG_SCRIPT = 'current_load=$(cat /proc/loadavg | grep / | awk \'{ print "1="$1 " 5="$2 " 15="$3}\')';
+    CONST MEMORY_SCRIPT = 'free -m -h | grep : | awk \'{ print "name="$1 " total="$2 " used="$3 " free="$4 " available="$7}\'';
+    CONST DISK_USAGE_SCRIPT = 'df -h / | grep / | awk \'{ print "disk="$1 " used="$3 " available="$4 " percent="$5}\'';
+
     public function installDiskMonitoringScript()
     {
         $this->connectToServer();
 
         $this->remoteTaskService->writeToFile('/opt/codepier/diskusage_monitor', '
-df / | grep / | awk \'{ print $5 " " $6 }\' | while read output;
-do
-    usep=$(echo $output | awk \'{ print $1}\' | cut -d\'%\' -f1 )
-    if [ $usep -ge 90 ]; then
-        curl '.env('APP_URL').'/webhook/diskspace?key='.$this->server->encode().'
-    fi
+'.self::DISK_USAGE_SCRIPT.' | while read -r disk_usage;  do
+    curl '.env('APP_URL').'/webhook/diskspace/'.$this->server->encode().'?disk_usage=$disk_usage
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/diskusage_monitor');
@@ -37,8 +37,8 @@ done');
 
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
-    current_load=$(cat /proc/loadavg | grep / | awk \'{ print $1 " " $2 " " $3}\')
-    curl "'.env('APP_URL').'/webhook/load?key='.$this->server->encode().'&loads=$current_load"
+    '.self::LOAD_AVG_SCRIPT.'
+    curl "'.env('APP_URL').'/webhook/load/'.$this->server->encode().'?loads=$current_load"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/load_monitor');
@@ -55,9 +55,9 @@ done');
         $this->connectToServer();
 
         $this->remoteTaskService->writeToFile('/opt/codepier/memory_monitor', '
-    current_memory=$(free -m | grep Mem | awk \'{ print $2 " " $3 " " $4 " " $7}\')
-    curl "'.env('APP_URL').'/webhook/memory?key='.$this->server->encode().'&memory=$current_memory"
-');
+'.self::MEMORY_SCRIPT.' | while read -r current_memory; do
+    curl "'.env('APP_URL').'/webhook/memory/'.$this->server->encode().'?memory=$current_memory"
+done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/memory_monitor');
 

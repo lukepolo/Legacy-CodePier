@@ -6,19 +6,60 @@
                     {{ server.name }} - {{ server.ip }}
                 </router-link>
             <div>
-            {{ server.progress}}% Complete
-            <section v-if="server.progress < 100 && currentProvisioningStep">
-                <section v-if="currentProvisioningStep.failed">
-                    Failed {{ currentProvisioningStep.step}}
-                    <div @click="retryProvision" class="btn btn-xs">retry</div>
+            <template v-if="server.progress < 100">
+                {{ server.progress}}% Complete
+                <section v-if="currentProvisioningStep">
+                    <section v-if="currentProvisioningStep.failed">
+                        Failed {{ currentProvisioningStep.step}}
+                        <div @click="retryProvision" class="btn btn-xs">retry</div>
+                    </section>
+                    <section v-else>
+                        {{ server.status }}
+                    </section>
                 </section>
-                <section v-else>
-                    {{ server.status }}
-                </section>
-            </section>
+            </template>
 
-            <p>4 / 40 GB</p>
-            <p>1.2 Avg Load</p>
+            <template v-if="server.stats">
+                <h4>Disk Usage</h4>
+                <template v-if="server.stats.disk_usage">
+                    <p v-for="(stats, disk) in server.stats.disk_usage">
+                        {{ disk }} : {{ stats.used }} / {{ stats.available }} ({{ stats.percent }})
+                    </p>
+                </template>
+                <template v-else>
+                    N/A
+                </template>
+
+                <h4>Memory</h4>
+                <template v-if="server.stats.memory">
+                    <p v-for="(stats, memory_name) in server.stats.memory">
+                        {{ memory_name }} : {{ stats.used }} / {{ stats.available }}
+                    </p>
+                </template>
+                <template v-else>
+                    N/A
+                </template>
+
+                <h4>CPU Load</h4>
+                <template v-if="server.stats.loads">
+                    <p>1 / 5 / 10 minutes ago</p>
+                    <template v-for="(load, ago, index) in server.stats.loads">
+                        <span>
+                            {{ load }}%
+                            <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
+                                /
+                            </template>
+                        </span>
+                    </template>
+                </template>
+                <template v-else>
+                    N/A
+                </template>
+
+
+            </template>
+
+
             <div class="dropdown">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     <i class="icon-server"></i>

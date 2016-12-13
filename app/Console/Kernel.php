@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\MakeAuthCode;
+use App\Console\Commands\TestMonitorScripts;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\GetServerProviderOptions;
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         MakeAuthCode::class,
         ReleasedNewVersion::class,
+        TestMonitorScripts::class,
         GetServerProviderOptions::class,
     ];
 
