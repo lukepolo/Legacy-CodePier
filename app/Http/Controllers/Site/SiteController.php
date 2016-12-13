@@ -12,18 +12,23 @@ use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 
 class SiteController extends Controller
 {
     private $serverService;
+    private $repositoryService;
 
     /**
      * SiteController constructor.
+     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
      */
-    public function __construct(ServerService $serverService)
+    public function __construct(ServerService $serverService, RepositoryService $repositoryService)
     {
         $this->serverService = $serverService;
+        $this->repositoryService = $repositoryService;
     }
 
     /**
@@ -107,6 +112,8 @@ class SiteController extends Controller
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
             'type'                        => $request->get('type'),
         ]);
+
+        $this->repositoryService->importSshKeyIfPrivate($site);
 
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));

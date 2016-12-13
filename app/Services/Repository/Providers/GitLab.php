@@ -119,11 +119,13 @@ class GitLab implements RepositoryContract
         $webhook = $this->client->api('projects')->addHook($site->repository, [
             'push_events'           => true,
             'merge_requests_events' => true,
-            'url'                   => route('webhook/deploy', $site->encode()),
+            'url'                   => action('WebHookController@deploy', $site->encode()),
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -134,5 +136,7 @@ class GitLab implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }
