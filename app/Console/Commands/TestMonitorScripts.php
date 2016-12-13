@@ -30,6 +30,7 @@ class TestMonitorScripts extends Command
     public function handle()
     {
         $server = Server::first();
+        dd(MonitoringService::LOAD_AVG_SCRIPT);
         dump(shell_exec(
             MonitoringService::LOAD_AVG_SCRIPT.'
             echo "'.action('WebHookController@loadMonitor', $server->encode()).'?loads=$current_load"
