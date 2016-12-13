@@ -33,7 +33,7 @@ class GitHub implements RepositoryContract
                     $this->getRepositorySlug($repository),
                     [
                         'title' => 'CodePier',
-                        'key'   => $site->ssh_key,
+                        'key'   => $site->public_ssh_key,
                     ]
                 );
             } catch (ValidationFailedException $e) {

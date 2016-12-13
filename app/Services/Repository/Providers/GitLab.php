@@ -36,7 +36,7 @@ class GitLab implements RepositoryContract
                 'Content-Type' => 'application/json',
             ], [
                 'title' => 'CodePier',
-                'key' => $site->ssh_key,
+                'key' => $site->public_ssh_key,
             ])->send();
 
             return;
