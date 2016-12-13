@@ -109,9 +109,10 @@ class GitLab implements RepositoryContract
 
         if (! empty($lastCommit)) {
             dd($lastCommit);
+
             return [
                 'git_commit' => $lastCommit['short_id'],
-                'commit_message' => $lastCommit['message']
+                'commit_message' => $lastCommit['message'],
             ];
         }
     }

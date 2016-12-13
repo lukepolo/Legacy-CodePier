@@ -13,7 +13,7 @@ class AddCommitUrl extends Migration
      */
     public function up()
     {
-        Schema::table('repository_providers', function(Blueprint $table) {
+        Schema::table('repository_providers', function (Blueprint $table) {
             $table->string('commit_url')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddCommitUrl extends Migration
      */
     public function down()
     {
-        Schema::table('repository_providers', function(Blueprint $table) {
+        Schema::table('repository_providers', function (Blueprint $table) {
             $table->dropColumn('commit_url');
         });
     }
