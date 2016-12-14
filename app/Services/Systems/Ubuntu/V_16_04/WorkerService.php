@@ -32,6 +32,7 @@ class WorkerService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
         $this->remoteTaskService->run('mkdir /home/codepier/workers');
 
+        $this->remoteTaskService->run('systemctl enable supervisor');
         $this->remoteTaskService->run('service supervisor start');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
