@@ -225,6 +225,10 @@ export default {
             _.each(server, function(value, index) {
                 foundServer[index] = value;
             });
+        },
+        SET_SERVER_STATS : (state, data) => {
+            let server = _.find(state.site_servers, {id: data.server_id});
+            Vue.set(server, 'stats', data.stats);
         }
     }
 }

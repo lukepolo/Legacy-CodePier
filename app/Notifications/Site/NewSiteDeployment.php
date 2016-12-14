@@ -42,7 +42,7 @@ class NewSiteDeployment extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
             'siteDeployment' => $this->siteDeployment->load([

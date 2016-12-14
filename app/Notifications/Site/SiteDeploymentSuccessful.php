@@ -42,7 +42,7 @@ class SiteDeploymentSuccessful extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
             'site' => strip_relations($notifiable),
