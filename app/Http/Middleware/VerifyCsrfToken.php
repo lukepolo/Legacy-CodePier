@@ -14,6 +14,6 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'stripe/*',
         'webhook/*',
-        'teams/accept/*'
+        'teams/accept/*',
     ];
 }

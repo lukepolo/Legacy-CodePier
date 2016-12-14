@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Site;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -10,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CreateSite implements ShouldQueue
 {

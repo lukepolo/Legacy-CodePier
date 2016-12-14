@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -52,9 +52,8 @@ class Handler extends ExceptionHandler
     {
         // If the request wants JSON + exception is not ValidationException
         if ($request->wantsJson()) {
-
             $response = [
-                'errors' => 'Sorry, something went wrong.'
+                'errors' => 'Sorry, something went wrong.',
             ];
 
             // If the app is in debug mode

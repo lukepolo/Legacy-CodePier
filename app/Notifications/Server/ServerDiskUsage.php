@@ -3,11 +3,11 @@
 namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class ServerDiskUsage extends Notification
 {
@@ -26,8 +26,8 @@ class ServerDiskUsage extends Notification
     {
         $this->server = $server;
 
-        foreach($server->stats['disk_usage'] as $disk => $stats) {
-            if(str_replace('%', '', $stats['percent']) >= 95) {
+        foreach ($server->stats['disk_usage'] as $disk => $stats) {
+            if (str_replace('%', '', $stats['percent']) >= 95) {
                 $this->disks[$disk] = $stats;
             }
         }
@@ -40,8 +40,9 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return !empty($this->disks) ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
+        return ! empty($this->disks) ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
     }
+
     /**
      * Get the mail representation of the notification.
      *
@@ -54,11 +55,11 @@ class ServerDiskUsage extends Notification
         $server = $notifiable;
         $disks = $this->disks;
 
-        if(!empty($disks)) {
-            $mailMessage = (new MailMessage())->subject('High Disk Usage : ' . $server->name . ' (' . $server->ip . ')')->error();
+        if (! empty($disks)) {
+            $mailMessage = (new MailMessage())->subject('High Disk Usage : '.$server->name.' ('.$server->ip.')')->error();
 
             foreach ($disks as $name => $stats) {
-                $mailMessage->line($name . ': ' . $stats['used'] . ' / ' . $stats['available']);
+                $mailMessage->line($name.': '.$stats['used'].' / '.$stats['available']);
             }
 
             return $mailMessage;
@@ -77,13 +78,13 @@ class ServerDiskUsage extends Notification
         $server = $notifiable;
         $disks = $this->disks;
 
-        if(!empty($disks)) {
+        if (! empty($disks)) {
             return (new SlackMessage())
                 ->error()
                 ->content('High Disk Usage : '.$server->name.' ('.$server->ip.')')
                 ->attachment(function ($attachment) use ($server, $disks) {
                     $attachment = $attachment->title('Disk Information');
-                    foreach($disks as $name => $stats) {
+                    foreach ($disks as $name => $stats) {
                         $attachment->fields([
                             $name => $stats['used'].' / '.$stats['available'],
                         ]);
@@ -102,7 +103,7 @@ class ServerDiskUsage extends Notification
     {
         return [
             'server'=> $notifiable->id,
-            'stats' => $notifiable->stats
+            'stats' => $notifiable->stats,
         ];
     }
 }
