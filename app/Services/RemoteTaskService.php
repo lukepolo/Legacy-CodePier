@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Site\Site;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
+use App\Models\Site\Site;
 use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
@@ -283,7 +283,7 @@ echo \"Wrote\"", $read);
     }
 
     /**
-     * Creates a new ssh key
+     * Creates a new ssh key.
      * @return array
      */
     public function createSshKey()
@@ -300,7 +300,7 @@ echo \"Wrote\"", $read);
      */
     public function saveSshKeyToServer(Site $site, Server $server)
     {
-        if(!empty($site->public_ssh_key)) {
+        if (! empty($site->public_ssh_key)) {
             $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
 
             $this->ssh($server, 'codepier');
@@ -308,10 +308,9 @@ echo \"Wrote\"", $read);
             $this->writeToFile($sshFile, $site->private_ssh_key);
             $this->writeToFile($sshFile.'.pub', $site->public_ssh_key);
 
-            $this->appendTextToFile("~/.ssh/config", "IdentityFile $sshFile");
+            $this->appendTextToFile('~/.ssh/config', "IdentityFile $sshFile");
 
             $this->run('chmod 600 /home/codepier/.ssh/* -R');
         }
-
     }
 }
