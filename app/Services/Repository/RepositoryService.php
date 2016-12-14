@@ -34,14 +34,13 @@ class RepositoryService implements RepositoryServiceContract
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
         if(empty($site->public_ssh_key)) {
-            $this->generateNewSshKeys($site);
-        }
-
-        try {
-            $providerService->importSshKeyIfPrivate($site);
-        } catch(DeployKeyAlreadyUsed $e) {
-            $this->generateNewSshKeys($site);
-            $providerService->importSshKeyIfPrivate($site);
+            try {
+                $this->generateNewSshKeys($site);
+                $providerService->importSshKeyIfPrivate($site);
+            } catch (DeployKeyAlreadyUsed $e) {
+                $this->generateNewSshKeys($site);
+                $providerService->importSshKeyIfPrivate($site);
+            }
         }
     }
 
@@ -90,6 +89,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     private function generateNewSshKeys(Site $site)
     {
+        dd("NO NEW KEY IS NEEDED");
         $sshKey = $this->remoteTaskService->createSshKey();
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
