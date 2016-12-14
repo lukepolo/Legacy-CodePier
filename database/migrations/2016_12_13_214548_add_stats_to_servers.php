@@ -13,7 +13,7 @@ class AddStatsToServers extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->longText('stats')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddStatsToServers extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('stats');
         });
     }
