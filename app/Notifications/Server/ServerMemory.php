@@ -99,7 +99,7 @@ class ServerMemory extends Notification
      * @param $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
             'server'=> $notifiable->id,

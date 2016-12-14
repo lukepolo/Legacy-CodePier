@@ -72,6 +72,21 @@ export default {
                         commit("UPDATE_SERVER", data.server);
                         commit("UPDATE_SITE_SERVER", data.server);
                     })
+                    .listen('Server\\ServerSshConnectionFailed', (data) => {
+                    })
+                    .notification((notification) => {
+                        switch(notification.type) {
+                            case 'App\\Notifications\\Server\\ServerMemory':
+                            case 'App\\Notifications\\Server\\ServerDiskUsage':
+                            case 'App\\Notifications\\Server\\ServerLoad':
+
+                                commit('SET_SERVER_STATS', {
+                                    server_id : server.id,
+                                    stats : notification.stats
+                                });
+                                break;
+                        }
+                    })
             }
         },
         createServer: ({dispatch}, form) => {
