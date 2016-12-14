@@ -6,6 +6,7 @@ use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
 use App\Models\User\UserRepositoryProvider;
+use Github\Exception\RuntimeException;
 use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
@@ -117,7 +118,11 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($userRepositoryProvider);
 
-        $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
+        $lastCommit = null;
+
+        try {
+            $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
+        } catch(RuntimeException $e) {}
 
         if (! empty($lastCommit)) {
             return [
@@ -125,10 +130,6 @@ class GitHub implements RepositoryContract
                 'commit_message' => $lastCommit['commit']['message'],
             ];
         }
-    }
-
-    public function getCommitMessage(UserRepositoryProvider $userRepositoryProvider, $repository, $branch, $commit)
-    {
     }
 
     public function createDeployHook(Site $site)

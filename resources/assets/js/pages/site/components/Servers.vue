@@ -13,8 +13,12 @@
             Available Servers
             <form @submit.prevent="linkServers">
                 <template v-for="server in availableServers">
-                    <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection
-                    }} - {{ server.name }} - {{ server.ip }}
+                    <input
+                        type="checkbox"
+                        :value="server.id"
+                        v-model="form.connected_servers"
+                    >
+                    {{ server.ssh_connection}} - {{ server.name }} - {{ server.ip }}
                     <br>
                 </template>
                 <button class="btn btn-primary" type="submit">Link Servers</button>
