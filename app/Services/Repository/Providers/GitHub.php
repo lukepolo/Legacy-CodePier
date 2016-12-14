@@ -20,38 +20,38 @@ class GitHub implements RepositoryContract
      */
     public function importSshKeyIfPrivate(Site $site)
     {
-        $repository = $site->repository;
-
         $this->setToken($site->userRepositoryProvider);
 
-        if ($this->isRepositoryPrivate($repository)) {
-            $this->isPrivate($site, true);
+        $repository = $site->repository;
 
-            try {
-                GitHubService::api('repo')->keys()->create(
-                    $this->getRepositoryUser($repository),
-                    $this->getRepositorySlug($repository),
-                    [
-                        'title' => 'CodePier',
-                        'key'   => $site->public_ssh_key,
-                    ]
-                );
-            } catch (ValidationFailedException $e) {
-                if (! $e->getMessage() == 'Validation Failed: key is already in use') {
-                    throw new \Exception($e->getMessage());
-                }
-                throw new DeployKeyAlreadyUsed();
+        try {
+            GitHubService::api('repo')->keys()->create(
+                $this->getRepositoryUser($repository),
+                $this->getRepositorySlug($repository), [
+                    'title' => 'CodePier',
+                    'key'   => $site->public_ssh_key,
+                ]
+            );
+        } catch (ValidationFailedException $e) {
+            if (! $e->getMessage() == 'Validation Failed: key is already in use') {
+                throw new \Exception($e->getMessage());
             }
-
-            return;
+            throw new DeployKeyAlreadyUsed();
         }
-
-        $this->isPrivate($site, false);
     }
 
-    public function isRepositoryPrivate($repository)
+    /**
+     * Checks if the repository is private
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
     {
-        $repositoryInfo = $this->getRepositoryInfo($repository);
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
 
         if (isset($repositoryInfo['private'])) {
             return $repositoryInfo['private'];

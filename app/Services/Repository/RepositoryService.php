@@ -3,7 +3,6 @@
 namespace App\Services\Repository;
 
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Models\User\UserRepositoryProvider;
@@ -33,16 +32,23 @@ class RepositoryService implements RepositoryServiceContract
     {
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
-        if(empty($site->public_ssh_key)) {
-            $this->generateNewSshKeys($site);
+        if($providerService->isPrivate($site)) {
+
+            $site->update([
+               'private' => true
+            ]);
+
+            if(empty($site->public_ssh_key)) {
+                $this->generateNewSshKeys($site);
+                $providerService->importSshKeyIfPrivate($site);
+            }
+
+            return;
         }
 
-        try {
-            $providerService->importSshKeyIfPrivate($site);
-        } catch(DeployKeyAlreadyUsed $e) {
-            $this->generateNewSshKeys($site);
-            $providerService->importSshKeyIfPrivate($site);
-        }
+        $site->update([
+            'private' => false
+        ]);
     }
 
     /**
