@@ -11,18 +11,15 @@ class NewSiteDeployment extends Notification
 {
     use Queueable;
 
-    public $site;
     public $siteDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param Site           $site
      * @param \App\Models\Site\SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment)
+    public function __construct(SiteDeployment $siteDeployment)
     {
-        $this->site = $site;
         $this->siteDeployment = $siteDeployment;
     }
 

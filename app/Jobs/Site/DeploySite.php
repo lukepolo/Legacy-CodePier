@@ -51,7 +51,7 @@ class DeploySite implements ShouldQueue
             ])->createSteps();
         }
 
-        $site->notify(new NewSiteDeployment($site, $this->siteDeployment));
+        $site->notify(new NewSiteDeployment($this->siteDeployment));
     }
 
     /**
@@ -67,12 +67,12 @@ class DeploySite implements ShouldQueue
                 $siteService->deploy($serverDeployment->server, $this->site, $serverDeployment, $this->sha);
             } catch (DeploymentFailed $e) {
                 $success = false;
-                $this->site->notify(new SiteDeploymentFailed($this->site, $serverDeployment, $e->getMessage()));
+                $this->site->notify(new SiteDeploymentFailed($serverDeployment, $e->getMessage()));
             }
         }
 
         if ($success) {
-            $this->site->notify(new SiteDeploymentSuccessful($this->site, $this->siteDeployment));
+            $this->site->notify(new SiteDeploymentSuccessful($this->siteDeployment));
         }
     }
 }

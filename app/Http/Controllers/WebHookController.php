@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Notifications\Server\ServerDiskUsage;
+use App\Notifications\Server\ServerLoad;
+use App\Notifications\Server\ServerMemory;
 use Illuminate\Http\Request;
 
 class WebHookController extends Controller
@@ -26,8 +29,11 @@ class WebHookController extends Controller
         $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
 
         $server->update([
+            'stats->cpus' => $request->get('cpus'),
             'stats->loads' => $this->getStats($request->get('loads'))
         ]);
+
+        $server->notify(new ServerLoad($server));
 
         return response()->json('OK');
     }
@@ -42,6 +48,8 @@ class WebHookController extends Controller
             'stats->memory->'.$memoryStats['name'] => $memoryStats
         ]);
 
+        $server->notify(new ServerMemory($server));
+
         return response()->json('OK');
     }
 
@@ -54,6 +62,8 @@ class WebHookController extends Controller
         $server->update([
             'stats->disk_usage->'.$diskStats['disk'] => $diskStats
         ]);
+
+        $server->notify(new ServerDiskUsage($server));
 
         return response()->json('OK');
     }

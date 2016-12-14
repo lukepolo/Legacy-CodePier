@@ -2,6 +2,7 @@
 
 namespace App\Models\Server;
 
+use App\Http\Controllers\Auth\OauthController;
 use App\Models\Pile;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -184,5 +185,24 @@ class Server extends Model
         })->count();
 
         return floor(($totalDone / $this->provisionSteps->count()) * 100);
+    }
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
+            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+        });
+
+        return $slackProvider ? $slackProvider->token : null;
+    }
+
+    public function getSlackChannel()
+    {
+        return 'general';
     }
 }

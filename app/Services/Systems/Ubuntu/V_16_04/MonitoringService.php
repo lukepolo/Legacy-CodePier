@@ -9,7 +9,7 @@ class MonitoringService
 {
     use ServiceConstructorTrait;
 
-    CONST LOAD_AVG_SCRIPT = 'current_load=$(cat /proc/loadavg | grep / | awk \'{ print "1="$1 " 5="$2 " 15="$3}\')';
+    CONST LOAD_AVG_SCRIPT = 'cpus=$(cat /proc/cpuinfo | grep processor | wc -l) && current_load=$(cat /proc/loadavg | grep / | awk \'{ print "1="$1 " 5="$2 " 15="$3}\')';
     CONST MEMORY_SCRIPT = 'free -m -h | grep : | awk \'{ print "name="$1 " total="$2 " used="$3 " free="$4 " available="$7}\'';
     CONST DISK_USAGE_SCRIPT = 'df -h / | grep / | awk \'{ print "disk="$1 " used="$3 " available="$4 " percent="$5}\'';
 
@@ -38,7 +38,7 @@ done');
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
     '.self::LOAD_AVG_SCRIPT.'
-    curl "'.env('APP_URL').'/webhook/load/'.$this->server->encode().'?loads=$current_load"
+    curl "'.env('APP_URL').'/webhook/load/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/load_monitor');
