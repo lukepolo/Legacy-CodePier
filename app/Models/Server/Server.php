@@ -2,7 +2,6 @@
 
 namespace App\Models\Server;
 
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Pile;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -13,6 +12,7 @@ use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderFeatures;
 

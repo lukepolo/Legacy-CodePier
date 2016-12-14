@@ -13,7 +13,7 @@ class AddKeysToSites extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->text('public_ssh_key')->nullable();
             $table->text('private_ssh_key')->nullable();
         });
@@ -26,7 +26,7 @@ class AddKeysToSites extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('public_ssh_key');
             $table->dropColumn('private_ssh_key');
         });

@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
-use App\Models\User\UserRepositoryProvider;
 use Github\Exception\RuntimeException;
+use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
@@ -42,7 +42,7 @@ class GitHub implements RepositoryContract
     }
 
     /**
-     * Checks if the repository is private
+     * Checks if the repository is private.
      *
      * @param Site $site
      *
@@ -122,7 +122,8 @@ class GitHub implements RepositoryContract
 
         try {
             $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
-        } catch(RuntimeException $e) {}
+        } catch (RuntimeException $e) {
+        }
 
         if (! empty($lastCommit)) {
             return [

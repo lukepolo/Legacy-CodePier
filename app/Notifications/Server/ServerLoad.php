@@ -3,11 +3,11 @@
 namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class ServerLoad extends Notification
 {
@@ -28,7 +28,7 @@ class ServerLoad extends Notification
 
         $cpus = $server->stats['cpus'];
 
-        if(($server->stats['loads'][1] / $cpus) > .95) {
+        if (($server->stats['loads'][1] / $cpus) > .95) {
             $this->load = true;
         }
     }
@@ -41,8 +41,8 @@ class ServerLoad extends Notification
     public function via()
     {
         return $this->load ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
-
     }
+
     /**
      * Get the mail representation of the notification.
      *
@@ -57,10 +57,10 @@ class ServerLoad extends Notification
 
         $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
 
-        if($load) {
+        if ($load) {
             $mailMessage = (new MailMessage())->subject('High CPU Usage : '.$server->name.' ('.$server->ip.')')->error();
 
-            foreach($this->server->stats['loads'] as $mins => $load) {
+            foreach ($this->server->stats['loads'] as $mins => $load) {
                 $mailMessage
                     ->line($load.'% '.$mins.' minutes ago');
             }
@@ -83,13 +83,13 @@ class ServerLoad extends Notification
         $server = $notifiable;
         $load = $this->load;
 
-        if($load) {
+        if ($load) {
             return (new SlackMessage())
                 ->error()
                 ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
                 ->attachment(function ($attachment) use ($server) {
                     $attachment = $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUS');
-                    foreach($server->stats['loads'] as $mins => $load) {
+                    foreach ($server->stats['loads'] as $mins => $load) {
                         $attachment->fields([
                             $mins.' minutes ago' => $load.'%',
                         ]);
@@ -108,7 +108,7 @@ class ServerLoad extends Notification
     {
         return [
             'server'=> $notifiable->id,
-            'stats' => $notifiable->stats
+            'stats' => $notifiable->stats,
         ];
     }
 }

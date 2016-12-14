@@ -52,7 +52,6 @@ Route::group(['prefix' => 'webhook'], function () {
     Route::get('/loads/{serverHashID}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashID}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashID}', 'WebHookController@diskUsageMonitor');
-
 });
 
 /*

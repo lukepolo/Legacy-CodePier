@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Models\User\UserRepositoryProvider;
 use App\Contracts\Repository\RepositoryServiceContract;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class RepositoryService implements RepositoryServiceContract
 {
@@ -32,11 +32,10 @@ class RepositoryService implements RepositoryServiceContract
     {
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
-        if($providerService->isPrivate($site)) {
-
-            if(!$site->private) {
+        if ($providerService->isPrivate($site)) {
+            if (! $site->private) {
                 $site->update([
-                    'private' => true
+                    'private' => true,
                 ]);
             }
 
@@ -48,11 +47,11 @@ class RepositoryService implements RepositoryServiceContract
             return;
         }
 
-        if($site->private) {
+        if ($site->private) {
             $site->update([
                 'private' => false,
                 'public_ssh_key' => null,
-                'private_ssh_key' => null
+                'private_ssh_key' => null,
             ]);
         }
     }
@@ -97,12 +96,12 @@ class RepositoryService implements RepositoryServiceContract
     }
 
     /**
-     * Generates keys based for the site
+     * Generates keys based for the site.
      * @param Site $site
      */
     private function generateNewSshKeys(Site $site)
     {
-        dd("NO NEW KEY IS NEEDED");
+        dd('NO NEW KEY IS NEEDED');
         $sshKey = $this->remoteTaskService->createSshKey();
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];

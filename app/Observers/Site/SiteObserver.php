@@ -39,9 +39,10 @@ class SiteObserver
         }
     }
 
-    public function updated(Site $site) {
+    public function updated(Site $site)
+    {
         $dirty = $site->getDirty();
-        if(isset($dirty['repository'])) {
+        if (isset($dirty['repository'])) {
             $site->private = false;
             $site->public_ssh_key = null;
             $site->private_ssh_key = null;
