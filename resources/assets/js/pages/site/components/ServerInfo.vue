@@ -41,7 +41,8 @@
 
             <h4>CPU Load</h4>
             <template v-if="server.stats && server.stats.loads">
-                <p>1 / 5 / 10 minutes ago</p>
+                <p>1 / 5 / 10 mins for {{ server.stats.cpus }} CPUS</p>
+
                 <template v-for="(load, ago, index) in server.stats.loads">
                     <span>
                         {{ load }}%
