@@ -2,6 +2,8 @@
 
 namespace App\Observers\Site;
 
+use App\Jobs\Site\DeleteSite;
+use App\Jobs\Site\UpdateWebConfig;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\RenameSiteDomain;
@@ -42,12 +44,22 @@ class SiteObserver
     public function updated(Site $site)
     {
         $dirty = $site->getDirty();
+
         if (isset($dirty['repository'])) {
             $site->private = false;
             $site->public_ssh_key = null;
             $site->private_ssh_key = null;
             save_without_events($site);
         }
+
+        if (isset($dirty['web_directory'])) {
+            foreach($site->provisionedServers as $server) {
+                dispatch(
+                    (new UpdateWebConfig($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                );
+            }
+        }
+
     }
 
     /**
@@ -70,5 +82,14 @@ class SiteObserver
         });
 
         $site->deployments()->delete();
+    }
+
+    public function deleted(Site $site)
+    {
+        foreach($site->provisionedServers as $server) {
+            dispatch(
+                (new DeleteSite($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+        }
     }
 }
