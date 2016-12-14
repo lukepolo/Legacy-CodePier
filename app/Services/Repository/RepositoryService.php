@@ -34,11 +34,13 @@ class RepositoryService implements RepositoryServiceContract
 
         if($providerService->isPrivate($site)) {
 
-            $site->update([
-               'private' => true
-            ]);
+            if(!$site->private) {
+                $site->update([
+                    'private' => true
+                ]);
+            }
 
-            if(empty($site->public_ssh_key)) {
+            if (empty($site->public_ssh_key)) {
                 $this->generateNewSshKeys($site);
                 $providerService->importSshKeyIfPrivate($site);
             }
@@ -46,9 +48,13 @@ class RepositoryService implements RepositoryServiceContract
             return;
         }
 
-        $site->update([
-            'private' => false
-        ]);
+        if($site->private) {
+            $site->update([
+                'private' => false,
+                'public_ssh_key' => null,
+                'private_ssh_key' => null
+            ]);
+        }
     }
 
     /**
@@ -96,6 +102,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     private function generateNewSshKeys(Site $site)
     {
+        dd("NO NEW KEY IS NEEDED");
         $sshKey = $this->remoteTaskService->createSshKey();
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];

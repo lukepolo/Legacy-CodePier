@@ -13,29 +13,24 @@ class SiteDeploymentSuccessful extends Notification
 {
     use Queueable;
 
-    public $site;
     public $siteDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param Site $site
      * @param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment)
+    public function __construct(SiteDeployment $siteDeployment)
     {
-        $this->site = $site;
         $this->siteDeployment = $siteDeployment;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['broadcast', SlackMessageChannel::class];
     }
@@ -47,10 +42,10 @@ class SiteDeploymentSuccessful extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
-            'site' => strip_relations($this->site),
+            'site' => strip_relations($notifiable),
         ];
     }
 
@@ -63,11 +58,11 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function toSlack($notifiable)
     {
-        $url = url('site/'.$this->site->id);
-        $site = $this->site;
+        $url = url('site/'.$notifiable->id);
+        $site = $notifiable;
         $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
 
-        $repositoryProvider = $this->site->userRepositoryProvider->repositoryProvider;
+        $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
 
         return (new SlackMessage())
             ->success()
