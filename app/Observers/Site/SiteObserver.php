@@ -39,6 +39,16 @@ class SiteObserver
         }
     }
 
+    public function updated(Site $site) {
+        $dirty = $site->getDirty();
+        if(isset($dirty['repository'])) {
+            $site->private = false;
+            $site->public_ssh_key = null;
+            $site->private_ssh_key = null;
+            save_without_events($site);
+        }
+    }
+
     /**
      * @param Site $site
      */

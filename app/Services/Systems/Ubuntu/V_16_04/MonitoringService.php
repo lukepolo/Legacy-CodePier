@@ -76,12 +76,6 @@ done');
             'user'      => $user,
         ]);
 
-        $observables = $serverCronJob->getObservableEvents();
-
-        $serverCronJob->flushEventListeners();
-
-        $serverCronJob->save();
-
-        $serverCronJob->addObservableEvents($observables);
+        save_without_events($serverCronJob);
     }
 }

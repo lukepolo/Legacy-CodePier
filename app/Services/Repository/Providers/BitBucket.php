@@ -32,29 +32,40 @@ class BitBucket implements RepositoryContract
             new OAuthListener($this->oauthParams)
         );
 
-        $slug = $this->getRepositorySlug($repository);
+        $deployKey = new Deploykeys();
+
+        $deployKey->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->public_ssh_key, 'https://codepier.io');
+    }
+
+    /**
+     * Checks if the repository is private
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $user = new User();
+
+        $user->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
 
         $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
+        $slug = $this->getRepositorySlug($site->repository);
 
         $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
             return $repository['slug'] == $slug;
         });
 
-        if ($repositoryInfo['is_private']) {
-            $this->isPrivate($site, true);
-
-            $deployKey = new Deploykeys();
-
-            $deployKey->getClient()->addListener(
-                new OAuthListener($this->oauthParams)
-            );
-
-            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->public_ssh_key, 'https://codepier.io');
-
-            return;
-        }
-
-        $this->isPrivate($site, false);
+        return $repositoryInfo['is_private'];
     }
 
     /**

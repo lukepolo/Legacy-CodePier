@@ -43,4 +43,13 @@ interface RepositoryContract
      * @return mixed
      */
     public function getRepositorySlug($repository);
+
+    /**
+     * Checks if the repository is private
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site);
 }

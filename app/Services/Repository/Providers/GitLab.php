@@ -25,29 +25,32 @@ class GitLab implements RepositoryContract
 
         $this->setToken($site->userRepositoryProvider);
 
-        if ($this->isRepositoryPrivate($repository)) {
-            $this->isPrivate($site, true);
-            $repositoryInfo = $this->getRepositoryInfo($repository);
+        $repositoryInfo = $this->getRepositoryInfo($repository);
 
-            $client = new \Guzzle\Http\Client();
+        $client = new \Guzzle\Http\Client();
 
-            $client->post('https://gitlab.com/api/v3/projects/'.$repositoryInfo['id'].'/deploy_keys', [
-                'Authorization' => 'Bearer 091867cdd5d0b0f3a6b12615f98e58faae08e1da9e8e19db0ff2688148544219',
-                'Content-Type' => 'application/json',
-            ], [
-                'title' => 'CodePier',
-                'key' => $site->public_ssh_key,
-            ])->send();
-
-            return;
-        }
-
-        $this->isPrivate($site, false);
+        // TODO - probably should set this api url somewhere else
+        $client->post('https://gitlab.com/api/v3/projects/'.$repositoryInfo['id'].'/deploy_keys', [
+            'Authorization' => 'Bearer '.$site->userRepositoryProvider->token,
+            'Content-Type' => 'application/json',
+        ], [
+            'title' => 'CodePier',
+            'key' => $site->public_ssh_key,
+        ])->send();
     }
 
-    public function isRepositoryPrivate($repository)
+    /**
+     * Checks if the repository is private
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
     {
-        $repositoryInfo = $this->getRepositoryInfo($repository);
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
 
         if (isset($repositoryInfo['public'])) {
             return ! $repositoryInfo['public'];
