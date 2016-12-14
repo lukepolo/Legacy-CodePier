@@ -2,10 +2,10 @@
 
 namespace App\Observers\Site;
 
-use App\Jobs\Site\DeleteSite;
-use App\Jobs\Site\UpdateWebConfig;
 use App\Models\Site\Site;
+use App\Jobs\Site\DeleteSite;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -53,13 +53,12 @@ class SiteObserver
         }
 
         if (isset($dirty['web_directory'])) {
-            foreach($site->provisionedServers as $server) {
+            foreach ($site->provisionedServers as $server) {
                 dispatch(
                     (new UpdateWebConfig($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
                 );
             }
         }
-
     }
 
     /**
@@ -86,7 +85,7 @@ class SiteObserver
 
     public function deleted(Site $site)
     {
-        foreach($site->provisionedServers as $server) {
+        foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new DeleteSite($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
