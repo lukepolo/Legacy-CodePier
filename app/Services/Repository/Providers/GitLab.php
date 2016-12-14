@@ -40,7 +40,7 @@ class GitLab implements RepositoryContract
     }
 
     /**
-     * Checks if the repository is private
+     * Checks if the repository is private.
      *
      * @param Site $site
      *

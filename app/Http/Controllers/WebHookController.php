@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Notifications\Server\ServerDiskUsage;
+use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
-use Illuminate\Http\Request;
+use App\Notifications\Server\ServerDiskUsage;
 
 class WebHookController extends Controller
 {
@@ -30,7 +30,7 @@ class WebHookController extends Controller
 
         $server->update([
             'stats->cpus' => $request->get('cpus'),
-            'stats->loads' => $this->getStats($request->get('loads'))
+            'stats->loads' => $this->getStats($request->get('loads')),
         ]);
 
         $server->notify(new ServerLoad($server));
@@ -45,7 +45,7 @@ class WebHookController extends Controller
         $memoryStats = $this->getStats($request->get('memory'));
 
         $server->update([
-            'stats->memory->'.$memoryStats['name'] => $memoryStats
+            'stats->memory->'.$memoryStats['name'] => $memoryStats,
         ]);
 
         $server->notify(new ServerMemory($server));
@@ -60,20 +60,22 @@ class WebHookController extends Controller
         $diskStats = $this->getStats($request->get('disk_usage'));
 
         $server->update([
-            'stats->disk_usage->'.$diskStats['disk'] => $diskStats
+            'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
         ]);
 
         $server->notify(new ServerDiskUsage($server));
 
         return response()->json('OK');
     }
+
     private function getStats($items)
     {
         $stats = [];
-        foreach(explode(' ', $items) as $stat) {
+        foreach (explode(' ', $items) as $stat) {
             $statParts = explode('=', $stat);
             $stats[$statParts[0]] = $statParts[1];
         }
+
         return $stats;
     }
 }
