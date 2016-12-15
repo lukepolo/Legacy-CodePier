@@ -48,7 +48,7 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 Route::group(['prefix' => 'webhook'], function () {
-    Route::any('/deploy/{siteHashID}', 'WebHookController@deploy');
+    Route::post('/deploy/{siteHashID}', 'WebHookController@deploy');
     Route::get('/loads/{serverHashID}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashID}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashID}', 'WebHookController@diskUsageMonitor');
