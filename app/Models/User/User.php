@@ -105,7 +105,7 @@ class User extends Authenticatable
 
             if (! empty($currentPile->commands)) {
                 foreach ($currentPile->commands as $command) {
-                    $commandsRunning[$command->type][] = $command;
+                    $commandsRunning[$command->commandable_type][] = $command;
                 }
             }
         }
