@@ -16,7 +16,6 @@ class ServerDiskUsage extends Notification
     public $server;
     public $slackChannel;
 
-
     private $disks = [];
 
     /**
@@ -34,7 +33,6 @@ class ServerDiskUsage extends Notification
             }
         }
         $this->slackChannel = 'servers';
-
     }
 
     /**

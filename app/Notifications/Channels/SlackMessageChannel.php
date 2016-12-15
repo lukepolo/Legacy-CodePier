@@ -2,10 +2,10 @@
 
 namespace App\Notifications\Channels;
 
-use App\Exceptions\SlackMessageMissingParams;
 use App\Models\SlackChannel;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Notifications\Notification;
+use App\Exceptions\SlackMessageMissingParams;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 
@@ -46,7 +46,7 @@ class SlackMessageChannel
 
         $message = $notification->toSlack($notifiable);
 
-        if(empty($notifiable->slackChannel)) {
+        if (empty($notifiable->slackChannel)) {
             $response = $this->http->post('https://slack.com/api/channels.create', [
                 'form_params' => [
                     'token'    => $token,
@@ -54,10 +54,10 @@ class SlackMessageChannel
                 ],
             ]);
 
-            if($response == 200) {
+            if ($response == 200) {
                 $slackChannel = SlackChannel::create([
                     'channel' => $notification->slackChannel,
-                    'created' => true
+                    'created' => true,
                 ]);
 
                 $notifiable->slackChannel()->save($slackChannel);

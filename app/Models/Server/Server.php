@@ -4,10 +4,10 @@ namespace App\Models\Server;
 
 use App\Models\Pile;
 use App\Models\Site\Site;
-use App\Models\SlackChannel;
 use App\Models\User\User;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\SlackChannel;
 use App\Models\ServerCommand;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
