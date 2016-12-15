@@ -99,6 +99,16 @@ class Server extends Model
         return $this->hasMany(ServerNetworkRule::class);
     }
 
+    public function sslCertificates()
+    {
+        return $this->hasMany(ServerSslCertificate::class);
+    }
+
+    public function activeSslCertificates()
+    {
+        return $this->hasMany(ServerSslCertificate::class)->where('active', true);
+    }
+
     public function server_provider_features()
     {
         return $this->hasMany(ServerProviderFeatures::class);
