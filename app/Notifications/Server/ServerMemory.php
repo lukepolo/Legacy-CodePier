@@ -17,6 +17,7 @@ class ServerMemory extends Notification
     public $slackChannels;
 
     private $memory;
+
     /**
      * Create a new notification instance.
      *
