@@ -88,8 +88,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->remoteTaskService->ssh($this->server);
 
         if ($site->hasActiveSSL()) {
-
-            $activeSsl = $this->server->activeSslCertificates->first(function($sslCert) use($site) {
+            $activeSsl = $this->server->activeSslCertificates->first(function ($sslCert) use ($site) {
                 return $site->activeSSL->id == $sslCert->site_ssl_certificate_id;
             });
 
