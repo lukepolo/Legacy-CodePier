@@ -25,6 +25,9 @@ class RemoveServerSslCertificate implements ShouldQueue
     {
         $this->makeCommand($serverSslCertificate);
         $this->serverSslCertificate = $serverSslCertificate;
+        $this->serverSslCertificate->update([
+            'active' => false
+        ]);
     }
 
     /**
