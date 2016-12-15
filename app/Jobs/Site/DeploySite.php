@@ -3,16 +3,16 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use App\Services\RemoteTaskService;
-use App\Services\Repository\RepositoryService;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
+use App\Services\RemoteTaskService;
 use App\Exceptions\DeploymentFailed;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Site\NewSiteDeployment;
+use App\Services\Repository\RepositoryService;
 use App\Notifications\Site\SiteDeploymentFailed;
 use App\Notifications\Site\SiteDeploymentSuccessful;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -37,7 +37,7 @@ class DeploySite implements ShouldQueue
      */
     public function __construct(Site $site, $sha = null, $webhook = false)
     {
-        if($webhook) {
+        if ($webhook) {
             $repositoryService = new RepositoryService(new RemoteTaskService());
             // we don't want to deploy for other branches / or for the same version currently deployed
             $lastCommit = $repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
