@@ -78,7 +78,7 @@
                 })
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Server\\ServerSslCertificate', id);
+                return this.isCommandRunning('App\\Models\\Site\\SiteSslCertificate', id);
             }
         },
         computed: {
