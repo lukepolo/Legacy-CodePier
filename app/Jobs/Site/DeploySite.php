@@ -33,18 +33,9 @@ class DeploySite implements ShouldQueue
      *
      * @param Site $site
      * @param null $sha
-     * @param bool $webhook
      */
-    public function __construct(Site $site, $sha = null, $webhook = false)
+    public function __construct(Site $site, $sha = null)
     {
-        if($webhook) {
-            $repositoryService = new RepositoryService(new RemoteTaskService());
-            // we don't want to deploy for other branches / or for the same version currently deployed
-            $lastCommit = $repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
-
-            dd($lastCommit);
-        }
-
         $this->sha = $sha;
         $this->site = $site;
         $this->servers = $site->provisionedServers;

@@ -2,6 +2,8 @@
 
 namespace App\Notifications\Channels;
 
+use App\Exceptions\SlackMessageMissingParams;
+use App\Models\SlackChannel;
 use GuzzleHttp\Client as HttpClient;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
@@ -31,18 +33,36 @@ class SlackMessageChannel
     /**
      * Send the given notification.
      *
-     * @param mixed                                  $notifiable
+     * @param mixed $notifiable
      * @param \Illuminate\Notifications\Notification $notification
-     *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws SlackMessageMissingParams
      */
     public function send($notifiable, Notification $notification)
     {
-        if ((! $token = $notifiable->routeNotificationFor('slack')) || (! $channel = $notifiable->getSlackChannel())) {
-            return;
+        if ((! $token = $notifiable->routeNotificationFor('slack')) || (! $channel = $notification->slackChannel)) {
+            throw new SlackMessageMissingParams('Notifiable must contain ->routeNotificationFor() and notification must have a public $slackChannel');
         }
 
         $message = $notification->toSlack($notifiable);
+
+        if(empty($notifiable->slackChannel)) {
+            $response = $this->http->post('https://slack.com/api/channels.create', [
+                'form_params' => [
+                    'token'    => $token,
+                    'name'     => $notification->slackChannel,
+                ],
+            ]);
+
+            if($response == 200) {
+                $slackChannel = SlackChannel::create([
+                    'channel' => $notification->slackChannel,
+                    'created' => true
+                ]);
+
+                $notifiable->slackChannel()->save($slackChannel);
+            }
+        }
 
         return $this->http->post('https://slack.com/api/chat.postMessage', [
             'form_params' => [

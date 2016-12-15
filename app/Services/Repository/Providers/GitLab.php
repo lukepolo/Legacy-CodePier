@@ -108,8 +108,6 @@ class GitLab implements RepositoryContract
         $lastCommit = collect($this->client->api('repositories')->commits($repository, 0, Repositories::PER_PAGE, $branch))->first();
 
         if (! empty($lastCommit)) {
-            dd($lastCommit);
-
             return [
                 'git_commit' => $lastCommit['short_id'],
                 'commit_message' => $lastCommit['message'],

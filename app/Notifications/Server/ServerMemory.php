@@ -14,8 +14,9 @@ class ServerMemory extends Notification
     use Queueable;
 
     public $server;
-    private $memory;
+    public $slackChannels;
 
+    private $memory;
     /**
      * Create a new notification instance.
      *
@@ -31,6 +32,8 @@ class ServerMemory extends Notification
                 $this->memory[$memoryName] = $stats;
             }
         }
+
+        $this->slackChannel = 'servers';
     }
 
     /**

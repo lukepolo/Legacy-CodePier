@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Site;
 
-use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
@@ -13,6 +12,7 @@ class SiteDeploymentSuccessful extends Notification
 {
     use Queueable;
 
+    public $slackChannel;
     public $siteDeployment;
 
     /**
@@ -23,14 +23,17 @@ class SiteDeploymentSuccessful extends Notification
     public function __construct(SiteDeployment $siteDeployment)
     {
         $this->siteDeployment = $siteDeployment;
+        $this->slackChannel = 'deployments';
     }
 
     /**
      * Get the notification's delivery channels.
      *
+     * @param mixed $notifiable
+     *
      * @return array
      */
-    public function via()
+    public function via($notifiable)
     {
         return ['broadcast', SlackMessageChannel::class];
     }

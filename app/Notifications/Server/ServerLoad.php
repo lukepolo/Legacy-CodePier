@@ -14,6 +14,7 @@ class ServerLoad extends Notification
     use Queueable;
 
     public $server;
+    public $slackChannel;
 
     private $load = false;
 
@@ -31,6 +32,8 @@ class ServerLoad extends Notification
         if (($server->stats['loads'][1] / $cpus) > .95) {
             $this->load = true;
         }
+
+        $this->slackChannel = 'servers';
     }
 
     /**

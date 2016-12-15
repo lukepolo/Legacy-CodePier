@@ -14,6 +14,8 @@ class ServerDiskUsage extends Notification
     use Queueable;
 
     public $server;
+    public $slackChannel;
+
 
     private $disks = [];
 
@@ -31,6 +33,8 @@ class ServerDiskUsage extends Notification
                 $this->disks[$disk] = $stats;
             }
         }
+        $this->slackChannel = 'servers';
+
     }
 
     /**

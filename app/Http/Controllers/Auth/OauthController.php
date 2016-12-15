@@ -61,7 +61,7 @@ class OauthController extends Controller
                 $providerDriver->scopes(['read write']);
                 break;
             case self::SLACK:
-                $providerDriver->scopes(['channels:read chat:write:bot']);
+                $providerDriver->scopes(['channels:write chat:write:bot']);
                 break;
         }
 
