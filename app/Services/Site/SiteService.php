@@ -192,17 +192,9 @@ class SiteService implements SiteServiceContract
      */
     public function deleteSite(Server $server, Site $site)
     {
-        $errors = $this->remoteTaskService->getErrors();
+        $this->remoteTaskService->ssh($server);
 
-        if (empty($errors)) {
-            $errors = $this->remove($server, $site);
-        }
-
-        if (empty($errors)) {
-            $site->delete();
-
-            return true;
-        }
+        $this->remove($server, $site);
 
         return $this->remoteTaskService->getErrors();
     }

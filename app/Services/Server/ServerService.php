@@ -438,7 +438,11 @@ class ServerService implements ServerServiceContract
             return $errors;
         }
 
-        $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
+        ServerCronJob::firstOrCreate([
+            'server_id' => $server->id,
+            'job' => '* */12 * * * letsencrypt renew',
+            'user' => 'root',
+        ]);
 
         return $this->remoteTaskService->getErrors();
     }
