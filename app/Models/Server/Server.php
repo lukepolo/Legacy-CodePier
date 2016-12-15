@@ -4,6 +4,7 @@ namespace App\Models\Server;
 
 use App\Models\Pile;
 use App\Models\Site\Site;
+use App\Models\SlackChannel;
 use App\Models\User\User;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
@@ -211,8 +212,8 @@ class Server extends Model
         return $slackProvider ? $slackProvider->token : null;
     }
 
-    public function getSlackChannel()
+    public function slackChannel()
     {
-        return 'general';
+        return $this->morphOne(SlackChannel::class, 'slackable');
     }
 }

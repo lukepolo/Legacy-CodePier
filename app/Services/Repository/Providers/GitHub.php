@@ -126,9 +126,7 @@ class GitHub implements RepositoryContract
         }
 
         if (! empty($lastCommit)) {
-            dd($lastCommit);
             return [
-                'branch '=> $lastCommit['branch'],
                 'git_commit' => $lastCommit['sha'],
                 'commit_message' => $lastCommit['commit']['message'],
             ];

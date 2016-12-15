@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Site;
 
-use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Notifications\Notification;
@@ -16,6 +15,7 @@ class SiteDeploymentFailed extends Notification
 
     public $server;
     public $errorMessage;
+    public $slackChannel;
     public $siteServerDeployment;
 
     /**
@@ -30,6 +30,8 @@ class SiteDeploymentFailed extends Notification
         $this->errorMessage = $errorMessage;
         $this->siteServerDeployment = $siteServerDeployment;
         $this->server = $this->siteServerDeployment->server;
+
+        $this->slackChannel = 'deployments';
     }
 
     /**

@@ -101,7 +101,6 @@ class RepositoryService implements RepositoryServiceContract
      */
     private function generateNewSshKeys(Site $site)
     {
-        dd('NO NEW KEY IS NEEDED');
         $sshKey = $this->remoteTaskService->createSshKey();
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
