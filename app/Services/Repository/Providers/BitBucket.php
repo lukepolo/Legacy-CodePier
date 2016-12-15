@@ -156,7 +156,6 @@ class BitBucket implements RepositoryContract
             'active'      => true,
             'events'      => [
                 'repo:push',
-                'pullrequest:fulfilled',
             ],
         ]);
 

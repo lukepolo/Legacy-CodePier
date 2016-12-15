@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\OauthController;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
@@ -12,14 +13,32 @@ use App\Notifications\Server\ServerDiskUsage;
 class WebHookController extends Controller
 {
     /**
+     * @param Request $request
      * @param $siteHashID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deploy($siteHashID)
+    public function deploy(Request $request, $siteHashID)
     {
-        dispatch(new \App\Jobs\Site\DeploySite(
-            Site::findOrFail(\Hashids::decode($siteHashID)[0])
-        ));
+        $site = Site::with('userRepositoryProvider.repositoryProvider')
+            ->findOrFail(\Hashids::decode($siteHashID)[0]);
+
+        $branch = null;
+
+        switch($site->userRepositoryProvider->repositoryProvider->provider_name) {
+            case OauthController::GITHUB:
+            case OauthController::GITLAB:
+                $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
+                break;
+            case OauthController::BITBUCKET:
+                $branch = $request->get('push')['changes'][0]['new']['name'];
+                break;
+        }
+
+        if($site->branch == $branch) {
+            dispatch(
+                new \App\Jobs\Site\DeploySite($site, null, true)
+            )->onQueue(env('SERVER_COMMAND_QUEUE'));
+        }
 
         return response()->json('OK');
     }
