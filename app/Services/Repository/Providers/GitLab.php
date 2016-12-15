@@ -123,7 +123,6 @@ class GitLab implements RepositoryContract
 
         $webhook = $this->client->api('projects')->addHook($site->repository, [
             'push_events'           => true,
-            'merge_requests_events' => true,
             'url'                   => action('WebHookController@deploy', $site->encode()),
         ]);
 

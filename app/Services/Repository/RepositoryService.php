@@ -73,8 +73,8 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider)->getLatestCommit($userRepositoryProvider,
-            $repository, $branch);
+        return $this->getProvider($userRepositoryProvider->repositoryProvider)
+            ->getLatestCommit($userRepositoryProvider, $repository, $branch);
     }
 
     /**
