@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
+use App\Http\Controllers\Auth\OauthController;
 
 class WebHookController extends Controller
 {
@@ -24,7 +24,7 @@ class WebHookController extends Controller
 
         $branch = null;
 
-        switch($site->userRepositoryProvider->repositoryProvider->provider_name) {
+        switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
             case OauthController::GITHUB:
             case OauthController::GITLAB:
                 $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
@@ -34,7 +34,7 @@ class WebHookController extends Controller
                 break;
         }
 
-        if($site->branch == $branch) {
+        if ($site->branch == $branch) {
             dispatch(
                 new \App\Jobs\Site\DeploySite($site, null, true)
             )->onQueue(env('SERVER_COMMAND_QUEUE'));
