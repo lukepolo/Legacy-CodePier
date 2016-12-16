@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\ServerCommand;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Models\ServerCommand;
 use App\Models\Site\SiteFile;
 use App\Models\Site\SiteSshKey;
 use App\Models\Site\SiteWorker;
-use App\Observers\Server\ServerCommandObserver;
 use App\Observers\UserObserver;
 use App\Models\Site\SiteCronJob;
 use App\Models\Server\ServerSshKey;
@@ -27,6 +26,7 @@ use App\Models\Server\ServerSslCertificate;
 use App\Observers\Site\SiteCronJobObserver;
 use App\Observers\Server\ServerSshKeyObserver;
 use App\Observers\Server\ServerWorkerObserver;
+use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerCronJobObserver;
 use App\Observers\Site\SiteFirewallRuleObserver;
 use App\Observers\Site\SiteSslCertificateObserver;
