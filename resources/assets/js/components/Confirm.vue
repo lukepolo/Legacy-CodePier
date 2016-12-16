@@ -6,7 +6,7 @@
         <span v-show="confirm">
             <template v-if="confirm_with_text">
                 Please confirm by typing in : {{ confirm_with_text }}
-                <form @submit.stop="confirmMethod">
+                <form @submit.prevent.stop="confirmMethod">
                     <input v-model="confirmedText" type="text" @click.stop>
                 </form>
             </template>
@@ -46,7 +46,7 @@
                 this.confirm = false;
 
                 $(this.$el).find('button').dropdown('toggle');
-                this.$store.dispatch(this.dispatch, this.params);
+//                this.$store.dispatch(this.dispatch, this.params);
             }
         }
     }
