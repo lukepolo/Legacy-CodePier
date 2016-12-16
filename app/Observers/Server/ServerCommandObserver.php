@@ -11,6 +11,7 @@ class ServerCommandObserver
     {
         event(new ServerCommandUpdated($serverCommand));
     }
+
     /**
      * @param ServerCommand $serverCommand
      */
