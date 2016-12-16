@@ -23,8 +23,8 @@
                 </template>
             </drop-down-event>
         </div>
-        <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
-        <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
+        <!--<div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>-->
+        <!--<div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>-->
     </section>
 </template>
 
