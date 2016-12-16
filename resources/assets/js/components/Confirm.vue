@@ -37,7 +37,7 @@
         methods: {
             confirmMethod() {
                 if(this.confirm_with_text) {
-                    if(this.confirmedText != this.confirm_with_text) {
+                    if(_.lowerCase(this.confirmedText) != _.lthowerCase(this.confirm_with_text)) {
                         return false;
                     }
                     this.confirmedText = '';
