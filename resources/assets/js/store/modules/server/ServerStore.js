@@ -218,9 +218,12 @@ export default {
                return tempServer.id == server.id
             });
 
-            _.each(server, function(value, index) {
-                foundServer[index] = value;
-            });
+            if(foundServer) {
+                _.each(server, function(value, index) {
+                    foundServer[index] = value;
+                });
+            }
+
         },
         SET_ALL_SERVERS : (state, servers) => {
             state.all_servers = servers;
