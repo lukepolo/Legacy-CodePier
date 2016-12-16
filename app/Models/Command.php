@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +11,7 @@ class Command extends Model
 {
     use ConnectedToUser;
 
-    public static $userModel = 'site.user';
+    public static $userModel = ['site.user', 'server.user'];
 
     protected $guarded = ['id'];
 
@@ -27,6 +28,11 @@ class Command extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function server()
+    {
+        return $this->belongsTo(Server::class);
     }
 
     public function serverCommands()
