@@ -7,6 +7,10 @@ use App\Events\Server\ServerCommandUpdated;
 
 class ServerCommandObserver
 {
+    public function created(ServerCommand $serverCommand)
+    {
+        event(new ServerCommandUpdated($serverCommand));
+    }
     /**
      * @param ServerCommand $serverCommand
      */
