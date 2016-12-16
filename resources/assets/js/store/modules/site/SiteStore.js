@@ -221,14 +221,17 @@ export default {
                 return tempServer.id == server.id
             });
 
-            console.info(foundServer)
-            _.each(server, function(value, index) {
-                foundServer[index] = value;
-            });
+            if(foundServer) {
+                _.each(server, function(value, index) {
+                    foundServer[index] = value;
+                });
+            }
         },
         SET_SERVER_STATS : (state, data) => {
             let server = _.find(state.site_servers, {id: data.server_id});
-            Vue.set(server, 'stats', data.stats);
+            if(server) {
+                Vue.set(server, 'stats', data.stats);
+            }
         }
     }
 }
