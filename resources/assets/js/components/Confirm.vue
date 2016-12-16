@@ -19,7 +19,13 @@
 
 <script>
     export default {
-        props: ['dispatch', 'params', 'class', 'confirm_text', 'confirm_with_text'],
+        props: [
+            'class',
+            'params',
+            'dispatch',
+            'confirm_text',
+            'confirm_with_text'
+        ],
         data() {
             return {
                 confirm: false,
