@@ -107,7 +107,7 @@ class User extends Authenticatable
                 ->get();
 
             foreach ($sites as $site) {
-                foreach($site->servers as $server) {
+                foreach ($site->servers as $server) {
                     foreach ($server->commands as $command) {
                         $commandsRunning[$command->command->commandable_type][$command->id] = $command->command;
                     }
