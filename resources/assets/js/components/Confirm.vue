@@ -46,7 +46,7 @@
                 this.confirm = false;
 
                 $(this.$el).find('button').dropdown('toggle');
-//                this.$store.dispatch(this.dispatch, this.params);
+                this.$store.dispatch(this.dispatch, this.params);
             }
         }
     }
