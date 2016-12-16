@@ -1,12 +1,12 @@
 <template>
     <button @click.stop="confirm=!confirm" @keyup.32.prevent>
-        <span v-show="!confirm" :class="btnClass">
+        <span v-show="!confirm">
             <slot></slot>
         </span>
         <span v-show="confirm">
             <template v-if="confirm_with_text">
                 Please confirm by typing in : {{ confirm_with_text }}
-                <form @submit.stop="confirmMethod">
+                <form @submit.prevent.stop="confirmMethod">
                     <input v-model="confirmedText" type="text" @click.stop>
                 </form>
             </template>
@@ -19,7 +19,12 @@
 
 <script>
     export default {
-        props: ['dispatch', 'params', 'class', 'confirm_text', 'confirm_with_text'],
+        props: [
+            'params',
+            'dispatch',
+            'confirm_text',
+            'confirm_with_text'
+        ],
         data() {
             return {
                 confirm: false,
@@ -27,9 +32,6 @@
             };
         },
         computed: {
-            btnClass() {
-                return this.class;
-            },
             confirmText() {
                 return this.confirm_text ? this.confirm_text : 'Are you sure?';
             }
@@ -37,7 +39,7 @@
         methods: {
             confirmMethod() {
                 if(this.confirm_with_text) {
-                    if(this.confirmedText != this.confirm_with_text) {
+                    if(_.lowerCase(this.confirmedText) != _.lowerCase(this.confirm_with_text)) {
                         return false;
                     }
                     this.confirmedText = '';
