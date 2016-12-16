@@ -74,16 +74,14 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
-            return _.filter(this.$store.state.userStore.runningCommands, function(object, commandType) {
-                if(type == commandType) {
-                    if(_.find(object, function(item) {
-                            return item.commandable_id == model_id;
-                    })) {
-                        return true;
-                    }
-                }
-                return false;
-            }).length > 0;
+            let commands = _.filter(this.$store.state.serversStore.runningCommands[type], (command) => {
+                return command.commandable_id == model_id && command.status != 'Completed';
+            });
+
+            if(commands) {
+                // TODO - when we do multiple servers how will this effect?
+                return commands[0];
+            }
         },
         showError(message, title, timeout) {
             this.$store.dispatch('addNotification', {

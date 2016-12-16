@@ -21,7 +21,7 @@
             {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
             {{ ssl_certificate.key_path }}
             <template v-if="isRunningCommandFor(ssl_certificate.id)">
-                RUNNING COMMAND YOU CANNOT TOUCH
+                {{ isRunningCommandFor(ssl_certificate.id).status }}
             </template>
             <template v-else>
                 <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>

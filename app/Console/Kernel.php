@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\MakeAuthCode;
+use App\Console\Commands\Tests\ServerEvents\ServerCommandUpdated;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
@@ -21,6 +22,9 @@ class Kernel extends ConsoleKernel
         ReleasedNewVersion::class,
         TestMonitorScripts::class,
         GetServerProviderOptions::class,
+
+        // REACTIVITY TESTS
+        ServerCommandUpdated::class
     ];
 
     /**

@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\ServerCommand;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\Site\SiteFile;
 use App\Models\Site\SiteSshKey;
 use App\Models\Site\SiteWorker;
+use App\Observers\Server\ServerCommandObserver;
 use App\Observers\UserObserver;
 use App\Models\Site\SiteCronJob;
 use App\Models\Server\ServerSshKey;
@@ -60,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         ServerSshKey::observe(ServerSshKeyObserver::class);
         ServerWorker::observe(ServerWorkerObserver::class);
         ServerCronJob::observe(ServerCronJobObserver::class);
+        ServerCommand::observe(ServerCommandObserver::class);
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         ServerFirewallRule::observe(ServerFirewallRuleObserver::class);
         ServerSslCertificate::observe(ServerSslCertificateObserver::class);
