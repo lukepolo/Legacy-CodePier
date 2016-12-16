@@ -10,8 +10,8 @@ export default {
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: [],
-        runningCommands : runningCommands,
-        servers_current_provisioning_step : {}
+        servers_current_provisioning_step : {},
+        runningCommands : Object.keys(runningCommands).length > 0 ? runningCommands : {},
     },
     actions: {
         getServer: ({commit}, server_id) => {
@@ -77,7 +77,6 @@ export default {
 
                     })
                     .listen('Server\\ServerCommandUpdated', (data) => {
-                        console.info(data.command);
                         commit("UPDATE_COMMAND", data.command);
                     })
                     .notification((notification) => {
@@ -236,8 +235,14 @@ export default {
             let commandKey = _.findKey(state.runningCommands[command.commandable_type], { id: command.id });
 
             if(commandKey) {
-                Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
+                return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
             }
+
+            if(!state.runningCommands[command.commandable_type]) {
+                Vue.set(state.runningCommands, command.commandable_type, []);
+            }
+
+
             state.runningCommands[command.commandable_type].push(command);
         }
     }

@@ -3,6 +3,7 @@ export default {
         sites: [],
         site: null,
         all_sites: [],
+        site_files : [],
         site_servers: [],
         deployment_steps: [],
         sites_listening_to : [],
@@ -40,6 +41,13 @@ export default {
                 app.showError(errors);
             });
         },
+        getSiteFiles : ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteFileController@index', {site: site})).then((response) => {
+                commit('SET_SITE_FILES', response.data);
+            }, (errors) => {
+                app.showError(errors);
+            });
+        },
         listenToSite : ({commit, state}, site) => {
             if (_.indexOf(state.sites_listening_to, site.id) == -1) {
                 commit('SET_SITES_LISTENING_TO', site);
@@ -64,7 +72,6 @@ export default {
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
                     })
                     .notification((notification) => {
-                        console.info(notification);
                         if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
                             commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment);
                         }
@@ -200,6 +207,9 @@ export default {
         },
         SET_SITES: (state, sites) => {
             state.sites = sites;
+        },
+        SET_SITE_FILES: (state, files) => {
+            state.site_files = files;
         },
         SET_ALL_SITES : (state, sites) => {
             state.all_sites = sites;
