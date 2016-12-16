@@ -31,8 +31,8 @@ class ServerCommandUpdated extends Command
         $serverCommand = ServerCommand::findOrFail($this->argument('serverCommandId'));
 
         $serverCommand->update([
-            'started' => !$serverCommand->started,
-            'completed' => $serverCommand->started
+            'started' => ! $serverCommand->started,
+            'completed' => $serverCommand->started,
         ]);
     }
 }
