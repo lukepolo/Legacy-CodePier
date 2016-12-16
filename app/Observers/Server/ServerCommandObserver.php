@@ -2,8 +2,8 @@
 
 namespace App\Observers\Server;
 
-use App\Events\Server\ServerCommandUpdated;
 use App\Models\ServerCommand;
+use App\Events\Server\ServerCommandUpdated;
 
 class ServerCommandObserver
 {
