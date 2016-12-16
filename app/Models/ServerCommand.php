@@ -22,4 +22,9 @@ class ServerCommand extends Model
     {
         return $this->belongsTo(Server::class);
     }
+
+    public function command()
+    {
+        return $this->belongsTo(Command::class);
+    }
 }

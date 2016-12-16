@@ -8,6 +8,7 @@ use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
 use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\Tests\ServerEvents\ServerCommandUpdated;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +22,9 @@ class Kernel extends ConsoleKernel
         ReleasedNewVersion::class,
         TestMonitorScripts::class,
         GetServerProviderOptions::class,
+
+        // REACTIVITY TESTS
+        ServerCommandUpdated::class,
     ];
 
     /**
