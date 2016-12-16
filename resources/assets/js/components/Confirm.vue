@@ -48,11 +48,6 @@
                 $(this.$el).find('button').dropdown('toggle');
                 this.$store.dispatch(this.dispatch, this.params);
             }
-        },
-        mounted() {
-            $('.dropdown-menu a.removefromcart').click(function(e) {
-                e.stopPropagation();
-            });
         }
     }
 </script>
