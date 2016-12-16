@@ -52,12 +52,7 @@ export default {
     },
     mutations: {
         SET_USER_SUBSCRIPTION: (state, subscription) => {
-            if (subscription) {
-                state.valid_subscription = true;
-            } else {
-                state.valid_subscription = false;
-            }
-
+            state.valid_subscription = subscription ? true : false;
             state.user_subscription = subscription;
         },
         SET_USER_UPCOMING_SUBSCRIPTION: (state, upcoming_subscription) => {
