@@ -47,7 +47,11 @@
                 <td>{{ firewallRule.description }}</td>
                 <td>{{ firewallRule.port }}</td>
                 <td>{{ firewallRule.from_ip }}</td>
-                <td><a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewallRule.id)">remove</a>
+                <td>
+                    <template v-if="isRunningCommandFor(firewallRule.id)">
+                        {{ isRunningCommandFor(firewallRule.id).status }}
+                    </template>
+                    <a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewallRule.id)">remove</a>
                 </td>
             </tr>
             </tbody>
@@ -89,6 +93,9 @@
                     site: this.form.site,
                     firewall_rule: firewallRuleId,
                 })
+            },
+            isRunningCommandFor(id) {
+                return this.isCommandRunning('App\\Models\\Site\\SiteFirewallRule', id);
             }
         },
         computed: {
