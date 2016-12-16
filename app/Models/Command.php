@@ -55,6 +55,8 @@ class Command extends Model
         if ($started > 0) {
             return 'Running';
         }
+
+        return 'Queued';
     }
 
     /**

@@ -10,6 +10,7 @@ export default {
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: [],
+        runningCommands : runningCommands,
         servers_current_provisioning_step : {}
     },
     actions: {
@@ -73,6 +74,11 @@ export default {
                         commit("UPDATE_SITE_SERVER", data.server);
                     })
                     .listen('Server\\ServerSshConnectionFailed', (data) => {
+
+                    })
+                    .listen('Server\\ServerCommandUpdated', (data) => {
+                        console.info(data.command);
+                        commit("UPDATE_COMMAND", data.command);
                     })
                     .notification((notification) => {
                         switch(notification.type) {
@@ -221,6 +227,15 @@ export default {
         },
         SET_SERVERS_LISTENING_TO : (state, server) => {
             state.servers_listening_to.push(server.id);
+        },
+        UPDATE_COMMAND : (state, command) => {
+
+            let commandKey = _.findKey(state.runningCommands[command.commandable_type], { id: command.id });
+
+            if(commandKey) {
+                Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
+            }
+            state.runningCommands[command.commandable_type].push(command);
         }
     }
 }
