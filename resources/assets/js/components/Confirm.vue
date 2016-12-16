@@ -1,6 +1,6 @@
 <template>
     <button @click.stop="confirm=!confirm" @keyup.32.prevent>
-        <span v-show="!confirm" :class="btnClass">
+        <span v-show="!confirm">
             <slot></slot>
         </span>
         <span v-show="confirm">
@@ -20,7 +20,6 @@
 <script>
     export default {
         props: [
-            'class',
             'params',
             'dispatch',
             'confirm_text',
@@ -33,9 +32,6 @@
             };
         },
         computed: {
-            btnClass() {
-                return this.class;
-            },
             confirmText() {
                 return this.confirm_text ? this.confirm_text : 'Are you sure?';
             }
