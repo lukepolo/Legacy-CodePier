@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class AddIndexes extends Migration
 {
-    CONST TABLES = [
+    const TABLES = [
 //        'auth_codes' => [
 //            'user_id'
 //        ],
@@ -113,35 +113,35 @@ class AddIndexes extends Migration
         ],
         'site_ssl_certificates' => [
             'site_id',
-            ['type', 'domains']
+            ['type', 'domains'],
         ],
         'site_workers' => [
-            'site_id'
+            'site_id',
         ],
         'sites' => [
             'user_id',
             'pile_id',
-            ['user_id', 'pile_id']
+            ['user_id', 'pile_id'],
         ],
         'slack_channels' => [
             'slackable_id',
-            'slackable_type'
+            'slackable_type',
         ],
         'subscriptions' => [
-            'user_id'
+            'user_id',
         ],
         'taggables' => [
             'taggable_id',
-            'taggable_type'
+            'taggable_type',
         ],
         'teams' => [
-            'owner_id'
+            'owner_id',
         ],
         'user_login_providers' => [
-            ['provider', 'provider_id']
+            ['provider', 'provider_id'],
         ],
         'user_notification_settings' => [
-            'user_id'
+            'user_id',
         ],
         'user_ssh_keys' => [
             'user_id',
@@ -155,14 +155,13 @@ class AddIndexes extends Migration
      */
     public function up()
     {
-        foreach(self::TABLES as $table =>  $indexes) {
-            Schema::table($table, function (Blueprint $tableModifying)  use($indexes) {
-                foreach($indexes as $index) {
+        foreach (self::TABLES as $table =>  $indexes) {
+            Schema::table($table, function (Blueprint $tableModifying) use ($indexes) {
+                foreach ($indexes as $index) {
                     $tableModifying->index($index);
                 }
             });
         }
-
 
         Schema::table('users', function (Blueprint $tableModifying) {
             $tableModifying->dropIndex('users_email_unique');
@@ -178,10 +177,10 @@ class AddIndexes extends Migration
      */
     public function down()
     {
-        foreach(self::TABLES as $table =>  $indexes) {
-            Schema::table($table, function (Blueprint $tableModifying)  use($table, $indexes) {
-                foreach($indexes as $index) {
-                    if(is_array($index)) {
+        foreach (self::TABLES as $table =>  $indexes) {
+            Schema::table($table, function (Blueprint $tableModifying) use ($table, $indexes) {
+                foreach ($indexes as $index) {
+                    if (is_array($index)) {
                         $tableModifying->dropIndex($index);
                         continue;
                     }
