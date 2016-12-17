@@ -79,7 +79,8 @@ Vue.mixin({
             });
 
             if(commands) {
-                // TODO - when we do multiple servers how will this effect?
+                // we only need the first one, this allows us to not allow other changes
+                // on the rest of the servers till they are all completed
                 return commands[0];
             }
         },

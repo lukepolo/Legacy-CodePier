@@ -32,7 +32,7 @@ class SiteFileController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteFile::findOrFail($siteId)
+            SiteFile::where('site_id', $siteId)->get()
         );
     }
 

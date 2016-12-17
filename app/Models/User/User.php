@@ -100,17 +100,17 @@ class User extends Authenticatable
         if ($this->currentPile) {
             $sites = $this->currentPile
                 ->sites()
-                ->with(['commands.serverCommands' =>  function ($query) {
+                ->with(['servers.commands' =>function ($query) {
                     $query->where('failed', 0)
                         ->where('completed', 0);
                 }])
                 ->get();
 
             foreach ($sites as $site) {
-                if (! empty($site->commands)) {
-                    foreach ($site->commands as $command) {
-                        if ($command->serverCommands->count()) {
-                            $commandsRunning[$command->commandable_type][] = $command;
+                foreach ($site->servers as $server) {
+                    foreach ($server->commands as $command) {
+                        if ($command->command) {
+                            $commandsRunning[$command->command->commandable_type][$command->id] = $command->command;
                         }
                     }
                 }

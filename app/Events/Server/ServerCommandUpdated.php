@@ -2,7 +2,7 @@
 
 namespace App\Events\Server;
 
-use App\Models\Server\Server;
+use App\Models\Command;
 use App\Models\ServerCommand;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;

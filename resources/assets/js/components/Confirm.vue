@@ -1,62 +1,55 @@
 <template>
-    <button @click.stop="confirm=!confirm">
-        <span
-            v-show="!confirm"
-            :class="btnClass"
-
-        >
+    <button @click.stop="confirm=!confirm" @keyup.32.prevent>
+        <span v-show="!confirm">
             <slot></slot>
         </span>
-        <span
-            v-show="confirm"
-            class=''
-        >
-            {{ confirmText }}
-		</span>
-        <button
-            v-show="confirm"
-            class="btn btn-danger"
-            @click.prevent="confirmMethod"
-        >
-            Yes
-        </button>
-
-        <button
-            v-show="confirm"
-            class="btn btn-primary"
-        >
-            No
-        </button>
+        <span v-show="confirm">
+            <template v-if="confirm_with_text">
+                Please confirm by typing in : {{ confirm_with_text }}
+                <form @submit.prevent.stop="confirmMethod">
+                    <input v-model="confirmedText" type="text" @click.stop>
+                </form>
+            </template>
+            <span>{{ confirmText }}</span>
+            <button class="btn btn-danger" @click.stop="confirmMethod">Yes</button>
+            <button class="btn btn-primary">No</button>
+        </span>
     </button>
 </template>
 
 <script>
     export default {
-        props: ['dispatch', 'params', 'class', 'confirm_text', 'close'],
+        props: [
+            'params',
+            'dispatch',
+            'confirm_text',
+            'confirm_with_text'
+        ],
         data() {
             return {
-                confirm: false
+                confirm: false,
+                confirmedText : '',
             };
         },
         computed: {
-            btnClass() {
-                return this.class;
-            },
             confirmText() {
                 return this.confirm_text ? this.confirm_text : 'Are you sure?';
             }
         },
         methods: {
             confirmMethod() {
+                if(this.confirm_with_text) {
+                    if(_.lowerCase(this.confirmedText) != _.lowerCase(this.confirm_with_text)) {
+                        return false;
+                    }
+                    this.confirmedText = '';
+                }
+
+                this.confirm = false;
+
                 $(this.$el).find('button').dropdown('toggle');
-                this.confirm = close ? close : true;
                 this.$store.dispatch(this.dispatch, this.params);
             }
-        },
-        mounted() {
-            $('.dropdown-menu a.removefromcart').click(function(e) {
-                e.stopPropagation();
-            });
         }
     }
 </script>
