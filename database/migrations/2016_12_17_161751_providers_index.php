@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class ProvidersIndex extends Migration
 {
-    CONST TABLES = [
+    const TABLES = [
 //        'user_notification_providers' => [
 //            'user_id',
 //            ['notification_provider_id', 'provider_id']
@@ -28,10 +28,10 @@ class ProvidersIndex extends Migration
      */
     public function up()
     {
-        foreach(self::TABLES as $table =>  $indexes) {
-            Schema::table($table, function (Blueprint $tableModifying)  use($indexes) {
-                foreach($indexes as $index) {
-                    if(is_array($index)) {
+        foreach (self::TABLES as $table =>  $indexes) {
+            Schema::table($table, function (Blueprint $tableModifying) use ($indexes) {
+                foreach ($indexes as $index) {
+                    if (is_array($index)) {
                         $tableModifying->index($index, 'oauth_index');
                         continue;
                     }
@@ -48,10 +48,10 @@ class ProvidersIndex extends Migration
      */
     public function down()
     {
-        foreach(self::TABLES as $table =>  $indexes) {
-            Schema::table($table, function (Blueprint $tableModifying)  use($indexes) {
-                foreach($indexes as $index) {
-                    if(is_array($index)) {
+        foreach (self::TABLES as $table =>  $indexes) {
+            Schema::table($table, function (Blueprint $tableModifying) use ($indexes) {
+                foreach ($indexes as $index) {
+                    if (is_array($index)) {
                         $tableModifying->dropIndex('oauth_index');
                         continue;
                     }
