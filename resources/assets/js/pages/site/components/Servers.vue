@@ -39,6 +39,14 @@
             <!--<div class="btn btn-primary">Create A Queue Worker Serer</div>-->
             <!-- - not available during beta-->
         </div>
+        <div v-else>
+            <h3>Alpha Testing : </h3>
+            <p>
+                You must setup your site by configuring each of the tabs (press update where applicable), as we currently do not have defaults setup in the backend (coming soon!)
+            </p>
+            <br><br>
+            <br><br>
+        </div>
 
         </div>
     </section>

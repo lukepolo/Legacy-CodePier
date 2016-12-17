@@ -70,7 +70,14 @@
                 <td>{{ worker.auto_start }}</td>
                 <td>{{ worker.auto_restart }}</td>
                 <td>{{ worker.number_of_workers }}</td>
-                <td><a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a></td>
+                <td>
+
+                    <template v-if="isRunningCommandFor(worker.id)">
+                        {{ isRunningCommandFor(worker.id).status }}
+                    </template>
+
+                    <a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -109,6 +116,9 @@
                     worker: worker_id,
                     site: this.site.id,
                 });
+            },
+            isRunningCommandFor(id) {
+                return this.isCommandRunning('App\\Models\\Site\\SiteWorker', id);
             }
         },
         computed: {
