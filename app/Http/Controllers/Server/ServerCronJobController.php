@@ -19,7 +19,7 @@ class ServerCronJobController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            Server::with('cronJobs')->findOrFail($serverId)->cronJobs
+            ServerCronJob::where('server_id', $serverId)->get()
         );
     }
 

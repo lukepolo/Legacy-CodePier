@@ -84,7 +84,7 @@ class SiteController extends Controller
     public function show($id)
     {
         return response(
-            Site::with('servers')->findOrFail($id)
+            Site::findOrFail($id)
         );
     }
 
@@ -150,7 +150,7 @@ class SiteController extends Controller
      */
     public function deploy(DeploySiteRequest $request)
     {
-        $site = Site::with('servers')->findOrFail($request->get('site'));
+        $site = Site::findOrFail($request->get('site'));
 
         $this->dispatch(
             (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))

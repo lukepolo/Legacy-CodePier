@@ -29,10 +29,6 @@
         <div class="btn-footer text-center" v-else>
             <button @click="edit" class="btn">Edit</button>
             <button @click="deletePile()" class="btn">Delete</button>
-
-            <!--<router-link :to="{ name : 'server_form' }">-->
-                <!--<a class="btn btn-primary">Create A Server</a>-->
-            <!--</router-link>-->
         </div>
     </div>
 </template>
