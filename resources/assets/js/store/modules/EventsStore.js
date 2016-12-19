@@ -7,7 +7,7 @@ export default {
     actions: {
         getEvents: ({commit, state}, data) => {
 
-            var filters = (data && data.filters) ? data.filters : null;
+            let filters = (data && data.filters) ? data.filters : null;
 
             filters =_.merge({
                     page: data ? data.page : 1
@@ -49,8 +49,8 @@ export default {
         // TODO - we need to add the type
         UPDATE_DEPLOYMENT_EVENT : (state, event) => {
 
-            var site_deployment = _.find(state.events, {id : event.site_deployment.id});
-            var server_deployment = _.find(site_deployment.server_deployments, {id : event.server_deployment.id });
+            let site_deployment = _.find(state.events, {id : event.site_deployment.id});
+            let server_deployment = _.find(site_deployment.server_deployments, {id : event.server_deployment.id });
 
             if(server_deployment) {
                 Vue.set(
@@ -63,8 +63,8 @@ export default {
         },
         UPDATE_SITE_DEPLOYMENT_EVENT : (state, event) => {
 
-            var siteDeploymentKey = _.findKey(state.events, {id : event.site_deployment.id});
-            var siteDeployment = state.events[siteDeploymentKey];
+            let siteDeploymentKey = _.findKey(state.events, {id : event.site_deployment.id});
+            let siteDeployment = state.events[siteDeploymentKey];
 
             _.each(event.site_deployment, function(value, key) {
                 if(key != 'server_deployments') {
@@ -74,8 +74,8 @@ export default {
         },
         UPDATE_SERVER_DEPLOYMENT_EVENT : (state, event) => {
 
-            var site_deployment = _.find(state.events, {id: event.site_deployment.id});
-            var server_deployment = _.find(site_deployment.server_deployments, {id: event.server_deployment.id});
+            let site_deployment = _.find(state.events, {id: event.site_deployment.id});
+            let server_deployment = _.find(site_deployment.server_deployments, {id: event.server_deployment.id});
 
             _.each(event.server_deployment, function (value, key) {
                 server_deployment[key] = value;
