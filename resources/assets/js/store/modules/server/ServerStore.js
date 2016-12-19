@@ -94,17 +94,19 @@ export default {
                     })
             }
         },
-        createServer: ({dispatch}, form) => {
+        createServer: ({dispatch, rootState}, form) => {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+                rootState.serversStore.all_servers.push(response.data);
                 dispatch('listenToServer', response.data);
                 app.showSuccess('Your server is in queue to be provisioned');
             }, (errors) => {
                 app.showError(errors);
             });
         },
-        archiveServer: ({commit}, server) => {
-            Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then((response) => {
+        archiveServer: ({dispatch}, server) => {
+            Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then(() => {
                 app.$router.push('/');
+                Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
             }, (errors) => {
                 app.showError(errors);
             });
@@ -157,7 +159,6 @@ export default {
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {
-                dispatch('getServer', data.server);
             }, (errors) => {
                 app.showError(errors);
             });
