@@ -11,20 +11,12 @@ class PileController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
      * @return \Illuminate\Http\Response
+     *
      */
-    public function index(Request $request)
+    public function index()
     {
-        $piles = Pile::with('servers');
-
-        if ($request->has('all')) {
-            $piles = $piles->allTeams();
-        }
-
-        return response()->json($piles->get());
+        return response()->json(Pile::get());
     }
 
     /**
@@ -71,7 +63,7 @@ class PileController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Pile::with('servers')->findOrFail($id));
+        return response()->json(Pile::findOrFail($id));
     }
 
     /**
