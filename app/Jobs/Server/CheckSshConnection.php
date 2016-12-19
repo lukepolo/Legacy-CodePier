@@ -2,7 +2,9 @@
 
 namespace App\Jobs\Server;
 
+use App\Events\Server\ServerSshConnectionFailed;
 use App\Models\Server\Server;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,7 +41,16 @@ class CheckSshConnection implements ShouldQueue
 
             dispatch((new ProvisionServer($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
         } else {
-            dispatch((new self($this->server))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE')));
+
+            if($this->server->created_at()->addMinutes(10) < Carbon::now()) {
+                dispatch((new self($this->server))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE')));
+                return;
+            }
+
+            dispatch(
+                new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
+            );
+
         }
     }
 }
