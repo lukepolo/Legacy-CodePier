@@ -9,6 +9,9 @@ class DatabaseService
 {
     use ServiceConstructorTrait;
 
+    /**
+     *  @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     */
     public function installMariaDB($database = null)
     {
         $databasePassword = $this->server->database_password;
@@ -32,6 +35,9 @@ class DatabaseService
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
+    /**
+     *  @description Free & open source, high-performance, distributed memory object caching system.
+     */
     public function installMemcached()
     {
         $this->connectToServer();
@@ -41,6 +47,9 @@ class DatabaseService
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
     }
 
+    /**
+     *  @description MySQL is the world's most popular open source database.
+     */
     public function installMySQL($database = null)
     {
         $databasePassword = $this->server->database_password;
@@ -64,6 +73,9 @@ class DatabaseService
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
+    /**
+     *  @description PostgreSQL is a powerful, open source object-relational database system.
+     */
     public function installPostgreSQL($database = null)
     {
         $this->connectToServer();
@@ -81,6 +93,9 @@ class DatabaseService
         $this->remoteTaskService->run('service postgresql restart');
     }
 
+    /**
+     *  @description Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker.
+     */
     public function installRedis()
     {
         $this->connectToServer();
@@ -90,6 +105,9 @@ class DatabaseService
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
     }
 
+    /**
+     *  @description Cross-platform C library that implements a self-contained, embeddable, zero-configuration SQL database engine.
+     */
     public function installSqlLite()
     {
         $this->connectToServer();
@@ -97,6 +115,9 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite');
     }
 
+    /**
+     *  @description MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas.
+     */
     public function installMongoDB()
     {
         $this->connectToServer();
