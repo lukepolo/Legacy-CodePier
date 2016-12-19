@@ -4,7 +4,7 @@ export default {
         all_user_piles: [],
     },
     actions: {
-        getPiles: ({commit, dispatch}) => {
+        getPiles: ({commit}) => {
             Vue.http.get(Vue.action('Pile\PileController@index')).then((response) => {
                 commit('SET_PILES', response.data);
             }, (errors) => {
@@ -18,9 +18,9 @@ export default {
                 alert(errors);
             });
         },
-        createPile: ({dispatch}, data) => {
+        createPile: ({commit}, data) => {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
-                dispatch('getPiles');
+                commit('ADD_PILE', response.data);
             }, (errors) => {
                 app.showError(errors);
             })
@@ -37,22 +37,29 @@ export default {
                 app.showError(errors);
             })
         },
-        updatePile: ({dispatch}, data) => {
+        updatePile: ({}, data) => {
             Vue.http.put(Vue.action('Pile\PileController@update', {pile: data.pile.id}), data).then((response) => {
-                dispatch('getPiles');
+
             }, (errors) => {
                 app.showError(errors);
             })
         },
-        deletePile: ({dispatch}, pile) => {
+        deletePile: ({}, pile) => {
             Vue.http.delete(Vue.action('Pile\PileController@destroy', {pile: pile})).then((response) => {
-                dispatch('getPiles');
+                commit('REMOVE_PILE', pile);
             }, (errors) => {
                 app.showError(errors);
             })
         }
     },
     mutations: {
+        ADD_PILE: (state, cron_job) => {
+            state.site_cron_jobs.push(cron_job);
+        },
+        REMOVE_PILE : (state, pile_id) => {
+            Vue.set(state, 'piles', _.reject(state.piles, { id : pile_id }));
+            Vue.set(state, 'all_user_piles', _.reject(state.all_user_piles, { id : pile_id }));
+        },
         SET_ALL_USER_PILES: (state, piles) => {
             state.all_user_piles = piles;
         },

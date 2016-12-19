@@ -103,10 +103,10 @@ export default {
                 app.showError(errors);
             });
         },
-        archiveServer: ({dispatch}, server) => {
+        archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then(() => {
                 app.$router.push('/');
-                Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
+                commit('REMOVE_SERVER', server);
             }, (errors) => {
                 app.showError(errors);
             });
@@ -153,17 +153,18 @@ export default {
                 app.showError(errors);
             });
         },
-        installFeature: ({commit, dispatch}, data) => {
+        installFeature: ({}, data) => {
             Vue.http.post(Vue.action('Server\ServerFeatureController@store', {server: data.server}), {
                 service: data.service,
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {
+                alert('install server feature');
             }, (errors) => {
                 app.showError(errors);
             });
         },
-        saveServerFile: ({commit}, data) => {
+        saveServerFile: ({}, data) => {
             Vue.http.post(Vue.action('Server\ServerController@saveFile', {
                 server: data.server
             }), {
@@ -245,6 +246,10 @@ export default {
 
 
             state.runningCommands[command.commandable_type].push(command);
+        },
+        REMOVE_SERVER : (state, server) => {
+            Vue.set(rootState.serversStore, 'servers', _.reject(rootState.serversStore.servers, { id : server}));
+            Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
         }
     }
 }

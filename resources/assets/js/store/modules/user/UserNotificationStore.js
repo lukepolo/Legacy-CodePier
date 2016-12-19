@@ -27,12 +27,12 @@ export default {
                 app.showError(errors);
             });
         },
-        deleteUserNotificationProvider: ({commit, dispatch}, data) => {
+        deleteUserNotificationProvider: ({commit}, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserNotificationProviderController@destroy', {
                 user: data.user_id,
                 notification_provider: data.user_notification_provider_id
             })).then((response) => {
-                dispatch('getUserNotificationProviders');
+                commit('REMOVE_NOTIFICATION_PROVIDER_FROM_USER', data.user_notification_provider_id);
             }, (errors) => {
                 app.showError(errors);
             })
@@ -44,7 +44,7 @@ export default {
                 app.showError(errors);
             });
         },
-        updateUserNotificationSettings: ({commit}, data) => {
+        updateUserNotificationSettings: ({}, data) => {
             Vue.http.post(Vue.action('User\UserNotificationSettingsController@store'), data).then((response) => {
 
             }, (errors) => {
@@ -65,5 +65,8 @@ export default {
         SET_USER_NOTIFICATION_PROVIDERS: (state, providers) => {
             state.user_notification_providers = providers;
         },
+        REMOVE_NOTIFICATION_PROVIDER_FROM_USER: (state, provider_id) =>{
+            Vue.set(state, 'user_notification_providers', _.reject(state.user_notification_providers, { id : provider_id}));
+        }
     }
 }

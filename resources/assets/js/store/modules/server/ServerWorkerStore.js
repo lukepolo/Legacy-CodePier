@@ -21,7 +21,7 @@ export default {
             Vue.http.delete(Vue.action('Server\ServerWorkerController@destroy', {
                 server: data.server,
                 worker: data.worker
-            })).then((response) => {
+            })).then(() => {
                 commit('REMOVE_SERVER_WORKER', data.worker);
             }, (errors) => {
                 app.showError(errors);

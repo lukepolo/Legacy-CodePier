@@ -12,7 +12,7 @@ export default {
         },
         createServerFirewallRule: ({commit}, data) => {
             Vue.http.post(Vue.action('Server\ServerFirewallRuleController@store', {server: data.server}), data).then((response) => {
-                commit('ADD_FIREWALL_RULE', response.data);
+                commit('ADD_SERVER_FIREWALL_RULE', response.data);
             }, (errors) => {
                 app.showError(errors);
             });
@@ -22,17 +22,17 @@ export default {
                 server: data.server,
                 firewall: data.firewall
             })).then(() => {
-                commit('REMOVE_FIREWALL_RULE', data.firewall);
+                commit('REMOVE_SERVER_FIREWALL_RULE', data.firewall);
             }, (errors) => {
                 app.showError(errors);
             });
         }
     },
     mutations: {
-        ADD_FIREWALL_RULE : (state, server_firewall_rule) => {
+        ADD_SERVER_FIREWALL_RULE : (state, server_firewall_rule) => {
             state.server_firewall_rules.push(server_firewall_rule);
         },
-        REMOVE_FIREWALL_RULE : (state, server_firewall_rule_id) => {
+        REMOVE_SERVER_FIREWALL_RULE : (state, server_firewall_rule_id) => {
             Vue.set(state, 'server_firewall_rules', _.reject(state.server_firewall_rules, { id : server_firewall_rule_id }));
         },
         SET_SERVER_FIREWALL_RULES: (state, server_firewall_rules) => {
