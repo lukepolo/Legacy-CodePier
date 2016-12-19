@@ -1,6 +1,7 @@
 <template>
     <section class="event">
-        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
+        <div class="event-status" :class="{'event-status-neutral' : event.status == 'Queued', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
+        {{ event.status }}
         <div class="event-name">
             <drop-down-event
                     :title="eventTitle"
@@ -23,8 +24,15 @@
                 </template>
             </drop-down-event>
         </div>
-        <!--<div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>-->
-        <!--<div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>-->
+        <template v-if="event.site">
+            <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
+            <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
+        </template>
+        <template v-else>
+            <div class="event-pile"><span class="icon-layers"></span> {{ event.server.pile.name }}</div>
+            <div class="event-site"><span class="icon-browser"></span> {{ event.server.name }}</div>
+        </template>
+
     </section>
 </template>
 
