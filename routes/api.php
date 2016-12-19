@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         |
         */
 
+        Route::get('piles/all', 'Pile\PileController@allPiles');
         Route::resource('piles', 'Pile\PileController');
         Route::resource('pile.sites', 'Pile\PileSitesController');
 

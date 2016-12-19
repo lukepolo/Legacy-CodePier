@@ -151,7 +151,7 @@
         },
         computed: {
             site() {
-                var site = this.$store.state.sitesStore.site;
+                let site = this.$store.state.sitesStore.site;
 
                 if (site) {
                     this.form.type = site.type;
@@ -159,14 +159,14 @@
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
                     this.form.web_directory = site.web_directory;
-                    this.form.zerotime_deployment = (site.zerotime_deployment ? true : false);
+                    this.form.zerotime_deployment = site.zerotime_deployment;
                     this.form.user_repository_provider_id = site.user_repository_provider_id;
                 }
 
                 return site;
             },
             user_repository_providers() {
-                return this.$store.state.userStore.repository_providers;
+                return this.$store.state.userStore.user_repository_providers;
             },
             availableLanguages() {
                 return this.$store.state.serversStore.available_server_languages;

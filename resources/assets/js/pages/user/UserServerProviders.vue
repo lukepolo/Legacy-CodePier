@@ -16,26 +16,20 @@
 
 <script>
     export default {
-        data() {
-            return {
-                server_providers: []
-            }
-        },
         computed: {
-            user_server_providers() {
+            server_providers() {
                 return this.$store.state.userStore.server_providers;
+            },
+            user_server_providers() {
+                return this.$store.state.userStore.user_server_providers;
             }
         },
         methods: {
             isConnected: function (server_provider_id) {
-                if (_.some(this.user_server_providers, {'server_provider_id': server_provider_id})) {
-                    return true;
-                }
-
-                return false;
+                return _.find(this.user_server_providers, {'server_provider_id': server_provider_id});
             },
             disconnectProvider: function (server_provider_id) {
-                var user_server_provider_id = _.find(this.user_server_providers, function (server_provider) {
+                let user_server_provider_id = _.find(this.user_server_providers, function (server_provider) {
                     return server_provider.server_provider_id == server_provider_id;
                 }).id;
 
@@ -46,13 +40,7 @@
             }
         },
         mounted() {
-
-            Vue.http.get(this.action('Auth\Providers\ServerProvidersController@index')).then((response) => {
-                this.server_providers = response.data;
-            }, (errors) => {
-                app.showError(error);;
-            });
-
+            this.$store.dispatch('getServerProviders');
             this.$store.dispatch('getUserServerProviders', this.$store.state.userStore.user.id);
         },
     }
