@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ServerCronJob;
 use App\Http\Requests\Server\ServerCronJobRequest;
