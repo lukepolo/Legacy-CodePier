@@ -93,4 +93,9 @@ class PileController extends Controller
 
         return response()->json($user->load(['currentTeam', 'currentPile']));
     }
+
+    public function allPiles()
+    {
+        return response()->json(Pile::allTeams()->get());
+    }
 }

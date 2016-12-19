@@ -1,7 +1,7 @@
 export default {
     state: {
         piles: [],
-        user_piles: [],
+        all_user_piles: [],
     },
     actions: {
         getPiles: ({commit, dispatch}) => {
@@ -11,9 +11,9 @@ export default {
                 alert(errors);
             });
         },
-        getUserPiles: ({commit}) => {
-            Vue.http.get(Vue.action('Pile\PileController@index', {all: true})).then((response) => {
-                commit('SET_USER_PILES', response.data);
+        getAllUserPiles: ({commit}) => {
+            Vue.http.get(Vue.action('Pile\PileController@allPiles')).then((response) => {
+                commit('SET_ALL_USER_PILES', response.data);
             }, (errors) => {
                 alert(errors);
             });
@@ -53,8 +53,8 @@ export default {
         }
     },
     mutations: {
-        SET_USER_PILES: (state, piles) => {
-            state.user_piles = piles;
+        SET_ALL_USER_PILES: (state, piles) => {
+            state.all_user_piles = piles;
         },
         SET_PILES: (state, piles) => {
             state.piles = piles;
