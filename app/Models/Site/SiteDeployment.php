@@ -55,14 +55,14 @@ class SiteDeployment extends Model
 
         if ($failed > 0) {
             $status = 'Failed';
-        } else if ($completed == $serverDeployments->count()) {
+        } elseif ($completed == $serverDeployments->count()) {
             $status = 'Completed';
-        } else if ($started > 0) {
+        } elseif ($started > 0) {
             $status = 'Running';
         }
 
         $this->update([
-            'status' => $status
+            'status' => $status,
         ]);
     }
 

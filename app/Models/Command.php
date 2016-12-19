@@ -51,14 +51,14 @@ class Command extends Model
 
         if ($failed > 0) {
             $status = 'Failed';
-        } else if ($completed == $serverCommands->count()) {
+        } elseif ($completed == $serverCommands->count()) {
             $status = 'Completed';
-        } else if ($started > 0) {
+        } elseif ($started > 0) {
             $status = 'Running';
         }
 
         $this->update([
-            'status' => $status
+            'status' => $status,
         ]);
     }
 
