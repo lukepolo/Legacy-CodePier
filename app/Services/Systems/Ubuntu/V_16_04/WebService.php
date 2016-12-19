@@ -26,6 +26,9 @@ class WebService
 //    {
 //    }
 
+    /**
+     * @description Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
+     */
     public function installCertBot()
     {
         $this->connectToServer();
@@ -33,6 +36,9 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
+    /**
+     * @description NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server.
+     */
     public function installNginx($workerProcesses = 1, $workerConnections = 512)
     {
         $this->connectToServer();
