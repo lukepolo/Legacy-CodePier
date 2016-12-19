@@ -131,9 +131,6 @@
             }
         },
         methods: {
-            fetchData() {
-                this.$store.dispatch('getAllUserPiles');
-            },
             createTeam() {
                 this.$store.dispatch('createTeam', this.create_form).then(() => {
                     this.create_form = this.$options.data().create_form;

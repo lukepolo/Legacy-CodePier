@@ -39,7 +39,6 @@
             }
         },
         created() {
-            this.$store.dispatch('getRepositoryProviders');
             this.$store.dispatch('getUserRepositoryProviders', this.$store.state.userStore.user.id);
         }
     }

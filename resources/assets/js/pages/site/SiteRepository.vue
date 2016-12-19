@@ -151,8 +151,12 @@
             },
             getRepositoryName(user_repository_id) {
                 if(this.repository_providers) {
-                    return _.find(this.repository_providers, {id : user_repository_id}).name;
+                    let repository = _.find(this.repository_providers, {id : user_repository_id});
+                    if(repository) {
+                        return repository.name;
+                    }
                 }
+
             }
         },
         computed: {
