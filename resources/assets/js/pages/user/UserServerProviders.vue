@@ -18,7 +18,7 @@
     export default {
         computed: {
             server_providers() {
-                return this.$store.state.userStore.server_providers;
+                return this.$store.state.serverProvidersStore.server_providers;
             },
             user_server_providers() {
                 return this.$store.state.userStore.user_server_providers;

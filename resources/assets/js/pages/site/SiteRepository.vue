@@ -39,7 +39,7 @@
                     <label v-for="user_repository_provider in user_repository_providers">
                         <input name="user_repository_provider_id" type="radio" v-model="form.user_repository_provider_id" :value="user_repository_provider.id">
                         <span class="icon"></span>
-                        {{ user_repository_provider.repository_provider.name }}
+                        {{ getRepositoryName(user_repository_provider.repository_provider_id) }}
                     </label>
                 </div>
 
@@ -114,6 +114,7 @@
         },
         methods: {
             fetchData() {
+                this.$store.dispatch('getRepositoryProviders');
                 this.$store.dispatch('getUserRepositoryProviders');
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getServerAvailableFrameworks');
@@ -147,6 +148,11 @@
                     site : this.site.id,
                     hook : this.site.automatic_deployment_id
                 });
+            },
+            getRepositoryName(user_repository_id) {
+                if(this.repository_providers) {
+                    return _.find(this.repository_providers, {id : user_repository_id}).name;
+                }
             }
         },
         computed: {
@@ -164,6 +170,9 @@
                 }
 
                 return site;
+            },
+            repository_providers() {
+                return this.$store.state.userStore.repository_providers;
             },
             user_repository_providers() {
                 return this.$store.state.userStore.user_repository_providers;

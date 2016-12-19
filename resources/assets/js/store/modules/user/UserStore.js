@@ -24,13 +24,7 @@ export default {
             });
         },
 
-        getServerProviders : ({commit}) => {
-            Vue.http.get(Vue.action('Auth\Providers\ServerProvidersController@index')).then((response) => {
-                commit('SET_SERVER_PROVIDERS', response.data)
-            }, (errors) => {
-                app.showError(error);;
-            });
-        },
+
         getUserServerProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
@@ -80,9 +74,6 @@ export default {
             state.user = user;
         },
 
-        SET_SERVER_PROVIDERS : (state, providers) => {
-            state.server_providers = providers;
-        },
         SET_USER_SERVER_PROVIDERS: (state, providers) => {
             state.user_server_providers = providers;
         },
