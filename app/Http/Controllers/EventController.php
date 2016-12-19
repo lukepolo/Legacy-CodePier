@@ -126,6 +126,7 @@ class EventController extends Controller
                         })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'site.pile',
+                            'server.pile',
                             'commandable',
                             'serverCommands.server',
                         ])
