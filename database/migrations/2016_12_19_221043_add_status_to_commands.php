@@ -13,7 +13,7 @@ class AddStatusToCommands extends Migration
      */
     public function up()
     {
-        Schema::table('commands', function(Blueprint $table) {
+        Schema::table('commands', function (Blueprint $table) {
             $table->string('status')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddStatusToCommands extends Migration
      */
     public function down()
     {
-        Schema::table('commands', function(Blueprint $table) {
+        Schema::table('commands', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }
