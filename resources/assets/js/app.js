@@ -143,6 +143,16 @@ Vue.mixin({
             }
             return {};
         },
+        timeAgo(time) {
+            time = moment(time);
+            let currentTime = moment();
+
+            if(currentTime.diff(time, 'hour') < 5) {
+                return time.fromNow();
+            }
+
+            return time.format('M-D-YY h:mm A');
+        }
     }
 });
 
