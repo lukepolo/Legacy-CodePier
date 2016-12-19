@@ -102,7 +102,47 @@ Vue.mixin({
         },
         back() {
             window.history.back();
-        }
+        },
+        getRepositoryProvider(provider_id, attribute){
+            let provider = _.find(this.$store.state.userStore.repository_providers, {id: provider_id});
+            if (provider) {
+                if(attribute) {
+                    return provider[attribute];
+                }
+                return provider;
+            }
+            return {};
+        },
+        getPile(pile_id, attribute){
+            let pile = _.find(this.$store.state.pilesStore.all_user_piles, {id: pile_id});
+            if (pile) {
+                if(attribute) {
+                    return pile[attribute];
+                }
+                return pile;
+            }
+            return {};
+        },
+        getSite(site_id, attribute) {
+            let site = _.find(this.$store.state.sitesStore.all_sites, {id: site_id});
+            if (site) {
+                if(attribute) {
+                    return site[attribute];
+                }
+                return site;
+            }
+            return {};
+        },
+        getServer(server_id, attribute) {
+            let server = _.find(this.$store.state.serversStore.all_servers, {id: server_id});
+            if (server) {
+                if(attribute) {
+                    return server[attribute];
+                }
+                return server;
+            }
+            return {};
+        },
     }
 });
 

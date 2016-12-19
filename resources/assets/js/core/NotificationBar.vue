@@ -170,10 +170,10 @@
                 <section v-else>
                     <template  v-for="event in events">
                         <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
-                            <!--<deployment-event :event="event"></deployment-event>-->
+                            <deployment-event :event="event"></deployment-event>
                         </template>
                         <template v-else-if="event.event_type == 'App\\Models\\Command'">
-                            <!--<command-event :event="event"></command-event>-->
+                            <command-event :event="event"></command-event>
                         </template>
                         <template v-else>
                             Invalid type {{ event.event_type }}
@@ -279,8 +279,12 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getEvents');
+                this.$store.dispatch('getAllUserPiles'); // todo - rename
                 this.$store.dispatch('getAllSites');
                 this.$store.dispatch('getAllServers');
+
+                this.$store.dispatch('getRepositoryProviders');
+
             },
             updateFilters() {
                 this.$store.commit('CLEAR_EVENTS');
@@ -296,21 +300,22 @@
             }
         },
         computed: {
+            piles() {
+                return this.$store.state.pilesStore.all_user_piles;
+            },
+            sites() {
+                return this.$store.state.sitesStore.all_sites;
+            },
             servers() {
                 return this.$store.state.serversStore.all_servers;
             },
+
             events() {
                 return this.$store.state.eventsStore.events;
             },
             events_pagination() {
                 return this.$store.state.eventsStore.events_pagination;
             },
-            piles() {
-                return this.$store.state.pilesStore.piles;
-            },
-            sites() {
-                return this.$store.state.sitesStore.all_sites;
-            }
         },
     }
 

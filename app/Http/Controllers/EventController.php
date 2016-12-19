@@ -113,11 +113,17 @@ class EventController extends Controller
             $this->getPaginatedObject(
                 $tempCombinedQuery,
                 collect([
-                    self::SITE_DEPLOYMENTS => SiteDeployment::whereIn('id', $topResults->filter(function ($event) {
+                    self::SITE_DEPLOYMENTS => SiteDeployment::with([
+                        'serverDeployments.events.step' => function ($query) {
+                            $query->withTrashed();
+                        },
+                    ])
+                    ->whereIn('id', $topResults->filter(function ($event) {
                             return $event->type == self::SITE_DEPLOYMENTS;
                         })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'commandable',
+                            'serverCommands.server',
                         ])
                         ->whereIn(
                         'id', $topResults->filter(function ($event) {

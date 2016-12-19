@@ -11,7 +11,7 @@
             >
                 <template v-for="command in event.server_commands">
                     <drop-down-event
-                            :title="command.server.name + ' (' + command.server.ip + ')'"
+                            :title="getServer(command.server_id, 'name') + ' (' + getServer(command.server_id, 'ip') + ')'"
                             :event="command"
                             :type="event.commandable_type"
                             :prefix="'command_'+command.id"
@@ -24,15 +24,14 @@
                 </template>
             </drop-down-event>
         </div>
-        <template v-if="event.site">
-            <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
-            <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
+        <template v-if="event.site_id">
+                <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+                <div class="event-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
         </template>
         <template v-else>
-            <div class="event-pile"><span class="icon-layers"></span> {{ event.server.pile.name }}</div>
-            <div class="event-site"><span class="icon-browser"></span> {{ event.server.name }}</div>
+            <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getServer(event.server_id, 'pile_id'), 'name') }}</div>
+            <div class="event-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
         </template>
-
     </section>
 </template>
 
