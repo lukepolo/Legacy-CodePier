@@ -114,8 +114,8 @@ class EventController extends Controller
                 $tempCombinedQuery,
                 collect([
                     self::SITE_DEPLOYMENTS => SiteDeployment::whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SITE_DEPLOYMENTS;
-                        })->keyBy('id')->keys()),
+                        return $event->type == self::SITE_DEPLOYMENTS;
+                    })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'commandable',
                         ])
