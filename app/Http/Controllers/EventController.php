@@ -119,8 +119,8 @@ class EventController extends Controller
                         },
                     ])
                     ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SITE_DEPLOYMENTS;
-                        })->keyBy('id')->keys()),
+                        return $event->type == self::SITE_DEPLOYMENTS;
+                    })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
                             'commandable',
                             'serverCommands.server',
