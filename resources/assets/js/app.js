@@ -230,7 +230,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':server_id/',
+                    path: ':server_id/monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
