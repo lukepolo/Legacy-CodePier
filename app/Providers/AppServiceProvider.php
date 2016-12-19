@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Site\Site;
+use App\Models\Site\SiteServerDeployment;
 use App\Models\User\User;
 use App\Models\ServerCommand;
 use App\Models\Site\SiteFile;
 use App\Models\Site\SiteSshKey;
 use App\Models\Site\SiteWorker;
+use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\UserObserver;
 use App\Models\Site\SiteCronJob;
 use App\Models\Server\ServerSshKey;
@@ -66,6 +68,8 @@ class AppServiceProvider extends ServiceProvider
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         ServerFirewallRule::observe(ServerFirewallRuleObserver::class);
         ServerSslCertificate::observe(ServerSslCertificateObserver::class);
+
+        SiteServerDeployment::observe(ServerDeploymentObserver::class);
     }
 
     /**
