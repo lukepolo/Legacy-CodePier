@@ -81,8 +81,6 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
                         foreach($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
 
-                            $suggestedFeatures[$service] = [];
-
                             foreach($serverSuggestedFeatures as $suggestedFeature) {
 
                                 $features = $possibleFeatures;
@@ -96,6 +94,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
                                     }
                                 }
 
+                                if(!isset($suggestedFeatures[$service])) {
+                                    $suggestedFeatures[$service] = [];
+                                }
                                 $suggestedFeatures[$service][] = $features->get($service)[$suggestedFeature];
                             }
                         }
