@@ -7,7 +7,6 @@ use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Site\SiteFirewallRule;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
@@ -55,20 +54,6 @@ class SiteController extends Controller
             'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
-        ]);
-
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
-
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
         ]);
 
         return response()->json($site);

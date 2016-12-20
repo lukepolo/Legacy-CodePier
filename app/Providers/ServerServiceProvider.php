@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\Server\ServerFeatureServiceContract;
+use App\Services\Server\ServerFeatureService;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +35,11 @@ class ServerServiceProvider extends ServiceProvider
             SystemServiceContract::class,
             SystemService::class
         );
+
+        $this->app->bind(
+            ServerFeatureServiceContract::class,
+            ServerFeatureService::class
+        );
     }
 
     /**
@@ -45,6 +52,7 @@ class ServerServiceProvider extends ServiceProvider
         return [
             ServerServiceContract::class,
             SystemServiceContract::class,
+            ServerFeatureServiceContract::class,
         ];
     }
 }
