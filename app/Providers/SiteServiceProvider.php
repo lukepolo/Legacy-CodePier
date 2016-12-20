@@ -2,14 +2,13 @@
 
 namespace App\Providers;
 
-use App\Contracts\Site\SiteFeatureServiceContract;
-use App\Services\Site\SiteFeatureService;
 use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Site\SiteFeatureService;
 use App\Contracts\Site\SiteServiceContract;
 use App\Services\Site\SiteDeploymentStepsService;
+use App\Contracts\Site\SiteFeatureServiceContract;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract;
-
 
 class SiteServiceProvider extends ServiceProvider
 {
@@ -53,7 +52,7 @@ class SiteServiceProvider extends ServiceProvider
         return [
             SiteServiceContract::class,
             SiteFeatureServiceContract::class,
-            SiteDeploymentStepsServiceContract::class
+            SiteDeploymentStepsServiceContract::class,
         ];
     }
 }

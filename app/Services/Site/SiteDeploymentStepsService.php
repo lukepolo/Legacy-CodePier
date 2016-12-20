@@ -2,12 +2,12 @@
 
 namespace App\Services\Site;
 
-use App\Contracts\Site\SiteDeploymentStepsServiceContract;
-use App\Models\Site\Deployment\DeploymentStep;
-use App\Traits\SystemFiles;
 use ReflectionClass;
 use App\Models\Site\Site;
+use App\Traits\SystemFiles;
 use Illuminate\Support\Collection;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Contracts\Site\SiteDeploymentStepsServiceContract;
 
 class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 {
@@ -16,7 +16,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     private $deploymentSteps = [];
 
     /**
-     * Gets all deployment classes for their site
+     * Gets all deployment classes for their site.
      * @param $site
      * @return array
      */
@@ -32,7 +32,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Gest the sites class
+     * Gest the sites class.
      * @param Site $site
      * @return string
      */
@@ -42,7 +42,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Gets the frameworks class
+     * Gets the frameworks class.
      * @param Site $site
      * @return string
      */
@@ -52,7 +52,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Saves the default steps suggested for their language and framework
+     * Saves the default steps suggested for their language and framework.
      * @param Site $site
      */
     public function saveDefaultSteps(Site $site)
@@ -64,7 +64,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Saves new steps to their site deployments
+     * Saves new steps to their site deployments.
      *
      * @param Site $site
      * @param $newDeploymentSteps
@@ -92,7 +92,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Gest all the deployment options
+     * Gest all the deployment options.
      * @param array $classes
      * @return Collection
      */
@@ -113,11 +113,9 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
-
                     $order = $this->getDocParam($method, 'order');
 
-                    if (!empty($order)) {
-
+                    if (! empty($order)) {
                         $description = $this->getDocParam($method, 'description');
 
                         $deploymentSteps[] = [
@@ -135,7 +133,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Gets a single deployment step
+     * Gets a single deployment step.
      *
      * @param $deploymentStep
      * @return null
