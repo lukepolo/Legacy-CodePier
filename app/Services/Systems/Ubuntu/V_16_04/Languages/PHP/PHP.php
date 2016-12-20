@@ -2,23 +2,25 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
+use App\Services\RemoteTaskService;
 use App\Models\Server\ServerCronJob;
-use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
+use App\Services\Systems\ServiceConstructorTrait;
 
 class PHP
 {
     use ServiceConstructorTrait;
 
+    /** @var RemoteTaskService $remoteTaskService */
     private $remoteTaskService;
 
     public static $required = [
-        'installPHP7',
-        'installPhpFpm',
+        'PHP7',
+        'PhpFpm',
     ];
 
     public static $files = [
-        'installPHP7' => [
+        'PHP7' => [
             '/etc/php/7.0/fpm/php.ini',
             '/etc/php/7.0/cli/php.ini',
             '/etc/php/7.0/fpm/php-fpm.conf',
@@ -29,6 +31,78 @@ class PHP
         'Laravel Scheduler' => '* * * * * php {site_path} schedule:run >> /dev/null 2>&1',
     ];
 
+    public $suggestedFeatures = [
+        'OsService' => [
+            'Swap' => [
+                'enabled' => 1,
+            ],
+            'parameters' => [
+                'size' => '1G',
+                'swappiness' => 10,
+                'vfsCachePressure' => 50,
+            ],
+        ],
+        'WebService' => [
+            'Nginx' => [
+                'enabled' => 1,
+            ],
+            'CertBot' => [
+                'enabled' => 1,
+            ],
+        ],
+        'NodeService' => [
+            'Yarn' => [
+                'enabled' => 1,
+            ],
+            'NodeJs' => [
+                'enabled' => 1,
+            ],
+        ],
+        'WorkerService' => [
+            'Beanstalk' => [
+                'enabled' => 1,
+            ],
+            'Supervisor' => [
+                'enabled' => 1,
+            ],
+        ],
+        'DatabaseService' => [
+            'Redis' => [
+                'enabled' => 1,
+            ],
+            'MariaDB' => [
+                'enabled' => 1,
+            ],
+        ],
+        'Languages\PHP\PHP' => [
+            'PHP7' => [
+                'enabled' => 1,
+            ],
+            'PhpFpm' => [
+                'enabled' => 1,
+            ],
+            'Composer' => [
+                'enabled' => 1,
+            ],
+        ],
+        'MonitoringService' => [
+            'DiskMonitoringScript' => [
+                'enabled' => 1,
+            ],
+            'LoadMonitoringScript' => [
+                'enabled' => 1,
+            ],
+            'ServerMemoryMonitoringScript' => [
+                'enabled' => 1,
+            ],
+        ],
+        'RepositoryService' => [
+            'Git' => [
+                'enabled' => 1,
+            ],
+        ],
+    ];
+
     public function installPHP7()
     {
         $this->connectToServer();
@@ -36,10 +110,10 @@ class PHP
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
 
-        $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini');
-        $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini');
+        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
+        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service php7.0-fpm restart');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php7.0-fpm restart');
     }
 
     public function installPhpFpm()
@@ -50,17 +124,17 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php-fpm');
 
-        $this->remoteTaskService->run('sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/fpm/php.ini');
-        $this->remoteTaskService->run('sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/fpm/php.ini');
-        $this->remoteTaskService->run('sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/fpm/php.ini');
-        $this->remoteTaskService->run('sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'post_max_size =', 'post_max_size = 250M');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', ';date.timezone', 'date.timezone = UTC');
 
-        $this->remoteTaskService->run('sed -i "s/user = www-data/user = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
-        $this->remoteTaskService->run('sed -i "s/group = www-data/group = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'user = www-data', 'user = codepier');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'group = www-data', 'group = codepier');
 
-        $this->remoteTaskService->run('sed -i "s/listen\.owner.*/listen.owner = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
-        $this->remoteTaskService->run('sed -i "s/listen\.group.*/listen.group = codepier/" /etc/php/7.0/fpm/pool.d/www.conf');
-        $this->remoteTaskService->run('sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.owner', 'listen.owner = codepier');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.group', 'listen.group = codepier');
+        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.mode', 'listen.mode = 0666');
     }
 
     public function installComposer()
@@ -93,5 +167,9 @@ class PHP
 
         $this->remoteTaskService->run('service blackfire-agent restart');
         $this->remoteTaskService->run('service php7.0-fpm restart');
+    }
+
+    private function getNginxConfig()
+    {
     }
 }

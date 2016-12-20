@@ -2,11 +2,11 @@
 
 namespace App\Services\Systems;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Models\Server\Server;
+use App\Exceptions\FailedCommand;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Exceptions\FailedCommand;
-use App\Models\Server\Server;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class SystemService implements SystemServiceContract
 {
@@ -31,6 +31,7 @@ class SystemService implements SystemServiceContract
     const WEB_SERVICE_GROUP = 'web_services';
     const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
+    const DEPLOYMENT_SERVICE_GROUP = 'deployment_services';
 
     /**
      * @param RemoteTaskService $remoteTaskService

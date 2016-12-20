@@ -22,7 +22,7 @@ export default {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             })
         },
         changePiles : ({commit, dispatch}, pileId) => {
@@ -34,21 +34,21 @@ export default {
                 app.$router.push('/');
 
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             })
         },
         updatePile: ({dispatch}, data) => {
             Vue.http.put(Vue.action('Pile\PileController@update', {pile: data.pile.id}), data).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             })
         },
         deletePile: ({dispatch}, pile) => {
             Vue.http.delete(Vue.action('Pile\PileController@destroy', {pile: pile})).then((response) => {
                 dispatch('getPiles');
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             })
         }
     },

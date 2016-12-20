@@ -2,12 +2,12 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\Server\ServerServiceContract;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract;
 
 class CheckServerStatus implements ShouldQueue
 {
@@ -44,9 +44,13 @@ class CheckServerStatus implements ShouldQueue
 
             if ($serverProviderClass->readyForProvisioningStatus() == $serverStatus) {
                 $serverService->saveInfo($this->server);
-                dispatch(new CheckSshConnection($this->server));
+                dispatch(
+                    (new CheckSshConnection($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                );
             } else {
-                dispatch((new self($this->server, $this->provision))->delay(10));
+                dispatch(
+                    (new self($this->server, $this->provision))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                );
             }
         }
     }

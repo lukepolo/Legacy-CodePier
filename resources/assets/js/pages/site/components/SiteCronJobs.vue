@@ -46,7 +46,12 @@
                 <tbody>
                 <tr>
                     <td>{{ cronJob.job }}</td>
-                    <td><a @click="deleteCronJob(cronJob.id)" href="#" class="fa fa-remove">X</a></td>
+                    <td>
+                        <template v-if="isRunningCommandFor(cronJob.id)">
+                            {{ isRunningCommandFor(cronJob.id).status }}
+                        </template>
+                        <a @click="deleteCronJob(cronJob.id)" href="#" class="fa fa-remove">X</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -93,6 +98,9 @@
                     cron_job : cronJobId,
                     site : this.$route.params.site_id,
                 });
+            },
+            isRunningCommandFor(id) {
+                return this.isCommandRunning('App\\Models\\Site\\SiteCronJob', id);
             }
         },
         computed: {

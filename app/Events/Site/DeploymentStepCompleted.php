@@ -2,23 +2,24 @@
 
 namespace App\Events\Site;
 
-use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentEvent;
-use App\Models\Site\Deployment\DeploymentStep;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Site\Deployment\DeploymentEvent;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
 class DeploymentStepCompleted implements ShouldBroadcastNow
 {
     use InteractsWithSockets, SerializesModels;
 
     private $siteId;
-    public $deploymentEvent;
-    public $siteDeploymentId;
+    private $siteDeployment;
+    private $deploymentEvent;
+    private $serverDeployment;
 
     /**
      * Create a new event instance.
@@ -41,7 +42,8 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
         ]);
 
         $this->deploymentEvent = $deploymentEvent;
-        $this->siteDeploymentId = $deploymentEvent->serverDeployment->siteDeployment->id;
+        $this->serverDeployment = $deploymentEvent->serverDeployment;
+        $this->siteDeployment = $this->serverDeployment->siteDeployment;
     }
 
     /**
@@ -62,8 +64,9 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'deployment_event' => $this->deploymentEvent->load('step'),
-            'site_deployment_id' => $this->siteDeploymentId,
+            'site_deployment' => strip_relations($this->siteDeployment),
+            'server_deployment' => strip_relations($this->serverDeployment),
+            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
         ];
     }
 }

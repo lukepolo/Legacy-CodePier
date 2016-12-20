@@ -2,24 +2,44 @@
 
 namespace App\Models\Site;
 
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Pile;
-use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentStep;
+use App\Models\Command;
 use App\Models\User\User;
-use App\Models\User\UserRepositoryProvider;
 use App\Traits\FireEvents;
+use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\SlackChannel;
+use App\Models\Server\Server;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use App\Models\User\UserRepositoryProvider;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents;
+    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser, Encryptable;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+        'public_ssh_key',
+        'private_ssh_key',
+    ];
+
+    protected $encryptable = [
+        'public_ssh_key',
+        'private_ssh_key',
+    ];
+
+    protected $hidden = [
+        'public_ssh_key',
+        'private_ssh_key',
+    ];
 
     public static $teamworkModel = 'pile.teams';
+
     public $teamworkSync = false;
 
     protected $appends = ['path'];
@@ -77,6 +97,11 @@ class Site extends Model
     public function servers()
     {
         return $this->belongsToMany(Server::class);
+    }
+
+    public function commands()
+    {
+        return $this->hasMany(Command::class);
     }
 
     public function ssls()
@@ -166,9 +191,9 @@ class Site extends Model
         return $slackProvider ? $slackProvider->token : null;
     }
 
-    public function getSlackChannel()
+    public function slackChannel()
     {
-        return 'general';
+        return $this->morphOne(SlackChannel::class, 'slackable');
     }
 
     /**
@@ -189,6 +214,7 @@ class Site extends Model
     public function getSiteLanguage()
     {
         return 'PHP\\PHP';
+
         $language = collect($this->server_features)->filter(function ($features, $index) {
             return starts_with($index, 'Language');
         })->keys()->first();

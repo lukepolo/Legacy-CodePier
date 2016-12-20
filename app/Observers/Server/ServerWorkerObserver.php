@@ -2,9 +2,9 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Models\Server\ServerWorker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Jobs\Server\Workers\InstallServerWorker;
 
 class ServerWorkerObserver
 {
@@ -13,7 +13,9 @@ class ServerWorkerObserver
      */
     public function created(ServerWorker $serverWorker)
     {
-        dispatch(new InstallServerWorker($serverWorker));
+        dispatch(
+            (new InstallServerWorker($serverWorker))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
     }
 
     /**
@@ -22,7 +24,9 @@ class ServerWorkerObserver
      */
     public function deleting(ServerWorker $serverWorker)
     {
-        dispatch(new RemoveServerWorker($serverWorker));
+        dispatch(
+            (new RemoveServerWorker($serverWorker))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
 
         return false;
     }

@@ -2,18 +2,35 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\DeploySiteRequest;
-use App\Http\Requests\Site\SiteRequest;
-use App\Http\Requests\Site\SiteServerFeatureRequest;
+use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
-use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
 use App\Models\Site\SiteFirewallRule;
+use App\Http\Requests\Site\SiteRequest;
+use App\Http\Requests\Site\DeploySiteRequest;
+use App\Http\Requests\Site\SiteServerFeatureRequest;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 
 class SiteController extends Controller
 {
+    private $serverService;
+    private $repositoryService;
+
+    /**
+     * SiteController constructor.
+     *
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
+     */
+    public function __construct(ServerService $serverService, RepositoryService $repositoryService)
+    {
+        $this->serverService = $serverService;
+        $this->repositoryService = $repositoryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -84,7 +101,8 @@ class SiteController extends Controller
 
         $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domain'),
+            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'name'                        => $request->get('domain'),
             'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
@@ -92,13 +110,16 @@ class SiteController extends Controller
             'wildcard_domain'             => (int) $request->get('wildcard_domain'),
             'zerotime_deployment'         => true,
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
+            'type'                        => $request->get('type'),
         ]);
 
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $serverID) {
-                $this->dispatchNow(new CreateSite(Server::findOrFail($serverID), $site));
+                $this->dispatch(
+                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                );
             }
 
             foreach ($changes['detached'] as $serverID) {
@@ -131,7 +152,9 @@ class SiteController extends Controller
     {
         $site = Site::with('servers')->findOrFail($request->get('site'));
 
-        $this->dispatch(new DeploySite($site));
+        $this->dispatch(
+            (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
     }
 
     /**
@@ -148,5 +171,85 @@ class SiteController extends Controller
                 'server_features' => $request->get('services'),
             ])
         );
+    }
+
+    /**
+     * Restarts a sites servers.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartServer($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartServer($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restart the sites web services.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartWebServices($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartWebServices($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restarts the sites databases.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartDatabases($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartDatabase($server);
+            }
+        });
+
+        return $this->remoteResponse();
+    }
+
+    /**
+     * Restarts the sites worker services.
+     *
+     * @param $siteId
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restartWorkerServices($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->runOnServer(function () use ($site) {
+            foreach ($site->provisionedServers as $server) {
+                $this->serverService->restartWorkers($server);
+            }
+        });
+
+        return $this->remoteResponse();
     }
 }

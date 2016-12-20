@@ -4,6 +4,9 @@
         <div v-file-editor class="editor"></div>
         <server-selector :servers="servers" :param="selected_servers"></server-selector>
         <div class="btn-footer">
+            <template v-if="running">
+                {{ running.status }}
+            </template>
             <button class="btn btn-primary" type="submit">Update File</button>
         </div>
     </form>
@@ -12,7 +15,7 @@
 <script>
     import ServerSelector from './ServerSelector.vue';
     export default {
-        props: ['site', 'servers', 'file'],
+        props: ['site', 'servers', 'file', 'running'],
         components: {
             ServerSelector
         },

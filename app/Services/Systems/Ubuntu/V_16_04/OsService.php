@@ -40,8 +40,6 @@ class OsService
 
         $rootPassword = $this->server->sudo_password;
 
-        $this->remoteTaskService->run('echo \'root:'.$rootPassword.'\' | chpasswd');
-
         $this->remoteTaskService->run('adduser --disabled-password --gecos "" codepier');
 
         $this->remoteTaskService->run('echo \'codepier:'.$rootPassword.'\' | chpasswd');
@@ -94,10 +92,10 @@ class OsService
 
         $this->remoteTaskService->appendTextToFile('/etc/apt/apt.conf.d/50unattended-upgrades', '
 Unattended-Upgrade::Allowed-Origins {
-"Ubuntu xenial-security";
+    "Ubuntu xenial-security";
 };
 Unattended-Upgrade::Package-Blacklist {
-//
+
 };
 ');
 

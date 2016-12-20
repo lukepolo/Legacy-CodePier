@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pile;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Pile\PileRequest;
 use App\Models\Pile;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Pile\PileRequest;
 
 class PileController extends Controller
 {
@@ -53,12 +53,11 @@ class PileController extends Controller
     public function update(PileRequest $request, $id)
     {
         $pile = Pile::findOrFail($id);
-        $pile->fill([
+
+        $pile->update([
             'user_id' => \Auth::user()->id,
             'name'    => $request->get('name'),
         ]);
-
-        $pile->save();
 
         return response()->json($pile);
     }

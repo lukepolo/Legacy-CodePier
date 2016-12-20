@@ -2,19 +2,20 @@
 
 namespace App\Services\Server;
 
+use phpseclib\Net\SFTP;
+use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Contracts\Server\ServerServiceContract;
-use App\Contracts\Systems\SystemServiceContract;
-use App\Exceptions\SshConnectionFailed;
-use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
 use App\Models\Server\ServerCronJob;
-use App\Models\Server\ServerSslCertificate;
-use App\Notifications\Server\ServerProvisioned;
+use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SFTP;
+use App\Models\Server\ServerSslCertificate;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract;
+use App\Notifications\Server\ServerProvisioned;
+use App\Contracts\Systems\SystemServiceContract;
+use App\Events\Server\ServerSshConnectionFailed;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerService implements ServerServiceContract
 {
@@ -46,7 +47,14 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        return $this->getProvider($serverProvider)->create($server, $this->createSshKey());
+        $sshKey = $this->remoteTaskService->createSshKey();
+
+        $server->public_ssh_key = $sshKey['publickey'];
+        $server->private_ssh_key = $sshKey['privatekey'];
+
+        $server->save();
+
+        return $this->getProvider($serverProvider)->create($server);
     }
 
     /**
@@ -85,22 +93,10 @@ class ServerService implements ServerServiceContract
 
             return true;
         } catch (SshConnectionFailed $e) {
-            $server->ssh_connection = false;
-            $server->save();
+            event(new ServerSshConnectionFailed($server, $e->getMessage()));
 
             return false;
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function createSshKey()
-    {
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-
-        return $rsa->createKey();
     }
 
     /**
@@ -376,7 +372,6 @@ class ServerService implements ServerServiceContract
                 $serverSslCertificate->cert_path = $sslCertPath.'/server.crt';
                 $serverSslCertificate->save();
 
-
                 $this->remoteTaskService->writeToFile($serverSslCertificate->key_path, $serverSslCertificate->key);
                 $this->remoteTaskService->writeToFile($serverSslCertificate->cert_path, $serverSslCertificate->cert);
 
@@ -443,7 +438,11 @@ class ServerService implements ServerServiceContract
             return $errors;
         }
 
-        $this->remoteTaskService->run('crontab -l | (grep letsencrypt) || ((crontab -l; echo "* */12 * * * letsencrypt renew >/dev/null 2>&1") | crontab)');
+        ServerCronJob::firstOrCreate([
+            'server_id' => $server->id,
+            'job' => '* */12 * * * letsencrypt renew',
+            'user' => 'root',
+        ]);
 
         return $this->remoteTaskService->getErrors();
     }

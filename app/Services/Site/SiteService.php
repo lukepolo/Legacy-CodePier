@@ -2,22 +2,22 @@
 
 namespace App\Services\Site;
 
+use App\Models\Site\Site;
+use App\Models\Server\Server;
+use App\Exceptions\FailedCommand;
+use App\Models\Site\SiteDeployment;
+use App\Exceptions\DeploymentFailed;
+use App\Services\Systems\SystemService;
+use App\Events\Site\DeploymentCompleted;
+use App\Events\Site\DeploymentStepFailed;
+use App\Models\Site\SiteServerDeployment;
+use App\Events\Site\DeploymentStepStarted;
+use App\Contracts\Site\SiteServiceContract;
+use App\Events\Site\DeploymentStepCompleted;
+use App\Services\DeploymentServices\PHP\PHP;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Site\SiteServiceContract;
-use App\Events\Site\DeploymentCompleted;
-use App\Events\Site\DeploymentStepCompleted;
-use App\Events\Site\DeploymentStepFailed;
-use App\Events\Site\DeploymentStepStarted;
-use App\Exceptions\DeploymentFailed;
-use App\Exceptions\FailedCommand;
-use App\Models\Server\Server;
-use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
-use App\Models\Site\SiteServerDeployment;
-use App\Services\DeploymentServices\PHP\PHP;
-use App\Services\Systems\SystemService;
 
 class SiteService implements SiteServiceContract
 {
@@ -83,26 +83,23 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
-     * @param $domain
-     *
+     * @param $newDomain
+     * @param $oldDomain
      * @return array
      */
-    public function renameDomain(Server $server, Site $site, $domain)
+    public function renameDomain(Server $server, Site $site, $newDomain, $oldDomain)
     {
-        // TODO
-        dd('Needs to be tested');
-
         $this->remoteTaskService->ssh($server);
 
-        $this->remoteTaskService->run('mv /home/codepier/'.$site->domain.' /home/codepier/'.$domain);
+        $site->domain = $oldDomain;
 
-        $this->remove($server, $site);
+        $this->getWebServerService($server)->removeWebServerConfig($site);
 
-        $this->create($server, $site);
+        $site->domain = $newDomain;
 
-        $site->domain = $domain;
+        $this->remoteTaskService->run('mv /home/codepier/'.$oldDomain.' /home/codepier/'.$site->domain);
 
-        $site->save();
+        $this->getWebServerService($server)->createWebServerConfig($site);
 
         $this->serverService->restartWebServices($server);
 
@@ -116,6 +113,8 @@ class SiteService implements SiteServiceContract
      */
     private function remove(Server $server, Site $site)
     {
+        $this->remoteTaskService->removeDirectory('/home/codepier/'.$site->domain);
+
         $this->getWebServerService($server)->removeWebServerConfig($site);
 
         return $this->remoteTaskService->getErrors();
@@ -136,13 +135,16 @@ class SiteService implements SiteServiceContract
 
         $this->repositoryService->importSshKeyIfPrivate($site);
 
-        if (empty($lastCommit = $sha)) {
-            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository,
-                $site->branch);
+        if (empty($sha)) {
+            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
+            if (! empty($lastCommit)) {
+                $siteServerDeployment->siteDeployment->update($lastCommit);
+            }
+        } else {
+            $siteServerDeployment->siteDeployment->update([
+                'git_commit' => $sha,
+            ]);
         }
-
-        $siteServerDeployment->siteDeployment->git_commit = $lastCommit;
-        $siteServerDeployment->siteDeployment->save();
 
         foreach ($siteServerDeployment->events as $event) {
             try {
@@ -150,21 +152,21 @@ class SiteService implements SiteServiceContract
 
                 event(new DeploymentStepStarted($site, $server, $event, $event->step));
 
-                $internalFunction = $event->step->internal_deployment_function;
+                if (! empty($event->step->script)) {
+                    $script = preg_replace("/[\n\r]/", ' && ', $event->step->script);
 
-                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentService->$internalFunction($sha), microtime(true) - $start));
+                    $deploymentStepResult = $deploymentService->customStep($script);
+                } else {
+                    $internalFunction = $event->step->internal_deployment_function;
+                    $deploymentStepResult = $deploymentService->$internalFunction($sha);
+                }
+
+                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
             } catch (FailedCommand $e) {
                 event(new DeploymentStepFailed($site, $server, $event, $event->step, [$e->getMessage()]));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
-
-        $this->remoteTaskService->ssh($server);
-        $this->serverService->restartWebServices($server);
-
-        $siteServerDeployment->update([
-            'log' => $this->remoteTaskService->getOutput(),
-        ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
@@ -190,23 +192,16 @@ class SiteService implements SiteServiceContract
      */
     public function deleteSite(Server $server, Site $site)
     {
-        $errors = $this->remoteTaskService->getErrors();
+        $this->remoteTaskService->ssh($server);
 
-        if (empty($errors)) {
-            $errors = $this->remove($server, $site);
-        }
-
-        if (empty($errors)) {
-            $site->delete();
-
-            return true;
-        }
+        $this->remove($server, $site);
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param Site $site
+     * @return Site $site
      */
     public function createDeployHook(Site $site)
     {
@@ -215,6 +210,7 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
+     * @return Site $site
      */
     public function deleteDeployHook(Site $site)
     {

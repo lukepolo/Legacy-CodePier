@@ -2,69 +2,79 @@
 
 namespace App\Traits;
 
+use Closure;
+use App\Models\Command;
+use App\Models\ServerCommand;
+use App\Exceptions\FailedCommand;
 use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
-use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Command;
-use Closure;
 use Illuminate\Database\Eloquent\Model;
 
 trait ServerCommandTrait
 {
     private $error = false;
     private $remoteErrors;
+    private $serverCommand;
     private $remoteSuccesses;
-    private $command;
 
     /**
+     * This must have a connected `server_id` attribute.
+     *
      * @param Model $model
-     * @param null $siteConnection
-     * @return Command
      */
-    public function makeCommand(Model $model, $siteConnection = null)
+    public function makeCommand(Model $model)
     {
-        if (empty($siteConnection)) {
-            $siteConnection = str_replace('server', 'site', snake_case(class_basename($model))).'_id';
+        $command = null;
+
+        $hiddenAttributes = $model->getHidden();
+
+        if (isset($hiddenAttributes['command'])) {
+            $command = $hiddenAttributes['command'];
         }
 
-        $this->command = Command::create([
-            'type' => get_class($model),
+        if (empty($command)) {
+            $command = Command::create([
+                'server_id' => $model->server_id,
+                'commandable_id' => $model->id,
+                'commandable_type' => get_class($model),
+            ]);
+        }
+
+        $this->serverCommand = ServerCommand::create([
             'server_id' => $model->server_id,
-            'site_connection' => $model->$siteConnection,
+            'command_id' => $command->id,
         ]);
-
-        $model->commands()->save($this->command);
-
-        return $this->command;
     }
 
     /**
      * Runs a command on a external server.
      *
      * @param Closure $function
-     * @param Command $command
+     * @param ServerCommand $serverCommand
      * @throws \Exception
      */
-    public function runOnServer(Closure $function, Command $command = null)
+    public function runOnServer(Closure $function, ServerCommand $serverCommand = null)
     {
-        if (! empty($command)) {
-            $this->command = $command;
+        if (! empty($serverCommand)) {
+            $this->serverCommand = $serverCommand;
         }
 
         $start = microtime(true);
 
         try {
-            $this->command->update([
-                'started' => true,
-            ]);
+            if (! empty($this->serverCommand)) {
+                $this->serverCommand->update([
+                    'started' => true,
+                ]);
+            }
 
             $remoteResponse = new SuccessRemoteResponse($function());
 
             $this->remoteSuccesses[] = $remoteResponse;
 
-            if (! empty($this->command)) {
-                $this->command->update([
+            if (! empty($this->serverCommand)) {
+                $this->serverCommand->update([
                     'runtime' => microtime(true) - $start,
                     'log' =>  $this->remoteSuccesses,
                     'completed' => true,
@@ -86,8 +96,8 @@ trait ServerCommandTrait
             if (count($this->remoteErrors)) {
                 $this->error = true;
 
-                if (! empty($this->command)) {
-                    $this->command->update([
+                if (! empty($this->serverCommand)) {
+                    $this->serverCommand->update([
                         'runtime' => microtime(true) - $start,
                         'log' => $this->remoteErrors,
                         'failed' => true,
@@ -120,5 +130,15 @@ trait ServerCommandTrait
         }
 
         return response()->json();
+    }
+
+    /**
+     * Gets the errors from the command.
+     *
+     * @return mixed
+     */
+    private function getCommandErrors()
+    {
+        return json_encode($this->remoteErrors);
     }
 }

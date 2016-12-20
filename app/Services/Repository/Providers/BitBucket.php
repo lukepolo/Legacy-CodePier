@@ -2,30 +2,29 @@
 
 namespace App\Services\Repository\Providers;
 
+use Bitbucket\API\User;
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\Repositories\Deploykeys;
-use Bitbucket\API\Repositories\Hooks;
-use Bitbucket\API\User;
+use App\Models\User\UserRepositoryProvider;
+use Bitbucket\API\Http\Listener\OAuthListener;
 
 class BitBucket implements RepositoryContract
 {
+    use RepositoryTrait;
+
     private $oauthParams;
 
     /**
      * Imports a deploy key so we can clone the repositories.
-     *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $sshKey
-     *
-     * @throws \Exception
+     * @param Site $site
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
-        $this->setToken($userRepositoryProvider);
+        $repository = $site->repository;
+
+        $this->setToken($site->userRepositoryProvider);
 
         $user = new User();
 
@@ -33,23 +32,40 @@ class BitBucket implements RepositoryContract
             new OAuthListener($this->oauthParams)
         );
 
-        $slug = $this->getRepositorySlug($repository);
+        $deployKey = new Deploykeys();
+
+        $deployKey->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->public_ssh_key, 'https://codepier.io');
+    }
+
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $user = new User();
+
+        $user->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
 
         $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
+        $slug = $this->getRepositorySlug($site->repository);
 
         $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
             return $repository['slug'] == $slug;
         });
 
-        if ($repositoryInfo['is_private']) {
-            $deployKey = new Deploykeys();
-
-            $deployKey->getClient()->addListener(
-                new OAuthListener($this->oauthParams)
-            );
-
-            $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $sshKey, 'https://codepier.io');
-        }
+        return $repositoryInfo['is_private'];
     }
 
     /**
@@ -113,7 +129,12 @@ class BitBucket implements RepositoryContract
         $lastCommit = collect(json_decode($commits->getContent())->values)->first();
 
         if (! empty($lastCommit)) {
-            return $lastCommit->hash;
+            if (! empty($lastCommit)) {
+                return [
+                    'git_commit' => $lastCommit->hash,
+                    'commit_message' => $lastCommit->message,
+                ];
+            }
         }
     }
 
@@ -131,16 +152,17 @@ class BitBucket implements RepositoryContract
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository), [
             'description' => 'CodePier',
-            'url'         => route('webhook/deploy', $site->encode()),
+            'url'         => action('WebHookController@deploy', $site->encode()),
             'active'      => true,
             'events'      => [
                 'repo:push',
-                'pullrequest:fulfilled',
             ],
         ]);
 
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -161,5 +183,7 @@ class BitBucket implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }

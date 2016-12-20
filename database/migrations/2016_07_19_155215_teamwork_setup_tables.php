@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class TeamworkSetupTables extends Migration
 {
@@ -15,7 +15,6 @@ class TeamworkSetupTables extends Migration
         Schema::table(\Config::get('teamwork.users_table'), function (Blueprint $table) {
             $table->integer('current_team_id')->unsigned()->nullable();
         });
-
 
         Schema::create(\Config::get('teamwork.teams_table'), function (Blueprint $table) {
             $table->increments('id')->unsigned();

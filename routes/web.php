@@ -12,6 +12,7 @@
 */
 
 Route::auth();
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login')->middleware('auth_code');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,13 +48,11 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 Route::group(['prefix' => 'webhook'], function () {
-    Route::get('/deploy/{siteHashID}', function ($siteHashID) {
-        dispatch(new \App\Jobs\Server\DeploySite(
-            \App\Models\Site\Site::with('server')->findOrFail(\Hashids::decode($siteHashID)[0])
-        ));
-    })->name('webhook/deploy');
+    Route::post('/deploy/{siteHashID}', 'WebHookController@deploy');
+    Route::get('/loads/{serverHashID}', 'WebHookController@loadMonitor');
+    Route::get('/memory/{serverHashID}', 'WebHookController@memoryMonitor');
+    Route::get('/diskusage/{serverHashID}', 'WebHookController@diskUsageMonitor');
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -63,29 +62,14 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
-
 /*
 |--------------------------------------------------------------------------
-| Catch All Routes
+| Catch All Route
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/', function () {
-    if (\Auth::check()) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands(),
-        ]);
-    }
-
-    return view('landing');
-});
-
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', function ($any) {
-        return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands(),
-        ]);
-    })->where('any', '.*');
+    Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
+
+    Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

@@ -2,13 +2,14 @@
 
 namespace App\Jobs\Server\SshKeys;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerSshKey;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use App\Models\Server\ServerSshKey;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerSshKey implements ShouldQueue
 {
@@ -31,6 +32,7 @@ class RemoveServerSshKey implements ShouldQueue
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -41,6 +43,9 @@ class RemoveServerSshKey implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverSshKey->unsetEventDispatcher();
             $this->serverSshKey->delete();
+            if (\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
         }
 
         return $this->remoteResponse();

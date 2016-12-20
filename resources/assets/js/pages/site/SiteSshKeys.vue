@@ -34,7 +34,12 @@
             <tbody>
                 <tr>
                     <td>{{ sshKey.name }}</td>
-                    <td><a href="#" class="fa fa-remove" @click="deleteKey(sshKey.id)">remove</a></td>
+                    <td>
+                        <template v-if="isRunningCommandFor(sshKey.id)">
+                            {{ isRunningCommandFor(sshKey.id).status }}
+                        </template>
+                        <a href="#" class="fa fa-remove" @click="deleteKey(sshKey.id)">remove</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -72,6 +77,9 @@
                     ssh_key: sshKeyId,
                     site: this.form.site,
                 });
+            },
+            isRunningCommandFor(id) {
+                return this.isCommandRunning('App\\Models\\Site\\SiteSshKey', id);
             }
         },
         computed: {

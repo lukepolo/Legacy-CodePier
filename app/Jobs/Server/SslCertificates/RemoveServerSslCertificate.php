@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Models\Server\ServerSslCertificate;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Server\ServerSslCertificate;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerSslCertificate implements ShouldQueue
 {
@@ -25,6 +25,9 @@ class RemoveServerSslCertificate implements ShouldQueue
     {
         $this->makeCommand($serverSslCertificate);
         $this->serverSslCertificate = $serverSslCertificate;
+        $this->serverSslCertificate->update([
+            'active' => false,
+        ]);
     }
 
     /**

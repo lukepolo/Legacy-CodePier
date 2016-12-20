@@ -28,7 +28,7 @@
             }).then((response) => {
                 this.content = response.data;
             }, (errors) => {
-                app.showError(error);;
+                app.showError(error);
             });
         },
         methods: {

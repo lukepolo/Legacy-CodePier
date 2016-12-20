@@ -2,9 +2,13 @@
 
 namespace App\Console;
 
-use App\Console\Commands\GetServerProviderOptions;
+use App\Console\Commands\MakeAuthCode;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\ReleasedNewVersion;
+use App\Console\Commands\TestMonitorScripts;
+use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\Tests\ServerEvents\ServerCommandUpdated;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +18,13 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        MakeAuthCode::class,
+        ReleasedNewVersion::class,
+        TestMonitorScripts::class,
         GetServerProviderOptions::class,
+
+        // REACTIVITY TESTS
+        ServerCommandUpdated::class,
     ];
 
     /**

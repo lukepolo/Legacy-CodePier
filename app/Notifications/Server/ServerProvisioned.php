@@ -4,8 +4,8 @@ namespace App\Notifications\Server;
 
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ServerProvisioned extends Notification
 {
@@ -14,11 +14,9 @@ class ServerProvisioned extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['mail'];
     }

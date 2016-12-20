@@ -3,46 +3,56 @@
 namespace App\Services\Repository\Providers;
 
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
 use GitHub as GitHubService;
+use Github\Exception\RuntimeException;
+use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
 
 class GitHub implements RepositoryContract
 {
+    use RepositoryTrait;
+
     /**
      * Imports a deploy key so we can clone the repositories.
-     *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $sshKey
-     *
+     * @param Site $site
+     * @return string|void
      * @throws \Exception
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
-        $this->setToken($userRepositoryProvider);
+        $this->setToken($site->userRepositoryProvider);
 
-        if ($this->isRepositoryPrivate($repository)) {
-            try {
-                GitHubService::api('repo')->keys()->create(
-                    $this->getRepositoryUser($repository),
-                    $this->getRepositorySlug($repository),
-                    [
-                        'title' => 'CodePier',
-                        'key'   => $sshKey,
-                    ]
-                );
-            } catch (ValidationFailedException $e) {
-                if (! $e->getMessage() == 'Validation Failed: key is already in use') {
-                    throw new \Exception($e->getMessage());
-                }
+        $repository = $site->repository;
+
+        try {
+            GitHubService::api('repo')->keys()->create(
+                $this->getRepositoryUser($repository),
+                $this->getRepositorySlug($repository), [
+                    'title' => 'CodePier',
+                    'key'   => $site->public_ssh_key,
+                ]
+            );
+        } catch (ValidationFailedException $e) {
+            if (! $e->getMessage() == 'Validation Failed: key is already in use') {
+                throw new \Exception($e->getMessage());
             }
+            throw new DeployKeyAlreadyUsed();
         }
     }
 
-    public function isRepositoryPrivate($repository)
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
     {
-        $repositoryInfo = $this->getRepositoryInfo($repository);
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
 
         if (isset($repositoryInfo['private'])) {
             return $repositoryInfo['private'];
@@ -108,10 +118,18 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($userRepositoryProvider);
 
-        $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
+        $lastCommit = null;
+
+        try {
+            $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
+        } catch (RuntimeException $e) {
+        }
 
         if (! empty($lastCommit)) {
-            return $lastCommit['sha'];
+            return [
+                'git_commit' => $lastCommit['sha'],
+                'commit_message' => $lastCommit['commit']['message'],
+            ];
         }
     }
 
@@ -124,16 +142,17 @@ class GitHub implements RepositoryContract
             'active' => true,
             'events' => [
                 'push',
-                'pull_request',
             ],
             'config' => [
-                'url'          => route('webhook/deploy', $site->encode()),
+                'url'          => action('WebHookController@deploy', $site->encode()),
                 'content_type' => 'json',
             ],
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -148,5 +167,7 @@ class GitHub implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }

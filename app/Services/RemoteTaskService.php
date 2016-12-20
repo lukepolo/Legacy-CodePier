@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Contracts\RemoteTaskServiceContract;
+use phpseclib\Net\SSH2;
+use phpseclib\Crypt\RSA;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
-use App\Models\Server\Server;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SSH2;
+use App\Contracts\RemoteTaskServiceContract;
 
 class RemoteTaskService implements RemoteTaskServiceContract
 {
@@ -27,7 +28,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @throws SshConnectionFailed
      * @throws \Exception
      *
-     * @return array
+     * @return string
      */
     public function run($command, $read = false, $expectedFailure = false)
     {
@@ -74,7 +75,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
             $this->errors[] = $output;
 
-            throw new FailedCommand(json_encode($output));
+            throw new FailedCommand($output);
         }
 
         return $output;
@@ -85,28 +86,31 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $contents
      * @param bool $read
      *
-     * @return bool
+     * @return string
      */
     public function writeToFile($file, $contents, $read = false)
     {
         $this->makeDirectory(preg_replace('#\/[^/]*$#', '', $file));
 
-        return $this->run('
-cat > '.$file.' <<    \'EOF\'
-'.trim($contents).'
+        $contents = trim($contents);
+
+        return $this->run("cat > $file << 'EOF'
+$contents
 EOF
-echo "Wrote" ', $read);
+echo \"Wrote\"", $read);
     }
 
     /**
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return string
      */
     public function appendTextToFile($file, $text)
     {
-        return $this->run("echo $text >> $file");
+        $text = str_replace('"', '\\"', $text);
+
+        return $this->run("echo '$text' >> $file");
     }
 
     /**
@@ -114,30 +118,33 @@ echo "Wrote" ', $read);
      * @param $findText
      * @param $text
      *
-     * @return bool
+     * @return string
      */
     public function findTextAndAppend($file, $findText, $text)
     {
-        return $this->run("sed -i '/$findText/a $text' ".$file);
+        $findText = $this->cleanRegex($findText);
+        $text = $this->cleanText($text);
+
+        return $this->run("sed -i '/$findText/a $text' $file");
     }
 
     /**
      * @param $file
      * @param $text
      *
-     * @return bool
+     * @return string
      */
     public function removeLineByText($file, $text)
     {
-        $text = str_replace('/', '\/', $text);
+        $text = $this->cleanRegex($text);
 
-        return $this->run("sed -i '/$text/d' ".$file);
+        return $this->run("sed -i '/$text/d' $file");
     }
 
     /**
      * @param $directory
      *
-     * @return bool
+     * @return string
      */
     public function makeDirectory($directory)
     {
@@ -147,7 +154,7 @@ echo "Wrote" ', $read);
     /**
      * @param $directory
      *
-     * @return bool
+     * @return string
      */
     public function removeDirectory($directory)
     {
@@ -157,16 +164,25 @@ echo "Wrote" ', $read);
     /**
      * @param $file
      *
-     * @return bool
+     * @return string
      */
     public function removeFile($file)
     {
         return $this->run("rm $file -f");
     }
 
+    /**
+     * @param $file
+     * @param $text
+     * @param $replaceWithText
+     * @return string
+     */
     public function updateText($file, $text, $replaceWithText)
     {
-        return $this->run('sed -i "s/'.$text.' .*/'.$replaceWithText.'/" '.$file);
+        $text = $this->cleanRegex($text);
+        $replaceWithText = $this->cleanText($replaceWithText);
+
+        return $this->run("sed -i 's/$text.*/$replaceWithText/' $file");
     }
 
     /**
@@ -196,12 +212,12 @@ echo "Wrote" ', $read);
                 $server->ssh_connection = false;
                 $server->save();
 
-                throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
             $server->ssh_connection = false;
             $server->save();
-            throw new SshConnectionFailed('It seems your server ('.$this->server->name.') is offline.');
+            throw new SshConnectionFailed($e->getMessage());
         }
 
         $ssh->setTimeout(0);
@@ -219,13 +235,82 @@ echo "Wrote" ', $read);
         return $this->errors;
     }
 
+    /**
+     * @return array
+     */
     public function getOutput()
     {
         return array_filter($this->output);
     }
 
+    /**
+     * @param $response
+     * @return string
+     */
     private function cleanResponse($response)
     {
         return trim(str_replace('codepier-done', '', $response));
+    }
+
+    /**
+     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
+     *
+     * @param $text
+     * @return mixed
+     */
+    private function cleanText($text)
+    {
+        $text = str_replace("'", "'\\''", $text);
+
+        $text = preg_replace('#(&|\\\|\/)#', '\\\$1', $text);
+
+        return $text;
+    }
+
+    /**
+     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
+     *
+     * @param $text
+     * @return mixed
+     */
+    private function cleanRegex($text)
+    {
+        $text = str_replace("'", "'\\''", $text);
+
+        $text = preg_replace('#(\$|\.|\*|\/|\[|\\\|\]|\^)#', '\\\$1', $text);
+
+        return $text;
+    }
+
+    /**
+     * Creates a new ssh key.
+     * @return array
+     */
+    public function createSshKey()
+    {
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
+        return $rsa->createKey();
+    }
+
+    /**
+     * @param Site $site
+     * @param Server $server
+     */
+    public function saveSshKeyToServer(Site $site, Server $server)
+    {
+        if (! empty($site->public_ssh_key)) {
+            $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
+
+            $this->ssh($server, 'codepier');
+
+            $this->writeToFile($sshFile, $site->private_ssh_key);
+            $this->writeToFile($sshFile.'.pub', $site->public_ssh_key);
+
+            $this->appendTextToFile('~/.ssh/config', "IdentityFile $sshFile");
+
+            $this->run('chmod 600 /home/codepier/.ssh/* -R');
+        }
     }
 }

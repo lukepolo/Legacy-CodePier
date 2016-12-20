@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteServerRequest;
+use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
-use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteServerRequest;
 
 class SiteServerController extends Controller
 {
@@ -38,7 +38,9 @@ class SiteServerController extends Controller
         $changes = $site->servers()->sync($request->get('connected_servers', []));
 
         foreach ($changes['attached'] as $attached) {
-            $this->dispatch(new CreateSite(Server::findOrFail($attached), $site));
+            $this->dispatch(
+                (new CreateSite(Server::findOrFail($attached), $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
 
         return response()->json($site);

@@ -4,8 +4,8 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Site\Site;
 use App\Services\Server\ServerService;
-use App\Services\Systems\ServiceConstructorTrait;
 use App\Services\Systems\SystemService;
+use App\Services\Systems\ServiceConstructorTrait;
 
 /**
  * // TODO - need to separate Apache and NGINX configs.
@@ -15,13 +15,12 @@ class WebService
     use ServiceConstructorTrait;
 
     public static $files = [
-        'installNginx' => [
+        'Nginx' => [
             '/etc/nginx/nginx.conf',
         ],
     ];
 
     const NGINX_SERVER_FILES = '/etc/nginx/codepier-conf';
-
 
 //    public function installApache()
 //    {
@@ -34,7 +33,7 @@ class WebService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
-    public function installNginx()
+    public function installNginx($workerProcesses = 1, $workerConnections = 512)
     {
         $this->connectToServer();
 
@@ -43,14 +42,24 @@ class WebService
         $this->remoteTaskService->removeFile('/etc/nginx/sites-enabled/default');
         $this->remoteTaskService->removeFile('/etc/nginx/sites-available/default');
 
-        $this->remoteTaskService->run('sed -i "s/user www-data;/user codepier;/" /etc/nginx/nginx.conf');
-        $this->remoteTaskService->run('sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_processes', "worker_processes $workerProcesses;");
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_connections', "worker_connections $workerConnections;");
+
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip on;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 5;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_min_length', 'gzip_min_length 256;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_types', 'gzip_types application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component;');
+
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', '# server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', env('DH_PARAM'));
 
-        $this->remoteTaskService->run('echo "fastcgi_param HTTP_PROXY \"\";" >> /etc/nginx/fastcgi_params');
+        $this->remoteTaskService->appendTextToFile('/etc/nginx/fastcgi_params', 'fastcgi_param HTTP_PROXY "";');
 
         $this->remoteTaskService->run('service nginx restart');
 
@@ -79,6 +88,10 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->remoteTaskService->ssh($this->server);
 
         if ($site->hasActiveSSL()) {
+            $activeSsl = $this->server->activeSslCertificates->first(function ($sslCert) use ($site) {
+                return $site->activeSSL->id == $sslCert->site_ssl_certificate_id;
+            });
+
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
@@ -87,8 +100,8 @@ listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : nul
 root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 
 
-ssl_certificate_key '.ServerService::SSL_FILES.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.key;
-ssl_certificate '.ServerService::SSL_FILES.'/'.$site->domain.'/'.$site->activeSSL->id.'/server.crt;
+ssl_certificate_key '.ServerService::SSL_FILES.'/'.$site->domain.'/'.$activeSsl->id.'/server.key;
+ssl_certificate '.ServerService::SSL_FILES.'/'.$site->domain.'/'.$activeSsl->id.'/server.crt;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;
@@ -128,7 +141,7 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
     /**
      * @param $domain
      *
-     * @return bool
+     * @return array
      */
     private function createWebServerSite($domain)
     {

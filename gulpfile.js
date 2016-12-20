@@ -80,6 +80,7 @@ elixir((mix) => {
         ])
         .webpack('app.js')
         .browserSync({
+            open : false,
             proxy: env.APP_URL
         });
 });

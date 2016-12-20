@@ -2,10 +2,20 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
+/*
+ * This file is part of Teamwork
+ *
+ * @license MIT
+ * @package Teamwork
+ */
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+/**
+ * Class UsedByTeams.
+ */
 trait UsedByTeams
 {
     /**
@@ -13,34 +23,33 @@ trait UsedByTeams
      */
     protected static function bootUsedByTeams()
     {
-        if (\Auth::check()) {
-            $teamworkModel = static::$teamworkModel;
+        $teamworkModel = static::$teamworkModel;
 
-            if (empty(auth()->user()->current_team_id)) {
-                static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
-                    $builder->doesntHave($teamworkModel);
-                });
-            } else {
-                static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
+        static::addGlobalScope('team', function (Builder $builder) use ($teamworkModel) {
+            if (auth()->user()) {
+                if (auth()->user()->current_team_id) {
                     $builder->whereHas($teamworkModel, function ($query) {
                         $query->whereHas('users', function ($query) {
                             $query->where('user_id', auth()->user()->id);
                         })->where('team_id', auth()->user()->currentTeam->getKey());
                     });
-                });
-
-                static::saved(function (Model $model) {
-                    if ($model->teamworkSync) {
-                        $model->teams()->attach(auth()->user()->currentTeam->getKey());
-                    }
-                });
+                } else {
+                    $builder->doesntHave($teamworkModel);
+                }
             }
-        }
+        });
+
+        static::saved(function (Model $model) {
+            if (auth()->user()) {
+                if (auth()->user()->current_team_id && $model->teamworkSync) {
+                    $model->teams()->attach(auth()->user()->currentTeam->getKey());
+                }
+            }
+        });
     }
 
     /**
      * @param Builder $query
-     *
      * @return mixed
      */
     public function scopeAllTeams(Builder $query)

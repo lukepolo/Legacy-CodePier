@@ -19,18 +19,21 @@ class RepositoryProvidersSeeder extends Seeder
                 'name'             => 'Github',
                 'url'              => 'github.com',
                 'git_url'          => 'git@github.com',
+                'commit_url'       => 'commit',
                 'repository_class' => \App\Services\Repository\Providers\GitHub::class,
             ],
             \App\Http\Controllers\Auth\OauthController::BITBUCKET => [
                 'name'             => 'Bitbucket',
                 'url'              => 'bitbucket.org',
                 'git_url'          => 'git@bitbucket.org',
+                'commit_url'       => 'commits',
                 'repository_class' => \App\Services\Repository\Providers\BitBucket::class,
             ],
             \App\Http\Controllers\Auth\OauthController::GITLAB => [
                 'name'             => 'GitLab',
                 'url'              => 'gitlab.com',
                 'git_url'          => 'git@gitlab.com',
+                'commit_url'       => 'commit',
                 'repository_class' => \App\Services\Repository\Providers\GitLab::class,
             ],
         ];
@@ -41,10 +44,10 @@ class RepositoryProvidersSeeder extends Seeder
                 'name'          => $data['name'],
             ]);
 
-
             $providerModel->fill([
                 'url'              => $data['url'],
                 'git_url'          => $data['git_url'],
+                'commit_url'       => $data['commit_url'],
                 'repository_class' => $data['repository_class'],
             ]);
 
