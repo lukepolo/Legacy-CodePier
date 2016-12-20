@@ -81,7 +81,7 @@ trait SystemFiles
                 }
 
                 $options = $this->getDocParam($method, 'options');
-                if(!empty($options)) {
+                if (! empty($options)) {
                     $options = explode(',', $options);
                 }
 
@@ -94,7 +94,7 @@ trait SystemFiles
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
                     'description' => $this->getDocParam($method, 'description'),
                     'options' => $options,
-                    'multiple' => $this->getDocParam($method, 'multiple', false)
+                    'multiple' => $this->getDocParam($method, 'multiple', false),
                 ]));
             }
         }
