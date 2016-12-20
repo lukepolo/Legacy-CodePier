@@ -4,10 +4,10 @@ namespace App\Observers\Site;
 
 use App\Models\Site\Site;
 use App\Jobs\Site\DeleteSite;
-use App\Models\Site\SiteFirewallRule;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
+use App\Models\Site\SiteFirewallRule;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -37,8 +37,7 @@ class SiteObserver
         RepositoryService $repositoryService,
         SiteFeatureService $siteFeatureService,
         SiteDeploymentStepsService $siteDeploymentStepsService
-    )
-    {
+    ) {
         $this->siteService = $siteService;
         $this->repositoryService = $repositoryService;
         $this->siteFeatureService = $siteFeatureService;
@@ -91,10 +90,10 @@ class SiteObserver
             }
         }
 
-//        if($site->repository && $site->deploymentSteps->isEmpty()) {
-//            $this->siteDeploymentStepsService->saveDefaultSteps($site);
+        if ($site->repository && $site->deploymentSteps->isEmpty()) {
+            $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedDefaults($site);
-//        }
+        }
     }
 
     /**

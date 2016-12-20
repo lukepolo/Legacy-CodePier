@@ -79,22 +79,20 @@ class SiteFeatureService implements SiteFeatureServiceContract
                             $tempSuggestedFeatures = array_merge($tempSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                         }
 
-                        foreach($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
-
-                            foreach($serverSuggestedFeatures as $suggestedFeature) {
-
+                        foreach ($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
+                            foreach ($serverSuggestedFeatures as $suggestedFeature) {
                                 $features = $possibleFeatures;
 
-                                if(strpos($service, '.') > 0) {
+                                if (strpos($service, '.') > 0) {
                                     $serviceParts = explode('.', $service);
                                     $service = array_pop($serviceParts);
 
-                                    foreach($serviceParts as $part) {
+                                    foreach ($serviceParts as $part) {
                                         $features = collect($features->get($part));
                                     }
                                 }
 
-                                if(!isset($suggestedFeatures[$service])) {
+                                if (! isset($suggestedFeatures[$service])) {
                                     $suggestedFeatures[$service] = [];
                                 }
                                 $suggestedFeatures[$service][] = $features->get($service)[$suggestedFeature];
@@ -111,7 +109,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
     }
 
     /**
-     * Saves the suggested defaults to their site
+     * Saves the suggested defaults to their site.
      * @param Site $site
      * @return mixed
      */
