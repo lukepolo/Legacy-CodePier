@@ -117,7 +117,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
      */
     public function saveSuggestedDefaults(Site $site)
     {
-        return $this->site->update([
+        return $site->update([
             'server_features' => $this->getSuggestedFeatures($site)
         ]);
     }
