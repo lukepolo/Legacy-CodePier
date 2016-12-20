@@ -2,17 +2,17 @@
 
 namespace App\Jobs\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\Server\ServerProvisionStatusChanged;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
-use App\Models\Server\ServerProvisionStep;
-use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Events\Server\ServerProvisionStatusChanged;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ProvisionServer implements ShouldQueue
 {
@@ -50,7 +50,9 @@ class ProvisionServer implements ShouldQueue
             }
 
             foreach ($this->server->sites as $site) {
-                dispatch(new CreateSite($this->server, $site));
+                dispatch(
+                    (new CreateSite($this->server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                );
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

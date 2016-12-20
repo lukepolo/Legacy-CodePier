@@ -16,6 +16,17 @@ return [
     'format'    => 'php',
 
     /*
+   |--------------------------------------------------------------------------
+   | Fluent helpers
+   |--------------------------------------------------------------------------
+   |
+   | Set to true to generate commonly used Fluent methods
+   |
+   */
+
+    'include_fluent' => true,
+
+    /*
     |--------------------------------------------------------------------------
     | Helper files to include
     |--------------------------------------------------------------------------
@@ -29,6 +40,7 @@ return [
 
     'helper_files' => [
         base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+        base_path().'/app/helpers.php',
     ],
 
     /*
@@ -42,9 +54,8 @@ return [
     */
 
     'model_locations' => [
-        'app',
+        'app/models',
     ],
-
 
     /*
     |--------------------------------------------------------------------------

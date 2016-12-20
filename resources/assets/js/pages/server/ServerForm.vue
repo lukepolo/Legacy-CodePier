@@ -20,9 +20,12 @@
                                 <div class="input-question">Server Provider</div>
                                 <template v-for="user_server_provider in user_server_providers">
                                     <label>
-                                        <input @change="getProviderData(user_server_provider.server_provider.provider_name)"
-                                               type="radio" name="server_provider_id"
-                                               :value="user_server_provider.server_provider_id">
+                                        <input
+                                            @change="getProviderData(user_server_provider.server_provider.provider_name)"
+                                            type="radio"
+                                            name="server_provider_id"
+                                            :value="user_server_provider.server_provider_id"
+                                        >
                                         <span class="icon"></span>
                                         {{ user_server_provider.server_provider.name }}
                                     </label>
@@ -39,10 +42,12 @@
                                     <div class="input-question">Server Option</div>
 
                                     <select name="server_option">
-                                        <option v-for="option in server_options" :value="option.id">{{ option.memory }}
-                                            MB
-                                            RAM - {{ option.cpus }} CPUS - {{ option.space }} SSD - ${{
-                                            option.priceHourly }} / Hour - ${{ option.priceMonthly }} / Month
+                                        <option v-for="option in server_options" :value="option.id">
+                                            {{ option.memory }} MB RAM
+                                            - {{ option.cpus }} CPUS
+                                            - {{ option.space }} SSD
+                                            - ${{ option.priceHourly }} / Hour
+                                            - ${{ option.priceMonthly }} / Month
                                         </option>
                                     </select>
                                 </div>
@@ -68,11 +73,20 @@
                                     </template>
                                 </div>
 
-                                <feature-area :site="site" :area="serverFeatureArea" :features="features"
-                                              v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                                <feature-area :site="site" :area="serverLanguageArea" :features="features"
-                                              :frameworks="true"
-                                              v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
+                                <feature-area
+                                    :features="features"
+                                    :area="serverFeatureArea"
+                                    :site_server_features="site.server_features"
+                                    v-for="(features, serverFeatureArea) in availableServerFeatures"
+                                ></feature-area>
+
+                                <feature-area
+                                    :frameworks="true"
+                                    :features="features"
+                                    :area="serverLanguageArea"
+                                    :site_server_features="site.server_features"
+                                    v-for="(features, serverLanguageArea) in availableServerLanguages"
+                                ></feature-area>
 
                                 <div class="btn-footer">
                                     <button class="btn">Cancel</button>
@@ -93,11 +107,12 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
-    import FeatureArea from './components/FeatureArea.vue'
+    import FeatureArea from './components/FeatureArea.vue';
+
     export default {
         components: {
             LeftNav,
-            FeatureArea
+            FeatureArea,
         },
         created() {
             this.fetchData();
@@ -123,15 +138,19 @@
                 this.$store.dispatch('getServerProviderFeatures', provider);
             },
             createServer() {
+
                 this.$store.dispatch('createServer', this.getFormData(this.$el));
+
+                if (this.$route.params.site) {
+                    app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}});
+                } else {
+                    app.$router.push('/');
+                }
             }
         },
         computed: {
             user_server_providers() {
-                var providers = this.$store.state.serverProvidersStore.user_server_providers;
-                if (providers.length == 1) {
-                }
-                return providers;
+                return this.$store.state.serverProvidersStore.user_server_providers;
             },
             server_options() {
                 return this.$store.state.serverProvidersStore.server_provider_options;

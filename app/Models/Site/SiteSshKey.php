@@ -2,15 +2,27 @@
 
 namespace App\Models\Site;
 
-use App\Models\Server\ServerSshKey;
 use App\Traits\FireEvents;
+use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
+use App\Models\Server\ServerSshKey;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteSshKey extends Model
 {
-    use FireEvents;
+    use FireEvents, ConnectedToUser, Encryptable;
+
+    public static $userModel = 'site';
 
     protected $guarded = ['id'];
+
+    protected $encryptable = [
+        'ssh_key',
+    ];
+
+    protected $hidden = [
+        'ssh_key',
+    ];
 
     /*
     |--------------------------------------------------------------------------

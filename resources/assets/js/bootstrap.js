@@ -7,6 +7,12 @@ window._ = require('lodash');
  */
 
 window.Vue = require('vue');
+
+if(Laravel.env == 'production') {
+    Vue.config.devtools = false;
+    Vue.config.silent = true;
+}
+
 window.VueRouter = require('vue-router');
 require('vue-resource');
 

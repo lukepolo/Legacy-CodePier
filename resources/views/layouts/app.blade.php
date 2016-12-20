@@ -13,11 +13,22 @@
         <!-- Styles -->
         <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 
+        @if(env('APP_ENV') == 'production')
+            <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
+            <script>
+                Raven.config('{{ env('SENTRY_JS') }}').install()
+            </script>
+        @endif
+
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
+                'env' => env('APP_ENV'),
                 'csrfToken' => csrf_token(),
                 'pusherKey' => env('PUSHER_KEY'),
+                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
+                'app_registration' => env('APP_REGISTRATION'),
+                'version' => app()->make('gitCommit'),
             ]); ?>
         </script>
     </head>

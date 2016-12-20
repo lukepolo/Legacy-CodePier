@@ -2,14 +2,15 @@
 
 namespace App\Jobs\Server\Workers;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Models\Server\ServerWorker;
-use App\Services\Systems\SystemService;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Traits\ServerCommandTrait;
+use App\Models\Server\ServerWorker;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
+use App\Services\Systems\SystemService;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerWorker implements ShouldQueue
 {
@@ -28,11 +29,9 @@ class RemoveServerWorker implements ShouldQueue
     }
 
     /**
-     * @param ServerService $serverService
-     *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
@@ -43,6 +42,9 @@ class RemoveServerWorker implements ShouldQueue
         if ($this->wasSuccessful()) {
             $this->serverWorker->unsetEventDispatcher();
             $this->serverWorker->delete();
+            if (\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
         }
 
         return $this->remoteResponse();

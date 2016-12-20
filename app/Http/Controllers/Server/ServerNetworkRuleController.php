@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerNetworkRuleRequest;
 use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
 use App\Models\Server\ServerNetworkRule;
+use App\Http\Requests\Server\ServerNetworkRuleRequest;
 
 class ServerNetworkRuleController extends Controller
 {

@@ -2,16 +2,20 @@
 
 namespace App\Models\Site;
 
-use App\Traits\Encryptable;
 use App\Traits\FireEvents;
-use App\Traits\ServerCommands;
+use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteFile extends Model
 {
-    use Encryptable, FireEvents, ServerCommands;
+    use Encryptable, FireEvents, ConnectedToUser;
 
-    protected $guarded = ['id'];
+    public static $userModel = 'site';
+
+    protected $guarded = [
+        'id',
+    ];
 
     protected $encryptable = [
         'content',

@@ -2,25 +2,28 @@
 
 namespace App\Notifications\Site;
 
-use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class SiteDeploymentSuccessful extends Notification
 {
     use Queueable;
 
-    public $site;
+    public $slackChannel;
     public $siteDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param Site           $site
+     * @param SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site)
+    public function __construct(SiteDeployment $siteDeployment)
     {
-        $this->site = $site;
+        $this->siteDeployment = $siteDeployment;
+        $this->slackChannel = 'deployments';
     }
 
     /**
@@ -32,7 +35,7 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function via($notifiable)
     {
-        return ['broadcast'];
+        return ['broadcast', SlackMessageChannel::class];
     }
 
     /**
@@ -42,10 +45,37 @@ class SiteDeploymentSuccessful extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
-            'site'           => $this->site,
+            'site' => strip_relations($notifiable),
         ];
+    }
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param mixed $notifiable
+     *
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        $url = url('site/'.$notifiable->id);
+        $site = $notifiable;
+        $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
+
+        $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
+
+        return (new SlackMessage())
+            ->success()
+            ->content('Deployment Completed')
+            ->attachment(function ($attachment) use ($url, $site, $siteDeployment, $repositoryProvider) {
+                $attachment->title('('.$site->pile->name.') '.$site->domain, $url)
+                    ->fields([
+                        'Commit' => 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit,
+                        'Message' =>  $siteDeployment->commit_message,
+                    ]);
+            });
     }
 }

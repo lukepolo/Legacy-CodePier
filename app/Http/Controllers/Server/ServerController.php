@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerRequest;
-use App\Jobs\Server\CreateServer;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Jobs\Server\CreateServer;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\Server\ServerRequest;
+use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ServerController extends Controller
 {
@@ -34,7 +35,11 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])->where('pile_id', $request->get('pile_id'))->get()
+            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])
+                ->when($request->has('pile_id'), function (Builder $query) use ($request) {
+                    return $query->where('pile_id', $request->get('pile_id'));
+                })
+                ->get()
         );
     }
 
@@ -70,13 +75,26 @@ class ServerController extends Controller
             $site->servers()->save($server);
         }
 
-        $this->dispatch(new CreateServer(
+        $this->dispatch((new CreateServer(
             ServerProvider::findorFail($request->get('server_provider_id')),
             $server
-        ));
-//            ->onQueue('server_creations'));
+        ))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
 
         return response()->json($server->load(['serverProvider', 'pile']));
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $server = Server::findOrFail($id)->update([
+            'name' => $request->get('name'),
+        ])->restore();
+
+        return response()->json($server);
     }
 
     /**

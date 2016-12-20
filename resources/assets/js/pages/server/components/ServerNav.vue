@@ -1,47 +1,5 @@
 <template>
     <div v-if="server">
-        <h3 class="section-header primary">
-            Server {{ server.name }}
-            <small>{{ server.ip }}</small>
-            -- (DISK SPACE?)
-
-            <div class="pull-right">
-                <div class="dropdown">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fa fa-cog"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a @click.prevent="archiveServer(server.id)">Archive Server</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="pull-right">
-                <div class="dropdown">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fa fa-server"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a @click.prevent="restartServer(server.id)">Restart Server</a></li>
-                        <li><a @click.prevent="restartServerWebServices(server.id)">Restart Web Services</a></li>
-                        <li><a @click.prevent="restartServerDatabases(server.id)">Restart Databases</a></li>
-                        <li><a @click.prevent="restartServerWorkers(server.id)">Restart Workers</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="pull-right">
-                <div class="dropdown">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fa fa-files-o"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Edit Nginx Config</a></li>
-                        <li><a href="#">Edit PHP Config</a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </h3>
         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
             <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }" role="presentation" tag="li">
                 <a>Sites</a>
@@ -73,7 +31,6 @@
 
 <script>
     export default {
-        props: ['server'],
         methods: {
             restartServerWebServices: function (server_id) {
                 this.$store.dispatch('restartServerWebServices', server_id);
@@ -89,6 +46,11 @@
             },
             archiveServer: function (server_id) {
                 this.$store.dispatch('archiveServer', server_id);
+            }
+        },
+        computed : {
+            server() {
+                return this.$store.state.serversStore.server;
             }
         }
     }

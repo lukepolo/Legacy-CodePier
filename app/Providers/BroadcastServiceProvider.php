@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use Illuminate\Support\Facades\Broadcast;
+use App\Models\Server\Server;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Broadcast;
 
 class BroadcastServiceProvider extends ServiceProvider
 {

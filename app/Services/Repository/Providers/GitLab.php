@@ -2,35 +2,55 @@
 
 namespace App\Services\Repository\Providers;
 
+use Gitlab\Client;
 use App\Models\Site\Site;
-use App\Models\User\UserRepositoryProvider;
 use Gitlab\Api\Repositories;
+use App\Models\User\UserRepositoryProvider;
 
 class GitLab implements RepositoryContract
 {
+    use RepositoryTrait;
+
+    /** @var Client $client */
     private $client;
 
     /**
      * Imports a deploy key so we can clone the repositories.
      *
-     * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $sshKey
-     *
-     * @throws \Exception
+     * @param Site $site
      */
-    public function importSshKeyIfPrivate(UserRepositoryProvider $userRepositoryProvider, $repository, $sshKey)
+    public function importSshKeyIfPrivate(Site $site)
     {
-        $this->setToken($userRepositoryProvider);
+        $repository = $site->repository;
 
-        if ($this->isRepositoryPrivate($repository)) {
-            $this->client->api('projects')->addKey($repository, 'CodePier', $sshKey);
-        }
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($repository);
+
+        $client = new \Guzzle\Http\Client();
+
+        // TODO - probably should set this api url somewhere else
+        $client->post('https://gitlab.com/api/v3/projects/'.$repositoryInfo['id'].'/deploy_keys', [
+            'Authorization' => 'Bearer '.$site->userRepositoryProvider->token,
+            'Content-Type' => 'application/json',
+        ], [
+            'title' => 'CodePier',
+            'key' => $site->public_ssh_key,
+        ])->send();
     }
 
-    public function isRepositoryPrivate($repository)
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
     {
-        $repositoryInfo = $this->getRepositoryInfo($repository);
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
 
         if (isset($repositoryInfo['public'])) {
             return ! $repositoryInfo['public'];
@@ -88,7 +108,10 @@ class GitLab implements RepositoryContract
         $lastCommit = collect($this->client->api('repositories')->commits($repository, 0, Repositories::PER_PAGE, $branch))->first();
 
         if (! empty($lastCommit)) {
-            return $lastCommit['short_id'];
+            return [
+                'git_commit' => $lastCommit['short_id'],
+                'commit_message' => $lastCommit['message'],
+            ];
         }
     }
 
@@ -98,12 +121,13 @@ class GitLab implements RepositoryContract
 
         $webhook = $this->client->api('projects')->addHook($site->repository, [
             'push_events'           => true,
-            'merge_requests_events' => true,
-            'url'                   => route('webhook/deploy', $site->encode()),
+            'url'                   => action('WebHookController@deploy', $site->encode()),
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];
         $site->save();
+
+        return $site;
     }
 
     public function deleteDeployHook(Site $site)
@@ -114,5 +138,7 @@ class GitLab implements RepositoryContract
 
         $site->automatic_deployment_id = null;
         $site->save();
+
+        return $site;
     }
 }

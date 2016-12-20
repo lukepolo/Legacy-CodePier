@@ -35,6 +35,12 @@
             </li>
         </ul>
 
+        <section v-if="current_version != version">
+            <div>
+                Hello, We've got a new version of CodePier ready for you. <a href="">Refresh now</a> to make it yours.
+            </div>
+        </section>
+
         <ul class="nav navbar-right nav-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -73,13 +79,16 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link to="/my-profile"><span class="icon-person"></span>My Profile</router-link>
+                        <router-link :to="{ name: 'my_profile' }"><span class="icon-person"></span>My Profile</router-link>
                     </li>
                     <li>
-                        <router-link to="/my/teams"><span class="icon-people"></span>Manage Teams</router-link>
+                        <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                     </li>
                     <li>
-                        <router-link to="/piles"><span class="icon-layers"></span>My Piles</router-link>
+                        <router-link :to="{ name: 'piles' }"><span class="icon-layers"></span>My Piles</router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                     </li>
                     <li>
                         <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
@@ -96,7 +105,15 @@
         components: {
             NotificationArea
         },
+        data() {
+            return {
+                current_version : Laravel.version
+            }
+        },
         computed: {
+            version() {
+                return this.$store.state.eventsStore.version
+            },
             piles() {
                 return this.$store.state.pilesStore.piles;
             },
@@ -115,9 +132,12 @@
         },
         methods: {
             logout() {
-                Vue.http.post(this.action('Auth\LoginController@logout')).then(function () {
+                Vue.http.post(this.action('Auth\LoginController@logout')).then((response) => {
+                    window.location = '/';
+                }, (errors) => {
                     window.location = '/';
                 });
+
             },
             changeTeam: function (teamID) {
                 this.$store.dispatch('changeTeams', teamID);

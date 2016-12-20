@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\SiteWorker;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteWorkerRequest;
-use App\Models\Site\SiteWorker;
 
 class SiteWorkerController extends Controller
 {

@@ -12,24 +12,7 @@ class Laravel
         '.env',
     ];
 
-    public static $suggestedDefaults = [
-        'Beanstalk',
-        'Supervisor',
-        'MariaDB',
-        'Memcached',
-        'Redis',
-        'DiskMonitoringScript',
-        'NodeJs',
-        'Swap',
-        'Git',
-        'CertBot',
-        'Nginx',
-        'PHP7',
-        'PhpFpm',
-        'Composer',
-        'BlackFire',
-        'Envoy',
-    ];
+    public $suggestedFeatures = [];
 
     public function installEnvoy()
     {
@@ -38,7 +21,7 @@ class Laravel
         $this->remoteTaskService->run('composer global require "laravel/envoy=~1.0"');
     }
 
-    public function copyExampleEnvironment()
+    private function getNginxConfig()
     {
     }
 }

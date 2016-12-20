@@ -2,14 +2,25 @@
 
 namespace App\Models\Server;
 
-use App\Traits\ServerCommands;
+use App\Traits\Encryptable;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerSshKey extends Model
 {
-    use ServerCommands;
+    use ConnectedToUser, Encryptable;
 
     protected $guarded = ['id'];
+
+    public static $userModel = 'server';
+
+    protected $encryptable = [
+        'ssh_key',
+    ];
+
+    protected $hidden = [
+        'ssh_key',
+    ];
 
     public function server()
     {

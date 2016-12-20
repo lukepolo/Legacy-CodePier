@@ -2,31 +2,42 @@
 
 namespace App\Models\Server;
 
-use App\Models\Command;
 use App\Models\Pile;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Provider\ServerProviderFeatures;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\SlackChannel;
+use App\Models\ServerCommand;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Provider\ServerProviderFeatures;
 
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams, Notifiable, Encryptable;
+    use SoftDeletes, UsedByTeams, Notifiable, Encryptable, ConnectedToUser;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+        'sudo_password',
+        'public_ssh_key',
+        'private_ssh_key',
+        'database_password',
+    ];
 
     public static $teamworkModel = 'pile.teams';
+
     public $teamworkSync = false;
 
     protected $casts = [
+        'stats' => 'array',
         'options'  => 'array',
-        'server_provider_features' => 'array',
         'server_features' => 'array',
+        'server_provider_features' => 'array',
     ];
 
     protected $encryptable = [
@@ -89,6 +100,16 @@ class Server extends Model
         return $this->hasMany(ServerNetworkRule::class);
     }
 
+    public function sslCertificates()
+    {
+        return $this->hasMany(ServerSslCertificate::class);
+    }
+
+    public function activeSslCertificates()
+    {
+        return $this->hasMany(ServerSslCertificate::class)->where('active', true);
+    }
+
     public function server_provider_features()
     {
         return $this->hasMany(ServerProviderFeatures::class);
@@ -106,7 +127,7 @@ class Server extends Model
 
     public function commands()
     {
-        return $this->hasMany(Command::class);
+        return $this->hasMany(ServerCommand::class);
     }
 
     /*
@@ -175,5 +196,24 @@ class Server extends Model
         })->count();
 
         return floor(($totalDone / $this->provisionSteps->count()) * 100);
+    }
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
+            return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
+        });
+
+        return $slackProvider ? $slackProvider->token : null;
+    }
+
+    public function slackChannel()
+    {
+        return $this->morphOne(SlackChannel::class, 'slackable');
     }
 }

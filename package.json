@@ -16,9 +16,10 @@
     "lodash": "^4.16.3",
     "nprogress": "^0.2.0",
     "pusher-js": "^3.2.1",
-    "vue": "^2.0.1",
+    "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
+    "vuedraggable": "^2.3.1",
     "vuex": "^2.0.0"
   }
 }

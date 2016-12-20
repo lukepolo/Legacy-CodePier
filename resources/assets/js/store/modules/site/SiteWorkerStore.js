@@ -13,7 +13,7 @@ export default {
             Vue.http.post(Vue.action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
                 dispatch('getWorkers', data.site_id);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         deleteWorker: ({commit, dispatch}, data) => {

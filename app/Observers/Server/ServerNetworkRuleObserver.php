@@ -2,9 +2,9 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\FirewallRules\InstallServerNetworkRule;
-use App\Jobs\Server\FirewallRules\RemoveServerNetworkRule;
 use App\Models\Server\ServerNetworkRule;
+use App\Jobs\Server\FirewallRules\RemoveServerNetworkRule;
+use App\Jobs\Server\FirewallRules\InstallServerNetworkRule;
 
 class ServerNetworkRuleObserver
 {
@@ -13,7 +13,9 @@ class ServerNetworkRuleObserver
      */
     public function created(ServerNetworkRule $serverNetworkRule)
     {
-        dispatch(new InstallServerNetworkRule($serverNetworkRule));
+        dispatch(
+            (new InstallServerNetworkRule($serverNetworkRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
     }
 
     /**
@@ -21,6 +23,8 @@ class ServerNetworkRuleObserver
      */
     public function deleting(ServerNetworkRule $serverNetworkRule)
     {
-        dispatch(new RemoveServerNetworkRule($serverNetworkRule));
+        dispatch(
+            (new RemoveServerNetworkRule($serverNetworkRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
     }
 }

@@ -2,98 +2,153 @@ export default {
     state: {
         servers: [],
         server: null,
+        all_servers : [],
         server_sites: [],
+        servers_listening_to : [],
         editable_server_files: [],
         editable_framework_files: [],
         available_server_features: [],
         available_server_languages: [],
         available_server_frameworks: [],
-        servers_current_provisioning_step : {}
+        servers_current_provisioning_step : {},
+        runningCommands : Object.keys(runningCommands).length > 0 ? runningCommands : {},
     },
     actions: {
         getServer: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerController@show', {server: server_id})).then((response) => {
                 commit('SET_SERVER', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServersCurrentProvisioningStep: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         retryProvisioning:  ({commit}, server_id) => {
             Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
-        getServers: ({commit, rootState}, callback) => {
+        getServers: ({commit, rootState}) => {
             Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.userStore.user.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
-                typeof callback === 'function' && callback();
             }, (errors) => {
-                alert(errors);
+                app.showError(errors);
             });
         },
-        createServer: ({commit}, form) => {
-            Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
-                alert('probably should notify them or something ?')
+        getAllServers: ({commit, dispatch}) => {
+            return Vue.http.get(Vue.action('Server\ServerController@index')).then((response) => {
+                commit('SET_ALL_SERVERS', response.data);
+
+                _.each(response.data, function(server) {
+                    dispatch('listenToServer', server)
+                });
+                return response.data;
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
+            });
+        },
+        listenToServer : ({commit, state, dispatch}, server) => {
+            if (_.indexOf(state.servers_listening_to, server.id) == -1) {
+
+                commit('SET_SERVERS_LISTENING_TO', server);
+
+                if(server.progress < 100) {
+                    dispatch('getServersCurrentProvisioningStep', server.id)
+                }
+
+                Echo.private('App.Models.Server.Server.' + server.id)
+                    .listen('Server\\ServerProvisionStatusChanged', (data) => {
+                        commit("UPDATE_SERVER", data.server);
+                        commit("UPDATE_SITE_SERVER", data.server);
+                        commit("SET_SERVERS_CURRENT_PROVISIONING_STEP", [data.server.id, data.serverCurrentProvisioningStep]);
+                    })
+                    .listen('Server\\ServerSshConnectionFailed', (data) => {
+                        commit("UPDATE_SERVER", data.server);
+                        commit("UPDATE_SITE_SERVER", data.server);
+                    })
+                    .listen('Server\\ServerSshConnectionFailed', (data) => {
+
+                    })
+                    .listen('Server\\ServerCommandUpdated', (data) => {
+                        commit("UPDATE_COMMAND", data.command);
+                    })
+                    .notification((notification) => {
+                        switch(notification.type) {
+                            case 'App\\Notifications\\Server\\ServerMemory':
+                            case 'App\\Notifications\\Server\\ServerDiskUsage':
+                            case 'App\\Notifications\\Server\\ServerLoad':
+
+                                commit('SET_SERVER_STATS', {
+                                    server_id : server.id,
+                                    stats : notification.stats
+                                });
+                                break;
+                        }
+                    })
+            }
+        },
+        createServer: ({dispatch}, form) => {
+            Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+                dispatch('listenToServer', response.data);
+                app.showSuccess('Your server is in queue to be provisioned');
+            }, (errors) => {
+                app.showError(errors);
             });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then((response) => {
                 app.$router.push('/');
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerSites: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerSiteController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_SITES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableFeatures: ({commit}) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getServerFeatures')).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerFeatureController@getFeatures')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FEATURES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableLanguages: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getLanguages')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_LANGUAGES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getServerAvailableFrameworks: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getFrameworks')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getEditableServerFiles: ({commit}, server) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableServerFiles', {server: server})).then((response) => {
+            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFiles', {server: server})).then((response) => {
                 commit('SET_EDITABLE_SERVER_FILES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         getEditableFrameworkFiles: ({commit}, site) => {
-            Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFrameworkFiles', {site: site})).then((response) => {
+            Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', {site: site})).then((response) => {
                 commit('SET_EDITABLE_FRAMEWORK_FILES', response.data);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         installFeature: ({commit, dispatch}, data) => {
@@ -104,7 +159,7 @@ export default {
             }).then((response) => {
                 dispatch('getServer', data.server);
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         },
         saveServerFile: ({commit}, data) => {
@@ -116,7 +171,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                app.showError(error);
+                app.showError(errors);
             });
         }
     },
@@ -147,7 +202,7 @@ export default {
         },
         SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server_id, current_step]) => {
 
-            var servers_current_provisioning_steps = {};
+            let servers_current_provisioning_steps = {};
 
             servers_current_provisioning_steps[server_id] = current_step;
 
@@ -158,14 +213,37 @@ export default {
             state.servers_current_provisioning_step = servers_current_provisioning_steps;
         },
         UPDATE_SERVER : (state, server) => {
-
-            var foundServer = _.find(state.servers, function(tempServer) {
+            let foundServer = _.find(state.servers, function(tempServer) {
                return tempServer.id == server.id
             });
 
-            _.each(server, function(value, index) {
-                foundServer[index] = value;
-            });
+            if(foundServer) {
+                _.each(server, function(value, index) {
+                    foundServer[index] = value;
+                });
+            }
+
+        },
+        SET_ALL_SERVERS : (state, servers) => {
+            state.all_servers = servers;
+        },
+        SET_SERVERS_LISTENING_TO : (state, server) => {
+            state.servers_listening_to.push(server.id);
+        },
+        UPDATE_COMMAND : (state, command) => {
+
+            let commandKey = _.findKey(state.runningCommands[command.commandable_type], { id: command.id });
+
+            if(commandKey) {
+                return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
+            }
+
+            if(!state.runningCommands[command.commandable_type]) {
+                Vue.set(state.runningCommands, command.commandable_type, []);
+            }
+
+
+            state.runningCommands[command.commandable_type].push(command);
         }
     }
 }

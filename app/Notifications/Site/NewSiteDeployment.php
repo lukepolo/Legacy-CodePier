@@ -3,26 +3,23 @@
 namespace App\Notifications\Site;
 
 use App\Models\Site\Site;
-use App\Models\Site\SiteDeployment;
 use Illuminate\Bus\Queueable;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
 
 class NewSiteDeployment extends Notification
 {
     use Queueable;
 
-    public $site;
     public $siteDeployment;
 
     /**
      * Create a new notification instance.
      *
-     * @param Site           $site
      * @param \App\Models\Site\SiteDeployment $siteDeployment
      */
-    public function __construct(Site $site, SiteDeployment $siteDeployment)
+    public function __construct(SiteDeployment $siteDeployment)
     {
-        $this->site = $site;
         $this->siteDeployment = $siteDeployment;
     }
 
@@ -45,12 +42,19 @@ class NewSiteDeployment extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
-            'siteDeployment' => $this->siteDeployment->load(['serverDeployments.server', 'serverDeployments.events.step' => function ($query) {
-                $query->withTrashed();
-            }, 'site.pile', 'site.userRepositoryProvider.repositoryProvider']),
+            'siteDeployment' => $this->siteDeployment->load([
+                'serverDeployments.server' => function ($query) {
+                    $query->select('id', 'status', 'name', 'ip');
+                },
+                'serverDeployments.events.step' => function ($query) {
+                    $query->withTrashed();
+                },
+                'site.pile',
+                'site.userRepositoryProvider.repositoryProvider',
+            ]),
         ];
     }
 }

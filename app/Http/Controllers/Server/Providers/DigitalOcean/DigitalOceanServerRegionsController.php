@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server\Providers\DigitalOcean;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Http\Controllers\Auth\OauthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class DigitalOceanServerRegionsController extends Controller
 {
@@ -28,11 +28,15 @@ class DigitalOceanServerRegionsController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            ServerProvider::with(['serverRegions' => function ($query) {
-                $query->orderBy('name');
-            }])->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions
-        );
+        $regions = ServerProvider::with(['serverRegions' => function ($query) {
+            $query->orderBy('name');
+        }])->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions;
+
+        if ($regions->isEmpty()) {
+            return $this->store();
+        }
+
+        return response()->json($regions);
     }
 
     /**

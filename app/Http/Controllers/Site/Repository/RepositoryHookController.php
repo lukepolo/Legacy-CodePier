@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site\Repository;
 
-use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
+use App\Http\Controllers\Controller;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class RepositoryHookController extends Controller
 {
@@ -29,7 +29,7 @@ class RepositoryHookController extends Controller
     public function store($siteId)
     {
         return response()->json(
-            $this->siteService->createDeployHook(Site::with('server')->findOrFail($siteId))
+            $this->siteService->createDeployHook(Site::findOrFail($siteId))
         );
     }
 
@@ -43,7 +43,7 @@ class RepositoryHookController extends Controller
     public function destroy($siteId)
     {
         return response()->json(
-            $this->siteService->deleteDeployHook(Site::with('server')->findOrFail($siteId))
+            $this->siteService->deleteDeployHook(Site::findOrFail($siteId))
         );
     }
 }

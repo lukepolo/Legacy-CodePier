@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Socialite;
+use App\Models\AuthCode;
+use Bitbucket\API\Users;
+use App\Models\User\User;
+use Illuminate\Http\Request;
+use App\Models\RepositoryProvider;
+use App\SocialProviders\TokenData;
 use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
-use App\Models\RepositoryProvider;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
 use App\Models\User\UserLoginProvider;
-use App\Models\User\UserNotificationProvider;
-use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserServerProvider;
-use App\SocialProviders\TokenData;
+use App\Models\User\UserRepositoryProvider;
+use App\Models\User\UserNotificationProvider;
+use App\Models\Server\Provider\ServerProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
-use Bitbucket\API\Users;
-use Illuminate\Http\Request;
-use Socialite;
 
 class OauthController extends Controller
 {
@@ -60,7 +61,7 @@ class OauthController extends Controller
                 $providerDriver->scopes(['read write']);
                 break;
             case self::SLACK:
-                $providerDriver->scopes(['channels:read chat:write:bot']);
+                $providerDriver->scopes(['channels:write chat:write:bot']);
                 break;
         }
 
@@ -88,11 +89,17 @@ class OauthController extends Controller
                     $user = Socialite::driver($provider)->user();
 
                     if (! \Auth::user()) {
-                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id',
-                            $user->getId())->first()
-                        ) {
+                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
+                            $authCode = session('auth_code');
+
+                            if (! env('APP_REGISTRATION')) {
+                                if (empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
+                                    return back()->withErrors('Registration is disabled');
+                                }
+                            }
+
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
-                            $newUserModel = $this->createUser($user, $newLoginProvider);
+                            $newUserModel = $this->createUser($user, $newLoginProvider, $authCode);
                             \Auth::loginUsingId($newUserModel->id);
                         } else {
                             \Auth::loginUsingId($userProvider->user->id);
@@ -128,7 +135,6 @@ class OauthController extends Controller
                 $newUserServerProvider->delete();
             }
 
-
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
             }
@@ -143,11 +149,11 @@ class OauthController extends Controller
      * @param $user
      * @param UserLoginProvider $userLoginProvider
      *
-     * @throws \Exception
-     *
+     * @param AuthCode $authCode
      * @return mixed
+     * @throws \Exception
      */
-    public function createUser($user, UserLoginProvider $userLoginProvider)
+    public function createUser($user, UserLoginProvider $userLoginProvider, AuthCode $authCode = null)
     {
         switch ($userLoginProvider->provider) {
             case self::BITBUCKET:
@@ -189,7 +195,11 @@ class OauthController extends Controller
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
 
-
+        if (! empty($authCode)) {
+            $authCode->update([
+                'user_id' => $userModel->id,
+            ]);
+        }
 
         return $userModel;
     }

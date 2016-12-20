@@ -3,12 +3,17 @@
 namespace App\Models\Site;
 
 use App\Models\Server\Server;
-use App\Models\Site\Deployment\DeploymentEvent;
+use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Site\Deployment\DeploymentEvent;
 
 class SiteServerDeployment extends Model
 {
+    use ConnectedToUser;
+
     protected $guarded = ['id'];
+
+    public static $userModel = 'server';
 
     protected $casts = [
         'log' => 'array',
@@ -39,5 +44,12 @@ class SiteServerDeployment extends Model
     public function events()
     {
         return $this->hasMany(DeploymentEvent::class);
+    }
+
+    public function delete()
+    {
+        $this->events->delete();
+
+        return parent::delete();
     }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Provider\ServerProviderOption;
-use App\Models\Server\Provider\ServerProviderRegion;
-use App\Models\Server\Server;
-use App\Models\User\UserServerProvider;
-use App\Services\Server\ServerService;
-use Carbon\Carbon;
 use DigitalOcean;
-use DigitalOceanV2\Entity\Droplet;
+use Carbon\Carbon;
 use Guzzle\Http\Client;
 use phpseclib\Crypt\RSA;
+use App\Models\User\User;
+use App\Models\Server\Server;
+use DigitalOceanV2\Entity\Droplet;
+use App\Services\Server\ServerService;
+use App\Models\User\UserServerProvider;
+use App\Http\Controllers\Auth\OauthController;
+use App\Models\Server\Provider\ServerProvider;
+use App\Models\Server\Provider\ServerProviderOption;
+use App\Models\Server\Provider\ServerProviderRegion;
 
 /**
  * Class DigitalOcean.
@@ -32,7 +35,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $options = [];
 
-        $this->setToken(env('ADMIN_DIGITAL_OCEAN_API_KEY'));
+        $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach (DigitalOcean::size()->getAll() as $size) {
             $options[] = ServerProviderOption::firstOrCreate([
@@ -59,7 +62,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $regions = [];
 
-        $this->setToken(env('ADMIN_DIGITAL_OCEAN_API_KEY'));
+        $this->setToken($this->getTokenFromUser(\Auth::user()));
 
         foreach (DigitalOcean::region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
@@ -76,16 +79,15 @@ class DigitalOceanProvider implements ServerProviderContract
      * Creates a new server.
      *
      * @param Server $server
-     * @param $sshKey
      *
      * @throws \Exception
      *
      * @return static
      */
-    public function create(Server $server, $sshKey)
+    public function create(Server $server)
     {
         $sshPublicKey = new RSA();
-        $sshPublicKey->loadKey($sshKey['publickey']);
+        $sshPublicKey->loadKey($server->public_ssh_key);
 
         $ipv6 = false;
         $backups = false;
@@ -101,7 +103,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $this->setToken($this->getTokenFromServer($server));
 
-        DigitalOcean::key()->create($server->name, $sshKey['publickey']);
+        DigitalOcean::key()->create($server->name, $server->public_ssh_key);
 
         /** @var Droplet $droplet */
         $droplet = DigitalOcean::droplet()->create(
@@ -118,7 +120,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $userData = null
         );
 
-        return $this->saveServer($server, $droplet->id, $sshKey);
+        return $this->saveServer($server, $droplet->id);
     }
 
     /**
@@ -197,6 +199,36 @@ class DigitalOceanProvider implements ServerProviderContract
         if ($serverProvider = $server->user->userServerProviders->where(
             'server_provider_id',
             $server->server_provider_id
+        )->first()
+        ) {
+            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+                return $this->refreshToken($serverProvider);
+            }
+
+            return $serverProvider->token;
+        }
+
+        throw new \Exception('No server provider found for this user');
+    }
+
+    /**
+     * Gets the token from the server.
+     *
+     * @param User $user
+     *
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    private function getTokenFromUser(User $user)
+    {
+        $server_provider_id = \Cache::rememberForever('digitalOceanId', function () {
+            return ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->first()->id;
+        });
+
+        if ($serverProvider = $user->userServerProviders->where(
+            'server_provider_id',
+            $server_provider_id
         )->first()
         ) {
             if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {

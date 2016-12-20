@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Server;
+use App\Models\Server\Provider\ServerProvider;
 
 trait ServerProviderTrait
 {
@@ -23,18 +23,15 @@ trait ServerProviderTrait
      *
      * @param \App\Models\Server\Server $server
      * @param $serverId
-     * @param $sshKey
      * @return \App\Models\Server\Server
      */
-    public function saveServer(Server $server, $serverId, $sshKey)
+    public function saveServer(Server $server, $serverId)
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        $server->fill([
+        $server->update([
             'given_server_id' => $serverId,
-            'public_ssh_key' => $sshKey['publickey'],
-            'private_ssh_key' => $sshKey['privatekey'],
-        ])->save();
+        ]);
 
         return $server;
     }

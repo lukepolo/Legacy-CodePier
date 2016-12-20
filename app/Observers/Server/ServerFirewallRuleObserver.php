@@ -2,9 +2,9 @@
 
 namespace App\Observers\Server;
 
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
-use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Models\Server\ServerFirewallRule;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class ServerFirewallRuleObserver
 {
@@ -13,7 +13,9 @@ class ServerFirewallRuleObserver
      */
     public function created(ServerFirewallRule $serverFirewallRule)
     {
-        dispatch(new InstallServerFirewallRule($serverFirewallRule));
+        dispatch(
+            (new InstallServerFirewallRule($serverFirewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
     }
 
     /**
@@ -22,7 +24,9 @@ class ServerFirewallRuleObserver
      */
     public function deleting(ServerFirewallRule $serverFirewallRule)
     {
-        dispatch(new RemoveServerFirewallRule($serverFirewallRule));
+        dispatch(
+            (new RemoveServerFirewallRule($serverFirewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
 
         return false;
     }

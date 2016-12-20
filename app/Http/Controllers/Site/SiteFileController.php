@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Models\Site\Site;
+use Illuminate\Http\Request;
+use App\Models\Site\SiteFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteFileRequest;
-use App\Models\Site\Site;
-use App\Models\Site\SiteFile;
-use Illuminate\Http\Request;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class SiteFileController extends Controller
 {
@@ -32,7 +32,7 @@ class SiteFileController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteFile::findOrFail($siteId)
+            SiteFile::where('site_id', $siteId)->get()
         );
     }
 

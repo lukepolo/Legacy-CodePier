@@ -2,13 +2,16 @@
 
 namespace App\Models\Site;
 
-use App\Models\Server\ServerCronJob;
 use App\Traits\FireEvents;
+use App\Traits\ConnectedToUser;
+use App\Models\Server\ServerCronJob;
 use Illuminate\Database\Eloquent\Model;
 
 class SiteCronJob extends Model
 {
-    use FireEvents;
+    use FireEvents, ConnectedToUser;
+
+    public static $userModel = 'site';
 
     protected $guarded = ['id'];
 

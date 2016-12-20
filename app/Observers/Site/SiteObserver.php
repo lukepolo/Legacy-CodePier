@@ -2,12 +2,18 @@
 
 namespace App\Observers\Site;
 
-use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Models\Site\Site;
+use App\Jobs\Site\DeleteSite;
+use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\UpdateWebConfig;
+use App\Jobs\Site\RenameSiteDomain;
+use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 
 class SiteObserver
 {
+    use ModelCommandTrait;
+
     public static $originalServers = [];
 
     private $siteService;
@@ -25,6 +31,36 @@ class SiteObserver
         $this->repositoryService = $repositoryService;
     }
 
+    public function updating(Site $site)
+    {
+        $dirty = $site->getDirty();
+        if (isset($dirty['domain'])) {
+            dispatch(
+                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+        }
+    }
+
+    public function updated(Site $site)
+    {
+        $dirty = $site->getDirty();
+
+        if (isset($dirty['repository'])) {
+            $site->private = false;
+            $site->public_ssh_key = null;
+            $site->private_ssh_key = null;
+            save_without_events($site);
+        }
+
+        if (isset($dirty['web_directory'])) {
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new UpdateWebConfig($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                );
+            }
+        }
+    }
+
     /**
      * @param Site $site
      */
@@ -32,10 +68,6 @@ class SiteObserver
     {
         // We need to trigger the delete events for some
         // of the relations so they trickle down
-        $site->ssls->each(function ($ssl) {
-            $ssl->delete();
-        });
-
         $site->files->each(function ($file) {
             $file->delete();
         });
@@ -44,20 +76,19 @@ class SiteObserver
             $worker->delete();
         });
 
-        $site->sshKeys()->each(function ($sshKey) {
-            $sshKey->delete();
-        });
-
         $site->cronJobs()->each(function ($cronJob) {
             $cronJob->delete();
         });
 
-        $site->firewallRules()->each(function ($firewallRule) {
-            $firewallRule->delete();
-        });
-
-
         $site->deployments()->delete();
-        $site->deploymentSteps()->delete();
+    }
+
+    public function deleted(Site $site)
+    {
+        foreach ($site->provisionedServers as $server) {
+            dispatch(
+                (new DeleteSite($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+        }
     }
 }

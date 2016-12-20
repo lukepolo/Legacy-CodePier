@@ -1,10 +1,6 @@
 <template>
-    <section>
-        <left-nav></left-nav>
-        <section id="middle" class="section-column" v-if="server">
-            <server-nav :server="server"></server-nav>
-            <editable-server-files :server="server.id"></editable-server-files>
-        </section>
+    <section id="middle" class="section-column" v-if="server">
+        <editable-server-files :server="server.id"></editable-server-files>
     </section>
 </template>
 
@@ -15,8 +11,6 @@
 
     export default {
         components: {
-            LeftNav,
-            ServerNav,
             EditableServerFiles
         },
         created() {

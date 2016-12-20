@@ -6,54 +6,46 @@
 
         <div class="section-content">
         <template v-for="server in servers">
-            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                {{ server.name }}
-            </router-link>
-            {{ server.ssh_connection }} - {{ server.name }} - {{ server.ip }}
-            <p>4 / 40 GB</p>
-            <p>1.2 Avg Load</p>
-            <div class="dropdown">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    Actions
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Restart Web Services</a></li>
-                    <li><a href="#">Restart Server</a></li>
-                    <li><a href="#">Restart Database</a></li>
-                    <li><a href="#">Restart Workers</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Archive Server</a></li>
-                </ul>
-            </div>
+            <server-info :server="server"></server-info>
         </template>
 
-        <hr>
         <template v-if="availableServers.length">
             Available Servers
             <form @submit.prevent="linkServers">
                 <template v-for="server in availableServers">
-                    <input type="checkbox" :value="server.id" v-model="form.connected_servers"> {{ server.ssh_connection
-                    }} - {{ server.name }} - {{ server.ip }}
+                    <input
+                        type="checkbox"
+                        :value="server.id"
+                        v-model="form.connected_servers"
+                    >
+                    {{ server.ssh_connection}} - {{ server.name }} - {{ server.ip }}
                     <br>
                 </template>
-                <button type="submit">Link Servers</button>
+                <button class="btn btn-primary" type="submit">Link Servers</button>
             </form>
         </template>
 
+        <hr>
         <div v-if="site.server_features">
-            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }" tag="div">
+            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
-            <hr>
-            <div class="btn btn-primary">Create A Web Server</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Load Balance</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Database Server</div>
-            - not available during beta
-            <div class="btn btn-primary">Create A Queue Worker Serer</div>
-            - not available during beta
+            <!--<div class="btn btn-primary">Create A Web Server</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Load Balance</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Database Server</div>-->
+            <!-- - not available during beta-->
+            <!--<div class="btn btn-primary">Create A Queue Worker Serer</div>-->
+            <!-- - not available during beta-->
+        </div>
+        <div v-else>
+            <h3>Alpha Testing : </h3>
+            <p>
+                You must setup your site by configuring each of the tabs (press update where applicable), as we currently do not have defaults setup in the backend (coming soon!)
+            </p>
+            <br><br>
+            <br><br>
         </div>
 
         </div>
@@ -61,7 +53,11 @@
 </template>
 
 <script>
+    import ServerInfo from './ServerInfo.vue';
     export default {
+        components : {
+            ServerInfo
+        },
         data()  {
             return {
                 form: {

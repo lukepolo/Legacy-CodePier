@@ -42,11 +42,24 @@
                         {{ user_repository_provider.repository_provider.name }}
                     </label>
                 </div>
+
+                <div class="jcf-input-group">
+                    <div class="input-question">Select Type</div>
+                    <div class="select-wrap">
+                        <select v-model="form.type" name="type">
+                            <option :value="language" v-for="(features, language) in availableLanguages">
+                                {{ language }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="jcf-input-group">
                     <div class="input-question">Select Framework</div>
                     <!-- TODO allow user to de-select a framework. Have an option of "none" -->
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
+                            <select>None</select>
                             <optgroup :label="language" v-for="(features, language) in availableLanguages">
                                 <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
                             </optgroup>
@@ -56,15 +69,23 @@
             </form>
 
             <div class="btn-footer">
-                <button @click="deleteSite(site.id)" class="btn">Delete Site</button>
+
+                <confirm class="btn" dispatch="deleteSite" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
         <template v-if="site.repository">
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-            <a v-if="!site.automatic_deployment_id" href="#" class="btn btn-primary">Start Automatic
-                Deployments</a>
-            <a v-else href="#" class="btn btn-primary">Stop Automatic Deployments</a>
+
+            <template v-if="!site.automatic_deployment_id">
+                <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
+                <template v-if="!site.private">
+                    <small>Please make sure you own the public repository otherwise we cannot create the deploy hook</small>
+                </template>
+            </template>
+            <template v-else>
+                <a class="btn btn-primary" @click.prevent="removeDeployHook">Stop Automatic Deployments</a>
+            </template>
         </template>
     </div>
 </template>
@@ -75,6 +96,7 @@
         data() {
             return {
                 form: {
+                    type : null,
                     branch: null,
                     framework: null,
                     repository: null,
@@ -104,6 +126,7 @@
                 this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
                     data: {
+                        type : this.form.type,
                         branch: this.form.branch,
                         domain: this.site.domain,
                         pile_id: this.site.pile_id,
@@ -116,8 +139,14 @@
                     }
                 });
             },
-            deleteSite: function (site_id) {
-                this.$store.dispatch('deleteSite', site_id);
+            createDeployHook() {
+                return this.$store.dispatch('createDeployHook', this.site.id);
+            },
+            removeDeployHook() {
+                this.$store.dispatch('removeDeployHook', {
+                    site : this.site.id,
+                    hook : this.site.automatic_deployment_id
+                });
             }
         },
         computed: {
@@ -125,6 +154,7 @@
                 var site = this.$store.state.sitesStore.site;
 
                 if (site) {
+                    this.form.type = site.type;
                     this.form.branch = site.branch;
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
