@@ -77,6 +77,4 @@ class SiteDeploymentStepsController extends Controller
 
         return response()->json('OK');
     }
-
-
 }
