@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contracts\Site\SiteFeatureServiceContract;
+use App\Services\Site\SiteFeatureService;
 use App\Services\Site\SiteService;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Site\SiteServiceContract;
+use App\Services\Site\SiteDeploymentStepsService;
+use App\Contracts\Site\SiteDeploymentStepsServiceContract;
+
 
 class SiteServiceProvider extends ServiceProvider
 {
@@ -26,6 +31,16 @@ class SiteServiceProvider extends ServiceProvider
             SiteServiceContract::class,
             SiteService::class
         );
+
+        $this->app->bind(
+            SiteFeatureServiceContract::class,
+            SiteFeatureService::class
+        );
+
+        $this->app->bind(
+            SiteDeploymentStepsServiceContract::class,
+            SiteDeploymentStepsService::class
+        );
     }
 
     /**
@@ -35,6 +50,10 @@ class SiteServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [SiteServiceContract::class];
+        return [
+            SiteServiceContract::class,
+            SiteFeatureServiceContract::class,
+            SiteDeploymentStepsServiceContract::class
+        ];
     }
 }

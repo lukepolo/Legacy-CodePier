@@ -10,9 +10,10 @@ class DatabaseService
     use ServiceConstructorTrait;
 
     /**
-     *  @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     * @param string $database
      */
-    public function installMariaDB($database = null)
+    public function installMariaDB($database = 'codepier')
     {
         $databasePassword = $this->server->database_password;
 
@@ -48,9 +49,10 @@ class DatabaseService
     }
 
     /**
-     *  @description MySQL is the world's most popular open source database.
+     * @description MySQL is the world's most popular open source database.
+     * @param string $database
      */
-    public function installMySQL($database = null)
+    public function installMySQL($database = 'codepier')
     {
         $databasePassword = $this->server->database_password;
 
@@ -74,9 +76,10 @@ class DatabaseService
     }
 
     /**
-     *  @description PostgreSQL is a powerful, open source object-relational database system.
+     * @description PostgreSQL is a powerful, open source object-relational database system.
+     * @param string $database
      */
-    public function installPostgreSQL($database = null)
+    public function installPostgreSQL($database = 'codepier')
     {
         $this->connectToServer();
 

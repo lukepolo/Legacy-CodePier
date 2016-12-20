@@ -12,7 +12,11 @@ class Laravel
         '.env',
     ];
 
-    public $suggestedFeatures = [];
+    public $suggestedFeatures = [
+        'PHP.Laravel' => [
+            'Envoy',
+        ],
+    ];
 
     /**
      * @description Laravel Envoy provides a clean, minimal syntax for defining common tasks you run on your remote servers.

@@ -33,73 +33,36 @@ class PHP
 
     public $suggestedFeatures = [
         'OsService' => [
-            'Swap' => [
-                'enabled' => 1,
-            ],
-            'parameters' => [
-                'size' => '1G',
-                'swappiness' => 10,
-                'vfsCachePressure' => 50,
-            ],
+            'Swap',
         ],
         'WebService' => [
-            'Nginx' => [
-                'enabled' => 1,
-            ],
-            'CertBot' => [
-                'enabled' => 1,
-            ],
+            'Nginx',
+            'CertBot',
         ],
         'NodeService' => [
-            'Yarn' => [
-                'enabled' => 1,
-            ],
-            'NodeJs' => [
-                'enabled' => 1,
-            ],
+            'Yarn',
+            'NodeJs',
         ],
         'WorkerService' => [
-            'Beanstalk' => [
-                'enabled' => 1,
-            ],
-            'Supervisor' => [
-                'enabled' => 1,
-            ],
+            'Beanstalk',
+            'Supervisor',
         ],
         'DatabaseService' => [
-            'Redis' => [
-                'enabled' => 1,
-            ],
-            'MariaDB' => [
-                'enabled' => 1,
-            ],
+            'Redis',
+            'MariaDB',
         ],
-        'Languages\PHP\PHP' => [
-            'PHP7' => [
-                'enabled' => 1,
-            ],
-            'PhpFpm' => [
-                'enabled' => 1,
-            ],
-            'Composer' => [
-                'enabled' => 1,
-            ],
+        'PHP' => [
+            'PHP',
+            'PhpFpm',
+            'Composer',
         ],
         'MonitoringService' => [
-            'DiskMonitoringScript' => [
-                'enabled' => 1,
-            ],
-            'LoadMonitoringScript' => [
-                'enabled' => 1,
-            ],
-            'ServerMemoryMonitoringScript' => [
-                'enabled' => 1,
-            ],
+            'DiskMonitoringScript',
+            'LoadMonitoringScript',
+            'ServerMemoryMonitoringScript',
         ],
         'RepositoryService' => [
-            'Git' => [
-                'enabled' => 1,
-            ],
+            'Git',
         ],
     ];
 
@@ -107,7 +70,7 @@ class PHP
      * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
      *
      * @options 7.0, 7.1
-     * @multiple=false
+     * @multiple false
      */
     public function installPHP($version = '7.0')
     {
