@@ -80,6 +80,11 @@ class SiteFeatureService implements SiteFeatureServiceContract
                         }
 
                         foreach ($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
+
+                            if (! isset($suggestedFeatures[$service])) {
+                                $suggestedFeatures[$service] = [];
+                            }
+
                             foreach ($serverSuggestedFeatures as $suggestedFeature) {
                                 $features = $possibleFeatures;
 
@@ -88,14 +93,16 @@ class SiteFeatureService implements SiteFeatureServiceContract
                                     $service = array_pop($serviceParts);
 
                                     foreach ($serviceParts as $part) {
-                                        $features = collect($features->get($part));
-                                    }
-                                }
 
-                                if (! isset($suggestedFeatures[$service])) {
-                                    $suggestedFeatures[$service] = [];
+                                    }
+
+                                    $suggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
+                                    $suggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
+
+                                } else {
+                                    $suggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
+                                    $suggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
                                 }
-                                $suggestedFeatures[$service][] = $features->get($service)[$suggestedFeature];
                             }
                         }
 

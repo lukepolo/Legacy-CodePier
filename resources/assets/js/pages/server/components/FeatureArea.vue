@@ -63,23 +63,23 @@
         props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
         methods: {
             hasFeature: function (feature) {
-                var areaFeatures = null;
+                let areaFeatures = null;
 
                 if (this.server && this.server.server_features) {
-                    areaFeatures = this.server.server_features[feature.service];
+                    areaFeatures = _.get(this.server.server_features, this.area);
                 } else if (this.site_server_features && this.site_server_features) {
-                    areaFeatures = this.site_server_features[feature.service];
+                    areaFeatures = _.get(this.site_server_features, this.area);
                 }
 
-                if (areaFeatures && areaFeatures[feature.name] && areaFeatures[feature.name].enabled) {
-                    return areaFeatures[feature.name];
+                if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
+                    return feature;
                 }
 
                 return false;
             },
             getParameterValue: function (feature, parameter, default_value) {
 
-                var area = this.hasFeature(feature);
+                let area = this.hasFeature(feature);
 
                 if (area.parameters) {
                     return area.parameters[parameter];
@@ -88,7 +88,7 @@
                 return default_value;
             },
             installFeature: function (feature) {
-                var parameters = {};
+                let parameters = {};
 
                 _.each(feature.parameters, function (value, parameter) {
                     parameters[parameter] = $('#' + parameter).val();

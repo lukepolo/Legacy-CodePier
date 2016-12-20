@@ -67,7 +67,7 @@ class PHP
     ];
 
     /**
-     * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     * @description PHP
      *
      * @options 7.0, 7.1
      * @multiple false
@@ -90,7 +90,7 @@ class PHP
     }
 
     /**
-     * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     * @description PHP-FPM is required when using Nnginx
      */
     public function installPhpFpm()
     {
