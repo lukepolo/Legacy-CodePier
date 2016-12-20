@@ -57,10 +57,6 @@
                 return this.$store.state.serversStore.available_server_frameworks;
             },
             siteFeatures() {
-                if(this.site && !this.site.server_features) {
-                    return this.$store.state.siteServersFeaturesStore.suggestedFeatures;
-                }
-
                 return this.site.server_features;
             }
         }
