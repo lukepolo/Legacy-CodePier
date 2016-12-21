@@ -38,7 +38,7 @@ trait ServerCommandTrait
                 'server_id' => $model->server_id,
                 'commandable_id' => $model->id,
                 'commandable_type' => get_class($model),
-                'status' => 'Queued'
+                'status' => 'Queued',
             ]);
         }
 
