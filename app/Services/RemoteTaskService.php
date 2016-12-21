@@ -186,6 +186,16 @@ echo \"Wrote\"", $read);
     }
 
     /**
+     * Checks to see if the server has the file
+     * @param $file
+     * @return string
+     */
+    public function hasFile($file)
+    {
+        return filter_var($this->run("[ -f $file ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
      * @param \App\Models\Server\Server $server
      * @param string $user
      *
