@@ -61,6 +61,9 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
     }
 
+    /**
+     *  @description SWAP is a virtual space to help guard against memory errors in applications.
+     */
     public function installSwap($size = '1G', $swappiness = 10, $vfsCachePressure = 50)
     {
         $this->connectToServer();

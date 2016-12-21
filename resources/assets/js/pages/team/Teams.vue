@@ -65,7 +65,7 @@
 
                     <div class="jcf-input-group input-checkbox">
                         <div class="input-question">Which piles do you want to assign to your team? </div>
-                        <template v-for="pile in user_piles">
+                        <template v-for="pile in all_user_piles">
                             <label>
                                 <input v-model="create_form.piles" name="piles[]" type="checkbox" :value="pile.id">
                                 <span class="icon"></span>{{ pile.name }}
@@ -87,7 +87,7 @@
 
                     <div class="jcf-input-group input-checkbox">
                         <div class="input-question">Which piles do you want to assign to your team? </div>
-                        <template v-for="pile in user_piles">
+                        <template v-for="pile in all_user_piles">
                             <label>
                                 <input v-model="edit_form.piles" name="piles[]" type="checkbox" :value="pile.id">
                                 <span class="icon"></span>{{ pile.name }}
@@ -131,9 +131,6 @@
             }
         },
         methods: {
-            fetchData() {
-                this.$store.dispatch('getUserPiles');
-            },
             createTeam() {
                 this.$store.dispatch('createTeam', this.create_form).then(() => {
                     this.create_form = this.$options.data().create_form;
@@ -172,8 +169,8 @@
             teams() {
                 return this.$store.state.teamsStore.teams;
             },
-            user_piles() {
-                return this.$store.state.pilesStore.user_piles;
+            all_user_piles() {
+                return this.$store.state.pilesStore.all_user_piles;
             }
         }
     }

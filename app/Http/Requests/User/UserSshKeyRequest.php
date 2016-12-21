@@ -24,7 +24,8 @@ class UserSshKeyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'ssh_key' => 'required',
         ];
     }
 }

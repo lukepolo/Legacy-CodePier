@@ -1,16 +1,36 @@
 <template>
     <section v-if="server">
         <span id="cron-preview"></span>
-        <form @submit.prevent="createServerCronJob">
-            <input type="text" name="cron" v-model="form.cron">
-            <input type="hidden" name="cron_timing">
-            <select name="user" v-model="form.user">
-                <option value="root">Root User</option>
-                <option value="codepier">CodePier User</option>
-            </select>
-            <div v-cronjob></div>
-            <button type="submit">Create Cron</button>
-        </form>
+
+        <div class="jcf-form-wrap">
+            <form @submit.prevent="createServerCronJob" class="floating-labels">
+                <input type="hidden" name="cron_timing">
+                <div class="jcf-input-group">
+                    <input type="text" name="cron" v-model="form.cron">
+                    <label for="cron">
+                        <span class="float-label">Name</span>
+                    </label>
+                </div>
+
+                <div class="jcf-input-group">
+                    <div class="input-question">Run as User</div>
+                    <div class="select-wrap">
+                        <select name="user" v-model="form.user">
+                            <option value="root">Root User</option>
+                            <option value="codepier">CodePier User</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="jcf-input-group">
+                    <div v-cronjob></div>
+                </div>
+
+                <div class="btn-footer">
+                    <button class="btn btn-primary" type="submit">Create Cron Job</button>
+                </div>
+            </form>
+        </div>
 
         <table class="table" v-if="cron_jobs" v-for="cron_job in cron_jobs">
             <thead>

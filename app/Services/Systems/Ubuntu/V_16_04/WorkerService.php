@@ -12,7 +12,7 @@ class WorkerService
     use ServiceConstructorTrait;
 
     /**
-     * Example of the description, we need to go through of all of these eventually.
+     * @description Beanstalk is a simple, fast work queue.
      */
     public function installBeanstalk()
     {
@@ -25,6 +25,9 @@ class WorkerService
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service beanstalkd restart');
     }
 
+    /**
+     * @description Supervisor is a process control system
+     */
     public function installSupervisor()
     {
         $this->connectToServer();

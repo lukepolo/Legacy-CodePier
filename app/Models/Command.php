@@ -16,7 +16,6 @@ class Command extends Model
     protected $guarded = ['id'];
 
     protected $appends = [
-        'status',
         'event_type',
     ];
 
@@ -40,29 +39,28 @@ class Command extends Model
         return $this->hasMany(ServerCommand::class);
     }
 
-    public function getStatusAttribute()
+    public function updateStatus()
     {
+        $this->load('serverCommands');
         $serverCommands = $this->serverCommands;
 
         $failed = $serverCommands->sum('failed');
         $started = $serverCommands->sum('started');
         $completed = $serverCommands->sum('completed');
 
+        $status = 'Queued';
+
         if ($failed > 0) {
-            return 'Failed';
+            $status = 'Failed';
+        } elseif ($completed == $serverCommands->count()) {
+            $status = 'Completed';
+        } elseif ($started > 0) {
+            $status = 'Running';
         }
 
-        $totalServerDeployments = $serverCommands->count();
-
-        if ($completed == $totalServerDeployments) {
-            return 'Completed';
-        }
-
-        if ($started > 0) {
-            return 'Running';
-        }
-
-        return 'Queued';
+        $this->update([
+            'status' => $status,
+        ]);
     }
 
     /**

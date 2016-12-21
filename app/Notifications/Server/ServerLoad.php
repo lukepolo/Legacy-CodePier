@@ -86,17 +86,17 @@ class ServerLoad extends Notification
         $server = $notifiable;
         $load = $this->load;
 
+        $fields = [];
+        foreach ($server->stats['loads'] as $mins => $load) {
+            $fields[$mins.' minutes ago'] = $load.'%';
+        }
+
         if ($load) {
             return (new SlackMessage())
                 ->error()
                 ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
-                ->attachment(function ($attachment) use ($server) {
-                    $attachment = $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUS');
-                    foreach ($server->stats['loads'] as $mins => $load) {
-                        $attachment->fields([
-                            $mins.' minutes ago' => $load.'%',
-                        ]);
-                    }
+                ->attachment(function ($attachment) use ($server, $fields) {
+                    $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUS')->fields($fields);
                 });
         }
     }

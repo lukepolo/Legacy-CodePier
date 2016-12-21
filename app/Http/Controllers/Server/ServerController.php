@@ -35,8 +35,9 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])
-                ->when($request->has('pile_id'), function (Builder $query) use ($request) {
+            $request->has('trashed') ?
+                Server::onlyTrashed()->get() :
+                Server::when($request->has('pile_id'), function (Builder $query) use ($request) {
                     return $query->where('pile_id', $request->get('pile_id'));
                 })
                 ->get()
@@ -61,10 +62,14 @@ class ServerController extends Controller
         $server = Server::create([
             'user_id' => \Auth::user()->id,
             'name' => $request->get('server_name'),
-            'server_provider_id' => (int) $request->get('server_provider_id'),
+            'server_provider_id' => $request->get('server_provider_id'),
             'status' => 'Queued For Creation',
             'progress' => '0',
-            'options' => $request->except(['_token', 'server_provider_features']),
+            'options' => $request->only([
+                'services',
+                'server_region',
+                'server_option',
+            ]),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
             'pile_id' => $pileId,
@@ -106,7 +111,7 @@ class ServerController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Server::with('sites')->findOrFail($id));
+        return response()->json(Server::findOrFail($id));
     }
 
     /**

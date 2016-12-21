@@ -7,9 +7,9 @@ use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Site\SiteFirewallRule;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
+use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -57,20 +57,6 @@ class SiteController extends Controller
             'name'                => $request->get('domain'),
         ]);
 
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
-
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
-        ]);
-
         return response()->json($site);
     }
 
@@ -84,31 +70,28 @@ class SiteController extends Controller
     public function show($id)
     {
         return response(
-            Site::with('servers')->findOrFail($id)
+            Site::findOrFail($id)
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param SiteRequest $request
+     * @param SiteRepositoryRequest $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteRequest $request, $id)
+    public function update(SiteRepositoryRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
         $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
-            'name'                        => $request->get('domain'),
-            'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'wildcard_domain'             => (int) $request->get('wildcard_domain'),
-            'zerotime_deployment'         => true,
+            'wildcard_domain'             => $request->get('wildcard_domain'),
+            'zerotime_deployment'         => $request->get('zerotime_deployment'),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
             'type'                        => $request->get('type'),
         ]);
@@ -150,7 +133,7 @@ class SiteController extends Controller
      */
     public function deploy(DeploySiteRequest $request)
     {
-        $site = Site::with('servers')->findOrFail($request->get('site'));
+        $site = Site::findOrFail($request->get('site'));
 
         $this->dispatch(
             (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))

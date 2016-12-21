@@ -32,7 +32,7 @@ class UserObserver
 
             if ($index == 0) {
                 $user->update([
-                    'current_pile' => $pile->id,
+                    'current_pile_id' => $pile->id,
                 ]);
             }
         }

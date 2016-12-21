@@ -1,6 +1,6 @@
 <template>
     <div class="event">
-        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
+        <div class="event-status" :class="{'event-status-neutral' : event.status == 'Queued', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
         <div class="event-name">
             <drop-down-event
                     title="Deployment"
@@ -10,7 +10,7 @@
             >
                 <template v-for="server_deployment in event.server_deployments">
                     <drop-down-event
-                            :title="server_deployment.server.name + ' (' + server_deployment.server.ip + ')' + ' - ' + server_deployment.status"
+                            :title="getServer(server_deployment.server_id, 'name') + ' (' + getServer(server_deployment.server_id, 'ip') + ')' + ' - ' + server_deployment.status"
                             :event="server_deployment"
                             :type="event.event_type"
                             :prefix="'server_deployment_'+server_deployment.id"
@@ -34,20 +34,27 @@
                 </template>
             </drop-down-event>
         </div>
-        <div class="event-pile"><span class="icon-layers"></span> {{ event.site.pile.name }}</div>
-        <div class="event-site"><span class="icon-browser"></span> {{ event.site.name }}</div>
-        <div class="event-commit"><a target="_blank" :href="'https://'+ event.site.user_repository_provider.repository_provider.url + '/' + event.site.repository + '/'+event.site.user_repository_provider.repository_provider.commit_url+'/' + event.git_commit"><span class="icon-github"></span> </a></div>
+        <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+        <div class="event-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
+        <div class="event-commit"><a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a></div>
+
+        {{ timeAgo(event.created_at) }}
     </div>
 </template>
 
 <script>
     import DropDownEvent from './DropDownEvent.vue';
     export default {
-        components : {
+        components: {
             DropDownEvent,
         },
-        props : ['event'],
+        props: ['event'],
         methods: {
+            getRepositoryUrl(event) {
+                let site = this.getSite(event.site_id);
+                let repositoryProvider = this.getRepositoryProvider(site.user_repository_provider_id);
+                return 'https://'+ repositoryProvider.url + '/' + site.repository + '/'+repositoryProvider.commit_url+'/' + event.git_commit;
+            },
             filterArray(data) {
                 if (Array.isArray(data)) {
                     return _.reject(
@@ -59,9 +66,9 @@
                 return [];
             },
             formatSeconds(number) {
-                var seconds = parseFloat(number).toFixed(2);
+                let seconds = parseFloat(number).toFixed(2);
 
-                if(!isNaN(seconds)) {
+                if (!isNaN(seconds)) {
                     return seconds;
                 }
             }

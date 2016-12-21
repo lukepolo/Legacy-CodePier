@@ -114,20 +114,14 @@ class EventController extends Controller
                 $tempCombinedQuery,
                 collect([
                     self::SITE_DEPLOYMENTS => SiteDeployment::with([
-                            'serverDeployments.server',
-                            'serverDeployments.events.step' => function ($query) {
-                                $query->withTrashed();
-                            },
-                            'site.pile',
-                            'site.userRepositoryProvider.repositoryProvider',
-                        ])
-                        ->whereIn('id', $topResults->filter(function ($event) {
-                            return $event->type == self::SITE_DEPLOYMENTS;
-                        })->keyBy('id')->keys()),
+                        'serverDeployments.events.step' => function ($query) {
+                            $query->withTrashed();
+                        },
+                    ])
+                    ->whereIn('id', $topResults->filter(function ($event) {
+                        return $event->type == self::SITE_DEPLOYMENTS;
+                    })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
-                            'site.pile',
-                            'server.pile',
-                            'commandable',
                             'serverCommands.server',
                         ])
                         ->whereIn(
