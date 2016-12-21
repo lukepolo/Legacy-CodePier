@@ -25,7 +25,7 @@ class SiteSshKeyRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'ssh_key' => 'required'
+            'ssh_key' => 'required',
         ];
     }
 }

@@ -6,7 +6,6 @@ use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\ProvisionServer;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Http\Requests\Server\ServerProvisioningStepsRequest;
 
 class ServerProvisionStepsController extends Controller
 {

@@ -68,7 +68,7 @@ class ServerController extends Controller
             'options' => $request->only([
                 'services',
                 'server_region',
-                'server_option'
+                'server_option',
             ]),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
