@@ -33,7 +33,7 @@ class ServerRequest extends FormRequest
             'server_provider_features' => 'required',
             'server_features' => 'required',
             'pile_id' => 'required_unless:site',
-            'site' => 'integer'
+            'site' => 'integer',
         ];
     }
 }
