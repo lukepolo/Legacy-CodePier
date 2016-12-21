@@ -24,7 +24,7 @@ class SiteSslActiveateRequest extends FormRequest
     public function rules()
     {
         return [
-            'active' => 'required'
+            'active' => 'required',
         ];
     }
 }
