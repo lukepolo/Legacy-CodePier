@@ -1,22 +1,3 @@
-<style>
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-active {
-        opacity: 0
-    }
-
-    .notifications {
-        position: fixed;
-        right: 10px;
-        top: 100px;
-        width: 350px;
-        z-index: 1;
-    }
-    .notification p {
-        margin-right: 20px;
-    }
-</style>
 <template>
     <transition name="fade">
         <div class="notification" :class="notification.class">
@@ -24,9 +5,7 @@
                 <span>&times;</span>
             </button>
             <h5 v-if="notification.title">{{notification.title}}</h5>
-            <p>
-                {{notification.text}}
-            </p>
+            <p v-html="notification.text"></p>
         </div>
     </transition>
 </template>
