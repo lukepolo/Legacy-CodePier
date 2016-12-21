@@ -24,7 +24,11 @@ class ServerWorkerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'command' => 'required',
+            'auto_start'        => 'integer',
+            'auto_restart'      => 'integer',
+            'user'              => 'required|alpha',
+            'number_of_workers' => 'required|integer',
         ];
     }
 }

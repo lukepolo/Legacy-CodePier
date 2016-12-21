@@ -7,7 +7,7 @@ export default {
             Vue.http.get(Vue.action('User\UserSshKeyController@index')).then((response) => {
                 commit('SET_USER_SSH_KEYS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         createUserSshKey: ({commit}, data) => {
@@ -17,14 +17,14 @@ export default {
             }).then((response) => {
                 commit('ADD_USER_SSH_KEY', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteUserSshKey: ({commit}, ssh_key_id) => {
             Vue.http.delete(Vue.action('User\UserSshKeyController@destroy', {ssh_key: ssh_key_id})).then((response) => {
                 commit('REMOVE_USER_SSH_KEY', ssh_key_id);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
     },

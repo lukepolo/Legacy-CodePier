@@ -9,6 +9,7 @@ use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
+use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -76,24 +77,21 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param SiteRequest $request
+     * @param SiteRepositoryRequest $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteRequest $request, $id)
+    public function update(SiteRepositoryRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
         $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
-            'name'                        => $request->get('domain'),
-            'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'wildcard_domain'             => (int) $request->get('wildcard_domain'),
-            'zerotime_deployment'         => true,
+            'wildcard_domain'             => $request->get('wildcard_domain', 0),
+            'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
             'type'                        => $request->get('type'),
         ]);

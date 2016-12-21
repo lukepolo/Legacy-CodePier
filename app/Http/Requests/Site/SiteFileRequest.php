@@ -24,7 +24,8 @@ class SiteFileRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'file_path' => 'required|string',
+            'content' => 'required',
         ];
     }
 }

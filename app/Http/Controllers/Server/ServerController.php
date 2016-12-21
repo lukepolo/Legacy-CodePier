@@ -62,10 +62,14 @@ class ServerController extends Controller
         $server = Server::create([
             'user_id' => \Auth::user()->id,
             'name' => $request->get('server_name'),
-            'server_provider_id' => (int) $request->get('server_provider_id'),
+            'server_provider_id' => $request->get('server_provider_id'),
             'status' => 'Queued For Creation',
             'progress' => '0',
-            'options' => $request->except(['_token', 'server_provider_features']),
+            'options' => $request->only([
+                'services',
+                'server_region',
+                'server_option',
+            ]),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
             'pile_id' => $pileId,
