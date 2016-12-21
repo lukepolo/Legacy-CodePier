@@ -24,7 +24,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Support\Collection|static
      */
     public function getEditableFrameworkFiles(Site $site)
     {
@@ -70,14 +70,32 @@ class SiteFeatureService implements SiteFeatureServiceContract
                     if (strtolower(basename($language)) == strtolower($site->type)) {
                         $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
-                        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
+                        $siteSuggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
                         if (! empty($site->framework)) {
                             $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
-                            $suggestedFeatures = array_merge($suggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
+                            $siteSuggestedFeatures = array_merge($siteSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                         }
 
-                        dd($suggestedFeatures);
+                        $servicePath = '\Services\Systems\Ubuntu\V_16_04\\';
+
+                        foreach($siteSuggestedFeatures as $service => $features) {
+
+                            $reflectionClass = $this->buildReflection($servicePath.$service.'.php');
+                            foreach($features as $feature) {
+                                $method = $reflectionClass->getMethod('install'.$feature);
+
+                                $parameters = [];
+                                foreach ($method->getParameters() as $parameter) {
+                                    $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
+                                }
+
+                                $suggestedFeatures[$service][$feature] = array_filter([
+                                    'enabled' => true,
+                                    'parameters' => $parameters
+                                ]);
+                            }
+                        }
 
                         break;
                     }
