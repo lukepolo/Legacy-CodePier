@@ -79,10 +79,9 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
                         $servicePath = '\Services\Systems\Ubuntu\V_16_04\\';
 
-                        foreach($siteSuggestedFeatures as $service => $features) {
-
+                        foreach ($siteSuggestedFeatures as $service => $features) {
                             $reflectionClass = $this->buildReflection($servicePath.$service.'.php');
-                            foreach($features as $feature) {
+                            foreach ($features as $feature) {
                                 $method = $reflectionClass->getMethod('install'.$feature);
 
                                 $parameters = [];
@@ -92,7 +91,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
                                 $suggestedFeatures[$service][$feature] = array_filter([
                                     'enabled' => true,
-                                    'parameters' => $parameters
+                                    'parameters' => $parameters,
                                 ]);
                             }
                         }
