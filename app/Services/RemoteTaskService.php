@@ -186,7 +186,7 @@ echo \"Wrote\"", $read);
     }
 
     /**
-     * Checks to see if the server has the file
+     * Checks to see if the server has the file.
      * @param $file
      * @return string
      */
