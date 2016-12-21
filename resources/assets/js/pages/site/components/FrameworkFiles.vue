@@ -39,7 +39,7 @@
         },
         computed: {
             runningCommands() {
-                return this.$store.state.serversStore.runningCommands;
+                return this.$store.state.serversStore.running_commands;
             },
             site() {
                 return this.$store.state.sitesStore.site;

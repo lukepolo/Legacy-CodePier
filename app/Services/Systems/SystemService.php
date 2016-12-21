@@ -45,12 +45,12 @@ class SystemService implements SystemServiceContract
      * Provisions a server based on its operating system.
      *
      * @param \App\Models\Server\Server $server
-     *
      * @return bool
+     * @throws \Exception
      */
     public function provision(Server $server)
     {
-        $this->server = $server;
+        $this->server = $server->load('provisionSteps');
 
         try {
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
@@ -70,6 +70,19 @@ class SystemService implements SystemServiceContract
         } catch (FailedCommand $e) {
             $provisionStep->failed = true;
             $provisionStep->log = $systemService->getErrors();
+            $provisionStep->save();
+
+            $this->updateProgress($provisionStep->step);
+
+            return false;
+        } catch(\Exception $e) {
+
+            if(env('APP_DEBUG')) {
+                throw $e;
+            }
+
+            $provisionStep->failed = true;
+            $provisionStep->log = 'We had a system error please contact support.';
             $provisionStep->save();
 
             $this->updateProgress($provisionStep->step);

@@ -71,13 +71,11 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function saveNewSteps(Site $site, $newDeploymentSteps)
     {
-        $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('internal_deployment_function');
-
         $order = 0;
 
         // We then attach the deployment steps with the new order they give
         foreach ($newDeploymentSteps as $deploymentStep) {
-            $internalStep = $this->getDeploymentStep($deploymentStep);
+            $internalStep = $this->getDeploymentStep($site, $deploymentStep);
 
             $deploymentStep = DeploymentStep::firstOrnew([
                 'site_id' => $site->id,
@@ -135,11 +133,16 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     /**
      * Gets a single deployment step.
      *
+     * @param Site $site
      * @param $deploymentStep
      * @return null
      */
-    public function getDeploymentStep($deploymentStep)
+    public function getDeploymentStep(Site $site, $deploymentStep)
     {
+        if(empty($this->deploymentSteps)) {
+            $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('internal_deployment_function');
+        }
+
         return ! empty($deploymentStep['internal_deployment_function']) ? $this->deploymentSteps->get($deploymentStep['internal_deployment_function']) : null;
     }
 }

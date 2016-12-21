@@ -7,6 +7,7 @@ export default {
         site_servers: [],
         deployment_steps: [],
         sites_listening_to : [],
+        running_deployments : [],
         site_deployment_steps: [],
     },
     actions: {
@@ -56,20 +57,24 @@ export default {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentStepCompleted', (data) => {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentStepFailed', (data) => {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentCompleted', (data) => {
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .notification((notification) => {
                         if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
@@ -190,8 +195,18 @@ export default {
             });
         },
         removeDeployHook: ({commit}, data) => {
-            Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {site : data.site, hook : data.hook})).then((response) => {
+            Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {
+                site: data.site,
+                hook: data.hook
+            })).then((response) => {
                 commit('SET_SITE', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        },
+        getRunningDeployments : ({commit}) => {
+            Vue.http.get(Vue.action('User\UserController@getRunningDeployments')).then((response) => {
+                commit('SET_RUNNING_DEPLOYMENTS', response.data);
             }, (errors) => {
                 app.handleApiError(errors);
             });
@@ -216,6 +231,9 @@ export default {
         },
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;
+        },
+        REMOVE_SERVER_FROM_SITE_SERVERS : (state, server_id) => {
+            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id : server_id}));
         },
         SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
             state.deployment_steps = deployment_steps;
@@ -242,6 +260,19 @@ export default {
             if(server) {
                 Vue.set(server, 'stats', data.stats);
             }
+        },
+        SET_RUNNING_DEPLOYMENTS : (state, deployments) => {
+            state.running_deployments = Object.keys(deployments).length > 0 ? deployments : {};
+        },
+        UPDATE_RUNNING_SITE_DEPLOYMENT : (state, event) => {
+            let siteDeploymentKey = _.findKey(state.running_deployments, {id : event.site_deployment.id});
+            let siteDeployment = state.running_deployments[siteDeploymentKey];
+
+            _.each(event.site_deployment, function(value, key) {
+                if(key != 'server_deployments') {
+                    siteDeployment[key] = value;
+                }
+            });
         }
     }
 }

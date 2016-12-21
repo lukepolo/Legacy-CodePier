@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             ]);
 
             Route::get('running-commands', 'UserController@getRunningCommands');
+            Route::get('running-deployments', 'UserController@getRunningDeployments');
 
             Route::resource('ssh-keys', 'UserSshKeyController');
             Route::resource('subscription', 'Subscription\UserSubscriptionController');

@@ -118,7 +118,7 @@
                 return this.$store.state.pilesStore.piles;
             },
             currentPile() {
-                return this.$store.state.userStore.user.current_pile;
+                return this.getPile(this.$store.state.userStore.user.current_pile_id);
             },
             currentTeam() {
                 return this.$store.state.userStore.user.current_team;
