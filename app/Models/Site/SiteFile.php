@@ -35,4 +35,23 @@ class SiteFile extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['unencrypted_content'];
+
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getUnencryptedContentAttribute()
+    {
+        if(!empty($this->attributes['content'])) {
+            return decrypt($this->attributes['content']);
+        }
+    }
 }
