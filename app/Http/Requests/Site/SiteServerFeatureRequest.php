@@ -24,7 +24,7 @@ class SiteServerFeatureRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'required' => 'services'
         ];
     }
 }

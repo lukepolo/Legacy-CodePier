@@ -19,6 +19,7 @@ use App\Models\Site\SiteSslCertificate;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
 use App\Observers\Site\SiteFileObserver;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Server\ServerFirewallRule;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\Site\SiteSshKeyObserver;
@@ -70,6 +71,14 @@ class AppServiceProvider extends ServiceProvider
         ServerSslCertificate::observe(ServerSslCertificateObserver::class);
 
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
+
+        Validator::extend('domain', function ($attribute, $value) {
+            if (! is_string($value) && ! is_numeric($value)) {
+                return false;
+            }
+
+            return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
+        });
     }
 
     /**

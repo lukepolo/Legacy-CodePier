@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Server;
+namespace App\Http\Requests\Site;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServerProvisioningStepsRequest extends FormRequest
+class SiteSslActiveateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ServerProvisioningStepsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'active' => 'required'
         ];
     }
 }
