@@ -91,7 +91,7 @@ class Handler extends ExceptionHandler
             );
         }
 
-        if(\Request::expectsJson()) {
+        if (\Request::expectsJson()) {
             return response()->json('We have an error', 500);
         }
 
