@@ -66,7 +66,7 @@
                 return [];
             },
             formatSeconds(number) {
-                var seconds = parseFloat(number).toFixed(2);
+                let seconds = parseFloat(number).toFixed(2);
 
                 if (!isNaN(seconds)) {
                     return seconds;

@@ -47,7 +47,7 @@
         props : ['server'],
         computed : {
             currentProvisioningStep() {
-                var provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
+                let provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
 
                 if(_.has(provisioningSteps, this.server.id)) {
                    return _.get(provisioningSteps, this.server.id);
