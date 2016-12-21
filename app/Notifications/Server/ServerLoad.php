@@ -88,7 +88,7 @@ class ServerLoad extends Notification
 
         $fields = [];
         foreach ($server->stats['loads'] as $mins => $load) {
-           $fields[$mins.' minutes ago'] = $load.'%';
+            $fields[$mins.' minutes ago'] = $load.'%';
         }
 
         if ($load) {
