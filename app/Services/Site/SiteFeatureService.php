@@ -64,55 +64,20 @@ class SiteFeatureService implements SiteFeatureServiceContract
     {
         $suggestedFeatures = [];
 
-        $possibleFeatures = $this->serverFeatureService->getAllFeatures();
-
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
                     if (strtolower(basename($language)) == strtolower($site->type)) {
                         $reflectionClass = $this->buildReflection($language.'/'.basename($language).'.php');
 
-                        $tempSuggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
+                        $suggestedFeatures = $reflectionClass->getDefaultProperties()['suggestedFeatures'];
 
                         if (! empty($site->framework)) {
                             $reflectionClass = $this->buildReflection($language.'/Frameworks'.str_replace(basename($language).'.', '/', $site->framework).'.php');
-                            $tempSuggestedFeatures = array_merge($tempSuggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
+                            $suggestedFeatures = array_merge($suggestedFeatures, $reflectionClass->getDefaultProperties()['suggestedFeatures']);
                         }
 
-                        foreach ($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
-                            foreach ($serverSuggestedFeatures as $suggestedFeature) {
-                                $features = $possibleFeatures;
-
-                                if (strpos($service, '.') > 0) {
-                                    $serviceParts = explode('.', $service);
-                                    $service = array_pop($serviceParts);
-
-                                    $tempSuggestedFeatures = &$suggestedFeatures;
-
-                                    foreach ($serviceParts as $part) {
-                                        if (! isset($tempSuggestedFeatures[$part])) {
-                                            $tempSuggestedFeatures[$part] = [];
-                                        }
-
-                                        $tempSuggestedFeatures = &$tempSuggestedFeatures[$part];
-                                    }
-
-                                    if (! isset($tempSuggestedFeatures[$service])) {
-                                        $tempSuggestedFeatures[$service] = [];
-                                    }
-
-                                    $tempSuggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
-                                    $tempSuggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
-                                } else {
-                                    if (! isset($suggestedFeatures[$service])) {
-                                        $suggestedFeatures[$service] = [];
-                                    }
-
-                                    $suggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
-                                    $suggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
-                                }
-                            }
-                        }
+                        dd($suggestedFeatures);
 
                         break;
                     }

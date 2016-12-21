@@ -13,9 +13,9 @@ class Laravel
     ];
 
     public $suggestedFeatures = [
-        'PHP.Laravel' => [
-            'Envoy',
-        ],
+        'Languages\PHP\Frameworks\Laravel' => [
+            'Envoy'
+        ]
     ];
 
     /**

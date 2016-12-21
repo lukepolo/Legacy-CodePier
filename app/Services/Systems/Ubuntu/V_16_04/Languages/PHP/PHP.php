@@ -51,7 +51,7 @@ class PHP
             'Redis',
             'MariaDB',
         ],
-        'PHP' => [
+        'Languages\PHP\PHP' => [
             'PHP',
             'PhpFpm',
             'Composer',
