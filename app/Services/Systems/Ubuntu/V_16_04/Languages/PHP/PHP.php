@@ -108,11 +108,11 @@ class PHP
 
         $possibleVersions = [
             '7.0',
-            '7.1'
+            '7.1',
         ];
-        
-        foreach($possibleVersions as $version) {
-            if($this->remoteTaskService->hasFile('/etc/php/'.$version.'/fpm/php.ini')) {
+
+        foreach ($possibleVersions as $version) {
+            if ($this->remoteTaskService->hasFile('/etc/php/'.$version.'/fpm/php.ini')) {
                 $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
                 $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
                 $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'post_max_size =', 'post_max_size = 250M');
