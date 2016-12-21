@@ -78,6 +78,7 @@ export default {
                     })
                     .listen('Server\\ServerCommandUpdated', (data) => {
                         commit("UPDATE_COMMAND", data.command);
+                        commit("UPDATE_EVENT_COMMAND", data.command);
                     })
                     .notification((notification) => {
                         switch(notification.type) {
@@ -240,7 +241,7 @@ export default {
                 return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
             }
 
-            if(!state.runningCommands[command.commandable_type]) {
+            if(!state.runningCommands[command.commandable_type] || !_.isArray(state.runningCommands[command.commandable_type])) {
                 Vue.set(state.runningCommands, command.commandable_type, []);
             }
 

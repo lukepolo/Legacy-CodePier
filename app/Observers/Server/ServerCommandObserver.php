@@ -18,7 +18,7 @@ class ServerCommandObserver
      */
     public function updated(ServerCommand $serverCommand)
     {
-        event(new ServerCommandUpdated($serverCommand));
         $serverCommand->command->updateStatus();
+        event(new ServerCommandUpdated($serverCommand));
     }
 }

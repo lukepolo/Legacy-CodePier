@@ -83,6 +83,19 @@ export default {
         },
         SET_VERSION : (state, version) => {
             state.version = version;
+        },
+        UPDATE_EVENT_COMMAND : (state, command) => {
+            let commandKey = _.findKey(state.events, {
+                id : command.id,
+                event_type : command.event_type
+            });
+
+            if(!commandKey) {
+                state.events.unshift(command);
+                return;
+            }
+
+            Vue.set(state.events, commandKey, command);
         }
     }
 }
