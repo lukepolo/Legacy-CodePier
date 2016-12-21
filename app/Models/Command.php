@@ -39,8 +39,9 @@ class Command extends Model
         return $this->hasMany(ServerCommand::class);
     }
 
-    public function updateStats()
+    public function updateStatus()
     {
+        $this->load('serverCommands');
         $serverCommands = $this->serverCommands;
 
         $failed = $serverCommands->sum('failed');

@@ -122,7 +122,6 @@ class EventController extends Controller
                         return $event->type == self::SITE_DEPLOYMENTS;
                     })->keyBy('id')->keys()),
                     self::COMMANDS => Command::with([
-                            'commandable',
                             'serverCommands.server',
                         ])
                         ->whereIn(
