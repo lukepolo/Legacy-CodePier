@@ -90,12 +90,11 @@ class SiteFeatureService implements SiteFeatureServiceContract
                                     $tempSuggestedFeatures = &$suggestedFeatures;
 
                                     foreach ($serviceParts as $part) {
-                                        if (! isset($tempSuggestedFeatures[$part] )) {
-                                            $tempSuggestedFeatures[$part]  = [];
+                                        if (! isset($tempSuggestedFeatures[$part])) {
+                                            $tempSuggestedFeatures[$part] = [];
                                         }
 
                                         $tempSuggestedFeatures = &$tempSuggestedFeatures[$part];
-
                                     }
 
                                     if (! isset($tempSuggestedFeatures[$service])) {
@@ -104,9 +103,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
                                     $tempSuggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
                                     $tempSuggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
-
                                 } else {
-
                                     if (! isset($suggestedFeatures[$service])) {
                                         $suggestedFeatures[$service] = [];
                                     }
