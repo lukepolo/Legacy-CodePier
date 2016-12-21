@@ -25,7 +25,7 @@ class SiteCronJobRequest extends FormRequest
     {
         return [
             'job' => 'required',
-            'user' => 'required'
+            'user' => 'required',
         ];
     }
 }
