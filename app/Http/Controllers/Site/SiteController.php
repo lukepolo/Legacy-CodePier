@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
@@ -76,24 +77,21 @@ class SiteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param SiteRequest $request
+     * @param SiteRepositoryRequest $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SiteRequest $request, $id)
+    public function update(SiteRepositoryRequest $request, $id)
     {
         $site = Site::findOrFail($id);
 
         $site->update([
             'branch'                      => $request->get('branch'),
-            'domain'                      => $request->get('domainless') == true ? 'default' : $request->get('domain'),
-            'name'                        => $request->get('domain'),
-            'pile_id'                     => $request->get('pile_id'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'wildcard_domain'             => (int) $request->get('wildcard_domain'),
-            'zerotime_deployment'         => true,
+            'wildcard_domain'             => $request->get('wildcard_domain'),
+            'zerotime_deployment'         => $request->get('zerotime_deployment'),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
             'type'                        => $request->get('type'),
         ]);

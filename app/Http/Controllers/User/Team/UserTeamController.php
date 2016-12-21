@@ -47,7 +47,7 @@ class UserTeamController extends Controller
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::create([
-            'name'     => $request->name,
+            'name'     => $request->get('name'),
             'owner_id' => \Auth::user()->id,
         ]);
 

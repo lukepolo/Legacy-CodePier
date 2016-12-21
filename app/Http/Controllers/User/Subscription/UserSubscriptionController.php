@@ -36,7 +36,7 @@ class UserSubscriptionController extends Controller
     {
         $user = \Auth::user();
 
-        if ($request->has('number') && $request->has('exp_month') && $request->has('exp_year') && $request->has('cvc')) {
+        if ($request->has('number')) {
             $cardToken = Token::create([
                 'card' => [
                     'number'    => $request->get('number'),

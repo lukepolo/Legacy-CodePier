@@ -24,7 +24,7 @@ class SiteDeploymentStepsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'required' => 'deployment_steps'
         ];
     }
 }
