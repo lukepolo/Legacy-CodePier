@@ -58,11 +58,13 @@
             </template>
         </template>
         <template v-if="frameworks">
-            <h2>Frameworks for {{ area }}</h2>
+            <h2>Frameworks Features for {{ area }}</h2>
             <feature-area
                 :server="server"
                 :area="framework"
+                :prefix_area="area"
                 :features="features"
+                :site_server_features="site_server_features"
                 v-for="(features, framework) in getFrameworks(area)"
             >
             </feature-area>
@@ -73,9 +75,10 @@
 <script>
     export default {
         name: 'featureArea',
-        props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
+        props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features', 'prefix_area'],
         methods: {
             getInputName : function(feature, parameter) {
+
                 let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
 
                 if(parameter) {
@@ -95,8 +98,14 @@
 
                 if (this.server && this.server.server_features) {
                     areaFeatures = _.get(this.server.server_features, this.area);
-                } else if (this.site_server_features && this.site_server_features) {
-                    areaFeatures = _.get(this.site_server_features, this.area);
+                } else if (this.site_server_features) {
+                    let features = this.site_server_features;
+
+                    if(this.prefix_area) {
+                        features = _.get(features, this.prefix_area)
+                    }
+
+                    areaFeatures = _.get(features, this.area);
                 }
 
                 if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
