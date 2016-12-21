@@ -39,7 +39,7 @@
                     <label v-for="user_repository_provider in user_repository_providers">
                         <input name="user_repository_provider_id" type="radio" v-model="form.user_repository_provider_id" :value="user_repository_provider.id">
                         <span class="icon"></span>
-                        {{ user_repository_provider.repository_provider.name }}
+                        {{ getRepositoryName(user_repository_provider.repository_provider_id) }}
                     </label>
                 </div>
 
@@ -56,10 +56,9 @@
 
                 <div class="jcf-input-group">
                     <div class="input-question">Select Framework</div>
-                    <!-- TODO allow user to de-select a framework. Have an option of "none" -->
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
-                            <select>None</select>
+                            <option>None</option>
                             <optgroup :label="language" v-for="(features, language) in availableLanguages">
                                 <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
                             </optgroup>
@@ -114,6 +113,7 @@
         },
         methods: {
             fetchData() {
+                this.$store.dispatch('getRepositoryProviders');
                 this.$store.dispatch('getUserRepositoryProviders');
                 this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getServerAvailableFrameworks');
@@ -147,11 +147,20 @@
                     site : this.site.id,
                     hook : this.site.automatic_deployment_id
                 });
+            },
+            getRepositoryName(user_repository_id) {
+                if(this.repository_providers) {
+                    let repository = _.find(this.repository_providers, {id : user_repository_id});
+                    if(repository) {
+                        return repository.name;
+                    }
+                }
+
             }
         },
         computed: {
             site() {
-                var site = this.$store.state.sitesStore.site;
+                let site = this.$store.state.sitesStore.site;
 
                 if (site) {
                     this.form.type = site.type;
@@ -159,14 +168,17 @@
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
                     this.form.web_directory = site.web_directory;
-                    this.form.zerotime_deployment = (site.zerotime_deployment ? true : false);
+                    this.form.zerotime_deployment = site.zerotime_deployment;
                     this.form.user_repository_provider_id = site.user_repository_provider_id;
                 }
 
                 return site;
             },
-            user_repository_providers() {
+            repository_providers() {
                 return this.$store.state.userStore.repository_providers;
+            },
+            user_repository_providers() {
+                return this.$store.state.userStore.user_repository_providers;
             },
             availableLanguages() {
                 return this.$store.state.serversStore.available_server_languages;

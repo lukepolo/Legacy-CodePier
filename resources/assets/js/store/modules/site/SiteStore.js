@@ -85,12 +85,8 @@ export default {
                 domainless: data.domainless,
                 pile_id: rootState.userStore.user.current_pile_id
             }).then((response) => {
-
-                app.$router.push({ name : 'site_repository', params : { site_id : response.data.id}});
-
                 dispatch('listenToSite', response.data);
-
-                dispatch('getSites');
+                app.$router.push({ name : 'site_repository', params : { site_id : response.data.id}});
             }, (errors) => {
                 app.showError(errors);
             })
@@ -102,9 +98,9 @@ export default {
                 app.showError(errors);
             });
         },
-        deleteSite: ({commit, dispatch}, site_id) => {
-            Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then((response) => {
-                dispatch('getSites');
+        deleteSite: ({commit}, site_id) => {
+            Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then(() => {
+                commit('DELETE_SITE', site_id);
                 app.$router.push('/');
             }, (errors) => {
                 app.showError(errors);
@@ -153,7 +149,7 @@ export default {
         },
         updateSiteDeployment: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then(() => {
-                dispatch('getSiteDeploymentSteps', data.site);
+
             }, (errors) => {
                 app.showError(errors);
             });
@@ -204,6 +200,10 @@ export default {
     mutations: {
         SET_SITE: (state, site) => {
             state.site = site;
+        },
+        DELETE_SITE : (state, site_id) => {
+            Vue.set(state, 'sites', _.reject(state.sites, { id : site_id}));
+            Vue.set(state, 'all_sites', _.reject(state.all_sites, { id : site_id}));
         },
         SET_SITES: (state, sites) => {
             state.sites = sites;

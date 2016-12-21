@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ServerCronJob;
 use App\Http\Requests\Server\ServerCronJobRequest;
@@ -19,7 +18,7 @@ class ServerCronJobController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            Server::with('cronJobs')->findOrFail($serverId)->cronJobs
+            ServerCronJob::where('server_id', $serverId)->get()
         );
     }
 

@@ -2,12 +2,14 @@
 
 namespace App\Jobs\Server;
 
+use Carbon\Carbon;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract;
+use App\Events\Server\ServerSshConnectionFailed;
 
 class CheckServerStatus implements ShouldQueue
 {
@@ -48,8 +50,16 @@ class CheckServerStatus implements ShouldQueue
                     (new CheckSshConnection($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE'))
                 );
             } else {
+                if ($this->server->created_at()->addMinutes(5) < Carbon::now()) {
+                    dispatch(
+                        (new self($this->server, $this->provision))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                    );
+
+                    return;
+                }
+
                 dispatch(
-                    (new self($this->server, $this->provision))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                   new ServerSshConnectionFailed($this->server, 'Server failed to create.')
                 );
             }
         }

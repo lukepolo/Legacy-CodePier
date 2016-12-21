@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-12-19.
+    * Generated on 2016-12-21.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -153,7 +153,10 @@ namespace PHPSTORM_META {
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
+            'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
+            'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -299,7 +302,10 @@ namespace PHPSTORM_META {
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
+            'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
+            'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
         ],
         \App::make('') => [
             '' == '@',
@@ -445,7 +451,10 @@ namespace PHPSTORM_META {
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
+            'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
+            'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
         ],
         \app('') => [
             '' == '@',
@@ -591,7 +600,10 @@ namespace PHPSTORM_META {
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
             'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
+            'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
+            'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
+            'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
         ],
     ];
 }

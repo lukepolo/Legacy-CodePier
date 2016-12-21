@@ -7,7 +7,6 @@ use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Site\SiteFirewallRule;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
@@ -57,20 +56,6 @@ class SiteController extends Controller
             'name'                => $request->get('domain'),
         ]);
 
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
-
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
-        ]);
-
         return response()->json($site);
     }
 
@@ -84,7 +69,7 @@ class SiteController extends Controller
     public function show($id)
     {
         return response(
-            Site::with('servers')->findOrFail($id)
+            Site::findOrFail($id)
         );
     }
 
@@ -150,7 +135,7 @@ class SiteController extends Controller
      */
     public function deploy(DeploySiteRequest $request)
     {
-        $site = Site::with('servers')->findOrFail($request->get('site'));
+        $site = Site::findOrFail($request->get('site'));
 
         $this->dispatch(
             (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))

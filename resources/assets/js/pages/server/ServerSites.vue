@@ -1,6 +1,6 @@
 <template>
     <section>
-        <table class="table" v-if="sites.length" v-for="site in sites">
+        <table class="table" v-if="sites" v-for="site in sites">
             <thead>
             <tr>
                 <th>Domain</th>
@@ -27,7 +27,7 @@
                             No
                         </span>
                 </td>
-                <td>{{ site.workers.length }}</td>
+                <td>{{ site.workers }}</td>
                 <td>{{ site.wildcard_domain }}</td>
                 <td>
                         <span v-if="hasActiveSSL(site)">

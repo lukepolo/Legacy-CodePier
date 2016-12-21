@@ -1,21 +1,52 @@
 <template>
     <section>
         <section id="middle" class="section-column" v-if="server">
-            <form @submit.prevent="createServerWorker">
-                Command
-                <input type="text" name="command" v-model="form.command">
-                User
-                <select name="user" v-model="form.user">
-                    <option value="root">Root User</option>
-                    <option value="codepier">CodePier User</option>
-                </select>
-                <input type="checkbox" name="auto_start" v-model="form.auto_start"> Auto Start
-                <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
-                Workers
-                <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
 
-                <button type="submit">Create Cron</button>
-            </form>
+            <div class="jcf-form-wrap">
+                <form @submit.prevent="createServerWorker" class="floating-labels">
+                    <div class="jcf-input-group">
+                        <input type="text" name="command" v-model="form.command">
+                        <label for="command">
+                            <span class="float-label">Command</span>
+                        </label>
+                    </div>
+
+                    <div class="jcf-input-group">
+                        <div class="input-question">Run as User</div>
+                        <div class="select-wrap">
+                            <select name="user" v-model="form.user">
+                                <option value="root">Root User</option>
+                                <option value="codepier">CodePier User</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="jcf-input-group input-checkbox">
+                        <div class="input-question">Repository Options</div>
+                        <label>
+                            <input type="checkbox" name="auto_start" v-model="form.auto_start">
+                            <span class="icon"></span>
+                            Auto Start
+                        </label>
+                        <label>
+                            <input type="checkbox" name="auto_restart" v-model="form.auto_restart"> Auto Restart
+                            <span class="icon"></span>
+                            Auto Restart
+                        </label>
+                    </div>
+
+                    <div class="jcf-input-group">
+                        <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
+                        <label for="number_of_workers">
+                            <span class="float-label">Workers</span>
+                        </label>
+                    </div>
+
+                    <div class="btn-footer">
+                        <button class="btn btn-primary" type="submit">Create Worker</button>
+                    </div>
+                </form>
+            </div>
 
             <table class="table" v-if="workers" v-for="worker in workers">
                 <thead>

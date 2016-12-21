@@ -78,6 +78,7 @@ export default {
                     })
                     .listen('Server\\ServerCommandUpdated', (data) => {
                         commit("UPDATE_COMMAND", data.command);
+                        commit("UPDATE_EVENT_COMMAND", data.command);
                     })
                     .notification((notification) => {
                         switch(notification.type) {
@@ -94,8 +95,9 @@ export default {
                     })
             }
         },
-        createServer: ({dispatch}, form) => {
+        createServer: ({dispatch, rootState}, form) => {
             Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+                rootState.serversStore.all_servers.push(response.data);
                 dispatch('listenToServer', response.data);
                 app.showSuccess('Your server is in queue to be provisioned');
             }, (errors) => {
@@ -103,8 +105,9 @@ export default {
             });
         },
         archiveServer: ({commit}, server) => {
-            Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then((response) => {
+            Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then(() => {
                 app.$router.push('/');
+                commit('REMOVE_SERVER', server);
             }, (errors) => {
                 app.showError(errors);
             });
@@ -151,18 +154,18 @@ export default {
                 app.showError(errors);
             });
         },
-        installFeature: ({commit, dispatch}, data) => {
+        installFeature: ({}, data) => {
             Vue.http.post(Vue.action('Server\ServerFeatureController@store', {server: data.server}), {
                 service: data.service,
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {
-                dispatch('getServer', data.server);
+                alert('install server feature');
             }, (errors) => {
                 app.showError(errors);
             });
         },
-        saveServerFile: ({commit}, data) => {
+        saveServerFile: ({}, data) => {
             Vue.http.post(Vue.action('Server\ServerController@saveFile', {
                 server: data.server
             }), {
@@ -238,12 +241,16 @@ export default {
                 return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
             }
 
-            if(!state.runningCommands[command.commandable_type]) {
+            if(!state.runningCommands[command.commandable_type] || !_.isArray(state.runningCommands[command.commandable_type])) {
                 Vue.set(state.runningCommands, command.commandable_type, []);
             }
 
 
             state.runningCommands[command.commandable_type].push(command);
+        },
+        REMOVE_SERVER : (state, server) => {
+            Vue.set(rootState.serversStore, 'servers', _.reject(rootState.serversStore.servers, { id : server}));
+            Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
         }
     }
 }

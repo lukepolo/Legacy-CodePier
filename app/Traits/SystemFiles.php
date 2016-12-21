@@ -63,14 +63,15 @@ trait SystemFiles
      */
     private function buildFeatureArray(ReflectionClass $reflection)
     {
-        $features = [];
+        $features = collect();
         $required = [];
 
         if ($reflection->hasProperty('required')) {
             $required = $reflection->getProperty('required')->getValue();
         }
 
-        // TODO - get description or something from comment
+        $features->put($reflection->getShortName(), collect());
+
         foreach ($reflection->getMethods() as $method) {
             if (str_contains($method->name, 'install')) {
                 $parameters = [];
@@ -79,17 +80,37 @@ trait SystemFiles
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $features[$reflection->getShortName()][] = [
-                    'name' => str_replace('install', '', $method->name),
+                $options = $this->getDocParam($method, 'options');
+                if (! empty($options)) {
+                    $options = array_map('trim', explode(',', $options));
+                }
+
+                $name = str_replace('install', '', $method->name);
+
+                $features->get($reflection->getShortName())->put($name, collect([
+                    'name' => $name,
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
-                    'description' => trim(preg_replace('/[^a-zA-Z0-9]/', ' ', $method->getDocComment())),
-                ];
+                    'description' => $this->getDocParam($method, 'description'),
+                    'options' => $options,
+                    'multiple' => $this->getDocParam($method, 'multiple', false),
+                ]));
             }
         }
 
         return $features;
+    }
+
+    public function getDocParam($method, $param, $default = null)
+    {
+        preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return $default;
     }
 
     /**
