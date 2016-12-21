@@ -72,11 +72,11 @@ class Handler extends ExceptionHandler
     /**
      * Create a Symfony response for the given exception.
      *
-     * @param \Exception $e
+     * @param \Exception $exception
      *
      * @return mixed
      */
-    protected function convertExceptionToResponse(Exception $e)
+    protected function convertExceptionToResponse(Exception $exception)
     {
         if (config('app.debug')) {
             $this->unsetSensitiveData();
@@ -85,9 +85,9 @@ class Handler extends ExceptionHandler
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
             return new \Illuminate\Http\Response(
-                $whoops->handleException($e),
-                $e->getStatusCode(),
-                $e->getHeaders()
+                $whoops->handleException($exception),
+                $exception->getStatusCode(),
+                $exception->getHeaders()
             );
         }
 
@@ -95,7 +95,7 @@ class Handler extends ExceptionHandler
             return response()->json('We have an error', 500);
         }
 
-        return response()->view('errors.500', ['exception' => $e], 500);
+        return response()->view('errors.500', ['exception' => $exception], 500);
     }
 
     /**
