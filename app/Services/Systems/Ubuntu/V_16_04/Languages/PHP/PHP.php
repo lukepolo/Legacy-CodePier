@@ -77,14 +77,23 @@ class PHP
         $this->connectToServer();
 
         switch ($version) {
-            case '7.1':
+            case '7.0':
                 $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
-                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
-
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0-cli php7.0-dev php7.0-pgsql php7.0-sqlite3 php7.0-gd php7.0-curl php7.0-memcached php7.0-imap php7.0-mysql php7.0-mbstring php7.0-xml php7.0-zip php7.0-bcmath php7.0-soap php7.0-intl php7.0-readline php-xdebug');
                 $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
                 $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
                 $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php7.0-fpm restart');
+                break;
+            case '7.1':
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
+                $this->remoteTaskService->run('apt-get update');
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php7.1-cli php7.1-dev php7.1-pgsql php7.1-sqlite3 php7.1-gd php7.1-curl php7.1-memcached php7.1-imap php7.1-mysql php7.1-mbstring php7.1-xml php7.1-zip php7.1-bcmath php7.1-soap php7.1-intl php7.1-readline php-xdebug');
+
+                $this->remoteTaskService->updateText('/etc/php/7.1/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
+                $this->remoteTaskService->updateText('/etc/php/7.1/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
+
+                $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php7.1-fpm restart');
                 break;
         }
     }
