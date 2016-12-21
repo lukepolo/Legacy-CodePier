@@ -139,7 +139,12 @@
                 });
             },
             getSectionTitle: function (area) {
-                return area;
+                let areaName = area;
+                if((/[a-z]/.test(area))) {
+                    areaName = area.replace(/([A-Z].*)(?=[A-Z]).*/g, '$1')
+                }
+                return areaName + ' Features';
+
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];
