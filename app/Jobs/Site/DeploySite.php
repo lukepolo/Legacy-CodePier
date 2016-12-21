@@ -17,7 +17,7 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeploySite implements ShouldQueue
 {
-    const QUEUED_FOR_DEPLOYMENT = 'queued for deployment';
+    const QUEUED_FOR_DEPLOYMENT = 'Queued';
 
     use InteractsWithQueue, Queueable, SerializesModels;
 
@@ -46,7 +46,7 @@ class DeploySite implements ShouldQueue
         foreach ($this->servers as $server) {
             SiteServerDeployment::create([
                 'server_id' => $server->id,
-                'status' => 'queued for deployment',
+                'status' => self::QUEUED_FOR_DEPLOYMENT,
                 'site_deployment_id' => $this->siteDeployment->id,
             ])->createSteps();
         }

@@ -1,6 +1,6 @@
 <template>
     <div class="event">
-        <div class="event-status" :class="{'event-status-neutral' : !event.status, 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
+        <div class="event-status" :class="{'event-status-neutral' : event.status == 'Queued', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
         <div class="event-name">
             <drop-down-event
                     title="Deployment"
