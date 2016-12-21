@@ -4,6 +4,7 @@ export default {
         server: null,
         all_servers : [],
         server_sites: [],
+        running_commands : {},
         servers_listening_to : [],
         editable_server_files: [],
         editable_framework_files: [],
@@ -11,7 +12,6 @@ export default {
         available_server_languages: [],
         available_server_frameworks: [],
         servers_current_provisioning_step : {},
-        runningCommands : Object.keys(runningCommands).length > 0 ? runningCommands : {},
     },
     actions: {
         getServer: ({commit}, server_id) => {
@@ -96,18 +96,24 @@ export default {
             }
         },
         createServer: ({dispatch, rootState}, form) => {
-            Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+            return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 rootState.serversStore.all_servers.push(response.data);
                 dispatch('listenToServer', response.data);
                 app.showSuccess('Your server is in queue to be provisioned');
+
+                return response.data;
             }, (errors) => {
                 app.handleApiError(errors);
             });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then(() => {
-                app.$router.push('/');
+                if(app.$router.currentRoute.params.server_id) {
+                    app.$router.push('/');
+                }
+
                 commit('REMOVE_SERVER', server);
+                commit('REMOVE_SERVER_FROM_SITE_SERVERS', server);
             }, (errors) => {
                 app.handleApiError(errors);
             });
@@ -176,6 +182,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors);
             });
+        },
+        getRunningCommands : ({commit}) => {
+            Vue.http.get(Vue.action('User\UserController@getRunningCommands')).then((response) => {
+                commit('SET_RUNNING_COMMANDS', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
         }
     },
     mutations: {
@@ -233,24 +246,27 @@ export default {
         SET_SERVERS_LISTENING_TO : (state, server) => {
             state.servers_listening_to.push(server.id);
         },
+        SET_RUNNING_COMMANDS : (state, commands) => {
+            state.running_commands = Object.keys(commands).length > 0 ? commands : {};
+        },
         UPDATE_COMMAND : (state, command) => {
 
-            let commandKey = _.findKey(state.runningCommands[command.commandable_type], { id: command.id });
+            let commandKey = _.findKey(state.running_commands[command.commandable_type], { id: command.id });
 
             if(commandKey) {
-                return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
+                return Vue.set(state.running_commands[command.commandable_type], commandKey, command);
             }
 
-            if(!state.runningCommands[command.commandable_type] || !_.isArray(state.runningCommands[command.commandable_type])) {
-                Vue.set(state.runningCommands, command.commandable_type, []);
+            if(!state.running_commands[command.commandable_type] || !_.isArray(state.running_commands[command.commandable_type])) {
+                Vue.set(state.running_commands, command.commandable_type, []);
             }
 
 
-            state.runningCommands[command.commandable_type].push(command);
+            state.running_commands[command.commandable_type].push(command);
         },
         REMOVE_SERVER : (state, server) => {
-            Vue.set(rootState.serversStore, 'servers', _.reject(rootState.serversStore.servers, { id : server}));
-            Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
+            Vue.set(state, 'servers', _.reject(state.servers, { id : server}));
+            Vue.set(state, 'all_servers', _.reject(state.all_servers, { id : server}));
         }
     }
 }

@@ -44,12 +44,24 @@ class UserController extends Controller
     }
 
     /**
+     * Gets the running commands
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRunningCommands()
     {
         return response()->json(
+            \Auth::user()->getRunningCommands()
+        );
+    }
 
+    /**
+     * Gets the running deployments
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRunningDeployments()
+    {
+        return response()->json(
+            \Auth::user()->getRunningDeployments()
         );
     }
 }

@@ -24,7 +24,6 @@ export default {
             });
         },
 
-
         getUserServerProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
