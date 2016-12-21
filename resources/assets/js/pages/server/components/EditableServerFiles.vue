@@ -32,7 +32,7 @@
         },
         computed: {
             editable_files() {
-                return this.$store.state.serversStoreeditable_server_files;
+                return this.$store.state.serversStore.editable_server_files;
             }
         }
     }

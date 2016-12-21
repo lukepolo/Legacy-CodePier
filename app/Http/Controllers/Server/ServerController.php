@@ -35,8 +35,9 @@ class ServerController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->has('trashed') ? Server::onlyTrashed()->get() : Server::with(['serverProvider', 'pile'])
-                ->when($request->has('pile_id'), function (Builder $query) use ($request) {
+            $request->has('trashed') ?
+                Server::onlyTrashed()->get() :
+                Server::when($request->has('pile_id'), function (Builder $query) use ($request) {
                     return $query->where('pile_id', $request->get('pile_id'));
                 })
                 ->get()
@@ -106,7 +107,7 @@ class ServerController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Server::with('sites')->findOrFail($id));
+        return response()->json(Server::findOrFail($id));
     }
 
     /**

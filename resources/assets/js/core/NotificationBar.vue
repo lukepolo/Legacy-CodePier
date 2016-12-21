@@ -194,7 +194,7 @@
     Vue.directive('resizeable', {
         inserted: function (el, bindings) {
 
-            var isResizing = false,
+            let isResizing = false,
                 lastOffset = null,
                 container = $('#app-layout'),
                 top = $('#main'),
@@ -230,15 +230,15 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-            var container = $(el).find('.events-container');
+            let container = $(el).find('.events-container');
 
             container.unbind('scroll');
 
-            var pagination = bindings.value.events_pagination;
-            var form = bindings.value.form;
+            let pagination = bindings.value.events_pagination;
+            let form = bindings.value.form;
 
             if(pagination) {
-                var nextPage = pagination.current_page + 1;
+                let nextPage = pagination.current_page + 1;
                 if (nextPage <= pagination.last_page) {
                     container.bind('scroll', function() {
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
@@ -279,8 +279,12 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getEvents');
+                this.$store.dispatch('getAllUserPiles'); // todo - rename
                 this.$store.dispatch('getAllSites');
                 this.$store.dispatch('getAllServers');
+
+                this.$store.dispatch('getRepositoryProviders');
+
             },
             updateFilters() {
                 this.$store.commit('CLEAR_EVENTS');
@@ -288,7 +292,7 @@
                 this.$store.dispatch('getEvents', this.form);
             },
             renderType(type) {
-                var title = type.substring(type.lastIndexOf('\\') + 1);
+                let title = type.substring(type.lastIndexOf('\\') + 1);
 
                 return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(type) {
                     return type.toUpperCase();
@@ -296,21 +300,22 @@
             }
         },
         computed: {
+            piles() {
+                return this.$store.state.pilesStore.all_user_piles;
+            },
+            sites() {
+                return this.$store.state.sitesStore.all_sites;
+            },
             servers() {
                 return this.$store.state.serversStore.all_servers;
             },
+
             events() {
                 return this.$store.state.eventsStore.events;
             },
             events_pagination() {
                 return this.$store.state.eventsStore.events_pagination;
             },
-            piles() {
-                return this.$store.state.pilesStore.piles;
-            },
-            sites() {
-                return this.$store.state.sitesStore.all_sites;
-            }
         },
     }
 

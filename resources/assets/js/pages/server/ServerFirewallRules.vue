@@ -12,15 +12,36 @@
             </form>
         </div>
         <div class="row">
-            <form @submit.prevent="createFirewallRule">
-                description
-                <input type="text" name="description" v-model="form.description">
-                from ip
-                <input type="text" name="from_ip" v-model="form.from_ip">
-                port
-                <input type="text" name="port" v-model="form.port">
-                <button type="submit">Add Firewall Rule</button>
-            </form>
+
+            <div class="jcf-form-wrap">
+                <form @submit.prevent="createFirewallRule" class="floating-labels">
+
+                    <div class="jcf-input-group">
+                        <input type="text" name="description" v-model="form.description">
+                        <label for="description">
+                            <span class="float-label">Description</span>
+                        </label>
+                    </div>
+
+                    <div class="jcf-input-group">
+                        <input type="text" name="from_ip" v-model="form.from_ip">
+                        <label for="from_ip">
+                            <span class="float-label">From IP</span>
+                        </label>
+                    </div>
+
+                    <div class="jcf-input-group">
+                        <input type="text" name="port" v-model="form.port">
+                        <label for="port">
+                            <span class="float-label">Port</span>
+                        </label>
+                    </div>
+
+                    <div class="btn-footer">
+                        <button class="btn btn-primary" type="submit">Create Firewall Rule</button>
+                    </div>
+                </form>
+            </div>
 
             <table class="table" v-if="firewall_rules" v-for="firewall_rule in firewall_rules">
                 <thead>

@@ -19,10 +19,11 @@
                     </template>
 
                     <template v-else>
-                        <input :name="'services[' + feature.service + ']['+feature.name + '][enabled]'"
-                               type="checkbox"
-                               :checked="(server && feature.required) || hasFeature(feature)"
-                               value="1"
+                        <input
+                            :name="getInputName(feature)"
+                            type="checkbox"
+                            :checked="(server && feature.required) || hasFeature(feature)"
+                            value="1"
                         >
                     </template>
                     <div>
@@ -33,11 +34,25 @@
 
             <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
-                    <input :id="parameter"
-                           :name="'services[' + feature.service + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
-                           type="text" :value="getParameterValue(feature, parameter, value)"
-                    >
-                    <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                    <template v-if="feature.options">
+                        <div class="input-question">{{ parameter }}</div>
+                        <div class="select-wrap">
+                            <select :name="getInputName(feature, parameter)">
+                                <template v-for="option in feature.options">
+
+                                    <option :selected="getParameterValue(feature, parameter, value) == option" :value="option">{{ option }}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <input
+                            :id="parameter"
+                            :name="getInputName(feature, parameter)"
+                            type="text" :value="getParameterValue(feature, parameter, value)"
+                        >
+                        <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                    </template>
                 </div>
             </template>
 
@@ -46,12 +61,14 @@
             </template>
         </template>
         <template v-if="frameworks">
-            <h2>Frameworks for {{ area }}</h2>
+            <h2>Frameworks Features for {{ area }}</h2>
             <feature-area
-                    :server="server"
-                    :area="framework"
-                    :features="features"
-                    v-for="(features, framework) in getFrameworks(area)">
+                :server="server"
+                :area="framework"
+                :features="features"
+                :site_server_features="site_server_features"
+                v-for="(features, framework) in getFrameworks(area)"
+            >
             </feature-area>
         </template>
     </section>
@@ -62,33 +79,49 @@
         name: 'featureArea',
         props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
         methods: {
-            hasFeature: function (feature) {
-                var areaFeatures = null;
+            getInputName : function(feature, parameter) {
 
-                if (this.server && this.server.server_features) {
-                    areaFeatures = this.server.server_features[feature.service];
-                } else if (this.site_server_features && this.site_server_features) {
-                    areaFeatures = this.site_server_features[feature.service];
+                let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
+
+                if(parameter) {
+                    name = name + '[parameters][' + parameter + ']';
+
+                    if(feature.multiple) {
+                        name = name + '[]';
+                    }
+
+                    return name;
                 }
 
-                if (areaFeatures && areaFeatures[feature.name] && areaFeatures[feature.name].enabled) {
-                    return areaFeatures[feature.name];
+                return name + '[enabled]';
+            },
+            hasFeature: function (feature) {
+
+                let areaFeatures = null;
+
+                if (this.server && this.server.server_features) {
+                    areaFeatures = _.get(this.server.server_features, feature.service);
+                } else if (this.site_server_features) {
+                    areaFeatures = _.get(this.site_server_features, feature.service);
+                }
+
+                if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
+                    return _.get(areaFeatures, feature.name);
                 }
 
                 return false;
             },
             getParameterValue: function (feature, parameter, default_value) {
+                let area = this.hasFeature(feature);
 
-                var area = this.hasFeature(feature);
-
-                if (area.parameters) {
+                if (area && area.parameters) {
                     return area.parameters[parameter];
                 }
 
                 return default_value;
             },
             installFeature: function (feature) {
-                var parameters = {};
+                let parameters = {};
 
                 _.each(feature.parameters, function (value, parameter) {
                     parameters[parameter] = $('#' + parameter).val();
@@ -102,7 +135,12 @@
                 });
             },
             getSectionTitle: function (area) {
-                return area;
+                let areaName = area;
+                if((/[a-z]/.test(area))) {
+                    areaName = area.replace(/([A-Z].*)(?=[A-Z]).*/g, '$1')
+                }
+                return areaName + ' Features';
+
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];
