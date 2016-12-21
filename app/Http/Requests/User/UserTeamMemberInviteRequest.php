@@ -25,7 +25,7 @@ class UserTeamMemberInviteRequest extends FormRequest
     {
         return [
             'team_id' => 'required|integer',
-            'email' => 'required|email'
+            'email' => 'required|email',
         ];
     }
 }
