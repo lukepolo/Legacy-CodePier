@@ -45,6 +45,7 @@ class UserSshKeyController extends Controller
             'ssh_key' => trim($request->get('ssh_key')),
         ]);
 
+        // TODO - this needs to be dispatched
         foreach (\Auth::user()->provisionedServers as $server) {
             $this->runOnServer(function () use ($server, $userSshKey) {
                 if ($server->ssh_connection) {
@@ -53,7 +54,7 @@ class UserSshKeyController extends Controller
             });
         }
 
-        return $this->remoteResponse();
+        return response()->json($userSshKey);
     }
 
     /**
@@ -79,6 +80,7 @@ class UserSshKeyController extends Controller
     {
         $sshKey = UserSshKey::findOrFail($id);
 
+        // TODO - this needs to be a job
         foreach (\Auth::user()->servers as $server) {
             $this->runOnServer(function () use ($server, $sshKey) {
                 if ($server->ssh_connection) {

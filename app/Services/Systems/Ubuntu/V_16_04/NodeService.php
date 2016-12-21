@@ -8,6 +8,9 @@ class NodeService
 {
     use ServiceConstructorTrait;
 
+    /**
+     *  @description NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
+     */
     public function installNodeJs()
     {
         $this->connectToServer();
@@ -15,6 +18,9 @@ class NodeService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
     }
 
+    /**
+     *  @description Yarn is a fast, reliable and secure dependency management tool for NodeJs
+     */
     public function installYarn()
     {
         $this->connectToServer();
@@ -25,6 +31,9 @@ class NodeService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y yarn');
     }
 
+    /**
+     *  @description Bower is a dependency management tool for javascript and css packages
+     */
     public function installBower()
     {
         $this->connectToServer();
@@ -32,6 +41,9 @@ class NodeService
         $this->remoteTaskService->run('npm install -g bower');
     }
 
+    /**
+     *  @description Gulp is a toolkit that helps you automate painful or time-consuming tasks in your development workflow.
+     */
     public function installGulp()
     {
         $this->connectToServer();

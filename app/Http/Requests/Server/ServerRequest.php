@@ -24,7 +24,16 @@ class ServerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id' => \Auth::user()->id,
+            'server_name' => 'required|string',
+            'server_provider_id' => 'required|domain',
+            'services' => 'required',
+            'server_region' => 'required|integer',
+            'server_option' => 'required|integer',
+            'server_provider_features' => 'required',
+            'server_features' => 'required',
+            'pile_id' => 'required_unless:site',
+            'site' => 'integer',
         ];
     }
 }

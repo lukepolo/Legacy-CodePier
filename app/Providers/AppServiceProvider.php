@@ -20,6 +20,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
 use App\Observers\Site\SiteFileObserver;
 use App\Models\Server\ServerFirewallRule;
+use App\Models\Site\SiteServerDeployment;
+use Illuminate\Support\Facades\Validator;
 use App\Observers\Site\SiteSshKeyObserver;
 use App\Observers\Site\SiteWorkerObserver;
 use App\Models\Server\ServerSslCertificate;
@@ -29,6 +31,7 @@ use App\Observers\Server\ServerWorkerObserver;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerCronJobObserver;
 use App\Observers\Site\SiteFirewallRuleObserver;
+use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Site\SiteSslCertificateObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
 use App\Observers\Server\ServerFirewallRuleObserver;
@@ -66,6 +69,16 @@ class AppServiceProvider extends ServiceProvider
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         ServerFirewallRule::observe(ServerFirewallRuleObserver::class);
         ServerSslCertificate::observe(ServerSslCertificateObserver::class);
+
+        SiteServerDeployment::observe(ServerDeploymentObserver::class);
+
+        Validator::extend('domain', function ($attribute, $value) {
+            if (! is_string($value) && ! is_numeric($value)) {
+                return false;
+            }
+
+            return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
+        });
     }
 
     /**

@@ -13,6 +13,9 @@ class MonitoringService
     const MEMORY_SCRIPT = 'free -m -h | grep : | awk \'{ print "name="$1 " total="$2 " used="$3 " free="$4 " available="$7}\'';
     const DISK_USAGE_SCRIPT = 'df -h / | grep / | awk \'{ print "disk="$1 " used="$3 " available="$4 " percent="$5}\'';
 
+    /**
+     *  @description This script monitors your disk usage and will notify you if your disks are getting full.
+     */
     public function installDiskMonitoringScript()
     {
         $this->connectToServer();
@@ -31,6 +34,9 @@ done');
         $this->createCronJob($this->server->id, $cronJob, 'root');
     }
 
+    /**
+     *  @description This script monitors your load across your cores, it will notify you if your load activity is abnormally high.
+     */
     public function installLoadMonitoringScript()
     {
         $this->connectToServer();
@@ -50,6 +56,9 @@ done');
         $this->createCronJob($this->server->id, $cronJob, 'root');
     }
 
+    /**
+     *  @description This script monitors your memory usage and will notify you if your available memory is getting low
+     */
     public function installServerMemoryMonitoringScript()
     {
         $this->connectToServer();

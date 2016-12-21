@@ -24,7 +24,8 @@ class ServerCronJobRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'job' => 'required',
+            'user' => 'required',
         ];
     }
 }

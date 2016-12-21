@@ -45,12 +45,12 @@
                     <p>1 / 5 / 10 mins for {{ server.stats.cpus }} CPUS</p>
 
                     <template v-for="(load, ago, index) in server.stats.loads">
-                    <span>
-                        {{ load }}%
-                        <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
-                            /
-                        </template>
-                    </span>
+                <span>
+                    {{ load }}%
+                    <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
+                        /
+                    </template>
+                </span>
                     </template>
                 </template>
                 <template v-else>
@@ -84,7 +84,7 @@
         props : ['server'],
         computed : {
             currentProvisioningStep() {
-                var provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
+                let provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
 
                 if(_.has(provisioningSteps, this.server.id)) {
                    return _.get(provisioningSteps, this.server.id);

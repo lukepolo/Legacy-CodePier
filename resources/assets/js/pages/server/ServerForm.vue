@@ -21,13 +21,13 @@
                                 <template v-for="user_server_provider in user_server_providers">
                                     <label>
                                         <input
-                                            @change="getProviderData(user_server_provider.server_provider.provider_name)"
+                                            @change="getProviderData(user_server_provider.server_provider_id)"
                                             type="radio"
                                             name="server_provider_id"
                                             :value="user_server_provider.server_provider_id"
                                         >
                                         <span class="icon"></span>
-                                        {{ user_server_provider.server_provider.name }}
+                                        {{ getServerProviderName(user_server_provider.server_provider_id) }}
                                     </label>
                                 </template>
                             </div>
@@ -122,6 +122,7 @@
         },
         methods: {
             fetchData() {
+                this.$store.dispatch('getServerProviders');
                 this.$store.dispatch('getUserServerProviders');
 
                 this.$store.dispatch('getServerAvailableFeatures');
@@ -132,13 +133,15 @@
                     this.$store.dispatch('getSite', this.$route.params.site);
                 }
             },
-            getProviderData(provider) {
-                this.$store.dispatch('getServerProviderOptions', provider);
-                this.$store.dispatch('getServerProviderRegions', provider);
-                this.$store.dispatch('getServerProviderFeatures', provider);
+            getProviderData(server_provider_id) {
+                let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name;
+                if(provider) {
+                    this.$store.dispatch('getServerProviderOptions', provider);
+                    this.$store.dispatch('getServerProviderRegions', provider);
+                    this.$store.dispatch('getServerProviderFeatures', provider);
+                }
             },
             createServer() {
-
                 this.$store.dispatch('createServer', this.getFormData(this.$el));
 
                 if (this.$route.params.site) {
@@ -146,11 +149,19 @@
                 } else {
                     app.$router.push('/');
                 }
+            },
+            getServerProviderName(server_provider_id) {
+                if(this.server_providers) {
+                    return _.find(this.server_providers, { id : server_provider_id}).name;
+                }
             }
         },
         computed: {
+            server_providers() {
+                return this.$store.state.serverProvidersStore.server_providers;
+            },
             user_server_providers() {
-                return this.$store.state.serverProvidersStore.user_server_providers;
+                return this.$store.state.userStore.user_server_providers;
             },
             server_options() {
                 return this.$store.state.serverProvidersStore.server_provider_options;

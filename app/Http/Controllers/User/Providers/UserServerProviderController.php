@@ -14,7 +14,7 @@ class UserServerProviderController extends Controller
      */
     public function index()
     {
-        return response(UserServerProvider::with('serverProvider')->where('user_id', \Auth::user()->id)->get());
+        return response(UserServerProvider::where('user_id', \Auth::user()->id)->get());
     }
 
     /**
@@ -26,7 +26,7 @@ class UserServerProviderController extends Controller
      */
     public function show($id)
     {
-        return response(UserServerProvider::with('serverProvider')->findOrFail($id));
+        return response(UserServerProvider::findOrFail($id));
     }
 
     /**

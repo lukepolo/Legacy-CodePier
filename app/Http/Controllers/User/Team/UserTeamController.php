@@ -31,7 +31,7 @@ class UserTeamController extends Controller
     public function show($id)
     {
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::with('invites')->findOrFail($id);
+        $team = $teamModel::findOrFail($id);
 
         return response()->json($team);
     }
@@ -47,7 +47,7 @@ class UserTeamController extends Controller
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::create([
-            'name'     => $request->name,
+            'name'     => $request->get('name'),
             'owner_id' => \Auth::user()->id,
         ]);
 
@@ -125,7 +125,7 @@ class UserTeamController extends Controller
         $team = null;
 
         if (! empty($id)) {
-            $team = $teamModel::with('piles')->findOrFail($id);
+            $team = $teamModel::findOrFail($id);
         }
         try {
             $user = \Auth::user();

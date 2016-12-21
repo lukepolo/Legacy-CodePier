@@ -43,9 +43,13 @@ class ServerCommandUpdated implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
-        $command = json_decode($this->serverCommand->command->toJson());
+        $command = $this->serverCommand->command;
 
-        unset($command->server_commands);
+        $command->load('serverCommands.server');
+
+        foreach ($command->serverCommands as $serverCommand) {
+            unset($serverCommand->server->server_features);
+        }
 
         return [
             'command' => $command,

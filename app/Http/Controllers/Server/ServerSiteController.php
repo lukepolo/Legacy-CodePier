@@ -17,13 +17,7 @@ class ServerSiteController extends Controller
     public function index($id)
     {
         return response()->json(
-            Server::with(['sites' => function ($query) {
-                $query->with([
-                    'activeSSL',
-                    'workers',
-                    'userRepositoryProvider',
-                ]);
-            }])->findOrFail($id)->sites
+            Server::with('sites')->findOrFail($id)->sites
         );
     }
 }
