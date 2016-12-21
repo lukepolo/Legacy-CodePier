@@ -100,7 +100,8 @@
                     framework: null,
                     repository: null,
                     web_directory: null,
-                    zerotime_deployment: null,
+                    wildcard_domain : false,
+                    zerotime_deployment: true,
                     user_repository_provider_id: null
                 }
             }
@@ -168,6 +169,7 @@
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
                     this.form.web_directory = site.web_directory;
+                    this.form.wildcard_domain = site.wildcard_domain;
                     this.form.zerotime_deployment = site.zerotime_deployment;
                     this.form.user_repository_provider_id = site.user_repository_provider_id;
                 }
