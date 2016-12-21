@@ -24,7 +24,14 @@ class SiteRepositoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'type' => 'required|string',
+            'branch' => 'required|string',
+            'wildcard_domain' => 'integer',
+            'framework' => 'required|string',
+            'repository'=> 'required|string',
+            'zerotime_deployment' => 'integer',
+            'web_directory' => 'required|string',
+            'user_repository_provider_id' => 'required|integer',
         ];
     }
 }

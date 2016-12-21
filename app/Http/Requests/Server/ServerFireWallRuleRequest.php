@@ -24,7 +24,9 @@ class ServerFireWallRuleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'description' => 'required',
+            'port' => 'required|integer',
+            'from_ip' => 'ip',
         ];
     }
 }

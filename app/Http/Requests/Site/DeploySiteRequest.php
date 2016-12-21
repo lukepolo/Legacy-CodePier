@@ -24,7 +24,7 @@ class DeploySiteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'site' => 'required|integer',
         ];
     }
 }

@@ -23,7 +23,7 @@ export default {
             Vue.http.post(Vue.action('EventController@store'), filters).then((response) => {
                 commit('SET_EVENTS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         setVersion : ({commit}, data) => {

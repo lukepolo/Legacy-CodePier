@@ -24,7 +24,7 @@ class ServerNetworkRuleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'servers' => 'required',
         ];
     }
 }

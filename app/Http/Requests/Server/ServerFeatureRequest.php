@@ -24,7 +24,9 @@ class ServerFeatureRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'feature' => 'required',
+            'service' => 'required',
+            'parameters' => 'required',
         ];
     }
 }
