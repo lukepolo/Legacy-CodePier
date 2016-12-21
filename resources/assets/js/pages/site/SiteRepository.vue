@@ -56,10 +56,9 @@
 
                 <div class="jcf-input-group">
                     <div class="input-question">Select Framework</div>
-                    <!-- TODO allow user to de-select a framework. Have an option of "none" -->
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
-                            <select>None</select>
+                            <option>None</option>
                             <optgroup :label="language" v-for="(features, language) in availableLanguages">
                                 <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
                             </optgroup>

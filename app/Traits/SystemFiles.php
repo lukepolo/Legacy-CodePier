@@ -82,7 +82,7 @@ trait SystemFiles
 
                 $options = $this->getDocParam($method, 'options');
                 if (! empty($options)) {
-                    $options = explode(',', $options);
+                    $options = array_map('trim', explode(',', $options));
                 }
 
                 $name = str_replace('install', '', $method->name);

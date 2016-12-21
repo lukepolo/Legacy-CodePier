@@ -19,10 +19,11 @@
                     </template>
 
                     <template v-else>
-                        <input :name="'services[' + feature.service + ']['+feature.name + '][enabled]'"
-                               type="checkbox"
-                               :checked="(server && feature.required) || hasFeature(feature)"
-                               value="1"
+                        <input
+                            :name="getInputName(feature)"
+                            type="checkbox"
+                            :checked="(server && feature.required) || hasFeature(feature)"
+                            value="1"
                         >
                     </template>
                     <div>
@@ -33,11 +34,22 @@
 
             <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
                 <div class="input-group">
-                    <input :id="parameter"
-                           :name="'services[' + feature.service + ']' + '[' + feature.name + '][parameters]['+ parameter+']'"
-                           type="text" :value="getParameterValue(feature, parameter, value)"
-                    >
-                    <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                    <template v-if="feature.options">
+                        <div class="input-question">{{ parameter }}</div>
+                        <div class="select-wrap">
+                            <select :name="getInputName(feature, parameter)">
+                                <option v-for="option in feature.options">{{ option }}</option>
+                            </select>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <input
+                            :id="parameter"
+                            :name="getInputName(feature, parameter)"
+                            type="text" :value="getParameterValue(feature, parameter, value)"
+                        >
+                        <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                    </template>
                 </div>
             </template>
 
@@ -48,10 +60,11 @@
         <template v-if="frameworks">
             <h2>Frameworks for {{ area }}</h2>
             <feature-area
-                    :server="server"
-                    :area="framework"
-                    :features="features"
-                    v-for="(features, framework) in getFrameworks(area)">
+                :server="server"
+                :area="framework"
+                :features="features"
+                v-for="(features, framework) in getFrameworks(area)"
+            >
             </feature-area>
         </template>
     </section>
@@ -62,6 +75,21 @@
         name: 'featureArea',
         props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
         methods: {
+            getInputName : function(feature, parameter) {
+                let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
+
+                if(parameter) {
+                    name = name + '[parameters][' + parameter + ']';
+
+                    if(feature.multiple) {
+                        name = name + '[]';
+                    }
+
+                    return name;
+                }
+
+                return name + '[enabled]';
+            },
             hasFeature: function (feature) {
                 let areaFeatures = null;
 

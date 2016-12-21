@@ -80,10 +80,6 @@ class SiteFeatureService implements SiteFeatureServiceContract
                         }
 
                         foreach ($tempSuggestedFeatures as $service => $serverSuggestedFeatures) {
-                            if (! isset($suggestedFeatures[$service])) {
-                                $suggestedFeatures[$service] = [];
-                            }
-
                             foreach ($serverSuggestedFeatures as $suggestedFeature) {
                                 $features = $possibleFeatures;
 
@@ -91,12 +87,30 @@ class SiteFeatureService implements SiteFeatureServiceContract
                                     $serviceParts = explode('.', $service);
                                     $service = array_pop($serviceParts);
 
+                                    $tempSuggestedFeatures = &$suggestedFeatures;
+
                                     foreach ($serviceParts as $part) {
+                                        if (! isset($tempSuggestedFeatures[$part] )) {
+                                            $tempSuggestedFeatures[$part]  = [];
+                                        }
+
+                                        $tempSuggestedFeatures = &$tempSuggestedFeatures[$part];
+
                                     }
 
-                                    $suggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
-                                    $suggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
+                                    if (! isset($tempSuggestedFeatures[$service])) {
+                                        $tempSuggestedFeatures[$service] = [];
+                                    }
+
+                                    $tempSuggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
+                                    $tempSuggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
+
                                 } else {
+
+                                    if (! isset($suggestedFeatures[$service])) {
+                                        $suggestedFeatures[$service] = [];
+                                    }
+
                                     $suggestedFeatures[$service][$suggestedFeature] = $features->get($service)[$suggestedFeature];
                                     $suggestedFeatures[$service][$suggestedFeature]['enabled'] = true;
                                 }
@@ -109,7 +123,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             }
         }
 
-        return $suggestedFeatures;
+        return collect($suggestedFeatures);
     }
 
     /**

@@ -62,6 +62,14 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
+// Testing routes
+Route::get('/test/site-features', function() {
+    $serverFeatureService = new \App\Services\Server\ServerFeatureService();
+    $siteFeatureService = new \App\Services\Site\SiteFeatureService($serverFeatureService);
+
+//    dump($serverFeatureService->getAllFeatures());
+    dd($siteFeatureService->getSuggestedFeatures(\App\Models\Site\Site::findOrFail(3)));
+});
 /*
 |--------------------------------------------------------------------------
 | Catch All Route
@@ -73,3 +81,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });
+
+
+
