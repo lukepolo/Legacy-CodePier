@@ -91,7 +91,11 @@ class Handler extends ExceptionHandler
             );
         }
 
-        return parent::convertExceptionToResponse($e);
+        if (\Request::expectsJson()) {
+            return response()->json('We have an error', 500);
+        }
+
+        return response()->view('errors.500', ['exception' => $e], 500);
     }
 
     /**
