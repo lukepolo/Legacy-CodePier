@@ -75,9 +75,8 @@ class SystemService implements SystemServiceContract
             $this->updateProgress($provisionStep->step);
 
             return false;
-        } catch(\Exception $e) {
-
-            if(env('APP_DEBUG')) {
+        } catch (\Exception $e) {
+            if (env('APP_DEBUG')) {
                 throw $e;
             }
 

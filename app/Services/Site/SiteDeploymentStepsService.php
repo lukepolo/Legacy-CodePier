@@ -139,7 +139,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function getDeploymentStep(Site $site, $deploymentStep)
     {
-        if(empty($this->deploymentSteps)) {
+        if (empty($this->deploymentSteps)) {
             $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('internal_deployment_function');
         }
 

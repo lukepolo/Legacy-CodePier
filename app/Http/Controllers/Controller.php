@@ -15,7 +15,7 @@ class Controller extends BaseController
     public function app()
     {
         return view('codepier', [
-            'user' => \Auth::user()
+            'user' => \Auth::user(),
         ]);
     }
 }
