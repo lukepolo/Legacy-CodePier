@@ -73,6 +73,3 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });
-
-
-
