@@ -47,7 +47,7 @@ class ServerCommandUpdated implements ShouldBroadcastNow
 
         $command->load('serverCommands.server');
 
-        foreach($command->serverCommands as $serverCommand) {
+        foreach ($command->serverCommands as $serverCommand) {
             unset($serverCommand->server->server_features);
         }
 
