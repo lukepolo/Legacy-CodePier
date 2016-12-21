@@ -90,10 +90,10 @@ class SiteObserver
             }
         }
 
-        if ($site->repository && $site->deploymentSteps->isEmpty()) {
-            $this->siteDeploymentStepsService->saveDefaultSteps($site);
-            $this->siteFeatureService->saveSuggestedDefaults($site);
-        }
+//        if ($site->repository && $site->deploymentSteps->isEmpty()) {
+//            $this->siteDeploymentStepsService->saveDefaultSteps($site);
+//            $this->siteFeatureService->saveSuggestedDefaults($site);
+//        }
     }
 
     /**
