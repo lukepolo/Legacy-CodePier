@@ -52,7 +52,7 @@ class SlackMessageChannel
                     'token'    => $token,
                     'name'     => $notification->slackChannel,
                 ],
-            ]);
+            ])->getStatusCode();
 
             if ($response == 200) {
                 $slackChannel = SlackChannel::create([

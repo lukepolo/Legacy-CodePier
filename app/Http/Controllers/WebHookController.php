@@ -36,8 +36,8 @@ class WebHookController extends Controller
 
         if ($site->branch == $branch) {
             dispatch(
-                new \App\Jobs\Site\DeploySite($site, null, true)
-            )->onQueue(env('SERVER_COMMAND_QUEUE'));
+                (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
 
         return response()->json('OK');
