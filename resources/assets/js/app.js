@@ -35,7 +35,7 @@ Vue.directive('cronjob', {
     bind: function (el) {
         $(el).cron({
             onChange() {
-                var cronTiming = $(this).cron("value");
+                let cronTiming = $(this).cron("value");
                 $('#cron-preview').text(cronTiming);
                 $('input[name="cron_timing"]').val(cronTiming);
             }
@@ -383,7 +383,7 @@ const router = new VueRouter({
     ]
 });
 
-var app = new Vue({
+let app = new Vue({
     store,
     router,
 }).$mount('#app-layout');
