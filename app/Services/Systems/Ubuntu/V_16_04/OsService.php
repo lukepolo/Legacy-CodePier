@@ -14,6 +14,7 @@ class OsService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
     }
 
     public function setTimezoneToUTC()
@@ -61,6 +62,9 @@ class OsService
         $this->remoteTaskService->run('service sshd restart');
     }
 
+    /**
+     *  @description SWAP is a virtual space to help guard against memory errors in applications.
+     */
     public function installSwap($size = '1G', $swappiness = 10, $vfsCachePressure = 50)
     {
         $this->connectToServer();

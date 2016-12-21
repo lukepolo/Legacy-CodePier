@@ -1,28 +1,28 @@
 export default {
     state: {
         piles: [],
-        user_piles: [],
+        all_user_piles: [],
     },
     actions: {
-        getPiles: ({commit, dispatch}) => {
+        getPiles: ({commit}) => {
             Vue.http.get(Vue.action('Pile\PileController@index')).then((response) => {
                 commit('SET_PILES', response.data);
             }, (errors) => {
-                alert(errors);
+                app.handleApiError(errors);
             });
         },
-        getUserPiles: ({commit}) => {
-            Vue.http.get(Vue.action('Pile\PileController@index', {all: true})).then((response) => {
-                commit('SET_USER_PILES', response.data);
+        getAllUserPiles: ({commit}) => {
+            Vue.http.get(Vue.action('Pile\PileController@allPiles')).then((response) => {
+                commit('SET_ALL_USER_PILES', response.data);
             }, (errors) => {
-                alert(errors);
+                app.handleApiError(errors);
             });
         },
-        createPile: ({dispatch}, data) => {
+        createPile: ({commit}, data) => {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
-                dispatch('getPiles');
+                commit('ADD_PILE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
         changePiles : ({commit, dispatch}, pileId) => {
@@ -34,27 +34,34 @@ export default {
                 app.$router.push('/');
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
-        updatePile: ({dispatch}, data) => {
+        updatePile: ({}, data) => {
             Vue.http.put(Vue.action('Pile\PileController@update', {pile: data.pile.id}), data).then((response) => {
-                dispatch('getPiles');
+
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
-        deletePile: ({dispatch}, pile) => {
+        deletePile: ({}, pile) => {
             Vue.http.delete(Vue.action('Pile\PileController@destroy', {pile: pile})).then((response) => {
-                dispatch('getPiles');
+                commit('REMOVE_PILE', pile);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         }
     },
     mutations: {
-        SET_USER_PILES: (state, piles) => {
-            state.user_piles = piles;
+        ADD_PILE: (state, cron_job) => {
+            state.site_cron_jobs.push(cron_job);
+        },
+        REMOVE_PILE : (state, pile_id) => {
+            Vue.set(state, 'piles', _.reject(state.piles, { id : pile_id }));
+            Vue.set(state, 'all_user_piles', _.reject(state.all_user_piles, { id : pile_id }));
+        },
+        SET_ALL_USER_PILES: (state, piles) => {
+            state.all_user_piles = piles;
         },
         SET_PILES: (state, piles) => {
             state.piles = piles;

@@ -19,7 +19,6 @@ class SiteDeployment extends Model
     ];
 
     protected $appends = [
-        'status',
         'event_type',
     ];
 
@@ -44,7 +43,7 @@ class SiteDeployment extends Model
         return get_class($this);
     }
 
-    public function getStatusAttribute()
+    public function updateStatus()
     {
         $serverDeployments = $this->serverDeployments;
 
@@ -52,19 +51,19 @@ class SiteDeployment extends Model
         $started = $serverDeployments->sum('started');
         $completed = $serverDeployments->sum('completed');
 
+        $status = 'Queued';
+
         if ($failed > 0) {
-            return 'Failed';
+            $status = 'Failed';
+        } elseif ($completed == $serverDeployments->count()) {
+            $status = 'Completed';
+        } elseif ($started > 0) {
+            $status = 'Running';
         }
 
-        $totalServerDeployments = $serverDeployments->count();
-
-        if ($completed == $totalServerDeployments) {
-            return 'Completed';
-        }
-
-        if ($started > 0) {
-            return 'Running';
-        }
+        $this->update([
+            'status' => $status,
+        ]);
     }
 
     public function delete()

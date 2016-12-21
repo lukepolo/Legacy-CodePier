@@ -35,8 +35,6 @@
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');
                 this.$store.dispatch('getServerAvailableFrameworks');
-
-                this.$store.dispatch('getSiteSuggestedFeatures', this.$route.params.site_id);
             },
             saveSiteServerFeatures() {
                 this.$store.dispatch('updateSiteServerFeatures', {
@@ -59,10 +57,6 @@
                 return this.$store.state.serversStore.available_server_frameworks;
             },
             siteFeatures() {
-                if(this.site && !this.site.server_features) {
-                    return this.$store.state.siteServersFeaturesStore.suggestedFeatures;
-                }
-
                 return this.site.server_features;
             }
         }

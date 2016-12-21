@@ -17,6 +17,7 @@ trait ModelCommandTrait
             'site_id' => $model->site_id,
             'commandable_id' => $model->id,
             'commandable_type' => get_class($model),
+            'status' => 'Queued',
         ]);
     }
 }

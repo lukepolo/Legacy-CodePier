@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Site;
 
-use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notification;
@@ -46,14 +45,9 @@ class NewSiteDeployment extends Notification
     {
         return [
             'siteDeployment' => $this->siteDeployment->load([
-                'serverDeployments.server' => function ($query) {
-                    $query->select('id', 'status', 'name', 'ip');
-                },
                 'serverDeployments.events.step' => function ($query) {
                     $query->withTrashed();
                 },
-                'site.pile',
-                'site.userRepositoryProvider.repositoryProvider',
             ]),
         ];
     }
