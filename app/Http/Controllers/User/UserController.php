@@ -44,7 +44,7 @@ class UserController extends Controller
     }
 
     /**
-     * Gets the running commands
+     * Gets the running commands.
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRunningCommands()
@@ -55,7 +55,7 @@ class UserController extends Controller
     }
 
     /**
-     * Gets the running deployments
+     * Gets the running deployments.
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRunningDeployments()

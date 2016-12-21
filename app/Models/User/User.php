@@ -4,9 +4,9 @@ namespace App\Models\User;
 
 use App\Models\Pile;
 use App\Models\Server\Server;
-use App\Models\Site\SiteDeployment;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -124,10 +124,9 @@ class User extends Authenticatable
     public function getRunningDeployments()
     {
         if ($this->currentPile) {
-
             $sites = $this->currentPile
                 ->sites()
-                ->whereHas('lastDeployment', function($query) {
+                ->whereHas('lastDeployment', function ($query) {
                     $query->whereIn('status', [
                         SiteDeployment::RUNNING,
                         SiteDeployment::QUEUED_FOR_DEPLOYMENT,
