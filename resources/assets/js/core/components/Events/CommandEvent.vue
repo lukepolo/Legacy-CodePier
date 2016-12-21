@@ -1,7 +1,6 @@
 <template>
     <section class="event">
         <div class="event-status" :class="{'event-status-neutral' : event.status == 'Queued', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
-        {{ event.status }}
         <div class="event-name">
             <drop-down-event
                     :title="eventTitle"
