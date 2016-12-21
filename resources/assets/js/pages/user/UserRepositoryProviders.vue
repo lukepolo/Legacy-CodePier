@@ -15,26 +15,20 @@
 
 <script>
     export default {
-        data() {
-            return {
-                repository_providers: []
-            }
-        },
         computed: {
-            user_repository_providers() {
+            repository_providers() {
                 return this.$store.state.userStore.repository_providers;
+            },
+            user_repository_providers() {
+                return this.$store.state.userStore.user_repository_providers;
             }
         },
         methods: {
             isConnected: function (repository_provider_id) {
-                if (_.some(this.user_repository_providers, {'repository_provider_id': repository_provider_id})) {
-                    return true;
-                }
-
-                return false;
+                return _.find(this.user_repository_providers, {'repository_provider_id': repository_provider_id});
             },
             disconnectProvider: function (repository_provider_id) {
-                var user_repository_provider_id = _.find(this.user_repository_providers, function (repository_provider) {
+                let user_repository_provider_id = _.find(this.user_repository_providers, function (repository_provider) {
                     return repository_provider.repository_provider_id == repository_provider_id;
                 }).id;
 
@@ -45,14 +39,7 @@
             }
         },
         created() {
-
-            Vue.http.get(this.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
-                this.repository_providers = response.data;
-            }, (errors) => {
-                app.showError(error);;
-            });
-
-            this.$store.dispatch('getUserRepositoryProviders');
+            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.userStore.user.id);
         }
     }
 </script>

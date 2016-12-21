@@ -48,7 +48,7 @@
         },
         methods: {
             hasNotificationSetting(notification_setting, service) {
-                var notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id});
+                let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id});
 
                 if(notification) {
                     return _.indexOf(notification.services, service) != -1;
@@ -66,7 +66,7 @@
                 return false;
             },
             disconnectProvider: function (notification_provider_id) {
-                var user_notification_provider_id = _.find(this.user_notification_providers, function (notification_provider) {
+                let user_notification_provider_id = _.find(this.user_notification_providers, function (notification_provider) {
                     return notification_provider.notification_provider_id == notification_provider_id;
                 }).id;
 

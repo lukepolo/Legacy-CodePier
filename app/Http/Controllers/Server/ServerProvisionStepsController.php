@@ -6,7 +6,6 @@ use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\ProvisionServer;
 use App\Events\Server\ServerProvisionStatusChanged;
-use App\Http\Requests\Server\ServerProvisioningStepsRequest;
 
 class ServerProvisionStepsController extends Controller
 {
@@ -26,11 +25,10 @@ class ServerProvisionStepsController extends Controller
     /**
      * Starts the provisioning process again.
      *
-     * @param ServerProvisioningStepsRequest $request
      * @param $serverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ServerProvisioningStepsRequest $request, $serverId)
+    public function store($serverId)
     {
         $server = Server::with(['provisionSteps'])->findOrFail($serverId);
 

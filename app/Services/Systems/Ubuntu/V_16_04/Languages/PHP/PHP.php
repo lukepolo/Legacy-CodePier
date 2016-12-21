@@ -20,10 +20,10 @@ class PHP
     ];
 
     public static $files = [
-        'PHP7' => [
-            '/etc/php/7.0/fpm/php.ini',
-            '/etc/php/7.0/cli/php.ini',
-            '/etc/php/7.0/fpm/php-fpm.conf',
+        'PHP' => [
+            '/etc/php/{version}/fpm/php.ini',
+            '/etc/php/{version}/cli/php.ini',
+            '/etc/php/{version}/fpm/php-fpm.conf',
         ],
     ];
 
@@ -33,89 +33,71 @@ class PHP
 
     public $suggestedFeatures = [
         'OsService' => [
-            'Swap' => [
-                'enabled' => 1,
-            ],
-            'parameters' => [
-                'size' => '1G',
-                'swappiness' => 10,
-                'vfsCachePressure' => 50,
-            ],
+            'Swap',
         ],
         'WebService' => [
-            'Nginx' => [
-                'enabled' => 1,
-            ],
-            'CertBot' => [
-                'enabled' => 1,
-            ],
+            'Nginx',
+            'CertBot',
         ],
         'NodeService' => [
-            'Yarn' => [
-                'enabled' => 1,
-            ],
-            'NodeJs' => [
-                'enabled' => 1,
-            ],
+            'Yarn',
+            'NodeJs',
         ],
         'WorkerService' => [
-            'Beanstalk' => [
-                'enabled' => 1,
-            ],
-            'Supervisor' => [
-                'enabled' => 1,
-            ],
+            'Beanstalk',
+            'Supervisor',
         ],
         'DatabaseService' => [
-            'Redis' => [
-                'enabled' => 1,
-            ],
-            'MariaDB' => [
-                'enabled' => 1,
-            ],
+            'Redis',
+            'MariaDB',
         ],
         'Languages\PHP\PHP' => [
-            'PHP7' => [
-                'enabled' => 1,
-            ],
-            'PhpFpm' => [
-                'enabled' => 1,
-            ],
-            'Composer' => [
-                'enabled' => 1,
-            ],
+            'PHP',
+            'PhpFpm',
+            'Composer',
         ],
         'MonitoringService' => [
-            'DiskMonitoringScript' => [
-                'enabled' => 1,
-            ],
-            'LoadMonitoringScript' => [
-                'enabled' => 1,
-            ],
-            'ServerMemoryMonitoringScript' => [
-                'enabled' => 1,
-            ],
+            'DiskMonitoringScript',
+            'LoadMonitoringScript',
+            'ServerMemoryMonitoringScript',
         ],
         'RepositoryService' => [
-            'Git' => [
-                'enabled' => 1,
-            ],
+            'Git',
         ],
     ];
 
-    public function installPHP7()
+    /**
+     * @description PHP
+     *
+     * @options 7.0, 7.1
+     * @multiple false
+     * @param string $version
+     */
+    public function installPHP($version = '7.1')
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php php-pgsql php-sqlite3 php-gd php-apcu php-curl php-mcrypt php-imap php-mysql php-memcached php-readline php-mbstring php-xml php-zip php-intl php-bcmath php-soap');
+        switch ($version) {
+            case '7.0':
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0-cli php7.0-dev php7.0-pgsql php7.0-sqlite3 php7.0-gd php7.0-curl php7.0-memcached php7.0-imap php7.0-mysql php7.0-mbstring php7.0-xml php7.0-zip php7.0-bcmath php7.0-soap php7.0-intl php7.0-readline php-xdebug');
+                break;
+            case '7.1':
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
+                $this->remoteTaskService->run('apt-get update');
+                break;
+        }
 
-        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText('/etc/php/7.0/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$version.'-cli php'.$version.'-dev php'.$version.'-pgsql php'.$version.'-sqlite3 php'.$version.'-gd php'.$version.'-curl php'.$version.'-memcached php'.$version.'-imap php'.$version.'-mysql php'.$version.'-mbstring php'.$version.'-xml php'.$version.'-zip php'.$version.'-bcmath php'.$version.'-soap php'.$version.'-intl php'.$version.'-readline php-xdebug');
 
-        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php7.0-fpm restart');
+        $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
+        $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
+
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm restart');
     }
 
+    /**
+     * @description PHP-FPM is required when using Nnginx
+     */
     public function installPhpFpm()
     {
         // https://www.howtoforge.com/tutorial/apache-with-php-fpm-on-ubuntu-16-04/
@@ -124,19 +106,31 @@ class PHP
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php-fpm');
 
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', 'post_max_size =', 'post_max_size = 250M');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/php.ini', ';date.timezone', 'date.timezone = UTC');
+        $possibleVersions = [
+            '7.0',
+            '7.1',
+        ];
 
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'user = www-data', 'user = codepier');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'group = www-data', 'group = codepier');
+        foreach ($possibleVersions as $version) {
+            if ($this->remoteTaskService->hasFile('/etc/php/'.$version.'/fpm/php.ini')) {
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'post_max_size =', 'post_max_size = 250M');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', ';date.timezone', 'date.timezone = UTC');
 
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.owner', 'listen.owner = codepier');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.group', 'listen.group = codepier');
-        $this->remoteTaskService->updateText('/etc/php/7.0/fpm/pool.d/www.conf', 'listen.mode', 'listen.mode = 0666');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'user = www-data', 'user = codepier');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'group = www-data', 'group = codepier');
+
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.owner', 'listen.owner = codepier');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.group', 'listen.group = codepier');
+                $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/pool.d/www.conf', 'listen.mode', 'listen.mode = 0666');
+            }
+        }
     }
 
+    /**
+     * @description Composer Dependency Manager for PHP
+     */
     public function installComposer()
     {
         $this->connectToServer();
@@ -154,6 +148,9 @@ class PHP
         ]);
     }
 
+    /**
+     * @description Blackfire empowers all developers and IT/Ops to continuously verify and improve their app’s performance, throughout its lifecycle, by getting the right information at the right moment. (https://blackfire.io/)
+     */
     public function installBlackFire($serverID, $serverToken)
     {
         $this->connectToServer();

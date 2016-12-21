@@ -64,7 +64,7 @@ class SiteFileController extends Controller
     public function show($siteId, $fileId)
     {
         return response()->json(
-            SiteFile::with('site')->where('site_id', $siteId)->findOrFail($fileId)
+            SiteFile::where('site_id', $siteId)->findOrFail($fileId)
         );
     }
 
@@ -101,7 +101,7 @@ class SiteFileController extends Controller
      */
     public function update(SiteFileRequest $request, $siteId, $id)
     {
-        $file = SiteFile::with('site')->where('site_id', $siteId)->findOrFail($id);
+        $file = SiteFile::where('site_id', $siteId)->findOrFail($id);
 
         return response()->json(
             $file->update([

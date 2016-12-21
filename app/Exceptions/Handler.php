@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -50,28 +49,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // If the request wants JSON + exception is not ValidationException
-        if ($request->wantsJson()) {
-            $response = [
-                'errors' => 'Sorry, something went wrong.',
-            ];
-
-            // If the app is in debug mode
-            if (config('app.debug')) {
-                $response['exception'] = get_class($exception);
-                $response['message'] = $exception->getMessage();
-                $response['trace'] = $exception->getTrace();
-            }
-
-            $status = 400;
-
-            if ($this->isHttpException($exception)) {
-                $status = $exception->getCode();
-            }
-
-            return response()->json($response, $status);
-        }
-
         return parent::render($request, $exception);
     }
 
@@ -95,11 +72,11 @@ class Handler extends ExceptionHandler
     /**
      * Create a Symfony response for the given exception.
      *
-     * @param \Exception $e
+     * @param \Exception $exception
      *
      * @return mixed
      */
-    protected function convertExceptionToResponse(Exception $e)
+    protected function convertExceptionToResponse(Exception $exception)
     {
         if (config('app.debug')) {
             $this->unsetSensitiveData();
@@ -108,13 +85,17 @@ class Handler extends ExceptionHandler
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
 
             return new \Illuminate\Http\Response(
-                $whoops->handleException($e),
-                $e->getStatusCode(),
-                $e->getHeaders()
+                $whoops->handleException($exception),
+                $exception->getStatusCode(),
+                $exception->getHeaders()
             );
         }
 
-        return parent::convertExceptionToResponse($e);
+        if (\Request::expectsJson()) {
+            return response()->json('We have an error', 500);
+        }
+
+        return response()->view('errors.500', ['exception' => $exception], 500);
     }
 
     /**

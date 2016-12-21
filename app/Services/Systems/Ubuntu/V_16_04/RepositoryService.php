@@ -8,6 +8,9 @@ class RepositoryService
 {
     use ServiceConstructorTrait;
 
+    /**
+     *  @description GIt is a is a version control system
+     */
     public function installGit()
     {
         $this->connectToServer();

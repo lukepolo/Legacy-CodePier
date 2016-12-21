@@ -35,7 +35,7 @@ Vue.directive('cronjob', {
     bind: function (el) {
         $(el).cron({
             onChange() {
-                var cronTiming = $(this).cron("value");
+                let cronTiming = $(this).cron("value");
                 $('#cron-preview').text(cronTiming);
                 $('input[name="cron_timing"]').val(cronTiming);
             }
@@ -84,6 +84,30 @@ Vue.mixin({
                 return commands[0];
             }
         },
+        handleApiError(response) {
+            let message = response;
+
+            if(_.isObject(response)) {
+
+                if(_.isSet(response.errors)) {
+                    message = response.errors;
+                } else if (_.isObject(response.data)) {
+                    message = '';
+                    _.each(response.data, function(error) {
+                        message += error + '<br>';
+                    });
+                } else {
+                    message = response.data;
+                }
+            }
+
+            if(_.isString(message)){
+                this.showError(message);
+            } else {
+                console.info('UNABLE TO PARSE ERROR')
+                console.info(message);
+            }
+        },
         showError(message, title, timeout) {
             this.$store.dispatch('addNotification', {
                 title: title ? title : "Error!!",
@@ -102,6 +126,56 @@ Vue.mixin({
         },
         back() {
             window.history.back();
+        },
+        getRepositoryProvider(provider_id, attribute){
+            let provider = _.find(this.$store.state.userStore.repository_providers, {id: provider_id});
+            if (provider) {
+                if(attribute) {
+                    return provider[attribute];
+                }
+                return provider;
+            }
+            return {};
+        },
+        getPile(pile_id, attribute){
+            let pile = _.find(this.$store.state.pilesStore.all_user_piles, {id: pile_id});
+            if (pile) {
+                if(attribute) {
+                    return pile[attribute];
+                }
+                return pile;
+            }
+            return {};
+        },
+        getSite(site_id, attribute) {
+            let site = _.find(this.$store.state.sitesStore.all_sites, {id: site_id});
+            if (site) {
+                if(attribute) {
+                    return site[attribute];
+                }
+                return site;
+            }
+            return {};
+        },
+        getServer(server_id, attribute) {
+            let server = _.find(this.$store.state.serversStore.all_servers, {id: server_id});
+            if (server) {
+                if(attribute) {
+                    return server[attribute];
+                }
+                return server;
+            }
+            return {};
+        },
+        timeAgo(time) {
+            time = moment(time);
+            let currentTime = moment();
+
+            if(currentTime.diff(time, 'hour') < 5) {
+                return time.fromNow();
+            }
+
+            return time.format('M-D-YY h:mm A');
         }
     }
 });
@@ -180,7 +254,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':server_id/',
+                    path: ':server_id/monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
@@ -333,7 +407,7 @@ const router = new VueRouter({
     ]
 });
 
-var app = new Vue({
+let app = new Vue({
     store,
     router,
 }).$mount('#app-layout');
