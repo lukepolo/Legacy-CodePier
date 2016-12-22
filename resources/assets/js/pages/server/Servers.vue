@@ -16,6 +16,7 @@
                                 <tr v-for="server in servers">
                                     <td>{{ server.name }}</td>
                                     <td>{{ server.ip }}</td>
+                                    <td>{{ server.status }}</td>
                                 </tr>
                             </tbody>
                         </table>
