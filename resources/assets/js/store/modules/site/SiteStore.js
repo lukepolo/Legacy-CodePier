@@ -267,6 +267,10 @@ export default {
         },
         UPDATE_RUNNING_SITE_DEPLOYMENT : (state, event) => {
 
+            if(!state.running_deployments[event.site_deployment.site_id]) {
+                Vue.set(state.running_deployments, event.site_deployment.site_id, []);
+            }
+
             let siteDeployments = state.running_deployments[event.site_deployment.site_id];
             let siteDeployment = siteDeployments[_.findKey(siteDeployments, {id : event.site_deployment.id})];
 
