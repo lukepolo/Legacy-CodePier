@@ -17,8 +17,6 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class DeploySite implements ShouldQueue
 {
-    const QUEUED_FOR_DEPLOYMENT = 'Queued';
-
     use InteractsWithQueue, Queueable, SerializesModels;
 
     public $sha;
@@ -40,13 +38,13 @@ class DeploySite implements ShouldQueue
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
-            'status'  => self::QUEUED_FOR_DEPLOYMENT,
+            'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
         ]);
 
         foreach ($this->servers as $server) {
             SiteServerDeployment::create([
                 'server_id' => $server->id,
-                'status' => self::QUEUED_FOR_DEPLOYMENT,
+                'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
                 'site_deployment_id' => $this->siteDeployment->id,
             ])->createSteps();
         }

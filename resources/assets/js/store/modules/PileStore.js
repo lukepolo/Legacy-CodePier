@@ -44,7 +44,7 @@ export default {
                 app.handleApiError(errors);
             })
         },
-        deletePile: ({}, pile) => {
+        deletePile: ({commit}, pile) => {
             Vue.http.delete(Vue.action('Pile\PileController@destroy', {pile: pile})).then((response) => {
                 commit('REMOVE_PILE', pile);
             }, (errors) => {
@@ -53,8 +53,8 @@ export default {
         }
     },
     mutations: {
-        ADD_PILE: (state, cron_job) => {
-            state.site_cron_jobs.push(cron_job);
+        ADD_PILE: (state, pile) => {
+            state.piles.push(pile);
         },
         REMOVE_PILE : (state, pile_id) => {
             Vue.set(state, 'piles', _.reject(state.piles, { id : pile_id }));

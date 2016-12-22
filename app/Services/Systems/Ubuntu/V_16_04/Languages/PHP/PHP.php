@@ -79,15 +79,16 @@ class PHP
 
         switch ($version) {
             case '7.0':
-                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0-cli php7.0-dev php7.0-pgsql php7.0-sqlite3 php7.0-gd php7.0-curl php7.0-memcached php7.0-imap php7.0-mysql php7.0-mbstring php7.0-xml php7.0-zip php7.0-bcmath php7.0-soap php7.0-intl php7.0-readline php-xdebug');
+                $installVersion = '';
                 break;
             case '7.1':
+                $installVersion = $version;
                 $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
                 $this->remoteTaskService->run('apt-get update');
                 break;
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$version.'-cli php'.$version.'-dev php'.$version.'-pgsql php'.$version.'-sqlite3 php'.$version.'-gd php'.$version.'-curl php'.$version.'-memcached php'.$version.'-imap php'.$version.'-mysql php'.$version.'-mbstring php'.$version.'-xml php'.$version.'-zip php'.$version.'-bcmath php'.$version.'-soap php'.$version.'-intl php'.$version.'-readline php-xdebug');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php-xdebug');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');

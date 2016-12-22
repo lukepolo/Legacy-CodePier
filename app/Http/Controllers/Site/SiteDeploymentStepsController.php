@@ -55,13 +55,13 @@ class SiteDeploymentStepsController extends Controller
         $newDeploymentSteps = collect($request->get('deployment_steps'));
 
         // We must delete old deployment steps
-        $site->deploymentSteps->each(function ($siteDeploymentStep) use ($newDeploymentSteps) {
-            if (! $newDeploymentSteps->first(function ($deploymentStep) use ($siteDeploymentStep) {
+        $site->deploymentSteps->each(function ($siteDeploymentStep) use ($site, $newDeploymentSteps) {
+            if (! $newDeploymentSteps->first(function ($deploymentStep) use ($site, $siteDeploymentStep) {
                 if (! empty($deploymentStep['script'])) {
                     return $siteDeploymentStep->script == $deploymentStep['script'];
                 }
 
-                $deploymentStep = $this->getDeploymentStep($deploymentStep);
+                $deploymentStep = $this->siteDeploymentStepsService->getDeploymentStep($site, $deploymentStep);
 
                 if ($deploymentStep) {
                     return $siteDeploymentStep->internal_deployment_function == $deploymentStep['internal_deployment_function'];

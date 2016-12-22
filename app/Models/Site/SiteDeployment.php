@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SiteDeployment extends Model
 {
+    const FAILED = 'Failed';
+    const RUNNING = 'Running';
+    const COMPLETED = 'Completed';
+    const QUEUED_FOR_DEPLOYMENT = 'Queued';
+
     use FireEvents, ConnectedToUser;
 
     public static $userModel = 'site';
@@ -45,20 +50,21 @@ class SiteDeployment extends Model
 
     public function updateStatus()
     {
+        $this->load('serverDeployments');
         $serverDeployments = $this->serverDeployments;
 
         $failed = $serverDeployments->sum('failed');
         $started = $serverDeployments->sum('started');
         $completed = $serverDeployments->sum('completed');
 
-        $status = 'Queued';
+        $status = self::QUEUED_FOR_DEPLOYMENT;
 
         if ($failed > 0) {
-            $status = 'Failed';
+            $status = self::FAILED;
         } elseif ($completed == $serverDeployments->count()) {
-            $status = 'Completed';
+            $status = self::COMPLETED;
         } elseif ($started > 0) {
-            $status = 'Running';
+            $status = self::RUNNING;
         }
 
         $this->update([
