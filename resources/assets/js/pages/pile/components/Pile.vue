@@ -11,12 +11,18 @@
             </h4>
         </div>
 
-        <template v-if="pile.servers">
+        <template v-if="pile.sites">
             <div class="group-content">
-                <h4>Servers</h4>
-                <div class="server-list" v-for="server in pile.servers">
-                    <a class="server">
-                        <div class="server-name">{{ server.name }}</div>
+                <h4>Sites</h4>
+                <div class="site-list" v-for="site in pile.sites">
+                    <a class="site">
+                        <div class="site-name">
+                            <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
+                                <div class="site-name">
+                                    {{ site.name }}
+                                </div>
+                            </router-link>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -70,6 +76,14 @@
                 }
                 this.editing = false;
             }
+        },
+        computed : {
+            sites() {
+                return this.$store.state.pilesStore.piles[this.pile.id].sites;
+            }
+        },
+        created() {
+            this.$store.dispatch('getPileSites', this.pile.id);
         }
     }
 </script>
