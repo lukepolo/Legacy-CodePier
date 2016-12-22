@@ -12,8 +12,7 @@
                                 <input type="hidden" name="site" :value="site.id">
                             </template>
                             <template v-else>
-                                YOU NEED A PILE ID HERE WHEN NOT CONNECTING A SITE
-                                    <!--<input type="hidden" name="pile_id" :value="pile.id">-->
+                                    <input type="hidden" name="pile_id" :value="pile">
                             </template>
 
                             <div class="input-group input-radio">
@@ -76,7 +75,7 @@
                                 <feature-area
                                     :features="features"
                                     :area="serverFeatureArea"
-                                    :site_server_features="site.server_features"
+                                    :site_server_features="siteServerFeatures"
                                     v-for="(features, serverFeatureArea) in availableServerFeatures"
                                 ></feature-area>
 
@@ -84,7 +83,7 @@
                                     :frameworks="true"
                                     :features="features"
                                     :area="serverLanguageArea"
-                                    :site_server_features="site.server_features"
+                                    :site_server_features="siteServerFeatures"
                                     v-for="(features, serverLanguageArea) in availableServerLanguages"
                                 ></feature-area>
 
@@ -131,6 +130,8 @@
 
                 if (this.$route.params.site) {
                     this.$store.dispatch('getSite', this.$route.params.site);
+                } else {
+                    this.$store.commit('UNSET_SITE');
                 }
             },
             getProviderData(server_provider_id) {
@@ -188,6 +189,15 @@
             },
             site() {
                 return this.$store.state.sitesStore.site;
+            },
+            pile() {
+                return this.$store.state.userStore.user.current_pile_id;
+            },
+            siteServerFeatures() {
+                if(this.site) {
+                    return this.site.site_server_features;
+                }
+                return {};
             }
         }
     }

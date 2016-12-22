@@ -217,6 +217,9 @@ export default {
         }
     },
     mutations: {
+        UNSET_SITE :(state) => {
+            state.site = null;
+        },
         SET_SITE: (state, site) => {
             state.site = site;
         },
