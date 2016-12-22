@@ -51,23 +51,28 @@ class WebService
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_processes', "worker_processes $workerProcesses;");
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_connections', "worker_connections $workerConnections;");
 
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip on;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip off;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 6;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_buffers', 'gzip_buffers 16 8k');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_http_version', 'gzip_http_version 1.1');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_buffers', 'gzip_buffers 16 8k;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_http_version', 'gzip_http_version 1.1;');
+        $this->remoteTaskService->removeLineByText('/etc/nginx/nginx.conf', 'gzip_min_length');
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'gzip_http_version', 'gzip_min_length 256;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_types', 'gzip_types application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component;');
 
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', '# server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', env('DH_PARAM'));
 
         $this->remoteTaskService->appendTextToFile('/etc/nginx/fastcgi_params', 'fastcgi_param HTTP_PROXY "";');
+
+        $this->remoteTaskService->run('service nginx stop');
+
+        \Log::info($this->remoteTaskService->run('nginx -c /etc/nginx/nginx.conf', true));
 
         $this->remoteTaskService->run('service nginx restart');
 

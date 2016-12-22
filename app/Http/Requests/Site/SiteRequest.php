@@ -26,7 +26,6 @@ class SiteRequest extends FormRequest
         return [
             'domain' => 'required_unless:domainless,true|domain',
             'pile_id' => 'required|integer',
-            'name' => 'required|string',
         ];
     }
 }
