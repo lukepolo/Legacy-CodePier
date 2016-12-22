@@ -18,6 +18,16 @@ export default {
                 app.handleApiError(errors);
             });
         },
+        getPileSites: ({commit}, pileId) => {
+            Vue.http.get(Vue.action('Pile\PileSitesController@index', {pile : pileId })).then((response) => {
+                commit('SET_PILE_SITES', {
+                    pile : pileId,
+                    sites : response.data
+                });
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        },
         createPile: ({commit}, data) => {
             Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 commit('ADD_PILE', response.data);
@@ -31,8 +41,9 @@ export default {
                 dispatch('getServers');
                 dispatch('getSites');
 
-                app.$router.push('/');
-
+                if(app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
+                    app.$router.push('/');
+                }
             }, (errors) => {
                 app.handleApiError(errors);
             })
@@ -65,6 +76,14 @@ export default {
         },
         SET_PILES: (state, piles) => {
             state.piles = piles;
+        },
+        SET_PILE_SITES : (state, data) => {
+            let pile = _.find(state.piles, {id : data.pile});
+            Vue.set(pile, 'sites', data.sites);
+        },
+        REMOVE_SITE_FROM_PILE :(state, data) => {
+            let pile = _.find(state.piles, {id : data.pile});
+            Vue.set(pile, 'sites', _.reject(pile, data.site));
         }
     }
 }

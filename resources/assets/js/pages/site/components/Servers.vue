@@ -27,7 +27,7 @@
 
         <hr>
         <div v-if="site.server_features">
-            <router-link :to="{ name : 'server_form' , params : { site : site.id , type : 'full_stack' } }">
+            <router-link :to="{ name : 'server_form_with_site' , params : { site : site.id , type : 'full_stack' } }">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
             <!--<div class="btn btn-primary">Create A Web Server</div>-->
