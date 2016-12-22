@@ -136,7 +136,7 @@ class User extends Authenticatable
                 })
                 ->get();
 
-            foreach($sites as $site) {
+            foreach ($sites as $site) {
                 $deploymentsRunning[$site->id][] = $site->lastDeployment;
             }
         }
