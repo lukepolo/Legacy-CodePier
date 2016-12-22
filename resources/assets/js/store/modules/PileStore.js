@@ -41,8 +41,9 @@ export default {
                 dispatch('getServers');
                 dispatch('getSites');
 
-                app.$router.push('/');
-
+                if(app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
+                    app.$router.push('/');
+                }
             }, (errors) => {
                 app.handleApiError(errors);
             })
