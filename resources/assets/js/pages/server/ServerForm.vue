@@ -142,17 +142,22 @@
                 }
             },
             createServer() {
-                this.$store.dispatch('createServer', this.getFormData(this.$el));
-
-                if (this.$route.params.site) {
-                    app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}});
-                } else {
-                    app.$router.push('/');
-                }
+                this.$store.dispatch('createServer', this.getFormData(this.$el)).then((server) => {
+                    if(server.id) {
+                        if (this.$route.params.site) {
+                            app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}});
+                        } else {
+                            app.$router.push('/');
+                        }
+                    }
+                });
             },
             getServerProviderName(server_provider_id) {
                 if(this.server_providers) {
-                    return _.find(this.server_providers, { id : server_provider_id}).name;
+                    let server_provider = _.find(this.server_providers, { id : server_provider_id});
+                    if(server_provider) {
+                        return server_provider.name;
+                    }
                 }
             }
         },
