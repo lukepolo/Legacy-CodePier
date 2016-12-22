@@ -77,10 +77,12 @@ export default {
             state.piles = piles;
         },
         SET_PILE_SITES : (state, data) => {
-            Vue.set(state.piles[data.pile], 'sites', data.sites);
+            let pile = _.find(state.piles, {id : data.pile});
+            Vue.set(pile, 'sites', data.sites);
         },
         REMOVE_SITE_FROM_PILE :(state, data) => {
-            Vue.set(state.piles[data.pile], 'sites', _.reject(state.piles[data.pile], data.site));
+            let pile = _.find(state.piles, {id : data.pile});
+            Vue.set(pile, 'sites', _.reject(pile, data.site));
         }
     }
 }
