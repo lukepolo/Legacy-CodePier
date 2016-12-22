@@ -93,8 +93,6 @@
                     return name;
                 }
 
-                console.info(name);
-
                 return name + '[enabled]';
             },
             hasFeature: function (feature) {
