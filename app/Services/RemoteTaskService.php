@@ -182,7 +182,7 @@ echo \"Wrote\"", $read);
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
 
-        return $this->run("sed -i 's/$text.*/$replaceWithText/' $file");
+        return $this->run("sed -i 's/.*$text.*/$replaceWithText/' $file");
     }
 
     /**
