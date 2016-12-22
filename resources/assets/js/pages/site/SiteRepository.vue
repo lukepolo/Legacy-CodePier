@@ -74,7 +74,13 @@
             </div>
         </div>
         <template v-if="site.repository">
+
+            <template v-if="isDeploying">
+                {{ isDeploying.status }}
+            </template>
+
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
+
 
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
@@ -190,6 +196,15 @@
             },
             site_servers() {
                 return [];
+            },
+            isDeploying() {
+                if(this.site) {
+                    return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
+                        return deployment.status != 'Completed' && deployment.status != 'Failed';
+                    });
+                }
+
+                return false;
             }
         },
     }

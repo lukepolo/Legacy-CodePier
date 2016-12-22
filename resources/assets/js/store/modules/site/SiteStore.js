@@ -233,7 +233,8 @@ export default {
             state.site_servers = servers;
         },
         REMOVE_SERVER_FROM_SITE_SERVERS : (state, server_id) => {
-            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id : server_id}));
+            alert(server.id);
+            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id : server.id}));
         },
         SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
             state.deployment_steps = deployment_steps;
@@ -265,14 +266,19 @@ export default {
             state.running_deployments = Object.keys(deployments).length > 0 ? deployments : {};
         },
         UPDATE_RUNNING_SITE_DEPLOYMENT : (state, event) => {
-            let siteDeploymentKey = _.findKey(state.running_deployments, {id : event.site_deployment.id});
-            let siteDeployment = state.running_deployments[siteDeploymentKey];
 
-            _.each(event.site_deployment, function(value, key) {
-                if(key != 'server_deployments') {
-                    siteDeployment[key] = value;
-                }
-            });
+            let siteDeployments = state.running_deployments[event.site_deployment.site_id];
+            let siteDeployment = siteDeployments[_.findKey(siteDeployments, {id : event.site_deployment.id})];
+
+            if(siteDeployment) {
+                _.each(event.site_deployment, function(value, key) {
+                    if(key != 'server_deployments') {
+                        siteDeployment[key] = value;
+                    }
+                });
+            } else {
+                siteDeployments.push(event.site_deployment);
+            }
         }
     }
 }

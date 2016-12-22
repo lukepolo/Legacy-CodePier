@@ -47,6 +47,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
 
         $this->deploymentEvent = $deploymentEvent;
         $this->serverDeployment = $deploymentEvent->serverDeployment;
+        $this->serverDeployment->load('siteDeployment');
         $this->siteDeployment = $this->serverDeployment->siteDeployment;
     }
 

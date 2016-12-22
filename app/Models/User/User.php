@@ -123,6 +123,8 @@ class User extends Authenticatable
 
     public function getRunningDeployments()
     {
+        $deploymentsRunning = [];
+
         if ($this->currentPile) {
             $sites = $this->currentPile
                 ->sites()
@@ -134,9 +136,11 @@ class User extends Authenticatable
                 })
                 ->get();
 
-            return $sites->pluck('lastDeployment');
+            foreach($sites as $site) {
+                $deploymentsRunning[$site->id][] = $site->lastDeployment;
+            }
         }
 
-        return collect([]);
+        return collect($deploymentsRunning);
     }
 }
