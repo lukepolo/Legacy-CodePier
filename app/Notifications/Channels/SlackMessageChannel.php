@@ -42,7 +42,7 @@ class SlackMessageChannel
     {
         $token = $notifiable->routeNotificationFor('slack');
 
-        if(!empty($token)) {
+        if (! empty($token)) {
             if (! $channel = $notification->slackChannel) {
                 throw new SlackMessageMissingParams('Notification must have a public $slackChannel set');
             }
