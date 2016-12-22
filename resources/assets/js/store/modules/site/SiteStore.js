@@ -103,9 +103,13 @@ export default {
                 app.handleApiError(errors);
             });
         },
-        deleteSite: ({commit}, site_id) => {
+        deleteSite: ({commit, rootState}, site_id) => {
             Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then(() => {
                 commit('DELETE_SITE', site_id);
+                commit('REMOVE_SITE_FROM_PILE', {
+                    site : site_id,
+                    pile : rootState.userStore.user.current_pile_id
+                });
                 app.$router.push('/');
             }, (errors) => {
                 app.handleApiError(errors);
