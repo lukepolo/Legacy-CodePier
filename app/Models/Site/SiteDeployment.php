@@ -50,6 +50,7 @@ class SiteDeployment extends Model
 
     public function updateStatus()
     {
+        $this->load('serverDeployments');
         $serverDeployments = $this->serverDeployments;
 
         $failed = $serverDeployments->sum('failed');
