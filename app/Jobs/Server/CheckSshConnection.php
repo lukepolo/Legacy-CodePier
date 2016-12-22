@@ -41,13 +41,13 @@ class CheckSshConnection implements ShouldQueue
 
             dispatch((new ProvisionServer($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
         } else {
-            if ($this->server->created_at->addMinutes(10) < Carbon::now()) {
+            if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
                 dispatch((new self($this->server))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE')));
 
                 return;
             }
 
-            dispatch(
+            event(
                 new ServerSshConnectionFailed($this->server, 'Cannot connect to server. Server provisioning failed.')
             );
         }

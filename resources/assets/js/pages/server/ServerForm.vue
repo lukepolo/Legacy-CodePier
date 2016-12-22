@@ -195,7 +195,7 @@
             },
             siteServerFeatures() {
                 if(this.site) {
-                    return this.site.site_server_features;
+                    return this.site.server_features;
                 }
                 return {};
             }
