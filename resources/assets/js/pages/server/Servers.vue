@@ -3,21 +3,28 @@
         <section id="middle" class="section-column">
             <h3 class="section-header primary">My Servers</h3>
             <div class="section-content">
-                <div class="container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>IP</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="server in servers">
-                                <td>{{ server.name }}</td>
-                                <td>{{ server.ip }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="jcf-form-wrap">
+                    <div class="container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="server in servers">
+                                    <td>{{ server.name }}</td>
+                                    <td>{{ server.ip }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="btn-footer">
+                        <router-link :to="{ name : 'server_form' }">
+                            <a class="btn btn-primary">Create A Server</a>
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </section>

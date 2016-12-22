@@ -83,7 +83,9 @@
             }
         },
         created() {
-            this.$store.dispatch('getPileSites', this.pile.id);
+            if(this.pile.id) {
+                this.$store.dispatch('getPileSites', this.pile.id);
+            }
         }
     }
 </script>
