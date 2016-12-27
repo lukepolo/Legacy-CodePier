@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Framework Files</h3>
+        <h3>Server Files</h3>
         <template v-if="possibleFiles && site">
             <site-file :site="site" :servers="site.servers" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
@@ -21,9 +21,8 @@
         },
         methods: {
             fetchData() {
-                this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
-                this.$store.dispatch('getSiteFiles', this.$route.params.site_id);
-                this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+                this.$store.commit('SET_EDITABLE_SITE_FILES', []);
+                this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
             },
             isRunningCommandFor(file) {
                 if(this.siteFiles) {
@@ -44,7 +43,7 @@
                 return this.$store.state.sitesStore.site;
             },
             possibleFiles() {
-                return this.$store.state.serversStore.editable_framework_files;
+                return this.$store.state.sitesStore.site_editable_files;
             },
             siteFiles() {
                 return this.$store.state.sitesStore.site_files;
