@@ -5276,6 +5276,22 @@ footer {
   pointer-events: none;
 }
 
+#nprogress .bar {
+  height: 3px !important;
+}
+
+#nprogress .spinner {
+  top: 23px !important;
+  right: 12px !important;
+  height: 18px !important;
+  width: 18px !important;
+  border-width: 9px !important;
+}
+
+#nprogress .spinner .spinner-icon {
+  display: none;
+}
+
 .card, .jcf-form-wrap {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
 }
@@ -5645,7 +5661,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   /* Internet Explorer 5.5+ */
 }
 
-.event-details .icon-spinner {
+.event-details .icon-spinner, .event-details #nprogress .spinner, #nprogress .event-details .spinner {
   margin-right: 20px;
 }
 
@@ -5745,7 +5761,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-spinner {
+.icon-spinner, #nprogress .spinner {
   display: inline-block;
   width: 1em;
   height: 1em;
