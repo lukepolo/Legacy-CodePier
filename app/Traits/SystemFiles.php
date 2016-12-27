@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Collection;
 use ReflectionClass;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
 trait SystemFiles
@@ -67,9 +67,9 @@ trait SystemFiles
     {
         $files = (array) $files;
 
-        return collect($files)->map(function($file) use($serverFeature) {
+        return collect($files)->map(function ($file) use ($serverFeature) {
             if (str_contains($file, '{')) {
-                if(preg_match('/{(.*)}/', $file, $matches)) {
+                if (preg_match('/{(.*)}/', $file, $matches)) {
                     return preg_replace('/{(.*)}/', $serverFeature[$matches[1]], $file);
                 }
             }
