@@ -6,6 +6,7 @@ export default {
         site_files : [],
         site_servers: [],
         deployment_steps: [],
+        site_editable_files :[],
         sites_listening_to : [],
         running_deployments : [],
         site_deployment_steps: [],
@@ -45,6 +46,13 @@ export default {
         getSiteFiles : ({commit}, site) => {
             Vue.http.get(Vue.action('Site\SiteFileController@index', {site: site})).then((response) => {
                 commit('SET_SITE_FILES', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        },
+        getEditableFiles: ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', {site: site})).then((response) => {
+                commit('SET_EDITABLE_SITE_FILES', response.data);
             }, (errors) => {
                 app.handleApiError(errors);
             });
@@ -232,6 +240,9 @@ export default {
         },
         SET_SITE_FILES: (state, files) => {
             state.site_files = files;
+        },
+        SET_EDITABLE_SITE_FILES : (state, files) => {
+            state.site_editable_files = files;
         },
         SET_ALL_SITES : (state, sites) => {
             state.all_sites = sites;
