@@ -156,11 +156,10 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
         $domain = $site->domain;
         $this->connectToServer();
 
-
         $webserver = $this->getWebServer();
 
-        switch($webserver) {
-            case 'Nginx' :
+        switch ($webserver) {
+            case 'Nginx':
                 $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
 
                 return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
@@ -226,7 +225,7 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
     {
         $webServiceFeatures = $this->server->server_features['WebService'];
 
-        if(isset($webServiceFeatures['Nginx']['enabled']) && isset($webServiceFeatures['Nginx']['enabled']) == 1) {
+        if (isset($webServiceFeatures['Nginx']['enabled']) && isset($webServiceFeatures['Nginx']['enabled']) == 1) {
             return 'Nginx';
         }
 
