@@ -163,7 +163,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableFiles');
     Route::get('site/{site}/framework/editable-files', 'Site\SiteFeatureController@getEditableFrameworkFiles');
 
-
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
             Route::resource('server-providers', 'ServerProvidersController');

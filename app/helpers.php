@@ -51,9 +51,11 @@ if (! function_exists('save_without_events')) {
 }
 
 if (! function_exists('create_sytem_service')) {
-    function create_system_service($service, \App\Models\Server\Server $server) {
+    function create_system_service($service, \App\Models\Server\Server $server)
+    {
         /** @var \App\Services\Systems\SystemService $systemService */
         $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
+
         return $systemService->createSystemService($service, $server);
     }
 }

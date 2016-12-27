@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
 use App\Models\Site\Site;
@@ -109,7 +110,6 @@ class PHP
         $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm restart');
     }
 
-
     /**
      * @description PHP-FPM is required when using Nginx
      */
@@ -121,7 +121,7 @@ class PHP
 
         $tempVersion = $this->getPhpVersion();
 
-        if($version == '7.0') {
+        if ($version == '7.0') {
             $tempVersion = '';
         }
 
@@ -180,9 +180,8 @@ class PHP
 
     public function getNginxConfig(Site $site)
     {
-
         $frameworkConfig = '';
-        if(!empty($site->framework)) {
+        if (! empty($site->framework)) {
             $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig();
         }
 
@@ -208,7 +207,6 @@ class PHP
         fastcgi_read_timeout 300;
     }
 ';
-
     }
 
     private function getPhpVersion()
