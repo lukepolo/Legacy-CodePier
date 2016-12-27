@@ -68,9 +68,9 @@
             transform: translate(-50%, -50%);
         }
     }
+
+    // Responsive
+    @include breakpoint(md) {
+        flex-grow: 1;
+    }
 }
-
-
-
-// LEFT SIDE STYLES ----------------------------------------
-// ---------------------------------------------------------

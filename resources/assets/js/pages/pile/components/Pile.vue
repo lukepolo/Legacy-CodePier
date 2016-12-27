@@ -11,14 +11,21 @@
             </h4>
         </div>
 
+        <!-- TODO jf - update this to be a list for sites instead of servers -->
         <template v-if="pile.servers">
             <div class="group-content">
-                <h4>Servers</h4>
-                <div class="server-list" v-for="server in pile.servers">
-                    <a class="server">
-                        <div class="server-name">{{ server.name }}</div>
+                <h4>Sites</h4>
+                <div class="group-list" v-for="server in pile.servers">
+                    <a class="item">
+                        <div class="item-name">{{ server.name }}</div>
                     </a>
                 </div>
+            </div>
+        </template>
+
+        <template v-else="pile.servers">
+            <div class="group-content">
+                <h4>No Sites</h4>
             </div>
         </template>
 
