@@ -2,7 +2,6 @@
 
 namespace App\Services\Server;
 
-use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Contracts\Server\ServerFeatureServiceContract;
@@ -89,7 +88,6 @@ class ServerFeatureService implements ServerFeatureServiceContract
 
         return $availableFrameworks;
     }
-
 
     /**
      * @param Server $server
