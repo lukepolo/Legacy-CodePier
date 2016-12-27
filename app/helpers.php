@@ -1,5 +1,17 @@
 <?php
 
+if (! function_exists('current_version')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @return mixed
+     */
+    function current_version()
+    {
+        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
+    }
+}
+
 if (! function_exists('strip_relations')) {
 
     /**
@@ -14,18 +26,6 @@ if (! function_exists('strip_relations')) {
         }
 
         return $model;
-    }
-}
-
-if (! function_exists('current_version')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @return mixed
-     */
-    function current_version()
-    {
-        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
     }
 }
 
@@ -47,5 +47,13 @@ if (! function_exists('save_without_events')) {
         $model->addObservableEvents($observables);
 
         return $model;
+    }
+}
+
+if (! function_exists('create_sytem_service')) {
+    function create_system_service($service, \App\Models\Server\Server $server) {
+        /** @var \App\Services\Systems\SystemService $systemService */
+        $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
+        return $systemService->createSystemService($service, $server);
     }
 }
