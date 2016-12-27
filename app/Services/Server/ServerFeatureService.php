@@ -2,7 +2,6 @@
 
 namespace App\Services\Server;
 
-use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Contracts\Server\ServerFeatureServiceContract;
@@ -98,68 +97,37 @@ class ServerFeatureService implements ServerFeatureServiceContract
     {
         $editableFiles = collect();
 
-        $files = collect();
+        $files = [];
 
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getServicesFromVersion($version) as $service) {
-                    $files = $files->merge(
+                    $files = $files +
                         $this->buildFileArray(
                             $this->buildReflection($service)
-                        )
-                    );
+                        );
                 }
 
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    $files = $files->merge(
+                    $files = $files +
                         $this->buildFileArray(
                             $this->buildReflection($language.'/'.basename($language).'.php')
-                        )
-                    );
+                        );
                 }
             }
         }
+
+        $files = collect($files);
 
         foreach ($server->server_features as $service => $features) {
             if (isset($server->server_features[$service])) {
                 foreach ($features as $feature => $params) {
                     if ($files->has($feature)) {
-                        $editableFiles = $editableFiles->merge($files->get($feature));
+                        $editableFiles = $editableFiles->merge(
+                            $this->checkIfNeedsVersion($files->get($feature), $server->server_features[$service][$feature]['parameters'])
+                        );
                     }
                 }
-            }
-        }
-
-        return $editableFiles;
-    }
-
-    /**
-     * @param Site $site
-     * @return \Illuminate\Support\Collection
-     */
-    public function getEditableFrameworkFiles(Site $site)
-    {
-        $editableFiles = collect();
-
-        $files = [];
-
-        foreach ($this->getSystemsFiles() as $system) {
-            foreach ($this->getVersionsFromSystem($system) as $version) {
-                foreach ($this->getLanguagesFromVersion($version) as $language) {
-                    foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                        $language = substr($language, strrpos($language, '/') + 1);
-                        $reflectionClass = $this->buildReflection($framework);
-                        $files[$language] = $this->buildFileArray($reflectionClass, $site->path.'/');
-                    }
-                }
-            }
-        }
-
-        if (! empty($site->framework)) {
-            $languageAndFramework = explode('.', $site->framework);
-
-            if (isset($files[$languageAndFramework[0]][$languageAndFramework[1]])) {
-                $editableFiles = $editableFiles->merge($files[$languageAndFramework[0]][$languageAndFramework[1]]);
             }
         }
 

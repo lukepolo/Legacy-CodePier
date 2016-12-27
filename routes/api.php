@@ -159,6 +159,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('server/features', 'Server\ServerFeatureController@getFeatures');
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
+    Route::get('site/{site}/editable-files', 'Site\SiteFeatureController@getEditableFiles');
     Route::get('server/{server}/editable-files', 'Server\ServerFeatureController@getEditableFiles');
     Route::get('site/{site}/framework/editable-files', 'Site\SiteFeatureController@getEditableFrameworkFiles');
 
