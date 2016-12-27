@@ -5965,33 +5965,33 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding-right: 1.4em;
 }
 
-.server {
+.group-list .item:last-child {
+  border: none;
+}
+
+.item {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative;
 }
 
-.server.selected {
+.item.selected {
   background-color: #343536;
 }
 
-.server-name {
+.item-name {
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: 5px;
   padding-right: 1.4em;
 }
 
-.server-list .server:last-child {
-  border: none;
-}
-
-a.server:hover {
+a.item:hover {
   cursor: pointer;
 }
 
-a.server:hover:before {
+a.item:hover:before {
   content: '\f105';
   font-family: 'icomoon';
   font-size: 2em;
@@ -6124,6 +6124,13 @@ a.server:hover:before {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1024px) {
+  .group {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+  }
 }
 
 .login-wrap {
