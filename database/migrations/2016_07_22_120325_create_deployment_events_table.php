@@ -32,6 +32,6 @@ class CreateDeploymentEventsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('deployment_events');
+        Schema::dropIfExists('deployment_events');
     }
 }

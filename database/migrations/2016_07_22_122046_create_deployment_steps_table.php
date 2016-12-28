@@ -30,6 +30,6 @@ class CreateDeploymentStepsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('deployment_steps');
+        Schema::dropIfExists('deployment_steps');
     }
 }

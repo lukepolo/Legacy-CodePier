@@ -31,6 +31,6 @@ class CreateServerProviderFeaturesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_provider_features');
+        Schema::dropIfExists('server_provider_features');
     }
 }

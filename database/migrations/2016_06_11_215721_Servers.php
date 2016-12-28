@@ -43,6 +43,6 @@ class Servers extends Migration
      */
     public function down()
     {
-        Schema::drop('servers');
+        Schema::dropIfExists('servers');
     }
 }

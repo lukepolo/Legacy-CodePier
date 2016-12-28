@@ -33,6 +33,6 @@ class CreateUserNotificationProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_notification_providers');
+        Schema::dropIfExists('user_notification_providers');
     }
 }

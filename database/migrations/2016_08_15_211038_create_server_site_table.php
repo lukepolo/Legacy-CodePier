@@ -28,6 +28,6 @@ class CreateServerSiteTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_site');
+        Schema::dropIfExists('server_site');
     }
 }

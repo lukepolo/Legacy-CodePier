@@ -29,6 +29,6 @@ class CreateServerSshKeysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_ssh_keys');
+        Schema::dropIfExists('server_ssh_keys');
     }
 }

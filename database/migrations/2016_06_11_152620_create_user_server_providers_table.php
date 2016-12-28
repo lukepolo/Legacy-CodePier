@@ -33,6 +33,6 @@ class CreateUserServerProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_server_providers');
+        Schema::dropIfExists('user_server_providers');
     }
 }

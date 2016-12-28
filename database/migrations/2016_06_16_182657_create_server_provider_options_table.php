@@ -31,6 +31,6 @@ class CreateServerProviderOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_provider_options');
+        Schema::dropIfExists('server_provider_options');
     }
 }
