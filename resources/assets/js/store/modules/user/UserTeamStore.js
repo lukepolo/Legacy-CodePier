@@ -10,7 +10,7 @@ export default {
             Vue.http.get(Vue.action('User\Team\UserTeamController@index')).then((response) => {
                 commit('SET_TEAMS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         createTeam: ({commit, dispatch}, data) => {
@@ -20,7 +20,7 @@ export default {
                 dispatch('getPiles');
                 dispatch('getSites');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateTeam: ({commit, dispatch}, data) => {
@@ -30,7 +30,7 @@ export default {
                 dispatch('getPiles');
                 dispatch('getSites');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         changeTeams: ({commit, dispatch}, teamID) => {
@@ -41,14 +41,14 @@ export default {
                     dispatch('getSites');
                 });
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getTeam: ({commit}, team_id) => {
             Vue.http.get(Vue.action('User\Team\UserTeamController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteTeam: ({commit, dispatch}, team_id) => {
@@ -58,14 +58,14 @@ export default {
                 dispatch('getPiles');
                 dispatch('getSites');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getTeamMembers: ({commit}, team_id) => {
             Vue.http.get(Vue.action('User\Team\UserTeamMemberController@show', {team: team_id})).then((response) => {
                 commit('SET_TEAM_MEMBERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         sendTeamInvite: ({commit, dispatch}, data) => {
@@ -75,14 +75,14 @@ export default {
             }).then((response) => {
                 dispatch('getTeam', data.team_id);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         resendTeamInvite: ({commit}, invite_id) => {
             Vue.http.post(Vue.action('User\Team\UserTeamMemberController@resendInvite', {invite_id: invite_id})).then((response) => {
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteTeamMember: ({commit, dispatch}, data) => {
@@ -92,7 +92,7 @@ export default {
             })).then((response) => {
                 dispatch('getTeam', data.team_id);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         }
     },

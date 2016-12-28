@@ -10,21 +10,21 @@ export default {
             Vue.http.get(Vue.action('NotificationSettingsController@index')).then((response) => {
                 commit('SET_NOTIFICATION_SETTINGS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getNotificationProviders: ({commit}) => {
             Vue.http.get(Vue.action('Auth\Providers\NotificationProvidersController@index')).then((response) => {
                 commit('SET_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getUserNotificationProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserNotificationProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_NOTIFICATION_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteUserNotificationProvider: ({commit}, data) => {
@@ -34,21 +34,21 @@ export default {
             })).then((response) => {
                 commit('REMOVE_NOTIFICATION_PROVIDER_FROM_USER', data.user_notification_provider_id);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
         getUserNotificationSettings: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\UserNotificationSettingsController@index')).then((response) => {
                 commit('SET_USER_NOTIFICATION_SETTINGS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateUserNotificationSettings: ({}, data) => {
             Vue.http.post(Vue.action('User\UserNotificationSettingsController@store'), data).then((response) => {
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         }
     },

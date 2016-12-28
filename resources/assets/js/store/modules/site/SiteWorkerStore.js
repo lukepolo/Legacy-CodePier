@@ -13,7 +13,7 @@ export default {
             Vue.http.post(Vue.action('Site\SiteWorkerController@store', {site: data.site_id}), data).then((response) => {
                 commit('ADD_SITE_WORKER', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteWorker: ({commit}, data) => {

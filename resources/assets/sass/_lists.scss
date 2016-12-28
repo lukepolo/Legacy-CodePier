@@ -113,7 +113,13 @@
 
 
 // SERVER LIST
-.server {
+.group-list {
+  .item:last-child {
+    border: none;
+  }
+}
+
+.item {
   display: block;
   border-bottom: 1px solid $color-divider;
   padding: $spacing;
@@ -124,20 +130,14 @@
   }
 }
 
-.server-name {
+.item-name {
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: $spacing/4;
   padding-right: 1.4em;
 }
 
-.server-list {
-  .server:last-child {
-    border: none;
-  }
-}
-
-a.server:hover {
+a.item:hover {
   cursor: pointer;
 
   &:before {

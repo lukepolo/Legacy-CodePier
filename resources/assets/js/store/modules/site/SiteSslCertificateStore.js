@@ -7,28 +7,28 @@ export default {
             Vue.http.get(Vue.action('Site\SiteSslController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_SSL_CERTIFICATES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         installSslCertificate: ({commit}, data) => {
             Vue.http.post(Vue.action('Site\SiteSslController@store', {site: data.site_id}), data).then((response) => {
                 commit('ADD_SITE_SSL_CERTIFICATE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateSslCertificate: ({commit}, data) => {
             Vue.http.put(Vue.action('Site\SiteSslController@update', {site : data.site, ssl_certificate: data.ssl_certificate}), data).then((response) => {
                 alert('need to do update ssl cert')
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteSslCertificate: ({commit}, data) => {
             Vue.http.delete(Vue.action('Site\SiteSslController@destroy', {site : data.site, ssl_certificate: data.ssl_certificate})).then((response) => {
                 commit('REMOVE_SITE_SSL_CERTIFICATE', data.ssl_certificate);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
     },

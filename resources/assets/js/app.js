@@ -84,6 +84,30 @@ Vue.mixin({
                 return commands[0];
             }
         },
+        handleApiError(response) {
+            let message = response;
+
+            if(_.isObject(response)) {
+
+                if(_.isSet(response.errors)) {
+                    message = response.errors;
+                } else if (_.isObject(response.data)) {
+                    message = '';
+                    _.each(response.data, function(error) {
+                        message += error + '<br>';
+                    });
+                } else {
+                    message = response.data;
+                }
+            }
+
+            if(_.isString(message)){
+                this.showError(message);
+            } else {
+                console.info('UNABLE TO PARSE ERROR')
+                console.info(message);
+            }
+        },
         showError(message, title, timeout) {
             this.$store.dispatch('addNotification', {
                 title: title ? title : "Error!!",
