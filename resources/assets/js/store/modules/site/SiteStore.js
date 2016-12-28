@@ -14,7 +14,7 @@ export default {
             Vue.http.get(Vue.action('Site\SiteController@show', {site: site})).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getSites: ({commit, rootState}) => {
@@ -23,7 +23,7 @@ export default {
                     commit('SET_SITES', response.data);
                     return response.data;
                 }, (errors) => {
-                    app.showError(errors);
+                    app.handleApiError(errors);
                 });
             }
         },
@@ -38,14 +38,14 @@ export default {
 
                 return response.data;
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getSiteFiles : ({commit}, site) => {
             Vue.http.get(Vue.action('Site\SiteFileController@index', {site: site})).then((response) => {
                 commit('SET_SITE_FILES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         listenToSite : ({commit, state}, site) => {
@@ -88,14 +88,14 @@ export default {
                 dispatch('listenToSite', response.data);
                 app.$router.push({ name : 'site_repository', params : { site_id : response.data.id}});
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
         updateSite: ({commit}, data) => {
             Vue.http.put(Vue.action('Site\SiteController@update', {site: data.site_id}), data.data).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteSite: ({commit}, site_id) => {
@@ -103,14 +103,14 @@ export default {
                 commit('DELETE_SITE', site_id);
                 app.$router.push('/');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getSiteServers: ({commit}, site_id) => {
             Vue.http.get(Vue.action('Site\SiteServerController@index', {site: site_id})).then((response) => {
                 commit('SET_SITE_SERVERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateLinkedServers: ({commit, dispatch}, data) => {
@@ -128,7 +128,7 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getDeploymentSteps: ({commit}, site) => {
@@ -136,7 +136,7 @@ export default {
                 commit('SET_DEPLOYMENT_STEPS', response.data);
                 return response.data;
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getSiteDeploymentSteps: ({commit}, site) => {
@@ -144,56 +144,56 @@ export default {
                 commit('SET_SITE_DEPLOYMENT_STEPS', response.data);
                 return response.data;
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateSiteDeployment: ({dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site : data.site}), data).then(() => {
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         restartSiteWebServices: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@restartWebServices', {site : data.site})).then(() => {
                 app.showSuccess('You have restarted your sites web services.');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         restartSiteServers: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@restartServer', {site : data.site})).then(() => {
                 app.showSuccess('You have restarted your sites servers.');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         restartSiteDatabases: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@restartDatabases', {site : data.site})).then(() => {
                 app.showSuccess('You have restarted your sites databases.');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         restartSiteWorkers: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteController@restartWorkerServices', {site : data.site})).then(() => {
                 app.showSuccess('You have restarted your sites workers.');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         createDeployHook: ({commit}, site) => {
             Vue.http.post(Vue.action('Site\Repository\RepositoryHookController@store', {site : site})).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         removeDeployHook: ({commit}, data) => {
             Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {site : data.site, hook : data.hook})).then((response) => {
                 commit('SET_SITE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         }
     },

@@ -1,20 +1,36 @@
 <template>
-    <button @click.stop="confirm=!confirm" @keyup.32.prevent>
-        <span v-show="!confirm">
+    <span class="confirm-container" @click.stop="confirm=!confirm" @keyup.32.prevent>
+        <button class="btn" v-show="!confirm">
             <slot></slot>
-        </span>
+        </button>
         <span v-show="confirm">
-            <template v-if="confirm_with_text">
-                Please confirm by typing in : {{ confirm_with_text }}
-                <form @submit.prevent.stop="confirmMethod">
-                    <input v-model="confirmedText" type="text" @click.stop>
-                </form>
-            </template>
-            <span>{{ confirmText }}</span>
-            <button class="btn btn-danger" @click.stop="confirmMethod">Yes</button>
-            <button class="btn btn-primary">No</button>
+            <button class="btn">
+                <slot></slot>
+
+            </button>
+
+                <div class="confirm-dialog">
+                    <template v-if="confirm_with_text">
+                        <h4 class="confirm-header">{{ confirmText }}</h4>
+
+                        <div class="confirm-content">
+                        <p>Please confirm by typing in: {{ confirm_with_text }}</p>
+                            <div class="jcf-input-group">
+                            <form @submit.prevent.stop="confirmMethod">
+                                <input v-model="confirmedText" type="text" name="confirm-name" @click.stop>
+                                <label for="confirm-name"><span class="float-label"></span></label>
+                            </form>
+                                </div>
+                        </div>
+                    </template>
+
+                    <div class="btn-footer">
+                        <button class="btn">Cancel</button>
+                        <button class="btn btn-danger" @click.stop="confirmMethod">Delete</button>
+                    </div>
+                </div>
         </span>
-    </button>
+    </span>
 </template>
 
 <script>

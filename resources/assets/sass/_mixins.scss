@@ -9,13 +9,13 @@
 	@if $point == xl {
 		@media (min-width: 1401px) { @content; }
 	}
-	@else if $point == l {
+	@else if $point == lg {
 		@media (max-width: 1400px) { @content; }
 	}
-	@else if $point == m {
+	@else if $point == md {
 		@media (max-width: 1024px)  { @content; }
 	}
-	@else if $point == s {
+	@else if $point == sm {
 		@media (max-width: 768px)  { @content; }
 	}
 	@else if $point == xs {
