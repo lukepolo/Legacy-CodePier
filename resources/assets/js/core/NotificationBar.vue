@@ -26,7 +26,11 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
-                        <strong>Pile:</strong> <span class="filter-selection">Dev</span> <span class="icon-arrow-up"></span>
+                        <strong>Pile:</strong>
+                        <span class="filter-selection">
+                            {{ pilesList }}
+                        </span>
+                        <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -48,7 +52,7 @@
                             </form>
 
                             <div class="btn-footer">
-                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small" @click="cancel('piles')">Cancel</a>
                                 <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
@@ -58,7 +62,7 @@
 
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
-                        <strong>Site:</strong> <span class="filter-selection">All Sites</span> <span class="icon-arrow-up"></span>
+                        <strong>Site:</strong> <span class="filter-selection">{{ siteList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -79,7 +83,7 @@
                             </form>
 
                             <div class="btn-footer">
-                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small" @click="cancel('sites')">Cancel</a>
                                 <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
@@ -89,7 +93,7 @@
 
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
-                        <strong>Server:</strong> <span class="filter-selection">All Servers</span> <span class="icon-arrow-up"></span>
+                        <strong>Server:</strong> <span class="filter-selection">{{ serverList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -110,7 +114,7 @@
                             </form>
 
                             <div class="btn-footer">
-                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small" @click="cancel('servers')">Cancel</a>
                                 <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
@@ -120,7 +124,7 @@
 
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
-                        <strong>Event Type:</strong> <span class="filter-selection">Deployments</span> <span class="icon-arrow-up"></span>
+                        <strong>Event Type:</strong> <span class="filter-selection">{{ eventList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -152,7 +156,7 @@
                             </form>
 
                             <div class="btn-footer">
-                                <a class="btn btn-small">Cancel</a>
+                                <a class="btn btn-small" @click="cancel('types')">Cancel</a>
                                 <a class="btn btn-small btn-primary" @click="updateFilters">Apply</a>
                             </div>
 
@@ -170,10 +174,10 @@
                 <section v-else>
                     <template  v-for="event in events">
                         <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
-                            <deployment-event :event="event"></deployment-event>
+                            <deployment-event :event="event" :key="event"></deployment-event>
                         </template>
                         <template v-else-if="event.event_type == 'App\\Models\\Command'">
-                            <command-event :event="event"></command-event>
+                            <command-event :event="event" :key="event"></command-event>
                         </template>
                         <template v-else>
                             Invalid type {{ event.event_type }}
@@ -270,6 +274,15 @@
                         sites : [],
                         servers : [],
                     }
+                },
+                prev_filters : {
+                    types : {
+                        commands : [],
+                        site_deployments : [],
+                    },
+                    piles : [],
+                    sites : [],
+                    servers : [],
                 }
             }
         },
@@ -289,6 +302,8 @@
             updateFilters() {
                 this.$store.commit('CLEAR_EVENTS');
                 this.form.page = 1;
+
+                this.prev_filters = _.cloneDeep(this.form.filters);
                 this.$store.dispatch('getEvents', this.form);
             },
             renderType(type) {
@@ -297,9 +312,68 @@
                 return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(type) {
                     return type.toUpperCase();
                 }) + 's';
+            },
+            cancel(type) {
+
+                let filters = _.cloneDeep(this.prev_filters[type]);
+
+                Vue.set(this.form.filters, type, filters);
             }
         },
         computed: {
+            pilesList() {
+                let piles = this.form.filters.piles;
+                if(!piles.length) {
+                    return 'All';
+                }
+
+                return _.join(
+                    _.map(piles, (pile) => {
+                        return this.getPile(pile, 'name');
+                        }
+                    ), ', '
+                );
+            },
+            siteList() {
+                let sites = this.form.filters.sites;
+                if(!sites.length) {
+                    return 'All';
+                }
+
+                return _.join(
+                    _.map(sites, (site) => {
+                            return this.getSite(site, 'name');
+                        }
+                    ), ', '
+                );
+            },
+            serverList() {
+                let servers = this.form.filters.servers;
+                if(!servers.length) {
+                    return 'All';
+                }
+
+                return _.join(
+                    _.map(servers, (server) => {
+                            return this.getServer(server, 'name');
+                        }
+                    ), ', '
+                );
+            },
+            eventList() {
+
+                let types = this.form.filters.types;
+
+                let events = _.map(_.merge(types.site_deployments, types.commands), (event) => {
+                    return this.renderType(event);
+                });
+
+                if(!events.length) {
+                    return 'All';
+                }
+
+                return _.join(events, ', ');
+            },
             piles() {
                 return this.$store.state.pilesStore.all_user_piles;
             },

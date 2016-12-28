@@ -13,23 +13,22 @@ export default {
             Vue.http.get(Vue.action('User\UserController@index')).then((response) => {
                 commit('SET_USER', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         updateUser: ({commit}, form) => {
             Vue.http.put(Vue.action('User\UserController@update', {user: form.user_id}), form, {}).then((response) => {
                 commit('SET_USER', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
-
 
         getUserServerProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserServerProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_SERVER_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteUserServerProvider: ({commit, dispatch}, data) => {
@@ -39,7 +38,7 @@ export default {
             })).then((response) => {
                 commit('REMOVE_SERVER_PROVIDER_FROM_USER', data.user_server_provider_id)
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
 
@@ -47,14 +46,14 @@ export default {
             Vue.http.get(Vue.action('Auth\Providers\RepositoryProvidersController@index')).then((response) => {
                 commit('SET_REPOSITORY_PROVIDERS', response.data)
             }, (errors) => {
-                app.showError(error);
+                app.handleApiError(error);
             });
         },
         getUserRepositoryProviders: ({commit}, user_id) => {
             Vue.http.get(Vue.action('User\Providers\UserRepositoryProviderController@index', {user: user_id})).then((response) => {
                 commit('SET_USER_REPOSITORY_PROVIDERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteUserRepositoryProvider: ({dispatch}, data) => {
@@ -64,7 +63,7 @@ export default {
             })).then((response) => {
                 commit('REMOVE_REPOSITORY_PROVIDER_FROM_USER', data.user_repository_provider_id)
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             })
         },
 

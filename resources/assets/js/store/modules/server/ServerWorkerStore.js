@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Server\ServerWorkerController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_WORKERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         createServerWorker: ({commit}, data) => {
             Vue.http.post(Vue.action('Server\ServerWorkerController@store', {server: data.server}), data).then((response) => {
                 commit('ADD_SERVER_WORKER', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteServerWorker: ({commit}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then(() => {
                 commit('REMOVE_SERVER_WORKER', data.worker);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         }
     },

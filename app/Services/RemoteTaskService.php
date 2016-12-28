@@ -182,7 +182,17 @@ echo \"Wrote\"", $read);
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
 
-        return $this->run("sed -i 's/$text.*/$replaceWithText/' $file");
+        return $this->run("sed -i 's/.*$text.*/$replaceWithText/' $file");
+    }
+
+    /**
+     * Checks to see if the server has the file.
+     * @param $file
+     * @return string
+     */
+    public function hasFile($file)
+    {
+        return filter_var($this->run("[ -f $file ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

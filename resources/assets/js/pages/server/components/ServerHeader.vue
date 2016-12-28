@@ -13,7 +13,9 @@
                     <i class="fa fa-cog"></i>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a @click.prevent="archiveServer(server.id)">Archive Server</a></li>
+                    <li>
+                        <confirm dispatch="archiveServer" :params="server.id"><a href="#">Archive Server</a></confirm>
+                    </li>
                 </ul>
             </div>
 
@@ -22,10 +24,18 @@
                     <i class="fa fa-server"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a @click.prevent="restartServer(server.id)">Restart Server</a></li>
-                    <li><a @click.prevent="restartServerWebServices(server.id)">Restart Web Services</a></li>
-                    <li><a @click.prevent="restartServerDatabases(server.id)">Restart Databases</a></li>
-                    <li><a @click.prevent="restartServerWorkers(server.id)">Restart Workers</a></li>
+                    <li>
+                        <confirm dispatch="restartServer" :params="server.id"><a href="#">Restart Server</a></confirm>
+                    </li>
+                    <li>
+                        <confirm dispatch="restartServerWebServices" :params="server.id"><a href="#">Restart Web Services</a></confirm>
+                    </li>
+                    <li>
+                        <confirm dispatch="restartServerDatabases" :params="server.id"><a href="#">Restart Databases</a></confirm>
+                    </li>
+                    <li>
+                        <confirm dispatch="restartServerWorkers" :params="server.id"><a href="#">Restart Workers</a></confirm>
+                    </li>
                 </ul>
             </div>
 

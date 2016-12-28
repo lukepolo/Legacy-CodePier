@@ -7,14 +7,14 @@ export default {
             Vue.http.get(Vue.action('Server\ServerFirewallRuleController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_FIREWALL_RULES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         createServerFirewallRule: ({commit}, data) => {
             Vue.http.post(Vue.action('Server\ServerFirewallRuleController@store', {server: data.server}), data).then((response) => {
                 commit('ADD_SERVER_FIREWALL_RULE', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         deleteServerFirewallRule: ({commit}, data) => {
@@ -24,7 +24,7 @@ export default {
             })).then(() => {
                 commit('REMOVE_SERVER_FIREWALL_RULE', data.firewall);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         }
     },
