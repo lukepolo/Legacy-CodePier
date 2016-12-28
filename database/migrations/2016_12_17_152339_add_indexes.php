@@ -181,7 +181,7 @@ class AddIndexes extends Migration
             Schema::table($table, function (Blueprint $tableModifying) use ($table, $indexes) {
                 foreach ($indexes as $index) {
                     if (is_array($index)) {
-//                        $tableModifying->dropIndex($index);
+                        //                        $tableModifying->dropIndex($index);
                         continue;
                     }
 //                    $tableModifying->dropIndex($table.'_'.$index.'_index');

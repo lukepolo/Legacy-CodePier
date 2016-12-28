@@ -3,18 +3,18 @@
 namespace App\Models\Site;
 
 use App\Models\File;
-use App\Models\FirewallRule;
 use App\Models\Pile;
-use App\Models\Command;
 use App\Models\SshKey;
-use App\Models\SslCertificate;
-use App\Models\User\User;
 use App\Models\Worker;
+use App\Models\Command;
+use App\Models\User\User;
 use App\Traits\FireEvents;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\Server\Server;
+use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -68,7 +68,6 @@ class Site extends Model
     {
         return $this->hasMany(SiteCronJob::class);
     }
-
 
     public function deployments()
     {

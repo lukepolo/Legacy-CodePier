@@ -14,11 +14,11 @@ class FirewallRulesRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE firewall_rules LIKE site_firewall_rules;');
-        Schema::table('firewall_rules', function(Blueprint $table) {
+        Schema::table('firewall_rules', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('firewallRuleables', function(Blueprint $table) {
+        Schema::create('firewallRuleables', function (Blueprint $table) {
             $table->integer('firewall_rule_id');
             $table->integer('firewallRuleable_id');
             $table->string('firewallRuleable_type');
@@ -28,9 +28,9 @@ class FirewallRulesRestructure extends Migration
         $records = DB::table('server_firewall_rules')->get();
 
         foreach ($records as $record) {
-            $server =\App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
 
-            if(!empty($server)) {
+            if (! empty($server)) {
                 unset($record->site_firewall_rule_id);
 
                 unset($record->id);
@@ -45,14 +45,13 @@ class FirewallRulesRestructure extends Migration
         $records = DB::table('site_firewall_rules')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
-
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $newRecord = \App\Models\FirewallRule::create((array)$record);
+                $newRecord = \App\Models\FirewallRule::create((array) $record);
 
                 $site->firewallRules()->save($newRecord);
             }

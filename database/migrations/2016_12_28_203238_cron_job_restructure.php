@@ -14,11 +14,11 @@ class CronJobRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE cron_jobs LIKE site_cron_jobs;');
-        Schema::table('cron_jobs', function(Blueprint $table) {
+        Schema::table('cron_jobs', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('cronjobables', function(Blueprint $table) {
+        Schema::create('cronjobables', function (Blueprint $table) {
             $table->integer('cron_job_id');
             $table->integer('cronjobable_id');
             $table->string('cronjobable_type');
@@ -28,9 +28,9 @@ class CronJobRestructure extends Migration
         $records = DB::table('server_cron_jobs')->get();
 
         foreach ($records as $record) {
-            $server =\App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
 
-            if(!empty($server)) {
+            if (! empty($server)) {
                 unset($record->site_cron_job_id);
 
                 unset($record->id);
@@ -45,13 +45,13 @@ class CronJobRestructure extends Migration
         $records = DB::table('site_cron_jobs')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $cronJob = \App\Models\CronJob::create((array)$record);
+                $cronJob = \App\Models\CronJob::create((array) $record);
 
                 $site->cronjobs()->save($cronJob);
             }
