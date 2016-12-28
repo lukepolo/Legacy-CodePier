@@ -14,11 +14,11 @@ class SslCertificatesRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE ssl_certificates LIKE site_ssl_certificates;');
-        Schema::table('ssl_certificates', function(Blueprint $table) {
+        Schema::table('ssl_certificates', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('sslCertificateables', function(Blueprint $table) {
+        Schema::create('sslCertificateables', function (Blueprint $table) {
             $table->integer('ssl_certificate_id');
             $table->integer('sslCertificateable_id');
             $table->string('sslCertificateable_type');
@@ -28,9 +28,9 @@ class SslCertificatesRestructure extends Migration
         $records = DB::table('server_ssl_certificates')->get();
 
         foreach ($records as $record) {
-            $server =\App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
 
-            if(!empty($server)) {
+            if (! empty($server)) {
                 unset($record->site_ssl_certificate_id);
 
                 unset($record->id);
@@ -45,14 +45,13 @@ class SslCertificatesRestructure extends Migration
         $records = DB::table('site_ssl_certificates')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
-
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $newRecord = \App\Models\SslCertificate::create((array)$record);
+                $newRecord = \App\Models\SslCertificate::create((array) $record);
 
                 $site->sslCertificates()->save($newRecord);
             }

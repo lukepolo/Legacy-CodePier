@@ -2,19 +2,19 @@
 
 namespace App\Models\Server;
 
-use App\Models\CronJob;
 use App\Models\File;
-use App\Models\FirewallRule;
 use App\Models\Pile;
-use App\Models\Site\Site;
 use App\Models\SshKey;
-use App\Models\SslCertificate;
-use App\Models\User\User;
 use App\Models\Worker;
+use App\Models\CronJob;
+use App\Models\Site\Site;
+use App\Models\User\User;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\ServerCommand;
+use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;

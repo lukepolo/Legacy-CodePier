@@ -14,11 +14,11 @@ class WorkersRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE workers LIKE site_workers;');
-        Schema::table('workers', function(Blueprint $table) {
+        Schema::table('workers', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('workerables', function(Blueprint $table) {
+        Schema::create('workerables', function (Blueprint $table) {
             $table->integer('worker_id');
             $table->integer('workerables_id');
             $table->string('workerables_type');
@@ -28,9 +28,9 @@ class WorkersRestructure extends Migration
         $records = DB::table('server_workers')->get();
 
         foreach ($records as $record) {
-            $server =\App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
 
-            if(!empty($server)) {
+            if (! empty($server)) {
                 unset($record->site_worker_id);
 
                 unset($record->id);
@@ -45,14 +45,13 @@ class WorkersRestructure extends Migration
         $records = DB::table('site_workers')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
-
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $newRecord = \App\Models\Worker::create((array)$record);
+                $newRecord = \App\Models\Worker::create((array) $record);
 
                 $site->firewallRules()->save($newRecord);
             }
