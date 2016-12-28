@@ -152,7 +152,10 @@
             },
             getServerProviderName(server_provider_id) {
                 if(this.server_providers) {
-                    return _.find(this.server_providers, { id : server_provider_id}).name;
+                    let provider = _.find(this.server_providers, { id : server_provider_id});
+                    if(provider) {
+                        return provider.name;
+                    }
                 }
             }
         },

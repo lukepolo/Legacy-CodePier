@@ -1,35 +1,36 @@
+<style>
+    .confirm-enter-active, .confirm-leave-active {
+    }
+    .confirm-enter .confirm-leave-active {
+    }
+</style>
 <template>
-    <span class="confirm-container" @click.stop="confirm=!confirm" @keyup.32.prevent>
-        <button class="btn" v-show="!confirm">
+    <span class="confirm-container" @click.stop @keyup.32.prevent @keyup.esc="confirm=false">
+        <button class="btn" @click.stop="confirm=true">
             <slot></slot>
         </button>
-        <span v-show="confirm">
-            <button class="btn">
-                <slot></slot>
-
-            </button>
-
+        <transition name="confirm">
+            <span v-show="confirm">
                 <div class="confirm-dialog">
                     <template v-if="confirm_with_text">
                         <h4 class="confirm-header">{{ confirmText }}</h4>
-
                         <div class="confirm-content">
-                        <p>Please confirm by typing in: {{ confirm_with_text }}</p>
+                            <p>Please confirm by typing in: {{ confirm_with_text }}</p>
                             <div class="jcf-input-group">
-                            <form @submit.prevent.stop="confirmMethod">
-                                <input v-model="confirmedText" type="text" name="confirm-name" @click.stop>
-                                <label for="confirm-name"><span class="float-label"></span></label>
-                            </form>
-                                </div>
+                                <form @submit.prevent.stop="confirmMethod">
+                                    <input v-model="confirmedText" type="text" name="confirm-name" @click.stop>
+                                    <label for="confirm-name"><span class="float-label"></span></label>
+                                </form>
+                            </div>
                         </div>
                     </template>
-
                     <div class="btn-footer">
-                        <button class="btn">Cancel</button>
+                        <button class="btn" @click.stop="confirm=false">Cancel</button>
                         <button class="btn btn-danger" @click.stop="confirmMethod">Delete</button>
                     </div>
                 </div>
-        </span>
+            </span>
+        </transition>
     </span>
 </template>
 
