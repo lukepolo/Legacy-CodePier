@@ -27,6 +27,6 @@ class CreateServerProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_providers');
+        Schema::dropIfExists('server_providers');
     }
 }

@@ -31,6 +31,6 @@ class CreateSiteDaemonsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_workers');
+        Schema::dropIfExists('site_workers');
     }
 }

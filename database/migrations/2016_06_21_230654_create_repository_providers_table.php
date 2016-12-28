@@ -29,6 +29,6 @@ class CreateRepositoryProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('repository_providers');
+        Schema::dropIfExists('repository_providers');
     }
 }
