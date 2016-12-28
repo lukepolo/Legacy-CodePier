@@ -40,38 +40,42 @@ class SlackMessageChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        if ((! $token = $notifiable->routeNotificationFor('slack')) || (! $channel = $notification->slackChannel)) {
-            throw new SlackMessageMissingParams('Notifiable must contain ->routeNotificationFor() and notification must have a public $slackChannel');
-        }
+        $token = $notifiable->routeNotificationFor('slack');
 
-        $message = $notification->toSlack($notifiable);
+        if (! empty($token)) {
+            if (! $channel = $notification->slackChannel) {
+                throw new SlackMessageMissingParams('Notification must have a public $slackChannel set');
+            }
 
-        if (empty($notifiable->slackChannel)) {
-            $response = $this->http->post('https://slack.com/api/channels.create', [
-                'form_params' => [
-                    'token'    => $token,
-                    'name'     => $notification->slackChannel,
-                ],
-            ])->getStatusCode();
+            $message = $notification->toSlack($notifiable);
 
-            if ($response == 200) {
-                $slackChannel = SlackChannel::create([
-                    'channel' => $notification->slackChannel,
-                    'created' => true,
+            if (empty($notifiable->slackChannel)) {
+                $response = $this->http->post('https://slack.com/api/channels.create', [
+                    'form_params' => [
+                        'token'    => $token,
+                        'name'     => $notification->slackChannel,
+                    ],
                 ]);
 
-                $notifiable->slackChannel()->save($slackChannel);
-            }
-        }
+                if ($response->getStatusCode() == 200) {
+                    $slackChannel = SlackChannel::create([
+                        'channel' => $notification->slackChannel,
+                        'created' => true,
+                    ]);
 
-        return $this->http->post('https://slack.com/api/chat.postMessage', [
-            'form_params' => [
-                'token'       => $token,
-                'channel'     => '#'.$channel,
-                'text'        => $message->content,
-                'attachments' => json_encode($this->attachments($message)),
-            ],
-        ]);
+                    $notifiable->slackChannel()->save($slackChannel);
+                }
+            }
+
+            return $this->http->post('https://slack.com/api/chat.postMessage', [
+                'form_params' => [
+                    'token'       => $token,
+                    'channel'     => '#'.$channel,
+                    'text'        => $message->content,
+                    'attachments' => json_encode($this->attachments($message)),
+                ],
+            ]);
+        }
     }
 
     /**

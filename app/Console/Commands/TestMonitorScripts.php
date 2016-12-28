@@ -13,7 +13,7 @@ class TestMonitorScripts extends Command
      *
      * @var string
      */
-    protected $signature = 'test:monitor';
+    protected $signature = 'test:monitor {serverId}';
 
     /**
      * The console command description.
@@ -29,9 +29,7 @@ class TestMonitorScripts extends Command
      */
     public function handle()
     {
-        $server = Server::first();
-
-        dump('For server: '.$server->id);
+        $server = Server::findOrFail($this->argument('serverId'));
 
         dump(shell_exec(
             MonitoringService::LOAD_AVG_SCRIPT.'

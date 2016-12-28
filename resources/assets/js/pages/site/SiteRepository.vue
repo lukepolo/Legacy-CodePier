@@ -74,7 +74,13 @@
             </div>
         </div>
         <template v-if="site.repository">
+
+            <template v-if="isDeploying">
+                {{ isDeploying.status }}
+            </template>
+
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
+
 
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
@@ -100,7 +106,8 @@
                     framework: null,
                     repository: null,
                     web_directory: null,
-                    zerotime_deployment: null,
+                    wildcard_domain : false,
+                    zerotime_deployment: true,
                     user_repository_provider_id: null
                 }
             }
@@ -168,6 +175,7 @@
                     this.form.framework = site.framework;
                     this.form.repository = site.repository;
                     this.form.web_directory = site.web_directory;
+                    this.form.wildcard_domain = site.wildcard_domain;
                     this.form.zerotime_deployment = site.zerotime_deployment;
                     this.form.user_repository_provider_id = site.user_repository_provider_id;
                 }
@@ -188,6 +196,15 @@
             },
             site_servers() {
                 return [];
+            },
+            isDeploying() {
+                if(this.site) {
+                    return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
+                        return deployment.status != 'Completed' && deployment.status != 'Failed';
+                    });
+                }
+
+                return false;
             }
         },
     }

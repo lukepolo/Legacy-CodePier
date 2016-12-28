@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use ReflectionClass;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
 trait SystemFiles
@@ -58,6 +59,26 @@ trait SystemFiles
     }
 
     /**
+     * @param $files
+     * @param $serverFeature
+     * @return Collection
+     */
+    private function checkIfNeedsVersion($files, $serverFeature)
+    {
+        $files = (array) $files;
+
+        return collect($files)->map(function ($file) use ($serverFeature) {
+            if (str_contains($file, '{')) {
+                if (preg_match('/{(.*)}/', $file, $matches)) {
+                    return preg_replace('/{(.*)}/', $serverFeature[$matches[1]], $file);
+                }
+            }
+
+            return $file;
+        });
+    }
+
+    /**
      * @param ReflectionClass $reflection
      * @return array
      */
@@ -102,6 +123,12 @@ trait SystemFiles
         return $features;
     }
 
+    /**
+     * @param $method
+     * @param $param
+     * @param null $default
+     * @return null
+     */
     public function getDocParam($method, $param, $default = null)
     {
         preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);

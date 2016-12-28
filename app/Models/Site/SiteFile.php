@@ -50,6 +50,8 @@ class SiteFile extends Model
      */
     public function getUnencryptedContentAttribute()
     {
-        return decrypt($this->attributes['content']);
+        if (! empty($this->attributes['content'])) {
+            return decrypt($this->attributes['content']);
+        }
     }
 }
