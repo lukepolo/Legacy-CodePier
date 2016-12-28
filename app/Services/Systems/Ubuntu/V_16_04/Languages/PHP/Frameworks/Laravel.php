@@ -18,6 +18,10 @@ class Laravel
         ],
     ];
 
+    public static $cronJobs = [
+        'Laravel Scheduler' => '* * * * * php {site_path} schedule:run >> /dev/null 2>&1',
+    ];
+
     /**
      * @description Laravel Envoy provides a clean, minimal syntax for defining common tasks you run on your remote servers.
      */
@@ -28,7 +32,12 @@ class Laravel
         $this->remoteTaskService->run('composer global require "laravel/envoy=~1.0"');
     }
 
-    private function getNginxConfig()
+    public function getNginxConfig()
     {
+        return '
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+';
     }
 }

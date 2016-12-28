@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-12-21.
+    * Generated on 2016-12-23.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -66,6 +66,9 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
@@ -144,9 +147,6 @@ namespace PHPSTORM_META {
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
@@ -215,6 +215,9 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
@@ -293,9 +296,6 @@ namespace PHPSTORM_META {
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
@@ -364,6 +364,9 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
@@ -442,9 +445,6 @@ namespace PHPSTORM_META {
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
@@ -513,6 +513,9 @@ namespace PHPSTORM_META {
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
             'hash' instanceof \Illuminate\Hashing\BcryptHasher,
@@ -591,9 +594,6 @@ namespace PHPSTORM_META {
             'queue.failer' instanceof \Illuminate\Queue\Failed\DatabaseFailedJobProvider,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,

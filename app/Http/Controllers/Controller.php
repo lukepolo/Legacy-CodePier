@@ -15,8 +15,7 @@ class Controller extends BaseController
     public function app()
     {
         return view('codepier', [
-            'user' => \Auth::user()->load(['teams', 'piles.servers']),
-            'runningCommands' => \Auth::user()->getRunningCommands(),
+            'user' => \Auth::user(),
         ]);
     }
 }

@@ -24,6 +24,51 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     /**
      * @param Site $site
+     * @return \Illuminate\Support\Collection
+     */
+    public function getEditableFiles(Site $site)
+    {
+        $editableFiles = collect();
+
+        $files = [];
+
+        foreach ($this->getSystemsFiles() as $system) {
+            foreach ($this->getVersionsFromSystem($system) as $version) {
+                foreach ($this->getServicesFromVersion($version) as $service) {
+                    $files = $files +
+                        $this->buildFileArray(
+                            $this->buildReflection($service)
+                        );
+                }
+
+                foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    $files = $files +
+                        $this->buildFileArray(
+                            $this->buildReflection($language.'/'.basename($language).'.php')
+                        );
+                }
+            }
+        }
+
+        $files = collect($files);
+
+        foreach ($site->server_features as $service => $features) {
+            if (isset($site->server_features[$service])) {
+                foreach ($features as $feature => $params) {
+                    if ($files->has($feature)) {
+                        $editableFiles = $editableFiles->merge(
+                            $this->checkIfNeedsVersion($files->get($feature), $site->server_features[$service][$feature]['parameters'])
+                        );
+                    }
+                }
+            }
+        }
+
+        return $editableFiles;
+    }
+
+    /**
+     * @param Site $site
      * @return \Illuminate\Support\Collection|static
      */
     public function getEditableFrameworkFiles(Site $site)

@@ -22,7 +22,6 @@
         methods: {
             fetchData() {
                 this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSiteFiles', this.$route.params.site_id);
                 this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
             },
@@ -39,7 +38,7 @@
         },
         computed: {
             runningCommands() {
-                return this.$store.state.serversStore.runningCommands;
+                return this.$store.state.serversStore.running_commands;
             },
             site() {
                 return this.$store.state.sitesStore.site;

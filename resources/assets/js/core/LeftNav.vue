@@ -5,10 +5,10 @@
         <div class="section-content">
             <div class="site" v-for="site in sites">
                 <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
-                    <div class="site-name">
-                        {{ site.name }}
-                    </div>
-                </router-link>
+                <div class="site-name">
+                    {{ site.name }}
+                </div>
+            </router-link>
             </div>
             <div class="jcf-form-wrap">
                 <form @submit.prevent="saveSite" v-if="adding_site" class="floating-labels">

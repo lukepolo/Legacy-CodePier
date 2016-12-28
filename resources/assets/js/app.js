@@ -74,14 +74,38 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
-            let commands = _.filter(this.$store.state.serversStore.runningCommands[type], (command) => {
-                return command.commandable_id == model_id && command.status != 'Completed';
+            let commands = _.filter(this.$store.state.serversStore.running_commands[type], (command) => {
+                return command.commandable_id == model_id && command.status != 'Completed' && command.status != 'Failed';
             });
 
             if(commands) {
                 // we only need the first one, this allows us to not allow other changes
                 // on the rest of the servers till they are all completed
                 return commands[0];
+            }
+        },
+        handleApiError(response) {
+            let message = response;
+
+            if(_.isObject(response)) {
+
+                if(_.isSet(response.errors)) {
+                    message = response.errors;
+                } else if (_.isObject(response.data)) {
+                    message = '';
+                    _.each(response.data, function(error) {
+                        message += error + '<br>';
+                    });
+                } else {
+                    message = response.data;
+                }
+            }
+
+            if(_.isString(message)){
+                this.showError(message);
+            } else {
+                console.info('UNABLE TO PARSE ERROR')
+                console.info(message);
             }
         },
         showError(message, title, timeout) {
@@ -177,7 +201,8 @@ const router = new VueRouter({
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
-        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
+        {path: '/server/create', name: 'server_form', component: serverPages.ServerForm},
+        {path: '/server/create/:site/:type', name: 'server_form_with_site', component: serverPages.ServerForm},
         {
             path: '/server', component: serverPages.ServerArea,
             children: [
@@ -389,6 +414,9 @@ let app = new Vue({
 }).$mount('#app-layout');
 
 window.app = app;
+
+app.$store.dispatch('getRunningCommands');
+app.$store.dispatch('getRunningDeployments');
 
 Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('setVersion', data);

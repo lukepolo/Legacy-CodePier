@@ -4,6 +4,7 @@ export default {
         server: null,
         all_servers : [],
         server_sites: [],
+        running_commands : {},
         servers_listening_to : [],
         editable_server_files: [],
         editable_framework_files: [],
@@ -11,35 +12,34 @@ export default {
         available_server_languages: [],
         available_server_frameworks: [],
         servers_current_provisioning_step : {},
-        runningCommands : Object.keys(runningCommands).length > 0 ? runningCommands : {},
     },
     actions: {
         getServer: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerController@show', {server: server_id})).then((response) => {
                 commit('SET_SERVER', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServersCurrentProvisioningStep: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         retryProvisioning:  ({commit}, server_id) => {
             Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', {server: server_id})).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server_id, response.data]);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServers: ({commit, rootState}) => {
             Vue.http.get(Vue.action('Server\ServerController@index', {pile_id: rootState.userStore.user.current_pile_id})).then((response) => {
                 commit('SET_SERVERS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getAllServers: ({commit, dispatch}) => {
@@ -51,7 +51,7 @@ export default {
                 });
                 return response.data;
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         listenToServer : ({commit, state, dispatch}, server) => {
@@ -96,62 +96,68 @@ export default {
             }
         },
         createServer: ({dispatch, rootState}, form) => {
-            Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
+            return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 rootState.serversStore.all_servers.push(response.data);
                 dispatch('listenToServer', response.data);
                 app.showSuccess('Your server is in queue to be provisioned');
+
+                return response.data;
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         archiveServer: ({commit}, server) => {
             Vue.http.delete(Vue.action('Server\ServerController@destroy', {server: server})).then(() => {
-                app.$router.push('/');
+                if(app.$router.currentRoute.params.server_id) {
+                    app.$router.push('/');
+                }
+
                 commit('REMOVE_SERVER', server);
+                commit('REMOVE_SERVER_FROM_SITE_SERVERS', server);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServerSites: ({commit}, server_id) => {
             Vue.http.get(Vue.action('Server\ServerSiteController@index', {server: server_id})).then((response) => {
                 commit('SET_SERVER_SITES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServerAvailableFeatures: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getFeatures')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FEATURES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServerAvailableLanguages: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getLanguages')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_LANGUAGES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getServerAvailableFrameworks: ({commit}) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getFrameworks')).then((response) => {
                 commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getEditableServerFiles: ({commit}, server) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFiles', {server: server})).then((response) => {
                 commit('SET_EDITABLE_SERVER_FILES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         getEditableFrameworkFiles: ({commit}, site) => {
             Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', {site: site})).then((response) => {
                 commit('SET_EDITABLE_FRAMEWORK_FILES', response.data);
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         installFeature: ({}, data) => {
@@ -162,7 +168,7 @@ export default {
             }).then((response) => {
                 alert('install server feature');
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
             });
         },
         saveServerFile: ({}, data) => {
@@ -174,7 +180,14 @@ export default {
             }).then((response) => {
 
             }, (errors) => {
-                app.showError(errors);
+                app.handleApiError(errors);
+            });
+        },
+        getRunningCommands : ({commit}) => {
+            Vue.http.get(Vue.action('User\UserController@getRunningCommands')).then((response) => {
+                commit('SET_RUNNING_COMMANDS', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
             });
         }
     },
@@ -233,24 +246,27 @@ export default {
         SET_SERVERS_LISTENING_TO : (state, server) => {
             state.servers_listening_to.push(server.id);
         },
+        SET_RUNNING_COMMANDS : (state, commands) => {
+            state.running_commands = Object.keys(commands).length > 0 ? commands : {};
+        },
         UPDATE_COMMAND : (state, command) => {
 
-            let commandKey = _.findKey(state.runningCommands[command.commandable_type], { id: command.id });
+            let commandKey = _.findKey(state.running_commands[command.commandable_type], { id: command.id });
 
             if(commandKey) {
-                return Vue.set(state.runningCommands[command.commandable_type], commandKey, command);
+                return Vue.set(state.running_commands[command.commandable_type], commandKey, command);
             }
 
-            if(!state.runningCommands[command.commandable_type] || !_.isArray(state.runningCommands[command.commandable_type])) {
-                Vue.set(state.runningCommands, command.commandable_type, []);
+            if(!state.running_commands[command.commandable_type] || !_.isArray(state.running_commands[command.commandable_type])) {
+                Vue.set(state.running_commands, command.commandable_type, []);
             }
 
 
-            state.runningCommands[command.commandable_type].push(command);
+            state.running_commands[command.commandable_type].push(command);
         },
         REMOVE_SERVER : (state, server) => {
-            Vue.set(rootState.serversStore, 'servers', _.reject(rootState.serversStore.servers, { id : server}));
-            Vue.set(rootState.serversStore, 'all_servers', _.reject(rootState.serversStore.all_servers, { id : server}));
+            Vue.set(state, 'servers', _.reject(state.servers, { id : server}));
+            Vue.set(state, 'all_servers', _.reject(state.all_servers, { id : server}));
         }
     }
 }

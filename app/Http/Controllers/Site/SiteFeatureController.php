@@ -27,4 +27,13 @@ class SiteFeatureController extends Controller
     {
         return response()->json($this->siteFeatureService->getEditableFrameworkFiles(Site::findOrFail($siteId)));
     }
+
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getEditableFiles($siteId)
+    {
+        return response()->json($this->siteFeatureService->getEditableFiles(Site::findOrFail($siteId)));
+    }
 }

@@ -90,8 +90,8 @@ class SiteController extends Controller
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'wildcard_domain'             => $request->get('wildcard_domain'),
-            'zerotime_deployment'         => $request->get('zerotime_deployment'),
+            'wildcard_domain'             => $request->get('wildcard_domain', 0),
+            'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
             'type'                        => $request->get('type'),
         ]);
