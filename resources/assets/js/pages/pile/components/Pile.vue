@@ -10,14 +10,18 @@
                 </template>
             </h4>
         </div>
-
-        <!-- TODO jf - update this to be a list for sites instead of servers -->
-        <template v-if="pile.servers">
+        <template v-if="pile.sites">
             <div class="group-content">
                 <h4>Sites</h4>
-                <div class="group-list" v-for="server in pile.servers">
-                    <a class="item">
-                        <div class="item-name">{{ server.name }}</div>
+                <div class="site-list" v-for="site in pile.sites">
+                    <a class="site">
+                        <div class="site-name">
+                            <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
+                                <div class="site-name">
+                                    {{ site.name }}
+                                </div>
+                            </router-link>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -76,6 +80,16 @@
                     this.$store.dispatch('createPile', this.form);
                 }
                 this.editing = false;
+            }
+        },
+        computed : {
+            sites() {
+                return this.$store.state.pilesStore.piles[this.pile.id].sites;
+            }
+        },
+        created() {
+            if(this.pile.id) {
+                this.$store.dispatch('getPileSites', this.pile.id);
             }
         }
     }

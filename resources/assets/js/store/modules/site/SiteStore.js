@@ -6,7 +6,9 @@ export default {
         site_files : [],
         site_servers: [],
         deployment_steps: [],
+        site_editable_files :[],
         sites_listening_to : [],
+        running_deployments : [],
         site_deployment_steps: [],
     },
     actions: {
@@ -48,6 +50,13 @@ export default {
                 app.handleApiError(errors);
             });
         },
+        getEditableFiles: ({commit}, site) => {
+            Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', {site: site})).then((response) => {
+                commit('SET_EDITABLE_SITE_FILES', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        },
         listenToSite : ({commit, state}, site) => {
             if (_.indexOf(state.sites_listening_to, site.id) == -1) {
                 commit('SET_SITES_LISTENING_TO', site);
@@ -56,20 +65,24 @@ export default {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentStepCompleted', (data) => {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentStepFailed', (data) => {
                         commit('UPDATE_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .listen('Site\\DeploymentCompleted', (data) => {
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
+                        commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
                     })
                     .notification((notification) => {
                         if(notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
@@ -98,9 +111,13 @@ export default {
                 app.handleApiError(errors);
             });
         },
-        deleteSite: ({commit}, site_id) => {
+        deleteSite: ({commit, rootState}, site_id) => {
             Vue.http.delete(Vue.action('Site\SiteController@destroy', {site: site_id})).then(() => {
                 commit('DELETE_SITE', site_id);
+                commit('REMOVE_SITE_FROM_PILE', {
+                    site : site_id,
+                    pile : rootState.userStore.user.current_pile_id
+                });
                 app.$router.push('/');
             }, (errors) => {
                 app.handleApiError(errors);
@@ -190,14 +207,27 @@ export default {
             });
         },
         removeDeployHook: ({commit}, data) => {
-            Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {site : data.site, hook : data.hook})).then((response) => {
+            Vue.http.delete(Vue.action('Site\Repository\RepositoryHookController@destroy', {
+                site: data.site,
+                hook: data.hook
+            })).then((response) => {
                 commit('SET_SITE', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        },
+        getRunningDeployments : ({commit}) => {
+            Vue.http.get(Vue.action('User\UserController@getRunningDeployments')).then((response) => {
+                commit('SET_RUNNING_DEPLOYMENTS', response.data);
             }, (errors) => {
                 app.handleApiError(errors);
             });
         }
     },
     mutations: {
+        UNSET_SITE :(state) => {
+            state.site = null;
+        },
         SET_SITE: (state, site) => {
             state.site = site;
         },
@@ -211,11 +241,18 @@ export default {
         SET_SITE_FILES: (state, files) => {
             state.site_files = files;
         },
+        SET_EDITABLE_SITE_FILES : (state, files) => {
+            state.site_editable_files = files;
+        },
         SET_ALL_SITES : (state, sites) => {
             state.all_sites = sites;
         },
         SET_SITE_SERVERS: (state, servers) => {
             state.site_servers = servers;
+        },
+        REMOVE_SERVER_FROM_SITE_SERVERS : (state, server_id) => {
+            alert(server.id);
+            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id : server.id}));
         },
         SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
             state.deployment_steps = deployment_steps;
@@ -241,6 +278,28 @@ export default {
             let server = _.find(state.site_servers, {id: data.server_id});
             if(server) {
                 Vue.set(server, 'stats', data.stats);
+            }
+        },
+        SET_RUNNING_DEPLOYMENTS : (state, deployments) => {
+            state.running_deployments = Object.keys(deployments).length > 0 ? deployments : {};
+        },
+        UPDATE_RUNNING_SITE_DEPLOYMENT : (state, event) => {
+
+            if(!state.running_deployments[event.site_deployment.site_id]) {
+                Vue.set(state.running_deployments, event.site_deployment.site_id, []);
+            }
+
+            let siteDeployments = state.running_deployments[event.site_deployment.site_id];
+            let siteDeployment = siteDeployments[_.findKey(siteDeployments, {id : event.site_deployment.id})];
+
+            if(siteDeployment) {
+                _.each(event.site_deployment, function(value, key) {
+                    if(key != 'server_deployments') {
+                        siteDeployment[key] = value;
+                    }
+                });
+            } else {
+                siteDeployments.push(event.site_deployment);
             }
         }
     }

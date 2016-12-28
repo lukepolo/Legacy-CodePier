@@ -74,8 +74,8 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
-            let commands = _.filter(this.$store.state.serversStore.runningCommands[type], (command) => {
-                return command.commandable_id == model_id && command.status != 'Completed';
+            let commands = _.filter(this.$store.state.serversStore.running_commands[type], (command) => {
+                return command.commandable_id == model_id && command.status != 'Completed' && command.status != 'Failed';
             });
 
             if(commands) {
@@ -201,7 +201,8 @@ const router = new VueRouter({
         {path: '/my/teams', name: 'teams', component: teamPages.Teams},
         {path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers},
 
-        {path: '/server/create/:site/:type', name: 'server_form', component: serverPages.ServerForm},
+        {path: '/server/create', name: 'server_form', component: serverPages.ServerForm},
+        {path: '/server/create/:site/:type', name: 'server_form_with_site', component: serverPages.ServerForm},
         {
             path: '/server', component: serverPages.ServerArea,
             children: [
@@ -413,6 +414,9 @@ let app = new Vue({
 }).$mount('#app-layout');
 
 window.app = app;
+
+app.$store.dispatch('getRunningCommands');
+app.$store.dispatch('getRunningDeployments');
 
 Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('setVersion', data);

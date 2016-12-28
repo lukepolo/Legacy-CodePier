@@ -86,7 +86,7 @@
                 if(parameter) {
                     name = name + '[parameters][' + parameter + ']';
 
-                    if(feature.multiple) {
+                    if(feature.multiple == true) {
                         name = name + '[]';
                     }
 

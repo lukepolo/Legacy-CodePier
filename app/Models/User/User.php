@@ -6,6 +6,7 @@ use App\Models\Pile;
 use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -118,5 +119,28 @@ class User extends Authenticatable
         }
 
         return collect($commandsRunning);
+    }
+
+    public function getRunningDeployments()
+    {
+        $deploymentsRunning = [];
+
+        if ($this->currentPile) {
+            $sites = $this->currentPile
+                ->sites()
+                ->whereHas('lastDeployment', function ($query) {
+                    $query->whereIn('status', [
+                        SiteDeployment::RUNNING,
+                        SiteDeployment::QUEUED_FOR_DEPLOYMENT,
+                    ]);
+                })
+                ->get();
+
+            foreach ($sites as $site) {
+                $deploymentsRunning[$site->id][] = $site->lastDeployment;
+            }
+        }
+
+        return collect($deploymentsRunning);
     }
 }

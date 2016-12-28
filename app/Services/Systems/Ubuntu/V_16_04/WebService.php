@@ -51,21 +51,28 @@ class WebService
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_processes', "worker_processes $workerProcesses;");
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'worker_connections', "worker_connections $workerConnections;");
 
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip on;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 5;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_min_length', 'gzip_min_length 256;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip off', 'gzip off;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_vary', 'gzip_vary on;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_proxied', 'gzip_proxied any;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_comp_level', 'gzip_comp_level 6;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_buffers', 'gzip_buffers 16 8k;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_http_version', 'gzip_http_version 1.1;');
+        $this->remoteTaskService->removeLineByText('/etc/nginx/nginx.conf', 'gzip_min_length');
+        $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'gzip_http_version', 'gzip_min_length 256;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'gzip_types', 'gzip_types application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component;');
 
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
-        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', '# server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
+        $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', env('DH_PARAM'));
 
         $this->remoteTaskService->appendTextToFile('/etc/nginx/fastcgi_params', 'fastcgi_param HTTP_PROXY "";');
+
+        $this->remoteTaskService->run('service nginx stop');
+
+        \Log::info($this->remoteTaskService->run('nginx -c /etc/nginx/nginx.conf', true));
 
         $this->remoteTaskService->run('service nginx restart');
 
@@ -144,65 +151,46 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
         }
     }
 
-    /**
-     * @param $domain
-     *
-     * @return array
-     */
-    private function createWebServerSite($domain)
+    private function createWebServerSite($site)
     {
+        $domain = $site->domain;
         $this->connectToServer();
 
-        return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
+        $webserver = $this->getWebServer();
+
+        switch ($webserver) {
+            case 'Nginx':
+                $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
+
+                return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
 # codepier CONFIG (DO NOT REMOVE!)
 include '.self::NGINX_SERVER_FILES.'/'.$domain.'/before/*;
 
 server {
     include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
 
-    index index.html index.htm index.php;
-
     charset utf-8;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
+    
     location /.well-known/acme-challenge {
         alias /home/codepier/.well-known/acme-challenge;
     }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
+    
     access_log off;
     error_log  /var/log/nginx/'.$domain.'-error.log error;
-
+    
     sendfile off;
-
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-
-        fastcgi_intercept_errors off;
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-        fastcgi_connect_timeout 300;
-        fastcgi_send_timeout 300;
-        fastcgi_read_timeout 300;
-    }
-
+    
     location ~ /\.ht {
         deny all;
     }
+    '.$config.'
 }
 
 # codepier CONFIG (DO NOT REMOVE!)
 include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
 ');
+                break;
+        }
     }
 
     /**
@@ -218,7 +206,7 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/server");
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/after");
 
-        $this->createWebServerSite($site->domain);
+        $this->createWebServerSite($site);
         $this->updateWebServerConfig($site);
     }
 
@@ -231,5 +219,16 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
 
         $this->remoteTaskService->removeDirectory("/etc/nginx/sites-enabled/$site->domain");
         $this->remoteTaskService->removeDirectory(self::NGINX_SERVER_FILES."/$site->domain");
+    }
+
+    private function getWebServer()
+    {
+        $webServiceFeatures = $this->server->server_features['WebService'];
+
+        if (isset($webServiceFeatures['Nginx']['enabled']) && isset($webServiceFeatures['Nginx']['enabled']) == 1) {
+            return 'Nginx';
+        }
+
+        dd('we dont have apache setup yet');
     }
 }
