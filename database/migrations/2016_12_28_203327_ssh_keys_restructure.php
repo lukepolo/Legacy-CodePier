@@ -14,11 +14,11 @@ class SshKeysRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE ssh_keys LIKE site_ssh_keys;');
-        Schema::table('ssh_keys', function(Blueprint $table) {
+        Schema::table('ssh_keys', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('sshKeyables', function(Blueprint $table) {
+        Schema::create('sshKeyables', function (Blueprint $table) {
             $table->integer('ssh_key_id');
             $table->integer('sshKeyable_id');
             $table->string('sshKeyable_type');
@@ -28,9 +28,9 @@ class SshKeysRestructure extends Migration
         $records = DB::table('server_ssh_keys')->get();
 
         foreach ($records as $record) {
-            $server =\App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
 
-            if(!empty($server)) {
+            if (! empty($server)) {
                 unset($record->site_worker_id);
 
                 unset($record->id);
@@ -45,14 +45,13 @@ class SshKeysRestructure extends Migration
         $records = DB::table('site_ssh_keys')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
-
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $newRecord = \App\Models\SshKey::create((array)$record);
+                $newRecord = \App\Models\SshKey::create((array) $record);
 
                 $site->sshKeys()->save($newRecord);
             }

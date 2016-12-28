@@ -14,11 +14,11 @@ class FilesRestructure extends Migration
     public function up()
     {
         \DB::statement('CREATE TABLE files LIKE site_files;');
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('site_id');
         });
 
-        Schema::create('fileables', function(Blueprint $table) {
+        Schema::create('fileables', function (Blueprint $table) {
             $table->integer('file_id');
             $table->integer('fileable_id');
             $table->string('fileable_type');
@@ -28,13 +28,13 @@ class FilesRestructure extends Migration
         $records = DB::table('site_files')->get();
 
         foreach ($records as $record) {
-            $site =\App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
 
-            if(!empty($site)) {
+            if (! empty($site)) {
                 unset($record->id);
                 unset($record->site_id);
 
-                $file = \App\Models\File::create((array)$record);
+                $file = \App\Models\File::create((array) $record);
 
                 $site->files()->save($file);
             }
