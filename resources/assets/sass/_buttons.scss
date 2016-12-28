@@ -32,6 +32,12 @@
     + .btn {
         margin-left: 15px;
     }
+
+    p {
+        font-size: 15px;
+        font-weight: 300;
+        text-transform: none;
+    }
 }
     
 .btn-primary { 
@@ -57,6 +63,8 @@
     background-color: transparent;
     margin: $jcf-form-padding (-$jcf-form-padding) (-$jcf-form-padding);
     padding: ($jcf-form-padding/2) $jcf-form-padding;
+
+
 }
 
 
