@@ -119,7 +119,7 @@ class PHP
 
         $this->connectToServer();
 
-        $tempVersion =$version = $this->getPhpVersion();
+        $tempVersion = $version = $this->getPhpVersion();
 
         if ($version == '7.0') {
             $tempVersion = '';
