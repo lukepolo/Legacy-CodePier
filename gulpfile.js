@@ -75,8 +75,9 @@ elixir((mix) => {
             paths.jquery_cron + 'jquery-cron-min.js'
         ])
         .version([
-            paths.css_public + "app.css",
-            paths.js_public + "all.js"
+            paths.css_public + 'app.css',
+            paths.js_public + 'all.js',
+            paths.js_public + 'app.js',
         ])
         .webpack('app.js')
         .browserSync({
