@@ -55,6 +55,12 @@
     padding: 5px 10px;
 }
 
+.btn-disabled {
+    background-color: mix($gray, $white, 80%);
+    color: mix($gray, $white, 60%) !important;
+    pointer-events: none;
+}
+
 // BUTTON FOOTER STYLES ------------------------------------
 // ---------------------------------------------------------
 .btn-footer {
