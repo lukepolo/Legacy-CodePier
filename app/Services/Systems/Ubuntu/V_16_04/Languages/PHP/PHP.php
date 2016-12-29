@@ -102,6 +102,7 @@ class PHP
             php'.$installVersion.'-soap \
             php'.$installVersion.'-intl \
             php'.$installVersion.'-readline \
+            php'.$installVersion.'-mongo \
         ');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
