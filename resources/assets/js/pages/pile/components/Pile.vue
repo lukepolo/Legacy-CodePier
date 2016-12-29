@@ -10,19 +10,16 @@
                 </template>
             </h4>
         </div>
+
         <template v-if="pile.sites">
             <div class="group-content">
                 <h4>Sites</h4>
-                <div class="site-list" v-for="site in pile.sites">
-                    <a class="site">
-                        <div class="site-name">
-                            <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
-                                <div class="site-name">
-                                    {{ site.name }}
-                                </div>
-                            </router-link>
+                <div class="group-list">
+                    <router-link class="item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites">
+                        <div class="item-name">
+                            {{ site.name }}
                         </div>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </template>
