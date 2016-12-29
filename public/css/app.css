@@ -5276,6 +5276,88 @@ footer {
   pointer-events: none;
 }
 
+#nprogress .bar {
+  height: 3px !important;
+}
+
+#nprogress .spinner {
+  top: 23px !important;
+  right: 12px !important;
+  height: 18px !important;
+  width: 18px !important;
+  border-width: 9px !important;
+}
+
+#nprogress .spinner .spinner-icon {
+  display: none;
+}
+
+.confirm-container {
+  display: inline-block;
+  margin-right: 20px;
+  position: relative;
+}
+
+.confirm-dialog {
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  position: absolute;
+  bottom: 55px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 400px;
+  background-color: #3C3F41;
+  border: 1px solid #343536;
+  border-radius: 3px;
+}
+
+.confirm-dialog:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 10px solid #3C3F41;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom: none;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: -10px;
+  z-index: 2;
+}
+
+.confirm-dialog:after {
+  content: '';
+  width: 10px;
+  height: 11px;
+  border: 10px solid #343536;
+  border-bottom-width: 11px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom: none;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: -12px;
+}
+
+.confirm-dialog .btn-footer {
+  border-top: 1px solid #2B2B2B;
+  margin: 0px;
+  padding: 10px;
+}
+
+.confirm-header {
+  border-bottom: 1px solid #2B2B2B;
+  padding: 10px;
+}
+
+.confirm-content {
+  padding: 10px 20px;
+}
+
 .card, .jcf-form-wrap {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
 }
@@ -5645,7 +5727,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   /* Internet Explorer 5.5+ */
 }
 
-.event-details .icon-spinner {
+.event-details .icon-spinner, .event-details #nprogress .spinner, #nprogress .event-details .spinner {
   margin-right: 20px;
 }
 
@@ -5696,6 +5778,12 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   margin-left: 15px;
 }
 
+.btn p {
+  font-size: 15px;
+  font-weight: 300;
+  text-transform: none;
+}
+
 .btn-primary {
   background-color: #48ACF0;
   color: #FFFFFF !important;
@@ -5709,6 +5797,12 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 .btn-small {
   font-size: 14px;
   padding: 5px 10px;
+}
+
+.btn-disabled {
+  background-color: #636567;
+  color: #8a8c8d !important;
+  pointer-events: none;
 }
 
 .btn-footer {
@@ -5745,7 +5839,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-spinner {
+.icon-spinner, #nprogress .spinner {
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -5912,6 +6006,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .section-content {
@@ -5949,33 +6044,33 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding-right: 1.4em;
 }
 
-.server {
+.group-list .item:last-child {
+  border: none;
+}
+
+.item {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative;
 }
 
-.server.selected {
+.item.selected {
   background-color: #343536;
 }
 
-.server-name {
+.item-name {
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: 5px;
   padding-right: 1.4em;
 }
 
-.server-list .server:last-child {
-  border: none;
-}
-
-a.server:hover {
+a.item:hover {
   cursor: pointer;
 }
 
-a.server:hover:before {
+a.item:hover:before {
   content: '\f105';
   font-family: 'icomoon';
   font-size: 2em;
@@ -6108,6 +6203,13 @@ a.server:hover:before {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1024px) {
+  .group {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+  }
 }
 
 .login-wrap {
@@ -6430,7 +6532,7 @@ a.server:hover:before {
   right: 10px;
   top: 100px;
   width: 350px;
-  z-index: 1;
+  z-index: 10;
   background-color: #2B2B2B;
 }
 
