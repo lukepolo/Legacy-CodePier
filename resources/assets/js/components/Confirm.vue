@@ -64,7 +64,7 @@
                 return 'Cancel';
             },
             confirmText() {
-                return this.confirm_text ? this.confirm_text : 'Are you sure?';
+                return this.confirm_text ? this.confirm_text : 'Confirm';
             },
             textConfirmed() {
                 if(this.confirm_with_text) {
