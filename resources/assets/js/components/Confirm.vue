@@ -14,7 +14,7 @@
             <span v-show="confirm">
                 <div class="confirm-dialog">
                     <template v-if="confirm_with_text">
-                        <h4 class="confirm-header">{{ confirmText }}</h4>
+                        <h4 class="confirm-header">Are you sure?</h4>
                         <div class="confirm-content">
                             <p>Please confirm by typing in: {{ confirm_with_text }}</p>
                             <div class="jcf-input-group">
