@@ -57,7 +57,8 @@
                         this.$refs.confirm_input.focus();
                     }
                 });
-            }
+            },
+
         },
         computed: {
             cancelText() {
@@ -89,7 +90,7 @@
                     this.$store.dispatch(this.dispatch, this.params);
                     this.close();
                 }
-            },
+            }
         },
     }
 </script>
