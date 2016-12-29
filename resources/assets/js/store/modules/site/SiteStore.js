@@ -251,8 +251,7 @@ export default {
             state.site_servers = servers;
         },
         REMOVE_SERVER_FROM_SITE_SERVERS : (state, server_id) => {
-            alert(server.id);
-            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id : server.id}));
+            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id :server_id}));
         },
         SET_DEPLOYMENT_STEPS : (state, deployment_steps) => {
             state.deployment_steps = deployment_steps;

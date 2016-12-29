@@ -46,6 +46,7 @@
                 this.$store.state.pilesStore.piles.push({
                     name: 'New Pile',
                     editing: true
+                    // TODO jf - when you click edit - auto focus on the heading input text
                 });
             }
         }
