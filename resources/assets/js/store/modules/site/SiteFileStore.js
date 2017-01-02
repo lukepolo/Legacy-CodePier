@@ -45,7 +45,6 @@ export default {
             }), {
                 file_path: data.file,
                 content: data.content,
-                servers: data.servers,
             }).then((response) => {
 
             }, (errors) => {

@@ -17,7 +17,7 @@
                 </form>
             </div>
 
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)"></site-file>
+            <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>

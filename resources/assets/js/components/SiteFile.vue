@@ -16,7 +16,7 @@
         </div>
 
         <div v-file-editor class="editor"></div>
-        <server-selector :servers="servers" :param="selected_servers"></server-selector>
+
         <div class="btn-footer">
             <template v-if="running">
                 {{ running.status }}
@@ -27,12 +27,8 @@
 </template>
 
 <script>
-    import ServerSelector from './ServerSelector.vue';
     export default {
-        props: ['site', 'servers', 'file', 'running'],
-        components: {
-            ServerSelector
-        },
+        props: ['site', 'file', 'running'],
         created() {
             this.fetchData();
         },
@@ -40,7 +36,6 @@
             return {
                 file_model: null,
                 reload_server : null,
-                selected_servers: _.map(this.site.servers, 'id'),
             }
         },
         watch: {
@@ -51,7 +46,6 @@
                         ace.edit(editor).setValue(this.file_model.unencrypted_content);
                         ace.edit(editor).clearSelection(1);
                     }
-
                 }
             },
             watch: {
@@ -65,8 +59,6 @@
                     site: this.site.id,
                     content: this.getContent(),
                     file_id: this.file_model.id,
-                    servers: this.selected_servers,
-
                 });
             },
             fetchData() {

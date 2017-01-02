@@ -2,7 +2,7 @@
     <div>
         <h3>Framework Files</h3>
         <template v-if="possibleFiles && site">
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
+            <site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>

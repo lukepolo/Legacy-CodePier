@@ -112,8 +112,8 @@ class SiteFileController extends Controller
 
         $file->content = $this->serverService->getFile($server, $file->file_path);
 
-//        save_without_events($file);
-//
+        save_without_events($file);
+
         return response()->json($file);
     }
 }
