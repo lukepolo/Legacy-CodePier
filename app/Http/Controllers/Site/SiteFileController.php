@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Models\Site\SiteFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteFileRequest;
@@ -97,15 +97,15 @@ class SiteFileController extends Controller
     }
 
     /**
-     * Reloads a file from a server
+     * Reloads a file from a server.
      *
      * @param $siteId
      * @param $fileId
      * @param $serverId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reloadFile($siteId, $fileId, $serverId) {
-
+    public function reloadFile($siteId, $fileId, $serverId)
+    {
         $file = SiteFile::where('site_id', $siteId)->findOrFail($fileId);
 
         $server = Server::findOrFail($serverId);
