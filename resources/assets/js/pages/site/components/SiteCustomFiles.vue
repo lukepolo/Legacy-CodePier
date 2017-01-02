@@ -2,7 +2,22 @@
     <div>
         <h3>Custom Files</h3>
         <template v-if="site">
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in siteFiles" :running="isRunningCommandFor(file)"></site-file>
+            <div class="jcf-form-wrap">
+                <form @submit.prevent="addCustomFile" class="floating-labels">
+                    <div class="jcf-input-group">
+                        <input type="text" name="file" v-model="form.file">
+                        <label for="file">
+                            <span class="float-label">File</span>
+                        </label>
+                    </div>
+
+                    <div class="btn-footer">
+                        <button class="btn btn-primary" type="submit">Add Custom File</button>
+                    </div>
+                </form>
+            </div>
+
+            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>
@@ -10,6 +25,13 @@
 <script>
     import SiteFile from './../../../components/SiteFile.vue';
     export default {
+        data() {
+            return {
+                form : {
+                    file : ''
+                }
+            }
+        },
         components : {
           SiteFile
         },
@@ -23,7 +45,14 @@
                 }
 
                 return false;
-            }
+            },
+            addCustomFile() {
+                this.$store.dispatch('findSiteFile', {
+                    custom : true,
+                    file : this.form.file,
+                    site : this.$route.params.site_id
+                });
+            },
         },
         computed: {
             runningCommands() {
@@ -32,8 +61,9 @@
             site() {
                 return this.$store.state.sitesStore.site;
             },
-            siteFiles() {
-                return _.filter(this.$store.state.sitesStore.site_files, function(file) {
+            customSiteFiles() {
+                return _.filter(this.$store.state.siteFilesStore.site_files, function(file) {
+                    console.info(file.custom);
                     return file.custom;
                 });
             }

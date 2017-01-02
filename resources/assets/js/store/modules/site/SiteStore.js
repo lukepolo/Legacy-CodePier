@@ -3,10 +3,8 @@ export default {
         sites: [],
         site: null,
         all_sites: [],
-        site_files : [],
         site_servers: [],
         deployment_steps: [],
-        site_editable_files :[],
         sites_listening_to : [],
         running_deployments : [],
         site_deployment_steps: [],
@@ -39,20 +37,6 @@ export default {
                 commit('SET_ALL_SITES', response.data);
 
                 return response.data;
-            }, (errors) => {
-                app.handleApiError(errors);
-            });
-        },
-        getSiteFiles : ({commit}, site) => {
-            Vue.http.get(Vue.action('Site\SiteFileController@index', {site: site})).then((response) => {
-                commit('SET_SITE_FILES', response.data);
-            }, (errors) => {
-                app.handleApiError(errors);
-            });
-        },
-        getEditableFiles: ({commit}, site) => {
-            Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', {site: site})).then((response) => {
-                commit('SET_EDITABLE_SITE_FILES', response.data);
             }, (errors) => {
                 app.handleApiError(errors);
             });
@@ -133,19 +117,6 @@ export default {
         updateLinkedServers: ({commit, dispatch}, data) => {
             Vue.http.post(Vue.action('Site\SiteServerController@store', {site: data.site}), data).then((response) => {
                 dispatch('getSiteServers', data.site);
-            });
-        },
-        saveSiteFile: ({commit}, data) => {
-            Vue.http.post(Vue.action('Site\SiteFileController@store', {
-                site: data.site
-            }), {
-                file_path: data.file,
-                content: data.content,
-                servers: data.servers,
-            }).then((response) => {
-
-            }, (errors) => {
-                app.handleApiError(errors);
             });
         },
         getDeploymentSteps: ({commit}, site) => {
@@ -237,12 +208,6 @@ export default {
         },
         SET_SITES: (state, sites) => {
             state.sites = sites;
-        },
-        SET_SITE_FILES: (state, files) => {
-            state.site_files = files;
-        },
-        SET_EDITABLE_SITE_FILES : (state, files) => {
-            state.site_editable_files = files;
         },
         SET_ALL_SITES : (state, sites) => {
             state.all_sites = sites;

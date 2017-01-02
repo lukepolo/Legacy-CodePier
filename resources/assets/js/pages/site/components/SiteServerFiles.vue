@@ -43,10 +43,10 @@
                 return this.$store.state.sitesStore.site;
             },
             possibleFiles() {
-                return this.$store.state.sitesStore.site_editable_files;
+                return this.$store.state.siteFilesStore.site_editable_files;
             },
             siteFiles() {
-                return this.$store.state.sitesStore.site_files;
+                return this.$store.state.siteFilesStore.site_files;
             }
         },
     }

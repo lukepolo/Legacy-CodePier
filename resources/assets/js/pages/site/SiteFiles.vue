@@ -1,8 +1,8 @@
 <template>
     <div v-if="site">
+        <custom-files></custom-files>
         <framework-files v-if="site.framework"></framework-files>
         <server-files></server-files>
-        <custom-files></custom-files>
     </div>
 </template>
 
