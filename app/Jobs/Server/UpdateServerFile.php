@@ -41,10 +41,9 @@ class UpdateServerFile implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-
             $user = 'root';
 
-            if(str_contains($this->siteFile->file_path, '~/') || str_contains($this->siteFile->file_path, 'codepier')) {
+            if (str_contains($this->siteFile->file_path, '~/') || str_contains($this->siteFile->file_path, 'codepier')) {
                 $user = 'codepier';
             }
 
