@@ -51,6 +51,8 @@
                     custom : true,
                     file : this.form.file,
                     site : this.$route.params.site_id
+                }).then(() => {
+                    this.form.file = '';
                 });
             },
         },
@@ -63,7 +65,6 @@
             },
             customSiteFiles() {
                 return _.filter(this.$store.state.siteFilesStore.site_files, function(file) {
-                    console.info(file.custom);
                     return file.custom;
                 });
             }

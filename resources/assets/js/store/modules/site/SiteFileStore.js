@@ -26,13 +26,14 @@ export default {
             });
         },
         findSiteFile : ({commit}, data) => {
-            Vue.http.post(Vue.action('Site\SiteFileController@find', {
+            return Vue.http.post(Vue.action('Site\SiteFileController@find', {
                 site: data.site,
             }), {
                 file: data.file,
                 custom : data.custom ? data.custom : false
             }).then((response) => {
                 commit('ADD_SITE_FILE', response.data)
+                return response.data;
             }, (errors) => {
                 app.showError(errors);
             });
