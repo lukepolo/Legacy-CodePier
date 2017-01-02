@@ -2,7 +2,7 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="createKey" class="floating-labels">
-                <h3>Site Cron Jobs</h3>
+                <h3>Site SSH Keys</h3>
 
                 <div class="jcf-input-group">
                     <input type="text" name="name" v-model="form.name">
