@@ -52,6 +52,18 @@ export default {
                 app.handleApiError(errors);
             });
         },
+        reloadSiteFile: ({commit}, data) => {
+            console.info(data);
+            Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
+                site: data.site,
+                file: data.file,
+                server : data.server
+            })).then((response) => {
+                commit('UPDATE_SITE_FILE', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
+        }
     },
     mutations: {
         SET_SITE_FILES: (state, files) => {
@@ -59,6 +71,9 @@ export default {
         },
         ADD_SITE_FILE: (state, file) => {
             state.site_files.push(file);
+        },
+        UPDATE_SITE_FILE : (state, file) => {
+            Vue.set(state.site_files[_.findKey(state.site_files, { id : file.id })], 'unencrypted_content', file.unencrypted_content);
         },
         SET_EDITABLE_SITE_FILES : (state, files) => {
             state.site_editable_files = files;
