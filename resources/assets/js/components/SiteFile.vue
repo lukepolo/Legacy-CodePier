@@ -30,9 +30,12 @@
         },
         watch: {
             'file_model'() {
-                let editor = $(this.$el).find('.editor')[0];
-                ace.edit(editor).setValue(this.file_model.unencrypted_content);
-                ace.edit(editor).clearSelection(1);
+                if(_.isObject(this.file_model)) {
+                    let editor = $(this.$el).find('.editor')[0];
+                    ace.edit(editor).setValue(this.file_model.unencrypted_content);
+                    ace.edit(editor).clearSelection(1);
+                }
+
             },
             watch: {
                 '$route': 'fetchData'
@@ -49,7 +52,13 @@
                     });
 
                     if(!this.file_model) {
-                        alert('we need to create a new file')
+                        this.$store.dispatch('findSiteFile', {
+                            custom : false,
+                            file : this.file,
+                            site : this.$route.params.site_id
+                        }).then((file) => {
+                            this.file_model = file;
+                        });
                     }
                 }
             },
