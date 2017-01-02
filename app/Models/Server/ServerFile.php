@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\FireEvents;
+use App\Traits\Encryptable;
 use App\Models\Server\Server;
 use App\Traits\ConnectedToUser;
-use App\Traits\Encryptable;
-use App\Traits\FireEvents;
 use Illuminate\Database\Eloquent\Model;
 
 class ServerFile extends Model
