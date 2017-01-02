@@ -24,7 +24,7 @@ class CreateServerFilesTable extends Migration
             $table->index(['server_id', 'custom']);
         });
 
-        Schema::table('site_files', function(Blueprint $table) {
+        Schema::table('site_files', function (Blueprint $table) {
             $table->integer('custom')->default(0);
 
             $table->index(['site_id', 'custom']);
@@ -40,7 +40,7 @@ class CreateServerFilesTable extends Migration
     {
         Schema::dropIfExists('server_files');
 
-        Schema::table('site_files', function(Blueprint $table) {
+        Schema::table('site_files', function (Blueprint $table) {
             $table->dropColumn('custom');
         });
     }
