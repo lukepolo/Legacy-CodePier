@@ -68,7 +68,7 @@ class SiteFileController extends Controller
                 'site_id' => $siteId,
                 'file_path' => $request->get('file'),
                 'content' => $servers->count() ? $this->serverService->getFile($servers->first(), $request->get('file')) : null,
-                'custom' => $request->get('custom', false)
+                'custom' => $request->get('custom', false),
             ]);
 
             save_without_events($file);
