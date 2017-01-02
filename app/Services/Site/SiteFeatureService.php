@@ -52,7 +52,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
         $files = collect($files);
 
-        if(!empty($site->server_features)) {
+        if (! empty($site->server_features)) {
             foreach ($site->server_features as $service => $features) {
                 if (isset($site->server_features[$service])) {
                     foreach ($features as $feature => $params) {
