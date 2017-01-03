@@ -52,13 +52,15 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
         $files = collect($files);
 
-        foreach ($site->server_features as $service => $features) {
-            if (isset($site->server_features[$service])) {
-                foreach ($features as $feature => $params) {
-                    if ($files->has($feature)) {
-                        $editableFiles = $editableFiles->merge(
-                            $this->checkIfNeedsVersion($files->get($feature), $site->server_features[$service][$feature]['parameters'])
-                        );
+        if (! empty($site->server_features)) {
+            foreach ($site->server_features as $service => $features) {
+                if (isset($site->server_features[$service])) {
+                    foreach ($features as $feature => $params) {
+                        if ($files->has($feature)) {
+                            $editableFiles = $editableFiles->merge(
+                                $this->checkIfNeedsVersion($files->get($feature), $site->server_features[$service][$feature]['parameters'])
+                            );
+                        }
                     }
                 }
             }

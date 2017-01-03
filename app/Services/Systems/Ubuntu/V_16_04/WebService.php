@@ -100,11 +100,9 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
         $this->remoteTaskService->ssh($this->server);
 
-        if ($site->hasActiveSSL()) {
-            $activeSsl = $this->server->activeSslCertificates->first(function ($sslCert) use ($site) {
-                return $site->activeSSL->id == $sslCert->site_ssl_certificate_id;
-            });
-
+        if ($site->hasActiveSSL() && ! empty($activeSsl = $this->server->activeSslCertificates->first(function ($sslCert) use ($site) {
+            return $site->activeSSL->id == $sslCert->site_ssl_certificate_id;
+        }))) {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
