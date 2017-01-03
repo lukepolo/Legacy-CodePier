@@ -1,8 +1,22 @@
 <template>
     <form @submit.prevent="saveFile()">
-        {{ file }}
+        {{ filePath }}
+        <div class="jcf-form-wrap">
+            <form>
+                <div class="jcf-input-group">
+                    <div class="input-question">Select a server</div>
+                    <div class="select-wrap">
+                        <select name="server" v-model="reload_server">
+                            <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip }}</option>
+                        </select>
+                    </div>
+                </div>
+                <a @click="reloadFile" class="btn btn-xs">Reload File From Selected Server</a>
+            </form>
+        </div>
+
         <div v-file-editor class="editor"></div>
-        <server-selector :servers="servers" :param="selected_servers"></server-selector>
+
         <div class="btn-footer">
             <template v-if="running">
                 {{ running.status }}
@@ -13,66 +27,93 @@
 </template>
 
 <script>
-    import ServerSelector from './ServerSelector.vue';
     export default {
-        props: ['site', 'servers', 'file', 'running'],
-        components: {
-            ServerSelector
-        },
+        props: ['site', 'file', 'running'],
         created() {
             this.fetchData();
         },
         data() {
             return {
-                content: null,
                 file_model: null,
-                selected_servers: _.map(this.site.servers, 'id'),
+                reload_server : null,
             }
         },
         watch: {
-            'content'() {
-                ace.edit($(this.$el).find('.editor')[0]).setValue(this.content);
-                ace.edit($('.editor')[0]).clearSelection(1);
+            'file_model.unencrypted_content'() {
+                if(_.isObject(this.file_model)) {
+                    let editor = $(this.$el).find('.editor')[0];
+                    if(this.file_model.unencrypted_content) {
+                        ace.edit(editor).setValue(this.file_model.unencrypted_content);
+                        ace.edit(editor).clearSelection(1);
+                    }
+                }
             },
             watch: {
                 '$route': 'fetchData'
             }
         },
         methods: {
-            fetchData() {
-                Vue.http.post(laroute.action('Site\SiteFileController@find', {
-                    site: this.site.id,
-                }), {
+            saveFile() {
+                this.$store.dispatch('updateSiteFile', {
                     file: this.file,
-                }).then((response) => {
-                    this.file_model = response.data;
-                    this.content = this.file_model.unencrypted_content;
-                }, (errors) => {
-                    app.showError(errors);
+                    site: this.site.id,
+                    content: this.getContent(),
+                    file_id: this.file_model.id,
                 });
             },
-            saveFile() {
-                if (this.file_model) {
-                    this.$store.dispatch('updateSiteFile', {
-                        file: this.file,
-                        site: this.site.id,
-                        content: this.getContent(),
-                        file_id: this.file_model.id,
-                        servers: this.selected_servers,
+            fetchData() {
 
+                this.file_model = this.file;
+
+                if(!_.isObject(this.file_model)) {
+                    this.file_model = _.find(this.siteFiles, (file) => {
+                        return this.file_model ==  file.file_path;
                     });
-                } else {
-                    this.$store.dispatch('saveSiteFile', {
-                        file: this.file,
-                        site: this.site.id,
-                        content: this.getContent(),
-                        servers: this.selected_servers,
-                    });
+
+                    if(!this.file_model) {
+                        this.$store.dispatch('findSiteFile', {
+                            custom : false,
+                            file : this.file,
+                            site : this.$route.params.site_id
+                        }).then((file) => {
+                            this.file_model = file;
+                        });
+                    }
                 }
-
+            },
+            reloadFile() {
+                this.$store.dispatch('reloadSiteFile', {
+                    file : this.file_model.id,
+                    server : this.reload_server,
+                    site : this.$route.params.site_id,
+                })
             },
             getContent() {
                 return ace.edit($(this.$el).find('.editor')[0]).getValue();
+            },
+        },
+        computed : {
+            site_servers() {
+                let site_servers = this.$store.state.sitesStore.site_servers;
+
+                if(site_servers) {
+                    let server = _.first(site_servers);
+                    if(server) {
+                        this.reload_server = server.id;
+                    }
+                }
+
+                return site_servers;
+            },
+            filePath() {
+              if(_.isObject(this.file)) {
+                  return this.file.file_path;
+              }
+
+              return this.file;
+            },
+            siteFiles() {
+                return this.$store.state.siteFilesStore.site_files;
             }
         }
     }

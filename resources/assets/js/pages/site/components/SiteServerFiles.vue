@@ -2,7 +2,7 @@
     <div>
         <h3>Server Files</h3>
         <template v-if="possibleFiles && site">
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
+            <site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>
@@ -43,10 +43,10 @@
                 return this.$store.state.sitesStore.site;
             },
             possibleFiles() {
-                return this.$store.state.sitesStore.site_editable_files;
+                return this.$store.state.siteFilesStore.site_editable_files;
             },
             siteFiles() {
-                return this.$store.state.sitesStore.site_files;
+                return this.$store.state.siteFilesStore.site_files;
             }
         },
     }

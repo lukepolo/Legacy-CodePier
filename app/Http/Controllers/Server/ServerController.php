@@ -66,7 +66,6 @@ class ServerController extends Controller
             'status' => 'Queued For Creation',
             'progress' => '0',
             'options' => $request->only([
-                'services',
                 'server_region',
                 'server_option',
             ]),

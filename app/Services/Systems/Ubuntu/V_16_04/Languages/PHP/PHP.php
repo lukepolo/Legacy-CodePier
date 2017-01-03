@@ -85,23 +85,24 @@ class PHP
                 break;
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y 
-            php'.$installVersion.'-cli 
-            php'.$installVersion.'-dev
-            php'.$installVersion.'-pgsql 
-            php'.$installVersion.'-sqlite3 
-            php'.$installVersion.'-gd 
-            php'.$installVersion.'-curl 
-            php'.$installVersion.'-memcached 
-            php'.$installVersion.'-imap 
-            php'.$installVersion.'-mysql 
-            php'.$installVersion.'-mbstring 
-            php'.$installVersion.'-xml 
-            php'.$installVersion.'-zip 
-            php'.$installVersion.'-bcmath 
-            php'.$installVersion.'-soap 
-            php'.$installVersion.'-intl 
-            php'.$installVersion.'-readline 
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            php'.$installVersion.'-cli \
+            php'.$installVersion.'-dev \
+            php'.$installVersion.'-pgsql \
+            php'.$installVersion.'-sqlite3 \
+            php'.$installVersion.'-gd \
+            php'.$installVersion.'-curl \
+            php'.$installVersion.'-memcached \
+            php'.$installVersion.'-imap \
+            php'.$installVersion.'-mysql \
+            php'.$installVersion.'-mbstring \
+            php'.$installVersion.'-xml \
+            php'.$installVersion.'-zip \
+            php'.$installVersion.'-bcmath \
+            php'.$installVersion.'-soap \
+            php'.$installVersion.'-intl \
+            php'.$installVersion.'-readline \
+            php'.$installVersion.'-mongo \
         ');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
@@ -119,7 +120,7 @@ class PHP
 
         $this->connectToServer();
 
-        $tempVersion = $this->getPhpVersion();
+        $tempVersion = $version = $this->getPhpVersion();
 
         if ($version == '7.0') {
             $tempVersion = '';

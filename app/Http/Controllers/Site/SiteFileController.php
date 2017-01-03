@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Models\Site\SiteFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteFileRequest;
@@ -33,24 +34,6 @@ class SiteFileController extends Controller
     {
         return response()->json(
             SiteFile::where('site_id', $siteId)->get()
-        );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param SiteFileRequest $request
-     * @param $siteId
-     * @return \Illuminate\Http\Response
-     */
-    public function store(SiteFileRequest $request, $siteId)
-    {
-        return response()->json(
-            SiteFile::create([
-                'site_id' => $siteId,
-                'file_path' => $request->get('file_path'),
-                'content' => $request->get('content'),
-            ])
         );
     }
 
@@ -86,6 +69,7 @@ class SiteFileController extends Controller
                 'site_id' => $siteId,
                 'file_path' => $request->get('file'),
                 'content' => $servers->count() ? $this->serverService->getFile($servers->first(), $request->get('file')) : null,
+                'custom' => $request->get('custom', false),
             ]);
 
             save_without_events($file);
@@ -110,5 +94,26 @@ class SiteFileController extends Controller
                 'content' => $request->get('content'),
             ])
         );
+    }
+
+    /**
+     * Reloads a file from a server.
+     *
+     * @param $siteId
+     * @param $fileId
+     * @param $serverId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reloadFile($siteId, $fileId, $serverId)
+    {
+        $file = SiteFile::where('site_id', $siteId)->findOrFail($fileId);
+
+        $server = Server::findOrFail($serverId);
+
+        $file->content = $this->serverService->getFile($server, $file->file_path);
+
+        save_without_events($file);
+
+        return response()->json($file);
     }
 }

@@ -48,10 +48,8 @@ class ServerSshConnectionFailed implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
-        unset($this->server->server_features);
-
         return [
-            'server' => strip_relations($this->server),
+            'server' => $this->server->stripForBroadcast(),
         ];
     }
 }

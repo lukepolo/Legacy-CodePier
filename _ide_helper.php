@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.28 on 2016-12-23.
+ * Generated for Laravel 5.3.28 on 2016-12-30.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -903,6 +903,18 @@ if (! function_exists('with')) {
 }
 
 
+if (! function_exists('current_version')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @return mixed
+     */
+    function current_version()
+    {
+        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
+    }
+}
+
 if (! function_exists('strip_relations')) {
 
     /**
@@ -917,18 +929,6 @@ if (! function_exists('strip_relations')) {
         }
 
         return $model;
-    }
-}
-
-if (! function_exists('current_version')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @return mixed
-     */
-    function current_version()
-    {
-        return exec('git --git-dir '.base_path().'/.git rev-parse --short HEAD');
     }
 }
 
@@ -950,6 +950,16 @@ if (! function_exists('save_without_events')) {
         $model->addObservableEvents($observables);
 
         return $model;
+    }
+}
+
+if (! function_exists('create_sytem_service')) {
+    function create_system_service($service, \App\Models\Server\Server $server)
+    {
+        /** @var \App\Services\Systems\SystemService $systemService */
+        $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
+
+        return $systemService->createSystemService($service, $server);
     }
 }
 

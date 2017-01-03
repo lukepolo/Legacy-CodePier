@@ -227,4 +227,12 @@ class Server extends Model
     {
         return $this->morphOne(SlackChannel::class, 'slackable');
     }
+
+    public function stripForBroadcast()
+    {
+        unset($this->options);
+        unset($this->server_features);
+
+        return strip_relations($this);
+    }
 }

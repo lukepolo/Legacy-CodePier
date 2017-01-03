@@ -2,7 +2,7 @@
     <div>
         <h3>Framework Files</h3>
         <template v-if="possibleFiles && site">
-            <site-file :site="site" :servers="site.servers" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
+            <site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>
@@ -22,7 +22,6 @@
         methods: {
             fetchData() {
                 this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
-                this.$store.dispatch('getSiteFiles', this.$route.params.site_id);
                 this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
             },
             isRunningCommandFor(file) {
@@ -47,7 +46,7 @@
                 return this.$store.state.serversStore.editable_framework_files;
             },
             siteFiles() {
-                return this.$store.state.sitesStore.site_files;
+                return this.$store.state.siteFilesStore.site_files;
             }
         },
     }

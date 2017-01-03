@@ -32,6 +32,12 @@
     + .btn {
         margin-left: 15px;
     }
+
+    p {
+        font-size: 15px;
+        font-weight: 300;
+        text-transform: none;
+    }
 }
     
 .btn-primary { 
@@ -49,6 +55,12 @@
     padding: 5px 10px;
 }
 
+.btn-disabled {
+    background-color: mix($gray, $white, 80%);
+    color: mix($gray, $white, 60%) !important;
+    pointer-events: none;
+}
+
 // BUTTON FOOTER STYLES ------------------------------------
 // ---------------------------------------------------------
 .btn-footer {
@@ -57,6 +69,8 @@
     background-color: transparent;
     margin: $jcf-form-padding (-$jcf-form-padding) (-$jcf-form-padding);
     padding: ($jcf-form-padding/2) $jcf-form-padding;
+
+
 }
 
 
