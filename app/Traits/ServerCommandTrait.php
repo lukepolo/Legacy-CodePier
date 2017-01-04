@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Models\Server\Server;
 use Closure;
 use App\Models\Command;
+use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Exceptions\FailedCommand;
 use App\Classes\FailedRemoteResponse;
