@@ -60,7 +60,7 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function activeSSL()
+    public function activeSsl()
     {
         dd('active');
 //        return $this->hasOne(SiteSslCertificate::class)->where('active', true);

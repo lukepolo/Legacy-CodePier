@@ -6,12 +6,11 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class SiteCronJobCreated
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.
@@ -21,6 +20,8 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
+        $siteCommand = $this->makeCommand($site, $cronJob);
+
         foreach ($cronJob->site->provisionedServers as $server) {
             if (! $server->cronJobs
                 ->where('job', $cronJob->job)
@@ -28,7 +29,7 @@ class SiteCronJobCreated
                 ->count()
             ) {
                 dispatch(
-                    (new InstallServerCronJob($server, $cronJob, $this->makeCommand($site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
                 );
             }
         }

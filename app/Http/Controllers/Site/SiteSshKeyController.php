@@ -55,7 +55,7 @@ class SiteSshKeyController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('sshKeys')->findOrFail($siteId);
 
         event(new SiteSshKeyCreated($site, $site->sshKeys->get($id)));
 

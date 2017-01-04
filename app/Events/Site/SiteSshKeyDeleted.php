@@ -6,12 +6,11 @@ use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 use App\Models\Site\Site;
 use App\Models\SshKey;
 use App\Traits\ModelCommandTrait;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
 class SiteSshKeyDeleted
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.
@@ -22,9 +21,11 @@ class SiteSshKeyDeleted
      */
     public function __construct(Site $site, SshKey $sshKey)
     {
+        $siteCommand = $this->makeCommand($site, $sshKey);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new RemoveServerSshKey($server, $sshKey, $this->makeCommand($site, $sshKey)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RemoveServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
     }

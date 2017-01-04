@@ -7,11 +7,10 @@ use App\Models\Site\Site;
 use App\Models\SshKey;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteSshKeyCreated
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.
@@ -22,13 +21,15 @@ class SiteSshKeyCreated
      */
     public function __construct(Site $site, SshKey $sshKey)
     {
+        $siteCommand = $this->makeCommand($site, $sshKey);
+
         foreach ($site->provisionedServers as $server) {
             if (! $server->sshKeys
                 ->where('ssh_key', $sshKey->ssh_key)
                 ->count()
             ) {
                 dispatch(
-                    (new InstallServerSshKey($server, $sshKey, $this->makeCommand($site, $sshKey)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
                 );
             }
         }
