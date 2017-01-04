@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Site\SiteFileUpdated;
 use App\Models\File;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
@@ -74,8 +75,6 @@ class SiteFileController extends Controller
             ]);
 
             $site->files()->save($file);
-
-            $file->delete();
         }
 
         return response()->json($file);
@@ -92,11 +91,13 @@ class SiteFileController extends Controller
     {
         $file = Site::findOrFail($siteId)->get($id);
 
-        return response()->json(
-            $file->update([
-                'content' => $request->get('content'),
-            ])
-        );
+        $file->update([
+            'content' => $request->get('content'),
+        ]);
+
+        event(new SiteFileUpdated($file));
+
+        return response()->json($file);
     }
 
     /**

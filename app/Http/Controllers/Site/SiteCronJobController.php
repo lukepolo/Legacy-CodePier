@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Site\SiteCronJobCreated;
+use App\Events\Site\SiteCronJobDeleted;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
@@ -40,27 +42,9 @@ class SiteCronJobController extends Controller
 
         $site->cronJobs()->save($cronJob);
 
+        event(new SiteCronJobCreated($site, $cronJob));
+
         return response()->json($cronJob);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteCronJobRequest $request
-     * @param  int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SiteCronJobRequest $request, $siteId, $id)
-    {
-        $siteCronJob = Site::findOrFail($siteId)->get($id);
-
-        return response()->json(
-            $siteCronJob->update([
-                'job' => $request->get('job'),
-                'user' => $request->get('user'),
-            ])
-        );
     }
 
     /**
@@ -72,8 +56,10 @@ class SiteCronJobController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            Site::findOrFail($siteId)->get($id)->delete()
-        );
+        $site = Site::findOrFail($siteId);
+
+        event(new SiteCronJobDeleted($site, $site->cronJobs->get($id)));
+
+        return response()->json('OK');
     }
 }

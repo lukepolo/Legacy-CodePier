@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Server\Server;
 use Closure;
 use App\Models\Command;
 use App\Models\ServerCommand;
@@ -21,21 +22,15 @@ trait ServerCommandTrait
     /**
      * This must have a connected `server_id` attribute.
      *
+     * @param Server $server
      * @param Model $model
+     * @param Command $command
      */
-    public function makeCommand(Model $model)
+    public function makeCommand(Server $server, Model $model, Command $command = null)
     {
-        $command = null;
-
-        $hiddenAttributes = $model->getHidden();
-
-        if (isset($hiddenAttributes['command'])) {
-            $command = $hiddenAttributes['command'];
-        }
-
         if (empty($command)) {
             $command = Command::create([
-                'server_id' => $model->server_id,
+                'server_id' => $server->id,
                 'commandable_id' => $model->id,
                 'commandable_type' => get_class($model),
                 'status' => 'Queued',
@@ -43,7 +38,7 @@ trait ServerCommandTrait
         }
 
         $this->serverCommand = ServerCommand::create([
-            'server_id' => $model->server_id,
+            'server_id' => $server->id,
             'command_id' => $command->id,
         ]);
     }

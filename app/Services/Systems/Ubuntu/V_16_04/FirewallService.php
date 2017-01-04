@@ -2,7 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\Server\ServerFirewallRule;
+use App\Models\FirewallRule;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService
@@ -44,28 +44,28 @@ iptables -P INPUT DROP
         $this->rebuildFirewall();
     }
 
-    public function addFirewallRule(ServerFirewallRule $serverFirewallRule)
+    public function addFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        if (empty($serverFirewallRule->from_ip)) {
+        if (empty($firewallRule->from_ip)) {
             $this->remoteTaskService->findTextAndAppend(
                 '/opt/codepier/iptables',
                 '# DO NOT REMOVE - Custom Rules',
-                "iptables -A INPUT -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT"
+                "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT"
             );
         } else {
             $this->remoteTaskService->findTextAndAppend(
                 '/opt/codepier/iptables',
                 '# DO NOT REMOVE - Custom Rules',
-                "iptables -A INPUT -s $serverFirewallRule->from_ip -p tcp -m tcp --dport $serverFirewallRule->port -j ACCEPT"
+                "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT"
             );
         }
 
         return $this->rebuildFirewall();
     }
 
-    public function removeFirewallRule(ServerFirewallRule $firewallRule)
+    public function removeFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\File;
 use App\Models\Server\ServerNetworkRule;
 use App\Models\ServerCommand;
 use App\Models\Site\Site;
@@ -11,7 +10,6 @@ use App\Models\User\User;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
-use App\Observers\Site\SiteFileObserver;
 use App\Observers\Site\SiteObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
 
         Site::observe(SiteObserver::class);
-        File::observe(SiteFileObserver::class);
         ServerCommand::observe(ServerCommandObserver::class);
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);

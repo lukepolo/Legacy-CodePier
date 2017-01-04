@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Models\CronJob;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
@@ -323,26 +324,26 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerCronJob $serverCronJob
-     *
+     * @param Server $server
+     * @param CronJob $cronJob
      * @return array
      */
-    public function installCron(ServerCronJob $serverCronJob)
+    public function installCron(Server $server, CronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($serverCronJob->server, $serverCronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep '.$serverCronJob->job.') || ((crontab -l; echo "'.$serverCronJob->job.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->ssh($server, $cronJob->user);
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob->job.') || ((crontab -l; echo "'.$cronJob->job.' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * @param ServerCronJob $cronJob
-     *
+     * @param Server $server
+     * @param CronJob $cronJob
      * @return bool
      */
-    public function removeCron(ServerCronJob $cronJob)
+    public function removeCron(Server $server, CronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
+        $this->remoteTaskService->ssh($server, $cronJob->user);
         $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
 
         return $this->remoteTaskService->getErrors();
@@ -385,7 +386,7 @@ class ServerService implements ServerServiceContract
      * @param ServerSslCertificate $serverSslCertificate
      * @return array
      */
-    public function activateSslCertificate(ServerSslCertificate $serverSslCertificate)
+    public function activateSslCertificate(Server $server, ServerSslCertificate $serverSslCertificate)
     {
         $this->remoteTaskService->ssh($serverSslCertificate->server);
 
@@ -403,7 +404,7 @@ class ServerService implements ServerServiceContract
      * @param ServerSslCertificate $serverSslCertificate
      * @return array
      */
-    public function removeSslCertificate(ServerSslCertificate $serverSslCertificate)
+    public function removeSslCertificate(Server $server, ServerSslCertificate $serverSslCertificate)
     {
         $this->remoteTaskService->ssh($serverSslCertificate->server);
 
@@ -424,7 +425,7 @@ class ServerService implements ServerServiceContract
      * @param ServerSslCertificate $serverSslCertificate
      * @return array
      */
-    private function installLetsEncryptSsl(ServerSslCertificate $serverSslCertificate)
+    private function installLetsEncryptSsl(Server $server, ServerSslCertificate $serverSslCertificate)
     {
         $server = $serverSslCertificate->server;
 
