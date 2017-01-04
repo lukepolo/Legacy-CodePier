@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
-use App\Models\Server\ServerCronJob;
+use App\Models\CronJob;
+use App\Models\Server\Server;
 use App\Http\Requests\Server\ServerCronJobRequest;
 
 class ServerCronJobController extends Controller
@@ -18,7 +19,7 @@ class ServerCronJobController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerCronJob::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->cronJobs
         );
     }
 
@@ -31,13 +32,16 @@ class ServerCronJobController extends Controller
      */
     public function store(ServerCronJobRequest $request, $serverId)
     {
-        return response()->json(
-            ServerCronJob::create([
-                'server_id' => $serverId,
-                'job' => $request->get('cron_timing').' '.$request->get('cron'),
-                'user' => $request->get('user'),
-            ])
-        );
+        $server = Server::findOrFail($serverId);
+
+        $cronJob = CronJob::create([
+            'job' => $request->get('cron_timing').' '.$request->get('cron'),
+            'user' => $request->get('user'),
+        ]);
+
+        $server->cronJob()->save($cronJob);
+
+        return response()->json($cronJob);
     }
 
     /**
@@ -51,7 +55,7 @@ class ServerCronJobController extends Controller
     public function show($serverId, $id)
     {
         return response()->json(
-            ServerCronJob::where('server_id', $serverId->findOrFail($id))
+            Server::findOrFail($serverId)->cronJobs->get($id)
         );
     }
 
@@ -66,7 +70,7 @@ class ServerCronJobController extends Controller
     public function destroy($serverId, $id)
     {
         return response()->json(
-            ServerCronJob::where('server_id', $serverId)->findorFail($id)->delete()
+            Server::findOrFail($serverId)->cronJobs->get($id)->delete()
         );
     }
 }

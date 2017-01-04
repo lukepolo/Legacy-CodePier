@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\ServerSshKey;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerSshKeyRequest;
+use App\Models\SshKey;
 
 class ServerSshKeyController extends Controller
 {
@@ -18,7 +19,7 @@ class ServerSshKeyController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerSshKey::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->sshKeys
         );
     }
 
@@ -31,13 +32,16 @@ class ServerSshKeyController extends Controller
      */
     public function store(ServerSshKeyRequest $request, $serverId)
     {
-        return response()->json(
-            ServerSshKey::create([
-                'server_id' => $serverId,
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
-            ])
-        );
+        $server = Server::findOrFail($serverId);
+
+        $sshKey = SshKey::create([
+            'name'      => $request->get('name'),
+            'ssh_key'   => trim($request->get('ssh_key')),
+        ]);
+
+        $server->sshKeys()->save($sshKey);
+
+        return response()->json($sshKey);
     }
 
     /**
@@ -51,7 +55,7 @@ class ServerSshKeyController extends Controller
     public function show($serverId, $id)
     {
         return response()->json(
-            ServerSshKey::where('server_id', $serverId)->findOrFail($id)
+            Server::findOrFail($serverId)->get($id)
         );
     }
 
@@ -66,7 +70,7 @@ class ServerSshKeyController extends Controller
     public function destroy($serverId, $id)
     {
         return response()->json(
-            ServerSshKey::where('server_id', $serverId)->findOrFail($id)->delete()
+            Server::findOrFail($serverId)->get($id)->delete()
         );
     }
 }

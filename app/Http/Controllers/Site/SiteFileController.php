@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\File;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
-use App\Models\Site\SiteFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteFileRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -33,7 +33,7 @@ class SiteFileController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteFile::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->files
         );
     }
 
@@ -47,7 +47,7 @@ class SiteFileController extends Controller
     public function show($siteId, $fileId)
     {
         return response()->json(
-            SiteFile::where('site_id', $siteId)->findOrFail($fileId)
+            Site::findOrFail($siteId)->files->get($fileId)
         );
     }
 
@@ -58,21 +58,24 @@ class SiteFileController extends Controller
      */
     public function find(Request $request, $siteId)
     {
-        $file = SiteFile::where('site_id', $siteId)
+        $site = Site::findOrFail($siteId);
+
+        $file = $site->files
             ->where('file_path', $request->get('file'))
             ->first();
 
         if (empty($file)) {
             $servers = Site::with('servers')->findOrFail($siteId)->servers;
 
-            $file = new SiteFile([
-                'site_id' => $siteId,
+            $file = File::create([
                 'file_path' => $request->get('file'),
                 'content' => $servers->count() ? $this->serverService->getFile($servers->first(), $request->get('file')) : null,
                 'custom' => $request->get('custom', false),
             ]);
 
-            save_without_events($file);
+            $site->files()->save($file);
+
+            $file->delete();
         }
 
         return response()->json($file);
@@ -87,7 +90,7 @@ class SiteFileController extends Controller
      */
     public function update(SiteFileRequest $request, $siteId, $id)
     {
-        $file = SiteFile::where('site_id', $siteId)->findOrFail($id);
+        $file = Site::findOrFail($siteId)->get($id);
 
         return response()->json(
             $file->update([
@@ -106,7 +109,7 @@ class SiteFileController extends Controller
      */
     public function reloadFile($siteId, $fileId, $serverId)
     {
-        $file = SiteFile::where('site_id', $siteId)->findOrFail($fileId);
+        $file = $file = Site::findOrFail($siteId)->get($fileId);
 
         $server = Server::findOrFail($serverId);
 

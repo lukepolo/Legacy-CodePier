@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\CronJob;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -61,12 +62,13 @@ class Site extends Model
 
     public function activeSSL()
     {
-        return $this->hasOne(SiteSslCertificate::class)->where('active', true);
+        dd('active');
+//        return $this->hasOne(SiteSslCertificate::class)->where('active', true);
     }
 
     public function cronJobs()
     {
-        return $this->hasMany(SiteCronJob::class);
+        return $this->morphToMany(CronJob::class, 'cronjobable');
     }
 
     public function deployments()

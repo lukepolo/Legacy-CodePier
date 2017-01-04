@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Server;
 
 use App\Models\Server\Server;
-use App\Models\Server\ServerWorker;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerWorkerRequest;
+use App\Models\Worker;
 
 class ServerWorkerController extends Controller
 {
@@ -32,16 +32,19 @@ class ServerWorkerController extends Controller
      */
     public function store(ServerWorkerRequest $request, $serverId)
     {
-        return response()->json(
-            ServerWorker::create([
-                'server_id'         => $serverId,
-                'command'           => $request->get('command'),
-                'auto_start'        => $request->get('auto_start', 0),
-                'auto_restart'      => $request->get('auto_restart', 0),
-                'user'              => $request->get('user'),
-                'number_of_workers' => $request->get('number_of_workers'),
-            ])
-        );
+        $server = Server::findOrFail($serverId);
+
+        $worker =  Worker::create([
+            'user'              => $request->get('user'),
+            'command'           => $request->get('command'),
+            'auto_start'        => $request->get('auto_start', 0),
+            'auto_restart'      => $request->get('auto_restart', 0),
+            'number_of_workers' => $request->get('number_of_workers'),
+        ]);
+
+        $server->workers()->save($worker);
+
+        return response()->json($worker);
     }
 
     /**
@@ -55,7 +58,7 @@ class ServerWorkerController extends Controller
     public function show($serverId, $id)
     {
         return response()->json(
-            ServerWorker::where('server_id', $serverId)->findOrFail($id)
+            Server::findOrFail($serverId)->get($id)
         );
     }
 
@@ -70,7 +73,7 @@ class ServerWorkerController extends Controller
     public function destroy($serverId, $id)
     {
         return response()->json(
-           ServerWorker::where('server_id', $serverId)->findOrFail($id)->delete()
+            Server::findOrFail($serverId)->get($id)->delete()
        );
     }
 }

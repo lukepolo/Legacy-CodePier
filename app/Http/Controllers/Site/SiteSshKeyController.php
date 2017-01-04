@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteSshKey;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteSshKeyRequest;
+use App\Models\SshKey;
 
 class SiteSshKeyController extends Controller
 {
@@ -16,7 +17,7 @@ class SiteSshKeyController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteSshKey::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->sshKeys
         );
     }
 
@@ -29,13 +30,17 @@ class SiteSshKeyController extends Controller
      */
     public function store(SiteSshKeyRequest $request, $siteId)
     {
-        return response()->json(
-            SiteSshKey::create([
-                'site_id' => $siteId,
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
-            ])
-        );
+        $site = Site::findOrFail($siteId);
+
+        $sshKey = SshKey::create([
+            'site_id' => $siteId,
+            'name' => $request->get('name'),
+            'ssh_key' => trim($request->get('ssh_key')),
+        ]);
+
+        $site->sshKeys()->save($sshKey);
+
+        return response()->json($sshKey);
     }
 
     /**
@@ -48,7 +53,7 @@ class SiteSshKeyController extends Controller
     public function show($siteId, $id)
     {
         return response()->json(
-            SiteSshKey::where('site_id', $siteId)->findOrFail($id)
+            Site::findOrFail($siteId)->get($id)
         );
     }
 
@@ -62,12 +67,12 @@ class SiteSshKeyController extends Controller
      */
     public function update(SiteSshKeyRequest $request, $siteId, $id)
     {
-        $siteSshKey = SiteSshKey::where('site_id', $siteId)->findOrFail($id);
+        $siteSshKey = Site::findOrFail($siteId)->get($id);
 
         return response()->json(
             $siteSshKey->update([
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
+                'name' => $request->get('name'),
+                'ssh_key' => trim($request->get('ssh_key')),
             ])
         );
     }
@@ -82,7 +87,7 @@ class SiteSshKeyController extends Controller
     public function destroy($siteId, $id)
     {
         return response()->json(
-            SiteSshKey::where('site_id', $siteId)->findOrFail($id)->delete()
+            Site::findOrFail($siteId)->get($id)->delete()
         );
     }
 }
