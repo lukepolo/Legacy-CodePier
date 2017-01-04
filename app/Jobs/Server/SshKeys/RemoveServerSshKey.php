@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Server\SshKeys;
 
+use App\Models\SshKey;
 use App\Models\Command;
 use App\Models\Server\Server;
-use App\Models\SshKey;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
