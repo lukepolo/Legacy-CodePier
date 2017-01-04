@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteCronJobDeleted

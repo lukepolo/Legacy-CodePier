@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteCronJobCreated;
-use App\Events\Site\SiteCronJobDeleted;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
+use App\Events\Site\SiteCronJobCreated;
+use App\Events\Site\SiteCronJobDeleted;
 use App\Http\Requests\Site\SiteCronJobRequest;
 
 class SiteCronJobController extends Controller
