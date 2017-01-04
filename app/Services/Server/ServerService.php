@@ -3,6 +3,7 @@
 namespace App\Services\Server;
 
 use App\Models\CronJob;
+use App\Models\SshKey;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
@@ -284,11 +285,11 @@ class ServerService implements ServerServiceContract
      *
      * @return bool
      */
-    public function installSshKey(Server $server, $sshKey)
+    public function installSshKey(Server $server, SshKey $sshKey)
     {
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
+        $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey->ssh_key);
 
         return $this->remoteTaskService->getErrors();
     }
@@ -299,11 +300,11 @@ class ServerService implements ServerServiceContract
      *
      * @return bool
      */
-    public function removeSshKey(Server $server, $sshKey)
+    public function removeSshKey(Server $server, SshKey $sshKey)
     {
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
+        $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey->ssh_key);
 
         return $this->remoteTaskService->getErrors();
     }
