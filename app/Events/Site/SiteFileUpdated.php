@@ -2,9 +2,9 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\UpdateServerFile;
 use App\Models\File;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
@@ -23,6 +23,6 @@ class SiteFileUpdated
             dispatch(
                 (new UpdateServerFile($server, $file))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
-          }
+        }
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteFileUpdated;
 use App\Models\File;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
+use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteFileRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
