@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Site\Site;
 use App\Traits\FireEvents;
 use App\Traits\Encryptable;
-use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    use Encryptable, FireEvents, ConnectedToUser;
-
-    public static $userModel = 'fileable_type';
+    use Encryptable, FireEvents;
 
     protected $guarded = [
         'id',
@@ -28,14 +26,26 @@ class File extends Model
      */
     protected $appends = ['unencrypted_content'];
 
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getUnencryptedContentAttribute()
+    {
+        if (! empty($this->attributes['content'])) {
+            return decrypt($this->attributes['content']);
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Relations
     |--------------------------------------------------------------------------
     */
 
-    public function site()
+    public function sites()
     {
-        dd('TODO');
+        return $this->morphedByMany(Site::class, 'fileable');
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\Site\SiteFirewallRule;
+use App\Models\FirewallRule;
+use App\Models\Site\Site;
 use App\Http\Requests\Site\SiteFirewallRuleRequest;
 
 class SiteFirewallRuleController extends Controller
@@ -17,7 +18,7 @@ class SiteFirewallRuleController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteFirewallRule::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->firewallRules
         );
     }
 
@@ -30,14 +31,17 @@ class SiteFirewallRuleController extends Controller
      */
     public function store(SiteFirewallRuleRequest $request, $siteId)
     {
-        return response()->json(
-            SiteFirewallRule::create([
-                'site_id' => $siteId,
-                'port' => $request->get('port'),
-                'from_ip' => $request->get('from_ip', null),
-                'description' => $request->get('description'),
-            ])
-        );
+        $site = Site::findOrFail($siteId);
+
+        $firewallRule = FirewallRule::create([
+            'port' => $request->get('port'),
+            'from_ip' => $request->get('from_ip', null),
+            'description' => $request->get('description'),
+        ]);
+
+        $site->firewallRules()->save($firewallRule);
+
+        return response()->json($firewallRule);
     }
 
     /**
@@ -50,7 +54,7 @@ class SiteFirewallRuleController extends Controller
     public function show($siteId, $id)
     {
         return response()->json(
-            SiteFirewallRule::where('site_id', $siteId)->findOrFail($id)
+            Site::findOrFail($siteId)->get($id)
         );
     }
 
@@ -64,7 +68,7 @@ class SiteFirewallRuleController extends Controller
      */
     public function update(SiteFirewallRuleRequest $request, $siteId, $id)
     {
-        $siteFirewallRule = SiteFirewallRule::where('site_id', $siteId)->findOrFail($id);
+        $siteFirewallRule = Site::findOrFail($siteId)->get($id);
 
         return response()->json(
             $siteFirewallRule->update([

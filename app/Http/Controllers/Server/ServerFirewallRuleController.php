@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Server;
 
 use App\Http\Controllers\Controller;
-use App\Models\Server\ServerFirewallRule;
 use App\Http\Requests\Server\ServerFireWallRuleRequest;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 
 class ServerFirewallRuleController extends Controller
 {
@@ -18,7 +19,7 @@ class ServerFirewallRuleController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->firewallRules
         );
     }
 
@@ -31,14 +32,17 @@ class ServerFirewallRuleController extends Controller
      */
     public function store(ServerFireWallRuleRequest $request, $serverId)
     {
-        return response()->json(
-            ServerFirewallRule::create([
-                'description' => $request->get('description'),
-                'server_id' => $serverId,
-                'port' => $request->get('port'),
-                'from_ip' => $request->get('from_ip'),
-            ])
-        );
+        $server = Server::findOrFail($serverId);
+
+        $firewallRule = FirewallRule::create([
+            'port' => $request->get('port'),
+            'from_ip' => $request->get('from_ip'),
+            'description' => $request->get('description'),
+        ]);
+
+        $server->firewallRules()->save($firewallRule);
+
+        return response()->json($firewallRule);
     }
 
     /**
@@ -52,7 +56,7 @@ class ServerFirewallRuleController extends Controller
     public function show($serverId, $id)
     {
         return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)
+            Server::findOrFail($serverId)->get($id)
         );
     }
 
@@ -67,7 +71,7 @@ class ServerFirewallRuleController extends Controller
     public function destroy($serverId, $id)
     {
         return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)->delete()
+            Server::findOrFail($serverId)->get($id)->delete()
         );
     }
 }

@@ -73,6 +73,7 @@ class SiteObserver
 
     public function updated(Site $site)
     {
+        dump('updated site');
         $dirty = $site->getDirty();
 
         if (isset($dirty['repository'])) {

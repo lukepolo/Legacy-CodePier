@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
 use App\Services\Server\ServerService;
-use App\Models\Site\SiteSslCertificate;
 use App\Http\Requests\Site\SiteSslRequest;
 
 class SiteSslController extends Controller
@@ -19,7 +20,7 @@ class SiteSslController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->sslCertificates
         );
     }
 
@@ -32,15 +33,14 @@ class SiteSslController extends Controller
      */
     public function store(SiteSslRequest $request, $siteId)
     {
-        $siteSslCertificate = false;
+        $site = Site::findOrFail($siteId);
 
         switch ($type = $request->get('type')) {
             case ServerService::LETS_ENCRYPT:
 
                     $folder = explode(',', $request->get('domains'))[0];
 
-                    $siteSslCertificate = SiteSslCertificate::create([
-                        'site_id'   => $siteId,
+                    $sslCertificate = SslCertificate::create([
                         'domains'   => $request->get('domains'),
                         'type'      => $request->get('type'),
                         'active'    => false,
@@ -51,8 +51,7 @@ class SiteSslController extends Controller
                 break;
             case 'existing':
 
-                $siteSslCertificate = SiteSslCertificate::create([
-                    'site_id'   => $siteId,
+                $sslCertificate = SslCertificate::create([
                     'type'      => $request->get('type'),
                     'active'    => false,
                     'key' => $request->get('key'),
@@ -61,7 +60,9 @@ class SiteSslController extends Controller
                 break;
         }
 
-        return response()->json($siteSslCertificate);
+        $site->sslCertificates()->save($sslCertificate);
+
+        return response()->json($sslCertificate);
     }
 
     /**
@@ -72,7 +73,7 @@ class SiteSslController extends Controller
      */
     public function update(SiteSslRequest $request, $siteId, $id)
     {
-        $siteSslCertificate = SiteSslCertificate::where('site_id', $siteId)->findOrFail($id);
+        $siteSslCertificate = Site::findOrFail($siteId)->get($id);
 
         return response()->json($siteSslCertificate->update([
             'active' => $request->get('active'),
@@ -90,7 +91,7 @@ class SiteSslController extends Controller
     public function show($siteId, $id)
     {
         return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)
+            Site::findOrFail($siteId)->get($id)->get($id)
         );
     }
 
@@ -105,7 +106,7 @@ class SiteSslController extends Controller
     public function destroy($siteId, $id)
     {
         return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)->delete()
+            Site::findOrFail($siteId)->get($id)->get($id)->delete()
         );
     }
 }

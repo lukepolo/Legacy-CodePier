@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteCronJob;
+use App\Models\CronJob;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteCronJobRequest;
 
@@ -16,7 +17,7 @@ class SiteCronJobController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteCronJob::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->cronJobs
         );
     }
 
@@ -29,27 +30,17 @@ class SiteCronJobController extends Controller
      */
     public function store(SiteCronJobRequest $request, $siteId)
     {
-        return response()->json(
-            SiteCronJob::create([
-                'site_id' => $siteId,
-                'job' => $request->get('job'),
-                'user' => $request->get('user'),
-            ])
-        );
-    }
+        $site = Site::findOrFail($siteId);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteCronJob::where('site_id', $siteId)->findOrFail($id)
-        );
+        $cronJob = CronJob::create([
+            'site_id' => $siteId,
+            'job' => $request->get('job'),
+            'user' => $request->get('user'),
+        ]);
+
+        $site->cronJobs()->save($cronJob);
+
+        return response()->json($cronJob);
     }
 
     /**
@@ -62,7 +53,7 @@ class SiteCronJobController extends Controller
      */
     public function update(SiteCronJobRequest $request, $siteId, $id)
     {
-        $siteCronJob = SiteCronJob::where('site_id', $siteId)->findOrFail($id);
+        $siteCronJob = Site::findOrFail($siteId)->get($id);
 
         return response()->json(
             $siteCronJob->update([
@@ -82,7 +73,7 @@ class SiteCronJobController extends Controller
     public function destroy($siteId, $id)
     {
         return response()->json(
-            SiteCronJob::where('site_id', $siteId)->findOrFail($id)->delete()
+            Site::findOrFail($siteId)->get($id)->delete()
         );
     }
 }

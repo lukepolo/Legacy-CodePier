@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteWorker;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteWorkerRequest;
+use App\Models\Worker;
 
 class SiteWorkerController extends Controller
 {
@@ -18,7 +19,7 @@ class SiteWorkerController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteWorker::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->workers
         );
     }
 
@@ -31,16 +32,19 @@ class SiteWorkerController extends Controller
      */
     public function store(SiteWorkerRequest $request, $siteId)
     {
-        return response()->json(
-            SiteWorker::create([
-                'site_id' => $siteId,
-                'command' => $request->get('command'),
-                'auto_start' => true,
-                'auto_restart' => true,
-                'user' => $request->get('user'),
-                'number_of_workers' => $request->get('number_of_workers'),
-            ])
-        );
+        $site = Site::findOrFail($siteId);
+        
+        $worker = Worker::create([
+            'auto_start' => true,
+            'auto_restart' => true,
+            'user' => $request->get('user'),
+            'command' => $request->get('command'),
+            'number_of_workers' => $request->get('number_of_workers'),
+        ]);
+        
+        $site->workers()->save($worker);
+        
+        return response()->json($worker);
     }
 
     /**
@@ -54,7 +58,7 @@ class SiteWorkerController extends Controller
     public function show($siteId, $id)
     {
         return response()->json(
-            SiteWorker::where('site_id', $siteId)->findOrFail($id)
+            Site::findOrFail($siteId)->get($id)
         );
     }
 
@@ -69,7 +73,7 @@ class SiteWorkerController extends Controller
     public function destroy($siteId, $id)
     {
         return response()->json(
-            SiteWorker::where('site_id', $siteId)->findOrFail($id)->delete()
+            Site::findOrFail($siteId)->get($id)->delete()
         );
     }
 }
