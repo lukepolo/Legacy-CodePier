@@ -5,14 +5,8 @@ namespace App\Providers;
 use App\Models\Server\ServerNetworkRule;
 use App\Models\ServerCommand;
 use App\Models\Site\Site;
-use App\Models\User\User;
-use App\Models\ServerCommand;
-use App\Observers\UserObserver;
-use App\Observers\Site\SiteObserver;
-use Illuminate\Support\ServiceProvider;
-use App\Models\Server\ServerNetworkRule;
 use App\Models\Site\SiteServerDeployment;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User\User;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
@@ -43,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
 
         Validator::extend('domain', function ($attribute, $value) {
-            if (! is_string($value) && ! is_numeric($value)) {
+            if (!is_string($value) && !is_numeric($value)) {
                 return false;
             }
 
