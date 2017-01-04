@@ -4,13 +4,14 @@ namespace App\Events;
 
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
+use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 
 class SiteFirewallRuleDeleted
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.

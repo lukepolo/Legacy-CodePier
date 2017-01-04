@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Sites\SiteSshKeyCreated;
 use App\Models\SshKey;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
@@ -40,41 +41,9 @@ class SiteSshKeyController extends Controller
 
         $site->sshKeys()->save($sshKey);
 
+        event(new SiteSshKeyCreated($site, $sshKey));
+
         return response()->json($sshKey);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            Site::findOrFail($siteId)->get($id)
-        );
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteSshKeyRequest $request
-     * @param  int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SiteSshKeyRequest $request, $siteId, $id)
-    {
-        $siteSshKey = Site::findOrFail($siteId)->get($id);
-
-        return response()->json(
-            $siteSshKey->update([
-                'name' => $request->get('name'),
-                'ssh_key' => trim($request->get('ssh_key')),
-            ])
-        );
     }
 
     /**
@@ -86,8 +55,10 @@ class SiteSshKeyController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            Site::findOrFail($siteId)->get($id)->delete()
-        );
+        $site = Site::findOrFail($siteId);
+
+        event(new SiteSshKeyCreated($site, $site->sshKeys->get($id)));
+
+        return response()->json('OK');
     }
 }
