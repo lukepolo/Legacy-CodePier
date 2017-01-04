@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
-use App\Models\FirewallRule;
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 
 class SiteFirewallRuleDeleted
 {

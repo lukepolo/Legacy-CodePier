@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
-use App\Models\FirewallRule;
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class SiteFirewallRuleCreated
 {
@@ -21,7 +21,7 @@ class SiteFirewallRuleCreated
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
         foreach ($site->provisionedServers as $server) {
-            if (!$server->firewallRules
+            if (! $server->firewallRules
                 ->where('port', $firewallRule->port)
                 ->where('from_ip', $firewallRule->from_ip)
                 ->count()
