@@ -2,12 +2,12 @@
 
 namespace App\Events\Sites;
 
-use App\Jobs\Server\SshKeys\RemoveServerSshKey;
-use App\Models\Site\Site;
 use App\Models\SshKey;
+use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteSshKeyDeleted
 {

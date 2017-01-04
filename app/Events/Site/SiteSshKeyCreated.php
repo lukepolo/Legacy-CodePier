@@ -2,11 +2,11 @@
 
 namespace App\Events\Sites;
 
-use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Models\Site\Site;
 use App\Models\SshKey;
+use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteSshKeyCreated
