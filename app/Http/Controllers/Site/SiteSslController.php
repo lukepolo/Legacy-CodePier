@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
+use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
 use App\Http\Requests\Site\SiteSslRequest;
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Worker;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerWorkerRequest;
-use App\Models\Worker;
 
 class ServerWorkerController extends Controller
 {
@@ -34,7 +34,7 @@ class ServerWorkerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $worker =  Worker::create([
+        $worker = Worker::create([
             'user'              => $request->get('user'),
             'command'           => $request->get('command'),
             'auto_start'        => $request->get('auto_start', 0),
