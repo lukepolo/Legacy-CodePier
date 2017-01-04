@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Worker;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteWorkerRequest;
-use App\Models\Worker;
 
 class SiteWorkerController extends Controller
 {
@@ -33,7 +33,7 @@ class SiteWorkerController extends Controller
     public function store(SiteWorkerRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
-        
+
         $worker = Worker::create([
             'auto_start' => true,
             'auto_restart' => true,
@@ -41,9 +41,9 @@ class SiteWorkerController extends Controller
             'command' => $request->get('command'),
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
-        
+
         $site->workers()->save($worker);
-        
+
         return response()->json($worker);
     }
 

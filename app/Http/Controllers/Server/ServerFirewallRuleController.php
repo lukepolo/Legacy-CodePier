@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFireWallRuleRequest;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Server\ServerFireWallRuleRequest;
 
 class ServerFirewallRuleController extends Controller
 {
