@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class SiteCronJobCreated
 {
@@ -22,7 +22,7 @@ class SiteCronJobCreated
     public function __construct(Site $site, CronJob $cronJob)
     {
         foreach ($cronJob->site->provisionedServers as $server) {
-            if (!$server->cronJobs
+            if (! $server->cronJobs
                 ->where('job', $cronJob->job)
                 ->where('user', $cronJob->user)
                 ->count()
