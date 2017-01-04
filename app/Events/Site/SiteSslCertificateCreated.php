@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 
 class SiteSslCertificateCreated
 {

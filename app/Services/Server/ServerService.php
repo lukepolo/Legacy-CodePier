@@ -2,21 +2,21 @@
 
 namespace App\Services\Server;
 
+use App\Models\SshKey;
+use App\Models\CronJob;
+use phpseclib\Net\SFTP;
+use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Models\Server\Server;
+use App\Models\SslCertificate;
+use App\Exceptions\SshConnectionFailed;
+use App\Services\Systems\SystemService;
+use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract;
+use App\Notifications\Server\ServerProvisioned;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerSshConnectionFailed;
-use App\Exceptions\SshConnectionFailed;
-use App\Models\CronJob;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\Server\Server;
-use App\Models\SshKey;
-use App\Models\SslCertificate;
-use App\Notifications\Server\ServerProvisioned;
-use App\Services\Systems\SystemService;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SFTP;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerService implements ServerServiceContract
 {
@@ -117,7 +117,7 @@ class ServerService implements ServerServiceContract
 
             return $status;
         } catch (\Exception $e) {
-            if (!$noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
+            if (! $noDelete && $e->getMessage() == 'The resource you were accessing could not be found.') {
                 $server->delete();
 
                 return 'Server Has Been Deleted';
@@ -152,7 +152,7 @@ class ServerService implements ServerServiceContract
 
         $server->save();
 
-        if (!$this->systemService->provision($server)) {
+        if (! $this->systemService->provision($server)) {
             return false;
         }
 
@@ -237,7 +237,7 @@ class ServerService implements ServerServiceContract
 
         $ssh = new SFTP($server->ip);
 
-        if (!$ssh->login($user, $key)) {
+        if (! $ssh->login($user, $key)) {
             exit('Login Failed');
         }
 
@@ -331,7 +331,7 @@ class ServerService implements ServerServiceContract
     public function installCron(Server $server, CronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep ' . $cronJob->job . ') || ((crontab -l; echo "' . $cronJob->job . ' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob->job.') || ((crontab -l; echo "'.$cronJob->job.' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }
@@ -344,7 +344,7 @@ class ServerService implements ServerServiceContract
     public function removeCron(Server $server, CronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | grep -v "' . $cronJob->job . ' >/dev/null 2>&1" | crontab -');
+        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
 
         return $this->remoteTaskService->getErrors();
     }
@@ -366,10 +366,10 @@ class ServerService implements ServerServiceContract
 
                 $this->remoteTaskService->ssh($server);
 
-                $sslCertPath = self::SSL_FILES . '/' . $sslCertificate->id;
+                $sslCertPath = self::SSL_FILES.'/'.$sslCertificate->id;
 
-                $sslCertificate->key_path = $sslCertPath . '/server.key';
-                $sslCertificate->cert_path = $sslCertPath . '/server.crt';
+                $sslCertificate->key_path = $sslCertPath.'/server.key';
+                $sslCertificate->cert_path = $sslCertPath.'/server.crt';
                 $sslCertificate->save();
 
                 $this->remoteTaskService->writeToFile($sslCertificate->key_path, $sslCertificate->key);
@@ -390,7 +390,7 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
 
-        $sslCertPath = self::SSL_FILES . '/' . $sslCertificate->id;
+        $sslCertPath = self::SSL_FILES.'/'.$sslCertificate->id;
 
         $this->remoteTaskService->makeDirectory($sslCertPath);
 
@@ -432,22 +432,21 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email ' . $server->user->email . ' --webroot -w /home/codepier/ --expand -d ' . implode(' -d',
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d',
                 explode(',', $sslCertificate->domains))
         );
 
-        if (!count($this->remoteTaskService->getErrors())) {
-            if (!$server->cronJobs
+        if (! count($this->remoteTaskService->getErrors())) {
+            if (! $server->cronJobs
                 ->where('job', '* */12 * * * letsencrypt renew')
                 ->count()
             ) {
-
                 $cronJob = CronJob::create([
                     'job' => '* */12 * * * letsencrypt renew',
                     'user' => 'root',
                 ]);
 
-                if (!count($this->installCron($server, $cronJob))) {
+                if (! count($this->installCron($server, $cronJob))) {
                     $server->cronJobs()->save($cronJob);
                 }
             }
