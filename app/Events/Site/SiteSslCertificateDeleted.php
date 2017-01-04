@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 
 class SiteSslCertificateDeleted
 {
@@ -22,7 +22,7 @@ class SiteSslCertificateDeleted
     {
         $siteCommand = $this->makeCommand($site, $sslCertificate);
 
-        foreach($site->provisionedServers as $server) {
+        foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );

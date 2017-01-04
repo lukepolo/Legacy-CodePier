@@ -7,7 +7,6 @@ use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\SshKeys\RemoveServerSshKey;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteSshKeyDeleted
 {

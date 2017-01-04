@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteSslCertificateCreated;
-use App\Events\Site\SiteSslCertificateUpdated;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteSslRequest;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
+use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
+use App\Http\Requests\Site\SiteSslRequest;
+use App\Events\Site\SiteSslCertificateCreated;
+use App\Events\Site\SiteSslCertificateUpdated;
 
 class SiteSslController extends Controller
 {
@@ -61,7 +61,7 @@ class SiteSslController extends Controller
                     'cert' => $request->get('cert'),
                 ]);
                 break;
-            default :
+            default:
                 throw new \Exception('Invalid SSL Type');
                 break;
         }
