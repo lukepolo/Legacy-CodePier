@@ -7,11 +7,10 @@ use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteCronJobDeleted
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.
@@ -21,9 +20,11 @@ class SiteCronJobDeleted
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
+        $siteCommand = $this->makeCommand($site, $cronJob);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new RemoveServerCronJob($server, $cronJob, $this->makeCommand($site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RemoveServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         }
     }

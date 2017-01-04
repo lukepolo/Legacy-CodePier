@@ -52,7 +52,7 @@ class RemoveServerFirewallRule implements ShouldQueue
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         } else {
-            $this->server->cronJobs()->detach($this->firewallRule->id);
+            $this->server->firewallRules()->detach($this->firewallRule->id);
         }
 
         $this->firewallRule->load(['sites', 'servers']);

@@ -6,12 +6,11 @@ use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class SiteFirewallRuleCreated
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.
@@ -21,6 +20,8 @@ class SiteFirewallRuleCreated
      */
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
+        $siteCommand = $this->makeCommand($site, $firewallRule);
+
         foreach ($site->provisionedServers as $server) {
             if (! $server->firewallRules
                 ->where('port', $firewallRule->port)
@@ -28,7 +29,7 @@ class SiteFirewallRuleCreated
                 ->count()
             ) {
                 dispatch(
-                    (new InstallServerFirewallRule($server, $firewallRule, $this->makeCommand($site, $firewallRule)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
                 );
             }
         }

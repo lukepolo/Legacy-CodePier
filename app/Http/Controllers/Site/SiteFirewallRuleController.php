@@ -56,7 +56,7 @@ class SiteFirewallRuleController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('firewallRules')->findOrFail($siteId);
 
         event(new SiteFirewallRuleCreated($site, $site->firewallRules->get($id)));
 

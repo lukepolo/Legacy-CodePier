@@ -2,11 +2,14 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Models\Command;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerSslCertificate;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -15,16 +18,22 @@ class InstallServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverSslCertificate;
+    private $site;
+    private $server;
+    private $sslCertificate;
 
     /**
      * InstallServerWorker constructor.
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param SslCertificate $sslCertificate
+     * @param Command $siteCommand
      */
-    public function __construct(ServerSslCertificate $serverSslCertificate)
+    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
-        $this->makeCommand($serverSslCertificate);
-        $this->serverSslCertificate = $serverSslCertificate;
+        $this->site = $site;
+        $this->server = $server;
+        $this->sslCertificate = $sslCertificate;
+        $this->makeCommand($server, $sslCertificate, $siteCommand);
     }
 
     /**
@@ -35,8 +44,8 @@ class InstallServerSslCertificate implements ShouldQueue
     public function handle(ServerService $serverService, SiteService $siteService)
     {
         $this->runOnServer(function () use ($serverService, $siteService) {
-            $serverService->installSslCertificate($this->serverSslCertificate);
-            $siteService->updateWebServerConfig($this->serverSslCertificate->server, $this->serverSslCertificate->siteSslCertificate->site);
+            $serverService->installSslCertificate($this->server, $this->sslCertificate);
+            $siteService->updateWebServerConfig($this->server, $this->site);
         });
 
         return $this->remoteResponse();

@@ -51,7 +51,7 @@ class RemoveServerSshKey implements ShouldQueue
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         } else {
-            $this->server->cronJobs()->detach($this->sshKey->id);
+            $this->server->sshKeys()->detach($this->sshKey->id);
         }
 
         $this->sshKey->load(['sites', 'servers']);

@@ -6,11 +6,10 @@ use App\Models\File;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 class SiteFileUpdated
 {
-    use InteractsWithSockets, SerializesModels, ModelCommandTrait;
+    use SerializesModels, ModelCommandTrait;
 
     /**
      * Create a new event instance.

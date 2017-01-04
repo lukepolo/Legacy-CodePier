@@ -2,11 +2,15 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Exceptions\ServerCommandFailed;
+use App\Models\Command;
+use App\Models\Server\Server;
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerSslCertificate;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -15,32 +19,52 @@ class RemoveServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverSslCertificate;
+    private $site;
+    private $server;
+    private $sslCertificate;
+
 
     /**
      * InstallServerWorker constructor.
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param Site $site
+     * @param SslCertificate $sslCertificate
+     * @param Command $siteCommand
      */
-    public function __construct(ServerSslCertificate $serverSslCertificate)
+    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
-        $this->makeCommand($serverSslCertificate);
-        $this->serverSslCertificate = $serverSslCertificate;
-        $this->serverSslCertificate->update([
-            'active' => false,
-        ]);
+        $this->site = $site;
+        $this->server = $server;
+        $this->sslCertificate = $sslCertificate;
+        $this->makeCommand($server, $sslCertificate, $siteCommand);
     }
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
         $this->runOnServer(function () use ($serverService, $siteService) {
-            $serverService->removeSslCertificate($this->serverSslCertificate);
-            $siteService->updateWebServerConfig($this->serverSslCertificate->server, $this->serverSslCertificate->siteSslCertificate->site);
+            $serverService->removeSslCertificate($this->server, $this->sslCertificate);
+            $siteService->updateWebServerConfig($this->server, $this->site);
         });
+
+        if ($this->wasSuccessful()) {
+            if (\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+        } else {
+            $this->server->sslCertificates()->detach($this->sslCertificate->id);
+        }
+
+        $this->sslCertificate->load(['sites', 'servers']);
+
+        if ($this->sslCertificate->sites->count() == 0 && $this->sslCertificate->servers->count() == 0) {
+            $this->sslCertificate->delete();
+        }
 
         return $this->remoteResponse();
     }
