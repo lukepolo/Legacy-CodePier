@@ -2,12 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
-use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
+use App\Jobs\Server\SslCertificates\DeactivateServerSslCertificate;
 
 class SiteSslCertificateUpdated
 {
@@ -24,11 +24,9 @@ class SiteSslCertificateUpdated
         $activeSsl = $site->activeSsl;
         $siteCommand = $this->makeCommand($site, $sslCertificate);
 
-        foreach($site->provisionedServers as $server) {
-
+        foreach ($site->provisionedServers as $server) {
             if ($sslCertificate->active) {
-
-                if($activeSsl) {
+                if ($activeSsl) {
                     dispatch(
                         (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
                     );
@@ -43,6 +41,5 @@ class SiteSslCertificateUpdated
                 );
             }
         }
-
     }
 }
