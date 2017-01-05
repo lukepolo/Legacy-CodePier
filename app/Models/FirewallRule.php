@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class FirewallRule extends Model
