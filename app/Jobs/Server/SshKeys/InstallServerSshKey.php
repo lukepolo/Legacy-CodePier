@@ -52,7 +52,6 @@ class InstallServerSshKey implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has the ssh key');
         } else {
-
             $this->runOnServer(function () use ($serverService) {
                 $serverService->installSshKey($this->server, $this->sshKey);
             });
@@ -67,6 +66,5 @@ class InstallServerSshKey implements ShouldQueue
 
             return $this->remoteResponse();
         }
-
     }
 }

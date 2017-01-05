@@ -39,7 +39,7 @@ class ServerCronJobController extends Controller
         $job = $request->get('job');
         $user = $request->get('user');
 
-        if(!$server->cronJobs->cronJobs
+        if (! $server->cronJobs->cronJobs
             ->where('job', $job)
             ->where('user', $user)
             ->count()
