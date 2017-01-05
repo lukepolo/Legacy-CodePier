@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteWorkerDeleted;
-use App\Http\Requests\Site\WorkerRequest;
 use App\Models\Worker;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Events\Site\SiteWorkerCreated;
+use App\Events\Site\SiteWorkerDeleted;
+use App\Http\Requests\Site\WorkerRequest;
 
 class SiteWorkerController extends Controller
 {

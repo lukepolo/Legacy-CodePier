@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\Site\SslRequest;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SslRequest;
 use App\Services\Server\ServerService;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateUpdated;
