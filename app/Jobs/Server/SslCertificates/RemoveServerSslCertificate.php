@@ -51,7 +51,7 @@ class RemoveServerSslCertificate implements ShouldQueue
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
 
-        if (!$this->wasSuccessful()) {
+        if (! $this->wasSuccessful()) {
             if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }

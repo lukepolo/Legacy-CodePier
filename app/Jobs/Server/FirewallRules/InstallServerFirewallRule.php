@@ -56,7 +56,6 @@ class InstallServerFirewallRule implements ShouldQueue
             $this->server->firewallRules()->save($this->firewallRule);
         }
 
-
         return $this->remoteResponse();
     }
 }

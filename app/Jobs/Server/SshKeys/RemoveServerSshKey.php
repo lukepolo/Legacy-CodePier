@@ -46,7 +46,7 @@ class RemoveServerSshKey implements ShouldQueue
             $serverService->removeSshKey($this->server, $this->sshKey);
         });
 
-        if (!$this->wasSuccessful()) {
+        if (! $this->wasSuccessful()) {
             if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }

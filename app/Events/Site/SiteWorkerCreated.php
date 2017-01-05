@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Models\Site\Site;
 use App\Models\Worker;
+use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\Workers\InstallServerWorker;
 
 class SiteWorkerCreated
 {
