@@ -47,7 +47,7 @@ class InstallServerSslCertificate implements ShouldQueue
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
-        if(
+        if (
             $this->server->sslCertificates
                 ->where('type', $this->sslCertificate->type)
                 ->where('domains', $this->sslCertificate->domains)
@@ -57,7 +57,6 @@ class InstallServerSslCertificate implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->installSslCertificate($this->server, $this->sslCertificate);
                 $siteService->updateWebServerConfig($this->server, $this->site);
@@ -68,7 +67,6 @@ class InstallServerSslCertificate implements ShouldQueue
             } else {
                 $this->server->sslCertificates()->save($this->sslCertificate);
             }
-
         }
     }
 }

@@ -38,7 +38,7 @@ class SiteFirewallRuleController extends Controller
         $port = $request->get('port');
         $fromIp = $request->get('from_ip', null);
 
-        if(!$site->firewallRules
+        if (! $site->firewallRules
             ->where('port', $port)
             ->where('from_ip', $fromIp)
             ->count()

@@ -35,7 +35,7 @@ class SiteSshKeyController extends Controller
         $site = Site::findOrFail($siteId);
         $sshKey = trim($request->get('ssh_key'));
 
-        if(!$site->sshKeys
+        if (! $site->sshKeys
             ->where('ssh_key', $sshKey)
             ->count()
         ) {

@@ -37,7 +37,7 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
         $sshKey = trim($request->get('ssh_key'));
 
-        if(!$server->sshKeys
+        if (! $server->sshKeys
             ->where('ssh_key', $sshKey)
             ->count()
         ) {
