@@ -2,8 +2,8 @@
 
 namespace App\Observers\Site;
 
-use App\Models\FirewallRule;
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;

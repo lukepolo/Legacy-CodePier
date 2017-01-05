@@ -113,7 +113,7 @@ class SiteFileController extends Controller
         $file = $file = Site::findOrFail($siteId)->get($fileId);
 
         $file->update([
-            'content' => $this->serverService->getFile(Server::findOrFail($serverId), $file->file_path)
+            'content' => $this->serverService->getFile(Server::findOrFail($serverId), $file->file_path),
         ]);
 
         return response()->json($file);
