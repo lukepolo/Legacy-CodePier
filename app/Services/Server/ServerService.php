@@ -368,9 +368,10 @@ class ServerService implements ServerServiceContract
 
                 $sslCertPath = self::SSL_FILES.'/'.$sslCertificate->id;
 
-                $sslCertificate->key_path = $sslCertPath.'/server.key';
-                $sslCertificate->cert_path = $sslCertPath.'/server.crt';
-                $sslCertificate->save();
+                $sslCertificate->update([
+                    'key_path' => $sslCertPath.'/server.key',
+                    'cert_path' =>  $sslCertPath.'/server.crt'
+                ]);
 
                 $this->remoteTaskService->writeToFile($sslCertificate->key_path, $sslCertificate->key);
                 $this->remoteTaskService->writeToFile($sslCertificate->cert_path, $sslCertificate->cert);
