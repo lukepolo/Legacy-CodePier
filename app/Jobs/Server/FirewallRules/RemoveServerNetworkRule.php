@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
+use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
@@ -13,7 +14,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RemoveServerNetworkRule implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $serverNetworkRule;
 
@@ -24,8 +25,8 @@ class RemoveServerNetworkRule implements ShouldQueue
      */
     public function __construct(ServerNetworkRule $serverNetworkRule)
     {
-        $this->makeCommand($serverNetworkRule);
         $this->serverNetworkRule = $serverNetworkRule;
+        $this->makeCommand($serverNetworkRule->server, $serverNetworkRule);
     }
 
     /**
@@ -42,11 +43,11 @@ class RemoveServerNetworkRule implements ShouldQueue
         });
 
         if (! $this->wasSuccessful()) {
-            $this->serverNetworkRule->unsetEventDispatcher();
-            $this->serverNetworkRule->delete();
             if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
+        } else {
+            $this->serverNetworkRule->delete();
         }
 
         return $this->remoteResponse();
