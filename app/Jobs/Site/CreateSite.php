@@ -46,7 +46,6 @@ class CreateSite implements ShouldQueue
     {
         $siteService->create($this->server, $this->site);
 
-
         $this->site->cronJobs->each(function ($cronJob) {
             dispatch(
                 (new InstallServerWorker($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
