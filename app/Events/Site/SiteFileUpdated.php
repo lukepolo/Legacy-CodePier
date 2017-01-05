@@ -21,7 +21,7 @@ class SiteFileUpdated
     {
         $siteCommand = $this->makeCommand($site, $file);
 
-        foreach ($file->site->provisionedServers as $server) {
+        foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new UpdateServerFile($server, $file, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
