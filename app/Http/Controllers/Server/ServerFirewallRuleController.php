@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Http\Requests\Site\FirewallRuleRequest;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerFireWallRuleRequest;
 use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
@@ -28,11 +28,11 @@ class ServerFirewallRuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerFireWallRuleRequest $request
+     * @param FirewallRuleRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerFireWallRuleRequest $request, $serverId)
+    public function store(FirewallRuleRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
 

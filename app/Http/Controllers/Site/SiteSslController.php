@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\SslRequest;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
-use App\Http\Requests\Site\SiteSslRequest;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateUpdated;
 
@@ -29,12 +29,12 @@ class SiteSslController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteSslRequest $request
+     * @param SslRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function store(SiteSslRequest $request, $siteId)
+    public function store(SslRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Http\Requests\CronJobRequest;
 use App\Models\CronJob;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
-use App\Http\Requests\Server\ServerCronJobRequest;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class ServerCronJobController extends Controller
@@ -28,11 +28,11 @@ class ServerCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerCronJobRequest $request
+     * @param CronJobRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerCronJobRequest $request, $serverId)
+    public function store(CronJobRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\FirewallRuleRequest;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
 use App\Events\SiteFirewallRuleCreated;
-use App\Http\Requests\Site\SiteFirewallRuleRequest;
 
 class SiteFirewallRuleController extends Controller
 {
@@ -26,11 +26,11 @@ class SiteFirewallRuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteFirewallRuleRequest $request
+     * @param FirewallRuleRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteFirewallRuleRequest $request, $siteId)
+    public function store(FirewallRuleRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

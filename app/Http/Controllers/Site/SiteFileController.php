@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\FileRequest;
 use App\Models\File;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Events\Site\SiteFileUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteFileRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class SiteFileController extends Controller
@@ -93,12 +93,12 @@ class SiteFileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param SiteFileRequest $request
+     * @param FileRequest $request
      * @param $siteId
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(SiteFileRequest $request, $siteId, $id)
+    public function update(FileRequest $request, $siteId, $id)
     {
         $site = Site::with('files')->findOrFail($siteId);
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Http\Requests\Site\WorkerRequest;
 use App\Models\Worker;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Http\Requests\Server\ServerWorkerRequest;
 
 class ServerWorkerController extends Controller
 {
@@ -27,11 +27,11 @@ class ServerWorkerController extends Controller
      * Store a newly created resource in storage.
      *
      *
-     * @param ServerWorkerRequest $request
+     * @param WorkerRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerWorkerRequest $request, $serverId)
+    public function store(WorkerRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
 

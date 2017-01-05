@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\Site\SshKeyRequest;
 use App\Models\User\UserSshKey;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserSshKeyRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class UserSshKeyController extends Controller
@@ -34,10 +34,10 @@ class UserSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserSshKeyRequest $request
+     * @param SshKeyRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(UserSshKeyRequest $request)
+    public function store(SshKeyRequest $request)
     {
         $userSshKey = UserSshKey::create([
             'user_id' => \Auth::user()->id,
