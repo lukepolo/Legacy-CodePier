@@ -65,7 +65,7 @@ class ServerWorkerController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new InstallServerWorker($server, $server->workers->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new InstallServerWorker($server, $server->workers->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

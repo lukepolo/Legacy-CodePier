@@ -63,7 +63,7 @@ class ServerCronJobController extends Controller
         $server = Server::findOrFail($serverId);
 
         $this->dispatch(
-            (new RemoveServerCronJob($server, $server->cronJobs->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerCronJob($server, $server->cronJobs->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

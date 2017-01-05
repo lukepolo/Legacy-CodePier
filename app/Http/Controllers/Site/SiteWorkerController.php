@@ -62,7 +62,7 @@ class SiteWorkerController extends Controller
     {
         $site = Site::with('workers')->findOrFail($siteId);
 
-        event(new SiteWorkerCreated($site, $site->workers->get($id)));
+        event(new SiteWorkerCreated($site, $site->workers->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }
