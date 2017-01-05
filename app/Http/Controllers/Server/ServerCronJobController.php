@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\CronJob;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
@@ -41,22 +43,11 @@ class ServerCronJobController extends Controller
 
         $server->cronJob()->save($cronJob);
 
-        return response()->json($cronJob);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            Server::findOrFail($serverId)->cronJobs->get($id)
+        $this->dispatch(
+            (new InstallServerCronJob($server, $cronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json($cronJob);
     }
 
     /**
@@ -69,8 +60,12 @@ class ServerCronJobController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            Server::findOrFail($serverId)->cronJobs->get($id)->delete()
+        $server = Server::findOrFail($serverId);
+
+        $this->dispatch(
+            (new RemoveServerCronJob($server, $server->cronJobs->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json('OK');
     }
 }
