@@ -21,7 +21,6 @@ class InstallServerSslCertificate implements ShouldQueue
 
     private $site;
     private $server;
-    private $siteCommand;
     private $sslCertificate;
 
     /**
@@ -35,9 +34,8 @@ class InstallServerSslCertificate implements ShouldQueue
     {
         $this->site = $site;
         $this->server = $server;
-        $this->siteCommand = $siteCommand;
         $this->sslCertificate = $sslCertificate;
-        $this->makeCommand($this->server, $this->sslCertificate, $this->siteCommand);
+        $this->makeCommand($server, $sslCertificate, $siteCommand);
     }
 
     /**
@@ -63,12 +61,11 @@ class InstallServerSslCertificate implements ShouldQueue
                 $siteService->updateWebServerConfig($this->server, $this->site);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            } else {
+            if ($this->wasSuccessful()) {
                 $this->server->sslCertificates()->save($this->sslCertificate);
             }
 
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
     }
 }

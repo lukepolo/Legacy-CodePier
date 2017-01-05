@@ -43,24 +43,25 @@ class RemoveServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->removeCron($this->server, $this->cronJob);
-        });
+        $sitesCount = $this->cronJob->sites->count();
 
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
+        if(!$sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->removeCron($this->server, $this->cronJob);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        } else {
-            $this->server->cronJobs()->detach($this->cronJob->id);
         }
 
-        $this->cronJob->load('servers');
+        $this->server->cronJobs()->detach($this->cronJob->id);
 
-        if ($this->cronJob->servers->count() == 0) {
-            $this->cronJob->delete();
+        if(!$sitesCount) {
+            $this->cronJob->load('servers');
+            if ($this->cronJob->servers->count() == 0) {
+                $this->cronJob->delete();
+            }
         }
-
-        return $this->remoteResponse();
     }
 }

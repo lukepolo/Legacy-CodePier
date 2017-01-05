@@ -46,25 +46,26 @@ class RemoveServerSslCertificate implements ShouldQueue
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
-        $this->runOnServer(function () use ($serverService, $siteService) {
-            $serverService->removeSslCertificate($this->server, $this->sslCertificate);
-            $siteService->updateWebServerConfig($this->server, $this->site);
-        });
+        $sitesCount = $this->sslCertificate->sites->count();
 
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
+        if(!$sitesCount) {
+            $this->runOnServer(function () use ($serverService, $siteService) {
+                $serverService->removeSslCertificate($this->server, $this->sslCertificate);
+                $siteService->updateWebServerConfig($this->server, $this->site);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        } else {
-            $this->server->sslCertificates()->detach($this->sslCertificate->id);
         }
 
-        $this->sslCertificate->load('servers');
+        $this->server->sslCertificates()->detach($this->sslCertificate->id);
 
-        if ($this->sslCertificate->servers->count() == 0) {
-            $this->sslCertificate->delete();
+        if(!$sitesCount) {
+            $this->sslCertificate->load('servers');
+            if ($this->sslCertificate->servers->count() == 0) {
+                $this->sslCertificate->delete();
+            }
         }
-
-        return $this->remoteResponse();
     }
 }

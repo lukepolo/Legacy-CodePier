@@ -20,7 +20,6 @@ class InstallServerWorker implements ShouldQueue
 
     private $server;
     private $worker;
-    private $siteCommand;
 
     /**
      * InstallServerWorker constructor.
@@ -32,8 +31,7 @@ class InstallServerWorker implements ShouldQueue
     {
         $this->server = $server;
         $this->worker = $worker;
-        $this->siteCommand = $siteCommand;
-        $this->makeCommand($this->server, $this->worker, $this->siteCommand);
+        $this->makeCommand($server, $worker, $siteCommand);
     }
 
     /**
@@ -46,20 +44,16 @@ class InstallServerWorker implements ShouldQueue
         if(!$this->server->workers->keyBy('id')->get($this->worker->id)) {
             $this->updateServerCommand(0, 'Sever already has worker installed');
         } else {
+
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->addWorker($this->worker);
             });
 
-            if (! $this->wasSuccessful()) {
-                if (\App::runningInConsole()) {
-                    throw new ServerCommandFailed($this->getCommandErrors());
-                }
-            } else {
+            if ($this->wasSuccessful()) {
                 $this->server->workers()->save($this->worker);
             }
 
-            return $this->remoteResponse();
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
-
     }
 }

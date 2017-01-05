@@ -42,24 +42,25 @@ class RemoveServerSshKey implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->removeSshKey($this->server, $this->sshKey);
-        });
+        $sitesCount = $this->sshKey->sites->count();
 
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
+        if(!$sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->removeSshKey($this->server, $this->sshKey);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        } else {
-            $this->server->sshKeys()->detach($this->sshKey->id);
         }
 
-        $this->sshKey->load('servers');
+        $this->server->sshKeys()->detach($this->sshKey->id);
 
-        if ($this->sshKey->servers->count() == 0) {
-            $this->sshKey->delete();
+        if(!$sitesCount) {
+            $this->sshKey->load('servers');
+            if ($this->sshKey->servers->count() == 0) {
+                $this->sshKey->delete();
+            }
         }
-
-        return $this->remoteResponse();
     }
 }
