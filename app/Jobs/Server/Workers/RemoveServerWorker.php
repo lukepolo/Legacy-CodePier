@@ -43,7 +43,7 @@ class RemoveServerWorker implements ShouldQueue
     {
         $sitesCount = $this->worker->sites->count();
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
             });
@@ -55,7 +55,7 @@ class RemoveServerWorker implements ShouldQueue
 
         $this->server->cronJobs()->detach($this->worker->id);
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->worker->load('servers');
             if ($this->worker->servers->count() == 0) {
                 $this->worker->delete();

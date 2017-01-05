@@ -2,13 +2,13 @@
 
 namespace App\Jobs\Server;
 
-use App\Exceptions\ServerCommandFailed;
 use App\Models\File;
 use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -51,7 +51,7 @@ class UpdateServerFile implements ShouldQueue
             $serverService->saveFile($this->server, $this->file->file_path, $this->file->content, $user);
         });
 
-        if (!$this->wasSuccessful()) {
+        if (! $this->wasSuccessful()) {
             throw new ServerCommandFailed($this->getCommandErrors());
         }
     }
