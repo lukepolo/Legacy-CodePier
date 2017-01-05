@@ -54,9 +54,9 @@ class RemoveServerWorker implements ShouldQueue
             $this->server->workers()->detach($this->worker->id);
         }
 
-        $this->worker->load(['sites', 'servers']);
+        $this->worker->load('servers');
 
-        if ($this->worker->sites->count() == 0 && $this->worker->servers->count() == 0) {
+        if ($this->worker->servers->count() == 0) {
             $this->worker->delete();
         }
 

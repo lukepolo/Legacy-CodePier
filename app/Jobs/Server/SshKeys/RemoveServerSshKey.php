@@ -54,9 +54,9 @@ class RemoveServerSshKey implements ShouldQueue
             $this->server->sshKeys()->detach($this->sshKey->id);
         }
 
-        $this->sshKey->load(['sites', 'servers']);
+        $this->sshKey->load('servers');
 
-        if ($this->sshKey->sites->count() == 0 && $this->sshKey->servers->count() == 0) {
+        if ($this->sshKey->servers->count() == 0) {
             $this->sshKey->delete();
         }
 
