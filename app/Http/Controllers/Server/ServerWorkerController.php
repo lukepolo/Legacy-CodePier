@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Requests\Site\WorkerRequest;
-use App\Models\Worker;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WorkerRequest;
 use App\Jobs\Server\Workers\InstallServerWorker;
+use App\Jobs\Server\Workers\RemoveServerWorker;
+use App\Models\Server\Server;
+use App\Models\Worker;
 
 class ServerWorkerController extends Controller
 {
@@ -27,7 +28,7 @@ class ServerWorkerController extends Controller
      * Store a newly created resource in storage.
      *
      *
-     * @param WorkerRequest $request
+     * @param \App\Http\Requests\WorkerRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
@@ -65,7 +66,7 @@ class ServerWorkerController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new InstallServerWorker($server, $server->workers->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerWorker($server, $server->workers->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

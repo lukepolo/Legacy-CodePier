@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Sites\SiteSshKeyDeleted;
+use App\Http\Requests\SshKeyRequest;
 use App\Models\SshKey;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Events\Sites\SiteSshKeyCreated;
-use App\Http\Requests\Site\SiteSshKeyRequest;
 
 class SiteSshKeyController extends Controller
 {
@@ -25,11 +26,11 @@ class SiteSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteSshKeyRequest $request
+     * @param SshKeyRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteSshKeyRequest $request, $siteId)
+    public function store(SshKeyRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 
@@ -56,7 +57,7 @@ class SiteSshKeyController extends Controller
     {
         $site = Site::with('sshKeys')->findOrFail($siteId);
 
-        event(new SiteSshKeyCreated($site, $site->sshKeys->keyBy('id')->get($id)));
+        event(new SiteSshKeyDeleted($site, $site->sshKeys->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }
