@@ -344,7 +344,9 @@ class ServerService implements ServerServiceContract
     public function removeCron(Server $server, CronJob $cronJob)
     {
         $this->remoteTaskService->ssh($server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
+
+        $job = str_replace('*', '\\*', $cronJob->job);
+        $this->remoteTaskService->run("crontab -l | grep -v '$job' | crontab -");
 
         return $this->remoteTaskService->getErrors();
     }

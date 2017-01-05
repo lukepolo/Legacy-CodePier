@@ -36,8 +36,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
             throw new SshConnectionFailed('No server set');
         }
 
-        \Log::info('Running Command : '.$command);
-
         $output = null;
 
         try {
