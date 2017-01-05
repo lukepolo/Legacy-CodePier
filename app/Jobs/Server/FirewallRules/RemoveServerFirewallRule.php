@@ -55,9 +55,9 @@ class RemoveServerFirewallRule implements ShouldQueue
             $this->server->firewallRules()->detach($this->firewallRule->id);
         }
 
-        $this->firewallRule->load(['sites', 'servers']);
+        $this->firewallRule->load('servers');
 
-        if ($this->firewallRule->sites->count() == 0 && $this->firewallRule->servers->count() == 0) {
+        if ($this->firewallRule->servers->count() == 0) {
             $this->firewallRule->delete();
         }
 

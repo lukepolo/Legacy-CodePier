@@ -55,9 +55,9 @@ class RemoveServerCronJob implements ShouldQueue
             $this->server->cronJobs()->detach($this->cronJob->id);
         }
 
-        $this->cronJob->load(['sites', 'servers']);
+        $this->cronJob->load('servers');
 
-        if ($this->cronJob->sites->count() == 0 && $this->cronJob->servers->count() == 0) {
+        if ($this->cronJob->servers->count() == 0) {
             $this->cronJob->delete();
         }
 
