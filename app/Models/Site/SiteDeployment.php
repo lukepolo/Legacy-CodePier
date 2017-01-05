@@ -2,7 +2,6 @@
 
 namespace App\Models\Site;
 
-use App\Traits\FireEvents;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +12,7 @@ class SiteDeployment extends Model
     const COMPLETED = 'Completed';
     const QUEUED_FOR_DEPLOYMENT = 'Queued';
 
-    use FireEvents, ConnectedToUser;
+    use ConnectedToUser;
 
     public static $userModel = 'site';
 

@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
-use App\Traits\FireEvents;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    use Encryptable, FireEvents;
+    use Encryptable;
 
     protected $guarded = [
         'id',

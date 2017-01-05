@@ -9,7 +9,6 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
-use App\Traits\FireEvents;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -26,7 +25,7 @@ use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser, Encryptable;
+    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable;
 
     protected $guarded = [
         'id',
@@ -62,6 +61,7 @@ class Site extends Model
 
     public function activeSsl()
     {
+        // TODO - get active SSL
         dd('active');
 //        return $this->hasOne(SiteSslCertificate::class)->where('active', true);
     }
