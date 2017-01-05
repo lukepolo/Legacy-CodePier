@@ -22,7 +22,7 @@ class SslCertificate extends Model
         return $this->morphedByMany(Site::class, 'sslCertificateable');
     }
 
-    public function server()
+    public function servers()
     {
         return $this->morphedByMany(Server::class, 'sslCertificateable');
     }

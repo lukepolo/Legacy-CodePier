@@ -21,7 +21,7 @@ class Worker extends Model
         return $this->morphedByMany(Site::class, 'workable');
     }
 
-    public function server()
+    public function servers()
     {
         return $this->morphedByMany(Server::class, 'workerable');
     }
