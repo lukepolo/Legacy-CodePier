@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Worker;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkerRequest;
-use App\Jobs\Server\Workers\InstallServerWorker;
 use App\Jobs\Server\Workers\RemoveServerWorker;
-use App\Models\Server\Server;
-use App\Models\Worker;
+use App\Jobs\Server\Workers\InstallServerWorker;
 
 class ServerWorkerController extends Controller
 {
