@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteWorkerCreated;
 use App\Models\Worker;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
+use App\Events\Site\SiteWorkerCreated;
 use App\Http\Requests\Site\SiteWorkerRequest;
 
 class SiteWorkerController extends Controller
