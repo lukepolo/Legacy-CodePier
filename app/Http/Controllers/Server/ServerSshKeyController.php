@@ -37,8 +37,8 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         $sshKey = SshKey::create([
-            'name'      => $request->get('name'),
-            'ssh_key'   => trim($request->get('ssh_key')),
+            'name' => $request->get('name'),
+            'ssh_key' => trim($request->get('ssh_key')),
         ]);
 
         $server->sshKeys()->save($sshKey);
@@ -63,7 +63,8 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerSshKey($server, $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerSshKey($server,
+                $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

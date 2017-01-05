@@ -28,11 +28,11 @@ class SiteWorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\WorkerRequest $request
+     * @param WorkerRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(\App\Http\Requests\WorkerRequest $request, $siteId)
+    public function store(WorkerRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 
