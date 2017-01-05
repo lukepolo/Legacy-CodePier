@@ -25,4 +25,16 @@ class CronJob extends Model
     {
         return $this->morphedByMany(Server::class, 'cronjobable');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function delete()
+    {
+        $this->sites()->detach();
+        $this->servers()->detach();
+        parent::delete();
+    }
 }

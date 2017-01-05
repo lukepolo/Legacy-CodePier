@@ -25,4 +25,16 @@ class SslCertificate extends Model
     {
         return $this->morphedByMany(Server::class, 'sslCertificateable');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function delete()
+    {
+        $this->sites()->detach();
+        $this->servers()->detach();
+        parent::delete();
+    }
 }

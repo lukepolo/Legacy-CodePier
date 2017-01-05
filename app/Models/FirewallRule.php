@@ -25,4 +25,16 @@ class FirewallRule extends Model
     {
         return $this->morphedByMany(Server::class, 'firewallRuleable');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function delete()
+    {
+        $this->sites()->detach();
+        $this->servers()->detach();
+        parent::delete();
+    }
 }
