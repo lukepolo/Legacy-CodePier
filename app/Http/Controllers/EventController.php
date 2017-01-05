@@ -4,21 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Command;
 use Illuminate\Http\Request;
-use App\Models\Site\SiteFile;
-use App\Models\Site\SiteSshKey;
-use App\Models\Site\SiteWorker;
-use App\Models\Site\SiteCronJob;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Server\ServerSshKey;
-use App\Models\Server\ServerWorker;
 use App\Models\Site\SiteDeployment;
-use App\Models\Server\ServerCronJob;
-use App\Models\Site\SiteFirewallRule;
 use Illuminate\Database\Query\Builder;
-use App\Models\Site\SiteSslCertificate;
-use App\Models\Server\ServerFirewallRule;
-use App\Models\Server\ServerSslCertificate;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
@@ -28,18 +17,7 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
-            ServerWorker::class,
-            ServerSshKey::class,
-            ServerCronJob::class,
-            ServerFirewallRule::class,
-            ServerSslCertificate::class,
-
-            SiteFile::class,
-            SiteWorker::class,
-            SiteSshKey::class,
-            SiteCronJob::class,
-            SiteFirewallRule::class,
-            SiteSslCertificate::class,
+           // TODO - we have to redo some of the commands
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,

@@ -2,12 +2,12 @@
 
 namespace App\Observers\Site;
 
+use App\Models\FirewallRule;
 use App\Models\Site\Site;
 use App\Jobs\Site\DeleteSite;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
-use App\Models\Site\SiteFirewallRule;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -46,19 +46,23 @@ class SiteObserver
 
     public function created(Site $site)
     {
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTP',
-            'port'        => '80',
-            'from_ip'     => null,
-        ]);
+        $site->firewallRules()->save(
+            FirewallRule::create([
+                'site_id'   => $site->id,
+                'description' => 'HTTP',
+                'port'        => '80',
+                'from_ip'     => null,
+            ])
+        );
 
-        SiteFirewallRule::create([
-            'site_id'   => $site->id,
-            'description' => 'HTTPS',
-            'port'        => '443',
-            'from_ip'     => null,
-        ]);
+        $site->firewallRules()->save(
+            FirewallRule::create([
+                'site_id'   => $site->id,
+                'description' => 'HTTPS',
+                'port'        => '443',
+                'from_ip'     => null,
+            ])
+        );
     }
 
     public function updating(Site $site)
@@ -73,14 +77,13 @@ class SiteObserver
 
     public function updated(Site $site)
     {
-        dump('updated site');
         $dirty = $site->getDirty();
 
         if (isset($dirty['repository'])) {
             $site->private = false;
             $site->public_ssh_key = null;
             $site->private_ssh_key = null;
-            save_without_events($site);
+            $site->save();
         }
 
         if (isset($dirty['web_directory'])) {
