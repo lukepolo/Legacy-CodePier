@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Events\Site\SiteFileUpdated;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FileRequest;
 use App\Models\File;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Http\Requests\FileRequest;
+use App\Events\Site\SiteFileUpdated;
+use App\Http\Controllers\Controller;
+use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class SiteFileController extends Controller
 {
@@ -72,7 +72,7 @@ class SiteFileController extends Controller
                 $file = $server->files->first(function ($file) use ($request) {
                     return $file->file_path == $request->get('file');
                 });
-                if (!empty($file)) {
+                if (! empty($file)) {
                     break;
                 }
             }
