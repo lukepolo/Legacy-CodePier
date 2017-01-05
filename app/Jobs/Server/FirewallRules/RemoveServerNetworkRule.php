@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
