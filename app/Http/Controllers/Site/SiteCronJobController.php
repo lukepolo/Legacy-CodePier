@@ -32,12 +32,12 @@ class SiteCronJobController extends Controller
      */
     public function store(CronJobRequest $request, $siteId)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('cronJobs')->findOrFail($siteId);
 
         $job = $request->get('job');
         $user = $request->get('user');
 
-        if(!$site->cronJobs->cronJobs
+        if(!$site->cronJobs
             ->where('job', $job)
             ->where('user', $user)
             ->count()
@@ -70,6 +70,6 @@ class SiteCronJobController extends Controller
 
         event(new SiteCronJobDeleted($site, $site->cronJobs->keyBy('id')->get($id)));
 
-        return response()->json('OK');
+        return response()->json($site->cronJobs()->detach($id));
     }
 }

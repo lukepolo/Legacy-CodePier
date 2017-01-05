@@ -19,7 +19,6 @@ class InstallServerCronJob implements ShouldQueue
 
     private $server;
     private $cronJob;
-    private $siteCommand;
 
     /**
      * Create a new job instance.
@@ -31,8 +30,7 @@ class InstallServerCronJob implements ShouldQueue
     {
         $this->server = $server;
         $this->cronJob = $cronJob;
-        $this->siteCommand = $siteCommand;
-        $this->makeCommand($this->server, $this->cronJob, $this->siteCommand);
+        $this->makeCommand($server, $cronJob, $siteCommand);
     }
 
     /**
@@ -58,17 +56,11 @@ class InstallServerCronJob implements ShouldQueue
                 $serverService->installCron($this->server, $this->cronJob);
             });
 
-            if (! $this->wasSuccessful()) {
-                if (\App::runningInConsole()) {
-                    throw new ServerCommandFailed($this->getCommandErrors());
-                }
-            } else {
+            if ($this->wasSuccessful()) {
                 $this->server->cronJobs()->save($this->cronJob);
             }
 
-            return $this->remoteResponse();
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
-
-
     }
 }

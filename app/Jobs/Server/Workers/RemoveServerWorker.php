@@ -41,24 +41,25 @@ class RemoveServerWorker implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
-        });
+        $sitesCount = $this->worker->sites->count();
 
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
+        if(!$sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        } else {
-            $this->server->workers()->detach($this->worker->id);
         }
 
-        $this->worker->load('servers');
+        $this->server->cronJobs()->detach($this->worker->id);
 
-        if ($this->worker->servers->count() == 0) {
-            $this->worker->delete();
+        if(!$sitesCount) {
+            $this->worker->load('servers');
+            if ($this->worker->servers->count() == 0) {
+                $this->worker->delete();
+            }
         }
-
-        return $this->remoteResponse();
     }
 }

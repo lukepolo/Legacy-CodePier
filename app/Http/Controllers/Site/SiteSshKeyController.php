@@ -32,7 +32,7 @@ class SiteSshKeyController extends Controller
      */
     public function store(SshKeyRequest $request, $siteId)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('sshKeys')->findOrFail($siteId);
         $sshKey = trim($request->get('ssh_key'));
 
         if(!$site->sshKeys
@@ -67,6 +67,6 @@ class SiteSshKeyController extends Controller
 
         event(new SiteSshKeyDeleted($site, $site->sshKeys->keyBy('id')->get($id)));
 
-        return response()->json('OK');
+        return response()->json($site->sshKeys()->detach($id));
     }
 }

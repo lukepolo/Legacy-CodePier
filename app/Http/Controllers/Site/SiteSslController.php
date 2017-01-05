@@ -37,41 +37,50 @@ class SiteSslController extends Controller
      */
     public function store(SslRequest $request, $siteId)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        switch ($type = $request->get('type')) {
-            case ServerService::LETS_ENCRYPT:
+        if(!$site->sslCertificates
+            ->where('type', $this->sslCertificate->type)
+            ->where('domains', $this->sslCertificate->domains)
+            ->count()
+        ) {
+            switch ($type = $request->get('type')) {
+                case ServerService::LETS_ENCRYPT:
 
-                $folder = explode(',', $request->get('domains'))[0];
+                    $folder = explode(',', $request->get('domains'))[0];
 
-                $sslCertificate = SslCertificate::create([
-                    'domains' => $request->get('domains'),
-                    'type' => $request->get('type'),
-                    'active' => false,
-                    'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
-                    'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
-                ]);
+                    $sslCertificate = SslCertificate::create([
+                        'domains' => $request->get('domains'),
+                        'type' => $request->get('type'),
+                        'active' => false,
+                        'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
+                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
+                    ]);
 
-                break;
-            case 'existing':
+                    break;
+                case 'existing':
 
-                $sslCertificate = SslCertificate::create([
-                    'type' => $request->get('type'),
-                    'active' => false,
-                    'key' => $request->get('key'),
-                    'cert' => $request->get('cert'),
-                ]);
-                break;
-            default:
-                throw new \Exception('Invalid SSL Type');
-                break;
+                    $sslCertificate = SslCertificate::create([
+                        'type' => $request->get('type'),
+                        'active' => false,
+                        'key' => $request->get('key'),
+                        'cert' => $request->get('cert'),
+                    ]);
+                    break;
+                default:
+                    throw new \Exception('Invalid SSL Type');
+                    break;
+            }
+
+            $site->sslCertificates()->save($sslCertificate);
+
+            event(new SiteSslCertificateCreated($site, $sslCertificate));
+
+            return response()->json($sslCertificate);
         }
 
-        $site->sslCertificates()->save($sslCertificate);
+        return response()->json('SSL Certificate for these domains Already Exists', 400);
 
-        event(new SiteSslCertificateCreated($site, $sslCertificate));
-
-        return response()->json($sslCertificate);
     }
 
     /**
@@ -109,6 +118,6 @@ class SiteSslController extends Controller
 
         event(new SiteSslCertificateDeleted($site, $site->sslCertificates->keyBy('id')->get($id)));
 
-        return response()->json();
+        return response()->json($site->sslCertificates()->detach($id));
     }
 }

@@ -33,7 +33,7 @@ class SiteFirewallRuleController extends Controller
      */
     public function store(FirewallRuleRequest $request, $siteId)
     {
-        $site = Site::findOrFail($siteId);
+        $site = Site::with('firewallRules')->findOrFail($siteId);
 
         $port = $request->get('port');
         $fromIp = $request->get('from_ip', null);
@@ -72,6 +72,6 @@ class SiteFirewallRuleController extends Controller
 
         event(new SiteFirewallRuleDeleted($site, $site->firewallRules->keyBy('id')->get($id)));
 
-        return response()->json('OK');
+        return response()->json($site->firewallRules()->detach($id));
     }
 }

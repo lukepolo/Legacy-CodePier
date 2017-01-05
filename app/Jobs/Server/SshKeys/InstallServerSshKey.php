@@ -19,7 +19,6 @@ class InstallServerSshKey implements ShouldQueue
 
     private $server;
     private $sshKey;
-    private $siteCommand;
 
     /**
      * InstallServerSshKey constructor.
@@ -31,8 +30,7 @@ class InstallServerSshKey implements ShouldQueue
     {
         $this->server = $server;
         $this->sshKey = $sshKey;
-        $this->siteCommand = $siteCommand;
-        $this->makeCommand($this->server, $this->sshKey, $this->siteCommand);
+        $this->makeCommand($server, $sshKey, $siteCommand);
     }
 
     /**
@@ -57,15 +55,11 @@ class InstallServerSshKey implements ShouldQueue
                 $serverService->installSshKey($this->server, $this->sshKey);
             });
 
-            if (! $this->wasSuccessful()) {
-                if (\App::runningInConsole()) {
-                    throw new ServerCommandFailed($this->getCommandErrors());
-                }
-            } else {
+            if ($this->wasSuccessful()) {
                 $this->server->sshKeys()->save($this->sshKey);
             }
 
-            return $this->remoteResponse();
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
 
     }
