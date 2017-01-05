@@ -109,8 +109,6 @@ class SiteSslController extends Controller
 
         event(new SiteSslCertificateDeleted($site, $site->sslCertificates->keyBy('id')->get($id)));
 
-        return response()->json(
-
-        );
+        return response()->json();
     }
 }

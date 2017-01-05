@@ -64,7 +64,8 @@ class ServerFirewallRuleController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerFirewallRule($server, $server->firewallRules->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerFirewallRule($server,
+                $server->firewallRules->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

@@ -28,7 +28,7 @@ class ServerWorkerController extends Controller
      * Store a newly created resource in storage.
      *
      *
-     * @param \App\Http\Requests\WorkerRequest $request
+     * @param WorkerRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
@@ -37,10 +37,10 @@ class ServerWorkerController extends Controller
         $server = Server::findOrFail($serverId);
 
         $worker = Worker::create([
-            'user'              => $request->get('user'),
-            'command'           => $request->get('command'),
-            'auto_start'        => $request->get('auto_start', 0),
-            'auto_restart'      => $request->get('auto_restart', 0),
+            'user' => $request->get('user'),
+            'command' => $request->get('command'),
+            'auto_start' => $request->get('auto_start', 0),
+            'auto_restart' => $request->get('auto_restart', 0),
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
@@ -66,7 +66,8 @@ class ServerWorkerController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerWorker($server, $server->workers->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerWorker($server,
+                $server->workers->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

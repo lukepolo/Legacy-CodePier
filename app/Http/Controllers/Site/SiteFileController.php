@@ -72,7 +72,7 @@ class SiteFileController extends Controller
                 $file = $server->files->first(function ($file) use ($request) {
                     return $file->file_path == $request->get('file');
                 });
-                if (! empty($file)) {
+                if (!empty($file)) {
                     break;
                 }
             }
@@ -80,7 +80,8 @@ class SiteFileController extends Controller
             if (empty($file)) {
                 $file = File::create([
                     'file_path' => $request->get('file'),
-                    'content' => $servers->count() ? $this->serverService->getFile($servers->first(), $request->get('file')) : null,
+                    'content' => $servers->count() ? $this->serverService->getFile($servers->first(),
+                        $request->get('file')) : null,
                     'custom' => $request->get('custom', false),
                 ]);
             }
@@ -93,12 +94,12 @@ class SiteFileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param \App\Http\Requests\FileRequest $request
+     * @param FileRequest $request
      * @param $siteId
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(\App\Http\Requests\FileRequest $request, $siteId, $id)
+    public function update(FileRequest $request, $siteId, $id)
     {
         $site = Site::with('files')->findOrFail($siteId);
 
