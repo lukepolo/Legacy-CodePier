@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Server\Workers;
 
+use App\Models\Worker;
 use App\Models\Command;
 use App\Models\Server\Server;
-use App\Models\Worker;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
