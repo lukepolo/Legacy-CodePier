@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
-use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Server\ServerFireWallRuleRequest;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class ServerFirewallRuleController extends Controller
 {
