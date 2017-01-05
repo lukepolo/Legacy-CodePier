@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Traits\Encryptable;
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -53,5 +53,4 @@ class File extends Model
     {
         return $this->morphedByMany(Server::class, 'fileable');
     }
-
 }
