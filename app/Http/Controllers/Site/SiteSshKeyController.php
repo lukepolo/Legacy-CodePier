@@ -33,17 +33,26 @@ class SiteSshKeyController extends Controller
     public function store(SshKeyRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
+        $sshKey = trim($request->get('ssh_key'));
 
-        $sshKey = SshKey::create([
-            'name' => $request->get('name'),
-            'ssh_key' => trim($request->get('ssh_key')),
-        ]);
+        if(!$site->sshKeys
+            ->where('ssh_key', $sshKey)
+            ->count()
+        ) {
 
-        $site->sshKeys()->save($sshKey);
+            $sshKey = SshKey::create([
+                'name' => $request->get('name'),
+                'ssh_key' => $sshKey,
+            ]);
 
-        event(new SiteSshKeyCreated($site, $sshKey));
+            $site->sshKeys()->save($sshKey);
 
-        return response()->json($sshKey);
+            event(new SiteSshKeyCreated($site, $sshKey));
+
+            return response()->json($sshKey);
+        }
+
+        return response()->json('SSH Key Already Exists', 400);
     }
 
     /**

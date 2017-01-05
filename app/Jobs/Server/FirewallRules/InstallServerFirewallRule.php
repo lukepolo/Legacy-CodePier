@@ -20,6 +20,7 @@ class InstallServerFirewallRule implements ShouldQueue
 
     private $server;
     private $firewallRule;
+    private $siteCommand;
 
     /**
      * InstallServerFirewallRule constructor.
@@ -31,8 +32,9 @@ class InstallServerFirewallRule implements ShouldQueue
     public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
         $this->server = $server;
+        $this->siteCommand = $siteCommand;
         $this->firewallRule = $firewallRule;
-        $this->makeCommand($server, $firewallRule, $siteCommand);
+        $this->makeCommand($this->server, $this->firewallRule, $this->siteCommand);
     }
 
     /**
@@ -44,18 +46,29 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
-        });
-
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+        if ($this->server->firewallRules
+            ->where('port', $this->firewallRule->port)
+            ->where('from_ip', $this->firewallRule->from_ip)
+            ->count()
+            ||
+            $this->server->firewallRules->keyBy('id')->get($this->firewallRule->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has firewall rule : '.$this->firewallRule->port.' from ip '.$this->firewallRule->from_ip);
         } else {
-            $this->server->firewallRules()->save($this->firewallRule);
-        }
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
+            });
 
-        return $this->remoteResponse();
+            if (! $this->wasSuccessful()) {
+                if (\App::runningInConsole()) {
+                    throw new ServerCommandFailed($this->getCommandErrors());
+                }
+            } else {
+                $this->server->firewallRules()->save($this->firewallRule);
+            }
+
+            return $this->remoteResponse();
+
+        }
     }
 }

@@ -23,15 +23,9 @@ class SiteSslCertificateCreated
         $siteCommand = $this->makeCommand($site, $sslCertificate);
 
         foreach ($site->provisionedServers as $server) {
-            if (! $server->sslCertificates
-                ->where('type', $sslCertificate->type)
-                ->where('domains', $sslCertificate->domains)
-                ->count()
-            ) {
-                dispatch(
-                    (new InstallServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
-                );
-            }
+            dispatch(
+                (new InstallServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
     }
 }

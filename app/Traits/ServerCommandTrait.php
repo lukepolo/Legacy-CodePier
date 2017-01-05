@@ -25,6 +25,7 @@ trait ServerCommandTrait
      * @param Server $server
      * @param Model $model
      * @param Command $command
+     * @return ServerCommand
      */
     public function makeCommand(Server $server, Model $model, Command $command = null)
     {
@@ -41,6 +42,8 @@ trait ServerCommandTrait
             'server_id' => $server->id,
             'command_id' => $command->id,
         ]);
+
+        return $this->serverCommand;
     }
 
     /**
@@ -70,11 +73,7 @@ trait ServerCommandTrait
             $this->remoteSuccesses[] = $remoteResponse;
 
             if (! empty($this->serverCommand)) {
-                $this->serverCommand->update([
-                    'runtime' => microtime(true) - $start,
-                    'log' =>  $this->remoteSuccesses,
-                    'completed' => true,
-                ]);
+                $this->updateServerCommand(microtime(true) - $start, $this->remoteSuccesses);
             }
         } catch (\Exception $e) {
             switch (get_class($e)) {
@@ -93,11 +92,7 @@ trait ServerCommandTrait
                 $this->error = true;
 
                 if (! empty($this->serverCommand)) {
-                    $this->serverCommand->update([
-                        'runtime' => microtime(true) - $start,
-                        'log' => $this->remoteErrors,
-                        'failed' => true,
-                    ]);
+                    $this->updateServerCommand(microtime(true) - $start, $this->remoteErrors, false);
                 }
             }
         }
@@ -136,5 +131,21 @@ trait ServerCommandTrait
     private function getCommandErrors()
     {
         return json_encode($this->remoteErrors);
+    }
+
+    /**
+     * Updates the server command
+     * @param $runtime
+     * @param $log
+     * @param $completed
+     */
+    public function updateServerCommand($runtime, $log, $completed = true)
+    {
+        $this->serverCommand->update([
+            'runtime' => $runtime,
+            'log' =>  $log,
+            'completed' => $completed,
+            'failed' => !$completed
+        ]);
     }
 }

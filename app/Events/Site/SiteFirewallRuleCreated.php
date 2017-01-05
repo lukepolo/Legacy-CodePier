@@ -23,15 +23,9 @@ class SiteFirewallRuleCreated
         $siteCommand = $this->makeCommand($site, $firewallRule);
 
         foreach ($site->provisionedServers as $server) {
-            if (! $server->firewallRules
-                ->where('port', $firewallRule->port)
-                ->where('from_ip', $firewallRule->from_ip)
-                ->count()
-            ) {
-                dispatch(
-                    (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
-                );
-            }
+            dispatch(
+                (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
     }
 }

@@ -2,8 +2,14 @@
 
 namespace App\Jobs\Site;
 
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
+use App\Jobs\Server\UpdateServerFile;
+use App\Jobs\Server\Workers\InstallServerWorker;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Traits\ModelCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,7 +19,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CreateSite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
 
     private $server;
     private $site;
@@ -40,23 +46,41 @@ class CreateSite implements ShouldQueue
     {
         $siteService->create($this->server, $this->site);
 
-        $this->site->cronJobs->each(function ($model) {
 
+        $this->site->cronJobs->each(function ($cronJob) {
+            dispatch(
+                (new InstallServerWorker($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
-        $this->site->files->each(function ($model) {
+        $this->site->files->each(function ($file) {
+            dispatch(
+                (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
-        $this->site->firewallRules->each(function ($model) {
+        $this->site->firewallRules->each(function ($firewallRule) {
+            dispatch(
+                (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site, $firewallRule)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
-        $this->site->sshKeys->each(function ($model) {
+        $this->site->sshKeys->each(function ($sshKey) {
+            dispatch(
+                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
-        $this->site->ssls->each(function ($model) {
+        $this->site->sslCertificates->each(function ($sslCertificate) {
+            dispatch(
+                (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
-        $this->site->workers->each(function ($model) {
+        $this->site->workers->each(function ($worker) {
+            dispatch(
+                (new InstallServerWorker($this->server, $worker, $this->makeCommand($this->site, $worker)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         });
 
         $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
