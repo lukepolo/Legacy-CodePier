@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\CronJob;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Http\Requests\Site\SiteCronJobRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CronJobRequest;
+use App\Models\CronJob;
+use App\Models\Site\Site;
 
 class SiteCronJobController extends Controller
 {
@@ -26,11 +26,11 @@ class SiteCronJobController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteCronJobRequest $request
+     * @param \App\Http\Requests\CronJobRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteCronJobRequest $request, $siteId)
+    public function store(CronJobRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

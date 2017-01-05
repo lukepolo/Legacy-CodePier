@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Http\Requests\Site\SshKeyRequest;
 use App\Models\SshKey;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Http\Requests\Server\ServerSshKeyRequest;
 
 class ServerSshKeyController extends Controller
 {
@@ -27,11 +27,11 @@ class ServerSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerSshKeyRequest $request
+     * @param SshKeyRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerSshKeyRequest $request, $serverId)
+    public function store(SshKeyRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
 

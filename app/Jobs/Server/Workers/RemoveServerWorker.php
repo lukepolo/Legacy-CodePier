@@ -26,7 +26,6 @@ class RemoveServerWorker implements ShouldQueue
      * @param Server $server
      * @param Worker $worker
      * @param Command $siteCommand
-     * @internal param ServerWorker $serverWorker
      */
     public function __construct(Server $server, Worker $worker, Command $siteCommand = null)
     {

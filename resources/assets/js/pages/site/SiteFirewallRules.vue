@@ -28,8 +28,6 @@
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
                 </div>
-
-
             </form>
         </div>
 
@@ -90,7 +88,7 @@
             },
             deleteFirewallRule(firewallRuleId) {
                 this.$store.dispatch('deleteSiteFirewallRule', {
-                    site: this.form.site,
+                    site: this.$route.params.site_id,
                     firewall_rule: firewallRuleId,
                 })
             },
