@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
+use App\Models\FirewallRule;
+use App\Http\Controllers\Controller;
 use App\Events\SiteFirewallRuleCreated;
 use App\Events\SiteFirewallRuleDeleted;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\FirewallRuleRequest;
-use App\Models\FirewallRule;
-use App\Models\Site\Site;
 
 class SiteFirewallRuleController extends Controller
 {

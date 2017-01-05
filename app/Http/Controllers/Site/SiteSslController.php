@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
+use App\Http\Requests\SslRequest;
+use App\Http\Controllers\Controller;
+use App\Services\Server\ServerService;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Events\Site\SiteSslCertificateUpdated;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SslRequest;
-use App\Models\Site\Site;
-use App\Models\SslCertificate;
-use App\Services\Server\ServerService;
 
 class SiteSslController extends Controller
 {
