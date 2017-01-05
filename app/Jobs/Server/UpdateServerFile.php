@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Server;
 
-use App\Models\Command;
 use App\Models\File;
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
