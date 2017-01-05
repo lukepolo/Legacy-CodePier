@@ -32,7 +32,7 @@ class SshKey extends Model
         return $this->morphedByMany(Site::class, 'sshKeyable');
     }
 
-    public function server()
+    public function servers()
     {
         return $this->morphedByMany(Server::class, 'sshKeyable');
     }
