@@ -39,7 +39,6 @@ class SiteSshKeyController extends Controller
             ->where('ssh_key', $sshKey)
             ->count()
         ) {
-
             $sshKey = SshKey::create([
                 'name' => $request->get('name'),
                 'ssh_key' => $sshKey,
