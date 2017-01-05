@@ -34,7 +34,6 @@ class SiteSshKeyController extends Controller
         $site = Site::findOrFail($siteId);
 
         $sshKey = SshKey::create([
-            'site_id' => $siteId,
             'name' => $request->get('name'),
             'ssh_key' => trim($request->get('ssh_key')),
         ]);
