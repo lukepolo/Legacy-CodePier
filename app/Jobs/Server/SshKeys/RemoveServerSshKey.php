@@ -44,7 +44,7 @@ class RemoveServerSshKey implements ShouldQueue
     {
         $sitesCount = $this->sshKey->sites->count();
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->removeSshKey($this->server, $this->sshKey);
             });
@@ -56,7 +56,7 @@ class RemoveServerSshKey implements ShouldQueue
 
         $this->server->sshKeys()->detach($this->sshKey->id);
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->sshKey->load('servers');
             if ($this->sshKey->servers->count() == 0) {
                 $this->sshKey->delete();

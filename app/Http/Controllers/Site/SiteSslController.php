@@ -39,7 +39,7 @@ class SiteSslController extends Controller
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        if(!$site->sslCertificates
+        if (! $site->sslCertificates
             ->where('type', $this->sslCertificate->type)
             ->where('domains', $this->sslCertificate->domains)
             ->count()
@@ -80,7 +80,6 @@ class SiteSslController extends Controller
         }
 
         return response()->json('SSL Certificate for these domains Already Exists', 400);
-
     }
 
     /**
