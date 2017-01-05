@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\Site\FirewallRuleRequest;
+use App\Events\SiteFirewallRuleDeleted;
+use App\Http\Requests\FirewallRuleRequest;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
@@ -58,7 +59,7 @@ class SiteFirewallRuleController extends Controller
     {
         $site = Site::with('firewallRules')->findOrFail($siteId);
 
-        event(new SiteFirewallRuleCreated($site, $site->firewallRules->keyBy('id')->get($id)));
+        event(new SiteFirewallRuleDeleted($site, $site->firewallRules->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }

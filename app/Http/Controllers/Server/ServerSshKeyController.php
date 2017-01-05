@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Requests\Site\SshKeyRequest;
-use App\Models\SshKey;
-use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SshKeyRequest;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
+use App\Models\Server\Server;
+use App\Models\SshKey;
 
 class ServerSshKeyController extends Controller
 {
@@ -27,7 +28,7 @@ class ServerSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param SshKeyRequest $request
+     * @param \App\Http\Requests\SshKeyRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +63,7 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new InstallServerSshKey($server, $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new RemoveServerSshKey($server, $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

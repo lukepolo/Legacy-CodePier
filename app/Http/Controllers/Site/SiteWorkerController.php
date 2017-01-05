@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteWorkerDeleted;
-use App\Http\Requests\Site\WorkerRequest;
-use App\Models\Worker;
-use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
 use App\Events\Site\SiteWorkerCreated;
+use App\Events\Site\SiteWorkerDeleted;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\WorkerRequest;
+use App\Models\Site\Site;
+use App\Models\Worker;
 
 class SiteWorkerController extends Controller
 {
@@ -28,11 +28,11 @@ class SiteWorkerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param WorkerRequest $request
+     * @param \App\Http\Requests\WorkerRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(WorkerRequest $request, $siteId)
+    public function store(\App\Http\Requests\WorkerRequest $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
 

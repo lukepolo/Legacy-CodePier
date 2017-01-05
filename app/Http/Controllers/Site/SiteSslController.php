@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\Site\SslRequest;
+use App\Events\Site\SiteSslCertificateCreated;
+use App\Events\Site\SiteSslCertificateDeleted;
+use App\Events\Site\SiteSslCertificateUpdated;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SslRequest;
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
-use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
-use App\Events\Site\SiteSslCertificateCreated;
-use App\Events\Site\SiteSslCertificateUpdated;
 
 class SiteSslController extends Controller
 {
@@ -74,12 +75,12 @@ class SiteSslController extends Controller
     }
 
     /**
-     * @param SiteSslRequest $request
+     * @param SslRequest $request
      * @param $siteId
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(SiteSslRequest $request, $siteId, $id)
+    public function update(SslRequest $request, $siteId, $id)
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
@@ -106,7 +107,7 @@ class SiteSslController extends Controller
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        event(new SiteSslCertificateCreated($site, $site->sslCertificates->keyBy('id')->get($id)));
+        event(new SiteSslCertificateDeleted($site, $site->sslCertificates->keyBy('id')->get($id)));
 
         return response()->json(
 
