@@ -58,7 +58,7 @@ class SiteCronJobController extends Controller
     {
         $site = Site::with('cronJobs')->findOrFail($siteId);
 
-        event(new SiteCronJobDeleted($site, $site->cronJobs->get($id)));
+        event(new SiteCronJobDeleted($site, $site->cronJobs->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }

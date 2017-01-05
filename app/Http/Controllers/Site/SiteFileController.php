@@ -100,13 +100,15 @@ class SiteFileController extends Controller
      */
     public function update(SiteFileRequest $request, $siteId, $id)
     {
-        $file = Site::findOrFail($siteId)->get($id);
+        $site = Site::with('files')->findOrFail($siteId);
+
+        $file = $site->files->keyBy('id')->get($id);
 
         $file->update([
             'content' => $request->get('content'),
         ]);
 
-        event(new SiteFileUpdated($file));
+        event(new SiteFileUpdated($site, $file));
 
         return response()->json($file);
     }
@@ -121,7 +123,9 @@ class SiteFileController extends Controller
      */
     public function reloadFile($siteId, $fileId, $serverId)
     {
-        $file = $file = Site::findOrFail($siteId)->get($fileId);
+        $site = Site::with('files')->findOrFail($siteId);
+
+        $file = $site->files->keyBy('id')->get($fileId);
 
         $file->update([
             'content' => $this->serverService->getFile(Server::findOrFail($serverId), $file->file_path),

@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server;
 
+use App\Models\Command;
 use App\Models\File;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -22,13 +23,13 @@ class UpdateServerFile implements ShouldQueue
      * Create a new job instance.
      * @param Server $server
      * @param File $file
+     * @param Command $siteCommand
      */
-    public function __construct(Server $server, File $file)
+    public function __construct(Server $server, File $file, Command $siteCommand = null)
     {
         $this->server = $server;
         $this->file = $file;
-
-        $this->makeCommand($file, $server->id);
+        $this->makeCommand($server, $file, $siteCommand);
     }
 
     /**

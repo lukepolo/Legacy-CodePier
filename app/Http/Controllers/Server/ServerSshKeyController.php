@@ -62,7 +62,7 @@ class ServerSshKeyController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new InstallServerSshKey($server, $server->sshKeys->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new InstallServerSshKey($server, $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
 
         return response()->json('OK');

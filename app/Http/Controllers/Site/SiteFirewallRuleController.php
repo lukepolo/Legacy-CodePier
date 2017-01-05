@@ -58,7 +58,7 @@ class SiteFirewallRuleController extends Controller
     {
         $site = Site::with('firewallRules')->findOrFail($siteId);
 
-        event(new SiteFirewallRuleCreated($site, $site->firewallRules->get($id)));
+        event(new SiteFirewallRuleCreated($site, $site->firewallRules->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }

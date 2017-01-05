@@ -57,7 +57,7 @@ class SiteSshKeyController extends Controller
     {
         $site = Site::with('sshKeys')->findOrFail($siteId);
 
-        event(new SiteSshKeyCreated($site, $site->sshKeys->get($id)));
+        event(new SiteSshKeyCreated($site, $site->sshKeys->keyBy('id')->get($id)));
 
         return response()->json('OK');
     }

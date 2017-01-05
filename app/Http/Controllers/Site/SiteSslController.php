@@ -83,7 +83,7 @@ class SiteSslController extends Controller
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        $sslCertificate = $site->sslCertificates->get($id);
+        $sslCertificate = $site->sslCertificates->keyBy('id')->get($id);
 
         $sslCertificate->update([
             'active' => $request->get('active'),
@@ -106,7 +106,7 @@ class SiteSslController extends Controller
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        event(new SiteSslCertificateCreated($site, $site->sslCertificates->get($id)));
+        event(new SiteSslCertificateCreated($site, $site->sslCertificates->keyBy('id')->get($id)));
 
         return response()->json(
 
