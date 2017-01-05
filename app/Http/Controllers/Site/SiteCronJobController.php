@@ -34,16 +34,27 @@ class SiteCronJobController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        $cronJob = CronJob::create([
-            'job' => $request->get('job'),
-            'user' => $request->get('user'),
-        ]);
+        $job = $request->get('job');
+        $user = $request->get('user');
 
-        $site->cronJobs()->save($cronJob);
+        if(!$site->cronJobs->cronJobs
+            ->where('job', $job)
+            ->where('user', $user)
+            ->count()
+        ) {
+            $cronJob = CronJob::create([
+                'job' => $job,
+                'user' => $user,
+            ]);
 
-        event(new SiteCronJobCreated($site, $cronJob));
+            $site->cronJobs()->save($cronJob);
 
-        return response()->json($cronJob);
+            event(new SiteCronJobCreated($site, $cronJob));
+
+            return response()->json($cronJob);
+        }
+
+        return response()->json('Cron Job Already Exists', 400);
     }
 
     /**

@@ -19,6 +19,7 @@ class InstallServerCronJob implements ShouldQueue
 
     private $server;
     private $cronJob;
+    private $siteCommand;
 
     /**
      * Create a new job instance.
@@ -30,7 +31,8 @@ class InstallServerCronJob implements ShouldQueue
     {
         $this->server = $server;
         $this->cronJob = $cronJob;
-        $this->makeCommand($server, $cronJob, $siteCommand);
+        $this->siteCommand = $siteCommand;
+        $this->makeCommand($this->server, $this->cronJob, $this->siteCommand);
     }
 
     /**
@@ -42,18 +44,31 @@ class InstallServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->installCron($this->server, $this->cronJob);
-        });
-
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+        if(
+            $this->server->cronJobs
+            ->where('job', $this->cronJob->job)
+            ->where('user', $this->cronJob->user)
+            ->count()
+            ||
+            $this->server->cronJobs->keyBy('id')->get($this->cronJob->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has cron job : '.$this->cronJob->job);
         } else {
-            $this->server->cronJobs()->save($this->cronJob);
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->installCron($this->server, $this->cronJob);
+            });
+
+            if (! $this->wasSuccessful()) {
+                if (\App::runningInConsole()) {
+                    throw new ServerCommandFailed($this->getCommandErrors());
+                }
+            } else {
+                $this->server->cronJobs()->save($this->cronJob);
+            }
+
+            return $this->remoteResponse();
         }
 
-        return $this->remoteResponse();
+
     }
 }

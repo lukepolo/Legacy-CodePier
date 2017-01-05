@@ -24,14 +24,9 @@ class SiteSshKeyCreated
         $siteCommand = $this->makeCommand($site, $sshKey);
 
         foreach ($site->provisionedServers as $server) {
-            if (! $server->sshKeys
-                ->where('ssh_key', $sshKey->ssh_key)
-                ->count()
-            ) {
-                dispatch(
-                    (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
-                );
-            }
+            dispatch(
+                (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
     }
 }

@@ -21,11 +21,13 @@ class InstallServerSslCertificate implements ShouldQueue
 
     private $site;
     private $server;
+    private $siteCommand;
     private $sslCertificate;
 
     /**
      * InstallServerWorker constructor.
      * @param Server $server
+     * @param Site $site
      * @param SslCertificate $sslCertificate
      * @param Command $siteCommand
      */
@@ -33,31 +35,40 @@ class InstallServerSslCertificate implements ShouldQueue
     {
         $this->site = $site;
         $this->server = $server;
+        $this->siteCommand = $siteCommand;
         $this->sslCertificate = $sslCertificate;
-        $this->makeCommand($server, $sslCertificate, $siteCommand);
+        $this->makeCommand($this->server, $this->sslCertificate, $this->siteCommand);
     }
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @return \Illuminate\Http\JsonResponse
      * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
-        $this->runOnServer(function () use ($serverService, $siteService) {
-            $serverService->installSslCertificate($this->server, $this->sslCertificate);
-            $siteService->updateWebServerConfig($this->server, $this->site);
-        });
-
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+        if(
+            $this->server->sslCertificates
+                ->where('type', $this->sslCertificate->type)
+                ->where('domains', $this->sslCertificate->domains)
+                ->count()
+            ||
+            $this->server->sslCertificates->keyBy('id')->get($this->sslCertificate->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-            $this->server->sslCertificates()->save($this->sslCertificate);
-        }
 
-        return $this->remoteResponse();
+            $this->runOnServer(function () use ($serverService, $siteService) {
+                $serverService->installSslCertificate($this->server, $this->sslCertificate);
+                $siteService->updateWebServerConfig($this->server, $this->site);
+            });
+
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            } else {
+                $this->server->sslCertificates()->save($this->sslCertificate);
+            }
+
+        }
     }
 }

@@ -19,6 +19,7 @@ class InstallServerSshKey implements ShouldQueue
 
     private $server;
     private $sshKey;
+    private $siteCommand;
 
     /**
      * InstallServerSshKey constructor.
@@ -30,7 +31,8 @@ class InstallServerSshKey implements ShouldQueue
     {
         $this->server = $server;
         $this->sshKey = $sshKey;
-        $this->makeCommand($server, $sshKey, $siteCommand);
+        $this->siteCommand = $siteCommand;
+        $this->makeCommand($this->server, $this->sshKey, $this->siteCommand);
     }
 
     /**
@@ -42,18 +44,29 @@ class InstallServerSshKey implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->installSshKey($this->server, $this->sshKey);
-        });
-
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+        if (! $this->server->sshKeys
+            ->where('ssh_key', $this->sshKey->ssh_key)
+            ->count()
+            ||
+            $this->server->sshKeys->keyBy('id')->get($this->sshKey->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has the ssh key');
         } else {
-            $this->server->sshKeys()->save($this->sshKey);
+
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->installSshKey($this->server, $this->sshKey);
+            });
+
+            if (! $this->wasSuccessful()) {
+                if (\App::runningInConsole()) {
+                    throw new ServerCommandFailed($this->getCommandErrors());
+                }
+            } else {
+                $this->server->sshKeys()->save($this->sshKey);
+            }
+
+            return $this->remoteResponse();
         }
 
-        return $this->remoteResponse();
     }
 }

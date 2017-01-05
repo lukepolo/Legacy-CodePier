@@ -35,17 +35,28 @@ class SiteFirewallRuleController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        $firewallRule = FirewallRule::create([
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip', null),
-            'description' => $request->get('description'),
-        ]);
+        $port = $request->get('port');
+        $fromIp = $request->get('from_ip', null);
 
-        $site->firewallRules()->save($firewallRule);
+        if(!$site->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'from_ip' => $fromIp,
+                'description' => $request->get('description'),
+            ]);
 
-        event(new SiteFirewallRuleCreated($site, $firewallRule));
+            $site->firewallRules()->save($firewallRule);
 
-        return response()->json($firewallRule);
+            event(new SiteFirewallRuleCreated($site, $firewallRule));
+
+            return response()->json($firewallRule);
+        }
+
+        return response()->json('Firewall Rule Already Exists', 400);
     }
 
     /**

@@ -23,15 +23,9 @@ class SiteCronJobCreated
         $siteCommand = $this->makeCommand($site, $cronJob);
 
         foreach ($site->provisionedServers as $server) {
-            if (! $server->cronJobs
-                ->where('job', $cronJob->job)
-                ->where('user', $cronJob->user)
-                ->count()
-            ) {
-                dispatch(
-                    (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
-                );
-            }
+            dispatch(
+                (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
     }
 }
