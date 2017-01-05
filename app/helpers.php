@@ -29,7 +29,7 @@ if (! function_exists('strip_relations')) {
     }
 }
 
-if (! function_exists('create_sytem_service')) {
+if (! function_exists('create_system_service')) {
     function create_system_service($service, \App\Models\Server\Server $server)
     {
         /** @var \App\Services\Systems\SystemService $systemService */
