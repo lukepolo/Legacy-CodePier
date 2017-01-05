@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Models\CronJob;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Http\Requests\Server\ServerCronJobRequest;
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class ServerCronJobController extends Controller
 {
