@@ -42,7 +42,7 @@ class InstallServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if(
+        if (
             $this->server->cronJobs
             ->where('job', $this->cronJob->job)
             ->where('user', $this->cronJob->user)

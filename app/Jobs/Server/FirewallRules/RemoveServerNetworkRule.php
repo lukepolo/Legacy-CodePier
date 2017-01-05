@@ -42,14 +42,10 @@ class RemoveServerNetworkRule implements ShouldQueue
             $serverService->getService(SystemService::FIREWALL, $this->serverNetworkRule->server)->removeServerNetworkRule($this->serverNetworkRule->server->ip);
         });
 
-        if (! $this->wasSuccessful()) {
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-        } else {
+        if ($this->wasSuccessful()) {
             $this->serverNetworkRule->delete();
         }
 
-        return $this->remoteResponse();
+        throw new ServerCommandFailed($this->getCommandErrors());
     }
 }

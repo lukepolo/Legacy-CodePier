@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Exceptions\ServerCommandFailed;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -41,7 +42,7 @@ class ActivateServerSslCertificate implements ShouldQueue
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -50,6 +51,8 @@ class ActivateServerSslCertificate implements ShouldQueue
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
 
-        return $this->remoteResponse();
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
+        }
     }
 }
