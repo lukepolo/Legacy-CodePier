@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Requests\Site\SshKeyRequest;
 use App\Models\SshKey;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SshKeyRequest;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
 class ServerSshKeyController extends Controller
