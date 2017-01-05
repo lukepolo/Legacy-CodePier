@@ -39,7 +39,7 @@ class ServerFirewallRuleController extends Controller
         $port = $request->get('port');
         $fromIp = $request->get('from_ip', null);
 
-        if(!$server->firewallRules
+        if (! $server->firewallRules
             ->where('port', $port)
             ->where('from_ip', $fromIp)
             ->count()
@@ -60,7 +60,6 @@ class ServerFirewallRuleController extends Controller
         }
 
         return response()->json('Firewall Rule Already Exists', 400);
-
     }
 
     /**

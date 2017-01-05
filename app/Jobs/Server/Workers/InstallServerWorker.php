@@ -43,7 +43,7 @@ class InstallServerWorker implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if(!$this->server->workers->keyBy('id')->get($this->worker->id)) {
+        if (! $this->server->workers->keyBy('id')->get($this->worker->id)) {
             $this->updateServerCommand(0, 'Sever already has worker installed');
         } else {
             $this->runOnServer(function () use ($serverService) {
@@ -60,6 +60,5 @@ class InstallServerWorker implements ShouldQueue
 
             return $this->remoteResponse();
         }
-
     }
 }

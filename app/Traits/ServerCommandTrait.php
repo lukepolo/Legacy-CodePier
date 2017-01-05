@@ -134,7 +134,7 @@ trait ServerCommandTrait
     }
 
     /**
-     * Updates the server command
+     * Updates the server command.
      * @param $runtime
      * @param $log
      * @param $completed
@@ -145,7 +145,7 @@ trait ServerCommandTrait
             'runtime' => $runtime,
             'log' =>  $log,
             'completed' => $completed,
-            'failed' => !$completed
+            'failed' => ! $completed,
         ]);
     }
 }
