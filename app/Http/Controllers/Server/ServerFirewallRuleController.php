@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
@@ -42,22 +44,11 @@ class ServerFirewallRuleController extends Controller
 
         $server->firewallRules()->save($firewallRule);
 
-        return response()->json($firewallRule);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            Server::findOrFail($serverId)->get($id)
+        dispatch(
+            (new InstallServerFirewallRule($server, $firewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json($firewallRule);
     }
 
     /**
@@ -70,8 +61,12 @@ class ServerFirewallRuleController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            Server::findOrFail($serverId)->get($id)->delete()
+        $server = Server::findOrFail($serverId);
+
+        dispatch(
+            (new RemoveServerFirewallRule($server, $server->firewallRules->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json('OK');
     }
 }

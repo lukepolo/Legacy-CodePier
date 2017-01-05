@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Jobs\Server\Workers\InstallServerWorker;
 use App\Models\Worker;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
@@ -44,22 +45,11 @@ class ServerWorkerController extends Controller
 
         $server->workers()->save($worker);
 
-        return response()->json($worker);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            Server::findOrFail($serverId)->get($id)
+        dispatch(
+            (new InstallServerWorker($server, $worker))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json($worker);
     }
 
     /**
@@ -72,8 +62,12 @@ class ServerWorkerController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            Server::findOrFail($serverId)->get($id)->delete()
-       );
+        $server = Server::findOrFail($serverId);
+
+        dispatch(
+            (new InstallServerWorker($server, $server->workers->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
+
+        return response()->json('OK');
     }
 }
