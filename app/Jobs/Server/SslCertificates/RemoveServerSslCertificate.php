@@ -48,7 +48,7 @@ class RemoveServerSslCertificate implements ShouldQueue
     {
         $sitesCount = $this->sslCertificate->sites->count();
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->removeSslCertificate($this->server, $this->sslCertificate);
                 $siteService->updateWebServerConfig($this->server, $this->site);
@@ -61,7 +61,7 @@ class RemoveServerSslCertificate implements ShouldQueue
 
         $this->server->sslCertificates()->detach($this->sslCertificate->id);
 
-        if(!$sitesCount) {
+        if (! $sitesCount) {
             $this->sslCertificate->load('servers');
             if ($this->sslCertificate->servers->count() == 0) {
                 $this->sslCertificate->delete();

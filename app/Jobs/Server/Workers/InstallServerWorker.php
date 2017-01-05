@@ -44,7 +44,6 @@ class InstallServerWorker implements ShouldQueue
         if (! $this->server->workers->keyBy('id')->get($this->worker->id)) {
             $this->updateServerCommand(0, 'Sever already has worker installed');
         } else {
-
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::WORKERS, $this->server)->addWorker($this->worker);
             });
