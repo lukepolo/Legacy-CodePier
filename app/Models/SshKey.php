@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Server\Server;
+use App\Models\Site\Site;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,4 +20,20 @@ class SshKey extends Model
     protected $hidden = [
         'ssh_key',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
+
+    public function sites()
+    {
+        return $this->morphedByMany(Site::class, 'sshKeyable');
+    }
+
+    public function server()
+    {
+        return $this->morphedByMany(Server::class, 'sshKeyable');
+    }
 }

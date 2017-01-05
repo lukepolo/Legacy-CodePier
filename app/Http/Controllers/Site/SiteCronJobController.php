@@ -35,7 +35,6 @@ class SiteCronJobController extends Controller
         $site = Site::findOrFail($siteId);
 
         $cronJob = CronJob::create([
-            'site_id' => $siteId,
             'job' => $request->get('job'),
             'user' => $request->get('user'),
         ]);

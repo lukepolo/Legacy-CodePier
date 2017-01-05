@@ -22,7 +22,7 @@ class SiteCronJobCreated
     {
         $siteCommand = $this->makeCommand($site, $cronJob);
 
-        foreach ($cronJob->site->provisionedServers as $server) {
+        foreach ($site->provisionedServers as $server) {
             if (! $server->cronJobs
                 ->where('job', $cronJob->job)
                 ->where('user', $cronJob->user)

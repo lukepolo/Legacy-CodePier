@@ -20,9 +20,9 @@ class WorkersRestructure extends Migration
 
         Schema::create('workerables', function (Blueprint $table) {
             $table->integer('worker_id');
-            $table->integer('workerables_id');
-            $table->string('workerables_type');
-            $table->index(['worker_id', 'workerables_id', 'workerables_type'], 'workerable_indexs');
+            $table->integer('workerable_id');
+            $table->string('workerable_type');
+            $table->index(['worker_id', 'workerable_id', 'workerable_type'], 'workerable_indexs');
         });
 
         $records = DB::table('server_workers')->get();
