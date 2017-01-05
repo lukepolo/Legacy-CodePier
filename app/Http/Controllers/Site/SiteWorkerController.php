@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Site\SiteWorkerCreated;
 use App\Models\Worker;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
@@ -44,22 +45,9 @@ class SiteWorkerController extends Controller
 
         $site->workers()->save($worker);
 
-        return response()->json($worker);
-    }
+        event(new SiteWorkerCreated($site, $worker));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $siteId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            Site::findOrFail($siteId)->get($id)
-        );
+        return response()->json($worker);
     }
 
     /**
@@ -72,8 +60,10 @@ class SiteWorkerController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            Site::findOrFail($siteId)->get($id)->delete()
-        );
+        $site = Site::with('workers')->findOrFail($siteId);
+
+        event(new SiteWorkerCreated($site, $site->workers->get($id)));
+
+        return response()->json('OK');
     }
 }

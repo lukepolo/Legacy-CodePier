@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Exceptions\ServerCommandFailed;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -40,6 +41,7 @@ class InstallServerSslCertificate implements ShouldQueue
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -47,6 +49,14 @@ class InstallServerSslCertificate implements ShouldQueue
             $serverService->installSslCertificate($this->server, $this->sslCertificate);
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
+
+        if (! $this->wasSuccessful()) {
+            if (\App::runningInConsole()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+        } else {
+            $this->server->sslCertificates()->save($this->sslCertificate);
+        }
 
         return $this->remoteResponse();
     }

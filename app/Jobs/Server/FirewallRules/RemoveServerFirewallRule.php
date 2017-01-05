@@ -47,7 +47,7 @@ class RemoveServerFirewallRule implements ShouldQueue
             $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
         });
 
-        if ($this->wasSuccessful()) {
+        if (!$this->wasSuccessful()) {
             if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }

@@ -45,14 +45,17 @@ class InstallServerFirewallRule implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->server, $this->firewallRule);
+            $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
         });
 
         if (! $this->wasSuccessful()) {
             if (\App::runningInConsole()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
+        } else {
+            $this->server->firewallRules()->save($this->firewallRule);
         }
+
 
         return $this->remoteResponse();
     }
