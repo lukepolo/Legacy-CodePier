@@ -35,19 +35,27 @@ class ServerSshKeyController extends Controller
     public function store(SshKeyRequest $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
+        $sshKey = trim($request->get('ssh_key'));
 
-        $sshKey = SshKey::create([
-            'name' => $request->get('name'),
-            'ssh_key' => trim($request->get('ssh_key')),
-        ]);
+        if(!$server->sshKeys
+            ->where('ssh_key', $sshKey)
+            ->count()
+        ) {
+            $sshKey = SshKey::create([
+                'name' => $request->get('name'),
+                'ssh_key' => $sshKey,
+            ]);
 
-        $server->sshKeys()->save($sshKey);
+            $server->sshKeys()->save($sshKey);
 
-        dispatch(
-            (new InstallServerSshKey($server, $sshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
-        );
+            dispatch(
+                (new InstallServerSshKey($server, $sshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
 
-        return response()->json($sshKey);
+            return response()->json($sshKey);
+        }
+
+        return response()->json('SSH Key Already Exists', 400);
     }
 
     /**

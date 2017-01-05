@@ -36,18 +36,29 @@ class ServerCronJobController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $cronJob = CronJob::create([
-            'job' => $request->get('cron_timing').' '.$request->get('cron'),
-            'user' => $request->get('user'),
-        ]);
+        $job = $request->get('job');
+        $user = $request->get('user');
 
-        $server->cronJob()->save($cronJob);
+        if(!$server->cronJobs->cronJobs
+            ->where('job', $job)
+            ->where('user', $user)
+            ->count()
+        ) {
+            $cronJob = CronJob::create([
+                'job' => $job,
+                'user' => $user,
+            ]);
 
-        $this->dispatch(
-            (new InstallServerCronJob($server, $cronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
-        );
+            $server->cronJob()->save($cronJob);
 
-        return response()->json($cronJob);
+            $this->dispatch(
+                (new InstallServerCronJob($server, $cronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+
+            return response()->json($cronJob);
+        }
+
+        return response()->json('Cron Job Already Exists', 400);
     }
 
     /**

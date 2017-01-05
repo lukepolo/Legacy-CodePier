@@ -36,19 +36,31 @@ class ServerFirewallRuleController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $firewallRule = FirewallRule::create([
-            'port' => $request->get('port'),
-            'from_ip' => $request->get('from_ip'),
-            'description' => $request->get('description'),
-        ]);
+        $port = $request->get('port');
+        $fromIp = $request->get('from_ip', null);
 
-        $server->firewallRules()->save($firewallRule);
+        if(!$server->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'from_ip' => $fromIp,
+                'description' => $request->get('description'),
+            ]);
 
-        dispatch(
-            (new InstallServerFirewallRule($server, $firewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
-        );
+            $server->firewallRules()->save($firewallRule);
 
-        return response()->json($firewallRule);
+            dispatch(
+                (new InstallServerFirewallRule($server, $firewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+
+            return response()->json($firewallRule);
+        }
+
+        return response()->json('Firewall Rule Already Exists', 400);
+
     }
 
     /**
