@@ -41,7 +41,6 @@ class CreateSite implements ShouldQueue
         $siteService->create($this->server, $this->site);
 
         $this->site->cronJobs->each(function ($model) {
-
         });
 
         $this->site->files->each(function ($model) {
