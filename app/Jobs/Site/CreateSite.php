@@ -54,7 +54,7 @@ class CreateSite implements ShouldQueue
         });
 
         $this->site->files->each(function ($file) {
-            if(!empty($file->content)) {
+            if (! empty($file->content)) {
                 dispatch(
                     (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(env('SERVER_COMMAND_QUEUE'))
                 );
