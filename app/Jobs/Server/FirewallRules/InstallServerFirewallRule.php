@@ -2,13 +2,15 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
+use App\Models\Command;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerFirewallRule;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
@@ -16,17 +18,21 @@ class InstallServerFirewallRule implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverFirewallRule;
+    private $server;
+    private $firewallRule;
 
     /**
      * InstallServerFirewallRule constructor.
      *
-     * @param ServerFirewallRule $serverFirewallRule
+     * @param Server $server
+     * @param FirewallRule $firewallRule
+     * @param Command $siteCommand
      */
-    public function __construct(ServerFirewallRule $serverFirewallRule)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
-        $this->makeCommand($serverFirewallRule);
-        $this->serverFirewallRule = $serverFirewallRule;
+        $this->server = $server;
+        $this->firewallRule = $firewallRule;
+        $this->makeCommand($server, $firewallRule, $siteCommand);
     }
 
     /**
@@ -38,18 +44,24 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->addFirewallRule($this->serverFirewallRule);
-        });
+        if ($this->server->firewallRules
+            ->where('port', $this->firewallRule->port)
+            ->where('from_ip', $this->firewallRule->from_ip)
+            ->count()
+            ||
+            $this->server->firewallRules->keyBy('id')->get($this->firewallRule->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has firewall rule : '.$this->firewallRule->port.' from ip '.$this->firewallRule->from_ip);
+        } else {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
+            });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverFirewallRule->unsetEventDispatcher();
-            $this->serverFirewallRule->delete();
-            if (\App::runningInConsole()) {
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        return $this->remoteResponse();
+            $this->server->firewallRules()->save($this->firewallRule);
+        }
     }
 }

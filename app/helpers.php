@@ -29,6 +29,16 @@ if (! function_exists('strip_relations')) {
     }
 }
 
+if (! function_exists('create_system_service')) {
+    function create_system_service($service, \App\Models\Server\Server $server)
+    {
+        /** @var \App\Services\Systems\SystemService $systemService */
+        $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
+
+        return $systemService->createSystemService($service, $server);
+    }
+}
+
 if (! function_exists('save_without_events')) {
 
     /**
@@ -50,12 +60,17 @@ if (! function_exists('save_without_events')) {
     }
 }
 
-if (! function_exists('create_sytem_service')) {
-    function create_system_service($service, \App\Models\Server\Server $server)
-    {
-        /** @var \App\Services\Systems\SystemService $systemService */
-        $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
+if (! function_exists('remove_events')) {
 
-        return $systemService->createSystemService($service, $server);
+    /**
+     * Gets the version of what is currently installed.
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return mixed
+     */
+    function remove_events(\Illuminate\Database\Eloquent\Model $model)
+    {
+        $model->flushEventListeners();
+
+        return $model;
     }
 }

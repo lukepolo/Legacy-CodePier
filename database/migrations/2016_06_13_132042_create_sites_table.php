@@ -38,6 +38,6 @@ class CreateSitesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sites');
+        Schema::dropIfExists('sites');
     }
 }

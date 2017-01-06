@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use App\Models\SshKey;
+use App\Models\Worker;
 use App\Models\Command;
+use App\Models\CronJob;
+use App\Models\FirewallRule;
 use Illuminate\Http\Request;
-use App\Models\Site\SiteFile;
-use App\Models\Site\SiteSshKey;
-use App\Models\Site\SiteWorker;
-use App\Models\Site\SiteCronJob;
+use App\Models\SslCertificate;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Server\ServerSshKey;
-use App\Models\Server\ServerWorker;
 use App\Models\Site\SiteDeployment;
-use App\Models\Server\ServerCronJob;
-use App\Models\Site\SiteFirewallRule;
 use Illuminate\Database\Query\Builder;
-use App\Models\Site\SiteSslCertificate;
-use App\Models\Server\ServerFirewallRule;
-use App\Models\Server\ServerSslCertificate;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
@@ -28,18 +23,12 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
-            ServerWorker::class,
-            ServerSshKey::class,
-            ServerCronJob::class,
-            ServerFirewallRule::class,
-            ServerSslCertificate::class,
-
-            SiteFile::class,
-            SiteWorker::class,
-            SiteSshKey::class,
-            SiteCronJob::class,
-            SiteFirewallRule::class,
-            SiteSslCertificate::class,
+            File::class,
+            Worker::class,
+            SshKey::class,
+            CronJob::class,
+            FirewallRule::class,
+            SslCertificate::class,
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,

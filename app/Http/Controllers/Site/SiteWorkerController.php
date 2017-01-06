@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteWorker;
+use App\Models\Worker;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteWorkerRequest;
+use App\Http\Requests\WorkerRequest;
+use App\Events\Site\SiteWorkerCreated;
+use App\Events\Site\SiteWorkerDeleted;
 
 class SiteWorkerController extends Controller
 {
@@ -18,44 +21,34 @@ class SiteWorkerController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteWorker::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->workers
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteWorkerRequest $request
+     * @param WorkerRequest $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(SiteWorkerRequest $request, $siteId)
+    public function store(WorkerRequest $request, $siteId)
     {
-        return response()->json(
-            SiteWorker::create([
-                'site_id' => $siteId,
-                'command' => $request->get('command'),
-                'auto_start' => true,
-                'auto_restart' => true,
-                'user' => $request->get('user'),
-                'number_of_workers' => $request->get('number_of_workers'),
-            ])
-        );
-    }
+        $site = Site::findOrFail($siteId);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $siteId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteWorker::where('site_id', $siteId)->findOrFail($id)
-        );
+        $worker = Worker::create([
+            'auto_start' => $request->get('auto_start', false),
+            'auto_restart' => $request->get('auto_restart', false),
+            'user' => $request->get('user'),
+            'command' => $request->get('command'),
+            'number_of_workers' => $request->get('number_of_workers'),
+        ]);
+
+        $site->workers()->save($worker);
+
+        event(new SiteWorkerCreated($site, $worker));
+
+        return response()->json($worker);
     }
 
     /**
@@ -68,8 +61,10 @@ class SiteWorkerController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            SiteWorker::where('site_id', $siteId)->findOrFail($id)->delete()
-        );
+        $site = Site::with('workers')->findOrFail($siteId);
+
+        event(new SiteWorkerDeleted($site, $site->workers->keyBy('id')->get($id)));
+
+        return response()->json('OK');
     }
 }

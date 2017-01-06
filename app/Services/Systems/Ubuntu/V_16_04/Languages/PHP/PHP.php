@@ -2,9 +2,9 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
+use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
-use App\Models\Server\ServerCronJob;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
@@ -154,8 +154,7 @@ class PHP
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        ServerCronJob::create([
-            'server_id' => $this->server->id,
+        CronJob::create([
             'job'       => $cronJob,
             'user'      => 'root',
         ]);

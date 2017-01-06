@@ -53,7 +53,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'server' => $this->server->stripForBroadcast(),
+            'server' => $this->server,
             'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep,
         ];
     }

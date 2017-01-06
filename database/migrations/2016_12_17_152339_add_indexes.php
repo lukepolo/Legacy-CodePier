@@ -177,18 +177,6 @@ class AddIndexes extends Migration
      */
     public function down()
     {
-        foreach (self::TABLES as $table =>  $indexes) {
-            Schema::table($table, function (Blueprint $tableModifying) use ($table, $indexes) {
-                foreach ($indexes as $index) {
-                    if (is_array($index)) {
-                        $tableModifying->dropIndex($index);
-                        continue;
-                    }
-                    $tableModifying->dropIndex($table.'_'.$index.'_index');
-                }
-            });
-        }
-
         Schema::table('users', function (Blueprint $tableModifying) {
             $tableModifying->unique('email');
             $tableModifying->dropIndex('users_user_login_provider_id_index');

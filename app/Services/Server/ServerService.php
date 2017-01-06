@@ -2,14 +2,15 @@
 
 namespace App\Services\Server;
 
+use App\Models\SshKey;
+use App\Models\CronJob;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
 use App\Models\Server\Server;
-use App\Models\Server\ServerCronJob;
+use App\Models\SslCertificate;
 use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
-use App\Models\Server\ServerSslCertificate;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract;
 use App\Notifications\Server\ServerProvisioned;
@@ -31,7 +32,7 @@ class ServerService implements ServerServiceContract
      * SiteService constructor.
      *
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
-     * @param SystemService | SystemServiceContract               $systemService
+     * @param SystemService | SystemServiceContract $systemService
      */
     public function __construct(RemoteTaskService $remoteTaskService, SystemServiceContract $systemService)
     {
@@ -41,7 +42,7 @@ class ServerService implements ServerServiceContract
 
     /**
      * @param ServerProvider $serverProvider
-     * @param Server         $server
+     * @param Server $server
      *
      * @return mixed
      */
@@ -283,11 +284,11 @@ class ServerService implements ServerServiceContract
      *
      * @return bool
      */
-    public function installSshKey(Server $server, $sshKey)
+    public function installSshKey(Server $server, SshKey $sshKey)
     {
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey);
+        $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', $sshKey->ssh_key);
 
         return $this->remoteTaskService->getErrors();
     }
@@ -298,11 +299,11 @@ class ServerService implements ServerServiceContract
      *
      * @return bool
      */
-    public function removeSshKey(Server $server, $sshKey)
+    public function removeSshKey(Server $server, SshKey $sshKey)
     {
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey);
+        $this->remoteTaskService->removeLineByText('/home/codepier/.ssh/authorized_keys', $sshKey->ssh_key);
 
         return $this->remoteTaskService->getErrors();
     }
@@ -323,57 +324,59 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerCronJob $serverCronJob
-     *
+     * @param Server $server
+     * @param CronJob $cronJob
      * @return array
      */
-    public function installCron(ServerCronJob $serverCronJob)
+    public function installCron(Server $server, CronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($serverCronJob->server, $serverCronJob->user);
-        $this->remoteTaskService->run('crontab -l | (grep '.$serverCronJob->job.') || ((crontab -l; echo "'.$serverCronJob->job.' >/dev/null 2>&1") | crontab)');
+        $this->remoteTaskService->ssh($server, $cronJob->user);
+        $this->remoteTaskService->run('crontab -l | (grep '.$cronJob->job.') || ((crontab -l; echo "'.$cronJob->job.' >/dev/null 2>&1") | crontab)');
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * @param ServerCronJob $cronJob
-     *
+     * @param Server $server
+     * @param CronJob $cronJob
      * @return bool
      */
-    public function removeCron(ServerCronJob $cronJob)
+    public function removeCron(Server $server, CronJob $cronJob)
     {
-        $this->remoteTaskService->ssh($cronJob->server, $cronJob->user);
-        $this->remoteTaskService->run('crontab -l | grep -v "'.$cronJob->job.' >/dev/null 2>&1" | crontab -');
+        $this->remoteTaskService->ssh($server, $cronJob->user);
+
+        $job = str_replace('*', '\\*', $cronJob->job);
+        $this->remoteTaskService->run("crontab -l | grep -v '$job' | crontab -");
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param SslCertificate $sslCertificate
      * @return array
      */
-    public function installSslCertificate(ServerSslCertificate $serverSslCertificate)
+    public function installSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
-        switch ($serverSslCertificate->type) {
+        switch ($sslCertificate->type) {
             case self::LETS_ENCRYPT:
 
-                return $this->installLetsEncryptSsl($serverSslCertificate);
+                return $this->installLetsEncryptSsl($server, $sslCertificate);
 
                 break;
             case 'existing':
 
-                $server = $serverSslCertificate->server;
-
                 $this->remoteTaskService->ssh($server);
 
-                $sslCertPath = self::SSL_FILES.'/'.$server->site->domain.'/'.$serverSslCertificate->id;
+                $sslCertPath = self::SSL_FILES.'/'.$sslCertificate->id;
 
-                $serverSslCertificate->key_path = $sslCertPath.'/server.key';
-                $serverSslCertificate->cert_path = $sslCertPath.'/server.crt';
-                $serverSslCertificate->save();
+                $sslCertificate->update([
+                    'key_path' => $sslCertPath.'/server.key',
+                    'cert_path' =>  $sslCertPath.'/server.crt',
+                ]);
 
-                $this->remoteTaskService->writeToFile($serverSslCertificate->key_path, $serverSslCertificate->key);
-                $this->remoteTaskService->writeToFile($serverSslCertificate->cert_path, $serverSslCertificate->cert);
+                $this->remoteTaskService->writeToFile($sslCertificate->key_path, $sslCertificate->key);
+                $this->remoteTaskService->writeToFile($sslCertificate->cert_path, $sslCertificate->cert);
 
                 return $this->remoteTaskService->getErrors();
 
@@ -382,38 +385,40 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param SslCertificate $sslCertificate
      * @return array
      */
-    public function activateSslCertificate(ServerSslCertificate $serverSslCertificate)
+    public function activateSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
-        $this->remoteTaskService->ssh($serverSslCertificate->server);
+        $this->remoteTaskService->ssh($server);
 
-        $sslCertPath = self::SSL_FILES.'/'.$serverSslCertificate->siteSslCertificate->site->domain.'/'.$serverSslCertificate->id;
+        $sslCertPath = self::SSL_FILES.'/'.$sslCertificate->id;
 
         $this->remoteTaskService->makeDirectory($sslCertPath);
 
-        $this->remoteTaskService->run("ln -f -s $serverSslCertificate->key_path $sslCertPath/server.key");
-        $this->remoteTaskService->run("ln -f -s $serverSslCertificate->cert_path $sslCertPath/server.crt");
+        $this->remoteTaskService->run("ln -f -s $sslCertificate->key_path $sslCertPath/server.key");
+        $this->remoteTaskService->run("ln -f -s $sslCertificate->cert_path $sslCertPath/server.crt");
 
         return $this->remoteTaskService->getErrors();
     }
 
     /**
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param SslCertificate $sslCertificate
      * @return array
      */
-    public function removeSslCertificate(ServerSslCertificate $serverSslCertificate)
+    public function removeSslCertificate(Server $server, SslCertificate $sslCertificate)
     {
-        $this->remoteTaskService->ssh($serverSslCertificate->server);
+        $this->remoteTaskService->ssh($server);
 
-        switch ($serverSslCertificate->type) {
+        switch ($sslCertificate->type) {
             case self::LETS_ENCRYPT:
                 // leave it be we don't want to erase them cause they aren't unique
                 break;
             default:
-                $this->remoteTaskService->removeFile($serverSslCertificate->key_path);
-                $this->remoteTaskService->removeFile($serverSslCertificate->cert_path);
+                $this->remoteTaskService->removeFile($sslCertificate->key_path);
+                $this->remoteTaskService->removeFile($sslCertificate->cert_path);
                 break;
         }
 
@@ -421,28 +426,34 @@ class ServerService implements ServerServiceContract
     }
 
     /**
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param SslCertificate $sslCertificate
      * @return array
      */
-    private function installLetsEncryptSsl(ServerSslCertificate $serverSslCertificate)
+    private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
-        $server = $serverSslCertificate->server;
-
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $serverSslCertificate->domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d',
+                explode(',', $sslCertificate->domains))
         );
 
-        if (count($errors = $this->remoteTaskService->getErrors())) {
-            return $errors;
-        }
+        if (! count($this->remoteTaskService->getErrors())) {
+            if (! $server->cronJobs
+                ->where('job', '* */12 * * * letsencrypt renew')
+                ->count()
+            ) {
+                $cronJob = CronJob::create([
+                    'job' => '* */12 * * * letsencrypt renew',
+                    'user' => 'root',
+                ]);
 
-        ServerCronJob::firstOrCreate([
-            'server_id' => $server->id,
-            'job' => '* */12 * * * letsencrypt renew',
-            'user' => 'root',
-        ]);
+                if (! count($this->installCron($server, $cronJob))) {
+                    $server->cronJobs()->save($cronJob);
+                }
+            }
+        }
 
         return $this->remoteTaskService->getErrors();
     }

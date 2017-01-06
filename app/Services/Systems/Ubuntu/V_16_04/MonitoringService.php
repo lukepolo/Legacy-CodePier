@@ -2,7 +2,8 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\Server\ServerCronJob;
+use App\Models\CronJob;
+use App\Models\Server\Server;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class MonitoringService
@@ -31,7 +32,7 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        $this->createCronJob($this->server->id, $cronJob, 'root');
+        $this->createCronJob($this->server, $cronJob, 'root');
     }
 
     /**
@@ -53,7 +54,7 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        $this->createCronJob($this->server->id, $cronJob, 'root');
+        $this->createCronJob($this->server, $cronJob, 'root');
     }
 
     /**
@@ -74,17 +75,16 @@ done');
 
         $this->remoteTaskService->run('crontab -l | (grep '.$cronJob.') || ((crontab -l; echo "'.$cronJob.' >/dev/null 2>&1") | crontab)');
 
-        $this->createCronJob($this->server->id, $cronJob, 'root');
+        $this->createCronJob($this->server, $cronJob, 'root');
     }
 
-    private function createCronJob($serverId, $cronJob, $user)
+    private function createCronJob(Server $server, $cronJob, $user)
     {
-        $serverCronJob = new ServerCronJob([
-            'server_id' => $serverId,
+        $cronJob = new CronJob([
             'job'       => $cronJob,
             'user'      => $user,
         ]);
 
-        save_without_events($serverCronJob);
+        $server->cronJobs()->save($cronJob);
     }
 }

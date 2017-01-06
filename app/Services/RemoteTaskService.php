@@ -36,9 +36,9 @@ class RemoteTaskService implements RemoteTaskServiceContract
             throw new SshConnectionFailed('No server set');
         }
 
-        \Log::info('Running Command : '.$command);
-
         $output = null;
+
+        \Log::info('Running Command'.$command);
 
         try {
             $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');

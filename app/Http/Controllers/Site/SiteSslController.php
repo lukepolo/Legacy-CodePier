@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
+use App\Models\SslCertificate;
+use App\Http\Requests\SslRequest;
 use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
-use App\Models\Site\SiteSslCertificate;
-use App\Http\Requests\Site\SiteSslRequest;
+use App\Events\Site\SiteSslCertificateCreated;
+use App\Events\Site\SiteSslCertificateDeleted;
+use App\Events\Site\SiteSslCertificateUpdated;
 
 class SiteSslController extends Controller
 {
@@ -19,79 +23,84 @@ class SiteSslController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->sslCertificates
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteSslRequest $request
+     * @param SslRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function store(SiteSslRequest $request, $siteId)
+    public function store(SslRequest $request, $siteId)
     {
-        $siteSslCertificate = false;
+        $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        switch ($type = $request->get('type')) {
-            case ServerService::LETS_ENCRYPT:
+        if (! $site->sslCertificates
+            ->where('type', $this->sslCertificate->type)
+            ->where('domains', $this->sslCertificate->domains)
+            ->count()
+        ) {
+            switch ($type = $request->get('type')) {
+                case ServerService::LETS_ENCRYPT:
 
                     $folder = explode(',', $request->get('domains'))[0];
 
-                    $siteSslCertificate = SiteSslCertificate::create([
-                        'site_id'   => $siteId,
-                        'domains'   => $request->get('domains'),
-                        'type'      => $request->get('type'),
-                        'active'    => false,
-                        'key_path'  => "/etc/letsencrypt/live/$folder/privkey.pem",
+                    $sslCertificate = SslCertificate::create([
+                        'domains' => $request->get('domains'),
+                        'type' => $request->get('type'),
+                        'active' => false,
+                        'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
                         'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
                     ]);
 
-                break;
-            case 'existing':
+                    break;
+                case 'existing':
 
-                $siteSslCertificate = SiteSslCertificate::create([
-                    'site_id'   => $siteId,
-                    'type'      => $request->get('type'),
-                    'active'    => false,
-                    'key' => $request->get('key'),
-                    'cert' => $request->get('cert'),
-                ]);
-                break;
+                    $sslCertificate = SslCertificate::create([
+                        'type' => $request->get('type'),
+                        'active' => false,
+                        'key' => $request->get('key'),
+                        'cert' => $request->get('cert'),
+                    ]);
+                    break;
+                default:
+                    throw new \Exception('Invalid SSL Type');
+                    break;
+            }
+
+            $site->sslCertificates()->save($sslCertificate);
+
+            event(new SiteSslCertificateCreated($site, $sslCertificate));
+
+            return response()->json($sslCertificate);
         }
 
-        return response()->json($siteSslCertificate);
+        return response()->json('SSL Certificate for these domains Already Exists', 400);
     }
 
     /**
-     * @param SiteSslRequest $request
+     * @param SslRequest $request
      * @param $siteId
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(SiteSslRequest $request, $siteId, $id)
+    public function update(SslRequest $request, $siteId, $id)
     {
-        $siteSslCertificate = SiteSslCertificate::where('site_id', $siteId)->findOrFail($id);
+        $site = Site::with('sslCertificates')->findOrFail($siteId);
 
-        return response()->json($siteSslCertificate->update([
+        $sslCertificate = $site->sslCertificates->keyBy('id')->get($id);
+
+        $sslCertificate->update([
             'active' => $request->get('active'),
-        ]));
-    }
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $siteId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)
-        );
+        event(new SiteSslCertificateUpdated($site, $sslCertificate));
+
+        return response()->json($sslCertificate);
     }
 
     /**
@@ -104,8 +113,10 @@ class SiteSslController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            SiteSslCertificate::where('site_id', $siteId)->findOrFail($id)->delete()
-        );
+        $site = Site::with('sslCertificates')->findOrFail($siteId);
+
+        event(new SiteSslCertificateDeleted($site, $site->sslCertificates->keyBy('id')->get($id)));
+
+        return response()->json($site->sslCertificates()->detach($id));
     }
 }

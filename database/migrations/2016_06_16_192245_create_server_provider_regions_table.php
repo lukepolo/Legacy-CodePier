@@ -28,6 +28,6 @@ class CreateServerProviderRegionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_provider_regions');
+        Schema::dropIfExists('server_provider_regions');
     }
 }

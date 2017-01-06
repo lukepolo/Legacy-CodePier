@@ -129,7 +129,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::resource('sites', 'Site\SiteController');
 
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
-        Route::post('site/{site}/update/server-features', 'Site\SiteController@updateSiteServerFeatures');
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {
@@ -151,6 +150,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('site.ssl-certificate', 'SiteSslController');
             Route::resource('site.hooks', 'Repository\RepositoryHookController');
             Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
+            Route::resource('site.server-features', 'SiteServerFeaturesController');
             Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
         });
     });

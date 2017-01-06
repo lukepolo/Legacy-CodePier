@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Server\Workers;
 
+use App\Models\Worker;
+use App\Models\Command;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use App\Models\Server\ServerWorker;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
@@ -16,16 +18,20 @@ class InstallServerWorker implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverWorker;
+    private $server;
+    private $worker;
 
     /**
      * InstallServerWorker constructor.
-     * @param ServerWorker $serverWorker
+     * @param Server $server
+     * @param Worker $worker
+     * @param Command $siteCommand
      */
-    public function __construct(ServerWorker $serverWorker)
+    public function __construct(Server $server, Worker $worker, Command $siteCommand = null)
     {
-        $this->makeCommand($serverWorker);
-        $this->serverWorker = $serverWorker;
+        $this->server = $server;
+        $this->worker = $worker;
+        $this->makeCommand($server, $worker, $siteCommand);
     }
 
     /**
@@ -35,18 +41,18 @@ class InstallServerWorker implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::WORKERS, $this->serverWorker->server)->addWorker($this->serverWorker);
-        });
+        if ($this->server->workers->keyBy('id')->get($this->worker->id)) {
+            $this->updateServerCommand(0, 'Sever already has worker installed');
+        } else {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::WORKERS, $this->server)->addWorker($this->worker);
+            });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverWorker->unsetEventDispatcher();
-            $this->serverWorker->delete();
-            if (\App::runningInConsole()) {
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        return $this->remoteResponse();
+            $this->server->workers()->save($this->worker);
+        }
     }
 }

@@ -86,6 +86,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
 
         $site->update([
+            'type'                        => $request->get('type'),
             'branch'                      => $request->get('branch'),
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
@@ -93,7 +94,6 @@ class SiteController extends Controller
             'wildcard_domain'             => $request->get('wildcard_domain', 0),
             'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
-            'type'                        => $request->get('type'),
         ]);
 
         if ($request->has('servers')) {

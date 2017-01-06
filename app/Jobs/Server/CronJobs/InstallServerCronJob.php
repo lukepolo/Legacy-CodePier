@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Server\CronJobs;
 
+use App\Models\Command;
+use App\Models\CronJob;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use App\Models\Server\ServerCronJob;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,16 +17,20 @@ class InstallServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverCronJob;
+    private $server;
+    private $cronJob;
 
     /**
      * Create a new job instance.
-     * @param ServerCronJob $serverCronJob
+     * @param Server $server
+     * @param CronJob $cronJob
+     * @param Command $siteCommand
      */
-    public function __construct(ServerCronJob $serverCronJob)
+    public function __construct(Server $server, CronJob $cronJob, Command $siteCommand = null)
     {
-        $this->makeCommand($serverCronJob);
-        $this->serverCronJob = $serverCronJob;
+        $this->server = $server;
+        $this->cronJob = $cronJob;
+        $this->makeCommand($server, $cronJob, $siteCommand);
     }
 
     /**
@@ -36,18 +42,25 @@ class InstallServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->installCron($this->serverCronJob);
-        });
+        if (
+            $this->server->cronJobs
+            ->where('job', $this->cronJob->job)
+            ->where('user', $this->cronJob->user)
+            ->count()
+            ||
+            $this->server->cronJobs->keyBy('id')->get($this->cronJob->id)
+        ) {
+            $this->updateServerCommand(0, 'Sever already has cron job : '.$this->cronJob->job);
+        } else {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->installCron($this->server, $this->cronJob);
+            });
 
-        if (! $this->wasSuccessful()) {
-            $this->serverCronJob->unsetEventDispatcher();
-            $this->serverCronJob->delete();
-            if (\App::runningInConsole()) {
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        return $this->remoteResponse();
+            $this->server->cronJobs()->save($this->cronJob);
+        }
     }
 }

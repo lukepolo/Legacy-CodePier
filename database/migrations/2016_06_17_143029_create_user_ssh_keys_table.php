@@ -28,6 +28,6 @@ class CreateUserSshKeysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_ssh_keys');
+        Schema::dropIfExists('user_ssh_keys');
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Server\CronJobs;
 
+use App\Models\Command;
+use App\Models\CronJob;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use App\Models\Server\ServerCronJob;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,16 +17,21 @@ class RemoveServerCronJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverCronJob;
+    private $server;
+    private $cronJob;
 
     /**
      * RemoveServerCronJob constructor.
-     * @param ServerCronJob $serverCronJob
+     * @param Server $server
+     * @param CronJob $cronJob
+     * @param Command $siteCommand
+     * @internal param ServerCronJob $serverCronJob
      */
-    public function __construct(ServerCronJob $serverCronJob)
+    public function __construct(Server $server, CronJob $cronJob, Command $siteCommand = null)
     {
-        $this->makeCommand($serverCronJob);
-        $this->serverCronJob = $serverCronJob;
+        $this->server = $server;
+        $this->cronJob = $cronJob;
+        $this->makeCommand($server, $cronJob, $siteCommand);
     }
 
     /**
@@ -36,18 +43,25 @@ class RemoveServerCronJob implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->removeCron($this->serverCronJob);
-        });
+        $sitesCount = $this->cronJob->sites->count();
 
-        if ($this->wasSuccessful()) {
-            $this->serverCronJob->unsetEventDispatcher();
-            $this->serverCronJob->delete();
-            if (\App::runningInConsole()) {
+        if (! $sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->removeCron($this->server, $this->cronJob);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }
 
-        return $this->remoteResponse();
+        $this->server->cronJobs()->detach($this->cronJob->id);
+
+        if (! $sitesCount) {
+            $this->cronJob->load('servers');
+            if ($this->cronJob->servers->count() == 0) {
+                $this->cronJob->delete();
+            }
+        }
     }
 }

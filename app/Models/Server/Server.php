@@ -2,13 +2,19 @@
 
 namespace App\Models\Server;
 
+use App\Models\File;
 use App\Models\Pile;
+use App\Models\SshKey;
+use App\Models\Worker;
+use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\ServerCommand;
+use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -48,9 +54,11 @@ class Server extends Model
     ];
 
     protected $hidden = [
+        'options',
         'sudo_password',
         'public_ssh_key',
         'private_ssh_key',
+        'server_features',
         'database_password',
     ];
 
@@ -77,22 +85,27 @@ class Server extends Model
 
     public function sshKeys()
     {
-        return $this->hasMany(ServerSshKey::class);
+        return $this->morphToMany(SshKey::class, 'sshKeyable');
     }
 
     public function cronJobs()
     {
-        return $this->hasMany(ServerCronJob::class);
+        return $this->morphToMany(CronJob::class, 'cronjobable');
+    }
+
+    public function files()
+    {
+        return $this->morphToMany(File::class, 'fileable');
     }
 
     public function firewallRules()
     {
-        return $this->hasMany(ServerFirewallRule::class);
+        return $this->morphToMany(FirewallRule::class, 'firewallRuleable');
     }
 
     public function workers()
     {
-        return $this->hasMany(ServerWorker::class);
+        return $this->morphToMany(Worker::class, 'workerable');
     }
 
     public function connectedServers()
@@ -102,12 +115,12 @@ class Server extends Model
 
     public function sslCertificates()
     {
-        return $this->hasMany(ServerSslCertificate::class);
+        return $this->morphToMany(SslCertificate::class, 'sslCertificateable');
     }
 
     public function activeSslCertificates()
     {
-        return $this->hasMany(ServerSslCertificate::class)->where('active', true);
+        return $this->morphToMany(SslCertificate::class, 'sslCertificateable')->where('active', true);
     }
 
     public function server_provider_features()
@@ -215,13 +228,5 @@ class Server extends Model
     public function slackChannel()
     {
         return $this->morphOne(SlackChannel::class, 'slackable');
-    }
-
-    public function stripForBroadcast()
-    {
-        unset($this->options);
-        unset($this->server_features);
-
-        return strip_relations($this);
     }
 }
