@@ -41,6 +41,7 @@ class Site extends Model
     protected $hidden = [
         'public_ssh_key',
         'private_ssh_key',
+        'server_features',
     ];
 
     public static $teamworkModel = 'pile.teams';

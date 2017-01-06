@@ -26,6 +26,19 @@ class ServerFeatureController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param $serverId
+     * @return \Illuminate\Http\Response
+     */
+    public function index($serverId)
+    {
+        return response()->json(
+            Server::findOrFail($serverId)->server_features
+        );
+    }
+
+    /**
      * @param ServerFeatureRequest $request
      * @param $serverId
      * @return mixed
