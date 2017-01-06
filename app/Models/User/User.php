@@ -3,8 +3,8 @@
 namespace App\Models\User;
 
 use App\Models\Pile;
-use App\Models\Server\Server;
 use App\Models\SshKey;
+use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
