@@ -72,9 +72,9 @@ Vue.mixin({
     serverHasFeature: function (server, feature) {
       return _.get(server.server_features, feature, false)
     },
-    isCommandRunning (type, model_id) {
+    isCommandRunning (type, modelId) {
       const commands = _.filter(this.$store.state.serversStore.running_commands[type], (command) => {
-        return command.commandable_id == model_id && command.status != 'Completed' && command.status != 'Failed'
+        return command.commandable_id === modelId && command.status !== 'Completed' && command.status !== 'Failed'
       })
 
       if (commands) {
@@ -108,7 +108,7 @@ Vue.mixin({
     },
     showError (message, title, timeout) {
       this.$store.dispatch('addNotification', {
-        title: title ? title : 'Error!!',
+        title: !_.isEmpty(title) ? title : 'Error!!',
         text: message,
         class: 'error',
         timeout: false
@@ -116,7 +116,7 @@ Vue.mixin({
     },
     showSuccess (message, title, timeout) {
       this.$store.dispatch('addNotification', {
-        title: title ? title : 'Success!!',
+        title: !_.isEmpty(title) ? title : 'Success!!',
         text: message,
         class: 'success',
         timeout: false
@@ -125,8 +125,8 @@ Vue.mixin({
     back () {
       window.history.back()
     },
-    getRepositoryProvider (provider_id, attribute) {
-      const provider = _.find(this.$store.state.userStore.repository_providers, { id: provider_id })
+    getRepositoryProvider (providerId, attribute) {
+      const provider = _.find(this.$store.state.userStore.repository_providers, { id: providerId })
       if (provider) {
         if (attribute) {
           return provider[attribute]
@@ -135,8 +135,8 @@ Vue.mixin({
       }
       return {}
     },
-    getPile (pile_id, attribute) {
-      const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: pile_id })
+    getPile (pildId, attribute) {
+      const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: pildId })
       if (pile) {
         if (attribute) {
           return pile[attribute]
@@ -145,8 +145,8 @@ Vue.mixin({
       }
       return {}
     },
-    getSite (site_id, attribute) {
-      const site = _.find(this.$store.state.sitesStore.all_sites, { id: site_id })
+    getSite (siteId, attribute) {
+      const site = _.find(this.$store.state.sitesStore.all_sites, { id: siteId })
       if (site) {
         if (attribute) {
           return site[attribute]
@@ -155,8 +155,8 @@ Vue.mixin({
       }
       return {}
     },
-    getServer (server_id, attribute) {
-      const server = _.find(this.$store.state.serversStore.all_servers, { id: server_id })
+    getServer (serverId, attribute) {
+      const server = _.find(this.$store.state.serversStore.all_servers, { id: serverId })
       if (server) {
         if (attribute) {
           return server[attribute]

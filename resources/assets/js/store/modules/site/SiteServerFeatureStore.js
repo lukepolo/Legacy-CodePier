@@ -1,6 +1,6 @@
 export default {
   state: {
-    site_server_features: null
+    site_server_features: {}
   },
   actions: {
     getSiteServerFeatures: ({ commit }, site) => {
@@ -11,7 +11,7 @@ export default {
       })
     },
     updateSiteServerFeatures: ({ dispatch }, data) => {
-      Vue.http.post(Vue.action('Site\SiteServerFeaturesController@update', { site: data.site }), data.form).then((response) => {
+      Vue.http.post(Vue.action('Site\SiteServerFeaturesController@update', { site: data.site }), data.form).then(() => {
         dispatch('getSite', data.site)
       }, (errors) => {
         app.handleApiError(errors)
@@ -19,8 +19,8 @@ export default {
     }
   },
   mutations: {
-    SET_SITE_SERVER_FEATURES: (state, server_features) => {
-      state.site_server_features = server_features
+    SET_SITE_SERVER_FEATURES: (state, serverFeatures) => {
+      state.site_server_features = serverFeatures
     }
   }
 }

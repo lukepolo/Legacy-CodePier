@@ -3,8 +3,8 @@ export default {
     site_cron_jobs: []
   },
   actions: {
-    getSiteCronJobs: ({ commit }, site_id) => {
-      Vue.http.get(Vue.action('Site\SiteCronJobController@index', { site: site_id })).then((response) => {
+    getSiteCronJobs: ({ commit }, site) => {
+      Vue.http.get(Vue.action('Site\SiteCronJobController@index', { site: site })).then((response) => {
         commit('SET_SITE_CRON_JOBS', response.data)
       }, (errors) => {
         app.handleApiError(errors)
@@ -22,21 +22,21 @@ export default {
         site: data.site,
         cron_job: data.cron_job
       })).then(() => {
-        commit('REMOVE_SITE_CRON_JOB', response.cron_job)
+        commit('REMOVE_SITE_CRON_JOB', data.cron_job)
       }, (errors) => {
         app.handleApiError(errors)
       })
     }
   },
   mutations: {
-    ADD_SITE_CRON_JOB: (state, cron_job) => {
-      state.site_cron_jobs.push(cron_job)
+    ADD_SITE_CRON_JOB: (state, cronJob) => {
+      state.site_cron_jobs.push(cronJob)
     },
-    REMOVE_SITE_CRON_JOB: (state, cron_job_id) => {
-      Vue.set(state, 'site_cron_jobs', _.reject(state.site_cron_jobs, { id: cron_job_id }))
+    REMOVE_SITE_CRON_JOB: (state, cronJob) => {
+      Vue.set(state, 'site_cron_jobs', _.reject(state.site_cron_jobs, { id: cronJob }))
     },
-    SET_SITE_CRON_JOBS: (state, site_cron_jobs) => {
-      state.site_cron_jobs = site_cron_jobs
+    SET_SITE_CRON_JOBS: (state, siteCronJobs) => {
+      state.site_cron_jobs = siteCronJobs
     }
   }
 }
