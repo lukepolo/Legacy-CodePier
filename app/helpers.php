@@ -38,3 +38,40 @@ if (! function_exists('create_system_service')) {
         return $systemService->createSystemService($service, $server);
     }
 }
+
+if (! function_exists('save_without_events')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return mixed
+     */
+    function save_without_events(\Illuminate\Database\Eloquent\Model $model)
+    {
+        $observables = $model->getObservableEvents();
+
+        $model->flushEventListeners();
+
+        $model->save();
+
+        $model->addObservableEvents($observables);
+
+        return $model;
+    }
+}
+
+
+if (! function_exists('remove_events')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return mixed
+     */
+    function remove_events(\Illuminate\Database\Eloquent\Model $model)
+    {
+        $model->flushEventListeners();
+
+        return $model;
+    }
+}
