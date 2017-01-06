@@ -93,7 +93,7 @@
                 })
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Site\\SiteFirewallRule', id);
+                return this.isCommandRunning('App\\Models\\FirewallRule', id);
             }
         },
         computed: {
