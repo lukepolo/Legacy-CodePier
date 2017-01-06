@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
+use App\Models\CronJob;
+use App\Models\File;
+use App\Models\FirewallRule;
+use App\Models\SshKey;
+use App\Models\SslCertificate;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +23,12 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
-           // TODO - we have to redo some of the commands
+            File::class,
+            Worker::class,
+            SshKey::class,
+            CronJob::class,
+            FirewallRule::class,
+            SslCertificate::class,
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,
