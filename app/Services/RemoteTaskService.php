@@ -38,7 +38,9 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        \Log::info('Running Command : '.$command);
+        dump($command);
+
+        \Log::info('Running Command'.$command);
 
         try {
             $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
@@ -108,7 +110,7 @@ echo \"Wrote\"", $read);
      */
     public function appendTextToFile($file, $text)
     {
-        $text = str_replace('"', '\\"', $text);
+//        $text = str_replace('"', '\\"', $text);
 
         return $this->run("echo '$text' >> $file");
     }

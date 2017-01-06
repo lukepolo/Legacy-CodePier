@@ -42,7 +42,7 @@ class InstallServerSshKey implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if (! $this->server->sshKeys
+        if ($this->server->sshKeys
             ->where('ssh_key', $this->sshKey->ssh_key)
             ->count()
             ||
