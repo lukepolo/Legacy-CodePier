@@ -2,12 +2,19 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="saveSiteServerFeatures" enctype="multipart/form-data">
-                    <feature-area :site_server_features="siteFeatures" selectable="true" :area="serverFeatureArea" :features="features"
-                                  v-for="(features, serverFeatureArea) in availableServerFeatures"></feature-area>
-                    <feature-area :site_server_features="siteFeatures" selectable="true" :area="serverLanguageArea" :features="features"
-                                  :frameworks="true"
-                                  v-for="(features, serverLanguageArea) in availableServerLanguages"></feature-area>
-
+                    <feature-area
+                        :selected_server_features="siteFeatures"
+                        :area="serverFeatureArea"
+                        :features="features"
+                        v-for="(features, serverFeatureArea) in availableServerFeatures"
+                    ></feature-area>
+                    <feature-area
+                        :selected_server_features="siteFeatures"
+                        :area="serverLanguageArea"
+                        :features="features"
+                        :frameworks="true"
+                        v-for="(features, serverLanguageArea) in availableServerLanguages"
+                    ></feature-area>
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Update Site Server Features</button>
                 </div>

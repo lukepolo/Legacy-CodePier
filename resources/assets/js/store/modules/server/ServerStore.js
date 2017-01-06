@@ -9,6 +9,7 @@ export default {
         editable_server_files: [],
         editable_framework_files: [],
         available_server_features: [],
+        server_installed_features :[],
         available_server_languages: [],
         available_server_frameworks: [],
         servers_current_provisioning_step : {},
@@ -189,6 +190,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors);
             });
+        },
+        getServerFeatures: ({commit}, server) => {
+            Vue.http.get(Vue.action('Server\ServerFeatureController@index', { server : server })).then((response) => {
+                commit('SET_SERVER_INSTALLED_FEATURES', response.data);
+            }, (errors) => {
+                app.handleApiError(errors);
+            });
         }
     },
     mutations: {
@@ -267,6 +275,9 @@ export default {
         REMOVE_SERVER : (state, server) => {
             Vue.set(state, 'servers', _.reject(state.servers, { id : server}));
             Vue.set(state, 'all_servers', _.reject(state.all_servers, { id : server}));
+        },
+        SET_SERVER_INSTALLED_FEATURES : (state, server_features) => {
+            state.server_installed_features = server_features;
         }
     }
 }

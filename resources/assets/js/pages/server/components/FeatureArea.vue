@@ -66,7 +66,7 @@
                 :server="server"
                 :area="framework"
                 :features="features"
-                :site_server_features="site_server_features"
+                :selected_server_features="selected_server_features"
                 v-for="(features, framework) in getFrameworks(area)"
             >
             </feature-area>
@@ -77,7 +77,7 @@
 <script>
     export default {
         name: 'featureArea',
-        props: ['selectable', 'area', 'features', 'frameworks', 'server', 'site_server_features'],
+        props: ['area', 'features', 'frameworks', 'server', 'selected_server_features'],
         methods: {
             getInputName : function(feature, parameter) {
 
@@ -101,8 +101,8 @@
 
                 if (this.server && this.server.server_features) {
                     areaFeatures = _.get(this.server.server_features, feature.service);
-                } else if (this.site_server_features) {
-                    areaFeatures = _.get(this.site_server_features, feature.service);
+                } else if (this.selected_server_features) {
+                    areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
 
                 if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
