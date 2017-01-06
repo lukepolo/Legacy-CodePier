@@ -28,8 +28,8 @@ export default {
         app.handleApiError(errors)
       })
     },
-    cancelSubscription: ({ commit, dispatch }, subscription_id) => {
-      Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', { subscription: subscription_id })).then((response) => {
+    cancelSubscription: ({ commit, dispatch }, subscription) => {
+      Vue.http.delete(Vue.action('User\Subscription\UserSubscriptionController@destroy', { subscription: subscription })).then((response) => {
         dispatch('getUserSubscription')
       }, (errors) => {
         app.handleApiError(errors)
@@ -52,11 +52,11 @@ export default {
   },
   mutations: {
     SET_USER_SUBSCRIPTION: (state, subscription) => {
-      state.valid_subscription = subscription ? true : false
+      state.valid_subscription = !_.isEmpty(subscription)
       state.user_subscription = subscription
     },
-    SET_USER_UPCOMING_SUBSCRIPTION: (state, upcoming_subscription) => {
-      state.user_upcoming_subscription = upcoming_subscription
+    SET_USER_UPCOMING_SUBSCRIPTION: (state, upcomingSubscription) => {
+      state.user_upcoming_subscription = upcomingSubscription
     },
     SET_USER_INVOICES: (state, invoices) => {
       state.user_invoices = invoices
