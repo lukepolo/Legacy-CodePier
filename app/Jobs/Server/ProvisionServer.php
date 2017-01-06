@@ -46,7 +46,7 @@ class ProvisionServer implements ShouldQueue
         if ($serverService->provision($this->server)) {
             $this->server->user->load('sshKeys');
             foreach ($this->server->user->sshKeys as $sshKey) {
-                $serverService->installSshKey($this->server, $sshKey->ssh_key);
+                $serverService->installSshKey($this->server, $sshKey);
             }
 
             foreach ($this->server->sites as $site) {

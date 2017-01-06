@@ -49,10 +49,10 @@ class InstallServerWorker implements ShouldQueue
             });
 
             if ($this->wasSuccessful()) {
-                $this->server->workers()->save($this->worker);
+                throw new ServerCommandFailed($this->getCommandErrors());
             }
 
-            throw new ServerCommandFailed($this->getCommandErrors());
+            $this->server->workers()->save($this->worker);
         }
     }
 }

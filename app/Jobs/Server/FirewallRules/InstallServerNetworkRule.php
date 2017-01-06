@@ -24,6 +24,7 @@ class InstallServerNetworkRule implements ShouldQueue
      */
     public function __construct(ServerNetworkRule $serverNetworkRule)
     {
+        dd('TODO - server network rules');
         $this->makeCommand($serverNetworkRule);
         $this->serverNetworkRule = $serverNetworkRule;
     }
@@ -42,13 +43,7 @@ class InstallServerNetworkRule implements ShouldQueue
         });
 
         if (! $this->wasSuccessful()) {
-            $this->serverNetworkRule->unsetEventDispatcher();
-            $this->serverNetworkRule->delete();
-            if (\App::runningInConsole()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
-
-        return $this->remoteResponse();
     }
 }
