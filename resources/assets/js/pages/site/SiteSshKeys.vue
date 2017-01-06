@@ -79,7 +79,7 @@
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Site\\SiteSshKey', id);
+                return this.isCommandRunning('App\\Models\\SshKey', id);
             }
         },
         computed: {

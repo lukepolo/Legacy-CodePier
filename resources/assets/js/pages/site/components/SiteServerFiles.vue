@@ -28,7 +28,7 @@
                 if(this.siteFiles) {
                     let foundFile =_.find(this.siteFiles, { file_path : file });
                     if(foundFile) {
-                        return this.isCommandRunning('App\\Models\\Site\\SiteFile', foundFile.id);
+                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
                     }
                 }
 

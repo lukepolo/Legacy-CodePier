@@ -74,7 +74,12 @@ Vue.mixin({
             return _.get(server.server_features, feature, false);
         },
         isCommandRunning(type, model_id) {
+
+            console.info(type);
+            console.info(model_id);
+
             let commands = _.filter(this.$store.state.serversStore.running_commands[type], (command) => {
+                console.info(command);
                 return command.commandable_id == model_id && command.status != 'Completed' && command.status != 'Failed';
             });
 

@@ -100,7 +100,7 @@
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Site\\SiteCronJob', id);
+                return this.isCommandRunning('App\\Models\\CronJob', id);
             }
         },
         computed: {
