@@ -41,7 +41,7 @@ export default {
       })
     },
     listenToSite: ({ commit, state }, site) => {
-      if (_.indexOf(state.sites_listening_to, site.id) == -1) {
+      if (_.indexOf(state.sites_listening_to, site.id) === -1) {
         commit('SET_SITES_LISTENING_TO', site)
         Echo.private('App.Models.Site.Site.' + site.id)
                     .listen('Site\\DeploymentStepStarted', (data) => {
@@ -68,7 +68,7 @@ export default {
                       commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
                     })
                     .notification((notification) => {
-                      if (notification.type == 'App\\Notifications\\Site\\NewSiteDeployment') {
+                      if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
                         commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment)
                       }
                     })
@@ -80,6 +80,7 @@ export default {
         domainless: data.domainless,
         pile_id: rootState.userStore.user.current_pile_id
       }).then((response) => {
+        commit('ADD_SITE', response.data)
         dispatch('listenToSite', response.data)
         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
       }, (errors) => {
@@ -93,11 +94,11 @@ export default {
         app.handleApiError(errors)
       })
     },
-    deleteSite: ({ commit, rootState }, site_id) => {
-      Vue.http.delete(Vue.action('Site\SiteController@destroy', { site: site_id })).then(() => {
-        commit('DELETE_SITE', site_id)
+    deleteSite: ({ commit, rootState }, siteId) => {
+      Vue.http.delete(Vue.action('Site\SiteController@destroy', { site: siteId })).then(() => {
+        commit('DELETE_SITE', siteId)
         commit('REMOVE_SITE_FROM_PILE', {
-          site: site_id,
+          site: siteId,
           pile: rootState.userStore.user.current_pile_id
         })
         app.$router.push('/')
@@ -105,8 +106,8 @@ export default {
         app.handleApiError(errors)
       })
     },
-    getSiteServers: ({ commit }, site_id) => {
-      Vue.http.get(Vue.action('Site\SiteServerController@index', { site: site_id })).then((response) => {
+    getSiteServers: ({ commit }, siteId) => {
+      Vue.http.get(Vue.action('Site\SiteServerController@index', { site: siteId })).then((response) => {
         commit('SET_SITE_SERVERS', response.data)
       }, (errors) => {
         app.handleApiError(errors)
@@ -140,28 +141,28 @@ export default {
         app.handleApiError(errors)
       })
     },
-    restartSiteWebServices: ({}, data) => {
+    restartSiteWebServices: (data) => {
       Vue.http.post(Vue.action('Site\SiteController@restartWebServices', { site: data.site })).then(() => {
         app.showSuccess('You have restarted your sites web services.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteServers: ({}, data) => {
+    restartSiteServers: (data) => {
       Vue.http.post(Vue.action('Site\SiteController@restartServer', { site: data.site })).then(() => {
         app.showSuccess('You have restarted your sites servers.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteDatabases: ({}, data) => {
+    restartSiteDatabases: (data) => {
       Vue.http.post(Vue.action('Site\SiteController@restartDatabases', { site: data.site })).then(() => {
         app.showSuccess('You have restarted your sites databases.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteWorkers: ({}, data) => {
+    restartSiteWorkers: (data) => {
       Vue.http.post(Vue.action('Site\SiteController@restartWorkerServices', { site: data.site })).then(() => {
         app.showSuccess('You have restarted your sites workers.')
       }, (errors) => {
@@ -200,9 +201,12 @@ export default {
     SET_SITE: (state, site) => {
       state.site = site
     },
-    DELETE_SITE: (state, site_id) => {
-      Vue.set(state, 'sites', _.reject(state.sites, { id: site_id }))
-      Vue.set(state, 'all_sites', _.reject(state.all_sites, { id: site_id }))
+    ADD_SITE: (state, site) => {
+      state.sites.push(site);
+    },
+    DELETE_SITE: (state, site) => {
+      Vue.set(state, 'sites', _.reject(state.sites, { id: site }))
+      Vue.set(state, 'all_sites', _.reject(state.all_sites, { id: site }))
     },
     SET_SITES: (state, sites) => {
       state.sites = sites
@@ -213,21 +217,21 @@ export default {
     SET_SITE_SERVERS: (state, servers) => {
       state.site_servers = servers
     },
-    REMOVE_SERVER_FROM_SITE_SERVERS: (state, server_id) => {
-      Vue.set(state, 'site_servers', _.reject(state.site_servers, { id: server_id }))
+    REMOVE_SERVER_FROM_SITE_SERVERS: (state, server) => {
+      Vue.set(state, 'site_servers', _.reject(state.site_servers, { id: server }))
     },
-    SET_DEPLOYMENT_STEPS: (state, deployment_steps) => {
-      state.deployment_steps = deployment_steps
+    SET_DEPLOYMENT_STEPS: (state, deploymentSteps) => {
+      state.deployment_steps = deploymentSteps
     },
-    SET_SITE_DEPLOYMENT_STEPS: (state, deployment_steps) => {
-      state.site_deployment_steps = deployment_steps
+    SET_SITE_DEPLOYMENT_STEPS: (state, deploymentSteps) => {
+      state.site_deployment_steps = deploymentSteps
     },
     SET_SITES_LISTENING_TO: (state, site) => {
       state.sites_listening_to.push(site.id)
     },
     UPDATE_SITE_SERVER: (state, server) => {
       const foundServer = _.find(state.site_servers, function (tempServer) {
-        return tempServer.id == server.id
+        return tempServer.id === server.id
       })
 
       if (foundServer) {
@@ -255,7 +259,7 @@ export default {
 
       if (siteDeployment) {
         _.each(event.site_deployment, function (value, key) {
-          if (key != 'server_deployments') {
+          if (key !== 'server_deployments') {
             siteDeployment[key] = value
           }
         })

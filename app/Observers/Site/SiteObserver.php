@@ -48,7 +48,6 @@ class SiteObserver
     {
         $site->firewallRules()->save(
             FirewallRule::create([
-                'site_id'   => $site->id,
                 'description' => 'HTTP',
                 'port'        => '80',
                 'from_ip'     => null,
@@ -57,7 +56,6 @@ class SiteObserver
 
         $site->firewallRules()->save(
             FirewallRule::create([
-                'site_id'   => $site->id,
                 'description' => 'HTTPS',
                 'port'        => '443',
                 'from_ip'     => null,
@@ -77,6 +75,8 @@ class SiteObserver
 
     public function updated(Site $site)
     {
+        remove_events($site);
+
         $dirty = $site->getDirty();
 
         if (isset($dirty['repository'])) {
