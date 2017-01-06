@@ -48,6 +48,5 @@ class ProvidersIndex extends Migration
      */
     public function down()
     {
-
     }
 }
