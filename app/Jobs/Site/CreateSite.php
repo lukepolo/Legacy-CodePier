@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -48,7 +49,7 @@ class CreateSite implements ShouldQueue
 
         $this->site->cronJobs->each(function ($cronJob) {
             dispatch(
-                (new InstallServerWorker($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerCronJob($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
         });
 
