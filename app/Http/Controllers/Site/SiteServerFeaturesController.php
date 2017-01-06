@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SiteServerFeaturesController extends Controller
 {
@@ -38,5 +38,4 @@ class SiteServerFeaturesController extends Controller
             ])
         );
     }
-
 }
