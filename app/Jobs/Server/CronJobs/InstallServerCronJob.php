@@ -56,7 +56,7 @@ class InstallServerCronJob implements ShouldQueue
                 $serverService->installCron($this->server, $this->cronJob);
             });
 
-            if (!$this->wasSuccessful()) {
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
 
