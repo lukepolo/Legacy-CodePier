@@ -2,7 +2,6 @@
 
 namespace App\Events\Server;
 
-use App\Models\Command;
 use App\Models\ServerCommand;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -46,10 +45,6 @@ class ServerCommandUpdated implements ShouldBroadcastNow
         $command = $this->serverCommand->command;
 
         $command->load('serverCommands.server');
-
-        foreach ($command->serverCommands as $serverCommand) {
-            unset($serverCommand->server->server_features);
-        }
 
         return [
             'command' => $command,

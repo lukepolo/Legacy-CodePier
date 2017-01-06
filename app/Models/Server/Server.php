@@ -54,9 +54,11 @@ class Server extends Model
     ];
 
     protected $hidden = [
+        'options',
         'sudo_password',
         'public_ssh_key',
         'private_ssh_key',
+        'server_features',
         'database_password',
     ];
 
@@ -118,7 +120,7 @@ class Server extends Model
 
     public function activeSslCertificates()
     {
-        return $this->hasMany(ServerSslCertificate::class)->where('active', true);
+        return $this->morphToMany(SslCertificate::class, 'sslCertificateable')->where('active', true);
     }
 
     public function server_provider_features()
@@ -226,13 +228,5 @@ class Server extends Model
     public function slackChannel()
     {
         return $this->morphOne(SlackChannel::class, 'slackable');
-    }
-
-    public function stripForBroadcast()
-    {
-        unset($this->options);
-        unset($this->server_features);
-
-        return strip_relations($this);
     }
 }

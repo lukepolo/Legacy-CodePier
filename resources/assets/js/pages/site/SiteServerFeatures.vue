@@ -32,6 +32,7 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('getSiteServerFeatures', this.$route.params.site_id);
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');
                 this.$store.dispatch('getServerAvailableFrameworks');
@@ -57,7 +58,7 @@
                 return this.$store.state.serversStore.available_server_frameworks;
             },
             siteFeatures() {
-                return this.site.server_features;
+                return this.$store.state.siteServersFeaturesStore.site_server_features;
             }
         }
     }
