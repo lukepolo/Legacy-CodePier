@@ -25,8 +25,8 @@ class WorkerRequest extends FormRequest
     {
         return [
             'command' => 'required',
-            'auto_start'        => 'nullable|integer',
-            'auto_restart'      => 'nullable|integer',
+            'auto_start'        => 'nullable|boolean',
+            'auto_restart'      => 'nullable|boolean',
             'user'              => 'required|alpha',
             'number_of_workers' => 'required|integer',
         ];
