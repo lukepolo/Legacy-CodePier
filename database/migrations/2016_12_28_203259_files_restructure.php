@@ -16,6 +16,7 @@ class FilesRestructure extends Migration
         \DB::statement('CREATE TABLE files LIKE site_files;');
         Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('site_id');
+            $table->integer('custom')->default(0);
         });
 
         Schema::create('fileables', function (Blueprint $table) {
