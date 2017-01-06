@@ -110,4 +110,21 @@ APT::Periodic::AutocleanInterval "7";
 APT::Periodic::Unattended-Upgrade "1";
 ');
     }
+
+    /**
+     *  @description Docker is an open-source project that automates the deployment of applications inside software containers.
+     */
+    public function installDocker()
+    {
+        $this->connectToServer();
+
+        $this->remoteTaskService->run('sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D');
+        $this->remoteTaskService->run("sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'");
+
+        $this->remoteTaskService->run('sudo apt-get update');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine');
+
+        $this->remoteTaskService->run('sudo usermod -aG docker codepier');
+    }
 }
