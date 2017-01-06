@@ -37,8 +37,8 @@ class SiteWorkerController extends Controller
         $site = Site::findOrFail($siteId);
 
         $worker = Worker::create([
-            'auto_start' => $request->get('auto_start'),
-            'auto_restart' => $request->get('auto_restart'),
+            'auto_start' => $request->get('auto_start', false),
+            'auto_restart' => $request->get('auto_restart', false),
             'user' => $request->get('user'),
             'command' => $request->get('command'),
             'number_of_workers' => $request->get('number_of_workers'),

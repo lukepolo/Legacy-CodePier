@@ -39,8 +39,8 @@ class ServerWorkerController extends Controller
         $worker = Worker::create([
             'user' => $request->get('user'),
             'command' => $request->get('command'),
-            'auto_start' => $request->get('auto_start', 0),
-            'auto_restart' => $request->get('auto_restart', 0),
+            'auto_start' => $request->get('auto_start', false),
+            'auto_restart' => $request->get('auto_restart', false),
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
