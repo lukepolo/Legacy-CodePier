@@ -57,8 +57,9 @@ class SshKeysRestructure extends Migration
             }
         }
 
-        Schema::dropIfExists('server_ssh_keys');
+        Schema::dropIfExists('user_ssh_keys');
         Schema::dropIfExists('site_ssh_keys');
+        Schema::dropIfExists('server_ssh_keys');
     }
 
     /**
