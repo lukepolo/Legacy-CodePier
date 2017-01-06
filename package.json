@@ -3,7 +3,7 @@
   "scripts": {
     "prod": "gulp --production",
     "dev": "gulp watch",
-    "clean" =>
+    "clean" : "eslint --fix resource/assets/js/*"
   },
   "dependencies": {
     "dotenv": "^2.0.0",
