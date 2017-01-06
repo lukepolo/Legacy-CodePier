@@ -78,6 +78,9 @@ class ProvisionServer implements ShouldQueue
                 'setupUnattendedSecurityUpgrades' => [
                     'step' => 'Setup Unattended Security Upgrades',
                 ],
+                'installDocker' => [
+                    'step' => 'Installing Docker',
+                ],
             ],
             SystemService::FIREWALL => [
                 'addBasicFirewallRules' => [
