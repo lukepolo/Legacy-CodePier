@@ -61,8 +61,6 @@ class UserSshKeyController extends Controller
             );
         }
 
-        $sshKey->delete();
-
         return $this->remoteResponse();
     }
 }
