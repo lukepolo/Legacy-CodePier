@@ -60,7 +60,7 @@ class InstallServerSslCertificate implements ShouldQueue
                 $siteService->updateWebServerConfig($this->server, $this->site);
             });
 
-            if (!$this->wasSuccessful()) {
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
 
