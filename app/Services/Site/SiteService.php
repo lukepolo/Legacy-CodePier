@@ -148,8 +148,7 @@ class SiteService implements SiteServiceContract
 
         foreach ($siteServerDeployment->events as $event) {
             try {
-
-                if(empty($event->step)) {
+                if (empty($event->step)) {
                     $event->delete();
                     continue;
                 }
@@ -168,7 +167,6 @@ class SiteService implements SiteServiceContract
                 }
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
-
             } catch (FailedCommand $e) {
                 event(new DeploymentStepFailed($site, $server, $event, $event->step, [$e->getMessage()]));
                 throw new DeploymentFailed($e->getMessage());
