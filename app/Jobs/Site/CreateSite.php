@@ -54,9 +54,11 @@ class CreateSite implements ShouldQueue
         });
 
         $this->site->files->each(function ($file) {
-            dispatch(
-                (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(env('SERVER_COMMAND_QUEUE'))
-            );
+            if(!empty($file->content)) {
+                dispatch(
+                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                );
+            }
         });
 
         $this->site->firewallRules->each(function ($firewallRule) {
