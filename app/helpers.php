@@ -60,7 +60,6 @@ if (! function_exists('save_without_events')) {
     }
 }
 
-
 if (! function_exists('remove_events')) {
 
     /**
