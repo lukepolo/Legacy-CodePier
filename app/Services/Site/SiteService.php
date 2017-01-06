@@ -148,6 +148,11 @@ class SiteService implements SiteServiceContract
 
         foreach ($siteServerDeployment->events as $event) {
             try {
+                if (empty($event->step)) {
+                    $event->delete();
+                    continue;
+                }
+
                 $start = microtime(true);
 
                 event(new DeploymentStepStarted($site, $server, $event, $event->step));

@@ -118,7 +118,7 @@
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Site\\SiteWorker', id);
+                return this.isCommandRunning('App\\Models\\Worker', id);
             }
         },
         computed: {

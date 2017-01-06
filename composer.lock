@@ -311,16 +311,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5"
+                "reference": "bd4461328621bde0ae6b1b2675fbc6aca4ceb558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
-                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/bd4461328621bde0ae6b1b2675fbc6aca4ceb558",
+                "reference": "bd4461328621bde0ae6b1b2675fbc6aca4ceb558",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2016-10-24 11:45:47"
+            "time": "2016-12-30 15:59:45"
         },
         {
             "name": "doctrine/cache",
@@ -1016,22 +1016,22 @@
         },
         {
             "name": "graham-campbell/digitalocean",
-            "version": "v3.1.0",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-DigitalOcean.git",
-                "reference": "962ceaf447d70202f8371315a10d606ed2649653"
+                "reference": "5ab935b5a495907107fae4387de157acb2ba7e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-DigitalOcean/zipball/962ceaf447d70202f8371315a10d606ed2649653",
-                "reference": "962ceaf447d70202f8371315a10d606ed2649653",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-DigitalOcean/zipball/5ab935b5a495907107fae4387de157acb2ba7e0b",
+                "reference": "5ab935b5a495907107fae4387de157acb2ba7e0b",
                 "shasum": ""
             },
             "require": {
                 "graham-campbell/manager": "^2.3",
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*",
+                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
                 "php": ">=5.5.9",
                 "toin0u/digitalocean-v2": "^2.0"
             },
@@ -1051,7 +1051,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -1083,7 +1083,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-04-26 14:19:31"
+            "time": "2017-01-01 13:29:24"
         },
         {
             "name": "graham-campbell/github",
@@ -1151,21 +1151,21 @@
         },
         {
             "name": "graham-campbell/manager",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Manager.git",
-                "reference": "fd9052082e2c69c9a67d3e8d7dfa94cb33f8ab0b"
+                "reference": "e6ab47a8971da6fd18bc7ced546f0d24cb7ebe3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/fd9052082e2c69c9a67d3e8d7dfa94cb33f8ab0b",
-                "reference": "fd9052082e2c69c9a67d3e8d7dfa94cb33f8ab0b",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/e6ab47a8971da6fd18bc7ced546f0d24cb7ebe3a",
+                "reference": "e6ab47a8971da6fd18bc7ced546f0d24cb7ebe3a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*",
+                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
                 "php": ">=5.5.9"
             },
             "require-dev": {
@@ -1176,7 +1176,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -1206,7 +1206,7 @@
                 "laravel",
                 "manager"
             ],
-            "time": "2016-04-26 14:27:59"
+            "time": "2017-01-01 13:08:54"
         },
         {
             "name": "guzzle/guzzle",

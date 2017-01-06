@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Server\ServerFirewallRule;
-use App\Http\Requests\Server\ServerFireWallRuleRequest;
+use App\Http\Requests\FirewallRuleRequest;
+use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class ServerFirewallRuleController extends Controller
 {
@@ -18,42 +21,45 @@ class ServerFirewallRuleController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->firewallRules
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerFireWallRuleRequest $request
+     * @param FirewallRuleRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerFireWallRuleRequest $request, $serverId)
+    public function store(FirewallRuleRequest $request, $serverId)
     {
-        return response()->json(
-            ServerFirewallRule::create([
-                'description' => $request->get('description'),
-                'server_id' => $serverId,
-                'port' => $request->get('port'),
-                'from_ip' => $request->get('from_ip'),
-            ])
-        );
-    }
+        $server = Server::findOrFail($serverId);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)
-        );
+        $port = $request->get('port');
+        $fromIp = $request->get('from_ip', null);
+
+        if (! $server->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'from_ip' => $fromIp,
+                'description' => $request->get('description'),
+            ]);
+
+            $server->firewallRules()->save($firewallRule);
+
+            dispatch(
+                (new InstallServerFirewallRule($server, $firewallRule))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+
+            return response()->json($firewallRule);
+        }
+
+        return response()->json('Firewall Rule Already Exists', 400);
     }
 
     /**
@@ -66,8 +72,13 @@ class ServerFirewallRuleController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            ServerFirewallRule::where('server_id', $serverId)->findOrFail($id)->delete()
+        $server = Server::findOrFail($serverId);
+
+        dispatch(
+            (new RemoveServerFirewallRule($server,
+                $server->firewallRules->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json('OK');
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\CronJob;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Models\Server\ServerCronJob;
-use App\Http\Requests\Server\ServerCronJobRequest;
+use App\Http\Requests\CronJobRequest;
+use App\Jobs\Server\CronJobs\RemoveServerCronJob;
+use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class ServerCronJobController extends Controller
 {
@@ -18,41 +21,44 @@ class ServerCronJobController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerCronJob::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->cronJobs
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerCronJobRequest $request
+     * @param CronJobRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerCronJobRequest $request, $serverId)
+    public function store(CronJobRequest $request, $serverId)
     {
-        return response()->json(
-            ServerCronJob::create([
-                'server_id' => $serverId,
-                'job' => $request->get('cron_timing').' '.$request->get('cron'),
-                'user' => $request->get('user'),
-            ])
-        );
-    }
+        $server = Server::findOrFail($serverId);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            ServerCronJob::where('server_id', $serverId->findOrFail($id))
-        );
+        $job = $request->get('job');
+        $user = $request->get('user');
+
+        if (! $server->cronJobs->cronJobs
+            ->where('job', $job)
+            ->where('user', $user)
+            ->count()
+        ) {
+            $cronJob = CronJob::create([
+                'job' => $job,
+                'user' => $user,
+            ]);
+
+            $server->cronJob()->save($cronJob);
+
+            $this->dispatch(
+                (new InstallServerCronJob($server, $cronJob))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+
+            return response()->json($cronJob);
+        }
+
+        return response()->json('Cron Job Already Exists', 400);
     }
 
     /**
@@ -65,8 +71,12 @@ class ServerCronJobController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            ServerCronJob::where('server_id', $serverId)->findorFail($id)->delete()
+        $server = Server::findOrFail($serverId);
+
+        $this->dispatch(
+            (new RemoveServerCronJob($server, $server->cronJobs->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json('OK');
     }
 }

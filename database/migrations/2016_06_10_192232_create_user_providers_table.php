@@ -32,6 +32,6 @@ class CreateUserProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_login_providers');
+        Schema::dropIfExists('user_login_providers');
     }
 }

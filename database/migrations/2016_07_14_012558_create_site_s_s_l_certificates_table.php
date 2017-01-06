@@ -31,6 +31,6 @@ class CreateSiteSSLCertificatesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_ssl_certificates');
+        Schema::dropIfExists('site_ssl_certificates');
     }
 }

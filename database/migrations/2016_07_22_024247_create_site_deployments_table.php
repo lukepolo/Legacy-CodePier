@@ -29,6 +29,6 @@ class CreateSiteDeploymentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('site_deployments');
+        Schema::dropIfExists('site_deployments');
     }
 }

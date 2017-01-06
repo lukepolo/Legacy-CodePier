@@ -27,6 +27,6 @@ class CreateServerNetworkRulesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_network_rules');
+        Schema::dropIfExists('server_network_rules');
     }
 }

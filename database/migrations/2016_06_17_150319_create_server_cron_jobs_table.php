@@ -29,6 +29,6 @@ class CreateServerCronJobsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_cron_jobs');
+        Schema::dropIfExists('server_cron_jobs');
     }
 }

@@ -2,14 +2,19 @@
 
 namespace App\Models\Site;
 
+use App\Models\File;
 use App\Models\Pile;
+use App\Models\SshKey;
+use App\Models\Worker;
 use App\Models\Command;
+use App\Models\CronJob;
 use App\Models\User\User;
-use App\Traits\FireEvents;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
+use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\Server\Server;
+use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +25,7 @@ use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, FireEvents, SoftDeletes, ConnectedToUser, Encryptable;
+    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable;
 
     protected $guarded = [
         'id',
@@ -36,6 +41,7 @@ class Site extends Model
     protected $hidden = [
         'public_ssh_key',
         'private_ssh_key',
+        'server_features',
     ];
 
     public static $teamworkModel = 'pile.teams';
@@ -54,14 +60,14 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function activeSSL()
+    public function activeSsl()
     {
-        return $this->hasOne(SiteSslCertificate::class)->where('active', true);
+        return $this->morphToMany(SslCertificate::class, 'sslCertificateable')->where('active', true);
     }
 
     public function cronJobs()
     {
-        return $this->hasMany(SiteCronJob::class);
+        return $this->morphToMany(CronJob::class, 'cronjobable');
     }
 
     public function deployments()
@@ -76,12 +82,12 @@ class Site extends Model
 
     public function files()
     {
-        return $this->hasMany(SiteFile::class);
+        return $this->morphToMany(File::class, 'fileable');
     }
 
     public function firewallRules()
     {
-        return $this->hasMany(SiteFirewallRule::class);
+        return $this->morphToMany(FirewallRule::class, 'firewallRuleable');
     }
 
     public function pile()
@@ -104,14 +110,14 @@ class Site extends Model
         return $this->hasMany(Command::class);
     }
 
-    public function ssls()
+    public function sslCertificates()
     {
-        return $this->hasMany(SiteSslCertificate::class)->orderBy('id', 'desc');
+        return $this->morphToMany(SslCertificate::class, 'sslCertificateable');
     }
 
     public function sshKeys()
     {
-        return $this->hasMany(SiteSshKey::class);
+        return $this->morphToMany(SshKey::class, 'sshKeyable');
     }
 
     public function user()
@@ -126,7 +132,7 @@ class Site extends Model
 
     public function workers()
     {
-        return $this->hasMany(SiteWorker::class);
+        return $this->morphToMany(Worker::class, 'workerable');
     }
 
     /*

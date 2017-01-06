@@ -2,25 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\User\UserSshKey;
+use App\Models\SshKey;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserSshKeyRequest;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Http\Requests\SshKeyRequest;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
 class UserSshKeyController extends Controller
 {
-    private $serverService;
-
-    /**
-     * UserSshKeyController constructor.
-     *
-     * @param \App\Services\Server\ServerService | ServerService $serverService
-     */
-    public function __construct(ServerService $serverService)
-    {
-        $this->serverService = $serverService;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -34,39 +23,25 @@ class UserSshKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserSshKeyRequest $request
+     * @param \App\Http\Requests\SshKeyRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(UserSshKeyRequest $request)
+    public function store(SshKeyRequest $request)
     {
-        $userSshKey = UserSshKey::create([
-            'user_id' => \Auth::user()->id,
-            'name'    => $request->get('name'),
+        $sshKey = SshKey::create([
+            'name' => $request->get('name'),
             'ssh_key' => trim($request->get('ssh_key')),
         ]);
 
-        // TODO - this needs to be dispatched
+        \Auth::user()->sshKeys()->save($sshKey);
+
         foreach (\Auth::user()->provisionedServers as $server) {
-            $this->runOnServer(function () use ($server, $userSshKey) {
-                if ($server->ssh_connection) {
-                    $this->serverService->installSshKey($server, $userSshKey->ssh_key);
-                }
-            });
+            dispatch(
+                (new InstallServerSshKey($server, $sshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
 
-        return response()->json($userSshKey);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return response()->json(UserSshKey::findOrFail($id));
+        return response()->json($sshKey);
     }
 
     /**
@@ -78,18 +53,13 @@ class UserSshKeyController extends Controller
      */
     public function destroy($id)
     {
-        $sshKey = UserSshKey::findOrFail($id);
+        $sshKey = \Auth::user()->sshKeys->keyBy('id')->get($id);
 
-        // TODO - this needs to be a job
-        foreach (\Auth::user()->servers as $server) {
-            $this->runOnServer(function () use ($server, $sshKey) {
-                if ($server->ssh_connection) {
-                    $this->serverService->removeSshKey($server, $sshKey->ssh_key);
-                }
-            });
+        foreach (\Auth::user()->provisionedServers as $server) {
+            dispatch(
+                (new RemoveServerSshKey($server, $sshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
         }
-
-        $sshKey->delete();
 
         return $this->remoteResponse();
     }

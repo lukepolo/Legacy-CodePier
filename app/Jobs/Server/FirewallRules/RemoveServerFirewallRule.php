@@ -2,13 +2,15 @@
 
 namespace App\Jobs\Server\FirewallRules;
 
+use App\Models\Command;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerFirewallRule;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
@@ -16,17 +18,20 @@ class RemoveServerFirewallRule implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverFirewallRule;
+    private $server;
+    private $firewallRule;
 
     /**
      * InstallServerFirewallRule constructor.
-     *
-     * @param ServerFirewallRule $serverFirewallRule
+     * @param Server $server
+     * @param FirewallRule $firewallRule
+     * @param Command $siteCommand
      */
-    public function __construct(ServerFirewallRule $serverFirewallRule)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
-        $this->makeCommand($serverFirewallRule);
-        $this->serverFirewallRule = $serverFirewallRule;
+        $this->server = $server;
+        $this->firewallRule = $firewallRule;
+        $this->makeCommand($server, $firewallRule, $siteCommand);
     }
 
     /**
@@ -38,18 +43,25 @@ class RemoveServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->getService(SystemService::FIREWALL, $this->serverFirewallRule->server)->removeFirewallRule($this->serverFirewallRule);
-        });
+        $sitesCount = $this->firewallRule->sites->count();
 
-        if ($this->wasSuccessful()) {
-            $this->serverFirewallRule->unsetEventDispatcher();
-            $this->serverFirewallRule->delete();
-            if (\App::runningInConsole()) {
+        if (! $sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }
 
-        return $this->remoteResponse();
+        $this->server->firewallRules()->detach($this->firewallRule->id);
+
+        if (! $sitesCount) {
+            $this->firewallRule->load('servers');
+            if ($this->firewallRule->servers->count() == 0) {
+                $this->firewallRule->delete();
+            }
+        }
     }
 }

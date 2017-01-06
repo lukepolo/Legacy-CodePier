@@ -33,6 +33,6 @@ class UserRepositoryProvider extends Migration
      */
     public function down()
     {
-        \Schema::drop('user_repository_providers');
+        \Schema::dropIfExists('user_repository_providers');
     }
 }

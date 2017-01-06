@@ -2,8 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Models\Server\ServerWorker;
-use App\Services\RemoteTaskService;
+use App\Models\Worker;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
@@ -41,32 +40,32 @@ class WorkerService
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
 
-    public function addWorker(ServerWorker $serverWorker, $sshUser = 'root')
+    public function addWorker(Worker $worker, $sshUser = 'root')
     {
         $this->connectToServer($sshUser);
 
-        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-'.$serverWorker->id.'.conf ', '
-[program:server-worker-'.$serverWorker->id.']
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf ', '
+[program:server-worker-'.$worker->id.']
 process_name=%(program_name)s_%(process_num)02d
-command='.$serverWorker->command.'
-autostart='.($serverWorker->auto_start ? 'true' : 'false').'
-autorestart='.($serverWorker->auto_restart ? 'true' : 'false').'
-user='.$serverWorker->user.'
-numprocs='.$serverWorker->number_of_workers.'
+command='.$worker->command.'
+autostart='.($worker->auto_start ? 'true' : 'false').'
+autorestart='.($worker->auto_restart ? 'true' : 'false').'
+user='.$worker->user.'
+numprocs='.$worker->number_of_workers.'
 redirect_stderr=true
-stdout_logfile=/home/codepier/workers/server-worker-'.$serverWorker->id.'.log
+stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
 ');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start server-worker-'.$serverWorker->id.':*');
+        $this->remoteTaskService->run('supervisorctl start server-worker-'.$worker->id.':*');
     }
 
-    public function removeWorker(ServerWorker $serverWorker, $user = 'root')
+    public function removeWorker(Worker $worker, $user = 'root')
     {
         $this->connectToServer($user);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$serverWorker->id.'.conf');
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');

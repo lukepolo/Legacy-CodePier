@@ -28,6 +28,6 @@ class CreatePilesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('piles');
+        Schema::dropIfExists('piles');
     }
 }

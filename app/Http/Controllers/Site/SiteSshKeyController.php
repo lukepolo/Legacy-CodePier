@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteSshKey;
+use App\Models\SshKey;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteSshKeyRequest;
+use App\Http\Requests\SshKeyRequest;
+use App\Events\Sites\SiteSshKeyCreated;
+use App\Events\Sites\SiteSshKeyDeleted;
 
 class SiteSshKeyController extends Controller
 {
@@ -16,60 +19,39 @@ class SiteSshKeyController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteSshKey::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->sshKeys
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteSshKeyRequest $request
+     * @param SshKeyRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteSshKeyRequest $request, $siteId)
+    public function store(SshKeyRequest $request, $siteId)
     {
-        return response()->json(
-            SiteSshKey::create([
-                'site_id' => $siteId,
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
-            ])
-        );
-    }
+        $site = Site::with('sshKeys')->findOrFail($siteId);
+        $sshKey = trim($request->get('ssh_key'));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteSshKey::where('site_id', $siteId)->findOrFail($id)
-        );
-    }
+        if (! $site->sshKeys
+            ->where('ssh_key', $sshKey)
+            ->count()
+        ) {
+            $sshKey = SshKey::create([
+                'name' => $request->get('name'),
+                'ssh_key' => $sshKey,
+            ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteSshKeyRequest $request
-     * @param  int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SiteSshKeyRequest $request, $siteId, $id)
-    {
-        $siteSshKey = SiteSshKey::where('site_id', $siteId)->findOrFail($id);
+            $site->sshKeys()->save($sshKey);
 
-        return response()->json(
-            $siteSshKey->update([
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
-            ])
-        );
+            event(new SiteSshKeyCreated($site, $sshKey));
+
+            return response()->json($sshKey);
+        }
+
+        return response()->json('SSH Key Already Exists', 400);
     }
 
     /**
@@ -81,8 +63,10 @@ class SiteSshKeyController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            SiteSshKey::where('site_id', $siteId)->findOrFail($id)->delete()
-        );
+        $site = Site::with('sshKeys')->findOrFail($siteId);
+
+        event(new SiteSshKeyDeleted($site, $site->sshKeys->keyBy('id')->get($id)));
+
+        return response()->json($site->sshKeys()->detach($id));
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\SiteCronJob;
+use App\Models\CronJob;
+use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\SiteCronJobRequest;
+use App\Http\Requests\CronJobRequest;
+use App\Events\Site\SiteCronJobCreated;
+use App\Events\Site\SiteCronJobDeleted;
 
 class SiteCronJobController extends Controller
 {
@@ -16,60 +19,42 @@ class SiteCronJobController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteCronJob::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->cronJobs
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteCronJobRequest $request
+     * @param \App\Http\Requests\CronJobRequest $request
      * @param  int $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteCronJobRequest $request, $siteId)
+    public function store(CronJobRequest $request, $siteId)
     {
-        return response()->json(
-            SiteCronJob::create([
-                'site_id' => $siteId,
-                'job' => $request->get('job'),
-                'user' => $request->get('user'),
-            ])
-        );
-    }
+        $site = Site::with('cronJobs')->findOrFail($siteId);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteCronJob::where('site_id', $siteId)->findOrFail($id)
-        );
-    }
+        $job = $request->get('job');
+        $user = $request->get('user');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteCronJobRequest $request
-     * @param  int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SiteCronJobRequest $request, $siteId, $id)
-    {
-        $siteCronJob = SiteCronJob::where('site_id', $siteId)->findOrFail($id);
+        if (! $site->cronJobs
+            ->where('job', $job)
+            ->where('user', $user)
+            ->count()
+        ) {
+            $cronJob = CronJob::create([
+                'job' => $job,
+                'user' => $user,
+            ]);
 
-        return response()->json(
-            $siteCronJob->update([
-                'job' => $request->get('job'),
-                'user' => $request->get('user'),
-            ])
-        );
+            $site->cronJobs()->save($cronJob);
+
+            event(new SiteCronJobCreated($site, $cronJob));
+
+            return response()->json($cronJob);
+        }
+
+        return response()->json('Cron Job Already Exists', 400);
     }
 
     /**
@@ -81,8 +66,10 @@ class SiteCronJobController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            SiteCronJob::where('site_id', $siteId)->findOrFail($id)->delete()
-        );
+        $site = Site::with('cronJobs')->findOrFail($siteId);
+
+        event(new SiteCronJobDeleted($site, $site->cronJobs->keyBy('id')->get($id)));
+
+        return response()->json($site->cronJobs()->detach($id));
     }
 }

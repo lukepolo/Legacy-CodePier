@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
-use App\Models\Site\SiteFirewallRule;
-use App\Http\Requests\Site\SiteFirewallRuleRequest;
+use App\Events\SiteFirewallRuleCreated;
+use App\Events\SiteFirewallRuleDeleted;
+use App\Http\Requests\FirewallRuleRequest;
 
 class SiteFirewallRuleController extends Controller
 {
@@ -17,62 +20,43 @@ class SiteFirewallRuleController extends Controller
     public function index($siteId)
     {
         return response()->json(
-            SiteFirewallRule::where('site_id', $siteId)->get()
+            Site::findOrFail($siteId)->firewallRules
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param SiteFirewallRuleRequest $request
+     * @param FirewallRuleRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(SiteFirewallRuleRequest $request, $siteId)
+    public function store(FirewallRuleRequest $request, $siteId)
     {
-        return response()->json(
-            SiteFirewallRule::create([
-                'site_id' => $siteId,
-                'port' => $request->get('port'),
-                'from_ip' => $request->get('from_ip', null),
+        $site = Site::with('firewallRules')->findOrFail($siteId);
+
+        $port = $request->get('port');
+        $fromIp = $request->get('from_ip', null);
+
+        if (! $site->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'from_ip' => $fromIp,
                 'description' => $request->get('description'),
-            ])
-        );
-    }
+            ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($siteId, $id)
-    {
-        return response()->json(
-            SiteFirewallRule::where('site_id', $siteId)->findOrFail($id)
-        );
-    }
+            $site->firewallRules()->save($firewallRule);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param SiteFirewallRuleRequest $request
-     * @param  int $siteId
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SiteFirewallRuleRequest $request, $siteId, $id)
-    {
-        $siteFirewallRule = SiteFirewallRule::where('site_id', $siteId)->findOrFail($id);
+            event(new SiteFirewallRuleCreated($site, $firewallRule));
 
-        return response()->json(
-            $siteFirewallRule->update([
-                'port' => $request->get('port'),
-                'from_ip' => $request->get('from_ip', null),
-                'description' => $request->get('description'),
-            ])
-        );
+            return response()->json($firewallRule);
+        }
+
+        return response()->json('Firewall Rule Already Exists', 400);
     }
 
     /**
@@ -84,8 +68,10 @@ class SiteFirewallRuleController extends Controller
      */
     public function destroy($siteId, $id)
     {
-        return response()->json(
-            SiteFirewallRule::where('site_id', $siteId)->findOrFail($id)->delete()
-        );
+        $site = Site::with('firewallRules')->findOrFail($siteId);
+
+        event(new SiteFirewallRuleDeleted($site, $site->firewallRules->keyBy('id')->get($id)));
+
+        return response()->json($site->firewallRules()->detach($id));
     }
 }

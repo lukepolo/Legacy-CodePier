@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\Pile;
+use App\Models\SshKey;
 use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -76,7 +77,7 @@ class User extends Authenticatable
 
     public function sshKeys()
     {
-        return $this->hasMany(UserSshKey::class);
+        return $this->morphToMany(SshKey::class, 'sshKeyable');
     }
 
     public function piles()

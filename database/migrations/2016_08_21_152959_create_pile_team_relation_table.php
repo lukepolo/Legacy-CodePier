@@ -27,6 +27,6 @@ class CreatePileTeamRelationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pile_team');
+        Schema::dropIfExists('pile_team');
     }
 }

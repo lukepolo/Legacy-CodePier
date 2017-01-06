@@ -2,11 +2,15 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Models\Command;
+use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use App\Models\SslCertificate;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Server\ServerSslCertificate;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -15,29 +19,40 @@ class DeactivateServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverSslCertificate;
+    private $site;
+    private $server;
+    private $sslCertificate;
 
     /**
      * InstallServerWorker constructor.
-     * @param ServerSslCertificate $serverSslCertificate
+     * @param Server $server
+     * @param Site $site
+     * @param SslCertificate $sslCertificate
+     * @param Command $siteCommand
+     * @internal param ServerSslCertificate $serverSslCertificate
      */
-    public function __construct(ServerSslCertificate $serverSslCertificate)
+    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
-        $this->makeCommand($serverSslCertificate);
-        $this->serverSslCertificate = $serverSslCertificate;
+        $this->site = $site;
+        $this->server = $server;
+        $this->sslCertificate = $sslCertificate;
+        $this->makeCommand($server, $sslCertificate, $siteCommand);
     }
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
         $this->runOnServer(function () use ($serverService, $siteService) {
-            $siteService->updateWebServerConfig($this->serverSslCertificate->server, $this->serverSslCertificate->siteSslCertificate->site);
+            $siteService->updateWebServerConfig($this->server, $this->site);
         });
 
-        return $this->remoteResponse();
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
+        }
     }
 }

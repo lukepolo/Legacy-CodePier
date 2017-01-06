@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Server\SshKeys;
 
+use App\Models\SshKey;
+use App\Models\Command;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
-use App\Models\Server\ServerSshKey;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,16 +17,20 @@ class RemoveServerSshKey implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $serverSshKey;
+    private $server;
+    private $sshKey;
 
     /**
      * InstallServerSshKey constructor.
-     * @param ServerSshKey $serverSshKey
+     * @param Server $server
+     * @param SshKey $sshKey
+     * @param Command $siteCommand
      */
-    public function __construct(ServerSshKey $serverSshKey)
+    public function __construct(Server $server, SshKey $sshKey, Command $siteCommand = null)
     {
-        $this->makeCommand($serverSshKey);
-        $this->serverSshKey = $serverSshKey;
+        $this->server = $server;
+        $this->sshKey = $sshKey;
+        $this->makeCommand($server, $sshKey, $siteCommand);
     }
 
     /**
@@ -36,18 +42,25 @@ class RemoveServerSshKey implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        $this->runOnServer(function () use ($serverService) {
-            $serverService->removeSshKey($this->serverSshKey->server, $this->serverSshKey->ssh_key);
-        });
+        $sitesCount = $this->sshKey->sites->count();
 
-        if ($this->wasSuccessful()) {
-            $this->serverSshKey->unsetEventDispatcher();
-            $this->serverSshKey->delete();
-            if (\App::runningInConsole()) {
+        if (! $sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->removeSshKey($this->server, $this->sshKey);
+            });
+
+            if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
         }
 
-        return $this->remoteResponse();
+        $this->server->sshKeys()->detach($this->sshKey->id);
+
+        if (! $sitesCount) {
+            $this->sshKey->load('servers');
+            if ($this->sshKey->servers->count() == 0) {
+                $this->sshKey->delete();
+            }
+        }
     }
 }

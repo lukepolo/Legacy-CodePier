@@ -88,7 +88,9 @@
                     user : this.form.user
                 });
 
-                this.form = this.$options.data().form;
+                this.form.user = 'root';
+                this.form.cron_timing =  null;
+                this.form.site_path = this.site.path;
             },
             getCronTimings() {
                 return $('input[name="cron_timing"]').val();
@@ -100,7 +102,7 @@
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Site\\SiteCronJob', id);
+                return this.isCommandRunning('App\\Models\\CronJob', id);
             }
         },
         computed: {

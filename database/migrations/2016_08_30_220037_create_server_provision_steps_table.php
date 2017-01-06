@@ -35,6 +35,6 @@ class CreateServerProvisionStepsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('server_provision_steps');
+        Schema::dropIfExists('server_provision_steps');
     }
 }

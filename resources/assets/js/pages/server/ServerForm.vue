@@ -8,8 +8,8 @@
                 <div class="container">
                     <div class="jcf-form-wrap">
                         <form @submit.prevent="createServer()" class="validation-form floating-labels">
-                            <template v-if="site">
-                                <input type="hidden" name="site" :value="site.id">
+                            <template v-if="siteId">
+                                <input type="hidden" name="site" :value="siteId">
                             </template>
                             <template v-else>
                                     <input type="hidden" name="pile_id" :value="pile">
@@ -64,8 +64,11 @@
                                     <div class="input-question">Server Options</div>
                                     <template v-for="feature in server_provider_features">
                                         <label>
-                                            <input type="checkbox" name="server_provider_features[]"
-                                                   :value="feature.id">
+                                            <input
+                                                type="checkbox"
+                                                name="server_provider_features[]"
+                                                :value="feature.id"
+                                            >
                                             <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                             <small>{{ feature.cost }}</small>
                                         </label>
@@ -75,7 +78,7 @@
                                 <feature-area
                                     :features="features"
                                     :area="serverFeatureArea"
-                                    :site_server_features="siteServerFeatures"
+                                    :selected_server_features="siteServerFeatures"
                                     v-for="(features, serverFeatureArea) in availableServerFeatures"
                                 ></feature-area>
 
@@ -83,7 +86,7 @@
                                     :frameworks="true"
                                     :features="features"
                                     :area="serverLanguageArea"
-                                    :site_server_features="siteServerFeatures"
+                                    :selected_server_features="siteServerFeatures"
                                     v-for="(features, serverLanguageArea) in availableServerLanguages"
                                 ></feature-area>
 
@@ -129,9 +132,7 @@
                 this.$store.dispatch('getServerAvailableFrameworks');
 
                 if (this.$route.params.site) {
-                    this.$store.dispatch('getSite', this.$route.params.site);
-                } else {
-                    this.$store.commit('UNSET_SITE');
+                    this.$store.dispatch('getSiteServerFeatures', this.$route.params.site);
                 }
             },
             getProviderData(server_provider_id) {
@@ -146,58 +147,55 @@
                 this.$store.dispatch('createServer', this.getFormData(this.$el)).then((server) => {
                     if(server.id) {
                         if (this.$route.params.site) {
-                            app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}});
+                            app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}})
                         } else {
-                            app.$router.push('/');
+                            app.$router.push('/')
                         }
                     }
                 });
             },
             getServerProviderName(server_provider_id) {
                 if(this.server_providers) {
-                    let server_provider = _.find(this.server_providers, { id : server_provider_id});
+                    let server_provider = _.find(this.server_providers, { id : server_provider_id})
                     if(server_provider) {
-                        return server_provider.name;
+                        return server_provider.name
                     }
                 }
             }
         },
         computed: {
             server_providers() {
-                return this.$store.state.serverProvidersStore.server_providers;
+                return this.$store.state.serverProvidersStore.server_providers
             },
             user_server_providers() {
-                return this.$store.state.userStore.user_server_providers;
+                return this.$store.state.userStore.user_server_providers
             },
             server_options() {
-                return this.$store.state.serverProvidersStore.server_provider_options;
+                return this.$store.state.serverProvidersStore.server_provider_options
             },
             server_regions() {
-                return this.$store.state.serverProvidersStore.server_provider_regions;
+                return this.$store.state.serverProvidersStore.server_provider_regions
             },
             server_provider_features() {
-                return this.$store.state.serverProvidersStore.server_provider_features;
+                return this.$store.state.serverProvidersStore.server_provider_features
             },
             availableServerFeatures() {
-                return this.$store.state.serversStore.available_server_features;
+                return this.$store.state.serversStore.available_server_features
             },
             availableServerLanguages() {
-                return this.$store.state.serversStore.available_server_languages;
+                return this.$store.state.serversStore.available_server_languages
             },
             availableServerFrameworks() {
-                return this.$store.state.serversStore.available_server_frameworks;
+                return this.$store.state.serversStore.available_server_frameworks
             },
-            site() {
-                return this.$store.state.sitesStore.site;
+            siteId() {
+                return this.$route.params.site
             },
             pile() {
-                return this.$store.state.userStore.user.current_pile_id;
+                return this.$store.state.userStore.user.current_pile_id
             },
             siteServerFeatures() {
-                if(this.site) {
-                    return this.site.server_features;
-                }
-                return {};
+               return this.$store.state.siteServersFeaturesStore.site_server_features
             }
         }
     }

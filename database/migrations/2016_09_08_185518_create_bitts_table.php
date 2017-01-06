@@ -33,6 +33,6 @@ class CreateBittsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('bitts');
+        Schema::dropIfExists('bitts');
     }
 }

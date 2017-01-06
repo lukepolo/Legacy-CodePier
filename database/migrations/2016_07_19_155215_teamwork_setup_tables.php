@@ -72,8 +72,8 @@ class TeamworkSetupTables extends Migration
             $table->dropForeign(\Config::get('teamwork.team_user_table').'_team_id_foreign');
         });
 
-        Schema::drop(\Config::get('teamwork.team_user_table'));
-        Schema::drop(\Config::get('teamwork.team_invites_table'));
-        Schema::drop(\Config::get('teamwork.teams_table'));
+        Schema::dropIfExists(\Config::get('teamwork.team_user_table'));
+        Schema::dropIfExists(\Config::get('teamwork.team_invites_table'));
+        Schema::dropIfExists(\Config::get('teamwork.teams_table'));
     }
 }

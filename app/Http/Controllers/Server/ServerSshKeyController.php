@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Models\Server\ServerSshKey;
+use App\Models\SshKey;
+use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Server\ServerSshKeyRequest;
+use App\Http\Requests\SshKeyRequest;
+use App\Jobs\Server\SshKeys\RemoveServerSshKey;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
 class ServerSshKeyController extends Controller
 {
@@ -18,41 +21,41 @@ class ServerSshKeyController extends Controller
     public function index($serverId)
     {
         return response()->json(
-            ServerSshKey::where('server_id', $serverId)->get()
+            Server::findOrFail($serverId)->sshKeys
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ServerSshKeyRequest $request
+     * @param \App\Http\Requests\SshKeyRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(ServerSshKeyRequest $request, $serverId)
+    public function store(SshKeyRequest $request, $serverId)
     {
-        return response()->json(
-            ServerSshKey::create([
-                'server_id' => $serverId,
-                'name'      => $request->get('name'),
-                'ssh_key'   => trim($request->get('ssh_key')),
-            ])
-        );
-    }
+        $server = Server::findOrFail($serverId);
+        $sshKey = trim($request->get('ssh_key'));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $serverId
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($serverId, $id)
-    {
-        return response()->json(
-            ServerSshKey::where('server_id', $serverId)->findOrFail($id)
-        );
+        if (! $server->sshKeys
+            ->where('ssh_key', $sshKey)
+            ->count()
+        ) {
+            $sshKey = SshKey::create([
+                'name' => $request->get('name'),
+                'ssh_key' => $sshKey,
+            ]);
+
+            $server->sshKeys()->save($sshKey);
+
+            dispatch(
+                (new InstallServerSshKey($server, $sshKey))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+
+            return response()->json($sshKey);
+        }
+
+        return response()->json('SSH Key Already Exists', 400);
     }
 
     /**
@@ -65,8 +68,13 @@ class ServerSshKeyController extends Controller
      */
     public function destroy($serverId, $id)
     {
-        return response()->json(
-            ServerSshKey::where('server_id', $serverId)->findOrFail($id)->delete()
+        $server = Server::findOrFail($serverId);
+
+        dispatch(
+            (new RemoveServerSshKey($server,
+                $server->sshKeys->keyBy('id')->get($id)))->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
+
+        return response()->json('OK');
     }
 }
