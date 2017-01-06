@@ -111,9 +111,6 @@
         components: {
             LeftNav,
         },
-        created() {
-            this.fetchData();
-        },
         data() {
             return {
                 updating_team: false,
