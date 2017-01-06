@@ -38,8 +38,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        dump($command);
-
         \Log::info('Running Command'.$command);
 
         try {
