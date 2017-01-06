@@ -1,4 +1,4 @@
-window._ = require('lodash');
+window._ = require('lodash')
 
 /**
  * Vue is a modern JavaScript for building interactive web interfaces using
@@ -6,15 +6,15 @@ window._ = require('lodash');
  * simple, leaving you to focus only on building your next great idea.
  */
 
-window.Vue = require('vue');
+window.Vue = require('vue')
 
-if(Laravel.env == 'production') {
-    Vue.config.devtools = false;
-    Vue.config.silent = true;
+if (Laravel.env == 'production') {
+  Vue.config.devtools = false
+  Vue.config.silent = true
 }
 
-window.VueRouter = require('vue-router');
-require('vue-resource');
+window.VueRouter = require('vue-router')
+require('vue-resource')
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -22,24 +22,24 @@ require('vue-resource');
  * included with Laravel will automatically verify the header's value.
  */
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 import NProgress from 'nprogress'
 
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+  request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken)
 
-    NProgress.start();
-    next((response)=>{
-        NProgress.done();
-    });
-});
+  NProgress.start()
+  next((response) => {
+    NProgress.done()
+  })
+})
 
 $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': Laravel.csrfToken
-    }
-});
+  headers: {
+    'X-CSRF-TOKEN': Laravel.csrfToken
+  }
+})
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -47,9 +47,9 @@ $.ajaxSetup({
  * allows your team to easily build robust real-time web applications.
  */
 
-import Echo from "laravel-echo";
+import Echo from 'laravel-echo'
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: Laravel.pusherKey
-});
+  broadcaster: 'pusher',
+  key: Laravel.pusherKey
+})
