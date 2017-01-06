@@ -108,7 +108,7 @@ echo \"Wrote\"", $read);
      */
     public function appendTextToFile($file, $text)
     {
-        //        $text = str_replace('"', '\\"', $text);
+        $text = str_replace('"', '\\"', $text);
 
         return $this->run("echo '$text' >> $file");
     }
