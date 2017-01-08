@@ -26,7 +26,7 @@ class FirewallService
 
         $this->addBasicFirewallRules();
 
-        if($firewallRule->from_ip) {
+        if ($firewallRule->from_ip) {
             return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
         }
 
