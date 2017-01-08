@@ -34,12 +34,10 @@ class Site extends Model
     ];
 
     protected $encryptable = [
-        'public_ssh_key',
         'private_ssh_key',
     ];
 
     protected $hidden = [
-        'public_ssh_key',
         'private_ssh_key',
         'server_features',
     ];

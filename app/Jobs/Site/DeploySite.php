@@ -76,10 +76,13 @@ class DeploySite implements ShouldQueue
                 $success = false;
 
                 $event = $serverDeployment->events->first(function ($event) {
-                    return $event->completed == false;
+                    return $event->completed == false || $event->failed;
                 });
 
-                event(new DeploymentStepFailed($this->site, $serverDeployment->server, $event, $event->step, [$message]));
+                if(!$event->failed) {
+                    event(new DeploymentStepFailed($this->site, $serverDeployment->server, $event, $event->step, [$message]));
+                }
+
                 $this->site->notify(new SiteDeploymentFailed($serverDeployment, $message));
             }
         }

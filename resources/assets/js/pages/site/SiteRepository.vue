@@ -80,8 +80,12 @@
             </template>
 
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-
-
+            <br>
+            <template v-if="site.private">
+                <p>
+                    Public SSH Deploy Key : {{ site.public_ssh_key }}
+                </p>
+            </template>
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
                 <template v-if="!site.private">

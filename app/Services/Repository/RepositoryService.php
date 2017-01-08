@@ -45,12 +45,8 @@ class RepositoryService implements RepositoryServiceContract
                 try {
                     $providerService->importSshKeyIfPrivate($site);
                 } catch (\Exception $e) {
-                    $site->public_ssh_key = null;
-                    $site->private_ssh_key = null;
-                    $site->save();
-
                     if ($e->getMessage() == 'Not Found') {
-                        throw new RuntimeException('You do not have deploy access to this repository.');
+                        throw new RuntimeException('You do not have deploy access to this repository. Please add the ssh key manually.');
                     }
 
                     throw $e;
