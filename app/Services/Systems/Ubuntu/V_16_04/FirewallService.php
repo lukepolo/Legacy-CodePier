@@ -19,13 +19,14 @@ class FirewallService
         $this->remoteTaskService->run('ufw allow ssh');
         $this->remoteTaskService->run('ufw disable');
         $this->remoteTaskService->run('echo "y" | ufw enable');
-
-
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
     {
+
         $this->connectToServer();
+
+        $this->addBasicFirewallRules();
 
         if($firewallRule->from_ip) {
             return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
