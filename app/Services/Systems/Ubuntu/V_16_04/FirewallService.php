@@ -7,105 +7,56 @@ use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService
 {
-    const IP_TABLES_FILE = '/opt/codepier/iptables';
-    const IP_TABLES_FILE_COMMAND = '/opt/codepier/./iptables';
     use ServiceConstructorTrait;
 
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->writeToFile(self::IP_TABLES_FILE, '
-#!/bin/sh
+        $this->remoteTaskService->updateText('/etc/default/ufw', 'IPV6', 'IPV6=yes');
+        $this->remoteTaskService->run('ufw default deny incoming');
+        $this->remoteTaskService->run('ufw default allow outgoing');
+        $this->remoteTaskService->run('ufw allow ssh');
+        $this->remoteTaskService->run('ufw disable');
+        $this->remoteTaskService->run('echo "y" | ufw enable');
 
-iptables -F
-iptables -X
-iptables -t nat -F
-iptables -t nat -X
-iptables -t mangle -F
-iptables -t mangle -X
 
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
-iptables -P OUTPUT ACCEPT
-
-iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -I INPUT 1 -i lo -j ACCEPT
-
-# SSH
-iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-
-# DO NOT REMOVE - Custom Rules
-
-iptables -P INPUT DROP
-        ');
-
-        $this->remoteTaskService->run('chmod 775 '.self::IP_TABLES_FILE);
-        $this->rebuildFirewall();
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        if (empty($firewallRule->from_ip)) {
-            $this->remoteTaskService->findTextAndAppend(
-                '/opt/codepier/iptables',
-                '# DO NOT REMOVE - Custom Rules',
-                "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT"
-            );
-        } else {
-            $this->remoteTaskService->findTextAndAppend(
-                '/opt/codepier/iptables',
-                '# DO NOT REMOVE - Custom Rules',
-                "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT"
-            );
+        if($firewallRule->from_ip) {
+            return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
         }
 
-        return $this->rebuildFirewall();
+        return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type");
+
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        if (empty($firewallRule->from_ip)) {
-            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
-        } else {
-            $errors = $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT");
+        if($firewallRule->from_ip) {
+            return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
         }
 
-        if (empty($errors)) {
-            return $this->rebuildFirewall();
-        }
-
-        return $errors;
+        return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type");
     }
 
     public function addServerNetworkRule($serverIP)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->findTextAndAppend(self::IP_TABLES_FILE, '# DO NOT REMOVE - Custom Rules', "iptables -A INPUT -s $serverIP -j ACCEPT");
-
-        return $this->rebuildFirewall();
+        return $this->remoteTaskService->run("ufw allow from $serverIP");
     }
 
     public function removeServerNetworkRule($serverIP)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->removeLineByText(self::IP_TABLES_FILE, "iptables -A INPUT -s $serverIP -j ACCEPT");
-
-        return $this->rebuildFirewall();
-    }
-
-    private function rebuildFirewall()
-    {
-        $this->connectToServer();
-
-        $this->remoteTaskService->run(self::IP_TABLES_FILE_COMMAND);
-
-        return $this->remoteTaskService->getErrors();
+        return $this->remoteTaskService->run("ufw deny from $serverIP");
     }
 }
