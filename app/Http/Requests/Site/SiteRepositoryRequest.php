@@ -27,10 +27,10 @@ class SiteRepositoryRequest extends FormRequest
             'type' => 'required|string',
             'branch' => 'required|string',
             'wildcard_domain' => 'integer',
-            'framework' => 'required|string',
+            'framework' => 'nullable|string',
             'repository'=> 'required|string',
             'zerotime_deployment' => 'integer',
-            'web_directory' => 'required|string',
+            'web_directory' => 'nullable|string',
             'user_repository_provider_id' => 'required|integer',
         ];
     }

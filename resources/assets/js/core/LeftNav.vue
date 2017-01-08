@@ -65,8 +65,12 @@
         },
         methods: {
             saveSite() {
-                this.$store.dispatch('createSite', this.form);
-                this.adding_site = false;
+                this.$store.dispatch('createSite', this.form).then((site) => {
+                    if(site) {
+                        this.adding_site = false;
+                    }
+                });
+
             }
         },
         computed: {
