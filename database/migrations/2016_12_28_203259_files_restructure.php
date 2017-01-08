@@ -29,7 +29,7 @@ class FilesRestructure extends Migration
         $records = DB::table('site_files')->get();
 
         foreach ($records as $record) {
-            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->site_id);
 
             if (! empty($site)) {
                 unset($record->id);
@@ -38,6 +38,9 @@ class FilesRestructure extends Migration
                 $file = \App\Models\File::create((array) $record);
 
                 $site->files()->save($file);
+                foreach($site->provisionedServers as $server) {
+                    $server->files()->save($file);
+                }
             }
         }
 
