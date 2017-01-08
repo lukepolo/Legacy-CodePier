@@ -33,14 +33,13 @@ class FirewallService
         }
 
         return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type");
-
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        if($firewallRule->from_ip) {
+        if ($firewallRule->from_ip) {
             return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
         }
 
