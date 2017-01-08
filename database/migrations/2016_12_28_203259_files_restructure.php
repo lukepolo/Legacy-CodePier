@@ -38,7 +38,7 @@ class FilesRestructure extends Migration
                 $file = \App\Models\File::create((array) $record);
 
                 $site->files()->save($file);
-                foreach($site->provisionedServers as $server) {
+                foreach ($site->provisionedServers as $server) {
                     $server->files()->save($file);
                 }
             }
