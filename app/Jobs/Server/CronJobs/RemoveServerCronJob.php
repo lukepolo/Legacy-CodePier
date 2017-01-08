@@ -53,15 +53,15 @@ class RemoveServerCronJob implements ShouldQueue
             if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        $this->server->cronJobs()->detach($this->cronJob->id);
+            $this->server->cronJobs()->detach($this->cronJob->id);
 
-        if (! $sitesCount) {
             $this->cronJob->load('servers');
             if ($this->cronJob->servers->count() == 0) {
                 $this->cronJob->delete();
             }
+        } else {
+            $this->updateServerCommand(0, 'Sites that are on this server using this cron job', false);
         }
     }
 }

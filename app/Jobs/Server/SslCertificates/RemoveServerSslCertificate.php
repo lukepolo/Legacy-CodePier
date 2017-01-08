@@ -57,15 +57,16 @@ class RemoveServerSslCertificate implements ShouldQueue
             if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        $this->server->sslCertificates()->detach($this->sslCertificate->id);
+            $this->server->sslCertificates()->detach($this->sslCertificate->id);
 
-        if (! $sitesCount) {
             $this->sslCertificate->load('servers');
+
             if ($this->sslCertificate->servers->count() == 0) {
                 $this->sslCertificate->delete();
             }
+        } else {
+            $this->updateServerCommand(0, 'Sites that are on this server using this ssl certificate', false);
         }
     }
 }
