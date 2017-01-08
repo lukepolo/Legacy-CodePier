@@ -75,13 +75,14 @@ export default {
       }
     },
     createSite: ({ commit, dispatch, rootState }, data) => {
-      Vue.http.post(Vue.action('Site\SiteController@store'), {
+      return Vue.http.post(Vue.action('Site\SiteController@store'), {
         domain: data.domain,
         domainless: data.domainless,
         pile_id: rootState.userStore.user.current_pile_id
       }).then((response) => {
         commit('ADD_SITE', response.data)
         dispatch('listenToSite', response.data)
+          return response.data;
         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
       }, (errors) => {
         app.handleApiError(errors)
