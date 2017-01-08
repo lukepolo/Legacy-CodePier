@@ -28,7 +28,7 @@ class FirewallRulesRestructure extends Migration
         $records = DB::table('server_firewall_rules')->get();
 
         foreach ($records as $record) {
-            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->server_id);
 
             if (! empty($server)) {
                 unset($record->site_firewall_rule_id);
@@ -45,7 +45,7 @@ class FirewallRulesRestructure extends Migration
         $records = DB::table('site_firewall_rules')->get();
 
         foreach ($records as $record) {
-            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->site_id);
 
             if (! empty($site)) {
                 unset($record->id);

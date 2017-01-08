@@ -28,7 +28,7 @@ class CronJobRestructure extends Migration
         $records = DB::table('server_cron_jobs')->get();
 
         foreach ($records as $record) {
-            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->server_id);
 
             if (! empty($server)) {
                 unset($record->site_cron_job_id);
@@ -38,14 +38,14 @@ class CronJobRestructure extends Migration
 
                 $cronJob = \App\Models\CronJob::create((array) $record);
 
-                $server->cronjobs()->save($cronJob);
+                $server->cronJobs()->save($cronJob);
             }
         }
 
         $records = DB::table('site_cron_jobs')->get();
 
         foreach ($records as $record) {
-            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->site_id);
 
             if (! empty($site)) {
                 unset($record->id);
@@ -53,7 +53,7 @@ class CronJobRestructure extends Migration
 
                 $cronJob = \App\Models\CronJob::create((array) $record);
 
-                $site->cronjobs()->save($cronJob);
+                $site->cronJobs()->save($cronJob);
             }
         }
 

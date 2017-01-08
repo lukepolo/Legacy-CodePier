@@ -28,7 +28,7 @@ class SshKeysRestructure extends Migration
         $records = DB::table('server_ssh_keys')->get();
 
         foreach ($records as $record) {
-            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->server_id);
 
             if (! empty($server)) {
                 unset($record->site_worker_id);
@@ -45,7 +45,7 @@ class SshKeysRestructure extends Migration
         $records = DB::table('site_ssh_keys')->get();
 
         foreach ($records as $record) {
-            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->site_id);
 
             if (! empty($site)) {
                 unset($record->id);
@@ -60,7 +60,7 @@ class SshKeysRestructure extends Migration
         $records = DB::table('user_ssh_keys')->get();
 
         foreach ($records as $record) {
-            $user = \App\Models\User\User::withTrashed()->find($record->id);
+            $user = \App\Models\User\User::find($record->user_id);
 
             if (! empty($site)) {
                 unset($record->id);

@@ -28,7 +28,7 @@ class WorkersRestructure extends Migration
         $records = DB::table('server_workers')->get();
 
         foreach ($records as $record) {
-            $server = \App\Models\Server\Server::withTrashed()->find($record->id);
+            $server = \App\Models\Server\Server::withTrashed()->find($record->server_id);
 
             if (! empty($server)) {
                 unset($record->site_worker_id);
@@ -38,14 +38,14 @@ class WorkersRestructure extends Migration
 
                 $newRecord = \App\Models\Worker::create((array) $record);
 
-                $server->firewallRules()->save($newRecord);
+                $server->workers()->save($newRecord);
             }
         }
 
         $records = DB::table('site_workers')->get();
 
         foreach ($records as $record) {
-            $site = \App\Models\Site\Site::withTrashed()->find($record->id);
+            $site = \App\Models\Site\Site::withTrashed()->find($record->site_id);
 
             if (! empty($site)) {
                 unset($record->id);
@@ -53,7 +53,7 @@ class WorkersRestructure extends Migration
 
                 $newRecord = \App\Models\Worker::create((array) $record);
 
-                $site->firewallRules()->save($newRecord);
+                $site->workers()->save($newRecord);
             }
         }
 
