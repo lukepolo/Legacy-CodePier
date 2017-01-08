@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
@@ -56,6 +57,7 @@ class DeploySite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
+     * @throws DeploymentFailed
      */
     public function handle(SiteService $siteService)
     {
@@ -63,9 +65,26 @@ class DeploySite implements ShouldQueue
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
             try {
                 $siteService->deploy($serverDeployment->server, $this->site, $serverDeployment, $this->sha);
-            } catch (DeploymentFailed $e) {
+            } catch(\Exception $e) {
+
+                $message = $e->getMessage();
+
+                if(!$e instanceof DeploymentFailed) {
+                    if(env('APP_ENV') == 'production') {
+                        app('sentry')->captureException($e);
+                    }
+
+                    $message = 'The error has been reported and we are looking into it.';
+                }
+
                 $success = false;
-                $this->site->notify(new SiteDeploymentFailed($serverDeployment, $e->getMessage()));
+
+                $event = $serverDeployment->events->first(function($event) {
+                    return $event->completed == false;
+                });
+
+                event(new DeploymentStepFailed($this->site, $serverDeployment->server, $event, $event->step, [$message]));
+                $this->site->notify(new SiteDeploymentFailed($serverDeployment, $message));
             }
         }
 
