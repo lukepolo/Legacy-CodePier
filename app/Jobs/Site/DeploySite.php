@@ -69,7 +69,7 @@ class DeploySite implements ShouldQueue
 
                 $message = $e->getMessage();
 
-                if(!$e instanceof DeploymentFailed) {
+                if(get_class($e) == \Exception::class) {
                     if(env('APP_ENV') == 'production') {
                         app('sentry')->captureException($e);
                     }
