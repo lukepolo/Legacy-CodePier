@@ -4,10 +4,10 @@ namespace App\Services\Repository;
 
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
+use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use Github\Exception\RuntimeException;
 
 class RepositoryService implements RepositoryServiceContract
 {
@@ -49,7 +49,7 @@ class RepositoryService implements RepositoryServiceContract
                     $site->private_ssh_key = null;
                     $site->save();
 
-                    if($e->getMessage() == 'Not Found') {
+                    if ($e->getMessage() == 'Not Found') {
                         throw new RuntimeException('You do not have deploy access to this repository.');
                     }
 

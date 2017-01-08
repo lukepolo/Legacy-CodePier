@@ -68,7 +68,7 @@ class DeploySite implements ShouldQueue
             } catch (\Exception $e) {
                 $message = $e->getMessage();
 
-                if(get_class($e) == \Exception::class) {
+                if (get_class($e) == \Exception::class) {
                     app('sentry')->captureException($e);
                     $message = 'The error has been reported and we are looking into it.';
                 }
