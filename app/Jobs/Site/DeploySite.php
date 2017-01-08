@@ -79,7 +79,7 @@ class DeploySite implements ShouldQueue
                     return $event->completed == false || $event->failed;
                 });
 
-                if(!$event->failed) {
+                if (! $event->failed) {
                     event(new DeploymentStepFailed($this->site, $serverDeployment->server, $event, $event->step, [$message]));
                 }
 
