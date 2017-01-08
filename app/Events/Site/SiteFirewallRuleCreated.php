@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Site;
 
 use App\Models\Site\Site;
 use App\Models\FirewallRule;

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Site;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
-use App\Events\SiteFirewallRuleCreated;
-use App\Events\SiteFirewallRuleDeleted;
+use App\Events\Site\SiteFirewallRuleCreated;
+use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Http\Requests\FirewallRuleRequest;
 
 class SiteFirewallRuleController extends Controller
@@ -36,15 +36,18 @@ class SiteFirewallRuleController extends Controller
         $site = Site::with('firewallRules')->findOrFail($siteId);
 
         $port = $request->get('port');
+        $type = $request->get('type', null);
         $fromIp = $request->get('from_ip', null);
 
         if (! $site->firewallRules
             ->where('port', $port)
             ->where('from_ip', $fromIp)
+            ->where('type', $type)
             ->count()
         ) {
             $firewallRule = FirewallRule::create([
                 'port' => $port,
+                'type' => $type,
                 'from_ip' => $fromIp,
                 'description' => $request->get('description'),
             ]);

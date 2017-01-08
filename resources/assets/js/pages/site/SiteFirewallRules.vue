@@ -25,6 +25,16 @@
                     </label>
                 </div>
 
+                <div class="jcf-input-group">
+                    <div class="input-question">Select Type</div>
+                    <div class="select-wrap">
+                        <select v-model="form.type" name="type">
+                            <option>tcp</option>
+                            <option>udp</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
                 </div>
@@ -63,6 +73,7 @@
             return {
                 form: {
                     port: null,
+                    type : 'tcp',
                     from_ip: null,
                     description: null,
                 }

@@ -24,9 +24,10 @@ class FirewallRuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required',
-            'port' => 'required|integer',
             'from_ip' => 'nullable|ip',
+            'description' => 'required',
+            'type' => 'required|string',
+            'port' => 'required|integer',
         ];
     }
 }

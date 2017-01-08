@@ -38,7 +38,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        \Log::info('Running Command'.$command);
+        \Log::info('Running Command '.$command);
 
         try {
             $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
