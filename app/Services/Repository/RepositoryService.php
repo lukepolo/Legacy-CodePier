@@ -25,8 +25,8 @@ class RepositoryService implements RepositoryServiceContract
      * Imports a ssh key into the specific provider.
      *
      * @param Site $site
-     *
      * @return mixed
+     * @throws \Exception
      */
     public function importSshKeyIfPrivate(Site $site)
     {
@@ -41,7 +41,14 @@ class RepositoryService implements RepositoryServiceContract
 
             if (empty($site->public_ssh_key)) {
                 $this->generateNewSshKeys($site);
-                $providerService->importSshKeyIfPrivate($site);
+                try {
+                    $providerService->importSshKeyIfPrivate($site);
+                } catch(\Exception $e) {
+                    $site->public_ssh_key = null;
+                    $site->private_ssh_key = null;
+                    $site->save();
+                    throw $e;
+                }
             }
 
             return;
