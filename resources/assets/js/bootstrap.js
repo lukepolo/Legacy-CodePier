@@ -31,6 +31,11 @@ Vue.http.interceptors.push((request, next) => {
 
   NProgress.start()
   next((response) => {
+    if (_.isSet(response.data)) {
+      if (response.data.error === 'Unauthenticated.') {
+        location.reload()
+      }
+    }
     NProgress.done()
   })
 })
