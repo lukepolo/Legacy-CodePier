@@ -13,7 +13,6 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->updateText('/etc/default/ufw', 'IPV6', 'IPV6=yes');
         $this->remoteTaskService->run('ufw default deny incoming');
         $this->remoteTaskService->run('ufw default allow outgoing');
         $this->remoteTaskService->run('ufw allow ssh');
@@ -23,7 +22,6 @@ class FirewallService
 
     public function addFirewallRule(FirewallRule $firewallRule)
     {
-
         $this->connectToServer();
 
         $this->addBasicFirewallRules();
