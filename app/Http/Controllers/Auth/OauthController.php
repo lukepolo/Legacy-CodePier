@@ -100,9 +100,9 @@ class OauthController extends Controller
 
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
                             $newUserModel = $this->createUser($user, $newLoginProvider, $authCode);
-                            \Auth::loginUsingId($newUserModel->id);
+                            \Auth::loginUsingId($newUserModel->id, true);
                         } else {
-                            \Auth::loginUsingId($userProvider->user->id);
+                            \Auth::loginUsingId($userProvider->user->id, true);
                         }
                     }
 
