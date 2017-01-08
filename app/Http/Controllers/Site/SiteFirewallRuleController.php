@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Site;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FirewallRuleRequest;
 use App\Events\Site\SiteFirewallRuleCreated;
 use App\Events\Site\SiteFirewallRuleDeleted;
-use App\Http\Requests\FirewallRuleRequest;
 
 class SiteFirewallRuleController extends Controller
 {
