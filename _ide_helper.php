@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.28 on 2017-01-05.
+ * Generated for Laravel 5.3.29 on 2017-01-08.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -939,6 +939,42 @@ if (! function_exists('create_system_service')) {
         $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
 
         return $systemService->createSystemService($service, $server);
+    }
+}
+
+if (! function_exists('save_without_events')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return mixed
+     */
+    function save_without_events(\Illuminate\Database\Eloquent\Model $model)
+    {
+        $observables = $model->getObservableEvents();
+
+        $model->flushEventListeners();
+
+        $model->save();
+
+        $model->addObservableEvents($observables);
+
+        return $model;
+    }
+}
+
+if (! function_exists('remove_events')) {
+
+    /**
+     * Gets the version of what is currently installed.
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return mixed
+     */
+    function remove_events(\Illuminate\Database\Eloquent\Model $model)
+    {
+        $model->flushEventListeners();
+
+        return $model;
     }
 }
 
@@ -3560,7 +3596,7 @@ if (! function_exists('create_system_service')) {
         /**
          * Encrypt the given value.
          *
-         * @param string $value
+         * @param mixed $value
          * @return string 
          * @throws \Illuminate\Contracts\Encryption\EncryptException
          * @static 
@@ -3572,7 +3608,7 @@ if (! function_exists('create_system_service')) {
         /**
          * Decrypt the given value.
          *
-         * @param string $payload
+         * @param mixed $payload
          * @return string 
          * @throws \Illuminate\Contracts\Encryption\DecryptException
          * @static 
