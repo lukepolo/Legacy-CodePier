@@ -168,11 +168,10 @@ class SiteService implements SiteServiceContract
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
             } catch (\Exception $e) {
-
                 $message = $e->getMessage();
 
-                if(!$e instanceof FailedCommand) {
-                    if(env('APP_ENV') == 'production') {
+                if (! $e instanceof FailedCommand) {
+                    if (env('APP_ENV') == 'production') {
                         app('sentry')->captureException($e);
                     }
 
