@@ -51,15 +51,15 @@ class RemoveServerWorker implements ShouldQueue
             if (! $this->wasSuccessful()) {
                 throw new ServerCommandFailed($this->getCommandErrors());
             }
-        }
 
-        $this->server->cronJobs()->detach($this->worker->id);
+            $this->server->cronJobs()->detach($this->worker->id);
 
-        if (! $sitesCount) {
             $this->worker->load('servers');
             if ($this->worker->servers->count() == 0) {
                 $this->worker->delete();
             }
+        } else {
+            $this->updateServerCommand(0, 'Sites that are on this server using this worker', false);
         }
     }
 }

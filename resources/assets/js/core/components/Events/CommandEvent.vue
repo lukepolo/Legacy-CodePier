@@ -17,7 +17,7 @@
                             :dropdown="command.failed"
                     >
                         <template v-if="command.failed">
-                            {{ command.log[0].log }}
+                            <span v-html="getLog(command.log)"></span>
                         </template>
                     </drop-down-event>
                 </template>
@@ -43,6 +43,13 @@
         },
         props : ['event'],
         methods: {
+            getLog(log) {
+                if(_.isArray(log)) {
+                    return log.join('. <br>');
+                }
+
+                return log;
+            },
             filterArray(data) {
                 if (Array.isArray(data.log)) {
                     return data.log.filter(String);
