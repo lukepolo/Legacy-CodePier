@@ -43,7 +43,7 @@ class RepositoryService implements RepositoryServiceContract
                 $this->generateNewSshKeys($site);
                 try {
                     $providerService->importSshKeyIfPrivate($site);
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $site->public_ssh_key = null;
                     $site->private_ssh_key = null;
                     $site->save();
