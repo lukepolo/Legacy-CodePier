@@ -65,7 +65,7 @@ class PHP
             $url = $this->repositoryProvider->git_url.':'.$this->repository;
         }
 
-        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$url.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
+        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$url.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
 
         if (! empty($sha)) {
             $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
