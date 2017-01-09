@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\ServerCommand;
-use App\Models\Site\SiteServerDeployment;
 use Illuminate\Console\Command;
+use App\Models\Site\SiteServerDeployment;
 
 class ClearFailedCommands extends Command
 {
@@ -33,14 +33,14 @@ class ClearFailedCommands extends Command
             ->where('completed', 0)
             ->where('failed', 0)
             ->update([
-            'failed' => true
+            'failed' => true,
         ]);
 
         SiteServerDeployment::where('started', 1)
             ->where('completed', 0)
             ->where('failed', 0)
             ->update([
-                'failed' => true
+                'failed' => true,
             ]);
     }
 }
