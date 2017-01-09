@@ -21,7 +21,7 @@ class SiteSslCertificateUpdated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        $activeSsl = $site->activeSsl;
+        $activeSsl = $site->activeSsl();
         $siteCommand = $this->makeCommand($site, $sslCertificate);
 
         foreach ($site->provisionedServers as $server) {

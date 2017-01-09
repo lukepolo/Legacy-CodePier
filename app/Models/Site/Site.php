@@ -60,7 +60,7 @@ class Site extends Model
 
     public function activeSsl()
     {
-        return $this->morphToMany(SslCertificate::class, 'sslCertificateable')->where('active', true);
+        return $this->sslCertificates()->where('active', true)->first();
     }
 
     public function cronJobs()
@@ -146,7 +146,7 @@ class Site extends Model
 
     public function hasActiveSSL()
     {
-        if ($this->activeSSL) {
+        if (!empty($this->activeSSL())) {
             return true;
         }
 
