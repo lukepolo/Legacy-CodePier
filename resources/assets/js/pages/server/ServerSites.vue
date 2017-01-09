@@ -63,7 +63,7 @@
                 return false;
             },
             hasActiveSSL(site) {
-                if (site.activeSSL) {
+                if (site.activeSsl) {
                     return true;
                 }
                 return false;

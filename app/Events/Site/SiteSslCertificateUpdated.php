@@ -26,7 +26,7 @@ class SiteSslCertificateUpdated
 
         foreach ($site->provisionedServers as $server) {
             if ($sslCertificate->active) {
-                if ($activeSsl) {
+                if ($activeSsl->id != $sslCertificate->id) {
                     dispatch(
                         (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
                     );
