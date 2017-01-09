@@ -101,7 +101,6 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->remoteTaskService->ssh($this->server);
 
         if ($site->hasActiveSSL()) {
-
             $activeSsl = $site->activeSsl();
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
