@@ -37,11 +37,13 @@ class SiteSslController extends Controller
      */
     public function store(SslRequest $request, $siteId)
     {
+        $type = $request->get('type');
+        $domains = $request->get('domains');
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 
         if (! $site->sslCertificates
-            ->where('type', $this->sslCertificate->type)
-            ->where('domains', $this->sslCertificate->domains)
+            ->where('type', $type)
+            ->where('domains', $domains)
             ->count()
         ) {
             switch ($type = $request->get('type')) {
@@ -50,8 +52,8 @@ class SiteSslController extends Controller
                     $folder = explode(',', $request->get('domains'))[0];
 
                     $sslCertificate = SslCertificate::create([
-                        'domains' => $request->get('domains'),
-                        'type' => $request->get('type'),
+                        'domains' => $domains,
+                        'type' => $type,
                         'active' => false,
                         'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
                         'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
