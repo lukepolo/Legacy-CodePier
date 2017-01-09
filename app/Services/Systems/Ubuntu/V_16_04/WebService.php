@@ -96,7 +96,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        $site->load('activeSSL');
+        $site->load('sslCertificates');
 
         $this->remoteTaskService->ssh($this->server);
 
