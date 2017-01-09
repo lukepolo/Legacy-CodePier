@@ -82,7 +82,7 @@ trait ServerCommandTrait
                     $message = $e->getMessage();
                     break;
                 default:
-                    throw $e;
+                    $message = 'We had a system error please contact support.';
                     break;
             }
 
