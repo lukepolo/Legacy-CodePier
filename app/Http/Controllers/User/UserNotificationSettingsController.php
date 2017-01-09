@@ -34,7 +34,7 @@ class UserNotificationSettingsController extends Controller
             ]);
 
             $userNotification->update([
-                'services' => collect($services)->filter(function($item) {
+                'services' => collect($services)->filter(function ($item) {
                     return $item;
                 })->keys(),
             ]);
