@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ClearFailedCommands;
 use App\Console\Commands\MakeAuthCode;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         MakeAuthCode::class,
         ReleasedNewVersion::class,
         TestMonitorScripts::class,
+        ClearFailedCommands::class,
         GetServerProviderOptions::class,
 
         // REACTIVITY TESTS

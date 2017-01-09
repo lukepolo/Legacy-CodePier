@@ -3,8 +3,8 @@ export default {
     ssl_certificates: []
   },
   actions: {
-    getSslCertificates: ({ commit }, site_id) => {
-      Vue.http.get(Vue.action('Site\SiteSslController@index', { site: site_id })).then((response) => {
+    getSslCertificates: ({ commit }, siteId) => {
+      Vue.http.get(Vue.action('Site\SiteSslController@index', { site: siteId })).then((response) => {
         commit('SET_SITE_SSL_CERTIFICATES', response.data)
       }, (errors) => {
         app.handleApiError(errors)
@@ -19,7 +19,7 @@ export default {
     },
     updateSslCertificate: ({ commit }, data) => {
       Vue.http.put(Vue.action('Site\SiteSslController@update', { site: data.site, ssl_certificate: data.ssl_certificate }), data).then((response) => {
-        alert('need to do update ssl cert')
+        commit('UPDATE_SITE_SSL_CERTIFICATE', response.data)
       }, (errors) => {
         app.handleApiError(errors)
       })
@@ -33,14 +33,20 @@ export default {
     }
   },
   mutations: {
-    ADD_SITE_SSL_CERTIFICATE: (state, ssl_certificate) => {
-      state.ssl_certificates.push(ssl_certificate)
+    ADD_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
+      state.ssl_certificates.push(sslCertificate)
     },
-    REMOVE_SITE_SSL_CERTIFICATE: (state, ssl_certificate_id) => {
-      Vue.set(state, 'ssl_certificates', _.reject(state.ssl_certificates, { id: ssl_certificate_id }))
+    UPDATE_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
+      const siteSslCertificateKey = _.findKey(state.ssl_certificates, { id: sslCertificate.id })
+      if (siteSslCertificateKey) {
+        Vue.set(state[ssl_certificates], siteSslCertificateKey, sslCertificate)
+      }
     },
-    SET_SITE_SSL_CERTIFICATES: (state, ssl_certificates) => {
-      state.ssl_certificates = ssl_certificates
+    REMOVE_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
+      Vue.set(state, 'ssl_certificates', _.reject(state.ssl_certificates, { id: sslCertificate }))
+    },
+    SET_SITE_SSL_CERTIFICATES: (state, sslCertificates) => {
+      state.ssl_certificates = sslCertificates
     }
   }
 }

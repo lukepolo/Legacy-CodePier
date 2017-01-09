@@ -146,7 +146,7 @@ class Site extends Model
 
     public function hasActiveSSL()
     {
-        if (! empty($this->activeSSL())) {
+        if (! empty($this->activeSsl())) {
             return true;
         }
 
