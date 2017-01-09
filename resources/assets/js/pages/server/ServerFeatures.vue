@@ -22,12 +22,10 @@
 
 <script>
     import FeatureArea from './components/FeatureArea.vue'
-    import EditableServerFiles from './components/EditableServerFiles.vue'
 
     export default {
         components: {
-            FeatureArea,
-            EditableServerFiles
+            FeatureArea
         },
         created() {
             this.fetchData();

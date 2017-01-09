@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import SiteFile from './../../../components/SiteFile.vue';
+    import SiteFile from './SiteFile.vue';
     export default {
         data() {
             return {

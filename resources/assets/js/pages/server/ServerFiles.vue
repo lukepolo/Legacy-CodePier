@@ -1,17 +1,17 @@
 <template>
-    <section id="middle" class="section-column" v-if="server">
-        <editable-server-files :server="server.id"></editable-server-files>
-    </section>
+    <div>
+        <h3>Server Files</h3>
+        <template v-if="possibleFiles && site">
+            <!--<site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>-->
+        </template>
+    </div>
 </template>
 
 <script>
-    import LeftNav from './../../core/LeftNav.vue';
-    import ServerNav from './components/ServerNav.vue';
-    import EditableServerFiles from './components/EditableServerFiles.vue'
-
+//    import SiteFile from './../../../components/SiteFile.vue';
     export default {
-        components: {
-            EditableServerFiles
+        components : {
+//            SiteFile
         },
         created() {
             this.fetchData();
@@ -21,13 +21,33 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
+//                this.$store.commit('SET_EDITABLE_SITE_FILES', []);
+//                this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
+            },
+            isRunningCommandFor(file) {
+//                if(this.siteFiles) {
+//                    let foundFile =_.find(this.siteFiles, { file_path : file });
+//                    if(foundFile) {
+//                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
+//                    }
+//                }
+//
+                return false;
             }
         },
         computed: {
-            server() {
-                return this.$store.state.serversStore.server;
+            runningCommands() {
+                return this.$store.state.serversStore.running_commands;
+            },
+            site() {
+                return this.$store.state.sitesStore.site;
+            },
+            possibleFiles() {
+                return this.$store.state.siteFilesStore.site_editable_files;
+            },
+            siteFiles() {
+                return this.$store.state.siteFilesStore.site_files;
             }
-        }
+        },
     }
 </script>
