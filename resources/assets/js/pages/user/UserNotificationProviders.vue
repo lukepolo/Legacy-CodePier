@@ -19,6 +19,7 @@
                 <template v-for="notification_setting in notification_settings">
                     {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
                     <template v-for="service in notification_setting.services">
+                        <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
                        {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
                     </template>
                     <br>
