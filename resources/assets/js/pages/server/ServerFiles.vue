@@ -1,6 +1,7 @@
 <template>
     <div>
         <h3>Server Files</h3>
+        <custom-files></custom-files>
         <template v-if="possibleFiles && server">
             <server-file :server="server" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></server-file>
         </template>
@@ -9,9 +10,11 @@
 
 <script>
     import ServerFile from './components/ServerFile.vue';
+    import CustomFiles from './components/ServerCustomFiles.vue';
     export default {
         components : {
-            ServerFile
+            ServerFile,
+            CustomFiles
         },
         created() {
             this.fetchData();
@@ -26,13 +29,12 @@
                 this.$store.dispatch('getEditableServerFiles', this.$route.params.server_id)
             },
             isRunningCommandFor(file) {
-//                if(this.siteFiles) {
-//                    let foundFile =_.find(this.siteFiles, { file_path : file });
-//                    if(foundFile) {
-//                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
-//                    }
-//                }
-//
+                if(this.serverFiles) {
+                    let foundFile =_.find(this.serverFiles, { file_path : file });
+                    if(foundFile) {
+                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
+                    }
+                }
                 return false;
             }
         },
