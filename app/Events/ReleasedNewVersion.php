@@ -2,15 +2,14 @@
 
 namespace App\Events;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ReleasedNewVersion implements ShouldBroadcast
+class ReleasedNewVersion implements ShouldBroadcastNow
 {
-    use InteractsWithSockets, SerializesModels, Queueable;
+    use InteractsWithSockets, SerializesModels;
 
     public $version;
 
