@@ -35,6 +35,7 @@ export default new Vuex.Store({
     siteSslCertificatesStore: SiteStore.siteSslCertificates,
 
     serversStore: ServerStore.server,
+    serverFilesStore: ServerStore.files,
     serverWorkersStore: ServerStore.workers,
     serverSshKeysStore: ServerStore.sshKeys,
     serverCronJobsStore: ServerStore.cronJobs,
