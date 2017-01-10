@@ -34,10 +34,11 @@ class GitHub implements RepositoryContract
                 ]
             );
         } catch (ValidationFailedException $e) {
-            if (! $e->getMessage() == 'Validation Failed: key is already in use') {
-                throw new \Exception($e->getMessage());
+            if ($e->getMessage() == 'Validation Failed: key is already in use') {
+                throw new DeployKeyAlreadyUsed('Deployment key is already being used');
             }
-            throw new DeployKeyAlreadyUsed();
+
+            throw $e;
         }
     }
 
