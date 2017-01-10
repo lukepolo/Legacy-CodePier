@@ -141,7 +141,7 @@ server {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
-
+add_header  Strict-Transport-Security "max-age=0;";
 root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
 ');
 
