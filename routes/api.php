@@ -96,6 +96,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::resource('servers', 'Server\ServerController');
 
+        Route::post('server/{server}/find-file', 'Server\ServerFileController@find');
+
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('{server}/file', 'ServerController@getFile');
@@ -109,6 +111,7 @@ Route::group(['middleware' => 'auth:api'], function () {
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
             });
 
+            Route::resource('servers.file', 'ServerFileController');
             Route::resource('servers.sites', 'ServerSiteController');
             Route::resource('servers.workers', 'ServerWorkerController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
@@ -142,16 +145,16 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('restart-workers/{site}', 'SiteController@restartWorkerServices');
             Route::post('restart-web-services/{site}', 'SiteController@restartWebServices');
 
-            Route::resource('site.file', 'SiteFileController');
-            Route::resource('site.servers', 'SiteServerController');
-            Route::resource('site.workers', 'SiteWorkerController');
-            Route::resource('site.ssh-keys', 'SiteSshKeyController');
-            Route::resource('site.cron-jobs', 'SiteCronJobController');
-            Route::resource('site.ssl-certificate', 'SiteSslController');
-            Route::resource('site.hooks', 'Repository\RepositoryHookController');
-            Route::resource('site.firewall-rules', 'SiteFirewallRuleController');
-            Route::resource('site.server-features', 'SiteServerFeaturesController');
-            Route::resource('site.deployment-steps', 'SiteDeploymentStepsController');
+            Route::resource('sites.file', 'SiteFileController');
+            Route::resource('sites.servers', 'SiteServerController');
+            Route::resource('sites.workers', 'SiteWorkerController');
+            Route::resource('sites.ssh-keys', 'SiteSshKeyController');
+            Route::resource('sites.cron-jobs', 'SiteCronJobController');
+            Route::resource('sites.ssl-certificate', 'SiteSslController');
+            Route::resource('sites.hooks', 'Repository\RepositoryHookController');
+            Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
+            Route::resource('v.server-features', 'SiteServerFeaturesController');
+            Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
         });
     });
 

@@ -1,17 +1,17 @@
 <template>
     <div>
         <h3>Server Files</h3>
-        <template v-if="possibleFiles && site">
-            <!--<site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>-->
+        <template v-if="possibleFiles && server">
+            <server-file :server="server" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></server-file>
         </template>
     </div>
 </template>
 
 <script>
-//    import SiteFile from './../../../components/SiteFile.vue';
+    import ServerFile from './components/ServerFile.vue';
     export default {
         components : {
-//            SiteFile
+            ServerFile
         },
         created() {
             this.fetchData();
@@ -21,8 +21,8 @@
         },
         methods: {
             fetchData() {
-//                this.$store.commit('SET_EDITABLE_SITE_FILES', []);
-//                this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
+                this.$store.dispatch('getServer', this.$route.params.server_id)
+                this.$store.dispatch('getEditableServerFiles', this.$route.params.server_id)
             },
             isRunningCommandFor(file) {
 //                if(this.siteFiles) {
@@ -36,17 +36,14 @@
             }
         },
         computed: {
-            runningCommands() {
-                return this.$store.state.serversStore.running_commands;
+            server() {
+                return this.$store.state.serversStore.server
             },
-            site() {
-                return this.$store.state.sitesStore.site;
+            runningCommands() {
+                return this.$store.state.serversStore.running_commands
             },
             possibleFiles() {
-                return this.$store.state.siteFilesStore.site_editable_files;
-            },
-            siteFiles() {
-                return this.$store.state.siteFilesStore.site_files;
+                return this.$store.state.serversStore.editable_server_files
             }
         },
     }
