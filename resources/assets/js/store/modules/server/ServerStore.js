@@ -6,8 +6,6 @@ export default {
     server_sites: [],
     running_commands: {},
     servers_listening_to: [],
-    editable_server_files: [],
-    editable_framework_files: [],
     availableServerFeatures: [],
     server_installed_features: [],
     availableServerLanguages: [],
@@ -146,20 +144,6 @@ export default {
         app.handleApiError(errors)
       })
     },
-    getEditableServerFiles: ({ commit }, server) => {
-      Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFiles', { server: server })).then((response) => {
-        commit('SET_EDITABLE_SERVER_FILES', response.data)
-      }, (errors) => {
-        app.handleApiError(errors)
-      })
-    },
-    getEditableFrameworkFiles: ({ commit }, site) => {
-      Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site })).then((response) => {
-        commit('SET_EDITABLE_FRAMEWORK_FILES', response.data)
-      }, (errors) => {
-        app.handleApiError(errors)
-      })
-    },
     installFeature: ({}, data) => {
       Vue.http.post(Vue.action('Server\ServerFeatureController@store', { server: data.server }), {
         service: data.service,
@@ -167,18 +151,6 @@ export default {
         parameters: data.parameters
       }).then((response) => {
         alert('install server feature')
-      }, (errors) => {
-        app.handleApiError(errors)
-      })
-    },
-    saveServerFile: ({}, data) => {
-      Vue.http.post(Vue.action('Server\ServerController@saveFile', {
-        server: data.server
-      }), {
-        file: data.file,
-        content: data.content
-      }).then((response) => {
-
       }, (errors) => {
         app.handleApiError(errors)
       })
@@ -216,12 +188,6 @@ export default {
     },
     SET_availableServerFrameworks: (state, availableServerFrameworks) => {
       state.availableServerFrameworks = availableServerFrameworks
-    },
-    SET_EDITABLE_SERVER_FILES: (state, files) => {
-      state.editable_server_files = files
-    },
-    SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
-      state.editable_framework_files = files
     },
     SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server, currentStep]) => {
       const serversCurrentProvisioningSteps = {}
@@ -273,6 +239,6 @@ export default {
     },
     SET_SERVER_INSTALLED_FEATURES: (state, serverFeatures) => {
       state.server_installed_features = serverFeatures
-    }
+    },
   }
 }

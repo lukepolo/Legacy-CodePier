@@ -25,7 +25,6 @@
         data() {
             return {
                 file_model: null,
-                reload_server : null,
             }
         },
         watch: {
@@ -44,39 +43,37 @@
         },
         methods: {
             saveFile() {
-//                this.$store.dispatch('updateSiteFile', {
-//                    file: this.file,
-//                    site: this.site.id,
-//                    content: this.getContent(),
-//                    file_id: this.file_model.id,
-//                });
+                this.$store.dispatch('updateServerFile', {
+                    file: this.file,
+                    server: this.server.id,
+                    content: this.getContent(),
+                    file_id: this.file_model.id,
+                });
             },
             fetchData() {
+                this.file_model = this.file;
 
-//                this.file_model = this.file;
-//
-//                if(!_.isObject(this.file_model)) {
-//                    this.file_model = _.find(this.siteFiles, (file) => {
-//                        return this.file_model ==  file.file_path;
-//                    });
-//
-//                    if(!this.file_model) {
-//                        this.$store.dispatch('findSiteFile', {
-//                            custom : false,
-//                            file : this.file,
-//                            site : this.$route.params.site_id
-//                        }).then((file) => {
-//                            this.file_model = file;
-//                        });
-//                    }
-//                }
+                if(!_.isObject(this.file_model)) {
+                    this.file_model = _.find(this.serverFiles, (file) => {
+                        return this.file_model ==  file.file_path;
+                    });
+
+                    if(!this.file_model) {
+                        this.$store.dispatch('findServerFile', {
+                            custom : false,
+                            file : this.file,
+                            server : this.$route.params.server_id
+                        }).then((file) => {
+                            this.file_model = file;
+                        });
+                    }
+                }
             },
             reloadFile() {
-//                this.$store.dispatch('reloadSiteFile', {
-//                    file : this.file_model.id,
-//                    server : this.reload_server,
-//                    site : this.$route.params.site_id,
-//                })
+                this.$store.dispatch('reloadServerFile', {
+                    file : this.file_model.id,
+                    server : this.$route.params.server_id,
+                })
             },
             getContent() {
                 return ace.edit($(this.$el).find('.editor')[0]).getValue();
@@ -90,9 +87,9 @@
 
               return this.file;
             },
-//            siteFiles() {
-//                return this.$store.state.siteFilesStore.site_files;
-//            }
+            serverFiles() {
+                return this.$store.state.serverFilesStore.server_files;
+            }
         }
     }
 </script>

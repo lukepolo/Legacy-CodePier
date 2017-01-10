@@ -97,6 +97,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::resource('servers', 'Server\ServerController');
 
         Route::post('server/{server}/find-file', 'Server\ServerFileController@find');
+        Route::post('server/{server}/reload-file/{file}', 'Server\ServerFileController@reloadFile');
 
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
