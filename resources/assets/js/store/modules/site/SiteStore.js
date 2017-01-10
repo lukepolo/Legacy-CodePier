@@ -82,7 +82,7 @@ export default {
       }).then((response) => {
         commit('ADD_SITE', response.data)
         dispatch('listenToSite', response.data)
-          return response.data;
+        return response.data
         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
       }, (errors) => {
         app.handleApiError(errors)
@@ -135,36 +135,36 @@ export default {
         app.handleApiError(errors)
       })
     },
-    updateSiteDeployment: ({ dispatch }, data) => {
+    updateSiteDeployment: ({}, data) => {
       Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site: data.site }), data).then(() => {
 
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteWebServices: (data) => {
-      Vue.http.post(Vue.action('Site\SiteController@restartWebServices', { site: data.site })).then(() => {
+    restartSiteWebServices: ({}, site) => {
+      Vue.http.post(Vue.action('Site\SiteController@restartWebServices', { site: site })).then(() => {
         app.showSuccess('You have restarted your sites web services.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteServers: (data) => {
-      Vue.http.post(Vue.action('Site\SiteController@restartServer', { site: data.site })).then(() => {
+    restartSiteServers: ({}, site) => {
+      Vue.http.post(Vue.action('Site\SiteController@restartServer', { site: site })).then(() => {
         app.showSuccess('You have restarted your sites servers.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteDatabases: (data) => {
-      Vue.http.post(Vue.action('Site\SiteController@restartDatabases', { site: data.site })).then(() => {
+    restartSiteDatabases: ({}, site) => {
+      Vue.http.post(Vue.action('Site\SiteController@restartDatabases', { site: site })).then(() => {
         app.showSuccess('You have restarted your sites databases.')
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
-    restartSiteWorkers: (data) => {
-      Vue.http.post(Vue.action('Site\SiteController@restartWorkerServices', { site: data.site })).then(() => {
+    restartSiteWorkers: ({}, site) => {
+      Vue.http.post(Vue.action('Site\SiteController@restartWorkerServices', { site: site })).then(() => {
         app.showSuccess('You have restarted your sites workers.')
       }, (errors) => {
         app.handleApiError(errors)
@@ -203,7 +203,7 @@ export default {
       state.site = site
     },
     ADD_SITE: (state, site) => {
-      state.sites.push(site);
+      state.sites.push(site)
     },
     DELETE_SITE: (state, site) => {
       Vue.set(state, 'sites', _.reject(state.sites, { id: site }))
