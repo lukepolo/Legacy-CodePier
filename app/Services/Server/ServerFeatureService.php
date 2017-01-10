@@ -77,16 +77,20 @@ class ServerFeatureService implements ServerFeatureServiceContract
         foreach ($this->getSystemsFiles() as $system) {
             foreach ($this->getVersionsFromSystem($system) as $version) {
                 foreach ($this->getLanguagesFromVersion($version) as $language) {
+                    $languageIndex = substr($language, strrpos($language, '/') + 1);
+
+                    $availableFrameworks[$languageIndex] = collect();
+
                     foreach ($this->getFrameworksFromLanguage($language) as $framework) {
-                        $availableFrameworks[substr($language, strrpos($language, '/') + 1)] = $this->buildFeatureArray(
+                        $availableFrameworks[$languageIndex] = $availableFrameworks[$languageIndex]->merge($this->buildFeatureArray(
                             $this->buildReflection($framework)
-                        );
+                        ));
                     }
                 }
             }
         }
 
-        return $availableFrameworks;
+        return collect($availableFrameworks);
     }
 
     /**
