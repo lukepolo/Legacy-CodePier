@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\UpdateServerFile;
 use App\Models\File;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Http\Requests\FileRequest;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\UpdateServerFile;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ServerFileController extends Controller
@@ -68,7 +68,7 @@ class ServerFileController extends Controller
             $file = File::create([
                 'file_path' => $request->get('file'),
                 'content' => $this->serverService->getFile($server, $request->get('file')),
-                'custom' => $request->get('custom', false)
+                'custom' => $request->get('custom', false),
             ]);
 
             $server->files()->save($file);
