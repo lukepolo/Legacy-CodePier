@@ -63,7 +63,10 @@
                             if(step.script) {
                                 this.active.push(step);
                             } else {
-                                this.active.push(_.find(possibleDeploymentSteps, { internal_deployment_function : step.internal_deployment_function }));
+                                step = _.find(possibleDeploymentSteps, { internal_deployment_function : step.internal_deployment_function });
+                                if(step) {
+                                    this.active.push(step);
+                                }
                             }
                         });
 
