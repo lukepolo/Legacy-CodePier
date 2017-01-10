@@ -133,11 +133,13 @@ class SiteController extends Controller
      */
     public function deploy(DeploySiteRequest $request)
     {
-        $site = Site::findOrFail($request->get('site'));
+        $site = Site::with('provisionedServers')->findOrFail($request->get('site'));
 
-        $this->dispatch(
-            (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))
-        );
+        if($site->provisionedServers->count()) {
+            $this->dispatch(
+                (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+            );
+        }
     }
 
     /**
