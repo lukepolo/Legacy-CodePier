@@ -139,7 +139,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
             // TODO - bad route it should still contain the site with it
             Route::post('deploy', 'SiteController@deploy');
-            Route::get('sites/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
+            Route::get('site/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
 
             Route::post('restart-server/{site}', 'SiteController@restartServer');
             Route::post('restart-database/{site}', 'SiteController@restartDatabases');
