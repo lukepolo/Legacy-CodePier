@@ -1,21 +1,44 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Traits\ServerCommandTrait;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
-class Controller extends BaseController
+class AuthRoutes
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServerCommandTrait;
-
-    public function app()
+    /**
+     * Define the auth routes.
+     *
+     * @param \Illuminate\Contracts\Routing\Registrar $router
+     *
+     * @return void
+     */
+    public function map(Registrar $router)
     {
-        return view('codepier', [
-            'user' => \Auth::user(),
-        ]);
+        $router->group(['as' => 'auth.', 'middleware' => ['web', 'ready'], 'prefix' => 'auth'], function (Registrar $router) {
+            $router->get('login', [
+                'middleware' => 'guest',
+                'as'         => 'login',
+                'uses'       => 'AuthController@showLogin',
+            ]);
+
+            $router->post('login', [
+                'middleware' => ['guest', 'throttle:10,10'],
+                'uses'       => 'AuthController@postLogin',
+            ]);
+
+            $router->get('2fa', [
+                'as'   => 'two-factor',
+                'uses' => 'AuthController@showTwoFactorAuth',
+            ]);
+
+            $router->post('2fa', [
+                'middleware' => ['throttle:10,10'],
+                'uses'       => 'AuthController@postTwoFactor',
+            ]);
+
+            $router->get('logout', [
+                'as'         => 'logout',
+                'uses'       => 'AuthController@logoutAction',
+                'middleware' => 'auth',
+            ]);
+
+        });
     }
 }
