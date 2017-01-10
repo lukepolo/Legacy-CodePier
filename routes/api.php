@@ -136,10 +136,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {
-            Route::group(['prefix' => 'sites'], function () {
-                Route::post('deploy', 'SiteController@deploy');
-                Route::get('{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
-            });
+
+            // TODO - bad route it should still contain the site with it
+            Route::post('deploy', 'SiteController@deploy');
+            Route::get('sites/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
 
             Route::post('restart-server/{site}', 'SiteController@restartServer');
             Route::post('restart-database/{site}', 'SiteController@restartDatabases');
