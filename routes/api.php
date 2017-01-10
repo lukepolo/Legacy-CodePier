@@ -154,7 +154,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.ssl-certificate', 'SiteSslController');
             Route::resource('sites.hooks', 'Repository\RepositoryHookController');
             Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
-            Route::resource('v.server-features', 'SiteServerFeaturesController');
+            Route::resource('sites.server-features', 'SiteServerFeaturesController');
             Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
         });
     });
