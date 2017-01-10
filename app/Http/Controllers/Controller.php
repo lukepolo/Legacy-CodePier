@@ -38,7 +38,6 @@ class AuthRoutes
                 'uses'       => 'AuthController@logoutAction',
                 'middleware' => 'auth',
             ]);
-
         });
     }
 }
