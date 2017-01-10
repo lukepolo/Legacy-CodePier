@@ -73,7 +73,7 @@
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
-        <template v-if="site.repository">
+        <template v-if="site.repository && hasDeployableServers">
 
             <template v-if="isDeploying">
                 {{ isDeploying.status }}
@@ -198,8 +198,8 @@
             availableFrameworks() {
                 return this.$store.state.serversStore.available_server_frameworks;
             },
-            site_servers() {
-                return [];
+            hasDeployableServers() {
+                return this.$store.state.sitesStore.site_servers.length;
             },
             isDeploying() {
                 if(this.site) {
