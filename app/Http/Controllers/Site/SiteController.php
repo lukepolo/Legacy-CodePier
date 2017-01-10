@@ -135,7 +135,7 @@ class SiteController extends Controller
     {
         $site = Site::with('provisionedServers')->findOrFail($request->get('site'));
 
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $this->dispatch(
                 (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
