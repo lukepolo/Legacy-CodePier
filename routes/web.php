@@ -70,13 +70,12 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 */
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::get('test', function() {
+    Route::get('test', function () {
         $sitefeatureService = app()->make(\App\Contracts\Site\SiteFeatureServiceContract::class);
-       $site =\App\Models\Site\Site::findOrFail(3);
+        $site = \App\Models\Site\Site::findOrFail(3);
 
         $sitefeatureService->saveSuggestedCronJobs($site);
-       dd($site);
+        dd($site);
     });
     Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');

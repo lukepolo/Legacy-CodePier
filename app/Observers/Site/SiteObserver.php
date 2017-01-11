@@ -72,15 +72,13 @@ class SiteObserver
         }
 
         if ($site->isDirty('framework')) {
-
-
             $tempSite = clone $site;
 
             $tempSite->framework = $site->getOriginal('framework');
 
-            foreach($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
-                foreach($site->cronJobs as $siteCronJob) {
-                    if($siteCronJob->job == $cronJob) {
+            foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
+                foreach ($site->cronJobs as $siteCronJob) {
+                    if ($siteCronJob->job == $cronJob) {
                         $siteCronJob->delete();
                     }
                 }
