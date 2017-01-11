@@ -6,10 +6,10 @@ export default {
     server_sites: [],
     running_commands: {},
     servers_listening_to: [],
-    availableServerFeatures: [],
+    available_server_features: [],
     server_installed_features: [],
-    availableServerLanguages: [],
-    availableServerFrameworks: [],
+    available_server_languages: [],
+    available_server_frameworks: [],
     servers_current_provisioning_step: {}
   },
   actions: {
@@ -125,21 +125,21 @@ export default {
     },
     getServerAvailableFeatures: ({ commit }) => {
       Vue.http.get(Vue.action('Server\ServerFeatureController@getFeatures')).then((response) => {
-        commit('SET_availableServerFeatures', response.data)
+        commit('SET_AVAILABLE_SERVER_FEATURES', response.data)
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
     getServerAvailableLanguages: ({ commit }) => {
       Vue.http.get(Vue.action('Server\ServerFeatureController@getLanguages')).then((response) => {
-        commit('SET_availableServerLanguages', response.data)
+        commit('SET_AVAILABLE_SERVER_LANGUAGES', response.data)
       }, (errors) => {
         app.handleApiError(errors)
       })
     },
     getServerAvailableFrameworks: ({ commit }) => {
       Vue.http.get(Vue.action('Server\ServerFeatureController@getFrameworks')).then((response) => {
-        commit('SET_availableServerFrameworks', response.data)
+        commit('SET_AVAILABLE_SERVER_FRAMEWORKS', response.data)
       }, (errors) => {
         app.handleApiError(errors)
       })
@@ -180,21 +180,21 @@ export default {
     SET_SERVER_SITES: (state, serverSites) => {
       state.server_sites = serverSites
     },
-    SET_availableServerFeatures: (state, availableServerFeatures) => {
-      state.availableServerFeatures = availableServerFeatures
+    SET_AVAILABLE_SERVER_FEATURES: (state, availableServerFeatures) => {
+      state.available_server_features = availableServerFeatures
     },
-    SET_availableServerLanguages: (state, availableServerLanguages) => {
-      state.availableServerLanguages = availableServerLanguages
+    SET_AVAILABLE_SERVER_LANGUAGES: (state, availableServerLanguages) => {
+      state.available_server_languages = availableServerLanguages
     },
-    SET_availableServerFrameworks: (state, availableServerFrameworks) => {
-      state.availableServerFrameworks = availableServerFrameworks
+    SET_AVAILABLE_SERVER_FRAMEWORKS: (state, availableServerFrameworks) => {
+      state.available_server_frameworks = availableServerFrameworks
     },
     SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server, currentStep]) => {
       const serversCurrentProvisioningSteps = {}
 
       serversCurrentProvisioningSteps[server] = currentStep
 
-      _.each(state.serversCurrentProvisioningSteps, function (currentStep, server) {
+      _.each(state.servers_current_provisioning_step, function (currentStep, server) {
         serversCurrentProvisioningSteps[server] = currentStep
       })
 
@@ -239,6 +239,6 @@ export default {
     },
     SET_SERVER_INSTALLED_FEATURES: (state, serverFeatures) => {
       state.server_installed_features = serverFeatures
-    },
+    }
   }
 }

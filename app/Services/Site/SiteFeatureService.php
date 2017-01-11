@@ -2,6 +2,7 @@
 
 namespace App\Services\Site;
 
+use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Contracts\Site\SiteFeatureServiceContract;
@@ -157,10 +158,43 @@ class SiteFeatureService implements SiteFeatureServiceContract
      * @param Site $site
      * @return mixed
      */
-    public function saveSuggestedDefaults(Site $site)
+    public function saveSuggestedFeaturesDefaults(Site $site)
     {
         return $site->update([
             'server_features' => $this->getSuggestedFeatures($site),
         ]);
+    }
+
+    public function getSuggestedCronJobs(Site $site)
+    {
+        // TODO - we need to move suggestions out of the systems , cause its not going to end well
+        if($site->framework) {
+            $reflectionClass = $this->buildReflection('\Services\Systems\Ubuntu\V_16_04\Languages\\'.$site->getFrameworkClass().'.php');
+
+            return collect($reflectionClass->getDefaultProperties()['cronJobs'])->map(function($cronJob) use($site) {
+
+                $path = '/home/codepier/'.$site->domain;
+
+                if($site->zerotime_deployment) {
+                    $path .= '/current';
+                }
+
+                return str_replace('{site_path}', $path, $cronJob);
+            });
+        }
+
+        return collect();
+    }
+
+    public function saveSuggestedCronJobs(Site $site)
+    {
+        foreach($this->getSuggestedCronJobs($site) as $cronJob) {
+            $cronJobModel = CronJob::create([
+                'job' => $cronJob,
+                'user' => 'codepier',
+            ]);
+
+            $site->cronJobs()->save($cronJobModel);
+        }
     }
 }
