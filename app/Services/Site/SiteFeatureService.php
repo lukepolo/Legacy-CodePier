@@ -168,14 +168,13 @@ class SiteFeatureService implements SiteFeatureServiceContract
     public function getSuggestedCronJobs(Site $site)
     {
         // TODO - we need to move suggestions out of the systems , cause its not going to end well
-        if($site->framework) {
+        if ($site->framework) {
             $reflectionClass = $this->buildReflection('\Services\Systems\Ubuntu\V_16_04\Languages\\'.$site->getFrameworkClass().'.php');
 
-            return collect($reflectionClass->getDefaultProperties()['cronJobs'])->map(function($cronJob) use($site) {
-
+            return collect($reflectionClass->getDefaultProperties()['cronJobs'])->map(function ($cronJob) use ($site) {
                 $path = '/home/codepier/'.$site->domain;
 
-                if($site->zerotime_deployment) {
+                if ($site->zerotime_deployment) {
                     $path .= '/current';
                 }
 
@@ -188,7 +187,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
 
     public function saveSuggestedCronJobs(Site $site)
     {
-        foreach($this->getSuggestedCronJobs($site) as $cronJob) {
+        foreach ($this->getSuggestedCronJobs($site) as $cronJob) {
             $cronJobModel = CronJob::create([
                 'job' => $cronJob,
                 'user' => 'codepier',
