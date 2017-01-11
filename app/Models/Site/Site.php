@@ -228,6 +228,8 @@ class Site extends Model
 
     public function getFrameworkClass()
     {
-        return str_replace('.', '\\Frameworks\\', $this->framework);
+        if($this->framework) {
+            return str_replace('.', '\\Frameworks\\', $this->framework);
+        }
     }
 }

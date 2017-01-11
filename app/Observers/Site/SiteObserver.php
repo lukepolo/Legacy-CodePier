@@ -65,11 +65,26 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        $dirty = $site->getDirty();
-        if (isset($dirty['domain'])) {
+        if ($site->isDirty('domain')) {
             dispatch(
                 (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
+        }
+
+        if ($site->isDirty('framework')) {
+
+
+            $tempSite = clone $site;
+
+            $tempSite->framework = $site->getOriginal('framework');
+
+            foreach($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
+                foreach($site->cronJobs as $siteCronJob) {
+                    if($siteCronJob->job == $cronJob) {
+                        $siteCronJob->delete();
+                    }
+                }
+            }
         }
     }
 
@@ -77,16 +92,14 @@ class SiteObserver
     {
         remove_events($site);
 
-        $dirty = $site->getDirty();
-
-        if (isset($dirty['repository'])) {
+        if ($site->isDirty('repository')) {
             $site->private = false;
             $site->public_ssh_key = null;
             $site->private_ssh_key = null;
             $site->save();
         }
 
-        if (isset($dirty['web_directory'])) {
+        if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
                 dispatch(
                     (new UpdateWebConfig($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
@@ -96,7 +109,11 @@ class SiteObserver
 
         if ($site->repository && $site->deploymentSteps->isEmpty()) {
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
-            $this->siteFeatureService->saveSuggestedDefaults($site);
+            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
+        }
+
+        if ($site->isDirty('framework')) {
+            $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
     }
 

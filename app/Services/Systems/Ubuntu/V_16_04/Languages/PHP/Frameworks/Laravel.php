@@ -19,7 +19,7 @@ class Laravel
     ];
 
     public static $cronJobs = [
-        'Laravel Scheduler' => '* * * * * php {site_path} schedule:run >> /dev/null 2>&1',
+        'Laravel Scheduler' => '* * * * * php {site_path} artisan schedule:run >> /dev/null 2>&1',
     ];
 
     /**
