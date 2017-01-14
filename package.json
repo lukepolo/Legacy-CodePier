@@ -1,29 +1,34 @@
 {
   "private": true,
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "gulp watch",
-    "clean": "eslint --fix resource/assets/js/*"
+    "webpack": "cross-env NODE_ENV=development webpack --progress --hide-modules",
+    "dev": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
+    "hmr": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
-  "dependencies": {
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "brace": "^0.9.1",
+    "cross-env": "^3.1.4",
     "dotenv": "^2.0.0",
     "eslint": "^3.12.2",
     "eslint-config-vue": "^2.0.1",
     "eslint-plugin-vue": "^1.0.0",
-    "gulp": "^3.9.1",
+    "font-awesome": "^4.7.0",
+    "jcf-forms": "^1.0.0",
     "jquery": "^3.1.1",
     "laravel-echo": "^1.0.5",
-    "laravel-elixir": "^6.0.0-11",
-    "laravel-elixir-browsersync-official": "^1.0.0",
-    "laravel-elixir-vue-2": "^0.2.0",
-    "laravel-elixir-webpack-official": "^1.0.6",
+    "laravel-mix": "^0.4.0",
     "lodash": "^4.16.3",
+    "moment-timezone": "^0.5.11",
     "nprogress": "^0.2.0",
     "pusher-js": "^3.2.1",
     "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
     "vuedraggable": "^2.3.1",
-    "vuex": "^2.0.0"
+    "vuex": "^2.0.0",
+    "webpack": "^2.2.0-rc.3",
+    "webpack-dev-server": "^2.1.0-beta.12"
   }
 }

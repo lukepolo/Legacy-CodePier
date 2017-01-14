@@ -3,8 +3,8 @@
 @import 'variables';
 @import 'mixins';
 
-@import "../bower/font-awesome/scss/font-awesome";
-@import "../bower/jcf-forms/assets/sass/jcf_forms";
+@import "./../../../node_modules/font-awesome/scss/font-awesome";
+@import "./../../../node_modules/jcf-forms/assets/sass/jcf_forms";
 
 @import 'foundation';
 @import 'card';
