@@ -1,13 +1,17 @@
 {
+  "/fonts/codepier.eot": "/fonts/codepier.eot?fd62d78e201e279b60d67957d4758e0f",
+  "/fonts/codepier.svg": "/fonts/codepier.svg?bfd86a580d2edd3f7e8d1b81332d8f20",
+  "/fonts/codepier.ttf": "/fonts/codepier.ttf?39382a6fd5103baaacf7769408c1409c",
+  "/fonts/codepier.woff": "/fonts/codepier.woff?06905a51f5d0fa884516894cc58067cc",
   "/fonts/fontawesome-webfont.eot": "/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713",
   "/fonts/fontawesome-webfont.svg": "/fonts/fontawesome-webfont.svg?912ec66d7572ff821749319396470bde",
   "/fonts/fontawesome-webfont.ttf": "/fonts/fontawesome-webfont.ttf?b06871f281fee6b241d60582ae9369b9",
   "/fonts/fontawesome-webfont.woff": "/fonts/fontawesome-webfont.woff?fee66e712a8a08eef5805a46892932ad",
   "/fonts/fontawesome-webfont.woff2": "/fonts/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e",
-  "/fonts/icomoon.eot": "/fonts/icomoon.eot?c1631dac3f8526997f13729c082aa541",
-  "/fonts/icomoon.svg": "/fonts/icomoon.svg?ae7d11aab6f11a9b772243b0cfe420fe",
-  "/fonts/icomoon.ttf": "/fonts/icomoon.ttf?4f715e938ed9d8bd2a264a6710ec3b21",
-  "/fonts/icomoon.woff": "/fonts/icomoon.woff?30840be235de26521f635d2858200e78",
+  "/fonts/jcf.eot": "/fonts/jcf.eot?c1631dac3f8526997f13729c082aa541",
+  "/fonts/jcf.svg": "/fonts/jcf.svg?ae7d11aab6f11a9b772243b0cfe420fe",
+  "/fonts/jcf.ttf": "/fonts/jcf.ttf?4f715e938ed9d8bd2a264a6710ec3b21",
+  "/fonts/jcf.woff": "/fonts/jcf.woff?30840be235de26521f635d2858200e78",
   "app.css": "css/app.css",
   "app.js": "js/app.js"
 }

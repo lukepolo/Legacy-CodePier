@@ -11,7 +11,7 @@
         <title>CodePier</title>
 
         <!-- Styles -->
-        <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
         @if(env('APP_ENV') == 'production')
             <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
@@ -44,15 +44,9 @@
         </div>
 
         <!-- Scripts -->
-        <script src="{{ elixir('js/all.js') }}"></script>
-
-        <script type="text/javascript">
-            moment.tz.setDefault("UTC");
-        </script>
-
         @stack('scripts')
         @if(\Auth::check())
-            <script src="{{ elixir('/js/app.js') }}"></script>
+            <script src="{{ mix('/js/app.js') }}"></script>
             @include('layouts.core.notifications')
         @endif
     </body>

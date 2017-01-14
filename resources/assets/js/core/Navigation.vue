@@ -3,7 +3,7 @@
         <notification-area></notification-area>
         <div class="logo-container">
             <router-link to="/">
-                <img src="/assets/img/kodi_h.svg" alt="CodePier">
+                <img src="/img/kodi_h.svg" alt="CodePier">
             </router-link>
         </div>
 

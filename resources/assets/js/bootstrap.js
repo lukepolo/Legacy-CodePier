@@ -10,7 +10,8 @@ require('brace/theme/monokai')
 
 require('bootstrap')
 require('jcf-forms')
-require('moment-timezone')
+window.moment = require('moment-timezone')
+moment.tz.setDefault('UTC')
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
