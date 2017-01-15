@@ -82,8 +82,8 @@ export default {
       }).then((response) => {
         commit('ADD_SITE', response.data)
         dispatch('listenToSite', response.data)
-        return response.data
         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
+        return response.data
       }, (errors) => {
         app.handleApiError(errors)
       })

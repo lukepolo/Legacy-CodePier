@@ -43,7 +43,7 @@
                 return this.$store.state.sitesStore.site;
             },
             possibleFiles() {
-                return this.$store.state.serversStore.editable_framework_files;
+                return this.$store.state.siteFilesStore.editable_framework_files;
             },
             siteFiles() {
                 return this.$store.state.siteFilesStore.site_files;

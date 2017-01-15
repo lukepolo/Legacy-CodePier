@@ -15,89 +15,98 @@
                                     <input type="hidden" name="pile_id" :value="pile">
                             </template>
 
-                            <div class="input-group input-radio">
-                                <div class="input-question">Server Provider</div>
-                                <template v-for="user_server_provider in user_server_providers">
-                                    <label>
-                                        <input
-                                            @change="getProviderData(user_server_provider.server_provider_id)"
-                                            type="radio"
-                                            name="server_provider_id"
-                                            :value="user_server_provider.server_provider_id"
-                                        >
-                                        <span class="icon"></span>
-                                        {{ getServerProviderName(user_server_provider.server_provider_id) }}
-                                    </label>
-                                </template>
-                            </div>
-                            <template
-                                    v-if="server_options.length && server_regions.length && server_provider_features.length">
-                                <div class="input-group">
-                                    <input type="text" id="server_name" name="server_name" required>
-                                    <label for="server_name"><span class="float-label">Name</span></label>
-                                </div>
-
-                                <div class="input-group">
-                                    <div class="input-question">Server Option</div>
-
-                                    <select name="server_option">
-                                        <option v-for="option in server_options" :value="option.id">
-                                            {{ option.memory }} MB RAM
-                                            - {{ option.cpus }} CPUS
-                                            - {{ option.space }} SSD
-                                            - ${{ option.priceHourly }} / Hour
-                                            - ${{ option.priceMonthly }} / Month
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div class="input-group">
-                                    <div class="input-question">Server Region</div>
-
-                                    <select name="server_region">
-                                        <option v-for="region in server_regions" :value="region.id">{{ region.name }}
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div class="input-group input-checkbox">
-                                    <div class="input-question">Server Options</div>
-                                    <template v-for="feature in server_provider_features">
+                            <template v-if="user_server_providers.length">
+                                <div class="input-group input-radio">
+                                    <div class="input-question">Server Provider</div>
+                                    <template v-for="user_server_provider in user_server_providers">
                                         <label>
                                             <input
-                                                type="checkbox"
-                                                name="server_provider_features[]"
-                                                :value="feature.id"
+                                                    @change="getProviderData(user_server_provider.server_provider_id)"
+                                                    type="radio"
+                                                    name="server_provider_id"
+                                                    :value="user_server_provider.server_provider_id"
                                             >
-                                            <span class="icon"></span>{{ 'Enable ' + feature.feature }}
-                                            <small>{{ feature.cost }}</small>
+                                            <span class="icon"></span>
+                                            {{ getServerProviderName(user_server_provider.server_provider_id) }}
                                         </label>
                                     </template>
                                 </div>
+                                <template
+                                        v-if="server_options.length && server_regions.length && server_provider_features.length">
+                                    <div class="input-group">
+                                        <input type="text" id="server_name" name="server_name" required>
+                                        <label for="server_name"><span class="float-label">Name</span></label>
+                                    </div>
 
-                                <feature-area
-                                    :features="features"
-                                    :area="serverFeatureArea"
-                                    :selected_server_features="siteServerFeatures"
-                                    v-for="(features, serverFeatureArea) in availableServerFeatures"
-                                ></feature-area>
+                                    <div class="input-group">
+                                        <div class="input-question">Server Option</div>
 
-                                <feature-area
-                                    :frameworks="true"
-                                    :features="features"
-                                    :area="serverLanguageArea"
-                                    :selected_server_features="siteServerFeatures"
-                                    v-for="(features, serverLanguageArea) in availableServerLanguages"
-                                ></feature-area>
+                                        <select name="server_option">
+                                            <option v-for="option in server_options" :value="option.id">
+                                                {{ option.memory }} MB RAM
+                                                - {{ option.cpus }} CPUS
+                                                - {{ option.space }} SSD
+                                                - ${{ option.priceHourly }} / Hour
+                                                - ${{ option.priceMonthly }} / Month
+                                            </option>
+                                        </select>
+                                    </div>
 
-                                <div class="btn-footer">
-                                    <button class="btn">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Create Server</button>
-                                </div>
+                                    <div class="input-group">
+                                        <div class="input-question">Server Region</div>
 
+                                        <select name="server_region">
+                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group input-checkbox">
+                                        <div class="input-question">Server Options</div>
+                                        <template v-for="feature in server_provider_features">
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    name="server_provider_features[]"
+                                                    :value="feature.id"
+                                                >
+                                                <span class="icon"></span>{{ 'Enable ' + feature.feature }}
+                                                <small>{{ feature.cost }}</small>
+                                            </label>
+                                        </template>
+                                    </div>
+
+                                    <feature-area
+                                        :features="features"
+                                        :area="serverFeatureArea"
+                                        :selected_server_features="siteServerFeatures"
+                                        v-for="(features, serverFeatureArea) in availableServerFeatures"
+                                    ></feature-area>
+
+                                    <feature-area
+                                        :frameworks="true"
+                                        :features="features"
+                                        :area="serverLanguageArea"
+                                        :selected_server_features="siteServerFeatures"
+                                        v-for="(features, serverLanguageArea) in availableServerLanguages"
+                                    ></feature-area>
+
+                                    <div class="btn-footer">
+                                        <button class="btn">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Create Server</button>
+                                    </div>
+
+                                </template>
+                                <template v-else>
+                                    Please select a provider.
+                                </template>
                             </template>
                             <template v-else>
-                                Please select a provider.
+                                Please link a
+                                <router-link to="/my-profile/server-providers">
+                                    <a> server provider</a>
+                                </router-link>
+                                before creating a server.
                             </template>
                         </form>
                     </div>
