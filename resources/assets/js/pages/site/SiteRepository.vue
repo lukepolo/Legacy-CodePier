@@ -1,5 +1,19 @@
 <template>
     <div v-if="site">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="jcf-form-wrap">
             <form @submit.prevent="updateSite" class="floating-labels">
                 <h3>Repository</h3>
@@ -82,12 +96,20 @@
             <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
             <br>
             <template v-if="site.private">
-                <p>
-                    Public SSH Deploy Key : {{ site.public_ssh_key }}
-                </p>
+                <div class="jcf-form-wrap">
+                    <div class="jcf-input-group">
+                        <div class="input-question">
+                            Public SSH Deploy Key:
+                        </div>
+                        <textarea rows="4" readonly>{{ site.public_ssh_key }}</textarea>
+                        <div class="text-right">
+                            <a class="btn btn-small"><span class="icon-arrow-right"></span></a>
+                        </div>
+                    </div>
+                </div>
             </template>
             <template v-if="!site.automatic_deployment_id">
-                <a class="btn btn-primary" @click.prevent="createDeployHook">Start AutomaticDeployments</a>
+                <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>
                 <template v-if="!site.private">
                     <small>Please make sure you own the public repository otherwise we cannot create the deploy hook</small>
                 </template>
