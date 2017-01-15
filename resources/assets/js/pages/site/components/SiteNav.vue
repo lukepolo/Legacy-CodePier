@@ -4,7 +4,7 @@
             <a>Site Setup</a>
         </router-link>
 
-        <router-link :to="{ name : 'site_ssl_certs', params : { site_id : site.id } }" tag="li" class="wizard-item" v-if="site.domain != 'default' ">
+        <router-link :to="{ name : 'site_ssh_keys', params : { site_id : site.id } }" tag="li" class="wizard-item">
             <a>Security</a>
         </router-link>
 

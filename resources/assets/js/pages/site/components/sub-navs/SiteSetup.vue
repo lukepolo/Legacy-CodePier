@@ -2,7 +2,7 @@
     <div v-if="siteId">
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
-                <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li">
+                <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
                     <a>Repository</a>
                 </router-link>
 
