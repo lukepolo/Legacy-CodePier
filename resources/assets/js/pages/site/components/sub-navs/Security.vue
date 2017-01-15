@@ -3,7 +3,7 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
 
-                <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item">
+                <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item" exact>
                     <a>SSH Keys</a>
                 </router-link>
 

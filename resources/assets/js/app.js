@@ -337,6 +337,15 @@ const router = new VueRouter({
           }
         },
         {
+          path: 'setup/:site_id/server-files',
+          name: 'site_server_files',
+          components: {
+            default: sitePages.SiteServerFiles,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.SiteSetupNav
+          }
+        },
+        {
           path: 'server-setup/:site_id/server-features',
           name: 'site_server_features',
           components: {
