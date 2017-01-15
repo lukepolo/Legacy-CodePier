@@ -8,7 +8,7 @@
                 </router-link>
 
                 <router-link :to="{ name : 'site_server_files', params : { site_id : siteId } }" tag="li">
-                    <a>Files</a>
+                    <a>Server Files</a>
                 </router-link>
 
                 <template v-if="site && !site.repository">
