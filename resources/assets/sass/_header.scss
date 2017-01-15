@@ -100,27 +100,6 @@ header {
     }
 }
 
-.nav-tabs {
-    margin-bottom: $spacing*2;
-    display: flex;
-    
-    li { 
-        flex: 1 0 auto;
-        text-align: center;
-        
-        a { 
-            border-bottom: 3px solid transparent;
-            padding: ($spacing/2) $spacing;
-        } 
-              
-        &.router-link-active {
-            a {
-                border-bottom-color: $color-primary;
-            }   
-        }
-    }
-}
-
 .search-container {
     display: flex;
     align-items: center;
