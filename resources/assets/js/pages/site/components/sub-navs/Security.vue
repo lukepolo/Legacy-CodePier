@@ -2,17 +2,19 @@
     <div v-if="siteId">
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
-                <router-link :to="{ name : 'site_ssl_certs', params : { site_id : siteId } }" tag="li" v-if="site && site.domain != 'default' ">
-                    <a>SSLCertificates</a>
+
+                <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item">
+                    <a>SSH Keys</a>
                 </router-link>
 
                 <router-link :to="{ name : 'site_firewall_rules', params : { site_id : siteId } }" tag="li" class="wizard-item">
-                    <a>Site Firewall Rules</a>
+                    <a>Firewall Rules</a>
                 </router-link>
 
-                <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item">
-                    <a>Site Ssh Keys</a>
+                <router-link :to="{ name : 'site_ssl_certs', params : { site_id : siteId } }" tag="li" v-if="site && site.domain != 'default' ">
+                    <a>SSL Certificates</a>
                 </router-link>
+
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active">
