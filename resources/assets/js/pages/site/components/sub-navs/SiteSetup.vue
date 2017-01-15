@@ -10,8 +10,8 @@
                     <a>Deployment</a>
                 </router-link>
 
-                <router-link :to="{ name : 'site_files', params : { site_id : siteId } }" tag="li">
-                    <a>Files</a>
+                <router-link :to="{ name : 'site_files', params : { site_id : siteId } }" tag="li" v-if="site && site.framework">
+                    <a>Framework Files</a>
                 </router-link>
             </ul>
             <div class="tab-content">
@@ -27,6 +27,9 @@
         computed : {
             siteId() {
                 return this.$route.params.site_id
+            },
+            site() {
+                return this.$store.state.sitesStore.site
             }
         }
     }

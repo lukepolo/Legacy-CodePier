@@ -1,7 +1,8 @@
 export default {
   state: {
     site_files: [],
-    site_editable_files: []
+    site_editable_files: [],
+    editable_framework_files : []
   },
   actions: {
     getSiteFiles: ({ commit }, site) => {
@@ -62,6 +63,13 @@ export default {
       }, (errors) => {
         app.handleApiError(errors)
       })
+    },
+    getEditableFrameworkFiles: ({ commit }, site) => {
+      Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site })).then((response) => {
+        commit('SET_EDITABLE_FRAMEWORK_FILES', response.data)
+      }, (errors) => {
+        app.handleApiError(errors)
+      })
     }
   },
   mutations: {
@@ -76,6 +84,9 @@ export default {
     },
     SET_EDITABLE_SITE_FILES: (state, files) => {
       state.site_editable_files = files
-    }
+    },
+    SET_EDITABLE_FRAMEWORK_FILES: (state, files) => {
+        state.editable_framework_files = files
+    },
   }
 }
