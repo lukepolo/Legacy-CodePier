@@ -13,6 +13,7 @@
 @import 'buttons';
 @import 'icons';
 @import 'content';
+@import 'tabs';
 @import 'lists';
 @import 'dropdowns';
 @import 'groups';
@@ -43,4 +44,18 @@ textarea {
 }
 .jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
+}
+
+textarea {
+  width: 100%;
+  background-color: transparent;
+  color: $jcf-color-text-primary;
+  font-family: $font-body;
+  border: 1px solid $color-divider;
+  padding: $spacing/2;
+  resize: none;
+
+  &:focus {
+    outline: 3px solid $color-primary;
+  }
 }

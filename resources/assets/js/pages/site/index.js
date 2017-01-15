@@ -9,3 +9,8 @@ export const SiteFirewallRules = require('./SiteFirewallRules.vue')
 export const SiteServerFeatures = require('./SiteServerFeatures.vue')
 export const SiteSSLCertificates = require('./SiteSSLCertificates.vue')
 
+export const SecurityNav = require('./components/sub-navs/Security.vue')
+export const SiteSetupNav = require('./components/sub-navs/SiteSetup.vue')
+export const ServerSetupNav = require('./components/sub-navs/ServerSetup.vue')
+
+
