@@ -28,7 +28,7 @@
 
     export default {
         components: {
-            FeatureArea
+             FeatureArea
         },
         created() {
             this.fetchData();

@@ -278,7 +278,8 @@ const router = new VueRouter({
           name: 'site_repository',
           components: {
             default: sitePages.SiteRepository,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SiteSetupNav
           }
         },
         {
@@ -286,7 +287,8 @@ const router = new VueRouter({
           name: 'site_deployment',
           components: {
             default: sitePages.SiteDeployment,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SiteSetupNav
           }
         },
         {
@@ -294,7 +296,8 @@ const router = new VueRouter({
           name: 'site_workers',
           components: {
             default: sitePages.SiteJobs,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.ServerSetupNav
           }
         },
         {
@@ -302,7 +305,8 @@ const router = new VueRouter({
           name: 'site_firewall_rules',
           components: {
             default: sitePages.SiteFirewallRules,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SecurityNav
           }
         },
         {
@@ -310,7 +314,8 @@ const router = new VueRouter({
           name: 'site_ssh_keys',
           components: {
             default: sitePages.SiteSshKeys,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SecurityNav
           }
         },
         {
@@ -318,7 +323,8 @@ const router = new VueRouter({
           name: 'site_files',
           components: {
             default: sitePages.SiteFiles,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SiteSetupNav
           }
         },
         {
@@ -326,7 +332,8 @@ const router = new VueRouter({
           name: 'site_server_features',
           components: {
             default: sitePages.SiteServerFeatures,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.ServerSetupNav
           }
         },
         {
@@ -334,7 +341,8 @@ const router = new VueRouter({
           name: 'site_ssl_certs',
           components: {
             default: sitePages.SiteSSLCertificates,
-            nav: sitePages.SiteNav
+            nav: sitePages.SiteNav,
+            subNav : sitePages.SecurityNav
           }
         }
 

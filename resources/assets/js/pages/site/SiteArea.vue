@@ -45,7 +45,9 @@
                     </transition>
 
                     <transition >
-                        <router-view></router-view>
+                        <router-view name="subNav">
+                            <router-view></router-view>
+                        </router-view>
                     </transition>
 
                 </div>

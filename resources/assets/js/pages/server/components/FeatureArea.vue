@@ -59,7 +59,9 @@
             <template v-if="server && hasFeature(feature)">
                 <button @click="installFeature(feature)">Update</button>
             </template>
+
         </template>
+
         <template v-if="frameworks">
             <h2>Frameworks Features for {{ area }}</h2>
             <feature-area
