@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?g34rpp');
-  src:  url('fonts/icomoon.eot?g34rpp#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?g34rpp') format('truetype'),
-    url('fonts/icomoon.woff?g34rpp') format('woff'),
-    url('fonts/icomoon.svg?g34rpp#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?l9sfix');
+  src:  url('fonts/icomoon.eot?l9sfix#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?l9sfix') format('truetype'),
+    url('fonts/icomoon.woff?l9sfix') format('woff'),
+    url('fonts/icomoon.svg?l9sfix#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -30,11 +30,23 @@
 .icon-github:before {
   content: "\eab0";
 }
+.icon-digital-ocean:before {
+  content: "\e906";
+}
+.icon-webhooks:before {
+  content: "\e907";
+}
 .icon-play:before {
   content: "\e901";
 }
-.icon-spinner8:before {
-  content: "\e982";
+.icon-clipboard:before {
+  content: "\e908";
+}
+.icon-bitbucket:before {
+  content: "\e904";
+}
+.icon-gitlab:before {
+  content: "\e905";
 }
 .icon-arrow-up:before {
   content: "\f106";
