@@ -274,78 +274,86 @@ const router = new VueRouter({
       path: '/site', component: sitePages.SiteArea,
       children: [
         {
-          path: ':site_id/repository',
+          path: 'setup/:site_id',
           name: 'site_repository',
           components: {
             default: sitePages.SiteRepository,
             nav: sitePages.SiteNav,
-            subNav : sitePages.SiteSetupNav
+            subNav: sitePages.SiteSetupNav
           }
         },
         {
-          path: ':site_id/deployment',
+          path: 'setup/:site_id/deployment',
           name: 'site_deployment',
           components: {
             default: sitePages.SiteDeployment,
             nav: sitePages.SiteNav,
-            subNav : sitePages.SiteSetupNav
+            subNav: sitePages.SiteSetupNav
           }
         },
         {
-          path: ':site_id/workers',
-          name: 'site_workers',
-          components: {
-            default: sitePages.SiteJobs,
-            nav: sitePages.SiteNav,
-            subNav : sitePages.ServerSetupNav
-          }
-        },
-        {
-          path: ':site_id/firewall-rules',
-          name: 'site_firewall_rules',
-          components: {
-            default: sitePages.SiteFirewallRules,
-            nav: sitePages.SiteNav,
-            subNav : sitePages.SecurityNav
-          }
-        },
-        {
-          path: ':site_id/ssh-keys',
-          name: 'site_ssh_keys',
-          components: {
-            default: sitePages.SiteSshKeys,
-            nav: sitePages.SiteNav,
-            subNav : sitePages.SecurityNav
-          }
-        },
-        {
-          path: ':site_id/framework-files',
+          path: 'setup/:site_id/framework-files',
           name: 'site_files',
           components: {
             default: sitePages.SiteFiles,
             nav: sitePages.SiteNav,
-            subNav : sitePages.SiteSetupNav
+            subNav: sitePages.SiteSetupNav
           }
         },
         {
-          path: ':site_id/server-features',
-          name: 'site_server_features',
+          path: 'security/:site_id/firewall-rules',
+          name: 'site_firewall_rules',
           components: {
-            default: sitePages.SiteServerFeatures,
+            default: sitePages.SiteFirewallRules,
             nav: sitePages.SiteNav,
-            subNav : sitePages.ServerSetupNav
+            subNav: sitePages.SecurityNav
           }
         },
         {
-          path: ':site_id/ssl-certificates',
+          path: 'security/:site_id',
+          name: 'site_ssh_keys',
+          components: {
+            default: sitePages.SiteSshKeys,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.SecurityNav
+          }
+        },
+        {
+          path: 'security/:site_id/ssl-certificates',
           name: 'site_ssl_certs',
           components: {
             default: sitePages.SiteSSLCertificates,
             nav: sitePages.SiteNav,
-            subNav : sitePages.SecurityNav
+            subNav: sitePages.SecurityNav
+          }
+        },
+        {
+          path: 'server-setup/:site_id',
+          name: 'site_workers',
+          components: {
+            default: sitePages.SiteJobs,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.ServerSetupNav
+          }
+        },
+        {
+          path: 'server-setup/:site_id/server-files',
+          name: 'site_server_files',
+          components: {
+            default: sitePages.SiteServerFiles,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.ServerSetupNav
+          }
+        },
+        {
+          path: 'server-setup/:site_id/server-features',
+          name: 'site_server_features',
+          components: {
+            default: sitePages.SiteServerFeatures,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.ServerSetupNav
           }
         }
-
       ]
     },
     {
