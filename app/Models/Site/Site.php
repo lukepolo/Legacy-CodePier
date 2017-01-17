@@ -46,7 +46,10 @@ class Site extends Model
 
     public $teamworkSync = false;
 
-    protected $appends = ['path'];
+    protected $appends = [
+        'path',
+        'hash'
+    ];
 
     protected $casts = [
         'server_features' => 'array',
@@ -208,6 +211,16 @@ class Site extends Model
     public function getPathAttribute()
     {
         return '/home/codepier/'.$this->domain;
+    }
+
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getHashAttribute()
+    {
+        return $this->encode();
     }
 
     /**
