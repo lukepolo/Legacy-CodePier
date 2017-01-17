@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Server;
 
-use App\Exceptions\ServerCommandFailed;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -47,11 +47,10 @@ class InstallServerFeature implements ShouldQueue
     {
         $serverFeatures = $this->server->server_features;
 
-        if (! isset($serverFeatures[$this->service][$this->feature]) || !$serverFeatures[$this->service][$this->feature]['enabled']) {
+        if (! isset($serverFeatures[$this->service][$this->feature]) || ! $serverFeatures[$this->service][$this->feature]['enabled']) {
             $this->runOnServer(function () use ($serverService, $serverFeatures) {
-
                 $serverFeatures[$this->service][$this->feature] = [
-                    'enabled' => true
+                    'enabled' => true,
                 ];
 
                 call_user_func_array([
