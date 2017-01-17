@@ -1,19 +1,6 @@
 <template>
     <div v-if="site">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div class="jcf-form-wrap">
             <form @submit.prevent="updateSite" class="floating-labels">
                 <h3>Repository</h3>
@@ -108,6 +95,11 @@
                     </div>
                 </div>
             </template>
+
+
+            Deploy Hook Url :
+            {{ deploy_hook }}
+
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>
                 <template v-if="!site.private">
@@ -207,6 +199,11 @@
                 }
 
                 return site;
+            },
+            deploy_hook() {
+                if(this.site) {
+                    return location.protocol+'//'+location.hostname + Vue.action('WebHookController@deploy', { siteHashID : this.site.hash })
+                }
             },
             repository_providers() {
                 return this.$store.state.userStore.repository_providers;
