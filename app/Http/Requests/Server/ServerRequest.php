@@ -24,7 +24,7 @@ class ServerRequest extends FormRequest
     public function rules()
     {
         return [
-            'server_name' => 'required|string',
+            'server_name' => 'required|server_name',
             'server_provider_id' => 'required|domain',
             'services' => 'required',
             'server_region' => 'required|integer',

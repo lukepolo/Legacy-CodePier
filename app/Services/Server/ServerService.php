@@ -40,6 +40,11 @@ class ServerService implements ServerServiceContract
         $this->systemService = $systemService;
     }
 
+    public function getServerProviderUser(ServerProvider $serverProvider)
+    {
+        return $this->getProvider($serverProvider)->getUser(\Auth::user());
+    }
+
     /**
      * @param ServerProvider $serverProvider
      * @param Server $server
