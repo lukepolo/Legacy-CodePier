@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Server;
 
+use App\Exceptions\ServerCommandFailed;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -39,22 +40,24 @@ class InstallServerFeature implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService)
     {
         $serverFeatures = $this->server->server_features;
 
-        if (! $serverFeatures[$this->service][$this->feature]['enabled']) {
+        if (! isset($serverFeatures[$this->service][$this->feature]) || !$serverFeatures[$this->service][$this->feature]['enabled']) {
             $this->runOnServer(function () use ($serverService, $serverFeatures) {
-                call_user_func_array(
-                    [
+
+                $serverFeatures[$this->service][$this->feature] = [
+                    'enabled' => true
+                ];
+
+                call_user_func_array([
                         $serverService->getService($this->service, $this->server),
                         'install'.$this->feature,
-                    ],
-                    $this->parameters
-                );
+                ], $this->parameters);
 
                 $this->server->update([
                     'server_features' => $serverFeatures,
