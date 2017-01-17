@@ -2,20 +2,20 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
-use App\Models\User\UserLoginProvider;
-use App\Models\User\UserNotificationProvider;
-use App\Models\User\UserServerProvider;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
-use Carbon\Carbon;
+use App\Models\User\UserLoginProvider;
+use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User\UserNotificationProvider;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
@@ -53,20 +53,20 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
         });
 
-        UserLoginProvider::updating(function($provider) {
-            if(!empty($expiresIn = $provider->getOriginal('expires_in'))) {
+        UserLoginProvider::updating(function ($provider) {
+            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
             }
         });
 
-        UserNotificationProvider::updating(function($provider) {
-            if(!empty($expiresIn = $provider->getOriginal('expires_in'))) {
+        UserNotificationProvider::updating(function ($provider) {
+            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
             }
         });
 
-        UserServerProvider::updating(function(Model $provider) {
-            if(!empty($expiresIn = $provider->getOriginal('expires_in'))) {
+        UserServerProvider::updating(function (Model $provider) {
+            if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
             }
         });
