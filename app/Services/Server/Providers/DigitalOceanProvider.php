@@ -243,11 +243,9 @@ class DigitalOceanProvider implements ServerProviderContract
 
     public function getUser(User $user)
     {
-
         $this->setToken($this->getTokenFromUser($user));
 
         return DigitalOcean::account()->getUserInformation();
-
     }
 
     /**
