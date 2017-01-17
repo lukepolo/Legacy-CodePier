@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Server;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
-use App\Jobs\InstallServerFeature;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\InstallServerFeature;
 use App\Http\Requests\Server\ServerFeatureRequest;
 use App\Contracts\Server\ServerFeatureServiceContract as ServerFeatureService;
 
