@@ -274,7 +274,7 @@ const router = new VueRouter({
       path: '/site', component: sitePages.SiteArea,
       children: [
         {
-          path: 'setup/:site_id',
+          path: ':site_id/setup',
           name: 'site_repository',
           components: {
             default: sitePages.SiteRepository,
@@ -283,7 +283,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'setup/:site_id/deployment',
+          path: ':site_id/setup/deployment',
           name: 'site_deployment',
           components: {
             default: sitePages.SiteDeployment,
@@ -292,7 +292,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'setup/:site_id/framework-files',
+          path: ':site_id/setup/framework-files',
           name: 'site_files',
           components: {
             default: sitePages.SiteFiles,
@@ -301,7 +301,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id/firewall-rules',
+          path: ':site_id/security/firewall-rules',
           name: 'site_firewall_rules',
           components: {
             default: sitePages.SiteFirewallRules,
@@ -310,7 +310,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id',
+          path: ':site_id/security',
           name: 'site_ssh_keys',
           components: {
             default: sitePages.SiteSshKeys,
@@ -319,7 +319,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id/ssl-certificates',
+          path: ':site_id/security/ssl-certificates',
           name: 'site_ssl_certs',
           components: {
             default: sitePages.SiteSSLCertificates,
@@ -328,7 +328,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id',
+          path: ':site_id/server-setup',
           name: 'site_workers',
           components: {
             default: sitePages.SiteJobs,
@@ -337,7 +337,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id/server-files',
+          path: ':site_id/server-setup/server-files',
           name: 'site_server_files',
           components: {
             default: sitePages.SiteServerFiles,
@@ -346,7 +346,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id/server-features',
+          path: ':site_id/server-setup/server-features',
           name: 'site_server_features',
           components: {
             default: sitePages.SiteServerFeatures,
