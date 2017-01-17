@@ -26,7 +26,6 @@ class ServerFeatureRequest extends FormRequest
         return [
             'feature' => 'required',
             'service' => 'required',
-            'parameters' => 'required',
         ];
     }
 }

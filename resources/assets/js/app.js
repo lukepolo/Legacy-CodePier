@@ -271,10 +271,20 @@ const router = new VueRouter({
       ]
     },
     {
-      path: '/site', component: sitePages.SiteArea,
+      // BUG with vue router https://github.com/vuejs/vue-router/issues/1091
+      path: '/site/:site_id/config', component: sitePages.SiteArea,
       children: [
         {
-          path: 'setup/:site_id',
+          path: '',
+          name: 'site_default',
+          components: {
+            default: sitePages.SiteRepository,
+            nav: sitePages.SiteNav,
+            subNav: sitePages.SiteSetupNav
+          }
+        },
+        {
+          path: 'setup',
           name: 'site_repository',
           components: {
             default: sitePages.SiteRepository,
@@ -283,7 +293,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'setup/:site_id/deployment',
+          path: 'setup/deployment',
           name: 'site_deployment',
           components: {
             default: sitePages.SiteDeployment,
@@ -292,7 +302,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'setup/:site_id/framework-files',
+          path: 'setup/framework-files',
           name: 'site_files',
           components: {
             default: sitePages.SiteFiles,
@@ -301,7 +311,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id/firewall-rules',
+          path: 'security/firewall-rules',
           name: 'site_firewall_rules',
           components: {
             default: sitePages.SiteFirewallRules,
@@ -310,7 +320,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id',
+          path: 'security',
           name: 'site_ssh_keys',
           components: {
             default: sitePages.SiteSshKeys,
@@ -319,7 +329,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'security/:site_id/ssl-certificates',
+          path: 'security/ssl-certificates',
           name: 'site_ssl_certs',
           components: {
             default: sitePages.SiteSSLCertificates,
@@ -328,7 +338,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id',
+          path: 'server-setup',
           name: 'site_workers',
           components: {
             default: sitePages.SiteJobs,
@@ -337,7 +347,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id/server-files',
+          path: 'server-setup/server-files',
           name: 'site_server_files',
           components: {
             default: sitePages.SiteServerFiles,
@@ -346,7 +356,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: 'server-setup/:site_id/server-features',
+          path: 'server-setup/server-features',
           name: 'site_server_features',
           components: {
             default: sitePages.SiteServerFeatures,
