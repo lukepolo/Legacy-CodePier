@@ -201,7 +201,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $server->server_provider_id
         )->first()
         ) {
-            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+            if (Carbon::now()->gte($serverProvider->expires_in)) {
                 return $this->refreshToken($serverProvider);
             }
 
@@ -231,7 +231,7 @@ class DigitalOceanProvider implements ServerProviderContract
             $server_provider_id
         )->first()
         ) {
-            if (Carbon::now()->gte($serverProvider->updated_at->addSeconds($serverProvider->expires_in))) {
+            if (Carbon::now()->gte($serverProvider->expires_in)) {
                 return $this->refreshToken($serverProvider);
             }
 
@@ -239,6 +239,15 @@ class DigitalOceanProvider implements ServerProviderContract
         }
 
         throw new \Exception('No server provider found for this user');
+    }
+
+    public function getUser(User $user)
+    {
+
+        $this->setToken($this->getTokenFromUser($user));
+
+        return DigitalOcean::account()->getUserInformation();
+
     }
 
     /**
@@ -250,6 +259,7 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {
+        dd('refresh');
         $client = new Client();
 
         $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token)->send();
