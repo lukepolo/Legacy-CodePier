@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
+use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::tokensCan([
+            'create-custom-server' => 'Allows creation of a custom server',
+        ]);
+
         if ($this->app->environment() != 'production') {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
@@ -45,11 +50,8 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
         });
 
+        // TODO - validate via site creation
         Validator::extend('domain', function ($attribute, $value) {
-            if (! is_string($value) && ! is_numeric($value)) {
-                return false;
-            }
-
             return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
         });
 

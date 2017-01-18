@@ -74,6 +74,10 @@
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
+
+        Deploy Hook Url :
+        {{ deploy_hook }}
+
         <template v-if="site.repository && hasDeployableServers">
 
             <template v-if="isDeploying">
@@ -95,10 +99,6 @@
                     </div>
                 </div>
             </template>
-
-
-            Deploy Hook Url :
-            {{ deploy_hook }}
 
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>

@@ -48,7 +48,7 @@ Route::resource('subscription/plans', 'SubscriptionController');
 */
 
 Route::group(['prefix' => 'webhook'], function () {
-    Route::post('/deploy/{siteHashID}', 'WebHookController@deploy');
+    Route::any('/deploy/{siteHashID}', 'WebHookController@deploy');
     Route::get('/loads/{serverHashID}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashID}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashID}', 'WebHookController@diskUsageMonitor');
@@ -70,7 +70,6 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 */
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('test', 'Server\Providers\DigitalOcean\DigitalOceanController@index');
     Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

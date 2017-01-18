@@ -7,23 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\CheckServerStatus;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
+use App\Services\Server\Providers\CustomProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
 {
+    const CUSTOM_SERVER_NAME = 'Custom Server';
+
     private $serverService;
+    private $remoteTaskService;
 
     /**
      * ServerController constructor.
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    public function __construct(ServerService $serverService)
+    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService)
     {
         $this->serverService = $serverService;
+        $this->remoteTaskService = $remoteTaskService;
     }
 
     /**
@@ -51,6 +59,7 @@ class ServerController extends Controller
      */
     public function store(ServerRequest $request)
     {
+        $site = null;
         if ($request->has('site')) {
             $site = Site::findOrFail($request->get('site'));
 
@@ -61,9 +70,9 @@ class ServerController extends Controller
 
         $server = Server::create([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('server_name'),
-            'server_provider_id' => $request->get('server_provider_id'),
-            'status' => 'Queued For Creation',
+            'name' => $request->get('server_name', self::CUSTOM_SERVER_NAME),
+            'server_provider_id' => $request->get('server_provider_id', ServerProvider::where('provider_class', CustomProvider::class)->first()->id),
+            'status' => $request->has('custom') ? '' : 'Queued For Creation',
             'progress' => '0',
             'options' => $request->only([
                 'server_region',
@@ -75,14 +84,20 @@ class ServerController extends Controller
             'system_class' => 'ubuntu 16.04',
         ]);
 
-        if (isset($site)) {
+        if (! empty($site)) {
             $site->servers()->save($server);
         }
 
-        $this->dispatch((new CreateServer(
-            ServerProvider::findorFail($request->get('server_provider_id')),
-            $server
-        ))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
+        if ($request->has('custom')) {
+            $server->update([
+                'custom_server_url' => $this->getCustomServerScriptUrl($server),
+            ]);
+        } else {
+            $this->dispatch((new CreateServer(
+                ServerProvider::findorFail($request->get('server_provider_id')),
+                $server
+            ))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
+        }
 
         return response()->json($server->load(['serverProvider', 'pile']));
     }
@@ -251,5 +266,50 @@ class ServerController extends Controller
     public function testSSHConnection($serverId)
     {
         $this->serverService->testSSHConnection(Server::findOrFail($serverId));
+    }
+
+    public function generateCustomServerSh(Request $request, $serverId)
+    {
+        $server = Server::findOrFail($serverId);
+
+        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
+            $sshKey = $this->remoteTaskService->createSshKey();
+
+            $server->public_ssh_key = $sshKey['publickey'];
+            $server->private_ssh_key = $sshKey['privatekey'];
+            $server->save();
+        }
+
+        $server->update([
+            'ip' => $request->get('ip'),
+        ]);
+
+        dispatch(
+            (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
+        );
+
+        return "sudo echo '$server->private_ssh_key' > ~/.ssh/id_rsa\n
+    sudo echo '$server->public_ssh_key' > ~/.ssh/id_rsa.pub\n
+    sudo echo '$server->public_ssh_key' > ~/.ssh/authorized_keys\n
+";
+    }
+
+    public function getCustomServerScriptUrl(Server $server)
+    {
+        $url = action('Server\ServerController@generateCustomServerSh', [
+            'server' => $server->id,
+        ]);
+
+        $token = auth()->user()->createToken('custom_server_'.$server->id, ['create-custom-server'])->accessToken;
+
+        return 'current_ip=`ip route get 8.8.8.8 | awk \'{print $NF; exit}\'` \        
+bash <(curl \
+-H "Accept: application/json" \
+-H "Authorization: Bearer '.$token.'" \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-X POST \
+-d "ip=$current_ip" \
+'.$url.') \
+';
     }
 }
