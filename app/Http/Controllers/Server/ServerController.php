@@ -290,7 +290,7 @@ class ServerController extends Controller
 
         return "sudo echo '$server->private_ssh_key' > ~/.ssh/id_rsa\n
     sudo echo '$server->public_ssh_key' > ~/.ssh/id_rsa.pub\n
-     sudo echo '$server->public_ssh_key' > ~/.ssh/authorized_keys\n
+    sudo echo '$server->public_ssh_key' > ~/.ssh/authorized_keys\n
 ";
     }
 
@@ -302,8 +302,7 @@ class ServerController extends Controller
 
         $token = auth()->user()->createToken('custom_server_'.$server->id, ['create-custom-server'])->accessToken;
 
-        return '
-current_ip=`ip route get 8.8.8.8 | awk \'{print $NF; exit}\'` \        
+        return 'current_ip=`ip route get 8.8.8.8 | awk \'{print $NF; exit}\'` \        
 bash <(curl \
 -H "Accept: application/json" \
 -H "Authorization: Bearer '.$token.'" \

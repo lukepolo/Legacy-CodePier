@@ -25,7 +25,7 @@ class ServerProvidersSeeder extends Seeder
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,
             ],
             \App\Services\Server\Providers\CustomProvider::class => [
-                'name'     => 'Custom Provider', // if changed , go to vue user server providers page
+                'name'     => 'Custom Provider',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\CustomProvider::class,
             ]
