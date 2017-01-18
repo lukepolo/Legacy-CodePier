@@ -13,7 +13,7 @@ class AddCustomServerUrl extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->longText('custom_server_url')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddCustomServerUrl extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('custom_server_url');
         });
     }

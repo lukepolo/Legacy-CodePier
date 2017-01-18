@@ -2,8 +2,8 @@
 
 namespace App\Services\Server\Providers;
 
-use App\Models\Server\Server;
 use App\Models\User\User;
+use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 
 class CustomProvider implements ServerProviderContract
@@ -19,7 +19,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function getOptions()
     {
-
     }
 
     /**
@@ -31,7 +30,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function getRegions()
     {
-
     }
 
     /**
@@ -45,7 +43,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function create(Server $server)
     {
-
     }
 
     /**
@@ -57,7 +54,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function getStatus(Server $server)
     {
-
     }
 
     /**
@@ -67,7 +63,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function savePublicIP(Server $server)
     {
-
     }
 
     /**
@@ -79,7 +74,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function getPublicIP(Server $server)
     {
-
     }
 
     /**
@@ -93,12 +87,10 @@ class CustomProvider implements ServerProviderContract
      */
     public function setToken($token)
     {
-
     }
 
     public function getUser(User $user)
     {
-
     }
 
     /**
@@ -110,11 +102,9 @@ class CustomProvider implements ServerProviderContract
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {
-
     }
 
     public function readyForProvisioningStatus()
     {
-
     }
 }
