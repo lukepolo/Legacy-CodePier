@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Jobs\Server\CheckServerStatus;
 use App\Models\Site\Site;
-use App\Services\Server\Providers\CustomProvider;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\CheckServerStatus;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
+use App\Services\Server\Providers\CustomProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
 {
@@ -81,16 +81,16 @@ class ServerController extends Controller
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
             'pile_id' => $pileId,
-            'system_class' => 'ubuntu 16.04'
+            'system_class' => 'ubuntu 16.04',
         ]);
 
-        if (!empty($site)) {
+        if (! empty($site)) {
             $site->servers()->save($server);
         }
 
-        if($request->has('custom')) {
+        if ($request->has('custom')) {
             $server->update([
-                'custom_server_url' => $this->getCustomServerScriptUrl($server)
+                'custom_server_url' => $this->getCustomServerScriptUrl($server),
             ]);
         } else {
             $this->dispatch((new CreateServer(
@@ -272,16 +272,16 @@ class ServerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        if(empty($server->public_ssh_key) || empty( $server->private_ssh_key)) {
+        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
             $sshKey = $this->remoteTaskService->createSshKey();
 
-            $server->public_ssh_key =  $sshKey['publickey'];
+            $server->public_ssh_key = $sshKey['publickey'];
             $server->private_ssh_key = $sshKey['privatekey'];
             $server->save();
         }
 
         $server->update([
-            'ip' => $request->get('ip')
+            'ip' => $request->get('ip'),
         ]);
 
         dispatch(
@@ -297,7 +297,7 @@ class ServerController extends Controller
     public function getCustomServerScriptUrl(Server $server)
     {
         $url = action('Server\ServerController@generateCustomServerSh', [
-            'server' => $server->id
+            'server' => $server->id,
         ]);
 
         $token = auth()->user()->createToken('custom_server_'.$server->id, ['create-custom-server'])->accessToken;
