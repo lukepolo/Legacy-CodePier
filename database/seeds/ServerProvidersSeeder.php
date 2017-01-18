@@ -28,7 +28,7 @@ class ServerProvidersSeeder extends Seeder
                 'name'     => 'Custom Provider',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\CustomProvider::class,
-            ]
+            ],
         ];
 
         foreach ($providers as $provider => $data) {

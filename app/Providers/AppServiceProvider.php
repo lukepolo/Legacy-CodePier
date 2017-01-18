@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
+use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
@@ -19,7 +20,6 @@ use App\Models\User\UserNotificationProvider;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
-use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
