@@ -17,6 +17,11 @@
                         {{ server.status }}
                     </section>
                 </section>
+
+                <template v-if="server.progress == 0 && server.custom_server_url">
+                    <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
+                </template>
+
             </template>
 
             <template v-if="server.progress >= 100">
@@ -103,6 +108,12 @@
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
             }
+        },
+        data() {
+            return {
+                custom_url : null
+            }
         }
+
     }
 </script>

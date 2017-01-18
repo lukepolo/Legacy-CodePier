@@ -13,12 +13,13 @@
 */
 
 Route::group(['middleware' => 'auth:api'], function () {
+
     /*
- |--------------------------------------------------------------------------
- | User Routes
- |--------------------------------------------------------------------------
- |
- */
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
     Route::resource('me', 'User\UserController', [
         'only' => [
             'index',
@@ -98,6 +99,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::post('server/{server}/find-file', 'Server\ServerFileController@find');
         Route::post('server/{server}/reload-file/{file}', 'Server\ServerFileController@reloadFile');
+
+        Route::post('server/{server}/custom', 'Server\ServerController@generateCustomServerSh')->middleware('scope:create-custom-server');
 
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {

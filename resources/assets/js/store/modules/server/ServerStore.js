@@ -117,8 +117,9 @@ export default {
       })
     },
     getServerSites: ({ commit }, server) => {
-      Vue.http.get(Vue.action('Server\ServerSiteController@index', { server: server })).then((response) => {
-        commit('SET_SERVER_SITES', response.data)
+      return Vue.http.get(Vue.action('Server\ServerSiteController@index', { server: server })).then((response) => {
+          commit('SET_SERVER_SITES', response.data)
+          return response.data
       }, (errors) => {
         app.handleApiError(errors)
       })
@@ -165,6 +166,16 @@ export default {
     getServerFeatures: ({ commit }, server) => {
       Vue.http.get(Vue.action('Server\ServerFeatureController@index', { server: server })).then((response) => {
         commit('SET_SERVER_INSTALLED_FEATURES', response.data)
+      }, (errors) => {
+        app.handleApiError(errors)
+      })
+    },
+    getCustomServerLink: ({}, data) => {
+      return Vue.http.get(Vue.action('Server\ServerController@getCustomServerScriptUrl', {
+        server: data.server,
+        site: data.site
+      })).then((response) => {
+        return response.data
       }, (errors) => {
         app.handleApiError(errors)
       })

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\Providers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Server\Provider\ServerProvider;
+use App\Services\Server\Providers\CustomProvider;
 
 class ServerProvidersController extends Controller
 {
@@ -14,7 +15,7 @@ class ServerProvidersController extends Controller
      */
     public function index()
     {
-        return response(ServerProvider::all());
+        return response(ServerProvider::where('provider_class', '!=', CustomProvider::class)->get());
     }
 
     /**
