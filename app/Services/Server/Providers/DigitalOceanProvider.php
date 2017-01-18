@@ -259,7 +259,6 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {
-        dd('refresh');
         $client = new Client();
 
         $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token)->send();

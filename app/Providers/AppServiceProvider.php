@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
 use App\Observers\Server\ServerNetworkRuleObserver;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::tokensCan([
+            'create-custom-server' => 'Allows creation of a custom server',
+        ]);
+
         if ($this->app->environment() != 'production') {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
@@ -45,11 +50,8 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
         });
 
+        // TODO - validate via site creation
         Validator::extend('domain', function ($attribute, $value) {
-            if (! is_string($value) && ! is_numeric($value)) {
-                return false;
-            }
-
             return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
         });
 
