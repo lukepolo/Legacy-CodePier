@@ -17,7 +17,7 @@ class UserNotificationProvider extends Model
         'created_at',
         'updated_at',
         'expires_in',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /*

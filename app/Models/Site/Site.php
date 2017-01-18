@@ -48,7 +48,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
-        'hash'
+        'hash',
     ];
 
     protected $casts = [
