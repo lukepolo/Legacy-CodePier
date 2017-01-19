@@ -45,7 +45,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function create(Server $server)
     {
-        return null;
     }
 
     /**
@@ -95,7 +94,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function setToken($token)
     {
-        return null;
     }
 
     public function getUser(User $user)
@@ -112,7 +110,6 @@ class CustomProvider implements ServerProviderContract
      */
     public function refreshToken(UserServerProvider $userServerProvider)
     {
-        return null;
     }
 
     public function readyForProvisioningStatus()
