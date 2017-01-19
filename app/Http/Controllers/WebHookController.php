@@ -34,7 +34,7 @@ class WebHookController extends Controller
                 break;
         }
 
-        if ($site->branch == $branch) {
+        if (count($request->all()) == 0 || $site->branch == $branch) {
             dispatch(
                 (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(env('SERVER_COMMAND_QUEUE'))
             );
