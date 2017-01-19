@@ -52,7 +52,7 @@
 
         @stack('scripts')
         @if(\Auth::check())
-            <script src="{{ elixir('/js/app.js') }}"></script>
+            <script src="{{ elixir('js/app.js') }}"></script>
             @include('layouts.core.notifications')
         @endif
     </body>
