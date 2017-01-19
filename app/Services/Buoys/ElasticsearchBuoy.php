@@ -2,11 +2,10 @@
 
 namespace App\Services\Buoys;
 
-use App\Contracts\Buoys\BuoyContract;
-
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Traits\Buoys\BuoyTrait;
+use App\Contracts\Buoys\BuoyContract;
 use App\Services\Systems\SystemService;
 
 class ElasticsearchBuoy implements BuoyContract
@@ -18,9 +17,8 @@ class ElasticsearchBuoy implements BuoyContract
      * @param array ...$parameters
      *
      * @buoy-param $memory = 2g
-     *
      */
-    public function install(Server $server, ... $parameters)
+    public function install(Server $server, ...$parameters)
     {
         list($memory) = $parameters;
 
@@ -51,22 +49,20 @@ class ElasticsearchBuoy implements BuoyContract
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config
+     * When a bouy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */
     public function nginxConfig(Server $server)
     {
-        
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config
+     * When a bouy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */
     public function apacheConfig(Server $server)
     {
-
     }
 }
