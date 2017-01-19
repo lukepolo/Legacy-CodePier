@@ -8,41 +8,49 @@
                 <div class="container">
                     <div class="jcf-form-wrap">
                         <form @submit.prevent="createServer()" class="validation-form floating-labels">
+
                             <template v-if="siteId">
                                 <input type="hidden" name="site" :value="siteId">
                             </template>
                             <template v-else>
-                                    <input type="hidden" name="pile_id" :value="pile">
+                                <input type="hidden" name="pile_id" :value="pile">
                             </template>
 
-                            <div @click="is_custom=!is_custom" class="btn btn-primary">Custom Server</div> Or | <br>
-                            <template v-if="is_custom">
-                                <input type="hidden" name="custom" value="true">
-                            </template>
-
-                            <template v-if="user_server_providers.length" class="input-group input-radio">
+                            <div class="input-group input-radio">
                                 <div class="input-question">Server Provider</div>
-                                <template v-for="user_server_provider in user_server_providers">
-                                    <label>
-                                        <input
-                                            @change="getProviderData(user_server_provider.server_provider_id)"
-                                            type="radio"
-                                            name="server_provider_id"
-                                            :value="user_server_provider.server_provider_id"
-                                            v-model="server_provider"
-                                        >
-                                        <span class="icon"></span>
-                                        {{ getServerProviderName(user_server_provider.server_provider_id) }}
-                                    </label>
+                                <template v-if="user_server_providers.length">
+                                    <template v-for="user_server_provider in user_server_providers">
+                                        <label>
+                                            <input
+                                                @change="getProviderData(user_server_provider.server_provider_id)"
+                                                type="radio"
+                                                name="server_provider_id"
+                                                :value="user_server_provider.server_provider_id"
+                                                v-model="server_provider"
+                                            >
+                                            <span class="icon"></span>
+                                            {{ getServerProviderName(user_server_provider.server_provider_id) }}
+                                        </label>
+                                    </template>
                                 </template>
-                            </template>
-                            <template v-else>
-                                Please link a
-                                <router-link to="/my-profile/server-providers">
-                                    <a> server provider</a>
-                                </router-link>
-                                before creating a server.
-                            </template>
+                                <template v-else>
+                                    Please link a
+                                    <router-link to="/my-profile/server-providers">
+                                        <a> server provider</a>
+                                    </router-link>
+                                    before creating a server.
+                                </template>
+
+                                <label>
+                                    <input type="radio" @click="is_custom=true" value="" v-model="server_provider">
+                                    <span class="icon"></span>
+                                    Custom Server
+                                    <template v-if="is_custom">
+                                        <input type="hidden" name="custom" value="true">
+                                    </template>
+                                </label>
+
+                            </div>
 
                             <template v-if="is_custom || server_provider">
 
@@ -156,6 +164,7 @@
                 }
             },
             getProviderData(server_provider_id) {
+                this.is_custom = false
                 let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name;
                 if(provider) {
                     this.$store.dispatch('getServerProviderOptions', provider);
