@@ -60,6 +60,8 @@ class OsService
         $this->remoteTaskService->run('chmod o-w /home/codepier');
 
         $this->remoteTaskService->run('service sshd restart');
+
+        $this->remoteTaskService->makeDirectory('/opt/codepier');
     }
 
     /**

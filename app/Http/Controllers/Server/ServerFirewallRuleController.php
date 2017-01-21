@@ -37,16 +37,19 @@ class ServerFirewallRuleController extends Controller
         $server = Server::findOrFail($serverId);
 
         $port = $request->get('port');
+        $type = $request->get('type', null);
         $fromIp = $request->get('from_ip', null);
 
         if (! $server->firewallRules
             ->where('port', $port)
             ->where('from_ip', $fromIp)
+            ->where('type', $type)
             ->count()
         ) {
             $firewallRule = FirewallRule::create([
                 'port' => $port,
                 'from_ip' => $fromIp,
+                'type' => $type,
                 'description' => $request->get('description'),
             ]);
 
