@@ -19,6 +19,7 @@ class CustomProvider implements ServerProviderContract
      */
     public function getOptions()
     {
+        return [];
     }
 
     /**
@@ -30,6 +31,7 @@ class CustomProvider implements ServerProviderContract
      */
     public function getRegions()
     {
+        return [];
     }
 
     /**
@@ -54,15 +56,19 @@ class CustomProvider implements ServerProviderContract
      */
     public function getStatus(Server $server)
     {
+        return 'active';
     }
 
     /**
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
+     *
+     * @return mixed
      */
     public function savePublicIP(Server $server)
     {
+        return $server->ip;
     }
 
     /**
@@ -74,6 +80,7 @@ class CustomProvider implements ServerProviderContract
      */
     public function getPublicIP(Server $server)
     {
+        return $server->ip;
     }
 
     /**
@@ -91,6 +98,7 @@ class CustomProvider implements ServerProviderContract
 
     public function getUser(User $user)
     {
+        return $user;
     }
 
     /**
@@ -106,5 +114,6 @@ class CustomProvider implements ServerProviderContract
 
     public function readyForProvisioningStatus()
     {
+        return 'active';
     }
 }

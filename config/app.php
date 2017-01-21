@@ -243,7 +243,6 @@ return [
         /*
          * Third Party Facades
          */
-        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
         'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
