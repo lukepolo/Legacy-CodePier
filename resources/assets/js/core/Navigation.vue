@@ -43,7 +43,7 @@
 
         <ul class="nav navbar-right nav-right">
             <li>
-                <router-link :to="{ name: 'buoys' }"><span class="icon-person"></span>Buoy Marketplace</router-link>
+                <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-person"></span>Buoy Marketplace</router-link>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -98,9 +98,6 @@
                         Admin
                         <li>
                             <router-link :to="{ name: 'categories' }"><span class="icon-server"></span>Manage Categories</router-link>
-                        </li>
-                        <li>
-                            <router-link :to="{ name: 'buoy_form' }"><span class="icon-server"></span>Manage Buoys</router-link>
                         </li>
                     </template>
                     <li>

@@ -18,9 +18,18 @@ export default {
                 app.handleApiError(errors)
             })
         },
+        createBuoy: ({ commit }, data) => {
+            Vue.http.post(Vue.action('BuoyAppController@store'), data).then((response) => {
+                commit('ADD_BUOY', response.data)
+                app.$router.push({ name: 'buoy_market_place' })
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
         updateBuoy: ({ commit }, data) => {
             Vue.http.put(Vue.action('BuoyAppController@update', { buoy: data.buoy }), data).then((response) => {
                 commit('SET_BUOY', response.data)
+                app.$router.push({ name: 'buoy_market_place' })
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -42,6 +51,9 @@ export default {
         },
         REMOVE_BUOY: (state, buoyId) => {
             Vue.set(state, 'buoys', _.reject(state.buoy, { id: buoyId }))
+        },
+        ADD_BUOY: (state, buoy) => {
+            state.buoys.push(buoy)
         }
     }
 }
