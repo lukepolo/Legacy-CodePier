@@ -49,7 +49,7 @@ class ElasticsearchBuoy implements BuoyContract
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
+     * When a buoy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */
@@ -58,7 +58,7 @@ class ElasticsearchBuoy implements BuoyContract
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
+     * When a buoy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */

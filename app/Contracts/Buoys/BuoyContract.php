@@ -15,14 +15,14 @@ interface BuoyContract
     public function install(Server $server, ...$parameters);
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
+     * When a buoy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */
     public function nginxConfig(Server $server);
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
+     * When a buoy is set to a domain we must gather the web config.
      * @param Server $server
      * return string
      */

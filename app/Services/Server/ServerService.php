@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Models\Buoy;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
@@ -481,5 +482,15 @@ class ServerService implements ServerServiceContract
     public function getService($service, Server $server)
     {
         return $this->systemService->createSystemService($service, $server);
+    }
+
+    public function installBuoy(Server $server, Buoy $buoy)
+    {
+        dd('here');
+    }
+
+    public function removeBuoy(Server $server, Buoy $buoy)
+    {
+        dd('here');
     }
 }

@@ -14,6 +14,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    const USER  = 'user';
+    const ADMIN  = 'admin';
+
     use Notifiable, UserHasTeams, Billable, HasApiTokens;
 
     /**
@@ -93,6 +96,17 @@ class User extends Authenticatable
     public function notificationSettings()
     {
         return $this->hasMany(UserNotificationSetting::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function hasRole($role)
+    {
+        return $this->role == $role;
     }
 
     public function getRunningCommands()
