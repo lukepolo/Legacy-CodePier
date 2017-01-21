@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Http\Requests\CategoryRequest;
 
 class CategoriesController extends Controller
 {
@@ -26,7 +26,7 @@ class CategoriesController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
         ]);
 
         return response()->json($category);
@@ -55,7 +55,7 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
 
         $category->update([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
         ]);
 
         return response()->json($category);
