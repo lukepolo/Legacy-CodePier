@@ -2,10 +2,10 @@
 
 namespace App\Traits\Buoys;
 
-use App\Contracts\Server\ServerServiceContract as ServerService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 trait BuoyTrait
 {
@@ -29,9 +29,9 @@ trait BuoyTrait
      * @param array $ports
      * @param $container
      */
-    public function openPorts(Server $server, $ports = [], $container)
+    public function openPorts(Server $server, $ports, $container)
     {
-        foreach($ports as $port) {
+        foreach ($ports as $port) {
             if (! $server->firewallRules
                 ->where('port', $ports[0])
                 ->where('from_ip', null)
