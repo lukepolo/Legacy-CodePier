@@ -2,11 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\BuoyServiceContract as BuoyService;
 use App\Models\BuoyApp;
 use App\Http\Requests\BuoyRequest;
 
 class BuoyAppController extends Controller
 {
+    /**
+     * @var BuoyService
+     */
+    private $buoyService;
+
+    /**
+     * BuoyAppController constructor.
+     * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
+     */
+    public function __construct(BuoyService $buoyService)
+    {
+        $this->buoyService = $buoyService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,5 +79,15 @@ class BuoyAppController extends Controller
     public function destroy($id)
     {
         return response()->json(BuoyApp::destroy($id));
+    }
+
+    /**
+     * Gets the buoy classes that are in our repository
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getBuoyClasses()
+    {
+        return response()->json($this->buoyService->getBuoyClasses());
     }
 }

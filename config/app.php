@@ -192,6 +192,7 @@ return [
         App\Providers\RemoteTaskServiceProvider::class,
         App\Providers\ServerServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
+        App\Providers\BuoyServiceProvider::class,
 
     ],
 

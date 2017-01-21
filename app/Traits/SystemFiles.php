@@ -131,6 +131,23 @@ trait SystemFiles
      */
     public function getDocParam($method, $param, $default = null)
     {
+        preg_match_all('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param $method
+     * @param $param
+     * @param null $default
+     * @return null
+     */
+    public function getFirstDocParam($method, $param, $default = null)
+    {
         preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
@@ -138,6 +155,14 @@ trait SystemFiles
         }
 
         return $default;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getBuoyFiles()
+    {
+        return File::files(app_path('Services/Buoys'));
     }
 
     /**

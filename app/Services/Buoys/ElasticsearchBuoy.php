@@ -2,7 +2,6 @@
 
 namespace App\Services\Buoys;
 
-use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Traits\Buoys\BuoyTrait;
 use App\Contracts\Buoys\BuoyContract;
@@ -13,37 +12,28 @@ class ElasticsearchBuoy implements BuoyContract
     use BuoyTrait;
 
     /**
-     * @param Server $server
-     * @param array ...$parameters
+     * @buoy-title Elasticsearch
+     * @buoy-enabled 1
      *
-     * @buoy-param $memory = 2g
+     * @param Server $server
+     * @param array $ports
+     * @param array ...$options
+     *
+     * @buoy-ports Transport Client:9200:9200
+     * @buoy-ports Node Client:9300:9300
+     * @buoy-options memory:2g
+     * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
      */
-    public function install(Server $server, ...$parameters)
+    public function install(Server $server, $ports = [], ...$options)
     {
-        list($memory) = $parameters;
+        list($memory) = $options;
 
         $this->remoteTaskService->run('sysctl -w vm.max_map_count=262144');
         $this->remoteTaskService->run('docker pull elasticsearch');
 
-        $port = '9200';
-        $type = 'tcp';
+        $this->remoteTaskService->run("docker run -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $ports[0]:9200 -p $ports[1]:9300 elasticsearch");
 
-        $this->remoteTaskService->run("docker run -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $port:$port -p 9300:9300 elasticsearch");
-
-        if (! $server->firewallRules
-            ->where('port', $port)
-            ->where('from_ip', null)
-            ->where('type', $type)
-            ->count()
-        ) {
-            $firewallRule = FirewallRule::create([
-                'port' => $port,
-                'type' => $type,
-                'description' => 'Elasticserach',
-            ]);
-
-            $server->firewallRules()->save($firewallRule);
-        }
+        $this->openPorts($server, $ports, 'elasticsearch');
 
         $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule();
     }
