@@ -20,9 +20,8 @@ class CreateBuoysTable extends Migration
             $table->string('buoy_class');
             $table->longText('description');
             $table->json('options')->nullable();
+            $table->json('ports')->nullable();
             $table->boolean('active')->default(1);
-            $table->integer('local_port');
-            $table->integer('docker_port');
             $table->timestamps();
 
             $table->index('title');
@@ -33,8 +32,8 @@ class CreateBuoysTable extends Migration
             $table->string('domain')->nullable();
             $table->integer('buoy_app_id');
             $table->json('options')->nullable();
+            $table->json('ports')->nullable();
             $table->string('status')->nullable();
-            $table->integer('local_port');
             $table->timestamps();
 
             $table->index('buoy_app_id');

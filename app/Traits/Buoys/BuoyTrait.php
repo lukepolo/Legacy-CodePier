@@ -4,6 +4,8 @@ namespace App\Traits\Buoys;
 
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Models\FirewallRule;
+use App\Models\Server\Server;
 
 trait BuoyTrait
 {
@@ -12,7 +14,7 @@ trait BuoyTrait
     private $domainable = false;
 
     /**
-     * ElasticsearchBuoy constructor.
+     * BuoyTrait constructor.
      * @param \App\Services\Server\ServerService |ServerService $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
@@ -20,5 +22,30 @@ trait BuoyTrait
     {
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
+    }
+
+    /**
+     * @param Server $server
+     * @param array $ports
+     * @param $container
+     */
+    public function openPorts(Server $server, $ports = [], $container)
+    {
+        foreach($ports as $port) {
+            if (! $server->firewallRules
+                ->where('port', $ports[0])
+                ->where('from_ip', null)
+                ->where('type', 'both')
+                ->count()
+            ) {
+                $firewallRule = FirewallRule::create([
+                    'port' => $port,
+                    'type' => 'both',
+                    'description' => ucwords($container),
+                ]);
+
+                $server->firewallRules()->save($firewallRule);
+            }
+        }
     }
 }
