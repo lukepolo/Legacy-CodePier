@@ -13,34 +13,34 @@ Vue.action = action
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    notificationsStore: NotificationStore,
+    modules: {
+        notificationsStore: NotificationStore,
 
-    pilesStore: PileStore,
-    eventsStore: EventsStore,
+        pilesStore: PileStore,
+        eventsStore: EventsStore,
 
-    userStore: UserStore.user,
-    teamsStore: UserStore.teams,
-    userSshKeysStore: UserStore.sshKeys,
-    userSubscriptionsStore: UserStore.subscriptions,
-    userNotificationsStore: UserStore.notifications,
+        userStore: UserStore.user,
+        teamsStore: UserStore.teams,
+        userSshKeysStore: UserStore.sshKeys,
+        userSubscriptionsStore: UserStore.subscriptions,
+        userNotificationsStore: UserStore.notifications,
 
-    sitesStore: SiteStore.site,
-    siteFilesStore: SiteStore.siteFiles,
-    siteWorkersStore: SiteStore.siteWorkers,
-    siteSshKeysStore: SiteStore.siteSshKeys,
-    siteCronJobsStore: SiteStore.siteCronJobs,
-    siteFirewallRulesStore: SiteStore.siteFirewallRules,
-    siteServersFeaturesStore: SiteStore.siteServersFeatures,
-    siteSslCertificatesStore: SiteStore.siteSslCertificates,
+        sitesStore: SiteStore.site,
+        siteFilesStore: SiteStore.siteFiles,
+        siteWorkersStore: SiteStore.siteWorkers,
+        siteSshKeysStore: SiteStore.siteSshKeys,
+        siteCronJobsStore: SiteStore.siteCronJobs,
+        siteFirewallRulesStore: SiteStore.siteFirewallRules,
+        siteServersFeaturesStore: SiteStore.siteServersFeatures,
+        siteSslCertificatesStore: SiteStore.siteSslCertificates,
 
-    serversStore: ServerStore.server,
-    serverFilesStore: ServerStore.files,
-    serverWorkersStore: ServerStore.workers,
-    serverSshKeysStore: ServerStore.sshKeys,
-    serverCronJobsStore: ServerStore.cronJobs,
-    serverFirewallStore: ServerStore.firewall,
-    serverServicesStore: ServerStore.services,
-    serverProvidersStore: ServerStore.providers
-  }
+        serversStore: ServerStore.server,
+        serverFilesStore: ServerStore.files,
+        serverWorkersStore: ServerStore.workers,
+        serverSshKeysStore: ServerStore.sshKeys,
+        serverCronJobsStore: ServerStore.cronJobs,
+        serverFirewallStore: ServerStore.firewall,
+        serverServicesStore: ServerStore.services,
+        serverProvidersStore: ServerStore.providers
+    }
 })
