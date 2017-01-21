@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-01-08.
+    * Generated on 2017-01-21.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -61,8 +61,6 @@ namespace PHPSTORM_META {
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
             'sentry' instanceof \Raven_Client,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -210,8 +208,6 @@ namespace PHPSTORM_META {
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
             'sentry' instanceof \Raven_Client,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -359,8 +355,6 @@ namespace PHPSTORM_META {
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
             'sentry' instanceof \Raven_Client,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -508,8 +502,6 @@ namespace PHPSTORM_META {
             'server-push' instanceof \TomSchlick\ServerPush\HttpPush,
             'sentry' instanceof \Raven_Client,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
