@@ -14,8 +14,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    const USER  = 'user';
-    const ADMIN  = 'admin';
+    const USER = 'user';
+    const ADMIN = 'admin';
 
     use Notifiable, UserHasTeams, Billable, HasApiTokens;
 

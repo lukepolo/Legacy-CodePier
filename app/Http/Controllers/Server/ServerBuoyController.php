@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\Server\InstallBuoy;
-use App\Jobs\Server\RemoveBuoy;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
-use App\Models\Server\Server;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Jobs\Server\RemoveBuoy;
+use App\Jobs\Server\InstallBuoy;
+use App\Http\Controllers\Controller;
 
 class ServerBuoyController extends Controller
 {
@@ -38,7 +38,7 @@ class ServerBuoyController extends Controller
 
         $localPort = $request->get('local_port');
 
-        if(!$server->bouys
+        if (! $server->bouys
             ->where('local_port', $localPort)
             ->count()
         ) {
@@ -46,13 +46,12 @@ class ServerBuoyController extends Controller
                 'buoy_app_id' => $buoyApp->id,
                 'local_port' => $localPort,
                 'domain' => $request->get('domain', null),
-                'options' => $request->get('options', [])
+                'options' => $request->get('options', []),
             ]);
 
             dispatch(new InstallBuoy($server, $buoyApp));
 
             return response()->json($buoy);
-
         }
 
         return response()->json('Please choose another port ', 400);
