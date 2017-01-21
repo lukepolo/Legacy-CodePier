@@ -310,6 +310,5 @@ bash <(curl \
 -X POST \
 -d "ip=$current_ip" \
 '.$url.')';
-
     }
 }
