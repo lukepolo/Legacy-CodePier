@@ -5847,16 +5847,16 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding-right: 4px;
 }
 
-.icon-github:before {
-  content: "\eab0";
+.icon-buoy:before {
+  content: "\e90a";
 }
 
-.icon-play:before {
-  content: "\e901";
+.icon-bitbucket:before {
+  content: "\e904";
 }
 
-.icon-spinner8:before {
-  content: "\e982";
+.icon-gitlab:before {
+  content: "\e905";
 }
 
 .icon-arrow-up:before {
@@ -5885,6 +5885,26 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 
 .icon-warning:before {
   content: "\e900";
+}
+
+.icon-github:before {
+  content: "\eab0";
+}
+
+.icon-digital-ocean:before {
+  content: "\e906";
+}
+
+.icon-webhooks:before {
+  content: "\e907";
+}
+
+.icon-play:before {
+  content: "\e901";
+}
+
+.icon-clipboard:before {
+  content: "\e908";
 }
 
 .icon-check_box:before {

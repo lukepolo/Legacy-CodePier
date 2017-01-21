@@ -22,12 +22,16 @@
                         </label>
                     </div>
 
-                    // TODO - file upload
-                    <div class="jcf-input-group">
-                        <input type="text" name="icon" v-model="form.icon">
-                        <label for="icon">
-                            <span class="float-label">Icon</span>
-                        </label>
+                    <div v-if="!image">
+                        Icon
+                        <template v-if="buoyId && buoy">
+                            <img :src="buoy.icon">
+                        </template>
+                        <input type="file" @change="onFileChange">
+                    </div>
+                    <div v-else>
+                        <img :src="image" />
+                        <button @click="removeImage">Cancel</button>
                     </div>
 
                     <div class="jcf-input-group">
@@ -121,7 +125,8 @@
                     buoy_class : null,
                     docker_port : null,
                     description : null,
-                }
+                },
+                image : null
             }
         },
         methods: {
@@ -132,13 +137,51 @@
                 })
             },
             saveBuoy() {
-                if(this.categoryId) {
-                    let data = this.form;
-                    data.buoy = this.buoyId
+
+
+                let form = this.form;
+
+                if(this.buoyId) {
+                    form = _.merge({ buoy : this.buoyId }, this.form)
+                }
+
+                let data = new FormData();
+
+                _.each(form, function(value, key) {
+                    if(value) {
+                        data.append(key, value);
+                    }
+                })
+
+                if(this.buoyId) {
                     this.$store.dispatch('updateBuoy', data)
                 } else {
-                    this.$store.dispatch('createBuoy', this.form)
+                    this.$store.dispatch('createBuoy', data)
                 }
+            },
+            onFileChange(e) {
+                const files = e.target.files || e.dataTransfer.files;
+                if (!files.length) {
+                    return;
+                }
+
+                const image = files[0];
+
+                this.form.icon = image;
+
+                this.createImage(image);
+            },
+            createImage(file) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            removeImage() {
+                this.form.icon = null;
+                this.image = null;
             }
         },
         computed: {
