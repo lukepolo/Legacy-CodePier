@@ -444,6 +444,20 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'categories/create',
+                    name: 'category_create',
+                    components: {
+                        default: adminPages.CategoryForm
+                    }
+                },
+                {
+                    path: 'categories/edit/:category_id',
+                    name: 'category_edit',
+                    components: {
+                        default: adminPages.CategoryForm
+                    }
+                },
+                {
                     path: 'buoys',
                     name: 'buoy_form',
                     components: {

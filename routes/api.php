@@ -30,6 +30,24 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => 'index',
     ]);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Categories Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('categories', 'CategoriesController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Buoy Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::resource('buoys', 'BuoyAppController');
+
+
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
@@ -51,14 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         });
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Categories Routes
-        |--------------------------------------------------------------------------
-        |
-        */
 
-        Route::resource('categories', 'CategoriesController');
 
         /*
         |--------------------------------------------------------------------------
@@ -84,14 +95,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
             Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
         });
-
-        /*
-        |--------------------------------------------------------------------------
-        | Buoy Routes
-        |--------------------------------------------------------------------------
-        |
-        */
-        Route::resource('buoys', 'BuoyAppController');
 
         /*
         |--------------------------------------------------------------------------
