@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\BuoyServiceContract as BuoyService;
 use App\Models\BuoyApp;
 use App\Http\Requests\BuoyRequest;
+use App\Contracts\BuoyServiceContract as BuoyService;
 
 class BuoyAppController extends Controller
 {
@@ -82,7 +82,7 @@ class BuoyAppController extends Controller
     }
 
     /**
-     * Gets the buoy classes that are in our repository
+     * Gets the buoy classes that are in our repository.
      *
      * @return \Illuminate\Http\JsonResponse
      */
