@@ -1,7 +1,8 @@
 export default {
     state: {
         buoy: null,
-        buoys: null
+        buoys: null,
+        buoy_classes: null
     },
     actions: {
         getBuoy: ({ commit }, buoy) => {
@@ -40,6 +41,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        getBuoyClasses: ({ commit }) => {
+            Vue.http.get(Vue.action('BuoyAppController@getBuoyClasses')).then((response) => {
+                commit('SET_BUOY_CLASSES', response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {
@@ -54,6 +62,9 @@ export default {
         },
         ADD_BUOY: (state, buoy) => {
             state.buoys.push(buoy)
+        },
+        SET_BUOY_CLASSES: (state, buoyClasses) => {
+            state.buoy_classes = buoyClasses
         }
     }
 }

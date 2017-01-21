@@ -6,12 +6,10 @@
 
                 <form @submit.prevent="saveBuoy">
 
-                    <div class="jcf-input-group">
-                        <input type="text" name="class" v-model="form.buoy_class">
-                        <label for="buoy_class">
-                            <span class="float-label">Buoy Class</span>
-                        </label>
-                    </div>
+                    <select>
+                        <option></option>
+                        <option v-for="buoyClass in buoyClasses">{{ buoyClass }}</option>
+                    </select>
 
                     // TODO we will populate with information based on the class
 
@@ -87,7 +85,7 @@
 
                     <div class="btn-footer">
                         <button class="btn btn-primary" type="submit">
-                            <template v-if="categoryId">
+                            <template v-if="buoyId">
                                 Update
                             </template>
                             <template v-else>
@@ -108,11 +106,13 @@
 <script>
     export default {
         created() {
-            if(this.categoryId) {
+            if(this.buoyId) {
                 this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
                     this.form.name = buoy.title
                 })
             }
+
+            this.$store.dispatch('getBuoyClasses')
         },
         data() {
             return {
@@ -137,8 +137,6 @@
                 })
             },
             saveBuoy() {
-
-
                 let form = this.form;
 
                 if(this.buoyId) {
@@ -190,6 +188,9 @@
             },
             buoy() {
                 return this.$store.state.buoyAppsStore.buoy
+            },
+            buoyClasses() {
+                return this.$store.state.buoyAppsStore.buoy_classes
             }
         }
     }
