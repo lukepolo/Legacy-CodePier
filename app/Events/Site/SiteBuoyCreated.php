@@ -2,9 +2,9 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\InstallBuoy;
 use App\Models\Buoy;
 use App\Models\Site\Site;
+use App\Jobs\Server\InstallBuoy;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 
