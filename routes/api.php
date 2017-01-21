@@ -50,6 +50,16 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
         });
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Categories Routes
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        Route::resource('categories', 'CategoriesController');
+
         /*
         |--------------------------------------------------------------------------
         | Events Routes
