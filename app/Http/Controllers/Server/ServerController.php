@@ -309,7 +309,7 @@ bash <(curl \
 -H "Content-Type: application/x-www-form-urlencoded" \
 -X POST \
 -d "ip=$current_ip" \
-'.$url.') \
-';
+'.$url.')';
+
     }
 }
