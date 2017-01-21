@@ -6,6 +6,8 @@ import * as SiteStore from './modules/site'
 import * as ServerStore from './modules/server'
 import PileStore from './modules/PileStore'
 import EventsStore from './modules/EventsStore'
+import BuoyAppsStore from './modules/BuoyAppsStore'
+import CategoriesStore from './modules/CategoriesStore'
 import NotificationStore from './modules/NotificationStore'
 
 Vue.action = action
@@ -18,6 +20,8 @@ export default new Vuex.Store({
 
         pilesStore: PileStore,
         eventsStore: EventsStore,
+        buoyAppsStore: BuoyAppsStore,
+        categoriesStore: CategoriesStore,
 
         userStore: UserStore.user,
         teamsStore: UserStore.teams,

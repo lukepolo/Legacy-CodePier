@@ -1,12 +1,13 @@
 export default {
     state: {
         category: null,
-        categories: null
+        categories: []
     },
     actions: {
         getCategory: ({ commit }, category) => {
-            Vue.http.get(Vue.action('CategoriesController@show', { category: category })).then((response) => {
+            return Vue.http.get(Vue.action('CategoriesController@show', { category: category })).then((response) => {
                 commit('SET_CATEGORY', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -18,15 +19,24 @@ export default {
                 app.handleApiError(errors)
             })
         },
+        createCategory: ({ commit }, data) => {
+            Vue.http.post(Vue.action('CategoriesController@store'), data).then((response) => {
+                commit('ADD_CATEGORY', response.data)
+                app.$router.push({ name: 'categories' })
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
         updateCategory: ({ commit }, data) => {
             Vue.http.put(Vue.action('CategoriesController@update', { category: data.category }), data).then((response) => {
                 commit('SET_CATEGORY', response.data)
+                app.$router.push({ name: 'categories' })
             }, (errors) => {
                 app.handleApiError(errors)
             })
         },
         deleteCategory: ({ commit }, category) => {
-            Vue.http.delete(Vue.action('CategoriesController@destroy', { category: category }), data).then(() => {
+            Vue.http.delete(Vue.action('CategoriesController@destroy', { category: category })).then(() => {
                 commit('REMOVE_CATEGORY', category)
             }, (errors) => {
                 app.handleApiError(errors)
@@ -42,6 +52,9 @@ export default {
         },
         REMOVE_CATEGORY: (state, categoryId) => {
             Vue.set(state, 'categories', _.reject(state.categories, { id: categoryId }))
+        },
+        ADD_CATEGORY: (state, category) => {
+            state.categories.push(category)
         }
     }
 }
