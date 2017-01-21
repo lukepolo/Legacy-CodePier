@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteBuoyCreated;
-use App\Events\Site\SiteBuoyDeleted;
-use App\Http\Controllers\Controller;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Events\Site\SiteBuoyCreated;
+use App\Events\Site\SiteBuoyDeleted;
+use App\Http\Controllers\Controller;
 
 class SiteBuoyController extends Controller
 {
@@ -38,7 +38,7 @@ class SiteBuoyController extends Controller
 
         $localPort = $request->get('local_port');
 
-        if(!$site->bouys
+        if (! $site->bouys
             ->where('local_port', $localPort)
             ->count()
         ) {
@@ -46,13 +46,12 @@ class SiteBuoyController extends Controller
                 'buoy_app_id' => $buoyApp->id,
                 'local_port' => $localPort,
                 'domain' => $request->get('domain', null),
-                'options' => $request->get('options', [])
+                'options' => $request->get('options', []),
             ]);
 
             event(new SiteBuoyCreated($site, $buoy));
 
             return response()->json($buoy);
-
         }
 
         return response()->json('Please choose another port ', 400);

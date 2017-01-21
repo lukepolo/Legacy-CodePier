@@ -9,6 +9,6 @@ class BuoyApp extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'options' => 'array'
+        'options' => 'array',
     ];
 }
