@@ -47,7 +47,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     */
     Route::resource('buoys', 'BuoyAppController');
 
-
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
@@ -67,9 +66,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
             Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
         });
-
-
-
 
         /*
         |--------------------------------------------------------------------------
