@@ -2,6 +2,7 @@
 
 namespace App\Models\Site;
 
+use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -134,6 +135,11 @@ class Site extends Model
     public function workers()
     {
         return $this->morphToMany(Worker::class, 'workerable');
+    }
+
+    public function buoys()
+    {
+        return $this->morphToMany(Buoy::class, 'buoyable');
     }
 
     /*

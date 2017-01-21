@@ -77,6 +77,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         /*
         |--------------------------------------------------------------------------
+        | Buoy Routes
+        |--------------------------------------------------------------------------
+        |
+        */
+        Route::resource('buoys', 'BuoyAppController');
+
+        /*
+        |--------------------------------------------------------------------------
         | Piles Routes
         |--------------------------------------------------------------------------
         |
@@ -116,6 +124,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             });
 
             Route::resource('servers.file', 'ServerFileController');
+            Route::resource('servers.buoys', 'ServerBuoyController');
             Route::resource('servers.sites', 'ServerSiteController');
             Route::resource('servers.workers', 'ServerWorkerController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
@@ -150,6 +159,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('restart-web-services/{site}', 'SiteController@restartWebServices');
 
             Route::resource('sites.file', 'SiteFileController');
+            Route::resource('sites.buoys', 'SiteBuoyController');
             Route::resource('sites.servers', 'SiteServerController');
             Route::resource('sites.workers', 'SiteWorkerController');
             Route::resource('sites.ssh-keys', 'SiteSshKeyController');
