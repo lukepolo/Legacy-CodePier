@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BuoyRequest;
 use App\Models\BuoyApp;
+use App\Http\Requests\BuoyRequest;
 
 class BuoyAppController extends Controller
 {
