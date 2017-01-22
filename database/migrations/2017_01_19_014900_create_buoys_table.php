@@ -16,9 +16,9 @@ class CreateBuoysTable extends Migration
         Schema::create('buoy_apps', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('icon');
             $table->string('buoy_class');
-            $table->longText('description');
+            $table->longText('description')->nullable();
+            $table->string('icon')->nullable();
             $table->json('options')->nullable();
             $table->json('ports')->nullable();
             $table->boolean('active')->default(1);
