@@ -17,8 +17,17 @@ class BuoyApp extends Model
         'icon_url',
     ];
 
+    protected $with = [
+        'categories'
+    ];
+
     public function getIconUrlAttribute()
     {
         return \Storage::disk()->url($this->icon);
+    }
+
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'categorable');
     }
 }

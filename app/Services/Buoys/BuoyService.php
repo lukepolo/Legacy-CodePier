@@ -26,6 +26,8 @@ class BuoyService implements BuoyServiceContract
                     $buoyClass = $buoyReflection->getName();
                     $buoys[$buoyClass] = [
                         'title' => $this->getFirstDocParam($installMethod, 'buoy-title'),
+                        'category' => $this->getFirstDocParam($installMethod, 'category'),
+                        'description' => $this->getFirstDocParam($installMethod, 'description'),
                     ];
 
                     foreach ($this->getDocParam($installMethod, 'buoy-ports') as $port) {

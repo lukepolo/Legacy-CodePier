@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
             Artisan::call('passport:install');
         }
 
+        $this->call(CategoriesSeeder::class);
         $this->call(BuoySeeder::class);
+
         $this->call(NotificationSettings::class);
         $this->call(ServerProvidersSeeder::class);
         $this->call(RepositoryProvidersSeeder::class);

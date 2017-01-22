@@ -209,14 +209,7 @@ const router = new VueRouter({
                     name: 'buoy_market_place',
                     components: {
                         default: buoyPages.BuoyMarketPlace,
-                    }
-                },
-                {
-                    path: 'install/:buoy_id',
-                    name: 'buoy_install',
-                    components: {
-                        default: buoyPages.BuoyInstall,
-                        right: buoyPages.ServerSelection
+                        right: buoyPages.BuoyInstall
                     }
                 }
             ]

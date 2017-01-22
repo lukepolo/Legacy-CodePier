@@ -2,6 +2,13 @@
     <section>
         <p>
             Buoys
+
+
+
+        <h2>Categories</h2>
+        <p v-for="category in categories">
+            {{ category.name }}
+        </p>
         <table>
             <thead>
             <tr>
@@ -20,7 +27,7 @@
                 </td>
                 <td>{{ buoy.description }}</td>
                 <td>
-                    <router-link :to="{ name: 'buoy_install', params : { buoy_id : buoy.id } }">Install</router-link>
+                   <a href="#" @click.prevent="install(buoy.id)">Install</a>
                 </td>
                 <td>
                     <template v-if="isAdmin()">
@@ -39,10 +46,14 @@
     export default {
         created() {
             this.$store.dispatch('getBuoys')
+            this.$store.dispatch('getCategories')
         },
         methods: {
             deleteCategory(buoy) {
                 this.$store.dispatch('deleteBuoy', buoy)
+            },
+            install(buoyId) {
+                this.$store.dispatch('getBuoy', buoyId)
             }
         },
         computed: {
@@ -53,6 +64,9 @@
             },
             buoysPagination() {
                 return this.$store.state.buoyAppsStore.buoys
+            },
+            categories() {
+                return this.$store.state.categoriesStore.categories
             }
         }
     }

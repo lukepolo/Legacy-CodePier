@@ -26,6 +26,16 @@
                     </div>
 
                     <div class="jcf-input-group">
+                        <div class="input-question">Category</div>
+                        <div class="select-wrap">
+                            <select name="category" v-model="form.category">
+                                <option></option>
+                                <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="jcf-input-group">
                         <div class="input-question">Description</div>
                         <textarea name="description" v-model="form.description"></textarea>
                     </div>
@@ -85,15 +95,18 @@
 <script>
     export default {
         created() {
-            this.$store.dispatch('getBuoyClasses').then(() => {
-                this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
-                    this.form.icon = buoy.icon
-                    this.form.ports = buoy.ports
-                    this.form.title = buoy.title
-                    this.form.active = buoy.active
-                    this.form.options = buoy.options
-                    this.form.buoy_class = buoy.buoy_class
-                    this.form.description = buoy.description
+            this.$store.dispatch('getCategories').then(() => {
+                this.$store.dispatch('getBuoyClasses').then(() => {
+                    this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
+                        this.form.icon = buoy.icon
+                        this.form.ports = buoy.ports
+                        this.form.title = buoy.title
+                        this.form.active = buoy.active
+                        this.form.options = buoy.options
+                        this.form.buoy_class = buoy.buoy_class
+                        this.form.description = buoy.description
+                        this.form.category = buoy.categories[0].id
+                    })
                 })
             })
         },
@@ -105,6 +118,7 @@
                     options : [],
                     title : null,
                     active : false,
+                    category : null,
                     buoy_class : null,
                     description : null,
                 },
@@ -119,6 +133,7 @@
                 data.append('icon', form.icon)
                 data.append('title', form.title)
                 data.append('active', form.active)
+                data.append('category', form.category)
                 data.append('buoy_class', form.buoy_class)
                 data.append('description', form.description)
                 data.append('ports', JSON.stringify(form.ports))
@@ -161,6 +176,9 @@
             },
             buoy() {
                 return this.$store.state.buoyAppsStore.buoy
+            },
+            categories() {
+                return this.$store.state.categoriesStore.categories
             }
         }
     }

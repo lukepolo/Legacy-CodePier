@@ -4,7 +4,6 @@
             <img :src="buoy.icon_url" style="max-width:100px">
         </template>
         {{ buoy.title }}
-        {{ buoy.description }}
 
         <div class="jcf-form-wrap">
 
@@ -36,6 +35,17 @@
 
                 </template>
 
+                // Currently we only support adding to previously setup server
+                <div class="jcf-input-group">
+                    <div class="input-question">Select server to install on</div>
+                    <div>
+                        <select>
+                            <option></option>
+                            <option v-for="server in servers">{{ server.name }} ({{ server.ip }})</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Install Buoy</button>
                 </div>
@@ -47,16 +57,14 @@
 <script>
     export default {
         created() {
-            this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
-                this.form.ports = buoy.ports;
-                this.form.options = buoy.options;
-            })
+            this.$store.dispatch('getAllServers')
         },
         data() {
             return {
                 form : {
                     ports : [],
                     options : [],
+                    server : null
                 }
             }
         },
@@ -70,7 +78,17 @@
                 return this.$route.params.buoy_id
             },
             buoy() {
-                return this.$store.state.buoyAppsStore.buoy
+
+                let buoy = this.$store.state.buoyAppsStore.buoy
+
+                if(buoy) {
+                    this.form.ports = buoy.ports
+                    this.form.options = buoy.options
+                    return buoy
+                }
+            },
+            servers() {
+                return this.$store.state.serversStore.all_servers
             }
         }
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BuoyApp;
 use App\Http\Requests\BuoyRequest;
 use App\Contracts\BuoyServiceContract as BuoyService;
+use App\Models\Category;
 
 class BuoyAppController extends Controller
 {
@@ -74,6 +75,13 @@ class BuoyAppController extends Controller
         }
 
         $buoy->save();
+
+        $category = Category::findOrFail($request->get('category'));
+
+        if(!$buoy->categories->keyBy('id')->has($category->id)) {
+            $buoy->categories()->save($category);
+        }
+
 
         return response()->json($buoy);
     }
