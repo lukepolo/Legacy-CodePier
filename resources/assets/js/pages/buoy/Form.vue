@@ -6,13 +6,6 @@
 
                 <form @submit.prevent="saveBuoy">
 
-                    <select>
-                        <option></option>
-                        <option v-for="buoyClass in buoyClasses">{{ buoyClass }}</option>
-                    </select>
-
-                    // TODO we will populate with information based on the class
-
                     <div class="jcf-input-group">
                         <input type="text" name="title" v-model="form.title">
                         <label for="title">
@@ -23,38 +16,40 @@
                     <div v-if="!image">
                         Icon
                         <template v-if="buoyId && buoy">
-                            <img :src="buoy.icon">
+                            <img :src="buoy.icon_url" style="max-width:100px">
                         </template>
                         <input type="file" @change="onFileChange">
                     </div>
                     <div v-else>
-                        <img :src="image" />
+                        <img :src="image" style="max-width:100px">
                         <button @click="removeImage">Cancel</button>
                     </div>
 
                     <div class="jcf-input-group">
+                        <div class="input-question">Description</div>
                         <textarea name="description" v-model="form.description"></textarea>
-                        <label for="description">
-                            <span class="float-label">Description</span>
-                        </label>
                     </div>
 
-                    <h3>Options </h3>
-
-                    <a href="#" @click.prevent="addOption">Add Option</a>
-                    <template v-for="(option, index) in form.options">
+                    <h3>Ports</h3>
+                    <template v-for="(port, port_description) in form.ports">
 
                         <div class="jcf-input-group">
-                            <input type="text" name="options[]" v-model="form.options[index].option">
-                            <label for="title">
-                                <span class="float-label">Option</span>
+                            <input type="text" name="ports[]" v-model="form.ports[port_description].local_port">
+                            <label for="ports[]">
+                                <span class="float-label">{{ port_description }} : Docker Port {{ port.docker_port }}</span>
                             </label>
                         </div>
 
+                    </template>
+
+                    <h3>Options </h3>
+
+                    <template v-for="(option, option_title) in form.options">
+
                         <div class="jcf-input-group">
-                            <input type="text" name="optionValues[]" v-model="form.options[index].value">
+                            <input type="text" name="optionValues[]" v-model="form.options[option_title].value">
                             <label for="optionValues[]">
-                                <span class="float-label">Value</span>
+                                <span class="float-label">{{ option_title }} : {{ option.description }}</span>
                             </label>
                         </div>
 
@@ -66,20 +61,6 @@
                             <input type="checkbox" name="active" v-model="form.active">
                             <span class="icon"></span>
                             Active
-                        </label>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <input type="number" name="title" v-model="form.local_port">
-                        <label for="local_port">
-                            <span class="float-label">Local Port</span>
-                        </label>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <input type="number" name="title" v-model="form.docker_port">
-                        <label for="docker_port">
-                            <span class="float-label">Docker Port</span>
                         </label>
                     </div>
 
@@ -96,9 +77,7 @@
                     </div>
 
                 </form>
-
             </div>
-
         </p>
     </section>
 </template>
@@ -106,80 +85,74 @@
 <script>
     export default {
         created() {
-            if(this.buoyId) {
+            this.$store.dispatch('getBuoyClasses').then(() => {
                 this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
-                    this.form.name = buoy.title
+                    this.form.icon = buoy.icon
+                    this.form.ports = buoy.ports
+                    this.form.title = buoy.title
+                    this.form.active = buoy.active
+                    this.form.options = buoy.options
+                    this.form.buoy_class = buoy.buoy_class
+                    this.form.description = buoy.description
                 })
-            }
-
-            this.$store.dispatch('getBuoyClasses')
+            })
         },
         data() {
             return {
                 form : {
+                    ports : [],
                     icon : null,
-                    title : null,
                     options : [],
+                    title : null,
                     active : false,
-                    local_port: null,
                     buoy_class : null,
-                    docker_port : null,
                     description : null,
                 },
                 image : null
             }
         },
         methods: {
-            addOption() {
-                this.form.options.push({
-                    'option': 'New Option',
-                    'value' : ''
-                })
-            },
             saveBuoy() {
-                let form = this.form;
+                let form = this.form
+                let data = new FormData()
 
-                if(this.buoyId) {
-                    form = _.merge({ buoy : this.buoyId }, this.form)
-                }
+                data.append('icon', form.icon)
+                data.append('title', form.title)
+                data.append('active', form.active)
+                data.append('buoy_class', form.buoy_class)
+                data.append('description', form.description)
+                data.append('ports', JSON.stringify(form.ports))
+                data.append('options', JSON.stringify(form.options))
 
-                let data = new FormData();
-
-                _.each(form, function(value, key) {
-                    if(value) {
-                        data.append(key, value);
-                    }
+                this.$store.dispatch('updateBuoy', {
+                    buoy: this.buoyId,
+                    form : data
                 })
-
-                if(this.buoyId) {
-                    this.$store.dispatch('updateBuoy', data)
-                } else {
-                    this.$store.dispatch('createBuoy', data)
-                }
-            },
-            onFileChange(e) {
-                const files = e.target.files || e.dataTransfer.files;
-                if (!files.length) {
-                    return;
-                }
-
-                const image = files[0];
-
-                this.form.icon = image;
-
-                this.createImage(image);
             },
             createImage(file) {
-                const reader = new FileReader();
+                const reader = new FileReader()
 
                 reader.onload = (e) => {
-                    this.image = e.target.result;
-                };
-                reader.readAsDataURL(file);
+                    this.image = e.target.result
+                }
+
+                reader.readAsDataURL(file)
             },
             removeImage() {
-                this.form.icon = null;
-                this.image = null;
+                this.form.icon = null
+                this.image = null
+            },
+            onFileChange(e) {
+                const files = e.target.files || e.dataTransfer.files
+                if (!files.length) {
+                    return
+                }
+
+                const image = files[0]
+
+                this.form.icon = image
+
+                this.createImage(image)
             }
         },
         computed: {
@@ -188,9 +161,6 @@
             },
             buoy() {
                 return this.$store.state.buoyAppsStore.buoy
-            },
-            buoyClasses() {
-                return this.$store.state.buoyAppsStore.buoy_classes
             }
         }
     }

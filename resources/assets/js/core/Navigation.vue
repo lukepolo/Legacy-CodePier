@@ -93,7 +93,7 @@
                     <li>
                         <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                     </li>
-                    <template v-if="isAdmin">
+                    <template v-if="isAdmin()">
                         <br>
                         Admin
                         <li>

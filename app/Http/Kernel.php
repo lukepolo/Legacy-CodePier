@@ -58,5 +58,6 @@ class Kernel extends HttpKernel
         'auth_code' => \App\Http\Middleware\AuthCode::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+        'role' => \App\Http\Middleware\CheckRole::class
     ];
 }

@@ -458,13 +458,6 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'buoys/create',
-                    name: 'buoy_create',
-                    components: {
-                        default: buoyPages.BuoyForm
-                    }
-                },
-                {
                     path: 'buoys/edit/:buoy_id',
                     name: 'buoy_edit',
                     components: {

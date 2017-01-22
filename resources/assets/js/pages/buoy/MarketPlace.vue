@@ -2,7 +2,6 @@
     <section>
         <p>
             Buoys
-            <router-link :to="{ name: 'buoy_create' }"><span class="icon-server"></span>Create Buoy</router-link>
         <table>
             <thead>
             <tr>
@@ -13,12 +12,11 @@
             </thead>
             <tbody>
             <tr v-for="buoy in buoys">
-                <td>{{ buoy.name }}</td>
+                <td>{{ buoy.title }}</td>
                 <td>
-                    <router-link :to="{ name: 'category_edit', params : { buoy : buoy.id } }"><span class="icon-server"></span>Edit</router-link>
-                </td>
-                <td>
-                    <a @click.prevent="deleteBuoy(buoy.id)" href="#">Delete</a>
+                    <template v-if="isAdmin()">
+                        <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoy.id } }">Edit</router-link>
+                    </template>
                 </td>
             </tr>
             </tbody>

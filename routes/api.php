@@ -45,9 +45,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-
-    Route::resource('buoys', 'BuoyAppController');
     Route::get('buoys/buoyClasses', 'BuoyAppController@getBuoyClasses');
+    Route::post('buoys/{buoy}/update', 'BuoyAppController@update');
+    Route::resource('buoys', 'BuoyAppController');
 
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
