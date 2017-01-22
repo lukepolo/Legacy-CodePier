@@ -19,6 +19,13 @@ class BuoyAppController extends Controller
      */
     public function __construct(BuoyService $buoyService)
     {
+        $this->middleware('role:admin', [
+            'only' => [
+                'update',
+                'destroy'
+            ]
+        ]);
+
         $this->buoyService = $buoyService;
     }
 
@@ -30,17 +37,6 @@ class BuoyAppController extends Controller
     public function index()
     {
         return response()->json(BuoyApp::paginate(25));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  BuoyRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(BuoyRequest $request)
-    {
-        return response()->json(BuoyApp::create($request->all()));
     }
 
     /**
@@ -65,7 +61,19 @@ class BuoyAppController extends Controller
     {
         $buoy = BuoyApp::findOrFail($id);
 
-        $buoy->update($request->all());
+        $buoy->fill([
+            'title' => $request->get('title'),
+            'buoy_class' => $request->get('buoy_class'),
+            'description' => $request->get('description'),
+            'ports' => json_decode($request->get('ports')),
+            'options' => json_decode($request->get('options')),
+        ]);
+
+        if($request->hasFile('icon')) {
+            $buoy->icon = $request->file('icon')->store('buoy_icons', 'public');
+        }
+
+        $buoy->save();
 
         return response()->json($buoy);
     }

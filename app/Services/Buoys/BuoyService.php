@@ -40,7 +40,7 @@ class BuoyService implements BuoyServiceContract
                         $optionParts = explode(':', $option);
 
                         $buoys[$buoyClass]['options'][$optionParts[0]] = [
-                            'default' => $optionParts[1],
+                            'value' => $optionParts[1],
                             'description' => $this->getFirstDocParam($installMethod, 'buoy-option-desc-'.$optionParts[0]),
                         ];
                     }

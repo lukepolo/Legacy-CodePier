@@ -14,7 +14,7 @@ class BuoyRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->hasRole(User::ADMIN);
+        return true;
     }
 
     /**
@@ -25,7 +25,9 @@ class BuoyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'buoy_class' => 'required|string',
+            'description' => 'required|string'
         ];
     }
 }
