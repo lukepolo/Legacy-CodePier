@@ -15,7 +15,7 @@
 
                     <div v-if="!image">
                         Icon
-                        <template v-if="buoyId && buoy">
+                        <template v-if="buoyId && buoy && buoy.icon_url">
                             <img :src="buoy.icon_url" style="max-width:100px">
                         </template>
                         <input type="file" @change="onFileChange">

@@ -200,7 +200,28 @@ const router = new VueRouter({
     routes: [
     { path: '/', name: 'dashboard', component: Piles },
     { path: '/piles', name: 'piles', component: Piles },
-    { path: '/buoys', name: 'buoy_market_place', component: buoyPages.BuoyMarketPlace },
+
+        {
+            path: '/buoys', component: buoyPages.BuoyArea,
+            children: [
+                {
+                    path: '/',
+                    name: 'buoy_market_place',
+                    components: {
+                        default: buoyPages.BuoyMarketPlace,
+                    }
+                },
+                {
+                    path: 'install/:buoy_id',
+                    name: 'buoy_install',
+                    components: {
+                        default: buoyPages.BuoyInstall,
+                        right: buoyPages.ServerSelection
+                    }
+                }
+            ]
+        },
+
     { path: '/servers', name: 'servers', component: serverPages.Servers },
     { path: '/my/teams', name: 'teams', component: teamPages.Teams },
     { path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers },

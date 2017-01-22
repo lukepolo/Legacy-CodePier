@@ -12,7 +12,16 @@
             </thead>
             <tbody>
             <tr v-for="buoy in buoys">
-                <td>{{ buoy.title }}</td>
+                <td>
+                    <template v-if="buoy.icon_url">
+                        <img :src="buoy.icon_url" style="max-width:50px">
+                    </template>
+                    {{ buoy.title }}
+                </td>
+                <td>{{ buoy.description }}</td>
+                <td>
+                    <router-link :to="{ name: 'buoy_install', params : { buoy_id : buoy.id } }">Install</router-link>
+                </td>
                 <td>
                     <template v-if="isAdmin()">
                         <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoy.id } }">Edit</router-link>

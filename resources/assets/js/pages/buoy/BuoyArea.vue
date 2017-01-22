@@ -15,6 +15,10 @@
                 </div>
             </div>
         </section>
+
+        <section id="right" class="section-column" v-if="rightSection">
+            <router-view name="right"></router-view>
+        </section>
     </div>
 </template>
 
@@ -33,6 +37,11 @@
                 const fromDepth = from.path.split('/').length
 //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
                 this.transitionName = 'bounce';
+            }
+        },
+        computed: {
+            rightSection() {
+                return _.has(this.$route.matched[1].components, 'right');
             }
         }
     }
