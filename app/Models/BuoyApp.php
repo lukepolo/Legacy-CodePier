@@ -18,7 +18,7 @@ class BuoyApp extends Model
     ];
 
     protected $with = [
-        'categories'
+        'categories',
     ];
 
     public function getIconUrlAttribute()
