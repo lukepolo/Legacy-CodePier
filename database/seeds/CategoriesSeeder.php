@@ -12,12 +12,12 @@ class CategoriesSeeder extends Seeder
     public function run()
     {
         $categories = [
-            'Services'
+            'Services',
         ];
 
-        foreach($categories as $category) {
+        foreach ($categories as $category) {
             \App\Models\Category::firstOrCreate([
-                'name' => $category
+                'name' => $category,
             ]);
         }
     }
