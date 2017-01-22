@@ -39,9 +39,9 @@
                 <div class="jcf-input-group">
                     <div class="input-question">Select server to install on</div>
                     <div>
-                        <select>
+                        <select name="server" v-model="form.server">
                             <option></option>
-                            <option v-for="server in servers">{{ server.name }} ({{ server.ip }})</option>
+                            <option v-for="server in servers" :value="server.id">{{ server.name }} ({{ server.ip }})</option>
                         </select>
                     </div>
                 </div>
@@ -64,19 +64,18 @@
                 form : {
                     ports : [],
                     options : [],
-                    server : null
+                    server : null,
+                    buoy_app_id : null
                 }
             }
         },
         methods: {
             installBuoy() {
-                alert('install buoy')
+                this.form.buoy_app_id = this.buoy.id
+                this.$store.dispatch('installBuoyOnServer', this.form)
             }
         },
         computed: {
-            buoyId() {
-                return this.$route.params.buoy_id
-            },
             buoy() {
 
                 let buoy = this.$store.state.buoyAppsStore.buoy
