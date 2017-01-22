@@ -36,11 +36,11 @@ class ServerBuoyController extends Controller
 
         $buoyApp = BuoyApp::findOrFail($request->get('buoy_app_id'));
 
-        $localPorts = collect($request->get('ports', []))->map(function($port) {
+        $localPorts = collect($request->get('ports', []))->map(function ($port) {
             return isset($port['local_port']) ? $port['local_port'] : null;
         })->values();
 
-        $options = collect($request->get('options', []))->map(function($option) {
+        $options = collect($request->get('options', []))->map(function ($option) {
             return isset($option['value']) ? $option['value'] : null;
         });
 
@@ -53,7 +53,7 @@ class ServerBuoyController extends Controller
                 'ports' => $localPorts,
                 'options' => $options,
                 'domain' => $request->get('domain', null),
-                'status' => 'Queued'
+                'status' => 'Queued',
             ]);
 
             dispatch(new InstallBuoy($server, $buoy));
