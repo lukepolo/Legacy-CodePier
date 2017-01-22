@@ -14,12 +14,11 @@ class BuoyApp extends Model
     ];
 
     protected $appends = [
-        'icon_url'
+        'icon_url',
     ];
 
     public function getIconUrlAttribute()
     {
         return \Storage::disk()->url($this->icon);
     }
-
 }

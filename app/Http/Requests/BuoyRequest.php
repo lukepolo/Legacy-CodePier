@@ -27,7 +27,7 @@ class BuoyRequest extends FormRequest
         return [
             'title' => 'required|string',
             'buoy_class' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
         ];
     }
 }

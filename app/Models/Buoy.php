@@ -16,5 +16,4 @@ class Buoy extends Model
     {
         return $this->belongsTo(BuoyApp::class);
     }
-
 }
