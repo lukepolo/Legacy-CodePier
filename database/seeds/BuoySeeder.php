@@ -35,7 +35,18 @@ class BuoySeeder extends Seeder
                 'options' => $buoyData['options'],
             ]);
 
+            if(empty($buoyApp->description)) {
+               $buoyApp->description = $buoyData['description'];
+            }
+
             $buoyApp->save();
+
+            if(empty($buoyApp->categories)) {
+                $category = \App\Models\Category::where('name', $buoyData['category'])->firstOrFail();
+
+                $buoyApp->categories()->save($category);
+            }
+
         }
     }
 }

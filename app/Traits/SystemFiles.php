@@ -101,7 +101,7 @@ trait SystemFiles
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $options = $this->getDocParam($method, 'options');
+                $options = $this->getFirstDocParam($method, 'options');
                 if (! empty($options)) {
                     $options = array_map('trim', explode(',', $options));
                 }
@@ -113,9 +113,9 @@ trait SystemFiles
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
-                    'description' => $this->getDocParam($method, 'description'),
+                    'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
-                    'multiple' => $this->getDocParam($method, 'multiple', false),
+                    'multiple' => $this->getFirstDocParam($method, 'multiple', false),
                 ]));
             }
         }

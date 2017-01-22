@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-01-21.
+    * Generated on 2017-01-22.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -155,6 +155,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
+            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -302,6 +303,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
+            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \App::make('') => [
             '' == '@',
@@ -449,6 +451,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
+            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \app('') => [
             '' == '@',
@@ -596,6 +599,7 @@ namespace PHPSTORM_META {
             'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
+            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
     ];
 }

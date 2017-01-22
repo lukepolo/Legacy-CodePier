@@ -28,6 +28,7 @@ class BuoyRequest extends FormRequest
             'title' => 'required|string',
             'buoy_class' => 'required|string',
             'description' => 'required|string',
+            'category' => 'required|integer'
         ];
     }
 }

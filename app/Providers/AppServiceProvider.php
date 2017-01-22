@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;

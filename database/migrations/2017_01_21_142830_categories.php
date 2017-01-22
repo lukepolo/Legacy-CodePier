@@ -21,7 +21,7 @@ class Categories extends Migration
             $table->index('name');
         });
 
-        Schema::create('categorable', function (Blueprint $table) {
+        Schema::create('categorables', function (Blueprint $table) {
             $table->integer('category_id');
             $table->integer('categorable_id');
             $table->string('categorable_type');
@@ -39,6 +39,6 @@ class Categories extends Migration
     public function down()
     {
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('categorable');
+        Schema::dropIfExists('categorables');
     }
 }
