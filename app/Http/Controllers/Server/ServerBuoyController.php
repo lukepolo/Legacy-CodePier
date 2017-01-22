@@ -36,20 +36,27 @@ class ServerBuoyController extends Controller
 
         $buoyApp = BuoyApp::findOrFail($request->get('buoy_app_id'));
 
-        $localPort = $request->get('local_port');
+        $localPorts = collect($request->get('ports', []))->map(function($port) {
+            return isset($port['local_port']) ? $port['local_port'] : null;
+        })->values();
 
-        if (! $server->bouys
-            ->where('local_port', $localPort)
+        $options = collect($request->get('options', []))->map(function($option) {
+            return isset($option['value']) ? $option['value'] : null;
+        });
+
+        if (! $server->buoys
+            ->whereIn('local_port', $localPorts)
             ->count()
         ) {
             $buoy = Buoy::create([
                 'buoy_app_id' => $buoyApp->id,
-                'local_port' => $localPort,
+                'ports' => $localPorts,
+                'options' => $options,
                 'domain' => $request->get('domain', null),
-                'options' => $request->get('options', []),
+                'status' => 'Queued'
             ]);
 
-            dispatch(new InstallBuoy($server, $buoyApp));
+            dispatch(new InstallBuoy($server, $buoy));
 
             return response()->json($buoy);
         }

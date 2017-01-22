@@ -46,6 +46,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        installBuoyOnServer: ({ commit }, data) => {
+            Vue.http.post(Vue.action('Server\ServerBuoyController@store', { server: data.server }), data).then((response) => {
+                console.info(response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {

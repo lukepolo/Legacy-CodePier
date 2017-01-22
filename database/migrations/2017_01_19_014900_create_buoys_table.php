@@ -39,13 +39,13 @@ class CreateBuoysTable extends Migration
             $table->index('buoy_app_id');
         });
 
-        Schema::create('bouyable', function (Blueprint $table) {
+        Schema::create('buoyables', function (Blueprint $table) {
             $table->integer('buoy_id');
-            $table->integer('bouyable_id');
-            $table->string('bouyable_type');
+            $table->integer('buoyable_id');
+            $table->string('buoyable_type');
             $table->timestamps();
 
-            $table->index(['buoy_id', 'bouyable_id', 'bouyable_type']);
+            $table->index(['buoy_id', 'buoyable_id', 'buoyable_type']);
         });
     }
 
@@ -57,7 +57,7 @@ class CreateBuoysTable extends Migration
     public function down()
     {
         Schema::dropIfExists('buoys');
-        Schema::dropIfExists('bouyable');
+        Schema::dropIfExists('buoyable');
         Schema::dropIfExists('buoy_apps');
     }
 }

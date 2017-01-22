@@ -38,7 +38,7 @@ class SiteBuoyController extends Controller
 
         $localPort = $request->get('local_port');
 
-        if (! $site->bouys
+        if (! $site->buoys
             ->where('local_port', $localPort)
             ->count()
         ) {

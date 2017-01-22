@@ -486,6 +486,7 @@ class ServerService implements ServerServiceContract
 
     public function installBuoy(Server $server, Buoy $buoy)
     {
+        dd($buoy);
         dd('here');
     }
 
