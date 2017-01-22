@@ -45,7 +45,6 @@ class NotificationSettings extends Seeder
         ];
 
         foreach ($settings as $event => $data) {
-
             $notificationSetting = \App\Models\NotificationSetting::firstOrNew([
                 'event' => $event,
             ]);
