@@ -22,8 +22,8 @@ class BuoyAppController extends Controller
         $this->middleware('role:admin', [
             'only' => [
                 'update',
-                'destroy'
-            ]
+                'destroy',
+            ],
         ]);
 
         $this->buoyService = $buoyService;
@@ -69,7 +69,7 @@ class BuoyAppController extends Controller
             'options' => json_decode($request->get('options')),
         ]);
 
-        if($request->hasFile('icon')) {
+        if ($request->hasFile('icon')) {
             $buoy->icon = $request->file('icon')->store('buoy_icons', 'public');
         }
 
