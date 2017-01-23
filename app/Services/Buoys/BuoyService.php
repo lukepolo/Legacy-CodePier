@@ -81,7 +81,7 @@ class BuoyService implements BuoyServiceContract
         $buoyClass = $buoy->buoyApp->buoy_class;
 
         $buoy->update([
-            'container_ids' => (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options)
+            'container_ids' => (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options),
         ]);
     }
 }
