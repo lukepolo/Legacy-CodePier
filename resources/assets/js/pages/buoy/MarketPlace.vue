@@ -13,6 +13,7 @@
                 <th>Name</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@
                     {{ buoy.title }}
                 </td>
                 <td>{{ buoy.description }}</td>
+
+                <td>Installs: {{ buoy.installs }}</td>
+
                 <td>
                    <a href="#" @click.prevent="install(buoy.id)">Install</a>
                 </td>
