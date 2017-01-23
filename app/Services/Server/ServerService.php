@@ -2,7 +2,6 @@
 
 namespace App\Services\Server;
 
-use App\Models\Buoy;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
