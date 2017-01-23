@@ -2,13 +2,31 @@
 
 namespace App\Services\Buoys;
 
+use App\Models\Buoy;
+use App\Models\Server\Server;
 use App\Traits\SystemFiles;
 use App\Contracts\Buoys\BuoyContract;
 use App\Contracts\BuoyServiceContract;
+use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class BuoyService implements BuoyServiceContract
 {
     use SystemFiles;
+
+    private $serverService;
+    private $remoteTaskService;
+
+    /**
+     * BuoyService constructor.
+     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     */
+    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService)
+    {
+        $this->serverService = $serverService;
+        $this->remoteTaskService = $remoteTaskService;
+    }
 
     /**
      * Gets buoy classes along with there parameters and descriptions.
@@ -51,5 +69,22 @@ class BuoyService implements BuoyServiceContract
         }
 
         return collect($buoys);
+    }
+
+    /**
+     * Installs a buoy on a server
+     * @param Server $server
+     * @param Buoy $buoy
+     * @return mixed
+     */
+    public function installBuoy(Server $server, Buoy $buoy)
+    {
+        $buoyClass = $buoy->buoyApp->buoy_class;
+        return (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options);
+    }
+
+    public function removeBuoy(Server $server, Buoy $buoy)
+    {
+        dd('here');
     }
 }

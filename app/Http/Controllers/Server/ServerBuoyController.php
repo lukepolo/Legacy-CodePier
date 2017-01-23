@@ -38,11 +38,11 @@ class ServerBuoyController extends Controller
 
         $localPorts = collect($request->get('ports', []))->map(function ($port) {
             return isset($port['local_port']) ? $port['local_port'] : null;
-        })->values();
+        })->values()->toArray();
 
         $options = collect($request->get('options', []))->map(function ($option) {
             return isset($option['value']) ? $option['value'] : null;
-        });
+        })->toArray();
 
         if (! $server->buoys
             ->whereIn('local_port', $localPorts)

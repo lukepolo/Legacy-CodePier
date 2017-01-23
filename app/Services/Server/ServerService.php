@@ -483,15 +483,4 @@ class ServerService implements ServerServiceContract
     {
         return $this->systemService->createSystemService($service, $server);
     }
-
-    public function installBuoy(Server $server, Buoy $buoy)
-    {
-        dd($buoy);
-        dd('here');
-    }
-
-    public function removeBuoy(Server $server, Buoy $buoy)
-    {
-        dd('here');
-    }
 }
