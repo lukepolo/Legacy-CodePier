@@ -3,8 +3,6 @@
         <p>
             Buoys
 
-
-
         <h2>Categories</h2>
         <p v-for="category in categories">
             {{ category.name }}
