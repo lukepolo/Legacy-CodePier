@@ -23,8 +23,9 @@ class ElasticsearchBuoy implements BuoyContract
      * @buoy-ports Transport Client:9200:9200
      * @buoy-options memory:2g
      * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
+     * @return array Conatiner Ids
      */
-    public function install($ports, $options)
+    public function install($ports = [], $options)
     {
         $memory = $options['memory'];
 
@@ -33,7 +34,11 @@ class ElasticsearchBuoy implements BuoyContract
 
         $this->remoteTaskService->run("docker run -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $ports[0]:9300 -p $ports[1]:9200 elasticsearch");
 
+        $this->getContainerId();
+
         $this->openPorts($this->server, $ports, 'elasticsearch');
+
+        return $this->containerIds;
     }
 
     /**

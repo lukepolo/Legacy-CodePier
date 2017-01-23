@@ -75,12 +75,13 @@ class BuoyService implements BuoyServiceContract
      * Installs a buoy on a server.
      * @param Server $server
      * @param Buoy $buoy
-     * @return mixed
      */
     public function installBuoy(Server $server, Buoy $buoy)
     {
         $buoyClass = $buoy->buoyApp->buoy_class;
 
-        return (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options);
+        $buoy->update([
+            'container_ids' => (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options)
+        ]);
     }
 }

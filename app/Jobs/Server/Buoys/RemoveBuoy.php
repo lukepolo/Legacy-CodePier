@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Server;
+namespace App\Jobs\Server\Buoys;
 
 use App\Models\Buoy;
 use App\Models\Command;

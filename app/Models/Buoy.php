@@ -11,6 +11,7 @@ class Buoy extends Model
     protected $casts = [
         'ports' => 'array',
         'options' => 'array',
+        'container_ids' => 'array'
     ];
 
     public function buoyApp()

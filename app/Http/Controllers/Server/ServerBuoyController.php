@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
+
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
-use App\Jobs\Server\RemoveBuoy;
-use App\Jobs\Server\InstallBuoy;
+use App\Jobs\Server\Buoys\InstallBuoy;
+use App\Jobs\Server\Buoys\RemoveBuoy;
 use App\Http\Controllers\Controller;
 
 class ServerBuoyController extends Controller
