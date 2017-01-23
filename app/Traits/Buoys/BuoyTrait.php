@@ -2,6 +2,7 @@
 
 namespace App\Traits\Buoys;
 
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -9,6 +10,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 trait BuoyTrait
 {
+    private $server;
     private $serverService;
     private $remoteTaskService;
     private $domainable = false;
@@ -17,11 +19,15 @@ trait BuoyTrait
      * BuoyTrait constructor.
      * @param \App\Services\Server\ServerService |ServerService $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @param Server $server
      */
-    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService)
+    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService, Server $server)
     {
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
+        $this->server = $server;
+
+        $this->remoteTaskService->ssh($server);
     }
 
     /**
@@ -32,20 +38,14 @@ trait BuoyTrait
     public function openPorts(Server $server, $ports, $container)
     {
         foreach ($ports as $port) {
-            if (! $server->firewallRules
-                ->where('port', $ports[0])
-                ->where('from_ip', null)
-                ->where('type', 'both')
-                ->count()
-            ) {
-                $firewallRule = FirewallRule::create([
-                    'port' => $port,
-                    'type' => 'both',
-                    'description' => ucwords($container),
-                ]);
 
-                $server->firewallRules()->save($firewallRule);
-            }
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'type' => 'tcp',
+                'description' => ucwords($container),
+            ]);
+
+            dispatch(new InstallServerFirewallRule($server, $firewallRule));
         }
     }
 }
