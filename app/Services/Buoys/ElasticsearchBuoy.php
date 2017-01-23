@@ -23,6 +23,7 @@ class ElasticsearchBuoy implements BuoyContract
      * @buoy-ports Transport Client:9200:9200
      * @buoy-options memory:2g
      * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
+     *
      * @return array Conatiner Ids
      */
     public function install($ports, $options)
