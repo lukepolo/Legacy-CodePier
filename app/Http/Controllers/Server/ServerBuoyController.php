@@ -56,6 +56,8 @@ class ServerBuoyController extends Controller
                 'status' => 'Queued',
             ]);
 
+            $buoyApp->increment('installs');
+
             dispatch(new InstallBuoy($server, $buoy));
 
             return response()->json($buoy);
