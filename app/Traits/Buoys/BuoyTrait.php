@@ -16,7 +16,6 @@ trait BuoyTrait
     private $containerIds = [];
     private $domainable = false;
 
-
     /**
      * BuoyTrait constructor.
      * @param \App\Services\Server\ServerService |ServerService $serverService

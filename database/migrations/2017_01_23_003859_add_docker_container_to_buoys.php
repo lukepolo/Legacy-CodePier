@@ -13,8 +13,8 @@ class AddDockerContainerToBuoys extends Migration
      */
     public function up()
     {
-        Schema::table('buoys', function(Blueprint $table) {
-           $table->text('container_ids')->nullable();
+        Schema::table('buoys', function (Blueprint $table) {
+            $table->text('container_ids')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddDockerContainerToBuoys extends Migration
      */
     public function down()
     {
-        Schema::table('buoys', function(Blueprint $table) {
+        Schema::table('buoys', function (Blueprint $table) {
             $table->dropColumn('container_ids');
         });
     }
