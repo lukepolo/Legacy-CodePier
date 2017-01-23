@@ -64,12 +64,12 @@ class SentryBuoy implements BuoyContract
             'SENTRY_ADMIN_USERNAME' => $this->server->user->email,
             'SENTRY_ADMIN_PASSWORD' => str_random(),
             'SENTRY_ADMIN_EMAIL' => $this->server->user->email,
-            'SENTRY_ALLOW_REGISTRATION' => false
+            'SENTRY_ALLOW_REGISTRATION' => false,
         ];
 
         // TODO - setup buoy mail
 
-        foreach($envVariables as $variable => $value) {
+        foreach ($envVariables as $variable => $value) {
             $this->remoteTaskService->appendTextToFile('~/.bashrc', "$variable=$value");
             $this->remoteTaskService->appendTextToFile('/etc/environment', "$variable=$value");
         }
