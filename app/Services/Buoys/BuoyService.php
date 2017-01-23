@@ -3,8 +3,8 @@
 namespace App\Services\Buoys;
 
 use App\Models\Buoy;
-use App\Models\Server\Server;
 use App\Traits\SystemFiles;
+use App\Models\Server\Server;
 use App\Contracts\Buoys\BuoyContract;
 use App\Contracts\BuoyServiceContract;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -72,7 +72,7 @@ class BuoyService implements BuoyServiceContract
     }
 
     /**
-     * Installs a buoy on a server
+     * Installs a buoy on a server.
      * @param Server $server
      * @param Buoy $buoy
      * @return mixed
@@ -80,6 +80,7 @@ class BuoyService implements BuoyServiceContract
     public function installBuoy(Server $server, Buoy $buoy)
     {
         $buoyClass = $buoy->buoyApp->buoy_class;
+
         return (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options);
     }
 }

@@ -24,7 +24,7 @@ class ElasticsearchBuoy implements BuoyContract
      * @buoy-options memory:2g
      * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
      */
-    public function install($ports = [], $options)
+    public function install($ports, $options)
     {
         $memory = $options['memory'];
 
@@ -38,7 +38,7 @@ class ElasticsearchBuoy implements BuoyContract
 
     /**
      * When a buoy is set to a domain we must gather the web config.
-     * return string
+     * return string.
      */
     public function nginxConfig()
     {
@@ -46,7 +46,7 @@ class ElasticsearchBuoy implements BuoyContract
 
     /**
      * When a buoy is set to a domain we must gather the web config.
-     * return string
+     * return string.
      */
     public function apacheConfig()
     {

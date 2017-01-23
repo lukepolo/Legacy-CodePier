@@ -2,9 +2,9 @@
 
 namespace App\Traits\Buoys;
 
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -38,7 +38,6 @@ trait BuoyTrait
     public function openPorts(Server $server, $ports, $container)
     {
         foreach ($ports as $port) {
-
             $firewallRule = FirewallRule::create([
                 'port' => $port,
                 'type' => 'tcp',
