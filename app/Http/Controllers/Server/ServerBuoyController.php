@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Server;
 
+use DB;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use Illuminate\Http\Request;
@@ -55,6 +56,8 @@ class ServerBuoyController extends Controller
                 'domain' => $request->get('domain', null),
                 'status' => 'Queued',
             ]);
+
+            $buoyApp->increment('installs');
 
             dispatch(new InstallBuoy($server, $buoy));
 
