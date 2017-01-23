@@ -13,7 +13,6 @@ class Buoy extends Model
         'options' => 'array',
     ];
 
-
     public function buoyApp()
     {
         return $this->belongsTo(BuoyApp::class);
