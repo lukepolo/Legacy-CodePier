@@ -23,7 +23,7 @@ interface BuoyContract
      *
      * @return array Container Ids
      */
-    public function install($ports = [], $options);
+    public function install($ports, $options);
 
     /**
      * When a buoy is set to a domain we must gather the web config.
