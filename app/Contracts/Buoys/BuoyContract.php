@@ -20,6 +20,8 @@ interface BuoyContract
      *
      * @buoy-options memory:2g
      * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
+     *
+     * @return array Container Ids
      */
     public function install($ports = [], $options);
 

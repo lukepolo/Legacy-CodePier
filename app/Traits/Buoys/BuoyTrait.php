@@ -13,7 +13,9 @@ trait BuoyTrait
     private $server;
     private $serverService;
     private $remoteTaskService;
+    private $containerIds = [];
     private $domainable = false;
+
 
     /**
      * BuoyTrait constructor.
@@ -46,5 +48,13 @@ trait BuoyTrait
 
             dispatch(new InstallServerFirewallRule($server, $firewallRule));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerId()
+    {
+        return $this->containerIds[] = $this->remoteTaskService->run('docker ps -l -q', true);
     }
 }
