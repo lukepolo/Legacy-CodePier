@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-use DB;
 use App\Models\Buoy;
 use App\Models\BuoyApp;
 use Illuminate\Http\Request;
