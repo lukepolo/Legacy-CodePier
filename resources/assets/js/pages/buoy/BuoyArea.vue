@@ -16,7 +16,7 @@
             </div>
         </section>
 
-        <section id="right" class="section-column" v-if="rightSection">
+        <section id="right" class="section-column" v-if="buoy">
             <router-view name="right"></router-view>
         </section>
     </div>
@@ -40,8 +40,8 @@
             }
         },
         computed: {
-            rightSection() {
-                return _.has(this.$route.matched[1].components, 'right');
+            buoy() {
+                return this.$store.state.buoyAppsStore.buoy
             }
         }
     }

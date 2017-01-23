@@ -82,9 +82,4 @@ class BuoyService implements BuoyServiceContract
         $buoyClass = $buoy->buoyApp->buoy_class;
         return (new $buoyClass($this->serverService, $this->remoteTaskService, $server))->install($buoy->ports, $buoy->options);
     }
-
-    public function removeBuoy(Server $server, Buoy $buoy)
-    {
-        dd('here');
-    }
 }
