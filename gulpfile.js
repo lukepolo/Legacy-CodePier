@@ -71,7 +71,7 @@ elixir((mix) => {
             paths.ace + 'mode-sh.js',
             paths.ace + 'ext-searchbox.js',
             paths.js_resources + 'laroute.js',
-            paths.jcf_forms + 'assets/js/jcf_forms.js',
+            paths.jcf_forms + '/js/jcf_forms.js',
             paths.jquery_cron + 'jquery-cron-min.js'
         ])
         .version([
