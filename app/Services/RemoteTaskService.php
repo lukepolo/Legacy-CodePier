@@ -270,6 +270,7 @@ echo \"Wrote\"", $read);
     {
         $text = preg_replace('#(&|\\\|\/)#', '\\\$1', $text);
         $text = str_replace("'", "'\\''", $text);
+
         return $text;
     }
 
