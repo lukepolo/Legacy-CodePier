@@ -54,6 +54,11 @@ trait BuoyTrait
      */
     public function getContainerId()
     {
-        return $this->containerIds[] = $this->remoteTaskService->run('docker ps -l -q', true);
+        return $this->containerIds[] = $this->remoteTaskService->run('docker ps -l -q');
+    }
+
+    public function getContainer()
+    {
+
     }
 }
