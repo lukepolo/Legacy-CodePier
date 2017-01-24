@@ -31,8 +31,8 @@ class BuoySeeder extends Seeder
 
             $buoyApp->fill([
                 'title' => $buoyData['title'],
-                'ports' => $buoyData['ports'],
-                'options' => $buoyData['options'],
+                'ports' => isset($buoyData['ports']) ? $buoyData['ports'] : [],
+                'options' => isset($buoyData['options']) ? $buoyData['options'] : [],
             ]);
 
             if (empty($buoyApp->description)) {

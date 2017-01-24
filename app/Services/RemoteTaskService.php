@@ -108,8 +108,6 @@ echo \"Wrote\"", $read);
      */
     public function appendTextToFile($file, $text)
     {
-        $text = str_replace('"', '\\"', $text);
-
         return $this->run("echo '$text' >> $file");
     }
 
@@ -270,10 +268,8 @@ echo \"Wrote\"", $read);
      */
     private function cleanText($text)
     {
-        $text = str_replace("'", "'\\''", $text);
-
         $text = preg_replace('#(&|\\\|\/)#', '\\\$1', $text);
-
+        $text = str_replace("'", "'\\''", $text);
         return $text;
     }
 
