@@ -124,6 +124,7 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->ssh($this->server, 'codepier');
         $this->remoteTaskService->appendTextToFile('~/.bashrc', 'alias createSentryUser="docker run -it --rm -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY --link sentry-redis:redis --link sentry-postgres:postgres sentry createuser"');
 
+        // TODO - we will need to make this better...cause it sucks
         $this->server->notify(new BuoyInstall('Sentry Login Details', [
             "Additional Steps" => "Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server (".$this->server->ip.") and run ",
             "" => "createSentryUser",
