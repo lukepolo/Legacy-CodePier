@@ -2,8 +2,8 @@
 
 namespace App\Services\Buoys;
 
-use App\Notifications\BuoyInstall;
 use App\Traits\Buoys\BuoyTrait;
+use App\Notifications\BuoyInstall;
 use App\Contracts\Buoys\BuoyContract;
 
 class SentryBuoy implements BuoyContract
@@ -29,17 +29,17 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->removeDirectory('onpremise');
         $this->remoteTaskService->run('git clone https://github.com/getsentry/onpremise');
 
-        $this->remoteTaskService->findTextAndAppend('~/onpremise/sentry.conf.py', "system.secret-key", "SENTRY_FEATURES['auth:register'] = False");
+        $this->remoteTaskService->findTextAndAppend('~/onpremise/sentry.conf.py', 'system.secret-key', "SENTRY_FEATURES['auth:register'] = False");
 
         $this->remoteTaskService->run('cd onpremise && make build');
 
         $secretKey = str_random(32);
-        $this->remoteTaskService->removeLineByText('~/.bashrc', "SENTRY_SECRET_KEY");
-        $this->remoteTaskService->removeLineByText('/etc/environment', "SENTRY_SECRET_KEY");
+        $this->remoteTaskService->removeLineByText('~/.bashrc', 'SENTRY_SECRET_KEY');
+        $this->remoteTaskService->removeLineByText('/etc/environment', 'SENTRY_SECRET_KEY');
         $this->remoteTaskService->appendTextToFile('~/.bashrc', "SENTRY_SECRET_KEY='$secretKey'");
         $this->remoteTaskService->appendTextToFile('/etc/environment', "SENTRY_SECRET_KEY='$secretKey'");
 
-        if($this->remoteTaskService->run('docker images | grep -qi redis && echo true || echo false') == 'false') {
+        if ($this->remoteTaskService->run('docker images | grep -qi redis && echo true || echo false') == 'false') {
             $this->remoteTaskService->run('docker run \
                 --detach \
                 --name sentry-redis \
@@ -47,7 +47,7 @@ class SentryBuoy implements BuoyContract
             ');
         }
 
-        if($this->remoteTaskService->run('docker images | grep -qi postgres && echo true || echo false') == 'false') {
+        if ($this->remoteTaskService->run('docker images | grep -qi postgres && echo true || echo false') == 'false') {
             $this->remoteTaskService->run('docker run \
                 --detach \
                 --name sentry-postgres \
@@ -57,7 +57,7 @@ class SentryBuoy implements BuoyContract
             ');
         }
 
-        if($this->remoteTaskService->run('docker images | grep -qi  tianon/exim4 && echo true || echo false') == 'false') {
+        if ($this->remoteTaskService->run('docker images | grep -qi  tianon/exim4 && echo true || echo false') == 'false') {
             $this->remoteTaskService->run('docker run \
                 --detach \
                 --name sentry-smtp \
@@ -125,10 +125,10 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->appendTextToFile('~/.bashrc', 'alias createSentryUser="docker run -it --rm -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY --link sentry-redis:redis --link sentry-postgres:postgres sentry createuser"');
 
         $this->server->notify(new BuoyInstall('Sentry Login Details', [
-            "Additional Steps" => "Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server (".$this->server->ip.") and run ",
-            "" => "createSentryUser",
-            "" => "",
-            "You can access your sentry server via " => $this->server->ip.":$ports[0]"
+            'Additional Steps' => 'Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server ('.$this->server->ip.') and run ',
+            '' => 'createSentryUser',
+            '' => '',
+            'You can access your sentry server via ' => $this->server->ip.":$ports[0]",
         ]));
 
         $this->openPorts($this->server, $ports, 'sentry');
