@@ -59,6 +59,5 @@ trait BuoyTrait
 
     public function getContainer()
     {
-
     }
 }

@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class BuoyInstall extends Notification
@@ -47,9 +46,10 @@ class BuoyInstall extends Notification
     {
         $mail = new MailMessage;
         $mail->subject($this->subject);
-        foreach($this->lines as $textDescription => $text) {
-            $mail->line((!empty($textDescription) ? $textDescription.': ' : '').$text);
+        foreach ($this->lines as $textDescription => $text) {
+            $mail->line((! empty($textDescription) ? $textDescription.': ' : '').$text);
         }
+
         return $mail;
     }
 
