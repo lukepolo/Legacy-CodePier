@@ -225,6 +225,14 @@ const router = new VueRouter({
             path: '/server', component: serverPages.ServerArea,
             children: [
                 {
+                    path: ':server_id/buoys',
+                    name: 'server_buoys',
+                    components: {
+                        default: serverPages.ServerBuoys,
+                        nav: serverPages.ServerNav
+                    }
+                },
+                {
                     path: ':server_id/sites',
                     name: 'server_sites',
                     components: {
@@ -291,8 +299,7 @@ const router = new VueRouter({
             ]
         },
         {
-      // BUG with vue router https://github.com/vuejs/vue-router/issues/1091
-            path: '/site/:site_id/config', component: sitePages.SiteArea,
+            path: '/site/:site_id', component: sitePages.SiteArea,
             children: [
                 {
                     path: '',

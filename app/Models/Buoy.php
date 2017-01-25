@@ -14,6 +14,10 @@ class Buoy extends Model
         'container_ids' => 'array',
     ];
 
+    protected $with = [
+        'buoyApp'
+    ];
+
     public function buoyApp()
     {
         return $this->belongsTo(BuoyApp::class);
