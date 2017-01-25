@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Contracts\Server\ServerServiceContract as ServerService;
+use App\Contracts\BuoyServiceContract as BuoyService;
 
 class RemoveBuoy implements ShouldQueue
 {
@@ -34,23 +34,19 @@ class RemoveBuoy implements ShouldQueue
     }
 
     /**
-     * @param \App\Services\Server\ServerService | ServerService $serverService
+     * @param \App\Services\Buoys\BuoyService | BuoyService $buoyService
      * @throws ServerCommandFailed
      */
-    public function handle(ServerService $serverService)
+    public function handle(BuoyService $buoyService)
     {
-        if ($this->server->buoys->keyBy('id')->get($this->buoy->id)) {
-            $this->updateServerCommand(0, 'Sever already has buoy installed.');
-        } else {
-            $this->runOnServer(function () use ($serverService) {
-                $serverService->removeBuoy($this->server, $this->buoy);
-            });
+        $this->runOnServer(function () use ($buoyService) {
+            $buoyService->removeBuoy($this->server, $this->buoy);
+        });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-
-            $this->server->buoys()->detach($this->buoy);
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
+
+        $this->server->buoys()->detach($this->buoy);
     }
 }
