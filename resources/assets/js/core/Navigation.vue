@@ -42,6 +42,14 @@
         </section>
 
         <ul class="nav navbar-right nav-right">
+
+            <li class="search-container">
+                <div class="search-form" :class="{ open : search }">
+                    <input ref='search' type="text" placeholder="search..." v-model="form.query">
+                </div>
+                <a @click="toggleSearch()"><span class="icon-search"></span></a>
+            </li>
+
             <li>
                 <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
             </li>
@@ -117,6 +125,10 @@
         },
         data() {
             return {
+                form : {
+                    query : 'Sorry, its coming soon!'
+                },
+                search : false,
                 current_version : Laravel.version
             }
         },
@@ -141,6 +153,10 @@
             }
         },
         methods: {
+            toggleSearch() {
+                this.search = !this.search
+                this.$refs.search.focus();
+            },
             logout() {
                 Vue.http.post(this.action('Auth\LoginController@logout')).then((response) => {
                     window.location = '/';
