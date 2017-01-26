@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
@@ -46,7 +47,7 @@ class ProvisionServer implements ShouldQueue
         if ($serverService->provision($this->server)) {
             $this->server->user->load('sshKeys');
             foreach ($this->server->user->sshKeys as $sshKey) {
-                $serverService->installSshKey($this->server, $sshKey);
+                dispatch(new InstallServerSshKey($this->server, $sshKey));
             }
 
             foreach ($this->server->sites as $site) {
