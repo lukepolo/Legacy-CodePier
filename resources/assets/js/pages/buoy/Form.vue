@@ -96,17 +96,15 @@
     export default {
         created() {
             this.$store.dispatch('getCategories').then(() => {
-                this.$store.dispatch('getBuoyClasses').then(() => {
-                    this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
-                        this.form.icon = buoy.icon
-                        this.form.ports = buoy.ports
-                        this.form.title = buoy.title
-                        this.form.active = buoy.active
-                        this.form.options = buoy.options
-                        this.form.buoy_class = buoy.buoy_class
-                        this.form.description = buoy.description
-                        this.form.category = buoy.categories[0].id
-                    })
+                this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
+                    this.form.icon = buoy.icon
+                    this.form.ports = buoy.ports
+                    this.form.title = buoy.title
+                    this.form.active = buoy.active
+                    this.form.options = buoy.options
+                    this.form.buoy_class = buoy.buoy_class
+                    this.form.description = buoy.description
+                    this.form.category = buoy.categories[0].id
                 })
             })
         },
