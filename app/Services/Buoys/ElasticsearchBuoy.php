@@ -33,7 +33,7 @@ class ElasticsearchBuoy implements BuoyContract
         $this->remoteTaskService->run('sysctl -w vm.max_map_count=262144');
         $this->remoteTaskService->run('docker pull elasticsearch');
 
-        $this->remoteTaskService->run("docker run -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $ports[0]:9300 -p $ports[1]:9200 elasticsearch");
+        $this->remoteTaskService->run("docker run --restart=always -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $ports[0]:9300 -p $ports[1]:9200 elasticsearch");
 
         $this->getContainerId();
 
