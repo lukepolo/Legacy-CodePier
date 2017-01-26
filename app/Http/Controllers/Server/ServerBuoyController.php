@@ -97,12 +97,12 @@ class ServerBuoyController extends Controller
     }
 
     /**
-     *  Gets all users servers buoys
+     *  Gets all users servers buoys.
      */
     public function myServerBuoys()
     {
         return response()->json(
-            Server::has('buoys')->get()->keyBy('id')->map(function($server) {
+            Server::has('buoys')->get()->keyBy('id')->map(function ($server) {
                 return $server->buoys->pluck('buoy_app_id')->unique();
             })
         );
