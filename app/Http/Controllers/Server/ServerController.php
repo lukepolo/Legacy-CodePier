@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Server;
 
+use App\Models\Server\ProvisioningKey;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
-use App\Models\Server\ProvisioningKey;
+use App\Jobs\Server\CheckServerStatus;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
@@ -92,7 +93,9 @@ class ServerController extends Controller
             $key = ProvisioningKey::generate(\Auth::user(), $server);
 
             $server->update([
-                'custom_server_url' => $this->getCustomServerScriptUrl($key),
+                'custom_server_url' => $this->getCustomServerScriptUrl(
+                    ProvisioningKey::generate(\Auth::user(), $server)
+                ),
             ]);
         } else {
             $this->dispatch((new CreateServer(
@@ -270,6 +273,10 @@ class ServerController extends Controller
         $this->serverService->testSSHConnection(Server::findOrFail($serverId));
     }
 
+    /**
+     * @param ProvisioningKey $key
+     * @return string
+     */
     public function getCustomServerScriptUrl(ProvisioningKey $key)
     {
         return 'curl https://provision.codepier.io/ | bash -s '.$key->key;

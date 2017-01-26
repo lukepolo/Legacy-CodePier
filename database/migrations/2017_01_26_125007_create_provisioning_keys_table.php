@@ -14,11 +14,9 @@ class CreateProvisioningKeysTable extends Migration
     public function up()
     {
         Schema::create('provisioning_keys', function (Blueprint $table) {
-            $table->increments('id');
             $table->string('key', 40);
             $table->integer('user_id');
             $table->integer('server_id');
-            $table->boolean('used')->default(false);
             $table->timestamps();
         });
     }

@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Server;
 
-use Illuminate\Http\Request;
-use App\Models\Server\Server;
-use App\Services\RemoteTaskService;
-use App\Http\Controllers\Controller;
 use App\Jobs\Server\CheckServerStatus;
+use Illuminate\Http\Request;
 use App\Models\Server\ProvisioningKey;
+use App\Models\Server\Server;
+use App\Http\Controllers\Controller;
+use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CustomServerProvisioningController extends Controller
 {
+    /**
+     * CustomServerProvisioningController constructor.
+     * @param  \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     */
     public function __construct(RemoteTaskService $remoteTaskService)
     {
         $this->middleware('auth.provisioning-key')->except('provision');
@@ -18,13 +22,17 @@ class CustomServerProvisioningController extends Controller
         $this->remoteTaskService = $remoteTaskService;
     }
 
-    public function provision()
-    {
+    /**
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function provision() {
         return response()->download('provision.sh');
     }
 
-    public function callback(Request $request)
-    {
+    /**
+     * @param Request $request
+     */
+    public function start(Request $request) {
         $key = ProvisioningKey::findByKey($request->route('provisioning_key'));
 
         $server_id = $key->server->id;
@@ -44,35 +52,36 @@ class CustomServerProvisioningController extends Controller
         ]);
     }
 
-    public function returnPublicKey(Request $request)
-    {
-        $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
-
-        $server = $provisioningKey->server;
-
-        return $server->public_ssh_key;
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function returnPublicKey(Request $request) {
+        return ProvisioningKey::findOrFail($request->route('provisioning_key'))->server->public_ssh_key;
     }
 
-    public function returnPrivateKey(Request $request)
-    {
-        $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
-        $server = $provisioningKey->server;
-
-        return $server->private_ssh_key;
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function returnPrivateKey(Request $request) {
+        return $provisioningKey = ProvisioningKey::findOrFail($request->route('provisioning_key')->server->private_ssh_key);
     }
 
-    public function end(Request $request)
-    {
-        $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
-
-        $provisioningKey->used = true;
-
-        $provisioningKey->update();
+    /**
+     * Webhook called by provisioning shell script when finished.
+     * @param Request $request
+     */
+    public function end(Request $request) {
+        $provisioningKey = ProvisioningKey::findOrFail($request->route('provisioning_key'));
 
         $server = $provisioningKey->server;
+
+        $provisioningKey->delete();
 
         dispatch(
             (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
+
 }
