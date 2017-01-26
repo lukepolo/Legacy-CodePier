@@ -1,6 +1,7 @@
 export default {
     state: {
-        server_buoys: []
+        server_buoys: [],
+        all_server_buoys : null
     },
     actions: {
         getServerBuoys: ({ commit }, serverId) => {
@@ -19,6 +20,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        allServerBuoys : ( { commit }) => {
+            Vue.http.get(Vue.action('Server\ServerBuoyController@myServerBuoys')).then((response) => {
+                commit('SET_ALL_SERVER_BUOYS', response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {
@@ -27,6 +35,9 @@ export default {
         },
         SET_SERVER_BUOYS: (state, serverBuoys) => {
             state.server_buoys = serverBuoys
-        }
+        },
+        SET_ALL_SERVER_BUOYS: (state, serverBuoys) => {
+            state.all_server_buoys = serverBuoys
+        },
     }
 }

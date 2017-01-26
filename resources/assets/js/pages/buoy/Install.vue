@@ -55,9 +55,6 @@
 
 <script>
     export default {
-        created() {
-            this.$store.dispatch('getAllServers')
-        },
         data() {
             return {
                 form : {

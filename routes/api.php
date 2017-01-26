@@ -121,6 +121,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::post('server/{server}/custom', 'Server\ServerController@generateCustomServerSh')->middleware('scope:create-custom-server');
 
+        Route::get('all_servers/buoys', 'Server\ServerBuoyController@myServerBuoys');
+
         Route::group(['namespace' => 'Server'], function () {
             Route::group(['prefix' => 'server'], function () {
                 Route::post('{server}/file', 'ServerController@getFile');

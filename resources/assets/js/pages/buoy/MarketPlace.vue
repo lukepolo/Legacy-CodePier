@@ -26,10 +26,20 @@
                 </td>
                 <td>{{ buoy.description }}</td>
 
-                <td>Installs: {{ buoy.installs }}</td>
+                <td>
+                    Installs: {{ buoy.installs }}
+
+                    <br>
+                        <template v-if="serversHasBuoyApp(buoy.id)" v-for="server in serversHasBuoyApp(buoy.id)">
+                            {{ getServer(server).name }} ({{ getServer(server).ip }})<br>
+                        </template>
+                    <br>
+                </td>
 
                 <td>
-                   <a href="#" @click.prevent="install(buoy.id)">Install</a>
+                   <a href="#" @click.prevent="install(buoy.id)">
+                       Install
+                   </a>
                 </td>
                 <td>
                     <template v-if="isAdmin()">
@@ -49,6 +59,8 @@
         created() {
             this.$store.dispatch('getBuoys')
             this.$store.dispatch('getCategories')
+            this.$store.dispatch('getAllServers')
+            this.$store.dispatch('allServerBuoys')
         },
         methods: {
             deleteCategory(buoy) {
@@ -56,7 +68,17 @@
             },
             install(buoyId) {
                 this.$store.dispatch('getBuoy', buoyId)
-            }
+            },
+            getServer(server) {
+                return _.find(this.servers, { id : parseInt(server) })
+            },
+            serversHasBuoyApp(buoyApp) {
+                return _.map(this.allServerBuoys, (buoyApps, server) => {
+                    if(_.indexOf(buoyApps, buoyApp) > -1) {
+                        return server
+                    }
+                })
+            },
         },
         computed: {
             buoys() {
@@ -64,12 +86,18 @@
                     return this.buoysPagination.data
                 }
             },
-            buoysPagination() {
-                return this.$store.state.buoyAppsStore.buoy_apps
+            servers() {
+                return this.$store.state.serversStore.all_servers
             },
             categories() {
                 return this.$store.state.categoriesStore.categories
-            }
+            },
+            allServerBuoys() {
+                return this.$store.state.serverBuoysStore.all_server_buoys
+            },
+            buoysPagination() {
+                return this.$store.state.buoyAppsStore.buoy_apps
+            },
         }
     }
 </script>
