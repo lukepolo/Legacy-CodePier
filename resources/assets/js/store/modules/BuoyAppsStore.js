@@ -26,7 +26,7 @@ export default {
                 }
             }).then((response) => {
                 commit('SET_BUOY', response.data)
-                app.$router.push({ name: 'buoy_app_market_place' })
+                app.$router.push({ name: 'buoy_market_place' })
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -34,13 +34,6 @@ export default {
         deleteBuoy: ({ commit }, buoyApp) => {
             Vue.http.delete(Vue.action('BuoyAppController@destroy', { buoy_app: buoyApp }), data).then(() => {
                 commit('REMOVE_BUOY', buoy_app)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        installBuoy: ({ commit }, data) => {
-            Vue.http.post(Vue.action('BuoyController@store'), data).then((response) => {
-                console.info(response.data)
             }, (errors) => {
                 app.handleApiError(errors)
             })
