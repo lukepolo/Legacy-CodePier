@@ -49,6 +49,10 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
         });
 
+        Validator::extend('domain', function ($attribute, $value) {
+            return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
+        });
+
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);
