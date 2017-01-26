@@ -46,70 +46,70 @@
 
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
-//.server > a {
-//  display: block;
-//  border-bottom: 1px solid $color-divider;
-//  padding: $spacing;
-//  position: relative;
-//
-//  &.router-link-active {
-//    background-color: mix($gray, $black, 50%);
-//  }
-//}
-//
-//.server-name {
-//  font-weight: 600;
-//  font-size: 1.2em;
-//  margin-bottom: $spacing/4;
-//  padding-right: 1.4em;
-//}
-//
-//.server-connection {
-//  height: 1em;
-//  width: 1em;
-//  display: inline-block;
-//  float: right;
-//  border-radius: 50%;
-//  position: relative;
-//  top: 2px;
-//  right: -1.4em;
-//
-//  &.server-success {
-//    background-color: $green;
-//  }
-//
-//  &.server-error {
-//    background-color: $red;
-//  }
-//}
-//
-//.server-status {
-//  margin-top: $spacing/2;
-//}
-//
-//.server-progress-container {
-//  height: $spacing;
-//  border: 1px solid $color-divider;
-//  margin: ($spacing/2) 0;
-//  position: relative;
-//}
-//
-//.server-progress-number {
-//  position: absolute;
-//  right: 0px;
-//  font-size: .9em;
-//  font-weight: 600;
-//  line-height: $spacing;
-//  padding: 0px ($spacing/4);
-//}
-//
-//.server-progress {
-//  position: absolute;
-//  top: 0px;
-//  bottom: 0px;
-//  left: 0px;
-//  background-color: $color-primary;
-//}
+.server > a {
+  display: block;
+  border-bottom: 1px solid $color-divider;
+  padding: $spacing;
+  position: relative;
+
+  &.router-link-active {
+    background-color: mix($gray, $black, 50%);
+  }
+}
+
+.server-name {
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: $spacing/4;
+  padding-right: 1.4em;
+}
+
+.server-connection {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  float: right;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  right: -1.4em;
+
+  &.server-success {
+    background-color: $green;
+  }
+
+  &.server-error {
+    background-color: $red;
+  }
+}
+
+.server-status {
+  margin-top: $spacing/2;
+}
+
+.server-progress-container {
+  height: $spacing;
+  border: 1px solid $color-divider;
+  margin: ($spacing/2) 0;
+  position: relative;
+}
+
+.server-progress-number {
+  position: absolute;
+  right: 0px;
+  font-size: .9em;
+  font-weight: 600;
+  line-height: $spacing;
+  padding: 0px ($spacing/4);
+}
+
+.server-progress {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: $color-primary;
+}
 
 
 // SERVER LIST

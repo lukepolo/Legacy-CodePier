@@ -6,8 +6,14 @@
                     {{ server.name }} - {{ server.ip }}
                 </router-link>
             <div>
+
             <template v-if="server.progress < 100">
-                {{ server.progress}}% Complete
+
+                <div class="server-progress-container">
+                    <div class="server-progress-number">{{ server.progress}}%</div>
+                    <div class="server-progress" :style="{ width : server.progress+'%' }"></div>
+                </div>
+
                 <section v-if="currentProvisioningStep">
                     <section v-if="currentProvisioningStep.failed">
                         Failed {{ currentProvisioningStep.step}}
