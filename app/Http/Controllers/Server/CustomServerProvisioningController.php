@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\CheckServerStatus;
 use Illuminate\Http\Request;
-use App\Models\Server\ProvisioningKey;
 use App\Models\Server\Server;
-use App\Http\Controllers\Controller;
 use App\Services\RemoteTaskService;
+use App\Http\Controllers\Controller;
+use App\Jobs\Server\CheckServerStatus;
+use App\Models\Server\ProvisioningKey;
 
 class CustomServerProvisioningController extends Controller
 {
@@ -18,11 +18,13 @@ class CustomServerProvisioningController extends Controller
         $this->remoteTaskService = $remoteTaskService;
     }
 
-    public function provision() {
+    public function provision()
+    {
         return response()->download('provision.sh');
     }
 
-    public function callback(Request $request) {
+    public function callback(Request $request)
+    {
         $key = ProvisioningKey::findByKey($request->route('provisioning_key'));
 
         $server_id = $key->server->id;
@@ -42,7 +44,8 @@ class CustomServerProvisioningController extends Controller
         ]);
     }
 
-    public function returnPublicKey(Request $request) {
+    public function returnPublicKey(Request $request)
+    {
         $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
 
         $server = $provisioningKey->server;
@@ -50,14 +53,16 @@ class CustomServerProvisioningController extends Controller
         return $server->public_ssh_key;
     }
 
-    public function returnPrivateKey(Request $request) {
+    public function returnPrivateKey(Request $request)
+    {
         $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
         $server = $provisioningKey->server;
 
         return $server->private_ssh_key;
     }
 
-    public function end(Request $request) {
+    public function end(Request $request)
+    {
         $provisioningKey = ProvisioningKey::find($request->route('provisioning_key'));
 
         $provisioningKey->used = true;
@@ -70,5 +75,4 @@ class CustomServerProvisioningController extends Controller
             (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
-
 }
