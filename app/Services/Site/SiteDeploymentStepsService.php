@@ -111,10 +111,10 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
             foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
-                    $order = $this->getDocParam($method, 'order');
+                    $order = $this->getFirstDocParam($method, 'order');
 
                     if (! empty($order)) {
-                        $description = $this->getDocParam($method, 'description');
+                        $description = $this->getFirstDocParam($method, 'description');
 
                         $deploymentSteps[] = [
                             'order' => (int) $order,

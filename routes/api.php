@@ -30,6 +30,25 @@ Route::group(['middleware' => 'auth:api'], function () {
         'except' => 'index',
     ]);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Categories Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('categories', 'CategoriesController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Buoy App Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::get('buoy-apps/buoyClasses', 'BuoyAppController@getBuoyClasses');
+    Route::post('buoy-apps/{buoy}/update', 'BuoyAppController@update');
+    Route::resource('buoy-apps', 'BuoyAppController');
+
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
@@ -116,6 +135,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             });
 
             Route::resource('servers.file', 'ServerFileController');
+            Route::resource('servers.buoys', 'ServerBuoyController');
             Route::resource('servers.sites', 'ServerSiteController');
             Route::resource('servers.workers', 'ServerWorkerController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
@@ -150,6 +170,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('restart-web-services/{site}', 'SiteController@restartWebServices');
 
             Route::resource('sites.file', 'SiteFileController');
+            Route::resource('sites.buoys', 'SiteBuoyController');
             Route::resource('sites.servers', 'SiteServerController');
             Route::resource('sites.workers', 'SiteWorkerController');
             Route::resource('sites.ssh-keys', 'SiteSshKeyController');

@@ -26,7 +26,6 @@ class UserNotificationSettingsController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->all());
         foreach ($request->get('notification_setting') as $notificationSettingId => $services) {
             $userNotification = UserNotificationSetting::firstOrNew([
                 'user_id' => \Auth::user()->id,

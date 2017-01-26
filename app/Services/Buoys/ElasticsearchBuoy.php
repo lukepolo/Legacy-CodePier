@@ -2,67 +2,59 @@
 
 namespace App\Services\Buoys;
 
-use App\Models\FirewallRule;
-use App\Models\Server\Server;
 use App\Traits\Buoys\BuoyTrait;
 use App\Contracts\Buoys\BuoyContract;
-use App\Services\Systems\SystemService;
 
 class ElasticsearchBuoy implements BuoyContract
 {
     use BuoyTrait;
 
     /**
-     * @param Server $server
-     * @param array ...$parameters
+     * @buoy-title Elasticsearch
+     * @buoy-enabled 1
      *
-     * @buoy-param $memory = 2g
+     * @description Elasticsearch is a distributed, RESTful search and analytics engine capable of solving a growing number of use cases. As the heart of the Elastic Stack, it centrally stores your data so you can discover the expected and uncover the unexpected.
+     * @category Services
+     *
+     * @param array $ports
+     * @param array $options
+     *
+     * @buoy-ports Node Client:9300:9300
+     * @buoy-ports Transport Client:9200:9200
+     * @buoy-options memory:2g
+     * @buoy-option-desc-memory Minimum is 512 mb , anything lower than that will cause it not able to start
+     *
+     * @return array Conatiner Ids
      */
-    public function install(Server $server, ...$parameters)
+    public function install($ports, $options)
     {
-        list($memory) = $parameters;
+        $memory = $options['memory'];
 
         $this->remoteTaskService->run('sysctl -w vm.max_map_count=262144');
         $this->remoteTaskService->run('docker pull elasticsearch');
 
-        $port = '9200';
-        $type = 'tcp';
+        $this->remoteTaskService->run("docker run --restart=always -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $ports[0]:9300 -p $ports[1]:9200 elasticsearch");
 
-        $this->remoteTaskService->run("docker run -d -e ES_JAVA_OPTS=\"-Xms$memory -Xmx$memory\" -p $port:$port -p 9300:9300 elasticsearch");
+        $this->getContainerId();
 
-        if (! $server->firewallRules
-            ->where('port', $port)
-            ->where('from_ip', null)
-            ->where('type', $type)
-            ->count()
-        ) {
-            $firewallRule = FirewallRule::create([
-                'port' => $port,
-                'type' => $type,
-                'description' => 'Elasticserach',
-            ]);
+        $this->openPorts($this->server, $ports, 'elasticsearch');
 
-            $server->firewallRules()->save($firewallRule);
-        }
-
-        $this->serverService->getService(SystemService::FIREWALL, $server)->addFirewallRule();
+        return $this->containerIds;
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
-     * @param Server $server
-     * return string
+     * When a buoy is set to a domain we must gather the web config.
+     * return string.
      */
-    public function nginxConfig(Server $server)
+    public function nginxConfig()
     {
     }
 
     /**
-     * When a bouy is set to a domain we must gather the web config.
-     * @param Server $server
-     * return string
+     * When a buoy is set to a domain we must gather the web config.
+     * return string.
      */
-    public function apacheConfig(Server $server)
+    public function apacheConfig()
     {
     }
 }

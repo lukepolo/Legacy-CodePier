@@ -32,11 +32,16 @@ class ServerProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrCreate([
-                'provider_name' => $provider,
-                'name'          => $data['name'],
+            $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrNew([
                 'provider_class' => $data['class'],
             ]);
+
+            $serverProvider->fill([
+                'provider_name' => $provider,
+                'name'          => $data['name'],
+            ]);
+
+            $serverProvider->save();
 
             foreach ($data['features'] as $feature) {
                 $serverFeature = \App\Models\Server\Provider\ServerProviderFeatures::firstOrNew([

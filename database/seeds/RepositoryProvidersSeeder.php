@@ -40,15 +40,15 @@ class RepositoryProvidersSeeder extends Seeder
 
         foreach ($providers as $provider => $data) {
             $providerModel = \App\Models\RepositoryProvider::firstOrNew([
-                'provider_name' => $provider,
-                'name'          => $data['name'],
+                'repository_class' => $data['repository_class'],
             ]);
 
             $providerModel->fill([
+                'provider_name' => $provider,
+                'name'          => $data['name'],
                 'url'              => $data['url'],
                 'git_url'          => $data['git_url'],
                 'commit_url'       => $data['commit_url'],
-                'repository_class' => $data['repository_class'],
             ]);
 
             $providerModel->save();

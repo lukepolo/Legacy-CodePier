@@ -1,0 +1,4 @@
+export const BuoyArea = require('./BuoyArea.vue')
+export const BuoyForm = require('./Form.vue')
+export const BuoyInstall = require('./Install.vue')
+export const BuoyMarketPlace = require('./MarketPlace.vue')
