@@ -28,6 +28,8 @@ trait Laravel
         $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
 
+        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link');
+
         return $output;
     }
 
