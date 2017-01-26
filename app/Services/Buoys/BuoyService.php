@@ -86,14 +86,14 @@ class BuoyService implements BuoyServiceContract
     }
 
     /**
-     * Removes a buoy from the server
+     * Removes a buoy from the server.
      * @param Server $server
      * @param Buoy $buoy
      */
     public function removeBuoy(Server $server, Buoy $buoy)
     {
         $this->remoteTaskService->ssh($server);
-        foreach($buoy->container_ids as $container_id) {
+        foreach ($buoy->container_ids as $container_id) {
             $this->remoteTaskService->run("docker rm $container_id -f");
         }
     }
