@@ -10,11 +10,11 @@ echo "This should only take a moment or two..."
 echo "--"
 ip=`wget -qO- http://ipecho.net/plain ; echo`
 echo "We have detected your external IP as: $ip. Sending it off so that we know how to reach your server..."
-curl -s --data "ip=$ip" https://provision.codepier.io/start/$1
+curl -s --data "ip=$ip" provision.codepier.dev/start/$1
 echo "--"
 echo "Installing CodePier SSH key so that we can connect to your server..."
-public_key=`curl -s provision.codepier.io/keys/$1/public`
-private_key=`curl -s provision.codepier.io/keys/$1/private`
+public_key=`curl -s provision.codepier.dev/keys/$1/public`
+private_key=`curl -s provision.codepier.dev/keys/$1/private`
 if [ ! -e ~/.ssh/id_rsa ]; then
     echo "$private_key" > ~/.ssh/id_rsa
 else
@@ -33,5 +33,5 @@ else
     echo "$public_key" >> ~/.ssh/authorized_keys
 fi
 echo "--"
-curl -s -X GET provision.codepier.io/end/$1
+curl -s -X GET provision.codepier.dev/end/$1
 echo "We've completed the preliminary provisioning process! Please head back to CodePier.io, and watch the rest of the progress there! :)"
