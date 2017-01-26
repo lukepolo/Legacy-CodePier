@@ -95,4 +95,16 @@ class ServerBuoyController extends Controller
 
         return response()->json('OK');
     }
+
+    /**
+     *  Gets all users servers buoys.
+     */
+    public function myServerBuoys()
+    {
+        return response()->json(
+            Server::has('buoys')->get()->keyBy('id')->map(function ($server) {
+                return $server->buoys->pluck('buoy_app_id')->unique();
+            })
+        );
+    }
 }

@@ -49,9 +49,8 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
         });
 
-        // TODO - validate via site creation
         Validator::extend('domain', function ($attribute, $value) {
-            return preg_match('/^[\pL\pM\pN\.]+$/u', $value) > 0;
+            return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
         });
 
         UserLoginProvider::updating(function ($provider) {
