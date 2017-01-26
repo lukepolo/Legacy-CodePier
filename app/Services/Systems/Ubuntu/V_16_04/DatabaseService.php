@@ -22,7 +22,7 @@ class DatabaseService
         $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password password $databasePassword'");
         $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password_again password $databasePassword'");
 
-        $this->remoteTaskService->run('apt-get install -y mariadb-server');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server');
 
         $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
         $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
