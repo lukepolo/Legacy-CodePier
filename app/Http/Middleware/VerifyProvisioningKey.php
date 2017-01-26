@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Server\ProvisioningKey;
 use Closure;
+use App\Models\Server\ProvisioningKey;
 
 class VerifyProvisioningKey
 {
@@ -16,7 +16,7 @@ class VerifyProvisioningKey
      */
     public function handle($request, Closure $next)
     {
-        if (!ProvisioningKey::findOrFail($request->route('provisioning_key'))) {
+        if (! ProvisioningKey::findOrFail($request->route('provisioning_key'))) {
             abort(403, 'Invalid provisioning key.');
         }
 

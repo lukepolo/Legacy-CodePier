@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\CheckServerStatus;
 use Illuminate\Http\Request;
-use App\Models\Server\ProvisioningKey;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\CheckServerStatus;
+use App\Models\Server\ProvisioningKey;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CustomServerProvisioningController extends Controller
@@ -25,14 +25,16 @@ class CustomServerProvisioningController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function provision() {
+    public function provision()
+    {
         return response()->download('provision.sh');
     }
 
     /**
      * @param Request $request
      */
-    public function start(Request $request) {
+    public function start(Request $request)
+    {
         $key = ProvisioningKey::findByKey($request->route('provisioning_key'));
 
         $server_id = $key->server->id;
@@ -56,7 +58,8 @@ class CustomServerProvisioningController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function returnPublicKey(Request $request) {
+    public function returnPublicKey(Request $request)
+    {
         return ProvisioningKey::findOrFail($request->route('provisioning_key'))->server->public_ssh_key;
     }
 
@@ -64,7 +67,8 @@ class CustomServerProvisioningController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function returnPrivateKey(Request $request) {
+    public function returnPrivateKey(Request $request)
+    {
         return $provisioningKey = ProvisioningKey::findOrFail($request->route('provisioning_key')->server->private_ssh_key);
     }
 
@@ -72,7 +76,8 @@ class CustomServerProvisioningController extends Controller
      * Webhook called by provisioning shell script when finished.
      * @param Request $request
      */
-    public function end(Request $request) {
+    public function end(Request $request)
+    {
         $provisioningKey = ProvisioningKey::findOrFail($request->route('provisioning_key'));
 
         $server = $provisioningKey->server;
@@ -83,5 +88,4 @@ class CustomServerProvisioningController extends Controller
             (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
         );
     }
-
 }

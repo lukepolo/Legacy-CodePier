@@ -36,7 +36,8 @@ class ProvisioningKey extends Model
         return $key;
     }
 
-    public static function isUsed($key) {
+    public static function isUsed($key)
+    {
         if (self::find($key)->used == true) {
             return true;
         }
