@@ -15,7 +15,7 @@ class Buoy extends Model
     ];
 
     protected $with = [
-        'buoyApp'
+        'buoyApp',
     ];
 
     public function buoyApp()
