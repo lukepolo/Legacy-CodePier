@@ -41,7 +41,7 @@
         },
         computed: {
             buoy() {
-                return this.$store.state.buoyAppsStore.buoy
+                return this.$store.state.buoyAppsStore.buoy_app
             }
         }
     }

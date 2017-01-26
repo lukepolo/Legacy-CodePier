@@ -175,7 +175,7 @@
                 return this.$route.params.buoy_id
             },
             buoy() {
-                return this.$store.state.buoyAppsStore.buoy
+                return this.$store.state.buoyAppsStore.buoy_app
             },
             categories() {
                 return this.$store.state.categoriesStore.categories

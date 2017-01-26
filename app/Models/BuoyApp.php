@@ -23,7 +23,9 @@ class BuoyApp extends Model
 
     public function getIconUrlAttribute()
     {
-        return \Storage::disk()->url($this->icon);
+        if($this->icon) {
+            return \Storage::disk()->url($this->icon);
+        }
     }
 
     public function categories()

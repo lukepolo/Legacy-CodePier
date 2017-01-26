@@ -41,13 +41,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Buoy Routes
+    | Buoy App Routes
     |--------------------------------------------------------------------------
     |
     */
-    Route::get('buoys/buoyClasses', 'BuoyAppController@getBuoyClasses');
-    Route::post('buoys/{buoy}/update', 'BuoyAppController@update');
-    Route::resource('buoys', 'BuoyAppController');
+    Route::get('buoy-apps/buoyClasses', 'BuoyAppController@getBuoyClasses');
+    Route::post('buoy-apps/{buoy}/update', 'BuoyAppController@update');
+    Route::resource('buoy-apps', 'BuoyAppController');
 
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
