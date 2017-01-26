@@ -302,15 +302,7 @@ const router = new VueRouter({
             path: '/site/:site_id', component: sitePages.SiteArea,
             children: [
                 {
-                    path: '',
-                    name: 'site_default',
-                    components: {
-                        default: sitePages.SiteRepository,
-                        nav: sitePages.SiteNav,
-                        subNav: sitePages.SiteSetupNav
-                    }
-                },
-                {
+                    alias: '',
                     path: 'setup',
                     name: 'site_repository',
                     components: {
