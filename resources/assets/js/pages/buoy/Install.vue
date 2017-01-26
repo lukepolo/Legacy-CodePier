@@ -45,8 +45,6 @@
                     </div>
                 </div>
 
-                <input type="checkbox" v-model="form.new_server"> New Server
-
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Install Buoy</button>
                 </div>
@@ -66,18 +64,14 @@
                     ports : [],
                     options : [],
                     server : null,
-                    buoy_app_app_id : null,
-                    new_server : false,
+                    buoy_app_id : null,
                 }
             }
         },
         methods: {
             installBuoy() {
-                this.form.buoy_app_app_id = this.buoy_app.id
-                if(!this.form.new_server) {
-                    return this.$store.dispatch('installBuoyOnServer', this.form)
-                }
-                this.$store.dispatch('installBuoy', this.form)
+                this.form.buoy_app_id = this.buoy_app.id
+                return this.$store.dispatch('installBuoyOnServer', this.form)
             }
         },
         computed: {

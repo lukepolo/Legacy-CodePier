@@ -80,7 +80,7 @@ class SentryBuoy implements BuoyContract
 
         $this->getContainerId();
 
-        $this->remoteTaskService->run('docker run -d \
+        $this->remoteTaskService->run('docker run --restart=always -d \
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
@@ -92,7 +92,7 @@ class SentryBuoy implements BuoyContract
 
         $this->getContainerId();
 
-        $this->remoteTaskService->run('docker run -d \
+        $this->remoteTaskService->run('docker run --restart=always -d \
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
@@ -104,7 +104,7 @@ class SentryBuoy implements BuoyContract
 
         $this->getContainerId();
 
-        $this->remoteTaskService->run('docker run -d \
+        $this->remoteTaskService->run('docker run --restart=always -d \
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
@@ -123,13 +123,11 @@ class SentryBuoy implements BuoyContract
 
         $this->remoteTaskService->ssh($this->server, 'codepier');
         // TODO - specify version of sentry so we dont use latest
-        $this->remoteTaskService->appendTextToFile('~/.bashrc', 'alias createSentryUser="docker run -it --rm -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY --link sentry-redis:redis --link sentry-postgres:postgres sentry createuser"');
+        $this->remoteTaskService->appendTextToFile('~/.bashrc', 'alias createSentryUser="docker run -it --rm -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY --link sentry-redis:redis --link sentry-postgres:postgres sentry-onpremise createuser"');
 
         // TODO - we will need to make this better...cause it sucks
         $this->server->notify(new BuoyInstall('Sentry Login Details', [
-            'Additional Steps' => 'Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server ('.$this->server->ip.') and run ',
-            '' => 'createSentryUser',
-            '' => '',
+            'Additional Steps' => 'Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server ('.$this->server->ip.') and run "createSentryUser"',
             'You can access your sentry server via ' => $this->server->ip.":$ports[0]",
         ]));
 
