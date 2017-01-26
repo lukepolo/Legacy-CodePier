@@ -1,6 +1,7 @@
 export const Servers = require('./Servers.vue')
 export const ServerForm = require('./ServerForm.vue')
 export const ServerArea = require('./ServerArea.vue')
+export const ServerBuoys = require('./ServerBuoys.vue')
 export const ServerSites = require('./ServerSites.vue')
 export const ServerFiles = require('./ServerFiles.vue')
 export const ServerSshKeys = require('./ServerSshKeys.vue')

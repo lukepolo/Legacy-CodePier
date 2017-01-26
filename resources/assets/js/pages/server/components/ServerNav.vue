@@ -25,6 +25,9 @@
             <router-link :to="{ name : 'server_files', params : { server_id : server.id } }" role="presentation" tag="li">
                 <a>Files</a>
             </router-link>
+            <router-link :to="{ name : 'server_buoys', params : { server_id : server.id } }" role="presentation" tag="li">
+                <a>Buoys</a>
+            </router-link>
         </ul>
     </div>
 </template>

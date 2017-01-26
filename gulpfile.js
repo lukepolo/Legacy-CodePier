@@ -1,13 +1,13 @@
 require('dotenv').config({
     path: __dirname + '/.env'
-});
+})
 
-var env = process.env;
-var elixir = require('laravel-elixir');
+var env = process.env
+var elixir = require('laravel-elixir')
 
-require('laravel-elixir-vue-2');
+require('laravel-elixir-vue-2')
 
-var bower_path = './resources/assets/bower/';
+var bower_path = './resources/assets/bower/'
 
 var paths = {
 
@@ -26,7 +26,7 @@ var paths = {
     js_public: './public/js/',
     css_public: './public/css/',
 
-    sass_partials : './resources/assets/sass/partials/',
+    sass_partials: './resources/assets/sass/partials/',
 
     /*
      |--------------------------------------------------------------------------
@@ -39,14 +39,14 @@ var paths = {
     fontawesome: bower_path + 'font-awesome/',
     jquery: bower_path + 'jquery/dist/',
     select2: bower_path + 'select2/dist/',
-    moment : bower_path + 'moment/',
-    moment_timezone : bower_path + 'moment-timezone/builds/',
+    moment: bower_path + 'moment/',
+    moment_timezone: bower_path + 'moment-timezone/builds/',
     confirm2: bower_path + 'jquery-confirm2/dist/',
-    ace : bower_path + 'ace-build/src-min/',
-    jcf_forms : bower_path + 'jcf-forms/',
-    jquery_cron : bower_path + 'jquery-cron/cron/'
-    
-};
+    ace: bower_path + 'ace-build/src-min/',
+    jcf_forms: bower_path + 'jcf-forms/',
+    jquery_cron: bower_path + 'jquery-cron/cron/'
+
+}
 
 /*
  |--------------------------------------------------------------------------
@@ -71,17 +71,18 @@ elixir((mix) => {
             paths.ace + 'mode-sh.js',
             paths.ace + 'ext-searchbox.js',
             paths.js_resources + 'laroute.js',
-            paths.jcf_forms + 'assets/js/jcf_forms.js',
+            paths.jcf_forms + '/js/jcf_forms.js',
             paths.jquery_cron + 'jquery-cron-min.js'
         ])
         .version([
             paths.css_public + 'app.css',
             paths.js_public + 'all.js',
-            paths.js_public + 'app.js',
+            paths.js_public + 'app.js'
         ])
         .webpack('app.js')
         .browserSync({
-            open : false,
-            proxy: env.APP_URL
-        });
-});
+            open: false,
+            proxy: env.APP_URL,
+            reloadDelay: 1000
+        })
+})

@@ -101,7 +101,7 @@ trait SystemFiles
                     $parameters[$parameter->name] = $parameter->isOptional() ? $parameter->getDefaultValue() : null;
                 }
 
-                $options = $this->getDocParam($method, 'options');
+                $options = $this->getFirstDocParam($method, 'options');
                 if (! empty($options)) {
                     $options = array_map('trim', explode(',', $options));
                 }
@@ -113,9 +113,9 @@ trait SystemFiles
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
-                    'description' => $this->getDocParam($method, 'description'),
+                    'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
-                    'multiple' => $this->getDocParam($method, 'multiple', false),
+                    'multiple' => $this->getFirstDocParam($method, 'multiple', false),
                 ]));
             }
         }
@@ -131,6 +131,23 @@ trait SystemFiles
      */
     public function getDocParam($method, $param, $default = null)
     {
+        preg_match_all('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param $method
+     * @param $param
+     * @param null $default
+     * @return null
+     */
+    public function getFirstDocParam($method, $param, $default = null)
+    {
         preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
@@ -138,6 +155,14 @@ trait SystemFiles
         }
 
         return $default;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getBuoyFiles()
+    {
+        return File::files(app_path('Services/Buoys'));
     }
 
     /**

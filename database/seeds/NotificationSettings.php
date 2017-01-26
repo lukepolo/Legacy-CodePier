@@ -45,13 +45,18 @@ class NotificationSettings extends Seeder
         ];
 
         foreach ($settings as $event => $data) {
-            \App\Models\NotificationSetting::firstOrCreate([
+            $notificationSetting = \App\Models\NotificationSetting::firstOrNew([
                 'event' => $event,
+            ]);
+
+            $notificationSetting->fill([
                 'name' => $data['name'],
                 'default' => $data['default'],
                 'services' => $data['services'],
                 'description' => $data['description'],
             ]);
+
+            $notificationSetting->save();
         }
     }
 }

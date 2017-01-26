@@ -42,6 +42,9 @@
         </section>
 
         <ul class="nav navbar-right nav-right">
+            <li>
+                <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="true">
@@ -90,6 +93,13 @@
                     <li>
                         <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                     </li>
+                    <template v-if="isAdmin()">
+                        <br>
+                        Admin
+                        <li>
+                            <router-link :to="{ name: 'categories' }"><span class="icon-server"></span>Manage Categories</router-link>
+                        </li>
+                    </template>
                     <li>
                         <a @click.prevent="logout()"><span class="icon-power"></span> Logout</a>
                     </li>

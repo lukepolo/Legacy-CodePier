@@ -2,6 +2,7 @@
 
 namespace App\Models\Server;
 
+use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -141,6 +142,11 @@ class Server extends Model
     public function commands()
     {
         return $this->hasMany(ServerCommand::class);
+    }
+
+    public function buoys()
+    {
+        return $this->morphToMany(Buoy::class, 'buoyable');
     }
 
     /*

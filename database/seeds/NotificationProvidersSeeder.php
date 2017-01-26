@@ -18,7 +18,7 @@ class NotificationProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-            $notificationProvider = \App\Models\NotificationProvider::firstOrCreate([
+            \App\Models\NotificationProvider::firstOrCreate([
                 'provider_name' => $provider,
                 'name'          => $data['name'],
             ]);
