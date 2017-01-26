@@ -24,7 +24,7 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'domain' => 'required_unless:domainless,true|url',
+            'domain' => 'required_unless:domainless,true|domain',
             'pile_id' => 'required|integer',
         ];
     }
