@@ -278,6 +278,6 @@ class ServerController extends Controller
      */
     public function getCustomServerScriptUrl(ProvisioningKey $key)
     {
-        return 'curl https://provision.codepier.io/ | bash -s '.$key->key;
+        return 'curl '.config('app.url_provision').' | bash -s '.$key->key;
     }
 }

@@ -81,7 +81,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapProvisioningRoutes()
     {
         Route::group([
-            'domain' => 'provision.codepier.dev',
+            'domain' => config('app.url_provision'),
             'namespace'  => $this->namespace,
         ], function ($router) {
             require base_path('routes/provision.php');
