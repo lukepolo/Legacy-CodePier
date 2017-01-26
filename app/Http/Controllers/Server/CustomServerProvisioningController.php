@@ -25,9 +25,12 @@ class CustomServerProvisioningController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function provision()
-    {
-        return response()->download('provision.sh');
+    public function provision() {
+        if(config('app.env') == 'production') {
+            return response()->download('provision.sh');
+        } else {
+            return response()->download('provision.dev.sh');
+        }
     }
 
     /**
