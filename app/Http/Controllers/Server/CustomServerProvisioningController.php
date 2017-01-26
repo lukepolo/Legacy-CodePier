@@ -27,7 +27,11 @@ class CustomServerProvisioningController extends Controller
      */
     public function provision()
     {
-        return response()->download('provision.sh');
+        if (config('app.env') == 'production') {
+            return response()->download('provision.sh');
+        } else {
+            return response()->download('provision.dev.sh');
+        }
     }
 
     /**
