@@ -15,7 +15,7 @@
 
                     <div v-if="!image">
                         Icon
-                        <template v-if="buoyId && buoy && buoy.icon_url">
+                        <template v-if="buoyAppId && buoy && buoy.icon_url">
                             <img :src="buoy.icon_url" style="max-width:100px">
                         </template>
                         <input type="file" @change="onFileChange">
@@ -76,7 +76,7 @@
 
                     <div class="btn-footer">
                         <button class="btn btn-primary" type="submit">
-                            <template v-if="buoyId">
+                            <template v-if="buoyAppId">
                                 Update
                             </template>
                             <template v-else>
@@ -96,7 +96,7 @@
     export default {
         created() {
             this.$store.dispatch('getCategories').then(() => {
-                this.$store.dispatch('getBuoy', this.buoyId).then((buoy) => {
+                this.$store.dispatch('getBuoy', this.buoyAppId).then((buoy) => {
                     this.form.icon = buoy.icon
                     this.form.ports = buoy.ports
                     this.form.title = buoy.title
@@ -138,8 +138,8 @@
                 data.append('options', JSON.stringify(form.options))
 
                 this.$store.dispatch('updateBuoy', {
-                    buoy: this.buoyId,
-                    form : data
+                    form : data,
+                    buoy_app: this.buoyAppId,
                 })
             },
             createImage(file) {
@@ -169,7 +169,7 @@
             }
         },
         computed: {
-            buoyId() {
+            buoyAppId() {
                 return this.$route.params.buoy_id
             },
             buoy() {
