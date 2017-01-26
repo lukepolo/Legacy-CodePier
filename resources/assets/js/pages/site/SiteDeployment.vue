@@ -20,7 +20,7 @@
                 <h2>Active</h2>
                 <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
                     <div v-for="deploymentStep in active">
-                        <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
+                        <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>
                     </div>
                 </draggable>
             </div>
