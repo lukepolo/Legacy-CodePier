@@ -1,12 +1,11 @@
 export default {
     state: {
-        buoy: null,
-        buoys: [],
-        buoy_classes: null
+        buoy_apps: [],
+        buoy_app: null
     },
     actions: {
-        getBuoy: ({ commit }, buoy) => {
-            return Vue.http.get(Vue.action('BuoyAppController@show', { buoy: buoy })).then((response) => {
+        getBuoy: ({ commit }, buoyApp) => {
+            return Vue.http.get(Vue.action('BuoyAppController@show', { buoy_app: buoyApp })).then((response) => {
                 commit('SET_BUOY', response.data)
                 return response.data
             }, (errors) => {
@@ -21,28 +20,27 @@ export default {
             })
         },
         updateBuoy: ({ commit }, data) => {
-            Vue.http.post(Vue.action('BuoyAppController@update', { buoy: data.buoy }), data.form, {
+            Vue.http.post(Vue.action('BuoyAppController@update', { buoy_app: data.buoy_app }), data.form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((response) => {
                 commit('SET_BUOY', response.data)
-                app.$router.push({ name: 'buoy_market_place' })
+                app.$router.push({ name: 'buoy_app_market_place' })
             }, (errors) => {
                 app.handleApiError(errors)
             })
         },
-        deleteBuoy: ({ commit }, buoy) => {
-            Vue.http.delete(Vue.action('BuoyAppController@destroy', { buoy: buoy }), data).then(() => {
-                commit('REMOVE_BUOY', buoy)
+        deleteBuoy: ({ commit }, buoyApp) => {
+            Vue.http.delete(Vue.action('BuoyAppController@destroy', { buoy_app: buoyApp }), data).then(() => {
+                commit('REMOVE_BUOY', buoy_app)
             }, (errors) => {
                 app.handleApiError(errors)
             })
         },
-        getBuoyClasses: ({ commit }) => {
-            return Vue.http.get(Vue.action('BuoyAppController@getBuoyClasses')).then((response) => {
-                commit('SET_BUOY_CLASSES', response.data)
-                return response.data
+        installBuoy: ({ commit }, data) => {
+            Vue.http.post(Vue.action('BuoyController@store'), data).then((response) => {
+                console.info(response.data)
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -56,17 +54,14 @@ export default {
         }
     },
     mutations: {
-        SET_BUOY: (state, buoy) => {
-            state.buoy = buoy
+        SET_BUOY: (state, buoyApp) => {
+            state.buoy_app = buoyApp
         },
-        SET_BUOYS: (state, buoys) => {
-            state.buoys = buoys
+        SET_BUOYS: (state, buoyApps) => {
+            state.buoy_apps = buoyApps
         },
-        REMOVE_BUOY: (state, buoyId) => {
-            Vue.set(state, 'buoys', _.reject(state.buoy, { id: buoyId }))
-        },
-        SET_BUOY_CLASSES: (state, buoyClasses) => {
-            state.buoy_classes = buoyClasses
+        REMOVE_BUOY: (state, buoyAppId) => {
+            Vue.set(state, 'buoy_apps', _.reject(state.buoy_app, { id: buoyAppId }))
         }
     }
 }

@@ -5579,7 +5579,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 }
 
 .events-container {
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-box-flex: 1;
   flex-grow: 1;
   flex-shrink: 1;
@@ -6011,7 +6011,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 .section-content {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: visible;
 }
 

@@ -5,6 +5,7 @@ export default {
         all_servers: [],
         server_sites: [],
         running_commands: {},
+        provisioned_servers: [],
         servers_listening_to: [],
         available_server_features: [],
         server_installed_features: [],
@@ -224,6 +225,12 @@ export default {
         },
         SET_ALL_SERVERS: (state, servers) => {
             state.all_servers = servers
+
+            state.provisioned_servers = _.filter(servers, function (server) {
+                if (server.status === 'Provisioned') {
+                    return server
+                }
+            })
         },
         SET_SERVERS_LISTENING_TO: (state, server) => {
             state.servers_listening_to.push(server.id)

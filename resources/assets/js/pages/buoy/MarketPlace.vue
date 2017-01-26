@@ -65,7 +65,7 @@
                 }
             },
             buoysPagination() {
-                return this.$store.state.buoyAppsStore.buoys
+                return this.$store.state.buoyAppsStore.buoy_apps
             },
             categories() {
                 return this.$store.state.categoriesStore.categories

@@ -1,9 +1,9 @@
 <template>
-    <section v-if="buoy">
-        <template v-if="buoy && buoy.icon_url">
-            <img :src="buoy.icon_url" style="max-width:100px">
+    <section v-if="buoy_app">
+        <template v-if="buoy_app && buoy_app.icon_url">
+            <img :src="buoy_app.icon_url" style="max-width:100px">
         </template>
-        {{ buoy.title }}
+        {{ buoy_app.title }}
 
         <div class="jcf-form-wrap">
 
@@ -35,8 +35,7 @@
 
                 </template>
 
-                // Currently we only support adding to previously setup server
-                <div class="jcf-input-group">
+                <div class="jcf-input-group" v-if="!form.new_server">
                     <div class="input-question">Select server to install on</div>
                     <div>
                         <select name="server" v-model="form.server">
@@ -45,6 +44,8 @@
                         </select>
                     </div>
                 </div>
+
+                <input type="checkbox" v-model="form.new_server"> New Server
 
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Install Buoy</button>
@@ -65,29 +66,33 @@
                     ports : [],
                     options : [],
                     server : null,
-                    buoy_app_id : null
+                    buoy_app_app_id : null,
+                    new_server : false,
                 }
             }
         },
         methods: {
             installBuoy() {
-                this.form.buoy_app_id = this.buoy.id
-                this.$store.dispatch('installBuoyOnServer', this.form)
+                this.form.buoy_app_app_id = this.buoy_app.id
+                if(!this.form.new_server) {
+                    return this.$store.dispatch('installBuoyOnServer', this.form)
+                }
+                this.$store.dispatch('installBuoy', this.form)
             }
         },
         computed: {
-            buoy() {
+            buoy_app() {
 
-                let buoy = this.$store.state.buoyAppsStore.buoy
+                let buoy_app = this.$store.state.buoyAppsStore.buoy_app
 
-                if(buoy) {
-                    this.form.ports = buoy.ports
-                    this.form.options = buoy.options
-                    return buoy
+                if(buoy_app) {
+                    this.form.ports = buoy_app.ports
+                    this.form.options = buoy_app.options
+                    return buoy_app
                 }
             },
             servers() {
-                return this.$store.state.serversStore.all_servers
+                return this.$store.state.serversStore.provisioned_servers
             }
         }
     }
