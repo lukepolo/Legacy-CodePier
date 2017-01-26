@@ -17,6 +17,11 @@
                                     <td>{{ server.name }}</td>
                                     <td>{{ server.ip }}</td>
                                     <td>{{ server.status }}</td>
+                                    <td v-if="server.status == 'Provisioned'">
+                                        <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
+                                           viewg
+                                        </router-link>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
