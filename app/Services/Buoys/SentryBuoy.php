@@ -70,7 +70,7 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->ssh($this->server, 'codepier');
         $this->remoteTaskService->ssh($this->server);
 
-        $this->remoteTaskService->run('docker run \
+        $this->remoteTaskService->run('docker run -d \
             --rm \
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
