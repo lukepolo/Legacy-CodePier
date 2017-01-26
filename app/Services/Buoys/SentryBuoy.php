@@ -31,6 +31,9 @@ class SentryBuoy implements BuoyContract
 
         $this->remoteTaskService->findTextAndAppend('~/onpremise/sentry.conf.py', 'system.secret-key', "SENTRY_FEATURES['auth:register'] = False");
 
+
+        $this->run('DEBIAN_FRONTEND=noninteractive apt-get install make');
+
         $this->remoteTaskService->run('cd onpremise && make build');
 
         $secretKey = str_random(32);
