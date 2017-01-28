@@ -2,13 +2,13 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
+use App\Exceptions\DeployKeyAlreadyUsed;
 
 trait RepositoryTrait
 {
     /**
-     * Gets the users repositories username
+     * Gets the users repositories username.
      *
      * @param $repository
      *
@@ -20,7 +20,7 @@ trait RepositoryTrait
     }
 
     /**
-     * Gets the users repositories name
+     * Gets the users repositories name.
      *
      * @param $repository
      *
@@ -44,5 +44,4 @@ trait RepositoryTrait
     {
         throw new DeployKeyAlreadyUsed('Key is already being used');
     }
-
 }
