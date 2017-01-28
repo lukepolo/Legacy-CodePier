@@ -83,7 +83,7 @@ class GitLab implements RepositoryContract
         $this->setToken($site->userRepositoryProvider);
 
         try {
-            $repositoryInfo = $this->client->api('projects')->show($site->repository);
+            $this->client->api('projects')->show($site->repository);
         } catch (RuntimeException $e) {
             if ($e->getCode() == 404) {
                 return true;
