@@ -55,12 +55,4 @@ interface RepositoryContract
      * @return bool
      */
     public function isPrivate(Site $site);
-
-
-    /**
-     * Gets the repository information.
-     * @param $repository
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository);
 }

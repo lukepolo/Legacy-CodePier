@@ -113,28 +113,17 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $repositoryInfo = $this->getRepositoryInfo($site->repository);
-
-        if(!empty($repositoryInfo) && isset($repositoryInfo['private'])) {
-            return $repositoryInfo['private'];
+        try {
+            GitHubService::api('repo')->show(
+                $this->getRepositoryUser($site->repository),
+                $this->getRepositorySlug($site->repository)
+            );
+        } catch(RuntimeException $e) {
+            if($e->getMessage() == 'Not Found') {
+                return true;
+            }
         }
-
-        return true;
-    }
-
-    /**
-     * Gets the repository information.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository)
-    {
-        return GitHubService::api('repo')->show(
-            $this->getRepositoryUser($repository),
-            $this->getRepositorySlug($repository)
-        );
+        return false;
     }
 
     /**
