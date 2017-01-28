@@ -6,9 +6,9 @@ use Bitbucket\API\User;
 use App\Models\Site\Site;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
-use Bitbucket\API\Repositories\Deploykeys;
 use App\Models\User\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
+use Bitbucket\API\Users\SshKeys;
 
 class BitBucket implements RepositoryContract
 {
@@ -20,35 +20,7 @@ class BitBucket implements RepositoryContract
      * Imports a deploy key so we can clone the repositories.
      * @param Site $site
      */
-    public function importSshKeyIfPrivate(Site $site)
-    {
-        $repository = $site->repository;
-
-        $this->setToken($site->userRepositoryProvider);
-
-        $user = new User();
-
-        $user->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $deployKey = new Deploykeys();
-
-        $deployKey->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $deployKey->create($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), $site->public_ssh_key, 'https://codepier.io');
-    }
-
-    /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
-     */
-    public function isPrivate(Site $site)
+    public function importSshKey(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
@@ -58,14 +30,13 @@ class BitBucket implements RepositoryContract
             new OAuthListener($this->oauthParams)
         );
 
-        $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
-        $slug = $this->getRepositorySlug($site->repository);
+        $sshKeys = new SshKeys();
 
-        $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
-            return $repository['slug'] == $slug;
-        });
+        $sshKeys->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
 
-        return $repositoryInfo['is_private'];
+        $sshKeys->create(json_decode($user->get()->getContent())->user->username, $site->public_ssh_key, $this->sshKeyLabel($site));
     }
 
     /**
@@ -89,29 +60,11 @@ class BitBucket implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories username // TODO - move to a trait.
-     *
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
-     *
-     * @return mixed
+     * @param $branch
+     * @return array
      */
-    public function getRepositoryUser($repository)
-    {
-        return explode('/', $repository)[0];
-    }
-
-    /**
-     * Gets the users repositories name // TODO - move to a trait.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositorySlug($repository)
-    {
-        return explode('/', $repository)[1];
-    }
-
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         $this->setToken($userRepositoryProvider);
@@ -138,6 +91,10 @@ class BitBucket implements RepositoryContract
         }
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
@@ -165,6 +122,10 @@ class BitBucket implements RepositoryContract
         return $site;
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function deleteDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
