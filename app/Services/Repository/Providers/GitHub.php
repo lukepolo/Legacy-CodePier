@@ -5,7 +5,6 @@ namespace App\Services\Repository\Providers;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
 use Github\Exception\RuntimeException;
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
 
@@ -100,6 +99,31 @@ class GitHub implements RepositoryContract
         $site->save();
 
         return $site;
+    }
+
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        try {
+            GitHubService::api('repo')->show(
+                $this->getRepositoryUser($site->repository),
+                $this->getRepositorySlug($site->repository)
+            );
+        } catch (RuntimeException $e) {
+            if ($e->getMessage() == 'Not Found') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

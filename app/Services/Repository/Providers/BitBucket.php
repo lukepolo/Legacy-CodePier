@@ -4,11 +4,12 @@ namespace App\Services\Repository\Providers;
 
 use Bitbucket\API\User;
 use App\Models\Site\Site;
+use Bitbucket\API\Users\SshKeys;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
+use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
-use Bitbucket\API\Users\SshKeys;
 
 class BitBucket implements RepositoryContract
 {
@@ -37,6 +38,37 @@ class BitBucket implements RepositoryContract
         );
 
         $sshKeys->create(json_decode($user->get()->getContent())->user->username, $site->public_ssh_key, $this->sshKeyLabel($site));
+    }
+
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $user = new User();
+
+        $user->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $repositories = new Repository();
+
+        $repository = json_decode($repositories->get(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository)
+        )->getContent());
+
+        if (empty($repository)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

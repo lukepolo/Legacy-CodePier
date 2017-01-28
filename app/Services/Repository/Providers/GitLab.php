@@ -2,9 +2,9 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use Gitlab\Api\Repositories;
+use Gitlab\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 
@@ -33,9 +33,9 @@ class GitLab implements RepositoryContract
                 'title' => $this->sshKeyLabel($site),
                 'key' => $site->public_ssh_key,
             ])->send();
-        } catch(ClientErrorResponseException $e) {
+        } catch (ClientErrorResponseException $e) {
             // They have terrible error codes
-            if(str_contains($e->getMessage(), '400')) {
+            if (str_contains($e->getMessage(), '400')) {
                 $this->throwKeyAlreadyUsed();
             }
             throw $e;
@@ -69,6 +69,28 @@ class GitLab implements RepositoryContract
                 'commit_message' => $lastCommit['message'],
             ];
         }
+    }
+
+    /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        try {
+            $this->client->api('projects')->show($site->repository);
+        } catch (RuntimeException $e) {
+            if ($e->getCode() == 404) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -2,17 +2,16 @@
 
 namespace App\Services\Repository;
 
-use App\Exceptions\DeployKeyAlreadyUsed;
-use App\Exceptions\SshConnectionFailed;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
+use App\Exceptions\SshConnectionFailed;
+use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\User\UserRepositoryProvider;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class RepositoryService implements RepositoryServiceContract
 {
-
     protected $remoteTaskService;
 
     /**
@@ -36,21 +35,41 @@ class RepositoryService implements RepositoryServiceContract
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
         if (empty($site->public_ssh_key)) {
+            $this->isPrivate($site);
             $this->generateNewSshKeys($site);
+
             try {
                 $providerService->importSshKey($site);
-            } catch(DeployKeyAlreadyUsed $e) {
+            } catch (DeployKeyAlreadyUsed $e) {
                 $this->importSshKey($site);
             }
 
             foreach ($site->provisionedServers as $server) {
                 try {
                     $this->remoteTaskService->saveSshKeyToServer($site, $server);
-                } catch(SshConnectionFailed $sshConnectionFailed) {
+                } catch (SshConnectionFailed $sshConnectionFailed) {
                     continue;
                 }
             }
         }
+    }
+
+    /**
+     * @param Site $site
+     * @return mixed
+     */
+    public function isPrivate(Site $site)
+    {
+        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
+        $private = $providerService->isPrivate($site);
+
+        if ($site->private != $private) {
+            $site->update([
+                'private' => $private,
+            ]);
+        }
+
+        return $private;
     }
 
     /**
