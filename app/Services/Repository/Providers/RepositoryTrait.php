@@ -2,27 +2,47 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 
 trait RepositoryTrait
 {
     /**
-     * Marks a repository private.
+     * Gets the users repositories username
      *
-     * @param Site $site
-     * @param $isPrivate
+     * @param $repository
+     *
+     * @return mixed
      */
-    private function isPrivate(Site $site, $isPrivate)
+    public function getRepositoryUser($repository)
     {
-        $site->update([
-            'private' =>  $isPrivate,
-        ]);
-
-        if (! $isPrivate) {
-            $site->update([
-                'public_ssh_key' =>  null,
-                'private_ssh_key' =>  null,
-            ]);
-        }
+        return explode('/', $repository)[0];
     }
+
+    /**
+     * Gets the users repositories name
+     *
+     * @param $repository
+     *
+     * @return mixed
+     */
+    public function getRepositorySlug($repository)
+    {
+        return explode('/', $repository)[1];
+    }
+
+    /**
+     * @param Site $site
+     * @return string
+     */
+    public function sshKeyLabel(Site $site)
+    {
+        return $site->name;
+    }
+
+    public function throwKeyAlreadyUsed()
+    {
+        throw new DeployKeyAlreadyUsed('Key is already being used');
+    }
+
 }

@@ -2,15 +2,17 @@
 
 namespace App\Services\Repository;
 
+use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Exceptions\SshConnectionFailed;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
-use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class RepositoryService implements RepositoryServiceContract
 {
+
     protected $remoteTaskService;
 
     /**
@@ -29,39 +31,25 @@ class RepositoryService implements RepositoryServiceContract
      * @return mixed
      * @throws \Exception
      */
-    public function importSshKeyIfPrivate(Site $site)
+    public function importSshKey(Site $site)
     {
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
-        if ($providerService->isPrivate($site)) {
-            if (! $site->private) {
-                $site->update([
-                    'private' => true,
-                ]);
+        if (!empty($site->public_ssh_key)) {
+            $this->generateNewSshKeys($site);
+            try {
+                $providerService->importSshKey($site);
+            } catch(DeployKeyAlreadyUsed $e) {
+                $this->importSshKey($site);
             }
 
-            if (empty($site->public_ssh_key)) {
-                $this->generateNewSshKeys($site);
+            foreach ($site->provisionedServers as $server) {
                 try {
-                    $providerService->importSshKeyIfPrivate($site);
-                } catch (\Exception $e) {
-                    if ($e->getMessage() == 'Not Found') {
-                        throw new RuntimeException('You do not have deploy access to this repository. Please add the ssh key manually.');
-                    }
-
-                    throw $e;
+                    $this->remoteTaskService->saveSshKeyToServer($site, $server);
+                } catch(SshConnectionFailed $sshConnectionFailed) {
+                    continue;
                 }
             }
-
-            return;
-        }
-
-        if ($site->private) {
-            $site->update([
-                'private' => false,
-                'public_ssh_key' => null,
-                'private_ssh_key' => null,
-            ]);
         }
     }
 
@@ -114,9 +102,5 @@ class RepositoryService implements RepositoryServiceContract
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
-
-        foreach ($site->provisionedServers as $server) {
-            $this->remoteTaskService->saveSshKeyToServer($site, $server);
-        }
     }
 }

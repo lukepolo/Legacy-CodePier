@@ -2,16 +2,16 @@
 
 namespace App\Services\Repository\Providers;
 
-use Gitlab\Client;
+use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use Gitlab\Api\Repositories;
 use App\Models\User\UserRepositoryProvider;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class GitLab implements RepositoryContract
 {
     use RepositoryTrait;
 
-    /** @var Client $client */
     private $client;
 
     /**
@@ -19,58 +19,32 @@ class GitLab implements RepositoryContract
      *
      * @param Site $site
      */
-    public function importSshKeyIfPrivate(Site $site)
+    public function importSshKey(Site $site)
     {
-        $repository = $site->repository;
-
         $this->setToken($site->userRepositoryProvider);
-
-        $repositoryInfo = $this->getRepositoryInfo($repository);
 
         $client = new \Guzzle\Http\Client();
 
-        // TODO - probably should set this api url somewhere else
-        $client->post('https://gitlab.com/api/v3/projects/'.$repositoryInfo['id'].'/deploy_keys', [
-            'Authorization' => 'Bearer '.$site->userRepositoryProvider->token,
-            'Content-Type' => 'application/json',
-        ], [
-            'title' => 'CodePier',
-            'key' => $site->public_ssh_key,
-        ])->send();
-    }
-
-    /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
-     */
-    public function isPrivate(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        $repositoryInfo = $this->getRepositoryInfo($site->repository);
-
-        if (isset($repositoryInfo['public'])) {
-            return ! $repositoryInfo['public'];
+        try {
+            $client->post('https://gitlab.com/api/v3/user/keys', [
+                'Authorization' => 'Bearer '.$site->userRepositoryProvider->token,
+                'Content-Type' => 'application/json',
+            ], [
+                'title' => $this->sshKeyLabel($site),
+                'key' => $site->public_ssh_key,
+            ])->send();
+        } catch(ClientErrorResponseException $e) {
+            // They have terrible error codes
+            if(str_contains($e->getMessage(), '400')) {
+                $this->throwKeyAlreadyUsed();
+            }
+            throw $e;
         }
-
-        return true;
     }
 
     /**
-     * Gets the repository information.
-     *
-     * @param $repository
-     *
-     * @return mixed
+     * @param UserRepositoryProvider $userRepositoryProvider
      */
-    public function getRepositoryInfo($repository)
-    {
-        return $this->client->api('projects')->show($repository);
-    }
-
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         $this->client = new \Gitlab\Client($userRepositoryProvider->repositoryProvider->url.'/api/v3/'); // change here
@@ -78,29 +52,11 @@ class GitLab implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories username // TODO - move to a trait.
-     *
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
-     *
-     * @return mixed
+     * @param $branch
+     * @return array
      */
-    public function getRepositoryUser($repository)
-    {
-        return explode('/', $repository)[0];
-    }
-
-    /**
-     * Gets the users repositories name // TODO - move to a trait.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositorySlug($repository)
-    {
-        return explode('/', $repository)[1];
-    }
-
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         $this->setToken($userRepositoryProvider);
@@ -115,6 +71,10 @@ class GitLab implements RepositoryContract
         }
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
@@ -130,6 +90,10 @@ class GitLab implements RepositoryContract
         return $site;
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function deleteDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
