@@ -36,14 +36,14 @@ interface RepositoryContract
     public function getRepositorySlug($repository);
 
     /**
-     * Creates a webhook based on the site
+     * Creates a webhook based on the site.
      * @param Site $site
      * @return mixed
      */
     public function createDeployHook(Site $site);
 
     /**
-     * Deletes a web hook based on the site
+     * Deletes a web hook based on the site.
      * @param Site $site
      * @return mixed
      */
