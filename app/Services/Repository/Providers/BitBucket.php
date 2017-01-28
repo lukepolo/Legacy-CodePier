@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use Bitbucket\API\Repositories\Repository;
 use Bitbucket\API\User;
 use App\Models\Site\Site;
 use Bitbucket\API\Repositories\Hooks;
@@ -56,18 +57,18 @@ class BitBucket implements RepositoryContract
             new OAuthListener($this->oauthParams)
         );
 
-        $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
-        $slug = $this->getRepositorySlug($site->repository);
+        $repositories = new Repository();
 
-        $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
-            return $repository['slug'] == $slug;
-        });
+        $repository = json_decode($repositories->get(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository)
+        )->getContent());
 
-        if(!empty($repositoryInfo) && isset($repositoryInfo['is_private'])) {
-            return $repositoryInfo['is_private'];
+        if(empty($repository)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

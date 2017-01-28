@@ -6,6 +6,7 @@ use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Models\Site\Site;
 use Gitlab\Api\Repositories;
 use App\Models\User\UserRepositoryProvider;
+use Gitlab\Exception\RuntimeException;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class GitLab implements RepositoryContract
@@ -82,25 +83,15 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $repositoryInfo = $this->getRepositoryInfo($site->repository);
-
-        if (!empty($repositoryInfo) && isset($repositoryInfo['public'])) {
-            return ! $repositoryInfo['public'];
+        try {
+            $repositoryInfo = $this->client->api('projects')->show($site->repository);
+        } catch(RuntimeException $e) {
+            if($e->getCode() == 404) {
+                return true;
+            }
         }
 
-        return true;
-    }
-
-    /**
-     * Gets the repository information.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository)
-    {
-        return $this->client->api('projects')->show($repository);
+        return false;
     }
 
     /**

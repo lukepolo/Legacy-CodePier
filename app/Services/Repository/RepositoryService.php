@@ -37,14 +37,7 @@ class RepositoryService implements RepositoryServiceContract
 
         if (empty($site->public_ssh_key)) {
 
-            $private = $providerService->isPrivate($site);
-
-            if($site->private != $private) {
-                $site->update([
-                    'private' => $private
-                ]);
-            }
-
+            $this->isPrivate($site);
             $this->generateNewSshKeys($site);
 
             try {
@@ -61,6 +54,24 @@ class RepositoryService implements RepositoryServiceContract
                 }
             }
         }
+    }
+
+    /**
+     * @param Site $site
+     * @return mixed
+     */
+    public function isPrivate(Site $site)
+    {
+        $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
+        $private = $providerService->isPrivate($site);
+
+        if($site->private != $private) {
+            $site->update([
+                'private' => $private
+            ]);
+        }
+
+        return $private;
     }
 
     /**
