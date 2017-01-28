@@ -123,7 +123,7 @@ class GitHub implements RepositoryContract
             }
         }
 
-        if(!empty($repository) && $repository['private']) {
+        if (! empty($repository) && $repository['private']) {
             return $repository['private'];
         }
 
