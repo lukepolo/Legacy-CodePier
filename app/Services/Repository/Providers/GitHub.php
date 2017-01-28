@@ -103,6 +103,41 @@ class GitHub implements RepositoryContract
     }
 
     /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
+
+        if(!empty($repositoryInfo) && isset($repositoryInfo['private'])) {
+            return $repositoryInfo['private'];
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the repository information.
+     *
+     * @param $repository
+     *
+     * @return mixed
+     */
+    public function getRepositoryInfo($repository)
+    {
+        return GitHubService::api('repo')->show(
+            $this->getRepositoryUser($repository),
+            $this->getRepositorySlug($repository)
+        );
+    }
+
+    /**
      * @param Site $site
      * @return Site
      */

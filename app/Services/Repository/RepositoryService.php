@@ -36,7 +36,17 @@ class RepositoryService implements RepositoryServiceContract
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
         if (empty($site->public_ssh_key)) {
+
+            $private = $providerService->isPrivate($site);
+
+            if($site->private != $private) {
+                $site->update([
+                    'private' => $private
+                ]);
+            }
+
             $this->generateNewSshKeys($site);
+
             try {
                 $providerService->importSshKey($site);
             } catch(DeployKeyAlreadyUsed $e) {

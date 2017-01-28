@@ -40,6 +40,37 @@ class BitBucket implements RepositoryContract
     }
 
     /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $user = new User();
+
+        $user->getClient()->addListener(
+            new OAuthListener($this->oauthParams)
+        );
+
+        $repositories = collect(json_decode($user->repositories()->get()->getContent(), true));
+        $slug = $this->getRepositorySlug($site->repository);
+
+        $repositoryInfo = $repositories->first(function ($repository) use ($slug) {
+            return $repository['slug'] == $slug;
+        });
+
+        if(!empty($repositoryInfo) && isset($repositoryInfo['is_private'])) {
+            return $repositoryInfo['is_private'];
+        }
+
+        return true;
+    }
+
+    /**
      * Sets the token so we can connect to the users account.
      *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider

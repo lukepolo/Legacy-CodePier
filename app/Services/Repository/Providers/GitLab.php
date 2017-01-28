@@ -72,6 +72,38 @@ class GitLab implements RepositoryContract
     }
 
     /**
+     * Checks if the repository is private.
+     *
+     * @param Site $site
+     *
+     * @return bool
+     */
+    public function isPrivate(Site $site)
+    {
+        $this->setToken($site->userRepositoryProvider);
+
+        $repositoryInfo = $this->getRepositoryInfo($site->repository);
+
+        if (!empty($repositoryInfo) && isset($repositoryInfo['public'])) {
+            return ! $repositoryInfo['public'];
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the repository information.
+     *
+     * @param $repository
+     *
+     * @return mixed
+     */
+    public function getRepositoryInfo($repository)
+    {
+        return $this->client->api('projects')->show($repository);
+    }
+
+    /**
      * @param Site $site
      * @return Site
      */

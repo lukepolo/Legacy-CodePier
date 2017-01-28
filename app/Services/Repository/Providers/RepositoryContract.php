@@ -48,4 +48,19 @@ interface RepositoryContract
      * @return mixed
      */
     public function deleteDeployHook(Site $site);
+
+    /**
+     * Checks if the repository is private.
+     * @param Site $site
+     * @return bool
+     */
+    public function isPrivate(Site $site);
+
+
+    /**
+     * Gets the repository information.
+     * @param $repository
+     * @return mixed
+     */
+    public function getRepositoryInfo($repository);
 }
