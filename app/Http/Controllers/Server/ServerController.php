@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
-use App\Jobs\Server\CheckServerStatus;
+use App\Models\Server\ProvisioningKey;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
@@ -89,8 +89,12 @@ class ServerController extends Controller
         }
 
         if ($request->has('custom')) {
+            $key = ProvisioningKey::generate(\Auth::user(), $server);
+
             $server->update([
-                'custom_server_url' => $this->getCustomServerScriptUrl($server),
+                'custom_server_url' => $this->getCustomServerScriptUrl(
+                    ProvisioningKey::generate(\Auth::user(), $server)
+                ),
             ]);
         } else {
             $this->dispatch((new CreateServer(
@@ -268,47 +272,12 @@ class ServerController extends Controller
         $this->serverService->testSSHConnection(Server::findOrFail($serverId));
     }
 
-    public function generateCustomServerSh(Request $request, $serverId)
+    /**
+     * @param ProvisioningKey $key
+     * @return string
+     */
+    public function getCustomServerScriptUrl(ProvisioningKey $key)
     {
-        $server = Server::findOrFail($serverId);
-
-        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
-            $sshKey = $this->remoteTaskService->createSshKey();
-
-            $server->public_ssh_key = $sshKey['publickey'];
-            $server->private_ssh_key = $sshKey['privatekey'];
-            $server->save();
-        }
-
-        $server->update([
-            'ip' => $request->get('ip'),
-        ]);
-
-        dispatch(
-            (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
-        );
-
-        return "sudo echo '$server->private_ssh_key' > ~/.ssh/id_rsa\n
-    sudo echo '$server->public_ssh_key' > ~/.ssh/id_rsa.pub\n
-    sudo echo '$server->public_ssh_key' > ~/.ssh/authorized_keys\n
-";
-    }
-
-    public function getCustomServerScriptUrl(Server $server)
-    {
-        $url = action('Server\ServerController@generateCustomServerSh', [
-            'server' => $server->id,
-        ]);
-
-        $token = auth()->user()->createToken('custom_server_'.$server->id, ['create-custom-server'])->accessToken;
-
-        return 'current_ip=`ip route get 8.8.8.8 | awk \'{print $NF; exit}\'` \        
-bash <(curl \
--H "Accept: application/json" \
--H "Authorization: Bearer '.$token.'" \
--H "Content-Type: application/x-www-form-urlencoded" \
--X POST \
--d "ip=$current_ip" \
-'.$url.')';
+        return 'curl '.config('app.url_provision').' | bash -s '.$key->key;
     }
 }

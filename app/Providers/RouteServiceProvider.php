@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapProvisioningRoutes();
         $this->mapApiRoutes();
         $this->mapWebRoutes();
     }
@@ -69,6 +70,21 @@ class RouteServiceProvider extends ServiceProvider
             'prefix'     => 'api',
         ], function ($router) {
             require base_path('routes/api.php');
+        });
+    }
+
+    /**
+     * Define the routes used for custom server provisioning.
+     *
+     * @return void
+     */
+    protected function mapProvisioningRoutes()
+    {
+        Route::group([
+            'domain' => config('app.url_provision'),
+            'namespace'  => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/provision.php');
         });
     }
 }
