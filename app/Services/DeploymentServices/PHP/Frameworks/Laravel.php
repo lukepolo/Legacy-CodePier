@@ -28,9 +28,16 @@ trait Laravel
         $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
         $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
 
-        $output[] = $this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link');
-
         return $output;
+    }
+
+    /**
+     * @description Creates a symbolic link for the storage folder to the public directory
+     * @order 205
+     */
+    public function laravelMapStorageFolderToPublic()
+    {
+        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link')];
     }
 
     /**
