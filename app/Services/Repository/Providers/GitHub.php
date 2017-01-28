@@ -19,62 +19,22 @@ class GitHub implements RepositoryContract
      * @return string|void
      * @throws \Exception
      */
-    public function importSshKeyIfPrivate(Site $site)
+    public function importSshKey(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $repository = $site->repository;
-
         try {
-            GitHubService::api('repo')->keys()->create(
-                $this->getRepositoryUser($repository),
-                $this->getRepositorySlug($repository), [
-                    'title' => 'CodePier',
-                    'key'   => $site->public_ssh_key,
-                ]
-            );
+            GitHubService::me()->keys()->create([
+                'title' => $this->sshKeyLabel($site),
+                'key'   => $site->public_ssh_key,
+            ]);
         } catch (ValidationFailedException $e) {
             if ($e->getMessage() == 'Validation Failed: key is already in use') {
-                throw new DeployKeyAlreadyUsed('Deployment key is already being used');
+                $this->throwKeyAlreadyUsed();
             }
 
             throw $e;
         }
-    }
-
-    /**
-     * Checks if the repository is private.
-     *
-     * @param Site $site
-     *
-     * @return bool
-     */
-    public function isPrivate(Site $site)
-    {
-        $this->setToken($site->userRepositoryProvider);
-
-        $repositoryInfo = $this->getRepositoryInfo($site->repository);
-
-        if (isset($repositoryInfo['private'])) {
-            return $repositoryInfo['private'];
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets the repository information.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositoryInfo($repository)
-    {
-        return GitHubService::api('repo')->show(
-            $this->getRepositoryUser($repository),
-            $this->getRepositorySlug($repository)
-        );
     }
 
     /**
@@ -92,29 +52,11 @@ class GitHub implements RepositoryContract
     }
 
     /**
-     * Gets the users repositories username // TODO - move to a trait.
-     *
+     * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
-     *
-     * @return mixed
+     * @param $branch
+     * @return array
      */
-    public function getRepositoryUser($repository)
-    {
-        return explode('/', $repository)[0];
-    }
-
-    /**
-     * Gets the users repositories name // TODO - move to a trait.
-     *
-     * @param $repository
-     *
-     * @return mixed
-     */
-    public function getRepositorySlug($repository)
-    {
-        return explode('/', $repository)[1];
-    }
-
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         $this->setToken($userRepositoryProvider);
@@ -134,6 +76,10 @@ class GitHub implements RepositoryContract
         }
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
@@ -156,6 +102,10 @@ class GitHub implements RepositoryContract
         return $site;
     }
 
+    /**
+     * @param Site $site
+     * @return Site
+     */
     public function deleteDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
