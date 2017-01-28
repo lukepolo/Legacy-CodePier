@@ -2,14 +2,14 @@
 
 namespace App\Services\Repository\Providers;
 
-use Bitbucket\API\Repositories\Repository;
 use Bitbucket\API\User;
 use App\Models\Site\Site;
+use Bitbucket\API\Users\SshKeys;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Commits;
+use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
-use Bitbucket\API\Users\SshKeys;
 
 class BitBucket implements RepositoryContract
 {
@@ -64,7 +64,7 @@ class BitBucket implements RepositoryContract
             $this->getRepositorySlug($site->repository)
         )->getContent());
 
-        if(empty($repository)) {
+        if (empty($repository)) {
             return true;
         }
 
