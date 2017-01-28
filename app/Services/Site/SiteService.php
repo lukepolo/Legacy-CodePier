@@ -131,9 +131,8 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, $sha = null)
     {
-        $deploymentService = $this->getDeploymentService($server, $site);
-
         $this->repositoryService->importSshKey($site);
+        $deploymentService = $this->getDeploymentService($server, $site);
 
         if (empty($sha)) {
             $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
