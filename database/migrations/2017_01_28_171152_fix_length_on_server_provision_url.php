@@ -13,7 +13,7 @@ class FixLengthOnServerProvisionUrl extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table){
+        Schema::table('servers', function (Blueprint $table) {
             $table->string('custom_server_url')->change();
         });
     }
@@ -25,9 +25,8 @@ class FixLengthOnServerProvisionUrl extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table){
+        Schema::table('servers', function (Blueprint $table) {
             $table->longText('custom_server_url')->change();
         });
-
     }
 }
