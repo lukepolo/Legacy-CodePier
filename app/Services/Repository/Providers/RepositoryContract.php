@@ -9,47 +9,43 @@ interface RepositoryContract
 {
     /**
      * Imports a deploy key so we can clone the repositories.
-     *
      * @param Site $site
      * @return
      */
-    public function importSshKeyIfPrivate(Site $site);
+    public function importSshKey(Site $site);
 
     /**
      * Sets the token so we can connect to the users account.
-     *
      * @param \App\Models\User\UserRepositoryProvider $userRepositoryProvider
-     *
      * @throws \Exception
-     *
-     * @return mixed
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider);
 
     /**
      * Gets the users repositories username.
-     *
      * @param $repository
-     *
      * @return mixed
      */
     public function getRepositoryUser($repository);
 
     /**
      * Gets the users repositories slug.
-     *
      * @param $repository
-     *
      * @return mixed
      */
     public function getRepositorySlug($repository);
 
     /**
-     * Checks if the repository is private.
-     *
+     * Creates a webhook based on the site
      * @param Site $site
-     *
-     * @return bool
+     * @return mixed
      */
-    public function isPrivate(Site $site);
+    public function createDeployHook(Site $site);
+
+    /**
+     * Deletes a web hook based on the site
+     * @param Site $site
+     * @return mixed
+     */
+    public function deleteDeployHook(Site $site);
 }
