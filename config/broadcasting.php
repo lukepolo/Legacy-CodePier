@@ -39,12 +39,14 @@ return [
         ],
 
         'redis' => [
-            'driver'     => 'redis',
+            'driver' => 'redis',
             'connection' => 'default',
         ],
-
         'log' => [
             'driver' => 'log',
+        ],
+        'null' => [
+            'driver' => 'null',
         ],
 
     ],
