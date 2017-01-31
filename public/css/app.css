@@ -6206,14 +6206,14 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding-right: 1.4em;
 }
 
-.server > a {
+.server {
   display: block;
   border-bottom: 1px solid #2B2B2B;
   padding: 20px;
   position: relative;
 }
 
-.server > a.router-link-active {
+.server.router-link-active {
   background-color: #343536;
 }
 
@@ -6221,7 +6221,16 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: 5px;
-  padding-right: 1.4em;
+}
+
+.server-name a {
+  color: #FFFFFF;
+}
+
+.server-name .event-status {
+  float: right;
+  margin-right: 0px;
+  margin-left: 20px;
 }
 
 .server-connection {
