@@ -91,7 +91,6 @@ return [
     |
     */
 
-
     'redis' => [
         'client' => 'predis',
         'default' => [
