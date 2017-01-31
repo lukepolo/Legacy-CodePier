@@ -100,7 +100,7 @@ class ServerController extends Controller
             $this->dispatch((new CreateServer(
                 ServerProvider::findorFail($request->get('server_provider_id')),
                 $server
-            ))->onQueue(env('SERVER_PROVISIONING_QUEUE')));
+            ))->onQueue(config('queue.channels.server_provisioning')));
         }
 
         return response()->json($server->load(['serverProvider', 'pile']));

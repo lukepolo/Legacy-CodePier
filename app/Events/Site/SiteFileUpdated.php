@@ -23,7 +23,7 @@ class SiteFileUpdated
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new UpdateServerFile($server, $file, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new UpdateServerFile($server, $file, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

@@ -47,12 +47,12 @@ class CheckServerStatus implements ShouldQueue
             if ($serverProviderClass->readyForProvisioningStatus() == $serverStatus) {
                 $serverService->saveInfo($this->server);
                 dispatch(
-                    (new CheckSshConnection($this->server))->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                    (new CheckSshConnection($this->server))->onQueue(config('queue.channels.server_provisioning'))
                 );
             } else {
                 if ($this->server->created_at->addMinutes(5) > Carbon::now()) {
                     dispatch(
-                        (new self($this->server, $this->provision))->delay(10)->onQueue(env('SERVER_PROVISIONING_QUEUE'))
+                        (new self($this->server, $this->provision))->delay(10)->onQueue(config('queue.channels.server_provisioning'))
                     );
 
                     return;

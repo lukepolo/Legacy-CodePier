@@ -49,39 +49,39 @@ class CreateSite implements ShouldQueue
 
         $this->site->cronJobs->each(function ($cronJob) {
             dispatch(
-                (new InstallServerCronJob($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerCronJob($this->server, $cronJob, $this->makeCommand($this->site, $cronJob)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
         $this->site->files->each(function ($file) {
             if (! empty($file->content)) {
                 dispatch(
-                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file)))->onQueue(config('queue.channels.server_commands'))
                 );
             }
         });
 
         $this->site->firewallRules->each(function ($firewallRule) {
             dispatch(
-                (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site, $firewallRule)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site, $firewallRule)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
         $this->site->sshKeys->each(function ($sshKey) {
             dispatch(
-                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
         $this->site->sslCertificates->each(function ($sslCertificate) {
             dispatch(
-                (new InstallServerSslCertificate($this->server, $this->site, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerSslCertificate($this->server, $this->site, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
         $this->site->workers->each(function ($worker) {
             dispatch(
-                (new InstallServerWorker($this->server, $worker, $this->makeCommand($this->site, $worker)))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerWorker($this->server, $worker, $this->makeCommand($this->site, $worker)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 

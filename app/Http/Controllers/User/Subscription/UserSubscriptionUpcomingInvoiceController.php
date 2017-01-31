@@ -11,7 +11,7 @@ class UserSubscriptionUpcomingInvoiceController extends Controller
      */
     public function __construct()
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**
