@@ -23,11 +23,11 @@
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
-                'env' => env('APP_ENV'),
+                'env' => config('app.env'),
                 'csrfToken' => csrf_token(),
-                'pusherKey' => env('PUSHER_KEY'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'app_registration' => env('APP_REGISTRATION'),
+                'app_registration' => config('app.registration'),
                 'version' => app()->make('gitCommit'),
             ]); ?>
         </script>
@@ -51,6 +51,7 @@
         </script>
 
         @stack('scripts')
+
         @if(\Auth::check())
             <script src="{{ elixir('js/app.js') }}"></script>
             @include('layouts.core.notifications')
