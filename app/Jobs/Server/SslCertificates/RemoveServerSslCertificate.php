@@ -25,7 +25,7 @@ class RemoveServerSslCertificate implements ShouldQueue
 
     public $tries = 1;
     public $timeout = 60;
-    
+
     /**
      * InstallServerWorker constructor.
      * @param Server $server
