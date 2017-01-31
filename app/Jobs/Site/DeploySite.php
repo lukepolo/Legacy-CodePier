@@ -25,6 +25,9 @@ class DeploySite implements ShouldQueue
     public $servers = [];
     public $siteDeployment;
 
+    public $tries = 1;
+    public $timeout = 300;
+
     /**
      * Create a new job instance.
      *

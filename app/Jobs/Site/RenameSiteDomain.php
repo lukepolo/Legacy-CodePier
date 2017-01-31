@@ -17,6 +17,9 @@ class RenameSiteDomain implements ShouldQueue
     private $newDomain;
     private $oldDomain;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      *

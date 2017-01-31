@@ -18,6 +18,9 @@ class CheckServerStatus implements ShouldQueue
     protected $server;
     protected $provision;
 
+    public $tries = 1;
+    public $timeout = 10;
+
     /**
      * Create a new job instance.
      *
