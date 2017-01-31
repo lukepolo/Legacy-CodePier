@@ -15,6 +15,9 @@ class GetServerOptions implements ShouldQueue
 
     protected $server;
 
+    public $tries = 3;
+    public $timeout = 60;
+
     /**
      * Execute the job.
      *

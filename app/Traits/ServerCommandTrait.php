@@ -82,7 +82,7 @@ trait ServerCommandTrait
                     $message = $e->getMessage();
                     break;
                 default:
-                    if (env('APP_DEBUG')) {
+                    if (config('app.debug')) {
                         throw $e;
                     }
                     $message = 'We had a system error please contact support.';

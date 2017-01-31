@@ -13,40 +13,38 @@
         { "packagist": false }
     ],
     "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "php": ">=7.0.0",
+        "laravel/framework": "5.4.*",
         "predis/predis": "^1.1",
         "filp/whoops": "^2.1",
-        "barryvdh/laravel-ide-helper": "^2.1",
+        "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "dev-mysql57-json",
-        "laravel/socialite": "^2.0",
-        "socialiteproviders/digitalocean": "^2.0",
-        "graham-campbell/digitalocean": "^3.1",
-        "graham-campbell/github": "^4.4",
+        "laravel/socialite": "^3.0",
+        "socialiteproviders/digitalocean": "^3.0",
+        "graham-campbell/digitalocean": "^3.2",
         "phpseclib/phpseclib": "^2.0",
         "authy/php": "2.*",
         "pda/pheanstalk": "^3.1",
-        "mpociot/teamwork": "~4.0",
+        "mpociot/teamwork": "~5.0",
         "laravel/cashier": "~7.0",
-        "dompdf/dompdf" : "~0.6",
-        "gentle/bitbucket-api": "^0.8.1",
-        "vinkla/hashids": "^2.4",
-        "socialiteproviders/slack": "^2.0",
-        "tomschlick/laravel-http2-server-push": "^0.1.2",
-        "pusher/pusher-php-server": "^2.4",
+        "dompdf/dompdf" : "~0.7",
+        "gentle/bitbucket-api": "^0.8.2",
+        "vinkla/hashids": "^3.1",
+        "socialiteproviders/slack": "^3.0",
+        "pusher/pusher-php-server": "^2.6",
         "guzzlehttp/guzzle": "~6.0",
-        "m4tthumphrey/php-gitlab-api": "^7.13",
-        "socialiteproviders/gitlab": "^2.0",
-        "lord/laroute" : "^2.3.0",
-        "laravel/passport": "1.0.*",
-        "sentry/sentry-laravel": "^0.5.0"
+        "m4tthumphrey/php-gitlab-api": "^7.15",
+        "lord/laroute" : "^2.4.1",
+        "laravel/passport": "2.0.*",
+        "sentry/sentry-laravel": "^0.6.0",
+        "graham-campbell/github": "^5.1",
+        "php-http/guzzle6-adapter": "^1.1",
+        "socialiteproviders/gitlab": "^3.0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "phpunit/phpunit": "~5.0"
     },
     "autoload": {
         "classmap": [
@@ -60,9 +58,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [

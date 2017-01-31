@@ -36,7 +36,7 @@ class WebHookController extends Controller
 
         if (count($request->all()) == 0 || $site->branch == $branch) {
             dispatch(
-                (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
             );
         }
 

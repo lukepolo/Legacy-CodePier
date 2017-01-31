@@ -20,6 +20,9 @@ class InstallServerSshKey implements ShouldQueue
     private $server;
     private $sshKey;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * InstallServerSshKey constructor.
      * @param Server $server

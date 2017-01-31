@@ -20,6 +20,9 @@ class InstallServerCronJob implements ShouldQueue
     private $server;
     private $cronJob;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      * @param Server $server
