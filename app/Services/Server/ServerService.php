@@ -489,7 +489,7 @@ class ServerService implements ServerServiceContract
      * @param Bitt $bitt
      * @return string
      */
-    public function runBit(Server $server, Bitt $bitt)
+    public function runBitt(Server $server, Bitt $bitt)
     {
         return $this->remoteTaskService->run($server, preg_replace('/[\n\r]/', ' &&', $bitt->script));
     }
