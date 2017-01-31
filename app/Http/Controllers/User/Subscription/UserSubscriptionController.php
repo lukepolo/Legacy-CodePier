@@ -13,7 +13,7 @@ class UserSubscriptionController extends Controller
      */
     public function __construct()
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**
@@ -67,7 +67,7 @@ class UserSubscriptionController extends Controller
      */
     public function destroy($id)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
         \Auth::user()->subscription('default')->cancel();
     }

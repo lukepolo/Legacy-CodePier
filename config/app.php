@@ -26,6 +26,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'registration' => env('APP_REGISTRATION', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

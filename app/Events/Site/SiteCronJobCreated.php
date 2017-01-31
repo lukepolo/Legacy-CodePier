@@ -24,7 +24,7 @@ class SiteCronJobCreated
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

@@ -51,7 +51,7 @@ class ServerFeatureController extends Controller
                 $request->get('feature'),
                 $request->get('service'),
                 $request->get('parameters', [])
-            ))->onQueue(env('SERVER_FEATURE_QUEUE'))
+            ))->onQueue(config('queue.channels.server_features'))
         );
     }
 

@@ -23,7 +23,7 @@ class MonitoringService
 
         $this->remoteTaskService->writeToFile('/opt/codepier/diskusage_monitor', '
 '.self::DISK_USAGE_SCRIPT.' | while read -r disk_usage;  do
-    curl '.env('APP_URL').'/webhook/diskspace/'.$this->server->encode().'?disk_usage=$disk_usage
+    curl '.config('app.url').'/webhook/diskspace/'.$this->server->encode().'?disk_usage=$disk_usage
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/diskusage_monitor');
@@ -45,7 +45,7 @@ done');
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
     '.self::LOAD_AVG_SCRIPT.'
-    curl "'.env('APP_URL').'/webhook/load/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
+    curl "'.config('app.url').'/webhook/load/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/load_monitor');
@@ -66,7 +66,7 @@ done');
 
         $this->remoteTaskService->writeToFile('/opt/codepier/memory_monitor', '
 '.self::MEMORY_SCRIPT.' | while read -r current_memory; do
-    curl "'.env('APP_URL').'/webhook/memory/'.$this->server->encode().'?memory=$current_memory"
+    curl "'.config('app.url').'/webhook/memory/'.$this->server->encode().'?memory=$current_memory"
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/memory_monitor');

@@ -66,8 +66,6 @@ class WebService
 
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
-        $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem', env('DH_PARAM'));
-
         $this->remoteTaskService->appendTextToFile('/etc/nginx/fastcgi_params', 'fastcgi_param HTTP_PROXY "";');
 
         $this->remoteTaskService->run('service nginx stop');

@@ -76,7 +76,7 @@ class SystemService implements SystemServiceContract
 
             return false;
         } catch (\Exception $e) {
-            if (env('APP_DEBUG')) {
+            if (config('app.env')) {
                 throw $e;
             }
 
