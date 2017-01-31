@@ -24,7 +24,7 @@ class SiteSslCertificateDeleted
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new RemoveServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RemoveServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

@@ -72,12 +72,12 @@
                     </li>
                     <li>
                         <a href="#" @click="changeTeam()"
-                           :class="{selected : currentTeam == null}">Private</a>
+                           :class="{selected : currentTeam == null}"><span class="icon-person"></span> Private</a>
                     </li>
                     <template v-for="team in teams">
                         <li>
                             <a href="#" @click="changeTeam(team.id)"
-                               :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
+                               :class="{selected : (currentTeam && currentTeam.id == team.id)}"><span class="icon-people"></span> {{ team.name }}</a>
                         </li>
                     </template>
                 </ul>

@@ -53,6 +53,12 @@
 }
 
 
+.icon-refresh:before {
+  content: "\e90b";
+}
+.icon-archive:before {
+  content: "\e90c";
+}
 .icon-buoy:before {
   content: "\e90a";
 }
@@ -83,20 +89,8 @@
 .icon-warning:before {
   content: "\e900";
 }
-.icon-github:before {
-  content: "\eab0";
-}
-.icon-digital-ocean:before {
-  content: "\e906";
-}
-.icon-webhooks:before {
-  content: "\e907";
-}
-.icon-play:before {
-  content: "\e901";
-}
-.icon-clipboard:before {
-  content: "\e908";
+.icon-web:before {
+  content: "\e90d";
 }
 .icon-check_box:before {
   content: "\e834";
@@ -142,4 +136,31 @@
 }
 .icon-settings:before {
   content: "\e8b8";
+}
+.icon-database:before {
+  content: "\e90e";
+}
+.icon-spinner82:before {
+  content: "\e983";
+}
+.icon-github:before {
+  content: "\eab0";
+}
+.icon-digital-ocean:before {
+  content: "\e906";
+}
+.icon-webhooks:before {
+  content: "\e907";
+}
+.icon-play:before {
+  content: "\e901";
+}
+.icon-clipboard:before {
+  content: "\e908";
+}
+.icon-spinner8:before {
+  content: "\e982";
+}
+.icon-worker:before {
+  content: "\e90f";
 }

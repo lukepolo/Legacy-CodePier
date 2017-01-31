@@ -23,6 +23,9 @@ class InstallServerSslCertificate implements ShouldQueue
     private $server;
     private $sslCertificate;
 
+    public $tries = 1;
+    public $timeout = 120;
+
     /**
      * InstallServerWorker constructor.
      * @param Server $server

@@ -19,6 +19,9 @@ class CreateServer implements ShouldQueue
     protected $options;
     protected $serverProvider;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      *
@@ -46,7 +49,7 @@ class CreateServer implements ShouldQueue
         $serverService->create($this->serverProvider, $this->server);
 
         dispatch(
-            (new CheckServerStatus($this->server, true))->delay(30)->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

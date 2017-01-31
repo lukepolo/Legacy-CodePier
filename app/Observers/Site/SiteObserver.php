@@ -67,7 +67,7 @@ class SiteObserver
     {
         if ($site->isDirty('domain')) {
             dispatch(
-                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(config('queue.channels.server_commands'))
             );
         }
 
@@ -100,7 +100,7 @@ class SiteObserver
         if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new UpdateWebConfig($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }
@@ -141,7 +141,7 @@ class SiteObserver
     {
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new DeleteSite($server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new DeleteSite($server, $site))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

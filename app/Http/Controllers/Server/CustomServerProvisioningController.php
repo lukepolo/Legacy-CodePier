@@ -89,7 +89,7 @@ class CustomServerProvisioningController extends Controller
         $provisioningKey->delete();
 
         dispatch(
-            (new CheckServerStatus($server, true))->delay(5)->onQueue(env('SERVER_COMMAND_QUEUE'))
+            (new CheckServerStatus($server, true))->delay(5)->onQueue(config('queue.channels.server_commands'))
         );
     }
 }
