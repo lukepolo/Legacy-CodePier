@@ -34,12 +34,12 @@
         "pusher/pusher-php-server": "^2.6",
         "guzzlehttp/guzzle": "~6.0",
         "m4tthumphrey/php-gitlab-api": "^7.15",
-        "socialiteproviders/gitlab": "^3.0",
         "lord/laroute" : "^2.4.1",
         "laravel/passport": "2.0.*",
         "sentry/sentry-laravel": "^0.6.0",
         "graham-campbell/github": "^5.1",
-        "php-http/guzzle6-adapter": "^1.1"
+        "php-http/guzzle6-adapter": "^1.1",
+        "socialiteproviders/gitlab": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
