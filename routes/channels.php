@@ -20,9 +20,9 @@ Broadcast::channel('App.Models.User.Team.{teamId}', function ($user, $teamId) {
 });
 
 Broadcast::channel('App.Models.Server.Server.{serverId}', function ($user, $serverId) {
-    return $user->id === Server::findOrFail($serverId)->user_id;
+    return $user->id === \App\Models\Server\Server::findOrFail($serverId)->user_id;
 });
 
 Broadcast::channel('App.Models.Site.Site.{siteId}', function ($user, $siteId) {
-    return $user->id === Site::findOrFail($siteId)->user_id;
+    return $user->id === \App\Models\Site\Site::findOrFail($siteId)->user_id;
 });
