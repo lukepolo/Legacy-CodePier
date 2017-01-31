@@ -21,6 +21,9 @@ class ProvisionServer implements ShouldQueue
 
     protected $server;
 
+    public $tries = 1;
+    public $timeout = 900;
+
     /**
      * Create a new job instance.
      *
