@@ -2,7 +2,8 @@
 // =========================================================
 .dropdown-menu {
     background-color: $black;
-    border-radius: 0px; 
+    border-radius: 0px;
+    font-weight: normal;
     margin: 0px;
     padding: 0px;
 
@@ -10,10 +11,15 @@
         top: auto;
         bottom: 100%;
     }
+
+    &.nowrap {
+        white-space: nowrap;
+    }
     
     li {
-        > a, 
+        a,
         > span {
+            color: rgba($color-text-primary, .7);
             font-size: 14px;
             padding: ($spacing/2) ($spacing) !important;
             
@@ -24,15 +30,26 @@
                 top: 2px;
                 right: 5px;
             }
-        }    
+        }  
+        
+        a {
+            display: block;
+        }
                 
-        > a:hover, 
-        > a:focus,
-        > a:active, 
+        a:hover,
+        a:focus,
+        a:active,
         .selected {
             background-color: $gray;
-            color: $blue; 
-        }    
+            color: $blue;
+            cursor: pointer;
+        }
+
+        [class^="icon-"], [class*=" icon-"] {
+            display: inline-block;
+            min-width: 20px;
+            text-align: center;
+        }
     }
     
     .dropdown-heading {
@@ -42,5 +59,9 @@
         border-bottom: 1px solid rgba($color-text-primary, .1);   
         color: $color-text-primary;
         text-align: center;
+    }
+
+    .divider {
+        background-color: $color-background;
     }
 }

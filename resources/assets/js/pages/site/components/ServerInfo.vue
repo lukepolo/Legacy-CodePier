@@ -75,20 +75,20 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <confirm dispatch="restartServer" :params="server.id"><a href="#">Restart Server</a></confirm>
+                        <confirm-dropdown dispatch="restartServerWebServices" :params="server.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerWebServices" :params="server.id"><a href="#">Restart Web Services</a></confirm>
+                        <confirm-dropdown dispatch="restartServer" :params="server.id"><a href="#"><span class="icon-server"></span> Restart Server</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerDatabases" :params="server.id"><a href="#">Restart Databases</a></confirm>
+                        <confirm-dropdown dispatch="restartServerDatabases" :params="server.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerWorkers" :params="server.id"><a href="#">Restart Workers</a></confirm>
+                        <confirm-dropdown dispatch="restartServerWorkers" :params="server.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
                     </li>
                     <li role="separator" class="divider"></li>
                     <li>
-                        <confirm dispatch="archiveServer" :params="server.id"><a href="#">Archive Server</a></confirm>
+                        <confirm-dropdown dispatch="archiveServer" :params="server.id"><a href="#"><span class="icon-archive"></span> Archive Server</a></confirm-dropdown>
                     </li>
                 </ul>
             </div>
