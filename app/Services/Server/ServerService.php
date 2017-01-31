@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Models\Bitt;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
@@ -481,5 +482,15 @@ class ServerService implements ServerServiceContract
     public function getService($service, Server $server)
     {
         return $this->systemService->createSystemService($service, $server);
+    }
+
+    /**
+     * @param Server $server
+     * @param Bitt $bitt
+     * @return string
+     */
+    public function runBit(Server $server, Bitt $bitt)
+    {
+        return $this->remoteTaskService->run($server, preg_replace('/[\n\r]/', ' &&', $bitt->script));
     }
 }
