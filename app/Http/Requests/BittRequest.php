@@ -24,7 +24,10 @@ class BittRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'script' =>  'required|string',
+            'system' =>  'required|string',
+            'version' =>  'required|string',
         ];
     }
 }

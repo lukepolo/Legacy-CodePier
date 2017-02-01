@@ -33,7 +33,7 @@ class SentryBuoy implements BuoyContract
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install make');
 
-        $this->remoteTaskService->run('cd onpremise && make build');
+        $this->remoteTaskService->run('cd onpremise && mkdir -p /data/{sentry,postgres} && make build');
 
         $secretKey = str_random(32);
         $this->remoteTaskService->removeLineByText('~/.bashrc', 'SENTRY_SECRET_KEY');
@@ -55,6 +55,7 @@ class SentryBuoy implements BuoyContract
                 --name sentry-postgres \
                 --env POSTGRES_PASSWORD=secret \
                 --env POSTGRES_USER=sentry \
+                -v /data/postgres:/var/lib/postgresql/data \
                 postgres:9.5
             ');
         }
@@ -115,7 +116,11 @@ class SentryBuoy implements BuoyContract
             --env SENTRY_ADMIN_PASSWORD=$SENTRY_ADMIN_PASSWORD\
             --env SENTRY_ADMIN_EMAIL=$SENTRY_ADMIN_EMAIL\
             --env SENTRY_ALLOW_REGISTRATION=$SENTRY_ALLOW_REGISTRATION\
+            --env SENTRY_USE_SSL=$SENTRY_USE_SSL\
+            --env GITHUB_APP_ID=$GITHUB_APP_ID\
+            --env GITHUB_API_SECRET=$GITHUB_API_SECRET\
             --name sentry-web-01 \
+            -v /data/sentry:/var/lib/sentry/files \
             -p 9000:9000 \
             sentry-onpremise \
             run web
