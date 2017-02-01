@@ -31,8 +31,6 @@ class BittsController extends Controller
             'script' => $request->get('script'),
             'system' => $request->get('system'),
             'version' => $request->get('version'),
-            'official' => $request->get('official', false),
-            'approved' => $request->get('approved', false),
         ]);
 
         return response()->json();
@@ -58,17 +56,16 @@ class BittsController extends Controller
      */
     public function update(BittRequest $request, $id)
     {
-        Bitt::findOrFail($id)->fill([
-            'user_id' => \Auth::user()->id,
+        $bitt = Bitt::findOrFail($id);
+
+        $bitt->update([
             'name' => $request->get('name'),
             'script' => $request->get('script'),
             'system' => $request->get('system'),
             'version' => $request->get('version'),
-            'official' => $request->get('official', false),
-            'approved' => $request->get('approved', false),
-        ])->save();
+        ]);
 
-        return response()->json();
+        return response()->json($bitt);
     }
 
     /**
@@ -79,8 +76,6 @@ class BittsController extends Controller
      */
     public function destroy($id)
     {
-        Bitt::findOrFail($id)->delete();
-
-        return response()->json();
+        return response()->json(Bitt::findOrFail($id)->delete());
     }
 }

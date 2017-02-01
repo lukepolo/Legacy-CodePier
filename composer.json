@@ -39,7 +39,7 @@
         "sentry/sentry-laravel": "^0.6.0",
         "graham-campbell/github": "^5.1",
         "php-http/guzzle6-adapter": "^1.1",
-        "socialiteproviders/gitlab": "^3.0"
+        "socialiteproviders/gitlab": "^3.0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -81,6 +81,7 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }
