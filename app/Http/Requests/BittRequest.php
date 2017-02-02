@@ -28,7 +28,7 @@ class BittRequest extends FormRequest
             'script' =>  'required|string',
             'systems' =>  'required|array',
             'description' => 'required|string',
-            'category' => 'required|integer'
+            'category' => 'required|integer',
         ];
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bitt;
-use App\Http\Requests\BittRequest;
-use App\Models\Category;
 use App\Models\System;
+use App\Models\Category;
+use App\Http\Requests\BittRequest;
 
 class BittsController extends Controller
 {
@@ -36,7 +36,7 @@ class BittsController extends Controller
 
         $bitt->categories()->save(Category::findOrFail($request->get('category')));
 
-        foreach($request->get('systems') as $systemId) {
+        foreach ($request->get('systems') as $systemId) {
             $bitt->systems()->save(System::findOrFail($systemId));
         }
 
