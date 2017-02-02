@@ -81,6 +81,7 @@ class ServerController extends Controller
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
             'pile_id' => $pileId,
+            // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
         ]);
 

@@ -51,8 +51,13 @@
             </li>
 
             <li>
+                <router-link :to="{ name: 'bitts' }"><span class="icon-bitts"></span> Bitts</router-link>
+            </li>
+
+            <li>
                 <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
             </li>
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="true">
