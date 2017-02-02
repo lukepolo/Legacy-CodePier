@@ -13,7 +13,7 @@ class ChangeBittsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bitts', function(Blueprint $table) {
+        Schema::table('bitts', function (Blueprint $table) {
             $table->renameColumn('name', 'title');
             $table->renameColumn('approved', 'verified');
             $table->dropColumn('system');
@@ -21,7 +21,7 @@ class ChangeBittsTable extends Migration
             $table->longText('description');
         });
 
-        Schema::create('bitt_system', function(Blueprint $table) {
+        Schema::create('bitt_system', function (Blueprint $table) {
             $table->integer('bitt_id');
             $table->integer('system_id');
         });
@@ -34,7 +34,7 @@ class ChangeBittsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bitts', function(Blueprint $table) {
+        Schema::table('bitts', function (Blueprint $table) {
             $table->renameColumn('verified', 'approved');
             $table->renameColumn('title', 'name');
             $table->dropColumn('description');
