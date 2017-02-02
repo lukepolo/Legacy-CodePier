@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Http\Requests\BittRequest;
+use App\Models\Category;
+use App\Models\System;
 
 class BittsController extends Controller
 {
@@ -25,15 +27,22 @@ class BittsController extends Controller
      */
     public function store(BittRequest $request)
     {
-        Bitt::create([
+        $bitt = Bitt::create([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'system' => $request->get('system'),
-            'version' => $request->get('version'),
+            'description' => $request->get('description'),
         ]);
 
-        return response()->json();
+        $bitt->categories()->save(Category::findOrFail($request->get('category')));
+
+        foreach($request->get('systems') as $systemId) {
+            $bitt->systems()->save(System::findOrFail($systemId));
+        }
+
+        $bitt->fresh('systems');
+
+        return response()->json($bitt);
     }
 
     /**
