@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Http\Requests\BittRequest;
-use App\Models\Category;
-use App\Models\System;
 use Illuminate\Http\Request;
 
 class BittsController extends Controller

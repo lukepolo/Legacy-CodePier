@@ -15,5 +15,4 @@ class SystemsController extends Controller
     {
         return response()->json(System::all());
     }
-
 }
