@@ -34,13 +34,10 @@ class BittsController extends Controller
             'description' => $request->get('description'),
         ]);
 
-        $bitt->categories()->save(Category::findOrFail($request->get('category')));
+        $bitt->systems()->sync($request->get('systems'));
+        $bitt->categories()->sync((array)$request->get('category'));
 
-        foreach($request->get('systems') as $systemId) {
-            $bitt->systems()->save(System::findOrFail($systemId));
-        }
-
-        $bitt->fresh('systems');
+        $bitt->fresh(['systems', 'categories']);
 
         return response()->json($bitt);
     }
@@ -68,11 +65,15 @@ class BittsController extends Controller
         $bitt = Bitt::findOrFail($id);
 
         $bitt->update([
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'system' => $request->get('system'),
-            'version' => $request->get('version'),
+            'description' => $request->get('description'),
         ]);
+
+        $bitt->systems()->sync($request->get('systems'));
+        $bitt->categories()->sync((array)$request->get('category'));
+
+        $bitt->fresh(['systems', 'categories']);
 
         return response()->json($bitt);
     }

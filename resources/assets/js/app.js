@@ -197,7 +197,7 @@ const router = new VueRouter({
             children: [
                 {
                     path: '/',
-                    name: 'bitts',
+                    name: 'bitts_market_place',
                     components: {
                         default: bittPages.Bitts
                     }
@@ -210,7 +210,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: '{bitt_id}/edit',
+                    path: ':bitt_id/edit',
                     name: 'bitt_edit',
                     components: {
                         default: bittPages.BittsForm

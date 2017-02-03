@@ -51,7 +51,7 @@
             </li>
 
             <li>
-                <router-link :to="{ name: 'bitts' }"><span class="icon-bitts"></span> Bitts</router-link>
+                <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
             </li>
 
             <li>
