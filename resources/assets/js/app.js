@@ -349,6 +349,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'setup/databases',
+                    name: 'site_databases',
+                    components: {
+                        default: sitePages.SiteDatabases,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.SiteSetupNav
+                    }
+                },
+                {
                     path: 'security/firewall-rules',
                     name: 'site_firewall_rules',
                     components: {
