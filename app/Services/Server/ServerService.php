@@ -28,6 +28,7 @@ class ServerService implements ServerServiceContract
 
     const SSL_FILES = '/opt/codepier/ssl';
     const LETS_ENCRYPT = 'Let\'s Encrypt';
+    const BITT_FILES = '/opt/codepier/bitts';
 
     /**
      * SiteService constructor.
@@ -491,6 +492,17 @@ class ServerService implements ServerServiceContract
      */
     public function runBitt(Server $server, Bitt $bitt)
     {
-        return $this->remoteTaskService->run($server, preg_replace('/[\n\r]/', ' &&', $bitt->script));
+        $bittFile = $bitt->id.'.sh';
+
+        $this->remoteTaskService->ssh($server, $bitt->user);
+
+        $this->remoteTaskService->makeDirectory(self::BITT_FILES);
+
+        $this->remoteTaskService->writeToFile($bittFile, $bitt->script);
+        $this->remoteTaskService->run('chmod 775 '.self::BITT_FILES.'/'.$bittFile);
+
+        $this->remoteTaskService->run(self::BITT_FILES.'/./'.$bittFile);
+
+        return $this->remoteTaskService->getErrors();
     }
 }
