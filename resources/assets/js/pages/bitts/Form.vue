@@ -43,14 +43,23 @@
                     <textarea name="script" v-model="form.script"></textarea>
                 </div>
 
-                <!--<div class="jcf-input-group input-checkbox">-->
-                    <!--<div class="input-question">Active</div>-->
-                    <!--<label>-->
-                        <!--<input type="checkbox" name="active" v-model="form.active">-->
-                        <!--<span class="icon"></span>-->
-                        <!--Verified-->
-                    <!--</label>-->
-                <!--</div>-->
+                <div class="jcf-input-group input-checkbox">
+                    <div class="input-question">Private Bitt</div>
+                    <label>
+                        <input type="checkbox" name="active" v-model="form.private">
+                        <span class="icon"></span>
+                        Private
+                    </label>
+                </div>
+
+                <div class="jcf-input-group input-checkbox">
+                    <div class="input-question">Active</div>
+                    <label>
+                        <input type="checkbox" name="active" v-model="form.active">
+                        <span class="icon"></span>
+                        Verified
+                    </label>
+                </div>
 
                 <!--<div class="jcf-input-group input-checkbox">-->
                     <!--<div class="input-question">Active</div>-->
@@ -88,6 +97,7 @@
                         this.$store.dispatch('getBitt', this.bittId).then((bitt) => {
                             this.form.title = bitt.title
                             this.form.script = bitt.script
+                            this.form.private = bitt.private
                             this.form.description = bitt.description
                             this.form.category = bitt.categories[0].id
                             this.form.systems = _.map(bitt.systems, 'id')
@@ -102,6 +112,7 @@
                     title : null,
                     script: null,
                     systems : [],
+                    private : true,
                     category : null,
                     description : null,
                 },

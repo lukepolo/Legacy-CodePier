@@ -6,6 +6,7 @@ use App\Models\Bitt;
 use App\Http\Requests\BittRequest;
 use App\Models\Category;
 use App\Models\System;
+use Illuminate\Http\Request;
 
 class BittsController extends Controller
 {
@@ -31,6 +32,7 @@ class BittsController extends Controller
             'user_id' => \Auth::user()->id,
             'title' => $request->get('title'),
             'script' => $request->get('script'),
+            'private' => $request->get('private'),
             'description' => $request->get('description'),
         ]);
 
@@ -67,6 +69,7 @@ class BittsController extends Controller
         $bitt->update([
             'title' => $request->get('title'),
             'script' => $request->get('script'),
+            'private' => $request->get('private'),
             'description' => $request->get('description'),
         ]);
 
@@ -87,5 +90,14 @@ class BittsController extends Controller
     public function destroy($id)
     {
         return response()->json(Bitt::findOrFail($id)->delete());
+    }
+
+    /**
+     * @param Request $request
+     * @param $bit
+     */
+    public function runOnServers(Request $request, $bit)
+    {
+        dd($request->all());
     }
 }

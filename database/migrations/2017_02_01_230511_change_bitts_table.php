@@ -19,6 +19,8 @@ class ChangeBittsTable extends Migration
             $table->dropColumn('system');
             $table->dropColumn('version');
             $table->longText('description');
+            $table->boolean('private');
+            $table->string('user');
         });
 
         Schema::create('bitt_system', function(Blueprint $table) {
@@ -38,6 +40,8 @@ class ChangeBittsTable extends Migration
             $table->renameColumn('verified', 'approved');
             $table->renameColumn('title', 'name');
             $table->dropColumn('description');
+            $table->dropColumn('private');
+            $table->dropColumn('user');
             $table->string('system');
             $table->string('version');
         });
