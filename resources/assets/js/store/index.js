@@ -37,6 +37,7 @@ export default new Vuex.Store({
         sitesStore: SiteStore.site,
         siteFilesStore: SiteStore.siteFiles,
         siteWorkersStore: SiteStore.siteWorkers,
+        siteSchemasStore: SiteStore.siteSchemas,
         siteSshKeysStore: SiteStore.siteSshKeys,
         siteCronJobsStore: SiteStore.siteCronJobs,
         siteFirewallRulesStore: SiteStore.siteFirewallRules,
