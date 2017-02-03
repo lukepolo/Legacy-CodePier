@@ -42,6 +42,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        runBittOnServers: ({ commit }, data) => {
+            Vue.http.post(Vue.action('BittsController@runOnServers', { bitt: data.bitt }), data).then((response) => {
+                commit('SET_BITT', null)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {

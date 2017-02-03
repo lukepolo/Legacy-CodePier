@@ -15,6 +15,11 @@
                 </div>
             </div>
         </section>
+
+        <section id="right" class="section-column" v-if="bitt">
+            <router-view name="right"></router-view>
+        </section>
+
     </div>
 </template>
 
@@ -36,7 +41,9 @@
             }
         },
         computed: {
-
+            bitt() {
+                return this.$store.state.bittsStore.bitt
+            }
         }
     }
 </script>

@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     |
     */
     Route::resource('bitts', 'BittsController');
+    Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
 
     /*
     |--------------------------------------------------------------------------

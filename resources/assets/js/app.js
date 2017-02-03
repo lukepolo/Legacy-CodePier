@@ -199,7 +199,8 @@ const router = new VueRouter({
                     path: '/',
                     name: 'bitts_market_place',
                     components: {
-                        default: bittPages.Bitts
+                        default: bittPages.BittsMarketPlace,
+                        right: bittPages.BittInstall
                     }
                 },
                 {
