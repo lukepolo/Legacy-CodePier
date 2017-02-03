@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Server\Schemas;
 
-use App\Models\Command;
 use App\Models\Schema;
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -45,7 +45,6 @@ class RemoveServerSchema implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-
         $sitesCount = $this->schema->sites->count();
 
         if (! $sitesCount) {

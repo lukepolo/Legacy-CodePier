@@ -12,5 +12,4 @@ class SchemaUser extends Model
     {
         return $this->belongsTo(Schema::class);
     }
-
 }
