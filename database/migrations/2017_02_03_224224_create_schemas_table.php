@@ -26,7 +26,6 @@ class CreateSchemasTable extends Migration
             $table->string('schemable_type');
             $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_indexes');
         });
-
     }
 
     /**
