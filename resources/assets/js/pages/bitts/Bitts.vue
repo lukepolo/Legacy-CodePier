@@ -36,7 +36,10 @@
                         </a>
                     </td>
                     <td>
-                        <router-link :to="{ name: 'bitt_edit', params : { bitt_id : bitt.id } }">Edit</router-link>
+                        <router-link :to="{ name: 'bitt_edit', params : { bitt_id : bitt.id} }">
+                            Edit
+                        </router-link>
+                        <a href="#" @click.prevent="deleteBitt(bitt)">Delete</a>
                     </td>
                 </tr>
             </tbody>
@@ -54,19 +57,20 @@
             })
         },
         methods : {
-            getCategory(bitt) {
+            deleteBitt(bitt) {
+                this.$store.dispatch('deleteBitt', bitt.id)
             }
         },
         computed : {
             bitts() {
                 return this.$store.state.bittsStore.bitts.data
             },
+            pagination() {
+                return this.$store.state.bittsStore.bitts
+            },
             categories() {
                 return this.$store.state.categoriesStore.categories
             },
-            pagination() {
-                return this.$store.state.bittsStore.bitts
-            }
         }
     }
 </script>

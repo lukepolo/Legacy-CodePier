@@ -3,8 +3,8 @@ export default {
         server_firewall_rules: []
     },
     actions: {
-        getServerFirewallRules: ({ commit }, server_id) => {
-            Vue.http.get(Vue.action('Server\ServerFirewallRuleController@index', { server: server_id })).then((response) => {
+        getServerFirewallRules: ({ commit }, serverId) => {
+            Vue.http.get(Vue.action('Server\ServerFirewallRuleController@index', { server: serverId })).then((response) => {
                 commit('SET_SERVER_FIREWALL_RULES', response.data)
             }, (errors) => {
                 app.handleApiError(errors)
@@ -29,14 +29,14 @@ export default {
         }
     },
     mutations: {
-        ADD_SERVER_FIREWALL_RULE: (state, server_firewall_rule) => {
-            state.server_firewall_rules.push(server_firewall_rule)
+        ADD_SERVER_FIREWALL_RULE: (state, serverFirewallRule) => {
+            state.server_firewall_rules.push(serverFirewallRule)
         },
-        REMOVE_SERVER_FIREWALL_RULE: (state, server_firewall_rule_id) => {
-            Vue.set(state, 'server_firewall_rules', _.reject(state.server_firewall_rules, { id: server_firewall_rule_id }))
+        REMOVE_SERVER_FIREWALL_RULE: (state, serverFirewallRuleId) => {
+            Vue.set(state, 'server_firewall_rules', _.reject(state.server_firewall_rules, { id: serverFirewallRuleId }))
         },
-        SET_SERVER_FIREWALL_RULES: (state, server_firewall_rules) => {
-            state.server_firewall_rules = server_firewall_rules
+        SET_SERVER_FIREWALL_RULES: (state, serverFirewallRules) => {
+            state.server_firewall_rules = serverFirewallRules
         }
     }
 }

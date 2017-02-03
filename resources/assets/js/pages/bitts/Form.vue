@@ -83,17 +83,16 @@
     export default {
         created() {
             this.$store.dispatch('getCategories').then(() => {
-                    this.$store.dispatch('getSystems').then(() => {
-//                this.$store.dispatch('getBuoy', this.buoyAppId).then((buoy) => {
-//                    this.form.icon = buoy.icon
-//                    this.form.ports = buoy.ports
-//                    this.form.title = buoy.title
-//                    this.form.active = buoy.active
-//                    this.form.options = buoy.options
-//                    this.form.buoy_class = buoy.buoy_class
-//                    this.form.description = buoy.description
-//                    this.form.category = buoy.categories[0].id
-//                    })
+                this.$store.dispatch('getSystems').then(() => {
+                    if(this.bittId) {
+                        this.$store.dispatch('getBitt', this.bittId).then((bitt) => {
+                            this.form.title = bitt.title
+                            this.form.script = bitt.script
+                            this.form.description = bitt.description
+                            this.form.category = bitt.categories[0].id
+                            this.form.systems = _.map(bitt.systems, 'id')
+                        })
+                    }
                 })
             })
         },
@@ -101,6 +100,7 @@
             return {
                 form : {
                     title : null,
+                    script: null,
                     systems : [],
                     category : null,
                     description : null,
@@ -109,10 +109,20 @@
         },
         methods: {
             saveUpdateBitt() {
-                this.$store.dispatch('createBitt', this.form);
+                if(this.bittId) {
+                    this.$store.dispatch('updateBitt', {
+                        form : this.form,
+                        bitt : this.bittId,
+                    });
+                } else {
+                    this.$store.dispatch('createBitt', this.form);
+                }
             },
         },
         computed: {
+            bittId() {
+                return this.$route.params.bitt_id
+            },
             systems() {
                 return this.$store.state.systemsStore.systems
             },
