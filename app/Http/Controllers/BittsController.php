@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bitt;
+use App\Jobs\Server\RunBitt;
+use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Http\Requests\BittRequest;
 
 class BittsController extends Controller
@@ -25,15 +28,20 @@ class BittsController extends Controller
      */
     public function store(BittRequest $request)
     {
-        Bitt::create([
+        $bitt = Bitt::create([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'system' => $request->get('system'),
-            'version' => $request->get('version'),
+            'private' => $request->get('private'),
+            'description' => $request->get('description'),
         ]);
 
-        return response()->json();
+        $bitt->systems()->sync($request->get('systems'));
+        $bitt->categories()->sync((array) $request->get('category'));
+
+        $bitt->fresh(['systems', 'categories']);
+
+        return response()->json($bitt);
     }
 
     /**
@@ -59,11 +67,16 @@ class BittsController extends Controller
         $bitt = Bitt::findOrFail($id);
 
         $bitt->update([
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
             'script' => $request->get('script'),
-            'system' => $request->get('system'),
-            'version' => $request->get('version'),
+            'private' => $request->get('private'),
+            'description' => $request->get('description'),
         ]);
+
+        $bitt->systems()->sync($request->get('systems'));
+        $bitt->categories()->sync((array) $request->get('category'));
+
+        $bitt->fresh(['systems', 'categories']);
 
         return response()->json($bitt);
     }
@@ -77,5 +90,21 @@ class BittsController extends Controller
     public function destroy($id)
     {
         return response()->json(Bitt::findOrFail($id)->delete());
+    }
+
+    /**
+     * @param Request $request
+     * @param $bitt
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function runOnServers(Request $request, $bitt)
+    {
+        $bitt = Bitt::findOrFail($bitt);
+
+        foreach ($request->get('servers') as $server) {
+            dispatch((new RunBitt(Server::findOrFail($server), $bitt))->onQueue(config('queue.channels.server_commands')));
+        }
+
+        return response()->json('OK');
     }
 }

@@ -5,6 +5,7 @@ import * as buoyPages from './pages/buoy'
 import * as userPages from './pages/user'
 import * as teamPages from './pages/team'
 import * as sitePages from './pages/site'
+import * as bittPages from './pages/bitts'
 import * as adminPages from './pages/admin'
 import * as serverPages from './pages/server'
 
@@ -190,6 +191,34 @@ const router = new VueRouter({
     routes: [
     { path: '/', name: 'dashboard', component: Piles },
     { path: '/piles', name: 'piles', component: Piles },
+
+        {
+            path: '/bitts', component: bittPages.BittsArea,
+            children: [
+                {
+                    path: '/',
+                    name: 'bitts_market_place',
+                    components: {
+                        default: bittPages.BittsMarketPlace,
+                        right: bittPages.BittInstall
+                    }
+                },
+                {
+                    path: 'create',
+                    name: 'bitt_create',
+                    components: {
+                        default: bittPages.BittsForm
+                    }
+                },
+                {
+                    path: ':bitt_id/edit',
+                    name: 'bitt_edit',
+                    components: {
+                        default: bittPages.BittsForm
+                    }
+                }
+            ]
+        },
 
         {
             path: '/buoys', component: buoyPages.BuoyArea,

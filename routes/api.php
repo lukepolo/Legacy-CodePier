@@ -45,10 +45,35 @@ Route::group(['middleware' => 'auth:api'], function () {
     |--------------------------------------------------------------------------
     |
     */
+
     Route::get('buoy-apps/buoyClasses', 'BuoyAppController@getBuoyClasses');
     Route::post('buoy-apps/{buoy_app}/update', 'BuoyAppController@update');
     Route::resource('buoy-apps', 'BuoyAppController');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Bitts Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::resource('bitts', 'BittsController');
+    Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
+
+    /*
+    |--------------------------------------------------------------------------
+    | System Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::get('systems', 'SystemsController@index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [

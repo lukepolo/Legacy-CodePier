@@ -13,7 +13,7 @@ class SystemService implements SystemServiceContract
     protected $server;
     protected $remoteTaskService;
 
-    protected $provisionSystems = [
+    public $provisionSystems = [
         'ubuntu 16.04' => 'Ubuntu\V_16_04',
     ];
 
