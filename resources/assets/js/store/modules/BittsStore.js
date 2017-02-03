@@ -28,7 +28,7 @@ export default {
             })
         },
         updateBitt: ({ commit }, data) => {
-            console.info(data);
+            console.info(data)
             Vue.http.put(Vue.action('BittsController@update', { bitt: data.bitt }), data.form).then((response) => {
                 commit('UPDATE_BITT', response.data)
                 app.$router.push({ name: 'bitts_market_place' })
@@ -46,6 +46,7 @@ export default {
         runBittOnServers: ({ commit }, data) => {
             Vue.http.post(Vue.action('BittsController@runOnServers', { bitt: data.bitt }), data).then((response) => {
                 commit('SET_BITT', null)
+                app.showSuccess('Your bitt has been queued')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -63,6 +64,10 @@ export default {
         },
         UPDATE_BITT: (state, bitt) => {
             Vue.set(state, _.findKey(state.bitts, { id: bitt.id }), bitt)
+
+            if (state.bitt && state.bitt.id === bitt.id) {
+                state.bitt = bitt
+            }
         },
         REMOVE_BITT: (state, bittId) => {
             Vue.set(state.bitts, 'data', _.reject(state.bitts.data, { id: bittId }))

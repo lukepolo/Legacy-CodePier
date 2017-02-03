@@ -52,7 +52,7 @@
         methods: {
             runBitt() {
                 this.form.bitt_id = this.bitt.id
-                return this.$store.dispatch('runBittOnServers', this.form)
+                this.$store.dispatch('runBittOnServers', this.form)
             }
         },
         computed: {
