@@ -30,10 +30,6 @@ class BittRequest extends FormRequest
             'category' => 'required|integer',
             'private' =>  'required|integer',
             'description' => 'required|string',
-<<<<<<< HEAD
-=======
-            'category' => 'required|integer',
->>>>>>> ad496e2437c42e681fced2bda008c774e7df8a43
         ];
     }
 }

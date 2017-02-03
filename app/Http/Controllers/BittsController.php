@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Server\RunBitt;
 use App\Models\Bitt;
 use App\Http\Requests\BittRequest;
+use App\Models\Server\Server;
 use Illuminate\Http\Request;
 
 class BittsController extends Controller
@@ -92,10 +94,17 @@ class BittsController extends Controller
 
     /**
      * @param Request $request
-     * @param $bit
+     * @param $bitt
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function runOnServers(Request $request, $bit)
+    public function runOnServers(Request $request, $bitt)
     {
-        dd($request->all());
+        $bitt = Bitt::findOrFail($bitt);
+
+        foreach($request->get('servers') as $server) {
+            dispatch((new RunBitt(Server::findOrFail($server), $bitt))->onQueue(config('queue.channels.server_commands')));
+        }
+
+        return response()->json('OK');
     }
 }

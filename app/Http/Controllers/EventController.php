@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bitt;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\SshKey;
@@ -24,6 +25,7 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
+            Bitt::class,
             Buoy::class,
             File::class,
             Worker::class,
