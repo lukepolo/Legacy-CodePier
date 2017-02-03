@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Http\Requests\SchemaRequest;
-use App\Jobs\Server\Schemas\AddServerSchema;
-use App\Jobs\Server\Schemas\RemoveServerSchema;
 use App\Models\Schema;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SchemaRequest;
+use App\Jobs\Server\Schemas\AddServerSchema;
+use App\Jobs\Server\Schemas\RemoveServerSchema;
 
 class ServerSchemaController extends Controller
 {
@@ -46,7 +46,7 @@ class ServerSchemaController extends Controller
         ) {
             $schema = Schema::create([
                 'name' => $name,
-                'database' =>  $database
+                'database' =>  $database,
             ]);
 
             $server->schemas()->save($schema);
