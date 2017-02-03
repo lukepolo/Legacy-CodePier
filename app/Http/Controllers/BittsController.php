@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Server\RunBitt;
 use App\Models\Bitt;
-use App\Http\Requests\BittRequest;
-use App\Models\Server\Server;
+use App\Jobs\Server\RunBitt;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
+use App\Http\Requests\BittRequest;
 
 class BittsController extends Controller
 {
@@ -37,7 +37,7 @@ class BittsController extends Controller
         ]);
 
         $bitt->systems()->sync($request->get('systems'));
-        $bitt->categories()->sync((array)$request->get('category'));
+        $bitt->categories()->sync((array) $request->get('category'));
 
         $bitt->fresh(['systems', 'categories']);
 
@@ -74,7 +74,7 @@ class BittsController extends Controller
         ]);
 
         $bitt->systems()->sync($request->get('systems'));
-        $bitt->categories()->sync((array)$request->get('category'));
+        $bitt->categories()->sync((array) $request->get('category'));
 
         $bitt->fresh(['systems', 'categories']);
 
@@ -101,7 +101,7 @@ class BittsController extends Controller
     {
         $bitt = Bitt::findOrFail($bitt);
 
-        foreach($request->get('servers') as $server) {
+        foreach ($request->get('servers') as $server) {
             dispatch((new RunBitt(Server::findOrFail($server), $bitt))->onQueue(config('queue.channels.server_commands')));
         }
 
