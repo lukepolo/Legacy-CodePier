@@ -100,11 +100,25 @@
             </div>
 
             <div class="btn-container">
-                <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
-                <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
-                <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
-                <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
-                <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                <tooltip label="Restart web services">
+                    <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
+                </tooltip>
+
+                <tooltip label="Restart server">
+                    <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
+                </tooltip>
+
+                <tooltip label="Restart databases">
+                    <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
+                </tooltip>
+
+                <tooltip label="Restart workers">
+                    <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
+                </tooltip>
+
+                <tooltip label="Archive server">
+                    <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                </tooltip>
             </div>
         </div>
 </template>

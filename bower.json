@@ -27,6 +27,7 @@
     "jquery-cron": "^0.1.4",
     "moment": "^2.13.0",
     "moment-timezone": "^0.5.4",
-    "select2": "^4.0.3"
+    "select2": "^4.0.3",
+    "hint.css": "^2.4.1"
   }
 }
