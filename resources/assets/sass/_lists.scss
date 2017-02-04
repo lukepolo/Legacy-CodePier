@@ -46,7 +46,7 @@
 
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
-.server > a {
+.server {
   display: block;
   border-bottom: 1px solid $color-divider;
   padding: $spacing;
@@ -61,7 +61,16 @@
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: $spacing/4;
-  padding-right: 1.4em;
+
+  a {
+    color: $color-text-primary;
+  }
+
+  .event-status {
+    float: right;
+    margin-right: 0px;
+    margin-left: $spacing;
+  }
 }
 
 .server-connection {
