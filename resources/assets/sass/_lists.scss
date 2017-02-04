@@ -63,8 +63,9 @@
     display: flex;
     justify-content: space-between;
 
-    .btn + .btn {
-      margin-left: 0px;
+    .btn + .btn,
+    .confirm-container {
+      margin: 0px;
     }
   }
 }

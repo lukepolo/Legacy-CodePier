@@ -7,6 +7,7 @@ use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Contracts\Buoys\BuoyContract;
 use App\Contracts\BuoyServiceContract;
+use App\Services\Systems\SystemService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -78,6 +79,8 @@ class BuoyService implements BuoyServiceContract
      */
     public function installBuoy(Server $server, Buoy $buoy)
     {
+        create_system_service(SystemService::SYSTEM, $server)->installDocker();
+
         $buoyClass = $buoy->buoyApp->buoy_class;
 
         $buoy->update([

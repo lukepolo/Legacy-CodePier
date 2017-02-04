@@ -3,6 +3,7 @@
 namespace App\Services\Server;
 
 use App\Models\Bitt;
+use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
@@ -504,5 +505,23 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->run(self::BITT_FILES.'/./'.$bittFile);
 
         return $this->remoteTaskService->getErrors();
+    }
+
+    /**
+     * @param Server $server
+     * @param Schema $schema
+     */
+    public function addSchema(Server $server, Schema $schema)
+    {
+        $this->getService(SystemService::DATABASE, $server)->addSchema($schema);
+    }
+
+    /**
+     * @param Server $server
+     * @param Schema $schema
+     */
+    public function removeSchema(Server $server, Schema $schema)
+    {
+        $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
     }
 }
