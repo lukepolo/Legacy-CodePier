@@ -23,6 +23,13 @@
                         <img :src="buoy.icon_url" style="max-width:50px">
                     </template>
                     {{ buoy.title }}
+
+                    (
+                    <template v-for="category in buoy.categories">
+                        {{ category.name }}
+                    </template>
+                    )
+
                 </td>
                 <td>{{ buoy.description }}</td>
 

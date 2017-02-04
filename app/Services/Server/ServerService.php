@@ -2,6 +2,7 @@
 
 namespace App\Services\Server;
 
+use App\Models\Bitt;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
@@ -27,6 +28,7 @@ class ServerService implements ServerServiceContract
 
     const SSL_FILES = '/opt/codepier/ssl';
     const LETS_ENCRYPT = 'Let\'s Encrypt';
+    const BITT_FILES = '/opt/codepier/bitts';
 
     /**
      * SiteService constructor.
@@ -481,5 +483,26 @@ class ServerService implements ServerServiceContract
     public function getService($service, Server $server)
     {
         return $this->systemService->createSystemService($service, $server);
+    }
+
+    /**
+     * @param Server $server
+     * @param Bitt $bitt
+     * @return string
+     */
+    public function runBitt(Server $server, Bitt $bitt)
+    {
+        $bittFile = $bitt->id.'.sh';
+
+        $this->remoteTaskService->ssh($server, $bitt->user);
+
+        $this->remoteTaskService->makeDirectory(self::BITT_FILES);
+
+        $this->remoteTaskService->writeToFile($bittFile, $bitt->script);
+        $this->remoteTaskService->run('chmod 775 '.self::BITT_FILES.'/'.$bittFile);
+
+        $this->remoteTaskService->run(self::BITT_FILES.'/./'.$bittFile);
+
+        return $this->remoteTaskService->getErrors();
     }
 }

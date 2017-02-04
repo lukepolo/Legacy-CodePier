@@ -44,8 +44,9 @@
         props : ['event'],
         methods: {
             getLog(log) {
+
                 if(_.isArray(log)) {
-                    return log.join('. <br>');
+                    return _.join(_.map(log, 'message'), '<br>');
                 }
 
                 return log;

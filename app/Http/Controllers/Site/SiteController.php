@@ -101,7 +101,7 @@ class SiteController extends Controller
 
             foreach ($changes['attached'] as $serverID) {
                 $this->dispatch(
-                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
@@ -137,7 +137,7 @@ class SiteController extends Controller
 
         if ($site->provisionedServers->count()) {
             $this->dispatch(
-                (new DeploySite($site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

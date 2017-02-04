@@ -18,6 +18,9 @@ class UpdateWebConfig implements ShouldQueue
     private $server;
     private $site;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      *

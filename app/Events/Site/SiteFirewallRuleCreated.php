@@ -24,7 +24,7 @@ class SiteFirewallRuleCreated
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }
