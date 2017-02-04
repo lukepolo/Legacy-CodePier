@@ -132,7 +132,7 @@
 </template>
 
 <script>
-    import CpuLoads from './ServerInfo/CpuLoadVue.vue'
+    import CpuLoads from './CpuLoadVue.vue'
     export default {
         props : {
             'server' : {},
