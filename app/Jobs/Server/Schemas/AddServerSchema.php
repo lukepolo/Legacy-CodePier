@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Server\Schemas;
 
-use App\Models\Command;
 use App\Models\Schema;
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -55,8 +55,6 @@ class AddServerSchema implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has schema created : '.$this->schema->name);
         } else {
-
-
             $this->runOnServer(function () use ($serverService) {
                 // TODO - schema command
             });
