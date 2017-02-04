@@ -56,7 +56,7 @@ class AddServerSchema implements ShouldQueue
             $this->updateServerCommand(0, 'Sever already has schema created : '.$this->schema->name);
         } else {
             $this->runOnServer(function () use ($serverService) {
-                // TODO - schema command
+                $serverService->addSchema($this->server, $this->schema);
             });
 
             if (! $this->wasSuccessful()) {
