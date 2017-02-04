@@ -160,6 +160,21 @@ footer {
   }
 }
 
+#right {
+  .jcf-form-wrap {
+    padding: 0px $spacing;
+
+    .jcf-input-group {
+      margin-bottom: $spacing/2;
+    }
+
+    .btn-footer {
+      margin: 0px 0px (-$spacing);
+      padding: $spacing/2 0px;
+    }
+  }
+}
+
 // PROGRESS BAR --------------------------------------------
 // ---------------------------------------------------------
 #nprogress {
