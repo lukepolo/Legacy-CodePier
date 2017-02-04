@@ -2,8 +2,8 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Exceptions\UnknownDatabase;
 use App\Models\Schema;
+use App\Exceptions\UnknownDatabase;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
@@ -138,15 +138,15 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
         $database = $schema->database;
 
-        switch($schema->database) {
+        switch ($schema->database) {
             case 'MariaDB':
-            case 'MySQL' :
+            case 'MySQL':
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
-            case 'PostgreSQL' :
+            case 'PostgreSQL':
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database.' --locale=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8');
                 break;
-            default :
+            default:
                 throw new UnknownDatabase($schema->database);
                 break;
         }
@@ -165,16 +165,16 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
         $database = $schema->database;
 
-        switch($schema->database) {
+        switch ($schema->database) {
             case 'MariaDB':
-            case 'MySQL' :
+            case 'MySQL':
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE `$database`'");
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
-            case 'PostgreSQL' :
+            case 'PostgreSQL':
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
                 break;
-            default :
+            default:
                 throw new UnknownDatabase($schema->database);
                 break;
         }
