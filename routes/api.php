@@ -165,6 +165,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.buoys', 'ServerBuoyController');
             Route::resource('servers.sites', 'ServerSiteController');
             Route::resource('servers.workers', 'ServerWorkerController');
+            Route::resource('servers.schemas', 'ServerSchemaController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
             Route::resource('servers.features', 'ServerFeatureController');
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
@@ -200,6 +201,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.buoys', 'SiteBuoyController');
             Route::resource('sites.servers', 'SiteServerController');
             Route::resource('sites.workers', 'SiteWorkerController');
+            Route::resource('sites.schemas', 'SiteSchemaController');
             Route::resource('sites.ssh-keys', 'SiteSshKeyController');
             Route::resource('sites.cron-jobs', 'SiteCronJobController');
             Route::resource('sites.ssl-certificate', 'SiteSslController');

@@ -5,6 +5,7 @@ namespace App\Models\Server;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
+use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\CronJob;
@@ -147,6 +148,11 @@ class Server extends Model
     public function buoys()
     {
         return $this->morphToMany(Buoy::class, 'buoyable');
+    }
+
+    public function schemas()
+    {
+        return $this->morphToMany(Schema::class, 'schemable');
     }
 
     /*

@@ -173,6 +173,11 @@ footer {
       padding: $spacing/2 0px;
     }
   }
+
+  .btn-footer {
+    margin: $spacing*2 0px 0px;
+    padding: $spacing;
+  }
 }
 
 // PROGRESS BAR --------------------------------------------
