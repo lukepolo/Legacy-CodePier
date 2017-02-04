@@ -10,23 +10,36 @@
         </template>
 
         <template v-if="availableServers.length">
-            Available Servers
+            <h3 class="section-header secondary">Available Servers</h3>
             <form @submit.prevent="linkServers">
-                <template v-for="server in availableServers">
-                    <input
-                        type="checkbox"
-                        :value="server.id"
-                        v-model="form.connected_servers"
-                    >
-                    {{ server.ssh_connection}} - {{ server.name }} - {{ server.ip }}
-                    <br>
-                </template>
-                <button class="btn btn-primary" type="submit">Link Servers</button>
+                <div class="jcf-form-wrap">
+                    <template v-for="server in availableServers">
+                        <form class="floating-labels">
+                            <div class="jcf-input-group input-checkbox">
+                                <label>
+                                    <input
+                                            type="checkbox"
+                                            :value="server.id"
+                                            v-model="form.connected_servers"
+                                    >
+                                    <span class="icon"></span>
+                                    {{ server.ssh_connection}} - {{ server.name }} - {{ server.ip }}
+                                </label>
+                            </div>
+                        </form>
+                    </template>
+
+                    <div class="btn-footer">
+                        <!-- todo - disabled link server btn until they click a checkbox -->
+                        <button class="btn" type="submit" disabled="true">Link Servers</button>
+                    </div>
+                </div>
+
             </form>
         </template>
 
-        <hr>
         <div v-if="site.repository">
+            <div class="btn-footer">
             <router-link :to="{ name : 'server_form_with_site' , params : { site : site.id , type : 'full_stack' } }">
                 <a class="btn btn-primary">Create A Full Stack Server</a>
             </router-link>
@@ -38,6 +51,7 @@
             <!-- - not available during beta-->
             <!--<div class="btn btn-primary">Create A Queue Worker Serer</div>-->
             <!-- - not available during beta-->
+            </div>
         </div>
         <div v-else>
             <h3>Alpha Testing : </h3>

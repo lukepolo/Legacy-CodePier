@@ -5276,6 +5276,19 @@ footer {
   pointer-events: none;
 }
 
+#right .jcf-form-wrap {
+  padding: 0px 20px;
+}
+
+#right .jcf-form-wrap .jcf-input-group {
+  margin-bottom: 10px;
+}
+
+#right .jcf-form-wrap .btn-footer {
+  margin: 0px 0px -20px;
+  padding: 10px 0px;
+}
+
 #nprogress .bar {
   height: 3px !important;
 }
@@ -5778,7 +5791,8 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   padding: 5px 10px;
 }
 
-.btn-disabled {
+.btn-disabled,
+button[disabled=disabled] {
   background-color: #636567;
   color: #8a8c8d !important;
   pointer-events: none;
@@ -6053,6 +6067,11 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   text-transform: none;
   font-weight: normal;
   font-family: "Roboto", sans-serif;
+}
+
+.section-header.secondary {
+  background-color: transparent;
+  border-bottom: none;
 }
 
 .section-content {
@@ -7073,7 +7092,7 @@ textarea {
 
 #right {
   -webkit-box-flex: 0;
-  flex: 0 0 300px;
+  flex: 0 0 325px;
 }
 
 .jcf-form-wrap {
