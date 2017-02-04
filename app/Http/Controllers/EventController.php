@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Bitt;
 use App\Models\Buoy;
 use App\Models\File;
+use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
+use App\Models\SchemaUser;
 use App\Models\FirewallRule;
 use Illuminate\Http\Request;
 use App\Models\SslCertificate;
@@ -30,7 +32,9 @@ class EventController extends Controller
             File::class,
             Worker::class,
             SshKey::class,
+            Schema::class,
             CronJob::class,
+            SchemaUser::class,
             FirewallRule::class,
             SslCertificate::class,
         ],
