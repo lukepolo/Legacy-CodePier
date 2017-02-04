@@ -82,6 +82,11 @@ pre {
     color: $yellow;    
 }
 
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, .7);
+  padding-top: $spacing/2;
+}
 
 
 // HEADINGS ------------------------------------------------
@@ -132,6 +137,23 @@ footer {
     flex: 1 1 1em;
 }
 
+.xlarge-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  #main {
+    float: 1 1 auto;
+  }
+
+  @include breakpoint(xl) {
+
+    flex-direction: row;
+    footer {
+      flex: 0 0 25%;
+    }
+  }
+}
 
 
 // FORMS OVERRIDE ------------------------------------------
@@ -155,8 +177,19 @@ footer {
   input[type="text"] + label,
   input[type="integer"] + label {
     pointer-events: none;
+  }
 
+  .fa-info-circle,
+  [class^="icon-"], [class*=" icon-"] {
+    position: absolute;
+    left: -15px;
+    top: 2px;
+    cursor: pointer;
+    pointer-events: all;
 
+    &:hover {
+      color: $color-primary;
+    }
   }
 }
 

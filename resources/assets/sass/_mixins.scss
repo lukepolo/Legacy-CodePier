@@ -7,7 +7,7 @@
 // ---------------------------------------------------------
 @mixin breakpoint($point) {
 	@if $point == xl {
-		@media (min-width: 1401px) { @content; }
+		@media (min-width: 2100px) { @content; }
 	}
 	@else if $point == lg {
 		@media (max-width: 1400px) { @content; }

@@ -5203,6 +5203,12 @@ pre {
   color: #FEC07A;
 }
 
+.small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  padding-top: 10px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", serif;
   font-weight: 400;
@@ -5253,6 +5259,32 @@ footer {
   flex: 1 1 1em;
 }
 
+.xlarge-wrap {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+}
+
+.xlarge-wrap #main {
+  float: 1 1 auto;
+}
+
+@media (min-width: 2100px) {
+  .xlarge-wrap {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+  }
+  .xlarge-wrap footer {
+    -webkit-box-flex: 0;
+    flex: 0 0 25%;
+  }
+}
+
 .jcf-form-wrap .input-checkbox,
 .jcf-form-wrap .input-radio {
   margin-bottom: 40px;
@@ -5274,6 +5306,20 @@ footer {
 .jcf-form-wrap input[type="text"] + label,
 .jcf-form-wrap input[type="integer"] + label {
   pointer-events: none;
+}
+
+.jcf-form-wrap .fa-info-circle,
+.jcf-form-wrap [class^="icon-"], .jcf-form-wrap [class*=" icon-"] {
+  position: absolute;
+  left: -15px;
+  top: 2px;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.jcf-form-wrap .fa-info-circle:hover,
+.jcf-form-wrap [class^="icon-"]:hover, .jcf-form-wrap [class*=" icon-"]:hover {
+  color: #48ACF0;
 }
 
 #right .jcf-form-wrap {
@@ -6233,7 +6279,6 @@ button[disabled=disabled] {
 .server {
   display: block;
   border-bottom: 1px solid #2B2B2B;
-  padding: 20px;
   position: relative;
 }
 
@@ -6243,8 +6288,8 @@ button[disabled=disabled] {
 
 .server .btn-container {
   border-top: 1px solid rgba(43, 43, 43, 0.4);
-  margin: 0px 0px -10px;
-  padding: 10px 0px 0px 0px;
+  margin: 0px;
+  padding: 10px 0px;
   display: -webkit-box;
   display: flex;
   -webkit-box-pack: justify;
@@ -6258,8 +6303,11 @@ button[disabled=disabled] {
 
 .server-header {
   background-color: rgba(43, 43, 43, 0.3);
-  margin: -20px -20px -10px;
   padding: 20px 20px 10px;
+}
+
+.server-header .server-info.condensed .server-progress-container {
+  margin: 20px 0px 10px;
 }
 
 .server-name {
@@ -6272,10 +6320,41 @@ button[disabled=disabled] {
   color: #FFFFFF;
 }
 
+.server-name a:hover {
+  color: #48ACF0;
+}
+
+.server-name [class^="icon-"], .server-name [class*=" icon-"] {
+  font-size: 2em;
+  cursor: pointer;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+}
+
+.server-name [class^="icon-"]:hover, .server-name [class*=" icon-"]:hover {
+  color: #48ACF0;
+}
+
+.server-name [class^="icon-"].closed, .server-name [class*=" icon-"].closed {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+}
+
 .server-name .event-status {
-  float: right;
-  margin-right: 0px;
-  margin-left: 20px;
+  float: left;
+  margin-right: 20px;
+  margin-left: 0px;
+}
+
+.server-ip a {
+  color: #FFFFFF;
+  padding-left: 36px;
+}
+
+.server-ip a:hover {
+  color: #48ACF0;
 }
 
 .server-connection {
@@ -6297,17 +6376,17 @@ button[disabled=disabled] {
   background-color: #F4645F;
 }
 
-.server-status {
-  margin-top: 10px;
-}
-
 .server-status h4 {
-  margin: 10px 0px 5px;
+  margin: 0px 0px 5px;
   padding-top: 10px;
 }
 
 .server-status h4:not(:first-child) {
   border-top: 1px solid #2B2B2B;
+}
+
+.server-info {
+  padding: 0px 20px;
 }
 
 .server-info.condensed .server-progress-container {
