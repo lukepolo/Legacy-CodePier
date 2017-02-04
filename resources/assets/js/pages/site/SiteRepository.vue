@@ -94,7 +94,7 @@
                         </div>
                         <textarea rows="4" readonly>{{ site.public_ssh_key }}</textarea>
                         <div class="text-right">
-                            <a class="btn btn-small"><span class="icon-arrow-right"></span></a>
+                            <a class="btn btn-small"><span class="icon-clipboard"></span></a>
                         </div>
                     </div>
                 </div>
