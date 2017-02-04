@@ -30,10 +30,6 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if (! empty($database)) {
-            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
-        }
-
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
@@ -93,7 +89,6 @@ class DatabaseService
     public function installRedis()
     {
         $this->connectToServer();
-
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
@@ -136,7 +131,7 @@ class DatabaseService
         $this->connectToServer();
 
         $databasePassword = $this->server->database_password;
-        $database = $schema->database;
+        $database = $schema->name;
 
         switch ($schema->database) {
             case 'MariaDB':
@@ -144,7 +139,7 @@ class DatabaseService
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
             case 'PostgreSQL':
-                $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database.' --locale=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8');
+                $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
                 break;
             default:
                 throw new UnknownDatabase($schema->database);
@@ -168,8 +163,8 @@ class DatabaseService
         switch ($schema->database) {
             case 'MariaDB':
             case 'MySQL':
-                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE `$database`'");
-                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
+                $this->remoteTaskService->run("mysql --user=codepier_servers --password=$databasePassword -e 'DROP DATABASE `$database`'");
+                $this->remoteTaskService->run("mysql --user=codepier_servers --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
             case 'PostgreSQL':
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
