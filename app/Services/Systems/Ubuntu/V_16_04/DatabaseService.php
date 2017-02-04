@@ -2,6 +2,8 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Exceptions\UnknownDatabase;
+use App\Models\Schema;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
@@ -11,9 +13,8 @@ class DatabaseService
 
     /**
      * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
-     * @param string $database
      */
-    public function installMariaDB($database = 'codepier')
+    public function installMariaDB()
     {
         $databasePassword = $this->server->database_password;
 
@@ -50,9 +51,8 @@ class DatabaseService
 
     /**
      * @description MySQL is the world's most popular open source database.
-     * @param string $database
      */
-    public function installMySQL($database = 'codepier')
+    public function installMySQL()
     {
         $databasePassword = $this->server->database_password;
 
@@ -68,18 +68,13 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
-        if (! empty($database)) {
-            $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
-        }
-
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
     /**
      * @description PostgreSQL is a powerful, open source object-relational database system.
-     * @param string $database
      */
-    public function installPostgreSQL($database = 'codepier')
+    public function installPostgreSQL()
     {
         $this->connectToServer();
 
@@ -88,10 +83,6 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier_servers LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-
-        if (! empty($database)) {
-            $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database.' --locale=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8');
-        }
 
         $this->remoteTaskService->run('service postgresql restart');
     }
@@ -134,5 +125,58 @@ class DatabaseService
         $this->remoteTaskService->run('service mongod start');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
+    }
+
+    /**
+     * @param Schema $schema
+     * @throws UnknownDatabase
+     */
+    public function addSchema(Schema $schema)
+    {
+        $this->connectToServer();
+
+        $databasePassword = $this->server->database_password;
+        $database = $schema->database;
+
+        switch($schema->database) {
+            case 'MariaDB':
+            case 'MySQL' :
+                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
+                break;
+            case 'PostgreSQL' :
+                $this->remoteTaskService->run('sudo -u postgres /usr/bin/createdb --echo --owner=codepier '.$database.' --locale=UTF8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8');
+                break;
+            default :
+                throw new UnknownDatabase($schema->database);
+                break;
+        }
+    }
+
+    /**
+     * @param Schema $schema
+     * @throws UnknownDatabase
+     */
+    public function removeSchema(Schema $schema)
+    {
+        $this->connectToServer();
+
+        $this->connectToServer();
+
+        $databasePassword = $this->server->database_password;
+        $database = $schema->database;
+
+        switch($schema->database) {
+            case 'MariaDB':
+            case 'MySQL' :
+                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE `$database`'");
+                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
+                break;
+            case 'PostgreSQL' :
+                $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
+                break;
+            default :
+                throw new UnknownDatabase($schema->database);
+                break;
+        }
     }
 }
