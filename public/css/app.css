@@ -5310,9 +5310,8 @@ footer {
 
 .jcf-form-wrap .fa-info-circle,
 .jcf-form-wrap [class^="icon-"], .jcf-form-wrap [class*=" icon-"] {
-  position: absolute;
-  left: -15px;
-  top: 2px;
+  position: relative;
+  left: -40px;
   cursor: pointer;
   pointer-events: all;
 }
