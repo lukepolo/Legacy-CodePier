@@ -8,6 +8,8 @@ if (Laravel.env === 'production') {
     Vue.config.silent = true
 }
 
+window.Clipboard = require('clipboard')
+
 window.VueRouter = require('vue-router')
 require('vue-resource')
 

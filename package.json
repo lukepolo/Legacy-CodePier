@@ -5,6 +5,7 @@
     "dev": "gulp watch"
   },
   "dependencies": {
+    "clipboard": "^1.5.16",
     "dotenv": "^2.0.0",
     "eslint": "^3.12.2",
     "eslint-config-vue": "^2.0.1",

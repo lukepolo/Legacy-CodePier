@@ -4,15 +4,25 @@
             <ul class="nav nav-tabs">
 
                 <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item" exact>
-                    <a>SSH Keys</a>
+                    <a>
+                        SSH Keys
+                        <div class="small">Add ssh keys that are required to access the server</div>
+                    </a>
+
                 </router-link>
 
                 <router-link :to="{ name : 'site_firewall_rules', params : { site_id : siteId } }" tag="li" class="wizard-item">
-                    <a>Firewall Rules</a>
+                    <a>
+                        Firewall Rules
+                        <div class="small">Setup your apps firewall rules</div>
+                    </a>
                 </router-link>
 
                 <router-link :to="{ name : 'site_ssl_certs', params : { site_id : siteId } }" tag="li" v-if="site && site.domain != 'default' ">
-                    <a>SSL Certificates</a>
+                    <a>
+                        SSL Certificates
+                        <div class="small">Configure SSL certificates for your app</div>
+                    </a>
                 </router-link>
 
             </ul>
