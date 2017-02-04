@@ -6217,6 +6217,26 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   background-color: #343536;
 }
 
+.server .btn-container {
+  border-top: 1px solid rgba(43, 43, 43, 0.4);
+  margin: 0px 0px -10px;
+  padding: 10px 0px 0px 0px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.server .btn-container .btn + .btn {
+  margin-left: 0px;
+}
+
+.server-header {
+  background-color: rgba(43, 43, 43, 0.3);
+  margin: -20px -20px -10px;
+  padding: 20px 20px 10px;
+}
+
 .server-name {
   font-weight: 600;
   font-size: 1.2em;
@@ -6256,6 +6276,40 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   margin-top: 10px;
 }
 
+.server-status h4 {
+  margin: 10px 0px 5px;
+  padding-top: 10px;
+}
+
+.server-status h4:not(:first-child) {
+  border-top: 1px solid #2B2B2B;
+}
+
+.server-info.condensed .server-progress-container {
+  height: 5px;
+  margin-bottom: 20px;
+}
+
+.server-info.condensed .stats-label {
+  display: inline-block;
+  font-size: 10px;
+  background-color: #505254;
+  border: 1px solid #2B2B2B;
+  padding: 1px 5px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.server-info.condensed .stats-used {
+  left: 5px;
+}
+
+.server-info.condensed .stats-available {
+  right: 5px;
+}
+
 .server-progress-container {
   height: 20px;
   border: 1px solid #2B2B2B;
@@ -6278,6 +6332,14 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   bottom: 0px;
   left: 0px;
   background-color: #48ACF0;
+}
+
+.server-progress.warning {
+  background-color: #FEC07A;
+}
+
+.server-progress.danger {
+  background-color: #F4645F;
 }
 
 .group-list .item:last-child {
@@ -6313,6 +6375,24 @@ a.item:hover:before {
   line-height: .7em;
   display: inline-block;
   float: right;
+}
+
+.cpu-load {
+  display: -webkit-box;
+  display: flex;
+}
+
+.cpu-group {
+  -webkit-box-flex: 1;
+  flex: 1 1 1em;
+}
+
+.cpu-group:nth-child(2) {
+  margin: 0px 5px;
+}
+
+.cpu-min {
+  text-align: center;
 }
 
 .dropdown-menu {

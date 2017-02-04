@@ -1,22 +1,23 @@
 <template>
     <div class="server">
-        <div class="server-name">
-            <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
-            <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                {{ server.name }}
-            </router-link>
-        </div>
-        <div class="server-info">
-            <div class="server-provider">
-                Digital Ocean
+        <div class="server-header">
+            <div class="server-name">
+                <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
+                <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
+                    {{ server.name }}
+                </router-link>
             </div>
-
-            <div class="server-ip">
+            <div class="server-ip pull-right">
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.ip }}
                 </router-link>
             </div>
+            <div class="server-provider">
+                Digital Ocean
+            </div>
+        </div>
 
+        <div class="server-info">
             <div class="server-status">
                 <template v-if="server.progress < 100">
                     <h4>Status</h4>
@@ -44,8 +45,15 @@
                 <template v-if="server.progress >= 100">
                     <h4>Disk Usage</h4>
                     <template v-if="server.stats && server.stats.disk_usage">
-                        <div class="server-info" v-for="(stats, disk) in server.stats.disk_usage">
-                            {{ disk }} : {{ stats.used }} / {{ stats.available }} ({{ stats.percent }})
+                        <div class="server-info condensed" v-for="(stats, disk) in server.stats.disk_usage">
+                            {{ disk }}
+                            <div class="server-progress-container">
+                                <div class="server-progress" :style="{ width : stats.percent }"></div>
+
+                                <div class="stats-label stats-used">{{ stats.used }}</div>
+                                <div class="stats-label stats-available">{{ stats.available }}</div>
+                            </div>
+
                         </div>
                     </template>
                     <template v-else>
@@ -56,8 +64,16 @@
 
                     <h4>Memory</h4>
                     <template v-if="server.stats && server.stats.memory">
-                        <div class="server-info" v-for="(stats, memory_name) in server.stats.memory">
+                        <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
                             {{ memory_name }} : {{ stats.used }} / {{ stats.total }}
+                            <div class="server-progress-container">
+
+                                <!-- todo - figure out maths -->
+                                <div class="server-progress" :style="{ width : (stats.total/stats.used)*100+'%' }"></div>
+
+                                <div class="stats-label stats-used">{{stats.used}}</div>
+                                <div class="stats-label stats-available">{{stats.total}}</div>
+                            </div>
                         </div>
                     </template>
                     <template v-else>
@@ -66,20 +82,55 @@
                         </div>
                     </template>
 
-                    <h4>CPU Load</h4>
+                    <!-- todo - need helps with setup -->
                     <template v-if="server.stats && server.stats.loads">
-                        <div class="server-info">
-                            1 / 5 / 10 mins for {{ server.stats.cpus }} CPUS
+                        <h4>CPU Load <em>( {{ server.stats.cpus }} )</em></h4>
+                        <div class="server-info condensed">
+                            <div class="cpu-load">
+                                <div class="cpu-group">
+                                    <div class="cpu-min">1 min</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress danger" style="width: 23%;"></div>
+                                            <div class="stats-label stats-available">.23%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">5 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress warning" style="width: 10%;"></div>
+                                            <div class="stats-label stats-available">.10%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">10 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress" style="width: 4%;"></div>
+                                            <div class="stats-label stats-available">.04%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <template v-for="(load, ago, index) in server.stats.loads">
-                            <div class="server-info">
-                                {{ load }}%
-                                <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
-                                    /
-                                </template>
-                            </div>
-                        </template>
+                        <div class="server-info hide">
+                            1 / 5 / 10 mins
+
+                            <template v-for="(load, ago, index) in server.stats.loads">
+                                <div class="server-info">
+                                    {{ load }}%
+                                    <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
+                                        /
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
+
                     </template>
                     <template v-else>
                         N/A
@@ -87,19 +138,25 @@
                 </template>
 
             </div>
-        </div>
 
+            <div class="btn-container">
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="icon-web"></i>
+                </button>
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="icon-server"></i>
+                </button>
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="icon-database"></i>
+                </button>
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="icon-worker"></i>
+                </button>
+                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="icon-archive"></i>
+                </button>
 
-
-        <div class="server-name">
-
-            <div>
-
-
-
-
-
-                <div class="dropdown">
+                <div class="dropdown hide">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                         <i class="icon-server"></i>
                     </button>
