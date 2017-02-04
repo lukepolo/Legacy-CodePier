@@ -3,7 +3,10 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
                 <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
-                    <a>Repository</a>
+                    <a>Repository
+                        <div class="small">Hi this is where yousetup your repository information</div>
+                    </a>
+
                 </router-link>
 
                 <router-link :to="{ name : 'site_deployment', params : { site_id : siteId } }" tag="li">
