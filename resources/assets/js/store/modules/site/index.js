@@ -2,6 +2,7 @@ export const site = require('./SiteStore').default
 export const siteFiles = require('./SiteFileStore').default
 export const siteSshKeys = require('./SiteSShKeyStore').default
 export const siteWorkers = require('./SiteWorkerStore').default
+export const siteSchemas = require('./SiteSchemaStore').default
 export const siteCronJobs = require('./SiteCronJobStore').default
 export const siteFirewallRules = require('./SiteFirewallStore').default
 export const siteServersFeatures = require('./SiteServerFeatureStore').default
