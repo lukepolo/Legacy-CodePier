@@ -421,18 +421,18 @@ const router = new VueRouter({
             ]
         },
         {
-            path: '/my-profile', component: userPages.UserArea,
+            path: '/my', component: userPages.UserArea,
             children: [
                 {
-                    path: '/',
-                    name: 'my_profile',
+                    path: 'account',
+                    name: 'my_account',
                     components: {
                         default: userPages.UserInfo,
                         nav: userPages.UserNav
                     }
                 },
                 {
-                    path: 'oauth',
+                    path: 'account/oauth',
                     name: 'oauth',
                     components: {
                         default: userPages.UserOauth,
@@ -440,7 +440,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'ssh-keys',
+                    path: 'account/ssh-keys',
                     name: 'user_ssh_keys',
                     components: {
                         default: userPages.UserSshKeys,
@@ -448,7 +448,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'subscription',
+                    path: 'account/subscription',
                     name: 'subscription',
                     components: {
                         default: userPages.UserSubscription,
