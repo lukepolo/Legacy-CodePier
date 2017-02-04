@@ -88,17 +88,15 @@
 
         <template v-if="site.repository && hasDeployableServers">
 
-            <template v-if="isDeploying">
-                {{ isDeploying.status }}
-            </template>
-
-            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
+            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">
+                Deploy
+                <template v-if="isDeploying">
+                    {{ isDeploying.status }}
+                </template>
+            </a>
 
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>
-                <template v-if="!site.private">
-                    <small>Please make sure you own the public repository otherwise we cannot create the deploy hook</small>
-                </template>
             </template>
             <template v-else>
                 <a class="btn btn-primary" @click.prevent="removeDeployHook">Stop Automatic Deployments</a>
