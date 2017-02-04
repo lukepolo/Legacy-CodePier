@@ -25,7 +25,7 @@ class SiteSshKeyCreated
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

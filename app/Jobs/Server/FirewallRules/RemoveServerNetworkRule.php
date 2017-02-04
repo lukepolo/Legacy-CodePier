@@ -18,6 +18,9 @@ class RemoveServerNetworkRule implements ShouldQueue
 
     private $serverNetworkRule;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      *

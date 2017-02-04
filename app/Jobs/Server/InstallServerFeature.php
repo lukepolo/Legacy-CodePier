@@ -20,6 +20,9 @@ class InstallServerFeature implements ShouldQueue
     private $service;
     private $parameters;
 
+    public $tries = 1;
+    public $timeout = 300;
+
     /**
      * Create a new job instance.
      *

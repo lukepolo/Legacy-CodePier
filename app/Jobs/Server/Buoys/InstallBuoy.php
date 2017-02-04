@@ -20,6 +20,9 @@ class InstallBuoy implements ShouldQueue
     private $buoy;
     private $server;
 
+    public $tries = 1;
+    public $timeout = 600;
+
     /**
      * InstallServerWorker constructor.
      * @param Server $server
