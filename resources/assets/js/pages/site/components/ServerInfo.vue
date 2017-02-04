@@ -2,6 +2,7 @@
     <div class="server">
         <div class="server-header">
             <div class="server-name">
+                <span class="icon-arrow-down pull-right" :class="{ closed : !showInfo }" @click="showInfo = !showInfo"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.name }}
@@ -17,9 +18,7 @@
                 <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
             </template>
 
-            <div class="btn" @click="showInfo = !showInfo">
-                Show / Hide Info
-            </div>
+
         </div>
 
         <div class="server-info" v-if="showInfo">

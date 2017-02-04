@@ -19,6 +19,7 @@
                 <div class="jcf-input-group">
                     <input type="text" name="web_directory" v-model="form.web_directory">
                     <label for="web_directory">
+                        <span class="fa fa-info-circle"></span>
                         <span class="float-label">Web Directory</span>
                     </label>
                 </div>
