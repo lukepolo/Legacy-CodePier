@@ -5203,6 +5203,12 @@ pre {
   color: #FEC07A;
 }
 
+.small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  padding-top: 10px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", serif;
   font-weight: 400;
@@ -5251,6 +5257,32 @@ footer {
 #right {
   -webkit-box-flex: 1;
   flex: 1 1 1em;
+}
+
+.xlarge-wrap {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+}
+
+.xlarge-wrap #main {
+  float: 1 1 auto;
+}
+
+@media (min-width: 2100px) {
+  .xlarge-wrap {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+  }
+  .xlarge-wrap footer {
+    -webkit-box-flex: 0;
+    flex: 0 0 35%;
+  }
 }
 
 .jcf-form-wrap .input-checkbox,
