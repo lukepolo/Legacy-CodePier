@@ -13,6 +13,8 @@ import store from './store'
 import Piles from './pages/pile/Piles.vue'
 import PageNotFound from './core/PageNotFound.vue'
 
+const filesizeParser = require('filesize-parser')
+
 Vue.directive('file-editor', {
     bind: function (element, params) {
         const editor = ace.edit(element)
@@ -169,6 +171,9 @@ Vue.mixin({
         },
         isAdmin () {
             return this.$store.state.userStore.user.role === 'admin'
+        },
+        getBytesFromString (string) {
+            return filesizeParser(string, { base: 10 })
         }
     }
 })

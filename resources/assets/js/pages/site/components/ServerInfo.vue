@@ -20,6 +20,7 @@
         <div class="server-info">
             <div class="server-status">
                 <template v-if="server.progress < 100">
+
                     <h4>Status</h4>
 
                     <div class="server-progress-container">
@@ -40,21 +41,22 @@
                     <template v-if="server.progress == 0 && server.custom_server_url">
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
                     </template>
+
                 </template>
 
                 <template v-if="server.progress >= 100">
                     <h4>Disk Usage</h4>
                     <template v-if="server.stats && server.stats.disk_usage">
+
                         <div class="server-info condensed" v-for="(stats, disk) in server.stats.disk_usage">
                             {{ disk }}
                             <div class="server-progress-container">
                                 <div class="server-progress" :style="{ width : stats.percent }"></div>
-
                                 <div class="stats-label stats-used">{{ stats.used }}</div>
                                 <div class="stats-label stats-available">{{ stats.available }}</div>
                             </div>
-
                         </div>
+
                     </template>
                     <template v-else>
                         <div class="server-info">
@@ -64,17 +66,16 @@
 
                     <h4>Memory</h4>
                     <template v-if="server.stats && server.stats.memory">
+
                         <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
                             {{ memory_name }} : {{ stats.used }} / {{ stats.total }}
                             <div class="server-progress-container">
-
-                                <!-- todo - figure out maths -->
-                                <div class="server-progress" :style="{ width : (stats.total/stats.used)*100+'%' }"></div>
-
+                                <div class="server-progress" :style="{ width : (getBytesFromString(stats.used)/getBytesFromString(stats.total))*100+'%' }"></div>
                                 <div class="stats-label stats-used">{{stats.used}}</div>
                                 <div class="stats-label stats-available">{{stats.total}}</div>
                             </div>
                         </div>
+
                     </template>
                     <template v-else>
                         <div class="server-info">
@@ -87,50 +88,33 @@
                         <h4>CPU Load <em>( {{ server.stats.cpus }} )</em></h4>
                         <div class="server-info condensed">
                             <div class="cpu-load">
-                                <div class="cpu-group">
-                                    <div class="cpu-min">1 min</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress danger" style="width: 23%;"></div>
-                                            <div class="stats-label stats-available">.23%</div>
+
+                                <template v-for="(load, ago) in server.stats.loads">
+
+                                    <div class="cpu-group">
+
+                                        <div class="cpu-min">{{ ago }} {{ getAgoText(ago) }}</div>
+
+                                        <div class="cpu-stats">
+                                            <div class="server-progress-container">
+                                                <div
+                                                    class="server-progress"
+                                                    :class="{
+                                                        danger : getCpuLoad(load) >= 75,
+                                                        warning :  getCpuLoad(load) < 75 && getCpuLoad(load) >= 50
+                                                    }"
+                                                    :style="{ width : getCpuLoad(load) + '%' }">
+
+                                                </div>
+                                                <div class="stats-label stats-available">{{ load }}</div>
+                                            </div>
                                         </div>
+
                                     </div>
-                                </div>
-                                <div class="cpu-group">
-                                    <div class="cpu-min">5 mins</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress warning" style="width: 10%;"></div>
-                                            <div class="stats-label stats-available">.10%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cpu-group">
-                                    <div class="cpu-min">10 mins</div>
-                                    <div class="cpu-stats">
-                                        <div class="server-progress-container">
-                                            <div class="server-progress" style="width: 4%;"></div>
-                                            <div class="stats-label stats-available">.04%</div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                </template>
                             </div>
                         </div>
-
-                        <div class="server-info hide">
-                            1 / 5 / 10 mins
-
-                            <template v-for="(load, ago, index) in server.stats.loads">
-                                <div class="server-info">
-                                    {{ load }}%
-                                    <template v-if="index != (Object.keys(server.stats.loads).length - 1)">
-                                        /
-                                    </template>
-                                </div>
-                            </template>
-                        </div>
-
-
                     </template>
                     <template v-else>
                         N/A
@@ -140,45 +124,11 @@
             </div>
 
             <div class="btn-container">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="icon-web"></i>
-                </button>
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="icon-server"></i>
-                </button>
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="icon-database"></i>
-                </button>
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="icon-worker"></i>
-                </button>
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="icon-archive"></i>
-                </button>
-
-                <div class="dropdown hide">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="icon-server"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <confirm-dropdown dispatch="restartServerWebServices" :params="server.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
-                        </li>
-                        <li>
-                            <confirm-dropdown dispatch="restartServer" :params="server.id"><a href="#"><span class="icon-server"></span> Restart Server</a></confirm-dropdown>
-                        </li>
-                        <li>
-                            <confirm-dropdown dispatch="restartServerDatabases" :params="server.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
-                        </li>
-                        <li>
-                            <confirm-dropdown dispatch="restartServerWorkers" :params="server.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <confirm-dropdown dispatch="archiveServer" :params="server.id"><a href="#"><span class="icon-archive"></span> Archive Server</a></confirm-dropdown>
-                        </li>
-                    </ul>
-                </div>
+                <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
+                <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
+                <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
+                <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
+                <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
             </div>
         </div>
 </template>
@@ -200,13 +150,14 @@
         methods : {
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
+            },
+            getCpuLoad(load) {
+                let loadPercent = (load / this.server.stats.cpus) * 100
+                return (loadPercent > 100 ? 100 : loadPercent)
+            },
+            getAgoText(ago) {
+                return _('min').pluralize(ago).replace('"', '')
             }
         },
-        data() {
-            return {
-                custom_url : null
-            }
-        }
-
     }
 </script>
