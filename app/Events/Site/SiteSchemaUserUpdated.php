@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\Schemas\UpdateServerSchemaUser;
-use App\Models\SchemaUser;
 use App\Models\Site\Site;
+use App\Models\SchemaUser;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\Schemas\UpdateServerSchemaUser;
 
 class SiteSchemaUserUpdated
 {
