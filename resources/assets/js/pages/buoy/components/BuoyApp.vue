@@ -24,7 +24,7 @@
             </div>
         </template>
 
-        <template v-else="pile.sites">
+        <template v-else="pile.servers">
             <div class="group-content">
                 <h4>No Sites</h4>
             </div>
