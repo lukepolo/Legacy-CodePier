@@ -3,6 +3,7 @@
 namespace App\Services\Buoys;
 
 use App\Models\Buoy;
+use App\Services\Systems\SystemService;
 use App\Traits\SystemFiles;
 use App\Models\Server\Server;
 use App\Contracts\Buoys\BuoyContract;
@@ -78,6 +79,8 @@ class BuoyService implements BuoyServiceContract
      */
     public function installBuoy(Server $server, Buoy $buoy)
     {
+        create_system_service(SystemService::SYSTEM, $server)->installDocker();
+
         $buoyClass = $buoy->buoyApp->buoy_class;
 
         $buoy->update([
