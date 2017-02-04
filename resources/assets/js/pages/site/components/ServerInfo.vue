@@ -7,17 +7,22 @@
                     {{ server.name }}
                 </router-link>
             </div>
-            <div class="server-ip pull-right">
+            <div class="server-ip">
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.ip }}
                 </router-link>
             </div>
-            <div class="server-provider">
-                Digital Ocean
+
+            <template v-if="server.stats && server.stats.loads && !showInfo">
+                <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
+            </template>
+
+            <div class="btn" @click="showInfo = !showInfo">
+                Show / Hide Info
             </div>
         </div>
 
-        <div class="server-info">
+        <div class="server-info" v-if="showInfo">
             <div class="server-status">
                 <template v-if="server.progress < 100">
 
@@ -83,38 +88,9 @@
                         </div>
                     </template>
 
-                    <!-- todo - need helps with setup -->
+                    <h4>CPU Load <em v-if="server.stats && server.stats.cpus">( {{ server.stats.cpus }} )</em></h4>
                     <template v-if="server.stats && server.stats.loads">
-                        <h4>CPU Load <em>( {{ server.stats.cpus }} )</em></h4>
-                        <div class="server-info condensed">
-                            <div class="cpu-load">
-
-                                <template v-for="(load, ago) in server.stats.loads">
-
-                                    <div class="cpu-group">
-
-                                        <div class="cpu-min">{{ ago }} {{ getAgoText(ago) }}</div>
-
-                                        <div class="cpu-stats">
-                                            <div class="server-progress-container">
-                                                <div
-                                                    class="server-progress"
-                                                    :class="{
-                                                        danger : getCpuLoad(load) >= 75,
-                                                        warning :  getCpuLoad(load) < 75 && getCpuLoad(load) >= 50
-                                                    }"
-                                                    :style="{ width : getCpuLoad(load) + '%' }">
-
-                                                </div>
-                                                <div class="stats-label stats-available">{{ load }}</div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </template>
-                            </div>
-                        </div>
+                        <cpu-loads :stats="server.stats"></cpu-loads>
                     </template>
                     <template v-else>
                         N/A
@@ -134,8 +110,17 @@
 </template>
 
 <script>
+    import CpuLoads from './ServerInfo/CpuLoadVue.vue'
     export default {
-        props : ['server'],
+        props : {
+            'server' : {},
+            'showInfo' : {
+                default : false
+            }
+        },
+        components : {
+          CpuLoads
+        },
         computed : {
             currentProvisioningStep() {
                 let provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
@@ -150,13 +135,6 @@
         methods : {
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
-            },
-            getCpuLoad(load) {
-                let loadPercent = (load / this.server.stats.cpus) * 100
-                return (loadPercent > 100 ? 100 : loadPercent)
-            },
-            getAgoText(ago) {
-                return _('min').pluralize(ago).replace('"', '')
             }
         },
     }

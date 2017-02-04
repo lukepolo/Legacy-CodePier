@@ -6,7 +6,7 @@
         <div class="section-content">
 
             <template v-for="server in servers">
-                <server-info :server="server"></server-info>
+                <server-info :server="server" :showInfo="servers.length == 1 ? true : false"></server-info>
             </template>
 
             <template v-if="availableServers.length">
