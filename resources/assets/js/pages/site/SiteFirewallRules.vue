@@ -3,7 +3,6 @@
 
         <div class="jcf-form-wrap">
             <form @submit.prevent="createFirewallRule" class="floating-labels">
-                <h3>Firewall Rules</h3>
                 <div class="jcf-input-group">
                     <input type="text" name="description" v-model="form.description">
                     <label for="description">

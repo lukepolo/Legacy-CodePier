@@ -9,7 +9,7 @@
             'hint--always': this.always,
             'hint--no-animate': this.noAnimate
         }]"
-        :aria-label="label"
+        :aria-label="message"
     >
         {{ type }}
         <slot></slot>
@@ -23,13 +23,13 @@
             always: Boolean,
             rounded: Boolean,
             noAnimate: Boolean,
-            label: {
+            message: {
                 type: String,
                 default: ''
             },
             placement: {
                 type: String,
-                default: 'bottom'
+                default: 'top'
             }
         }
     }
