@@ -186,6 +186,7 @@ Vue.mixin({
  */
 
 Vue.component('back', require('./core/Back.vue'))
+Vue.component('tooltip', require('./core/ToolTip.vue'))
 Vue.component('Confirm', require('./components/Confirm.vue'))
 Vue.component('ConfirmDropdown', require('./components/ConfirmDropdown.vue'))
 Vue.component('Navigation', require('./core/Navigation.vue'))
