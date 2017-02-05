@@ -95,7 +95,7 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link :to="{ name: 'my_profile' }"><span class="icon-person"></span>My Profile</router-link>
+                        <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
                     </li>
                     <li>
                         <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>

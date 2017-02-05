@@ -10,6 +10,7 @@ use App\Jobs\Server\UpdateServerFile;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Jobs\Server\Schemas\AddServerSchema;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Jobs\Server\Workers\InstallServerWorker;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
@@ -85,6 +86,12 @@ class CreateSite implements ShouldQueue
         $this->site->workers->each(function ($worker) {
             dispatch(
                 (new InstallServerWorker($this->server, $worker, $this->makeCommand($this->site, $worker)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
+
+        $this->site->schemas->each(function ($schema) {
+            dispatch(
+                (new AddServerSchema($this->server, $schema, $this->makeCommand($this->site, $schema)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 

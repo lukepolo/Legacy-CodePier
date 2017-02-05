@@ -3,7 +3,6 @@
 
         <div class="jcf-form-wrap">
             <form @submit.prevent="createFirewallRule" class="floating-labels">
-                <h3>Firewall Rules</h3>
                 <div class="jcf-input-group">
                     <input type="text" name="description" v-model="form.description">
                     <label for="description">
@@ -75,7 +74,7 @@
                     port: null,
                     type : 'tcp',
                     from_ip: null,
-                    description: null,
+                    description: null
                 }
             }
         },
@@ -88,7 +87,6 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getSiteFirewallRules', this.$route.params.site_id);
-                this.$store.dispatch('getSite', this.$route.params.site_id);
             },
             createFirewallRule() {
 

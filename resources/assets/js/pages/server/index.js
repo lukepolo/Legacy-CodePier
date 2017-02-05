@@ -11,3 +11,7 @@ export const ServerFeatures = require('./ServerFeatures.vue')
 export const ServerNav = require('./components/ServerNav.vue')
 export const ServerMonitoring = require('./ServerMonitoring.vue')
 export const ServerFirewallRules = require('./ServerFirewallRules.vue')
+
+export const SecurityNav = require('./components/sub-navs/Security.vue')
+export const ServerSetupNav = require('./components/sub-navs/ServerSetup.vue')
+export const ServerInformationNav = require('./components/sub-navs/ServerInformation.vue')

@@ -3,19 +3,31 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
                 <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
-                    <a>Repository</a>
+                    <a>
+                        Repository
+                        <div class="small">Your app's information</div>
+                    </a>
                 </router-link>
 
                 <router-link :to="{ name : 'site_deployment', params : { site_id : siteId } }" tag="li">
-                    <a>Deployment</a>
+                    <a>
+                        Deployment
+                        <div class="small">Customize your apps deployment</div>
+                    </a>
                 </router-link>
 
                 <router-link :to="{ name : 'site_files', params : { site_id : siteId } }" tag="li" v-if="site && site.framework">
-                    <a>Framework Files</a>
+                    <a>
+                        Framework Files
+                        <div class="small">Your app has some default files that need to be configured</div>
+                    </a>
                 </router-link>
 
                 <router-link :to="{ name : 'site_databases', params : { site_id : siteId } }" tag="li" v-if="site">
-                    <a>Databases</a>
+                    <a>
+                        Databases
+                        <div class="small">Setup your sites databases and users</div>
+                    </a>
                 </router-link>
             </ul>
             <div class="tab-content">
