@@ -1634,16 +1634,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.8",
+            "version": "v5.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3e226e3481aabe835626739a1507c8af17b76082"
+                "reference": "600330ae1d218919b3b307e0578461a2df248663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3e226e3481aabe835626739a1507c8af17b76082",
-                "reference": "3e226e3481aabe835626739a1507c8af17b76082",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/600330ae1d218919b3b307e0578461a2df248663",
+                "reference": "600330ae1d218919b3b307e0578461a2df248663",
                 "shasum": ""
             },
             "require": {
@@ -1759,20 +1759,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-02-01T14:45:01+00:00"
+            "time": "2017-02-03T19:47:35+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "da617aa36720d11ad7f358630715b4ebd585b596"
+                "reference": "2f834e286ca51d1ffbb5c3e657131451b04a577d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/da617aa36720d11ad7f358630715b4ebd585b596",
-                "reference": "da617aa36720d11ad7f358630715b4ebd585b596",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/2f834e286ca51d1ffbb5c3e657131451b04a577d",
+                "reference": "2f834e286ca51d1ffbb5c3e657131451b04a577d",
                 "shasum": ""
             },
             "require": {
@@ -1823,20 +1823,20 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2017-01-24T13:48:25+00:00"
+            "time": "2017-02-05T15:14:24+00:00"
         },
         {
             "name": "laravel/socialite",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "d3aaffa5e122395e54eb2c26062fde3a848c40fd"
+                "reference": "01588748beef55ad5dd4f172d235548d3a6be79a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/d3aaffa5e122395e54eb2c26062fde3a848c40fd",
-                "reference": "d3aaffa5e122395e54eb2c26062fde3a848c40fd",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/01588748beef55ad5dd4f172d235548d3a6be79a",
+                "reference": "01588748beef55ad5dd4f172d235548d3a6be79a",
                 "shasum": ""
             },
             "require": {
@@ -1877,7 +1877,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2017-01-25T17:58:13+00:00"
+            "time": "2017-02-01T13:43:56+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -3629,16 +3629,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "7656110b7577c4239b5c76a5c2d67261b0122ca0"
+                "reference": "5bee26136ab3fc166334cd972892bf71bd361558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/7656110b7577c4239b5c76a5c2d67261b0122ca0",
-                "reference": "7656110b7577c4239b5c76a5c2d67261b0122ca0",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5bee26136ab3fc166334cd972892bf71bd361558",
+                "reference": "5bee26136ab3fc166334cd972892bf71bd361558",
                 "shasum": ""
             },
             "require": {
@@ -3686,7 +3686,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2016-12-14T21:57:27+00:00"
+            "time": "2017-02-03T07:32:53+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -5891,16 +5891,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.9",
+            "version": "5.7.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "69f832b87c731d5cacad7f91948778fe98335fdd"
+                "reference": "bf0804199f516fe80ffcc48ac6d4741c49baeb6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/69f832b87c731d5cacad7f91948778fe98335fdd",
-                "reference": "69f832b87c731d5cacad7f91948778fe98335fdd",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bf0804199f516fe80ffcc48ac6d4741c49baeb6e",
+                "reference": "bf0804199f516fe80ffcc48ac6d4741c49baeb6e",
                 "shasum": ""
             },
             "require": {
@@ -5917,11 +5917,11 @@
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^3.2",
-                "sebastian/comparator": "~1.2.2",
+                "sebastian/comparator": "^1.2.4",
                 "sebastian/diff": "~1.2",
                 "sebastian/environment": "^1.3.4 || ^2.0",
                 "sebastian/exporter": "~2.0",
-                "sebastian/global-state": "^1.0 || ^2.0",
+                "sebastian/global-state": "^1.1",
                 "sebastian/object-enumerator": "~2.0",
                 "sebastian/resource-operations": "~1.0",
                 "sebastian/version": "~1.0|~2.0",
@@ -5969,7 +5969,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-01-28T06:14:33+00:00"
+            "time": "2017-02-04T09:03:53+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
