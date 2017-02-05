@@ -3,6 +3,13 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
 
+                <router-link :to="{ name : 'site_cron_jobs', params : { site_id : siteId } }" tag="li" exact>
+                    <a>
+                        Cron Jobs
+                        <div class="small">Configure cron jobs</div>
+                    </a>
+                </router-link>
+
                 <router-link :to="{ name : 'site_workers', params : { site_id : siteId } }" tag="li" exact>
                     <a>
                         Workers
