@@ -22,6 +22,9 @@ class SiteSchemaUserDeleted
     {
         $siteCommand = $this->makeCommand($site, $schemaUser);
 
+        // TODO has not been coded out
+//        $site->schemas()->detach($schemaUser);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerSchemaUser($server, $schemaUser, $siteCommand))->onQueue(config('queue.channels.server_commands'))

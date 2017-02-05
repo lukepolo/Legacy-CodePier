@@ -21,6 +21,9 @@ class SiteWorkerDeleted
     public function __construct(Site $site, Worker $worker)
     {
         $siteCommand = $this->makeCommand($site, $worker);
+
+        $site->workers()->detach($worker);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(new RemoveServerWorker($server, $worker, $siteCommand));
         }

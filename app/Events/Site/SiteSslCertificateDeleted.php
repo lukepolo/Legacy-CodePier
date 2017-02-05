@@ -22,6 +22,8 @@ class SiteSslCertificateDeleted
     {
         $siteCommand = $this->makeCommand($site, $sslCertificate);
 
+        $site->sslCertificates()->detach($sslCertificate);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
