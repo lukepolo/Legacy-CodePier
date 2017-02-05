@@ -27,9 +27,9 @@ class CreateSchemasTable extends Migration
 //            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
 //        });
 
-        Schema::table('schemables', function(Blueprint $table) {
-            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
-        });
+//        Schema::table('schemables', function(Blueprint $table) {
+//            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
+//        });
     }
 
     /**
