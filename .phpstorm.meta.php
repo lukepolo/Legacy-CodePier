@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-02-01.
+    * Generated on 2017-02-05.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -72,6 +72,7 @@ namespace PHPSTORM_META {
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
             'redis' instanceof \Illuminate\Redis\RedisManager,
+            'redis.connection' instanceof \Illuminate\Redis\Connections\PredisConnection,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'command.cache.clear' instanceof \Illuminate\Cache\Console\ClearCommand,
             'command.cache.forget' instanceof \Illuminate\Cache\Console\ForgetCommand,
@@ -221,6 +222,7 @@ namespace PHPSTORM_META {
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
             'redis' instanceof \Illuminate\Redis\RedisManager,
+            'redis.connection' instanceof \Illuminate\Redis\Connections\PredisConnection,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'command.cache.clear' instanceof \Illuminate\Cache\Console\ClearCommand,
             'command.cache.forget' instanceof \Illuminate\Cache\Console\ForgetCommand,
@@ -370,6 +372,7 @@ namespace PHPSTORM_META {
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
             'redis' instanceof \Illuminate\Redis\RedisManager,
+            'redis.connection' instanceof \Illuminate\Redis\Connections\PredisConnection,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'command.cache.clear' instanceof \Illuminate\Cache\Console\ClearCommand,
             'command.cache.forget' instanceof \Illuminate\Cache\Console\ForgetCommand,
@@ -519,6 +522,7 @@ namespace PHPSTORM_META {
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
             'redis' instanceof \Illuminate\Redis\RedisManager,
+            'redis.connection' instanceof \Illuminate\Redis\Connections\PredisConnection,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'command.cache.clear' instanceof \Illuminate\Cache\Console\ClearCommand,
             'command.cache.forget' instanceof \Illuminate\Cache\Console\ForgetCommand,
