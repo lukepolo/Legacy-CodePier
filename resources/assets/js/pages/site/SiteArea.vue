@@ -40,16 +40,21 @@
             <div class="section-content">
                 <div class="container">
 
-                    <transition >
-                        <router-view name="nav"></router-view>
-                    </transition>
+                    <template v-if="site && site.repository">
+                        <transition>
+                            <router-view name="nav"></router-view>
+                        </transition>
 
-                    <transition >
-                        <router-view name="subNav">
-                            <router-view></router-view>
-                        </router-view>
-                    </transition>
-
+                        <transition >
+                            <router-view name="subNav">
+                                <router-view></router-view>
+                            </router-view>
+                        </transition>
+                    </template>
+                    <template v-else>
+                        <h3>Repository Informationsit</h3>
+                        <router-view></router-view>
+                    </template>
                 </div>
             </div>
         </section>
@@ -76,12 +81,26 @@
             Servers,
             SiteHeader,
         },
+        created() {
+            this.fetchData();
+        },
         watch: {
             '$route' (to, from) {
                 const toDepth = to.path.split('/').length
                 const fromDepth = from.path.split('/').length
 //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
                 this.transitionName = 'bounce';
+                this.fetchData()
+            }
+        },
+        methods: {
+            fetchData() {
+                this.$store.dispatch('getSite', this.$route.params.site_id);
+            }
+        },
+        computed: {
+            site() {
+                return this.$store.state.sitesStore.site
             }
         }
     }

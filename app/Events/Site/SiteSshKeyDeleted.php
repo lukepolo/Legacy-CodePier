@@ -25,7 +25,7 @@ class SiteSshKeyDeleted
 
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new RemoveServerSshKey($server, $sshKey, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RemoveServerSshKey($server, $sshKey, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

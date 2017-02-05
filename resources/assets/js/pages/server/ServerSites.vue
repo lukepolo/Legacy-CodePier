@@ -53,7 +53,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerSites', this.$route.params.server_id);
             },
             isZerotimeDeployment(site) {

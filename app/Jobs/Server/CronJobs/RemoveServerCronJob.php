@@ -20,6 +20,9 @@ class RemoveServerCronJob implements ShouldQueue
     private $server;
     private $cronJob;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * RemoveServerCronJob constructor.
      * @param Server $server

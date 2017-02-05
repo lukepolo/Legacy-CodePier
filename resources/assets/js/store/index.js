@@ -4,8 +4,11 @@ import { action } from './helpers'
 import * as UserStore from './modules/user'
 import * as SiteStore from './modules/site'
 import * as ServerStore from './modules/server'
+
 import PileStore from './modules/PileStore'
+import BittsStore from './modules/BittsStore'
 import EventsStore from './modules/EventsStore'
+import SystemsStore from './modules/SystemsStore'
 import BuoyAppsStore from './modules/BuoyAppsStore'
 import CategoriesStore from './modules/CategoriesStore'
 import NotificationStore from './modules/NotificationStore'
@@ -19,7 +22,9 @@ export default new Vuex.Store({
         notificationsStore: NotificationStore,
 
         pilesStore: PileStore,
+        bittsStore: BittsStore,
         eventsStore: EventsStore,
+        systemsStore: SystemsStore,
         buoyAppsStore: BuoyAppsStore,
         categoriesStore: CategoriesStore,
 
@@ -32,6 +37,7 @@ export default new Vuex.Store({
         sitesStore: SiteStore.site,
         siteFilesStore: SiteStore.siteFiles,
         siteWorkersStore: SiteStore.siteWorkers,
+        siteSchemasStore: SiteStore.siteSchemas,
         siteSshKeysStore: SiteStore.siteSshKeys,
         siteCronJobsStore: SiteStore.siteCronJobs,
         siteFirewallRulesStore: SiteStore.siteFirewallRules,
@@ -40,7 +46,7 @@ export default new Vuex.Store({
 
         serversStore: ServerStore.server,
         serverFilesStore: ServerStore.files,
-        serverBuoysStore : ServerStore.buoys,
+        serverBuoysStore: ServerStore.buoys,
         serverWorkersStore: ServerStore.workers,
         serverSshKeysStore: ServerStore.sshKeys,
         serverCronJobsStore: ServerStore.cronJobs,

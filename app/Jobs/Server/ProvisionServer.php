@@ -21,6 +21,9 @@ class ProvisionServer implements ShouldQueue
 
     protected $server;
 
+    public $tries = 1;
+    public $timeout = 900;
+
     /**
      * Create a new job instance.
      *
@@ -52,7 +55,7 @@ class ProvisionServer implements ShouldQueue
 
             foreach ($this->server->sites as $site) {
                 dispatch(
-                    (new CreateSite($this->server, $site))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                    (new CreateSite($this->server, $site))->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
@@ -78,9 +81,6 @@ class ProvisionServer implements ShouldQueue
                 ],
                 'setupUnattendedSecurityUpgrades' => [
                     'step' => 'Setup Unattended Security Upgrades',
-                ],
-                'installDocker' => [
-                    'step' => 'Installing Docker',
                 ],
             ],
             SystemService::FIREWALL => [

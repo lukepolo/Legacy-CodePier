@@ -11,10 +11,8 @@
                 </div>
 
                 <div class="jcf-input-group">
-                    <input type="text" name="ssh_key" v-model="form.ssh_key">
-                    <label for="ssh_key">
-                        <span class="float-label">Public Key - Should be textarea</span>
-                    </label>
+                    <div class="input-question">Public Key</div>
+                    <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
                 </div>
 
                 <div class="btn-footer">

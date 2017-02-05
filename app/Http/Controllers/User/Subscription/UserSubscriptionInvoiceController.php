@@ -12,7 +12,7 @@ class UserSubscriptionInvoiceController extends Controller
      */
     public function __construct()
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**
@@ -45,7 +45,7 @@ class UserSubscriptionInvoiceController extends Controller
      */
     public function show($id)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
         return \Auth::user()->downloadInvoice($id, [
             'vendor'  => 'CodePier',

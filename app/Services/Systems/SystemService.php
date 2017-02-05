@@ -13,7 +13,7 @@ class SystemService implements SystemServiceContract
     protected $server;
     protected $remoteTaskService;
 
-    protected $provisionSystems = [
+    public $provisionSystems = [
         'ubuntu 16.04' => 'Ubuntu\V_16_04',
     ];
 
@@ -76,7 +76,7 @@ class SystemService implements SystemServiceContract
 
             return false;
         } catch (\Exception $e) {
-            if (env('APP_DEBUG')) {
+            if (config('app.env')) {
                 throw $e;
             }
 

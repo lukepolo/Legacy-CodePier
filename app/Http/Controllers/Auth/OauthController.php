@@ -55,7 +55,7 @@ class OauthController extends Controller
 
         switch ($provider) {
             case self::GITHUB:
-                $providerDriver->scopes(['write:public_key admin:repo_hook']);
+                $providerDriver->scopes(['write:public_key write:repo_hook']);
                 break;
             case self::DIGITAL_OCEAN:
                 $providerDriver->scopes(['read write']);
@@ -92,7 +92,7 @@ class OauthController extends Controller
                         if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
                             $authCode = session('auth_code');
 
-                            if (! env('APP_REGISTRATION')) {
+                            if (! config('app.registration')) {
                                 if (empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
                                     return back()->withErrors('Registration is disabled');
                                 }
@@ -161,9 +161,9 @@ class OauthController extends Controller
                 $oauth_params = [
                     'oauth_token'           => $user->token,
                     'oauth_token_secret'    => $user->tokenSecret,
-                    'oauth_consumer_key'    => env('OAUTH_BITBUCKET_CLIENT_ID'),
-                    'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
-                    'oauth_callback'        => env('OAUTH_BITBUCKET_CALLBACK'),
+                    'oauth_consumer_key'    => config('services.bitbucket.client_id'),
+                    'oauth_consumer_secret' => config('services.bitbucket.client_secret'),
+                    'oauth_callback'        => config('services.bitbucket.redirect'),
                 ];
 
                 $users = new Users();

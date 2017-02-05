@@ -2,7 +2,6 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="installLetsEncryptCertificate">
-                <h3>SSL Certificates</h3>
                 <div class="jcf-input-group">
                     <input type="text" v-model="domains" name="domains">
                     <label for="domains">
@@ -36,7 +35,7 @@
     export default {
         data() {
             return {
-                domains: null,
+                domains: null
             }
         },
         created() {
@@ -47,7 +46,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
             installLetsEncryptCertificate() {

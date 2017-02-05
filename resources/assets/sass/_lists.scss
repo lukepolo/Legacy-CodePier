@@ -46,14 +46,35 @@
 
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
-.server > a {
+.server {
   display: block;
   border-bottom: 1px solid $color-divider;
-  padding: $spacing;
   position: relative;
 
   &.router-link-active {
     background-color: mix($gray, $black, 50%);
+  }
+
+  .btn-container {
+    border-top: 1px solid rgba($color-divider, .4);
+    margin: 0px;
+    padding: $spacing/2 0px;
+    display: flex;
+    justify-content: space-between;
+
+    .btn + .btn,
+    .confirm-container {
+      margin: 0px;
+    }
+  }
+}
+
+.server-header {
+  background-color: rgba($black, .3);
+  padding: ($spacing) ($spacing) ($spacing/2);
+
+  .server-info.condensed .server-progress-container {
+    margin: 20px 0px 10px;
   }
 }
 
@@ -61,7 +82,40 @@
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: $spacing/4;
-  padding-right: 1.4em;
+
+  a {
+    color: $color-text-primary;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    font-size: 2em;
+    cursor: pointer;
+    transition: all .2s ease;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &.closed {
+      transform: rotate(-90deg);
+      transition: all .2s ease;
+    }
+  }
+
+  .event-status {
+    float: left;
+    margin-right: $spacing;
+    margin-left: 0px;
+  }
+}
+
+.server-ip {
+    color: $color-text-primary;
+    padding-left: 36px;
 }
 
 .server-connection {
@@ -84,7 +138,46 @@
 }
 
 .server-status {
-  margin-top: $spacing/2;
+  h4 {
+    margin: 0px 0px $spacing/4;
+    padding-top: $spacing/2;
+
+    &:not(:first-child) {
+      border-top: 1px solid $color-divider;
+    }
+  }
+}
+
+.server-info {
+  padding: 0px 20px;
+
+  &.condensed {
+
+    .server-progress-container {
+      height: $spacing/4;
+      margin-bottom: $spacing;
+    }
+
+    .stats-label {
+      display: inline-block;
+      font-size: 10px;
+      background-color: mix($color-background, $white, 90%);
+      border: 1px solid $color-divider;
+      padding: 1px 5px;
+      position: absolute;
+
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .stats-used {
+      left: 5px;
+    }
+
+    .stats-available {
+      right: 5px;
+    }
+  }
 }
 
 .server-progress-container {
@@ -109,6 +202,14 @@
   bottom: 0px;
   left: 0px;
   background-color: $color-primary;
+
+  &.warning {
+    background-color: $yellow;
+  }
+
+  &.danger {
+    background-color: $red;
+  }
 }
 
 
@@ -148,4 +249,23 @@ a.item:hover {
     display: inline-block;
     float: right;
   }
+}
+
+
+
+// CPU USAGE
+.cpu-load {
+  display: flex;
+}
+
+.cpu-group {
+  flex: 1 1 1em;
+
+  &:nth-child(2) {
+    margin: 0px 5px;
+  }
+}
+
+.cpu-min {
+  text-align: center;
 }
