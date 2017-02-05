@@ -13,7 +13,7 @@ class CreateSchemasTable extends Migration
      */
     public function up()
     {
-//        Schema::create('schemas', function (Blueprint $table) {
+        //        Schema::create('schemas', function (Blueprint $table) {
 //            $table->increments('id');
 //            $table->string('name');
 //            $table->string('database');
