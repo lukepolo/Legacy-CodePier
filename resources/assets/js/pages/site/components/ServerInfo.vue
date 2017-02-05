@@ -9,9 +9,7 @@
                 </router-link>
             </div>
             <div class="server-ip">
-                <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                    {{ server.ip }}
-                </router-link>
+                {{ server.ip }}
             </div>
 
             <template v-if="server.stats && server.stats.loads && !showServerInfo">

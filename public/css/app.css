@@ -6347,13 +6347,9 @@ button[disabled=disabled] {
   margin-left: 0px;
 }
 
-.server-ip a {
+.server-ip {
   color: #FFFFFF;
   padding-left: 36px;
-}
-
-.server-ip a:hover {
-  color: #48ACF0;
 }
 
 .server-connection {

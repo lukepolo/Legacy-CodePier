@@ -58,11 +58,11 @@
                 return this.$store.state.serverBuoysStore.all_server_buoys
             },
             serversHasBuoyApp() {
-                return _.map(this.allServerBuoys, (serverBuoyApps, server) => {
+                return _.omitBy(_.map(this.allServerBuoys, (serverBuoyApps, server) => {
                     if((_.indexOf(serverBuoyApps, this.buoyApp.id) >= 0)) {
                         return server
                     }
-                })
+                }), _.isEmpty)
             }
         }
     }
