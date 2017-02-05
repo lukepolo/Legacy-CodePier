@@ -81,7 +81,7 @@ class PHP
      */
     public function installPhpDependencies()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction --no-dev --prefer-dist')];
+        return [$this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction')];
     }
 
     /**
