@@ -26,7 +26,7 @@
                 <router-link :to="{ name : 'site_databases', params : { site_id : siteId } }" tag="li" v-if="site">
                     <a>
                         Databases
-                        <div class="small">Setup your sites databases and users</div>
+                        <div class="small">Setup your site's databases and users</div>
                     </a>
                 </router-link>
             </ul>
