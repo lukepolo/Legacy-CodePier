@@ -61,7 +61,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSiteSshKeys', this.$route.params.site_id);
             },
             createKey() {

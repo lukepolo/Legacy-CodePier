@@ -7721,6 +7721,29 @@ a.item:hover:before {
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24), -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
 }
 
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+.label-primary {
+  background-color: #48ACF0;
+  color: #FFFFFF !important;
+}
+
+.label-danger {
+  background-color: #F4645F;
+  color: #FFFFFF !important;
+}
+
 .float-label-active, .jcf-form-wrap input:focus + label .float-label, .jcf-form-wrap input.active + label .float-label {
   position: relative;
   top: -22.5px;
