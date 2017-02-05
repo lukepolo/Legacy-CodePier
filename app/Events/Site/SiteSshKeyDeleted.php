@@ -23,6 +23,8 @@ class SiteSshKeyDeleted
     {
         $siteCommand = $this->makeCommand($site, $sshKey);
 
+        $site->sshKeys()->detach($sshKey);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerSshKey($server, $sshKey, $siteCommand))->onQueue(config('queue.channels.server_commands'))

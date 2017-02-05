@@ -22,6 +22,8 @@ class SiteFirewallRuleDeleted
     {
         $siteCommand = $this->makeCommand($site, $firewallRule);
 
+        $site->firewallRules()->detach($firewallRule);
+
         foreach ($site->provisionedServers as $server) {
             dispatch(
                 (new RemoveServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(config('queue.channels.server_commands'))
