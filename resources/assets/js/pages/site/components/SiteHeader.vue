@@ -2,7 +2,9 @@
     <h3 class="section-header primary" v-if="site">
         <back></back>
 
-        {{ site.name }}
+        <a :href="'http://'+site.domain" target="_blank">
+            {{ site.name }}
+        </a>
 
         <div class="pull-right">
 
