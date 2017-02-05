@@ -2,8 +2,6 @@
     <div v-if="site">
         <div class="jcf-form-wrap">
             <form @submit.prevent="createKey" class="floating-labels">
-                <h3>Site SSH Keys</h3>
-
                 <div class="jcf-input-group">
                     <input type="text" name="name" v-model="form.name">
                     <label for="name">
@@ -12,10 +10,8 @@
                 </div>
 
                 <div class="jcf-input-group">
-                    <input type="text" name="ssh_key" v-model="form.ssh_key">
-                    <label for="ssh_key">
-                        <span class="float-label">Public Key - TODO , should be a textarea</span>
-                    </label>
+                    <div class="input-question">Public Key</div>
+                    <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
                 </div>
 
                 <div class="btn-footer">
@@ -65,7 +61,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSiteSshKeys', this.$route.params.site_id);
             },
             createKey() {

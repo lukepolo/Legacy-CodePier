@@ -49,7 +49,7 @@ class RemoveServerSchema implements ShouldQueue
 
         if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
-                // TODO - remove schema command
+                $serverService->removeSchema($this->server, $this->schema);
             });
 
             if (! $this->wasSuccessful()) {
@@ -59,8 +59,8 @@ class RemoveServerSchema implements ShouldQueue
             $this->server->schemas()->detach($this->schema->id);
 
             $this->schema->load('servers');
-            if ($this->schemas->servers->count() == 0) {
-                $this->schemas->delete();
+            if ($this->schema->servers->count() == 0) {
+                $this->schema->delete();
             }
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server are using this schema', false);

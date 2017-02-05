@@ -35,17 +35,31 @@
         <left-nav></left-nav>
 
         <section id="middle" class="section-column">
+
+            <template>
+                <h3 class="section-header primary">
+                    My Account
+                </h3>
+            </template>
+
             <div class="section-content">
                 <div class="container">
 
-                    <transition >
-                        <router-view name="nav"></router-view>
-                    </transition>
+                    <div class="tab-container tab-left">
 
-                    <transition >
-                        <router-view></router-view>
-                    </transition>
+                        <transition >
+                            <router-view name="nav"></router-view>
+                        </transition>
 
+                        <transition >
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active">
+                                    <router-view></router-view>
+                                </div>
+                            </div>
+                        </transition>
+
+                    </div>
                 </div>
             </div>
         </section>

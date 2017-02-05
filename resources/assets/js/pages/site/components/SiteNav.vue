@@ -8,7 +8,7 @@
             <a>Security</a>
         </router-link>
 
-        <router-link :to="{ name : 'site_workers', params : { site_id : site.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'site_cron_jobs', params : { site_id : site.id } }" tag="li" class="wizard-item">
             <a>Server Setup</a>
         </router-link>
     </ul>
@@ -19,9 +19,6 @@
         computed: {
             site() {
                 return this.$store.state.sitesStore.site;
-            },
-            site_servers() {
-                return [];
             }
         }
     }

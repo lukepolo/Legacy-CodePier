@@ -18,8 +18,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id)
-                this.$store.dispatch('getSite', this.$route.params.site_id)
                 this.$store.dispatch('getSiteFiles', this.$route.params.site_id)
             }
         },

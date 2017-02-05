@@ -115,8 +115,9 @@ export default {
             })
         },
         updateLinkedServers: ({ commit, dispatch }, data) => {
-            Vue.http.post(Vue.action('Site\SiteServerController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteServerController@store', { site: data.site }), data).then((response) => {
                 dispatch('getSiteServers', data.site)
+                return response.data
             })
         },
         getDeploymentSteps: ({ commit }, site) => {

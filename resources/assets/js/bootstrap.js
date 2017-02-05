@@ -1,11 +1,14 @@
 window._ = require('lodash')
+_.mixin(require("lodash-inflection"))
 
 window.Vue = require('vue')
 
-if (Laravel.env == 'production') {
+if (Laravel.env === 'production') {
     Vue.config.devtools = false
     Vue.config.silent = true
 }
+
+window.Clipboard = require('clipboard')
 
 window.VueRouter = require('vue-router')
 require('vue-resource')
