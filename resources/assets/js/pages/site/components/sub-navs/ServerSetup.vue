@@ -28,7 +28,7 @@
                     <router-link :to="{ name : 'site_repository', params : { site_id : site.id } }" tag="li">
                         <a>
                             Server Features
-                            <div class="small">You must setup your sites repository first</div>
+                            <div class="small">You must setup your site's repository first</div>
                             <div class="small">Advanced server setup, highly customized servers</div>
                         </a>
                     </router-link>

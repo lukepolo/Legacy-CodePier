@@ -243,7 +243,7 @@ export default {
             }
         },
         SET_SERVER_STATS: (state, data) => {
-            const server = _.find(state.site_servers, { id: data.server_id })
+            const server = _.find(state.site_servers, { id: data.server })
             if (server) {
                 Vue.set(server, 'stats', data.stats)
             }
