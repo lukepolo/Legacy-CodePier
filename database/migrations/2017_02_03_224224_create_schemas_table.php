@@ -13,7 +13,7 @@ class CreateSchemasTable extends Migration
      */
     public function up()
     {
-        //        Schema::create('schemas', function (Blueprint $table) {
+//        Schema::create('schemas', function (Blueprint $table) {
 //            $table->increments('id');
 //            $table->string('name');
 //            $table->string('database');
@@ -27,9 +27,9 @@ class CreateSchemasTable extends Migration
 //            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
 //        });
 
-        Schema::table('schemables', function (Blueprint $table) {
-            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
-        });
+//        Schema::table('schemables', function(Blueprint $table) {
+//            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
+//        });
     }
 
     /**
