@@ -2,11 +2,13 @@
 
 namespace App\Observers\Site;
 
+use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Sites\SiteSshKeyDeleted;
+use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
@@ -84,9 +86,21 @@ class SiteObserver
             foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
                 foreach ($site->cronJobs as $siteCronJob) {
                     if ($siteCronJob->job == $cronJob) {
-                        $siteCronJob->delete();
+                        $site->cronJobs()->detach($siteCronJob);
                     }
                 }
+            }
+
+            foreach ($this->siteFeatureService->getSuggestedCronJobs($site) as $cronJob) {
+
+                $cronJob =  CronJob::create([
+                    'user' => 'codepier',
+                    'job' => $cronJob
+                ]);
+
+                $site->cronJobs()->save($cronJob);
+
+                event(new SiteCronJobCreated($site, $cronJob));
             }
         }
     }
