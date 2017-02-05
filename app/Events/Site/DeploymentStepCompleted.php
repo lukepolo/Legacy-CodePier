@@ -63,10 +63,12 @@ class DeploymentStepCompleted implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
+        $this->deploymentEvent->log = substr($this->deploymentEvent->step->log, 0, 9000);
+
         return [
             'site_deployment' => strip_relations($this->siteDeployment),
             'server_deployment' => strip_relations($this->serverDeployment),
-            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
+            'deployment_event' => $this->deploymentEvent
         ];
     }
 }

@@ -21,10 +21,14 @@
         <div v-file-editor class="editor"></div>
 
         <div class="btn-footer">
-            <template v-if="running">
-                {{ running.status }}
-            </template>
-            <button class="btn btn-primary" type="submit">Update File</button>
+            <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
+                <template v-if="!running">
+                    Update File
+                </template>
+                <template v-else>
+                    File {{ running.status }}
+                </template>
+            </button>
         </div>
     </form>
 </template>
