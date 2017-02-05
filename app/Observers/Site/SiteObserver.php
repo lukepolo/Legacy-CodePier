@@ -2,7 +2,6 @@
 
 namespace App\Observers\Site;
 
-
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
@@ -11,8 +10,8 @@ use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
 use App\Events\Site\SiteWorkerDeleted;
-use App\Events\Site\SiteCronJobDeleted;
 use App\Events\Site\SiteCronJobCreated;
+use App\Events\Site\SiteCronJobDeleted;
 use App\Events\Sites\SiteSshKeyDeleted;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
@@ -93,10 +92,9 @@ class SiteObserver
             }
 
             foreach ($this->siteFeatureService->getSuggestedCronJobs($site) as $cronJob) {
-
-                $cronJob =  CronJob::create([
+                $cronJob = CronJob::create([
                     'user' => 'codepier',
-                    'job' => $cronJob
+                    'job' => $cronJob,
                 ]);
 
                 $site->cronJobs()->save($cronJob);
