@@ -19,11 +19,15 @@ class CreateSchemasTable extends Migration
 //            $table->string('database');
 //            $table->timestamps();
 //        });
+//
+//        Schema::create('schemables', function (Blueprint $table) {
+//            $table->integer('schema_id');
+//            $table->integer('schemable_id');
+//            $table->string('schemable_type');
+//            $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
+//        });
 
-        Schema::create('schemables', function (Blueprint $table) {
-            $table->integer('schema_id');
-            $table->integer('schemable_id');
-            $table->string('schemable_type');
+        Schema::table('schemables', function (Blueprint $table) {
             $table->index(['schema_id', 'schemable_id', 'schemable_type'], 'schema_index');
         });
     }
