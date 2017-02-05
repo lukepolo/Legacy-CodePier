@@ -74,7 +74,7 @@
                     port: null,
                     type : 'tcp',
                     from_ip: null,
-                    description: null,
+                    description: null
                 }
             }
         },
@@ -87,7 +87,6 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getSiteFirewallRules', this.$route.params.site_id);
-                this.$store.dispatch('getSite', this.$route.params.site_id);
             },
             createFirewallRule() {
 

@@ -18,7 +18,7 @@
                 <div class="jcf-input-group">
                     <input type="text" name="web_directory" v-model="form.web_directory">
                     <label for="web_directory">
-                        <tooltip message="The location of your apps entry ( ex : public )">
+                        <tooltip message="The location of your apps entry ( ex : public ) no need for leading '/'">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                         <span class="float-label">Web Directory</span>

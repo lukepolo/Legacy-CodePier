@@ -2,91 +2,67 @@
     <div class="group">
         <div class="group-heading">
             <h4>
-                <template v-if="editing">
-                    <input v-model="form.name" type="text" :value="pile.name">
+                <template v-if="buoyApp.icon_url">
+                    <img :src="buoyApp.icon_url" style="max-width:50px">
                 </template>
-                <template v-else>
-                    {{ pile.name }}
-                </template>
+
+                {{ buoyApp.title }}
+
+                <p class="pull-right">
+                    {{ buoyApp.installs }} Installs
+                    <br>
+                    <template v-if="isAdmin()">
+                        <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoyApp.id } }">Edit</router-link>
+                    </template>
+                </p>
+
+                <div class="small">
+                    <template v-for="category in buoyApp.categories">
+                        <span class="label label-primary">{{ category.name }}</span>
+                    </template>
+                </div>
+
             </h4>
         </div>
 
-        <template v-if="pile.sites">
-            <div class="group-content">
-                <h4>Sites</h4>
-                <div class="group-list">
-                    <router-link class="item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites">
-                        <div class="item-name">
-                            {{ site.name }}
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-        </template>
+        <div class="group-content">
 
-        <template v-else="pile.servers">
-            <div class="group-content">
-                <h4>No Sites</h4>
-            </div>
-        </template>
+            {{ buoyApp.description }}
 
-        <div class="btn-footer text-center" v-if="editing">
-            <button @click="cancel" class="btn">Cancel</button>
-            <button @click="savePile" class="btn btn-primary">Save</button>
+            <p>
+                <template v-for="server in serversHasBuoyApp">
+                    {{ getServer(server, 'name') }} ({{ getServer(server, 'ip') }})<br>
+                </template>
+            </p>
+
         </div>
-        <div class="btn-footer text-center" v-else>
-            <button @click="edit" class="btn">Edit</button>
-            <button @click="deletePile()" class="btn">Delete</button>
+
+        <div class="btn-footer text-center">
+            <button class="btn btn-primary" @click.prevent="install">
+                Install
+            </button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['pile', 'index'],
-        data() {
-            return {
-                form: {
-                    name: this.pile.name
-                },
-                editing: this.pile.editing
-            }
-        },
-        methods: {
-            cancel() {
-                if (!this.pile.id) {
-                    this.$store.state.pilesStore.piles.splice(this.index, 1);
-                }
-
-                this.editing = false;
-            },
-            edit() {
-                this.editing = true;
-            },
-            deletePile() {
-                this.$store.dispatch('deletePile', this.pile.id);
-            },
-            savePile() {
-                if (this.pile.id) {
-
-                    this.form['pile'] = this.pile;
-
-                    this.$store.dispatch('updatePile', this.form);
-
-                } else {
-                    this.$store.dispatch('createPile', this.form);
-                }
-                this.editing = false;
+        props: ['buoyApp'],
+        methods : {
+            install() {
+                this.$store.dispatch('getBuoy', this.buoyApp.id)
             }
         },
         computed : {
-            sites() {
-                return this.$store.state.pilesStore.piles[this.pile.id].sites;
-            }
-        },
-        created() {
-            if(this.pile.id) {
-                this.$store.dispatch('getPileSites', this.pile.id);
+            allServerBuoys() {
+                return this.$store.state.serverBuoysStore.all_server_buoys
+            },
+            serversHasBuoyApp() {
+                return _.map(this.allServerBuoys, (serverBuoyApps, server) => {
+                    if((_.indexOf(serverBuoyApps, this.buoyApp.id) >= 0)) {
+                        return server
+                    }
+                })
             }
         }
     }

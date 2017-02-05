@@ -130,7 +130,7 @@ Vue.mixin({
             return {}
         },
         getPile (pildId, attribute) {
-            const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: pildId })
+            const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: parseInt(pildId) })
             if (pile) {
                 if (attribute) {
                     return pile[attribute]
@@ -140,7 +140,7 @@ Vue.mixin({
             return {}
         },
         getSite (siteId, attribute) {
-            const site = _.find(this.$store.state.sitesStore.all_sites, { id: siteId })
+            const site = _.find(this.$store.state.sitesStore.all_sites, { id: parseInt(siteId) })
             if (site) {
                 if (attribute) {
                     return site[attribute]
@@ -150,7 +150,7 @@ Vue.mixin({
             return {}
         },
         getServer (serverId, attribute) {
-            const server = _.find(this.$store.state.serversStore.all_servers, { id: serverId })
+            const server = _.find(this.$store.state.serversStore.all_servers, { id: parseInt(serverId) })
             if (server) {
                 if (attribute) {
                     return server[attribute]

@@ -24,7 +24,6 @@ class SiteServerRequest extends FormRequest
     public function rules()
     {
         return [
-            'connected_servers' => 'required',
         ];
     }
 }

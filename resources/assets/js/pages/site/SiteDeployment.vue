@@ -67,7 +67,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then((possibleDeploymentSteps) => {
                     this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then((currentDeploymentSteps) => {
 

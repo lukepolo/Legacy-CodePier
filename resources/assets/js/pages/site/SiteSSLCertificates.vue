@@ -35,7 +35,7 @@
     export default {
         data() {
             return {
-                domains: null,
+                domains: null
             }
         },
         created() {
@@ -46,7 +46,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
             },
             installLetsEncryptCertificate() {
