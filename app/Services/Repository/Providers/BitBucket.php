@@ -85,9 +85,9 @@ class BitBucket implements RepositoryContract
         $this->oauthParams = [
             'oauth_token'           => $userRepositoryProvider->token,
             'oauth_token_secret'    => $userRepositoryProvider->tokenSecret,
-            'oauth_consumer_key'    => env('OAUTH_BITBUCKET_CLIENT_ID'),
-            'oauth_consumer_secret' => env('OAUTH_BITBUCKET_SECRET_ID'),
-            'oauth_callback'        => env('OAUTH_BITBUCKET_CALLBACK'),
+            'oauth_consumer_key'    => config('services.bitbucket.client_id'),
+            'oauth_consumer_secret' => config('services.bitbucket.client_secret.client_id'),
+            'oauth_callback'        => config('services.bitbucket.redirect'),
         ];
     }
 

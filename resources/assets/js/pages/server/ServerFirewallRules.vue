@@ -86,7 +86,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerFirewallRules', this.$route.params.server_id)
             },
             createFirewallRule() {

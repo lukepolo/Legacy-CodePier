@@ -51,8 +51,13 @@
             </li>
 
             <li>
+                <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
+            </li>
+
+            <li>
                 <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
             </li>
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="true">
@@ -72,12 +77,12 @@
                     </li>
                     <li>
                         <a href="#" @click="changeTeam()"
-                           :class="{selected : currentTeam == null}">Private</a>
+                           :class="{selected : currentTeam == null}"><span class="icon-person"></span> Private</a>
                     </li>
                     <template v-for="team in teams">
                         <li>
                             <a href="#" @click="changeTeam(team.id)"
-                               :class="{selected : (currentTeam && currentTeam.id == team.id)}">{{ team.name }}</a>
+                               :class="{selected : (currentTeam && currentTeam.id == team.id)}"><span class="icon-people"></span> {{ team.name }}</a>
                         </li>
                     </template>
                 </ul>
@@ -90,7 +95,7 @@
 
                 <ul class="dropdown-menu">
                     <li>
-                        <router-link :to="{ name: 'my_profile' }"><span class="icon-person"></span>My Profile</router-link>
+                        <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
                     </li>
                     <li>
                         <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>

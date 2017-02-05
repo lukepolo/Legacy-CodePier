@@ -11,7 +11,7 @@
             </h4>
         </div>
 
-        <template v-if="pile.sites">
+        <template v-if="pile.sites && pile.sites.length">
             <div class="group-content">
                 <h4>Sites</h4>
                 <div class="group-list">
@@ -24,7 +24,7 @@
             </div>
         </template>
 
-        <template v-else="pile.servers">
+        <template v-else="pile.sites">
             <div class="group-content">
                 <h4>No Sites</h4>
             </div>

@@ -1,11 +1,7 @@
 <template>
     <h3 class="section-header primary" v-if="server">
-        <div class="pull-left">
-            <back></back>
-        </div>
-        Server {{ server.name }}
-        <small>{{ server.ip }}</small>
-        -- (DISK SPACE?)
+        <back></back>
+        Server {{ server.name }} <small>({{ server.ip }})</small>
 
         <div class="pull-right">
             <div class="dropdown">

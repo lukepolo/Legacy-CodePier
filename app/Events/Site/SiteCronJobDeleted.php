@@ -24,7 +24,7 @@ class SiteCronJobDeleted
 
         foreach ($cronJob->servers as $server) {
             dispatch(
-                (new RemoveServerCronJob($server, $cronJob, $siteCommand))->onQueue(env('SERVER_COMMAND_QUEUE'))
+                (new RemoveServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

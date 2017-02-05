@@ -27,12 +27,36 @@
     padding: $spacing;
     position: relative;
 
-    .pull-right {
+    .pull-right,
+    .pull-left {
         position: absolute;
-        right: $spacing;
         top: 50%;
         transform: translateY(-50%);
         z-index : 1;
+    }
+
+    .pull-right {
+        right: $spacing;
+
+        .dropdown-menu {
+            left: auto;
+            right: 0px;
+        }
+    }
+
+    .pull-left {
+        left: $spacing;
+    }
+
+    .dropdown-menu {
+        text-transform: none;
+        font-weight: normal;
+        font-family: $font-body;
+    }
+
+    &.secondary {
+        background-color: transparent;
+        border-bottom: none;
     }
 }
 

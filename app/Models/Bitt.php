@@ -8,8 +8,18 @@ class Bitt extends Model
 {
     protected $guarded = ['id'];
 
-    public function tags()
+    protected $with = [
+        'systems',
+        'categories',
+    ];
+
+    public function categories()
     {
-        return $this->morphToMany(Tag::class, 'tagabble');
+        return $this->morphToMany(Category::class, 'categorable');
+    }
+
+    public function systems()
+    {
+        return $this->belongsToMany(System::class);
     }
 }

@@ -45,10 +45,35 @@ Route::group(['middleware' => 'auth:api'], function () {
     |--------------------------------------------------------------------------
     |
     */
+
     Route::get('buoy-apps/buoyClasses', 'BuoyAppController@getBuoyClasses');
     Route::post('buoy-apps/{buoy_app}/update', 'BuoyAppController@update');
     Route::resource('buoy-apps', 'BuoyAppController');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Bitts Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::resource('bitts', 'BittsController');
+    Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
+
+    /*
+    |--------------------------------------------------------------------------
+    | System Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::get('systems', 'SystemsController@index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
             Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
@@ -140,6 +165,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.buoys', 'ServerBuoyController');
             Route::resource('servers.sites', 'ServerSiteController');
             Route::resource('servers.workers', 'ServerWorkerController');
+            Route::resource('servers.schemas', 'ServerSchemaController');
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
             Route::resource('servers.features', 'ServerFeatureController');
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
@@ -175,6 +201,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.buoys', 'SiteBuoyController');
             Route::resource('sites.servers', 'SiteServerController');
             Route::resource('sites.workers', 'SiteWorkerController');
+            Route::resource('sites.schemas', 'SiteSchemaController');
             Route::resource('sites.ssh-keys', 'SiteSshKeyController');
             Route::resource('sites.cron-jobs', 'SiteCronJobController');
             Route::resource('sites.ssl-certificate', 'SiteSslController');

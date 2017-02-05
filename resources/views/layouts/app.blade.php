@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,11 +23,11 @@
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
-                'env' => env('APP_ENV'),
+                'env' => config('app.env'),
                 'csrfToken' => csrf_token(),
-                'pusherKey' => env('PUSHER_KEY'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'app_registration' => env('APP_REGISTRATION'),
+                'app_registration' => config('app.registration'),
                 'version' => app()->make('gitCommit'),
             ]); ?>
         </script>
@@ -36,11 +36,15 @@
         <div id="app-layout">
             <navigation></navigation>
 
+            <div class="xlarge-wrap">
+
             <div id="main">
                 @yield('content')
             </div>
 
             <notification-bar></notification-bar>
+
+            </div>
         </div>
 
         <!-- Scripts -->
@@ -51,14 +55,17 @@
         </script>
 
         @stack('scripts')
+
         @if(\Auth::check())
             <script src="{{ elixir('js/app.js') }}"></script>
             @include('layouts.core.notifications')
-            <script type="text/javascript">
-                $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-                $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
-                $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
-            </script>
+            @if(config('app.env') == 'production')
+                <script type="text/javascript">
+                    $crisp=[];CRISP_WEBSITE_ID="144f48f7-3604-4483-a8e1-107106d86484";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.im/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+                    $crisp.push(["set", "user:email", "{{ auth()->user()->email }}"]);
+                    $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
+                </script>
+            @endif
         @endif
 
     </body>

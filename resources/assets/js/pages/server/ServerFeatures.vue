@@ -35,7 +35,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerFeatures', this.$route.params.server_id);
                 this.$store.dispatch('getServerAvailableFeatures');
                 this.$store.dispatch('getServerAvailableLanguages');

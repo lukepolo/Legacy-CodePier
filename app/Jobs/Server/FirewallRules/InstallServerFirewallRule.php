@@ -21,6 +21,9 @@ class InstallServerFirewallRule implements ShouldQueue
     private $server;
     private $firewallRule;
 
+    public $tries = 1;
+    public $timeout = 60;
+
     /**
      * InstallServerFirewallRule constructor.
      *
