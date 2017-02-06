@@ -10,10 +10,10 @@ html, body, #app-layout {
 }
 
 body {
-   background-color: $color-background;
-   font-family: $font-body; 
-   font-weight: 300;
-   color: $color-text-primary;
+  background-color: $color-background;
+  font-family: $font-body;
+  font-weight: $font-weight;
+  color: $color-text-primary;
 }
 
 // BASICS
@@ -179,15 +179,38 @@ footer {
     pointer-events: none;
   }
 
-  .fa-info-circle,
-  [class^="icon-"], [class*=" icon-"] {
-    position: relative;
-    left: -40px;
+  [class^="hint-"], [class*=" hint-"] {
+    position: absolute;
+    left: -$spacing;
     cursor: pointer;
     pointer-events: all;
 
     &:hover {
       color: $color-primary;
+    }
+  }
+}
+
+
+[class*="hint--"] {
+  &:after {
+    display: block;
+    text-transform: none;
+    font-weight: 400;
+    font-family: $font-body;
+  }
+
+  &.long:after {
+    white-space: initial !important;
+    text-align: center;
+    width: 250px;
+  }
+
+  &.hint--small,
+  &.hint--medium,
+  &.hint--large {
+    &:after {
+      text-align: center;
     }
   }
 }

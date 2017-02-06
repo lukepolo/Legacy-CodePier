@@ -12,7 +12,7 @@
                 <router-link :to="{ name : 'site_deployment', params : { site_id : siteId } }" tag="li">
                     <a>
                         Deployment
-                        <div class="small">Customize your apps deployment</div>
+                        <div class="small">Customize your app's deployment</div>
                     </a>
                 </router-link>
 

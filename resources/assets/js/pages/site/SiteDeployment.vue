@@ -11,36 +11,56 @@
             Once in the active list you can change the order.
         </p>
 
-        <div @click="addCustomStep" class="btn btn-primary">Add Custom Step</div>
         <form @submit.prevent="updateSiteDeployment">
-            <div class="btn btn-primary" @click="selectAllDeployments">Select All</div>
-            <div class="btn btn-primary" @click="deselectAllDeployments">Deselect All</div>
-            <div class="drag">
-                <h2>
-                    <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments">
-                        <span class="fa fa-info-circle"></span>
-                    </tooltip>
-                    Inactive
-                </h2>
-                <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
-                    <div v-for="deploymentStep in inactive">
-                        <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
+            <div class="col-split col-break-sm">
+                <div class="drag">
+                    <div class="col">
+                        <h3>
+                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments" class="long">
+                                <span class="fa fa-info-circle"></span>
+                            </tooltip>
+                            Inactive
+                            <a class="pull-right" @click="deselectAllDeployments">Deselect All</a>
+                        </h3>
+
+                        <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
+                            <div class="drag-element" v-for="deploymentStep in inactive">
+                                <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
+                            </div>
+                        </draggable>
                     </div>
-                </draggable>
-                <h2>
-                    <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom">
-                        <span class="fa fa-info-circle"></span>
-                    </tooltip>
-                    Active
-                </h2>
-                <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
-                    <div v-for="deploymentStep in active">
-                        <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>
+                    <div class="col">
+                        <h3>
+                            <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom" class="long">
+                                <span class="fa fa-info-circle"></span>
+                            </tooltip>
+                            Active
+                            <a class="pull-right" @click="selectAllDeployments">Select All</a>
+                        </h3>
+
+                        <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
+                            <div class="drag-element" v-for="deploymentStep in active">
+                                <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>
+                            </div>
+                        </draggable>
+
+                        <div class="btn-container text-center">
+                            <span @click="addCustomStep" class="btn">Add Custom Step</span>
+                        </div>
+
                     </div>
-                </draggable>
+                </div>
             </div>
 
-            <div class="btn-footer"><button type="submit" class="btn btn-primary">Update Deployment</button></div>
+
+
+
+            <div class="btn-footer">
+                <!-- todo - instead of having to go away from the page and back, give them a quick link to clear.
+                I don't care if you update the text on the btn. whatever makes sense -->
+                <button class="btn">Clear Changes</button>
+                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            </div>
         </form>
     </div>
 </template>
