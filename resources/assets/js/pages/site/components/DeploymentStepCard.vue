@@ -4,7 +4,7 @@
           <!-- todo - allow them to delete custom steps
            -- Note: this should no show up unless it is custom -->
           <!-- todo jf -- switch out icon -->
-          <!--<a class="text-error pull-right"><span class="icon-cancel"></span></a>-->
+          <a class="text-error pull-right"><span class="icon-cancel"></span></a>
 
           <div class="drag-name">
               {{ deploymentStep.step }}
@@ -34,6 +34,7 @@
                   <div class="btn-footer">
                       <!-- todo - have save button get it out of edit mode and into a component like the rest -->
                       <!-- todo - cancel should clear form and close -->
+                      <a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>
                       <a class="btn btn-small">Cancel</a>
                       <a class="btn btn-primary btn-small">Save</a>
                   </div>
