@@ -1,0 +1,85 @@
+// DRAG & DROP STYLES ======================================
+// =========================================================
+.col-split {
+    display: flex;
+
+    > .col {
+        flex: 1 1 1em;
+    }
+
+    @include breakpoint(lg) {
+        flex-direction: column;
+    }
+}
+
+.drag {
+    flex: 1 1 auto;
+    @extend .col-split;
+    border-top: 1px solid $color-divider;
+    margin-top: $spacing/2;
+    padding-top: $spacing;
+
+    .col:not(:last-child) {
+        border-right: 1px solid $color-divider;
+        padding-right: $spacing;
+    }
+
+    .col:not(:first-child) {
+        padding-left: $spacing;
+    }
+
+    h1, h2, h3, h4 {
+        a {
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: none;
+        }
+    }
+
+    @include breakpoint(lg) {
+        .col:not(:last-child),
+        .col:not(:first-child) {
+            border: none;
+            padding: 0px;
+        }
+    }
+}
+
+.dragArea {
+    margin: $spacing 0px;
+}
+
+.drag-element {
+    border: 1px solid $color-divider;
+    padding: $spacing/2;
+    cursor: move;
+
+    &:not(:last-child) {
+        margin-bottom: $spacing/2;
+    }
+
+    &.sortable-chosen {
+        opacity: 1;
+
+        .drag-name {
+            color: $color-primary;
+        }
+    }
+
+    &.sortable-ghost {
+        opacity: .5;
+    }
+
+    .jcf-form-wrap {
+        padding: $spacing 0px 0px;
+        
+        .btn-footer {
+            margin: 0px;
+            padding: $spacing 0px ($spacing/2);
+        }
+    }
+}
+
+.drag-name {
+    font-weight: 500;
+}

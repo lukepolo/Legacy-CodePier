@@ -35,10 +35,12 @@
             </drop-down-event>
         </div>
         <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
-        <div class="event-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
-        <div class="event-commit"><a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a></div>
-
-        {{ timeAgo(event.created_at) }}
+        <div class="event-site">
+            <div class="event-commit"><a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a></div>
+            <span class="icon-browser"></span>
+            {{ getSite(event.site_id, 'name') }}
+        </div>
+        <div class="event-time">{{ timeAgo(event.created_at) }}</div>
     </div>
 </template>
 

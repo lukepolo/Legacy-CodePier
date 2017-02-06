@@ -90,6 +90,11 @@ footer {
   flex: 0 0 15%;
 }
 
+.event-time {
+  flex: 0 0 130px;
+  text-align: right;
+}
+
 .event-none {
   text-align: center;
   padding: $spacing;
@@ -97,6 +102,8 @@ footer {
 
 .event-commit {
   padding: 0px ($spacing/2);
+  display: inline-block;
+  float: right;
 }
 
 //a:first-child:not(.collapsed) {
