@@ -4,6 +4,9 @@
         <div class="jcf-form-wrap">
             <form>
                 <div class="jcf-input-group">
+                    <tooltip message="We can fetch a file and replace all content inside by reloading the file">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
                     <div class="input-question">Select a server</div>
                     <div class="select-wrap">
                         <select name="server" v-model="reload_server">
@@ -18,10 +21,14 @@
         <div v-file-editor class="editor"></div>
 
         <div class="btn-footer">
-            <template v-if="running">
-                {{ running.status }}
-            </template>
-            <button class="btn btn-primary" type="submit">Update File</button>
+            <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
+                <template v-if="!running">
+                    Update File
+                </template>
+                <template v-else>
+                    File {{ running.status }}
+                </template>
+            </button>
         </div>
     </form>
 </template>

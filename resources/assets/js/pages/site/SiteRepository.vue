@@ -3,7 +3,6 @@
 
         <div class="jcf-form-wrap">
             <form @submit.prevent="updateSite" class="floating-labels">
-                <h3>Repository</h3>
                 <div class="jcf-input-group">
                     <input type="text" v-model="form.repository" name="repository">
                     <label for="repository">
@@ -19,18 +18,26 @@
                 <div class="jcf-input-group">
                     <input type="text" name="web_directory" v-model="form.web_directory">
                     <label for="web_directory">
-                        <span class="fa fa-info-circle"></span>
+                        <tooltip message="The location of your apps entry ( ex : public ) no need for leading '/'">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
                         <span class="float-label">Web Directory</span>
                     </label>
                 </div>
                 <div class="jcf-input-group input-checkbox">
                     <div class="input-question">Repository Options</div>
                     <label>
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
                         <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
                         <span class="icon"></span>
                         Zerotime Deployment
                     </label>
                     <label>
+                        <tooltip message="If your site requires a wildcard ( ex : *.codepier.io ) you should check this">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
                         <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
                         <span class="icon"></span>
                         Wildcard Domain
@@ -46,7 +53,7 @@
                 </div>
 
                 <div class="jcf-input-group">
-                    <div class="input-question">Select Type</div>
+                    <div class="input-question">Select Language</div>
                     <div class="select-wrap">
                         <select v-model="form.type" name="type">
                             <option :value="language" v-for="(features, language) in availableLanguages">
@@ -57,6 +64,9 @@
                 </div>
 
                 <div class="jcf-input-group">
+                    <tooltip message="By selecting a framework, we customize the options surrounding your app">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
                     <div class="input-question">Select Framework</div>
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
@@ -76,36 +86,17 @@
             </div>
         </div>
 
-        Deploy Hook Url :
-        {{ deploy_hook }}
-
         <template v-if="site.repository && hasDeployableServers">
 
-            <template v-if="isDeploying">
-                {{ isDeploying.status }}
-            </template>
-
-            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary">Deploy</a>
-            <br>
-            <template v-if="site.private">
-                <div class="jcf-form-wrap">
-                    <div class="jcf-input-group">
-                        <div class="input-question">
-                            Public SSH Deploy Key:
-                        </div>
-                        <textarea rows="4" readonly>{{ site.public_ssh_key }}</textarea>
-                        <div class="text-right">
-                            <a class="btn btn-small"><span class="icon-clipboard"></span></a>
-                        </div>
-                    </div>
-                </div>
-            </template>
+            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary" :class="{ 'btn-disabled' : isDeploying }">
+                Deploy
+                <template v-if="isDeploying">
+                    {{ isDeploying.status }}
+                </template>
+            </a>
 
             <template v-if="!site.automatic_deployment_id">
                 <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>
-                <template v-if="!site.private">
-                    <small>Please make sure you own the public repository otherwise we cannot create the deploy hook</small>
-                </template>
             </template>
             <template v-else>
                 <a class="btn btn-primary" @click.prevent="removeDeployHook">Stop Automatic Deployments</a>
@@ -146,7 +137,9 @@
                 this.$store.dispatch('getServerAvailableLanguages');
             },
             deploySite: function (site_id) {
-                Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
+                if(!this.isDeploying) {
+                    Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
+                }
             },
             updateSite() {
                 this.$store.dispatch('updateSite', {
@@ -200,11 +193,6 @@
                 }
 
                 return site;
-            },
-            deploy_hook() {
-                if(this.site) {
-                    return location.protocol+'//'+location.hostname + Vue.action('WebHookController@deploy', { siteHashID : this.site.hash })
-                }
             },
             repository_providers() {
                 return this.$store.state.userStore.repository_providers;

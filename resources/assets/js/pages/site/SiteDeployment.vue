@@ -5,19 +5,34 @@
 </style>
 <template>
     <div v-if="site">
-        Site Deployments
+        <p>
+            Here we can customize how we deploy your application. We give you sensible defaults.
+            By dragging steps from the inactive to the active we automatically suggest the order.
+            Once in the active list you can change the order.
+        </p>
+
         <div @click="addCustomStep" class="btn btn-primary">Add Custom Step</div>
         <form @submit.prevent="updateSiteDeployment">
             <div class="btn btn-primary" @click="selectAllDeployments">Select All</div>
             <div class="btn btn-primary" @click="deselectAllDeployments">Deselect All</div>
             <div class="drag">
-                <h2>Inactive</h2>
+                <h2>
+                    <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
+                    Inactive
+                </h2>
                 <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
                     <div v-for="deploymentStep in inactive">
                         <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
                     </div>
                 </draggable>
-                <h2>Active</h2>
+                <h2>
+                    <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
+                    Active
+                </h2>
                 <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
                     <div v-for="deploymentStep in active">
                         <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>
@@ -52,7 +67,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
                 this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then((possibleDeploymentSteps) => {
                     this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then((currentDeploymentSteps) => {
 
