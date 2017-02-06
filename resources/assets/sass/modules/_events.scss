@@ -1,38 +1,5 @@
-// FOOTER STYLES ===========================================
+// EVENT STYLES ============================================
 // =========================================================
-footer {
-  position: relative;
-  background-color: $black;
-  @include card(1);
-  min-height: 40px !important;
-  display: flex;
-  flex-direction: column;
-
-
-  .toggle {
-    display: block;
-    color: $white;
-    text-align: right;
-    padding: ($spacing/2) $spacing;
-
-    &:hover {
-      color: $blue;
-      background-color: rgba($gray, .2);
-    }
-
-    &:not(.collapsed) {
-      background-color: rgba($gray, .6);
-    }
-
-    [class^="icon-"], [class*=" icon-"] {
-      font-size: 1.2em;
-    }
-  }
-}
-
-
-// EVENTS COLLAPSE -----------------------------------------
-// ---------------------------------------------------------
 #collapseEvents {
   border-top: 2px solid rgba($white, .2);
 

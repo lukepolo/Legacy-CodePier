@@ -1,0 +1,44 @@
+// LAYOUT STYLES ===========================================
+// =========================================================
+#app-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  flex: 0 0 auto;
+}
+
+#xlarge-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  @include breakpoint(xl) {
+    flex-direction: row;
+
+    footer {
+      flex: 0 0 25%;
+    }
+  }
+}
+
+#main,
+.view {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+#left {
+  flex: 0 0 200px;
+}
+
+#middle {
+  flex: 1 1 auto;
+}
+
+#right {
+  flex: 0 0 325px;
+}

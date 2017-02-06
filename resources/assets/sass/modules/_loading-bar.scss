@@ -1,3 +1,5 @@
+// LOADING PROGRESS BAR STYLES =============================
+// =========================================================
 /* Make clicks pass-through */
 #nprogress {
   pointer-events: none;
@@ -72,3 +74,23 @@
   100% { transform: rotate(360deg); }
 }
 
+// PROGRESS BAR --------------------------------------------
+// ---------------------------------------------------------
+#nprogress {
+  .bar {
+    height: 3px !important;
+  }
+
+  .spinner {
+    top: 23px !important;
+    right: 12px !important;
+    @extend .icon-spinner;
+    height: 18px !important;
+    width: 18px !important;
+    border-width: 9px !important;
+    
+    .spinner-icon {
+      display: none;
+    }
+  }
+}

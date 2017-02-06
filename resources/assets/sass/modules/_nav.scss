@@ -1,31 +1,5 @@
-// HEADER STYLES ===========================================
+// NAVIGATION STYLES =======================================
 // =========================================================
-header {
-    background-color: $black;
-    display: flex;
-    
-    
-    .muted {
-        font-size: .8em;
-        text-transform: uppercase;
-        opacity: .5;
-        display: inline-block;
-        padding-right: 5px;
-    }
-}
-
-.logo-container {
-    flex: 0 0 265px;
-    padding: ($spacing/4) ($spacing/2);
-
-    a {
-        width : 100%;
-    }
-}
-
-
-// NAVIGATION ----------------------------------------------
-// ---------------------------------------------------------
 .nav {
     display: flex;
     list-style: none;
@@ -97,38 +71,5 @@ header {
                 width: $spacing*4;
             }
         }
-    }
-}
-
-.search-container {
-    display: flex;
-    align-items: center;
-    flex: 1 1 auto;
-    justify-content: flex-end;
-    padding-left: $spacing;
-}
-.search-form {
-    display: inline-block;
-    flex: 0 1 0px;
-    overflow: hidden;
-    transition: all .2s ease;
-    
-    input {
-        width: 100%;
-        background-color: transparent;
-        box-shadow: none;
-        border: none; 
-        border-bottom: 3px solid $color-primary;
-        padding-left: $spacing;
-        padding-right: $spacing;
-        
-        &:focus {
-            outline: none;
-        }
-    }
-    
-    &.open {
-        flex: 1 1 auto;
-        transition: all .2s ease-out;
     }
 }

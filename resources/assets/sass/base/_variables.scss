@@ -29,8 +29,6 @@ $color-divider:                 $black                          !default;
 
 // FONT VARIABLES ------------------------------------------
 // ---------------------------------------------------------
-
-// GOOGLE FONTS
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i';
 @import url('https://fonts.googleapis.com/css?family=Cutive+Mono');
 
@@ -41,10 +39,12 @@ $font-weight:                   300                             !default;
 
 
 
-// OTHER                      
+// LAYOUT VARIABLES ----------------------------------------
+// ---------------------------------------------------------
 $spacing:                       20px                            !default;
 
 
+/*
 // COLOR DECLARATIONS 
 $jcf-color-background:          transparent                     !default;
 $jcf-color-primary-dark:        $blue                           !default;
@@ -77,3 +77,4 @@ $jcf-form-padding:              40px                            !default;
 
 $jcf-transition-in:             all .5s                         !default;
 $jcf-transition-out:            all .2s                         !default;
+*/
