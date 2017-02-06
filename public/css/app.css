@@ -5332,6 +5332,10 @@ footer {
   width: 250px;
 }
 
+[class*="hint--"].hint--small:after, [class*="hint--"].hint--medium:after, [class*="hint--"].hint--large:after {
+  text-align: center;
+}
+
 #right .jcf-form-wrap {
   padding: 0px 20px;
 }
@@ -5728,6 +5732,12 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   flex: 0 0 15%;
 }
 
+.event-time {
+  -webkit-box-flex: 0;
+  flex: 0 0 130px;
+  text-align: right;
+}
+
 .event-none {
   text-align: center;
   padding: 20px;
@@ -5735,6 +5745,8 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
 
 .event-commit {
   padding: 0px 10px;
+  display: inline-block;
+  float: right;
 }
 
 [data-toggle="collapse"]:not(.collapsed) .icon-play {
