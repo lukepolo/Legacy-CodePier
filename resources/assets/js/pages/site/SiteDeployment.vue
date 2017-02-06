@@ -16,23 +16,23 @@
             <div class="btn btn-primary" @click="selectAllDeployments">Select All</div>
             <div class="btn btn-primary" @click="deselectAllDeployments">Deselect All</div>
             <div class="drag">
-                <h2>
-                    <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments">
+                <h3>
+                    <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments" class="long">
                         <span class="fa fa-info-circle"></span>
                     </tooltip>
                     Inactive
-                </h2>
+                </h3>
                 <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
                     <div v-for="deploymentStep in inactive">
                         <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
                     </div>
                 </draggable>
-                <h2>
-                    <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom">
+                <h3>
+                    <tooltip message="These are the steps in which we will deploy your applicatioin, they go in order from top to bottom" class="long">
                         <span class="fa fa-info-circle"></span>
                     </tooltip>
                     Active
-                </h2>
+                </h3>
                 <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
                     <div v-for="deploymentStep in active">
                         <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>

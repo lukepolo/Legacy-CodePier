@@ -18,7 +18,7 @@
                 <div class="jcf-input-group">
                     <input type="text" name="web_directory" v-model="form.web_directory">
                     <label for="web_directory">
-                        <tooltip message="The location of your apps entry ( ex : public ) no need for leading '/'">
+                        <tooltip message="The location of your apps entry ( ex : public ) no need for leading '/'" class="long">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                         <span class="float-label">Web Directory</span>
@@ -27,7 +27,7 @@
                 <div class="jcf-input-group input-checkbox">
                     <div class="input-question">Repository Options</div>
                     <label>
-                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!">
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" class="long">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                         <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
@@ -35,7 +35,7 @@
                         Zerotime Deployment
                     </label>
                     <label>
-                        <tooltip message="If your site requires a wildcard ( ex : *.codepier.io ) you should check this">
+                        <tooltip message="If your site requires a wildcard ( ex : *.codepier.io ) you should check this" class="long">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
                         <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="jcf-input-group">
-                    <tooltip message="By selecting a framework, we customize the options surrounding your app">
+                    <tooltip message="By selecting a framework, we customize the options surrounding your app" class="long">
                         <span class="fa fa-info-circle"></span>
                     </tooltip>
                     <div class="input-question">Select Framework</div>
