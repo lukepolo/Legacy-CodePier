@@ -1,76 +1,85 @@
-// GROUP STYLES ============================================
+// DRAG & DROP STYLES ======================================
 // =========================================================
-.group-container {
+.col-split {
     display: flex;
-    flex-wrap: wrap;
+
+    > .col {
+        flex: 1 1 1em;
+    }
+
+    @include breakpoint(lg) {
+        flex-direction: column;
+    }
 }
 
-.group {
-    flex: 0 1 380px;
-    display: flex;
-    flex-direction: column;
-    @include card(1);
-    border: 1px solid mix($black, $gray, 60%);
-    margin: $spacing;
-    padding: $spacing;
+.drag {
+    flex: 1 1 auto;
+    @extend .col-split;
+    border-top: 1px solid $color-divider;
+    margin-top: $spacing/2;
+    padding-top: $spacing;
 
-    .group-heading  {
-        background-color: mix($white, $gray, 10%);
-        border-bottom: 1px solid mix($black, $gray, 10%);
-        margin: (-$spacing) (-$spacing) ($spacing);
-        padding: $spacing;
+    .col:not(:last-child) {
+        border-right: 1px solid $color-divider;
+        padding-right: $spacing;
+    }
 
-        h4 {
+    .col:not(:first-child) {
+        padding-left: $spacing;
+    }
+
+    h1, h2, h3, h4 {
+        a {
+            font-size: 13px;
+            font-weight: 400;
             text-transform: none;
         }
+    }
 
-        input {
-            display: block;
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: .5px;
-            background-color: transparent;
-            border: 1px solid $black;
-            width: calc(100% + 10px);
-            margin: -10px;
-            padding: 9px;
+    @include breakpoint(lg) {
+        .col:not(:last-child),
+        .col:not(:first-child) {
+            border: none;
+            padding: 0px;
+        }
+    }
+}
 
-            &:focus {
-                outline: 2px solid $color-primary;
-            }
+.dragArea {
+    margin: $spacing 0px;
+}
+
+.drag-element {
+    border: 1px solid $color-divider;
+    padding: $spacing/2;
+    cursor: move;
+
+    &:not(:last-child) {
+        margin-bottom: $spacing/2;
+    }
+
+    &.sortable-chosen {
+        opacity: 1;
+
+        .drag-name {
+            color: $color-primary;
         }
     }
 
-    .group-content {
-        flex: 1 0 100px;
-        position: relative;
+    &.sortable-ghost {
+        opacity: .5;
     }
 
-    .btn-footer {
-        margin: ($spacing) (-$spacing) (-$spacing);
-        padding: $spacing;
-    }
-
-    .add-pile {
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: column;
-        margin: -$spacing;
-        padding: $spacing;
-
-        .icon-layers {
-            display: block;
-            text-align: center;
-            font-size: 80px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+    .jcf-form-wrap {
+        padding: $spacing 0px 0px;
+        
+        .btn-footer {
+            margin: 0px;
+            padding: $spacing 0px ($spacing/2);
         }
     }
+}
 
-    // Responsive
-    @include breakpoint(md) {
-        flex-grow: 1;
-    }
+.drag-name {
+    font-weight: 500;
 }

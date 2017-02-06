@@ -10,10 +10,10 @@ html, body, #app-layout {
 }
 
 body {
-   background-color: $color-background;
-   font-family: $font-body; 
-   font-weight: 300;
-   color: $color-text-primary;
+  background-color: $color-background;
+  font-family: $font-body;
+  font-weight: $font-weight;
+  color: $color-text-primary;
 }
 
 // BASICS
