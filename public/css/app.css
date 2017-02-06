@@ -5285,6 +5285,24 @@ footer {
   }
 }
 
+table {
+  width: 100%;
+  max-width: 100%;
+}
+
+table + table {
+  margin-top: 40px;
+}
+
+th {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+th,
+td {
+  padding: 5px;
+}
+
 .jcf-form-wrap .input-checkbox,
 .jcf-form-wrap .input-radio {
   margin-bottom: 40px;
