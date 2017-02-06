@@ -55,7 +55,12 @@
 
 
 
-            <div class="btn-footer"><button type="submit" class="btn btn-primary">Update Deployment</button></div>
+            <div class="btn-footer">
+                <!-- todo - instead of having to go away from the page and back, give them a quick link to clear.
+                I don't care if you update the text on the btn. whatever makes sense -->
+                <button class="btn">Clear Changes</button>
+                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            </div>
         </form>
     </div>
 </template>
