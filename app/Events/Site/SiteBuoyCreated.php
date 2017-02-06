@@ -4,8 +4,8 @@ namespace App\Events\Site;
 
 use App\Models\Buoy;
 use App\Models\Site\Site;
-use App\Jobs\Server\InstallBuoy;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\Buoys\InstallBuoy;
 use Illuminate\Queue\SerializesModels;
 
 class SiteBuoyCreated

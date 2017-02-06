@@ -85,7 +85,7 @@ pre {
 .small {
   font-size: 11px;
   color: rgba($color-text-primary, .7);
-  padding-top: $spacing/2;
+  padding-top: $spacing/4;
 }
 
 
@@ -181,9 +181,8 @@ footer {
 
   .fa-info-circle,
   [class^="icon-"], [class*=" icon-"] {
-    position: absolute;
-    left: -15px;
-    top: 2px;
+    position: relative;
+    left: -40px;
     cursor: pointer;
     pointer-events: all;
 

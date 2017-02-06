@@ -49,7 +49,7 @@ class SiteCronJobController extends Controller
 
             $site->cronJobs()->save($cronJob);
 
-            event(new SiteCronJobCreated($site, $cronJob));
+            broadcast(new SiteCronJobCreated($site, $cronJob))->toOthers();
 
             return response()->json($cronJob);
         }

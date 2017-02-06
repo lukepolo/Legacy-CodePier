@@ -2,12 +2,19 @@
 
 namespace App\Observers\Site;
 
+use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
+use App\Events\Site\SiteWorkerDeleted;
+use App\Events\Site\SiteCronJobCreated;
+use App\Events\Site\SiteCronJobDeleted;
+use App\Events\Sites\SiteSshKeyDeleted;
+use App\Events\Site\SiteFirewallRuleDeleted;
+use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -79,9 +86,20 @@ class SiteObserver
             foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
                 foreach ($site->cronJobs as $siteCronJob) {
                     if ($siteCronJob->job == $cronJob) {
-                        $siteCronJob->delete();
+                        $site->cronJobs()->detach($siteCronJob);
                     }
                 }
+            }
+
+            foreach ($this->siteFeatureService->getSuggestedCronJobs($site) as $cronJob) {
+                $cronJob = CronJob::create([
+                    'user' => 'codepier',
+                    'job' => $cronJob,
+                ]);
+
+                $site->cronJobs()->save($cronJob);
+
+                event(new SiteCronJobCreated($site, $cronJob));
             }
         }
     }
@@ -120,21 +138,30 @@ class SiteObserver
      */
     public function deleting(Site $site)
     {
-        // We need to trigger the delete events for some
-        // of the relations so they trickle down
-        $site->files->each(function ($file) {
-            $file->delete();
+        $site->workers()->each(function ($worker) use ($site) {
+            event(new SiteWorkerDeleted($site, $worker));
         });
 
-        $site->workers->each(function ($worker) {
-            $worker->delete();
+        $site->cronJobs()->each(function ($cronJob) use ($site) {
+            event(new SiteCronJobDeleted($site, $cronJob));
         });
 
-        $site->cronJobs()->each(function ($cronJob) {
-            $cronJob->delete();
+        $site->firewallRules()->each(function ($firewallRule) use ($site) {
+            event(new SiteFirewallRuleDeleted($site, $firewallRule));
         });
 
+        $site->sshKeys()->each(function ($sshKey) use ($site) {
+            event(new SiteSshKeyDeleted($site, $sshKey));
+        });
+
+        $site->sslCertificates()->each(function ($sslCertificate) use ($site) {
+            event(new SiteSslCertificateDeleted($site, $sslCertificate));
+        });
+
+        $site->buoys()->delete();
+        $site->commands()->delete();
         $site->deployments()->delete();
+        $site->deploymentSteps()->delete();
     }
 
     public function deleted(Site $site)

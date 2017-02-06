@@ -114,14 +114,8 @@
 }
 
 .server-ip {
-  a {
     color: $color-text-primary;
     padding-left: 36px;
-
-    &:hover {
-      color: $color-primary;
-    }
-  }
 }
 
 .server-connection {

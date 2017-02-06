@@ -69,7 +69,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerCronJobs', this.$route.params.server_id);
             },
             createServerCronJob() {

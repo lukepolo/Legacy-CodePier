@@ -4,8 +4,8 @@ namespace App\Events\Site;
 
 use App\Models\Buoy;
 use App\Models\Site\Site;
-use App\Jobs\Server\RemoveBuoy;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\Buoys\RemoveBuoy;
 use Illuminate\Queue\SerializesModels;
 
 class SiteBuoyDeleted

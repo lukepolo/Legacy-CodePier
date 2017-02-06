@@ -2,26 +2,24 @@
     <div class="server">
         <div class="server-header">
             <div class="server-name">
-                <span class="icon-arrow-down pull-right" :class="{ closed : !showInfo }" @click="showInfo = !showInfo"></span>
+                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="showServerInfo = !showServerInfo"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.name }}
                 </router-link>
             </div>
             <div class="server-ip">
-                <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                    {{ server.ip }}
-                </router-link>
+                {{ server.ip }}
             </div>
 
-            <template v-if="server.stats && server.stats.loads && !showInfo">
+            <template v-if="server.stats && server.stats.loads && !showServerInfo">
                 <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
             </template>
 
 
         </div>
 
-        <div class="server-info" v-if="showInfo">
+        <div class="server-info" v-if="showServerInfo">
             <div class="server-status">
                 <template v-if="server.progress < 100">
 
@@ -44,6 +42,7 @@
 
                     <template v-if="server.progress == 0 && server.custom_server_url">
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
+                        <clipboard :data="server.custom_server_url"></clipboard>
                     </template>
 
                 </template>
@@ -72,7 +71,7 @@
                     <template v-if="server.stats && server.stats.memory">
 
                         <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
-                            {{ memory_name }} : {{ stats.used }} / {{ stats.total }}
+                            {{ memory_name }} {{ stats.used }} / {{ stats.total }}
                             <div class="server-progress-container">
                                 <div class="server-progress" :style="{ width : (getBytesFromString(stats.used)/getBytesFromString(stats.total))*100+'%' }"></div>
                                 <div class="stats-label stats-used">{{stats.used}}</div>
@@ -87,7 +86,15 @@
                         </div>
                     </template>
 
-                    <h4>CPU Load <em v-if="server.stats && server.stats.cpus">( {{ server.stats.cpus }} )</em></h4>
+                    <h4>
+                        <tooltip message="Number of CPUs on the server" placement="top-right">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                        CPU Load
+                        <em v-if="server.stats && server.stats.cpus">
+                            ( {{ server.stats.cpus }} )
+                        </em>
+                    </h4>
                     <template v-if="server.stats && server.stats.loads">
                         <cpu-loads :stats="server.stats"></cpu-loads>
                     </template>
@@ -99,23 +106,42 @@
             </div>
 
             <div class="btn-container">
-                <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
-                <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
-                <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
-                <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
-                <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                <tooltip message="Restart web services" placement="top-right">
+                    <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
+                </tooltip>
+
+                <tooltip message="Restart server">
+                    <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
+                </tooltip>
+
+                <tooltip message="Restart databases">
+                    <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
+                </tooltip>
+
+                <tooltip message="Restart workers">
+                    <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
+                </tooltip>
+
+                <tooltip message="Archive server" placement="top-left">
+                    <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                </tooltip>
             </div>
         </div>
 </template>
 
 <script>
-    import CpuLoads from './ServerInfo/CpuLoadVue.vue'
+    import CpuLoads from './CpuLoadVue.vue'
     export default {
         props : {
             'server' : {},
             'showInfo' : {
                 default : false
             }
+        },
+        data() {
+          return {
+              showServerInfo : this.showInfo
+          }
         },
         components : {
           CpuLoads

@@ -24,7 +24,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id)
                 this.$store.dispatch('getServerFiles', this.$route.params.server_id)
                 this.$store.dispatch('getEditableServerFiles', this.$route.params.server_id)
             },

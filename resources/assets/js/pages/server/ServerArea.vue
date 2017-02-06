@@ -39,12 +39,14 @@
             <div class="section-content">
                 <div class="container">
 
-                    <transition >
+                    <transition>
                         <router-view name="nav"></router-view>
                     </transition>
 
                     <transition >
-                        <router-view></router-view>
+                        <router-view name="subNav">
+                            <router-view></router-view>
+                        </router-view>
                     </transition>
 
                 </div>
@@ -73,7 +75,16 @@
                 const fromDepth = from.path.split('/').length
 //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
                 this.transitionName = 'bounce';
+                this.fetchData()
             }
+        },
+        created() {
+            this.fetchData();
+        },
+        methods: {
+            fetchData() {
+                this.$store.dispatch('getServer', this.$route.params.server_id);
+            },
         }
     }
 </script>

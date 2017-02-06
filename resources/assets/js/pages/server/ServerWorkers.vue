@@ -95,7 +95,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
                 this.$store.dispatch('getServerWorkers', this.$route.params.server_id);
 
             },

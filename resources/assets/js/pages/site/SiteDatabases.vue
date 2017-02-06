@@ -18,7 +18,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id)
                 this.$store.dispatch('getSiteSchemas', this.$route.params.site_id)
                 this.$store.dispatch('getSiteServerFeatures', this.$route.params.site_id)
             }

@@ -130,7 +130,7 @@ Vue.mixin({
             return {}
         },
         getPile (pildId, attribute) {
-            const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: pildId })
+            const pile = _.find(this.$store.state.pilesStore.all_user_piles, { id: parseInt(pildId) })
             if (pile) {
                 if (attribute) {
                     return pile[attribute]
@@ -140,7 +140,7 @@ Vue.mixin({
             return {}
         },
         getSite (siteId, attribute) {
-            const site = _.find(this.$store.state.sitesStore.all_sites, { id: siteId })
+            const site = _.find(this.$store.state.sitesStore.all_sites, { id: parseInt(siteId) })
             if (site) {
                 if (attribute) {
                     return site[attribute]
@@ -150,7 +150,7 @@ Vue.mixin({
             return {}
         },
         getServer (serverId, attribute) {
-            const server = _.find(this.$store.state.serversStore.all_servers, { id: serverId })
+            const server = _.find(this.$store.state.serversStore.all_servers, { id: parseInt(serverId) })
             if (server) {
                 if (attribute) {
                     return server[attribute]
@@ -185,7 +185,9 @@ Vue.mixin({
  |
  */
 
-Vue.component('back', require('./core/Back.vue'))
+Vue.component('Back', require('./core/Back.vue'))
+Vue.component('Tooltip', require('./core/ToolTip.vue'))
+Vue.component('Clipboard', require('./core/Clipboard.vue'))
 Vue.component('Confirm', require('./components/Confirm.vue'))
 Vue.component('ConfirmDropdown', require('./components/ConfirmDropdown.vue'))
 Vue.component('Navigation', require('./core/Navigation.vue'))
@@ -246,78 +248,87 @@ const router = new VueRouter({
     { path: '/server/create', name: 'server_form', component: serverPages.ServerForm },
     { path: '/server/create/:site/:type', name: 'server_form_with_site', component: serverPages.ServerForm },
         {
-            path: '/server', component: serverPages.ServerArea,
+            path: '/server/:server_id', component: serverPages.ServerArea,
             children: [
                 {
-                    path: ':server_id/buoys',
-                    name: 'server_buoys',
-                    components: {
-                        default: serverPages.ServerBuoys,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/sites',
+                    path: '',
                     name: 'server_sites',
                     components: {
                         default: serverPages.ServerSites,
-                        nav: serverPages.ServerNav
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerInformationNav
                     }
                 },
                 {
-                    path: ':server_id/files',
-                    name: 'server_files',
-                    components: {
-                        default: serverPages.ServerFiles,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/workers',
-                    name: 'server_workers',
-                    components: {
-                        default: serverPages.ServerWorkers,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/ssh-keys',
-                    name: 'server_ssh_keys',
-                    components: {
-                        default: serverPages.ServerSshKeys,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/features',
-                    name: 'server_features',
-                    components: {
-                        default: serverPages.ServerFeatures,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/cron-jobs',
-                    name: 'server_cron_jobs',
-                    components: {
-                        default: serverPages.ServerCronJobs,
-                        nav: serverPages.ServerNav
-                    }
-                },
-                {
-                    path: ':server_id/monitoring',
+                    path: 'monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
-                        nav: serverPages.ServerNav
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerInformationNav
                     }
                 },
                 {
-                    path: ':server_id/firewall-rules',
+                    path: 'buoys',
+                    name: 'server_buoys',
+                    components: {
+                        default: serverPages.ServerBuoys,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerInformationNav
+                    }
+                },
+                {
+                    path: 'security',
+                    name: 'server_ssh_keys',
+                    components: {
+                        default: serverPages.ServerSshKeys,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.SecurityNav
+                    }
+                },
+                {
+                    path: 'security/firewall-rules',
                     name: 'server_firewall_rules',
                     components: {
                         default: serverPages.ServerFirewallRules,
-                        nav: serverPages.ServerNav
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.SecurityNav
+                    }
+                },
+                {
+                    path: 'setup',
+                    name: 'server_cron_jobs',
+                    components: {
+                        default: serverPages.ServerCronJobs,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/workers',
+                    name: 'server_workers',
+                    components: {
+                        default: serverPages.ServerWorkers,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/files',
+                    name: 'server_files',
+                    components: {
+                        default: serverPages.ServerFiles,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/features',
+                    name: 'server_features',
+                    components: {
+                        default: serverPages.ServerFeatures,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
                     }
                 }
             ]
@@ -391,9 +402,18 @@ const router = new VueRouter({
                 },
                 {
                     path: 'server-setup',
+                    name: 'site_cron_jobs',
+                    components: {
+                        default: sitePages.SiteCronJobs,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/workers',
                     name: 'site_workers',
                     components: {
-                        default: sitePages.SiteJobs,
+                        default: sitePages.SiteWorkers,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }
@@ -419,18 +439,18 @@ const router = new VueRouter({
             ]
         },
         {
-            path: '/my-profile', component: userPages.UserArea,
+            path: '/my', component: userPages.UserArea,
             children: [
                 {
-                    path: '/',
-                    name: 'my_profile',
+                    path: 'account',
+                    name: 'my_account',
                     components: {
                         default: userPages.UserInfo,
                         nav: userPages.UserNav
                     }
                 },
                 {
-                    path: 'oauth',
+                    path: 'account/oauth',
                     name: 'oauth',
                     components: {
                         default: userPages.UserOauth,
@@ -438,7 +458,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'ssh-keys',
+                    path: 'account/ssh-keys',
                     name: 'user_ssh_keys',
                     components: {
                         default: userPages.UserSshKeys,
@@ -446,7 +466,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'subscription',
+                    path: 'account/subscription',
                     name: 'subscription',
                     components: {
                         default: userPages.UserSubscription,

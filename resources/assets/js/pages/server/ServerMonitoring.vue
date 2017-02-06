@@ -56,7 +56,6 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
             }
         },
         computed: {
