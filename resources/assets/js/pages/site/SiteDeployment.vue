@@ -52,13 +52,8 @@
                 </div>
             </div>
 
-
-
-
             <div class="btn-footer">
-                <!-- todo - instead of having to go away from the page and back, give them a quick link to clear.
-                I don't care if you update the text on the btn. whatever makes sense -->
-                <button class="btn">Clear Changes</button>
+                <button class="btn" @click="clearChanges">Clear Changes</button>
                 <button type="submit" class="btn btn-primary">Update Deployment</button>
             </div>
         </form>
@@ -89,27 +84,7 @@
             fetchData() {
                 this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then((possibleDeploymentSteps) => {
                     this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then((currentDeploymentSteps) => {
-
-                        this.active = [];
-                        this.inactive = [];
-
-                        _.each(currentDeploymentSteps, (step) => {
-                            if(step.script) {
-                                this.active.push(step);
-                            } else {
-                                step = _.find(possibleDeploymentSteps, { internal_deployment_function : step.internal_deployment_function });
-                                if(step) {
-                                    this.active.push(step);
-                                }
-                            }
-                        });
-
-                        _.each(possibleDeploymentSteps, (step) => {
-                            if(!this.hasStep(step.internal_deployment_function)) {
-                                this.inactive.push(step);
-                            }
-                        });
-
+                        this.clearChanges()
                     });
                 });
 
@@ -161,6 +136,27 @@
                 this.inactive = [];
 
                 this.sortActiveList();
+            },
+            clearChanges() {
+                this.active = [];
+                this.inactive = [];
+
+                _.each(this.currentSiteDeploymentSteps, (step) => {
+                    if(step.script) {
+                        this.active.push(step);
+                    } else {
+                        step = _.find(this.deploymentSteps, { internal_deployment_function : step.internal_deployment_function });
+                        if(step) {
+                            this.active.push(step);
+                        }
+                    }
+                });
+
+                _.each(this.deploymentSteps, (step) => {
+                    if(!this.hasStep(step.internal_deployment_function)) {
+                        this.inactive.push(step);
+                    }
+                });
             }
         },
         computed: {
