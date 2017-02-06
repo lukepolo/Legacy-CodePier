@@ -205,6 +205,14 @@ footer {
     text-align: center;
     width: 250px;
   }
+
+  &.hint--small,
+  &.hint--medium,
+  &.hint--large {
+    &:after {
+      text-align: center;
+    }
+  }
 }
 
 #right {
