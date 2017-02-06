@@ -39,6 +39,10 @@
         text-transform: none;
     }
 }
+
+span.btn {
+    display: inline-block;
+}
     
 .btn-primary { 
     background-color: $jcf-color-primary;

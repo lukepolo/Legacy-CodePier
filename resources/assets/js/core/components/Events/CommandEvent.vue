@@ -31,7 +31,7 @@
             <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getServer(event.server_id, 'pile_id'), 'name') }}</div>
             <div class="event-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
         </template>
-        {{ timeAgo(event.created_at) }}
+        <div class="event-time">{{ timeAgo(event.created_at) }}</div>
     </section>
 </template>
 
