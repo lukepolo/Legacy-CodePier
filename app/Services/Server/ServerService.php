@@ -2,7 +2,6 @@
 
 namespace App\Services\Server;
 
-use App\Exceptions\FailedCommand;
 use App\Models\Bitt;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -12,6 +11,7 @@ use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
+use App\Exceptions\FailedCommand;
 use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use App\Models\Server\Provider\ServerProvider;
@@ -412,7 +412,7 @@ class ServerService implements ServerServiceContract
             'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
         );
 
-        if (!$server->cronJobs
+        if (! $server->cronJobs
             ->where('job', '* */12 * * * letsencrypt renew')
             ->count()
         ) {
@@ -424,7 +424,7 @@ class ServerService implements ServerServiceContract
             try {
                 $this->installCron($server, $cronJob);
                 $server->cronJobs()->save($cronJob);
-            } catch(FailedCommand $e) {
+            } catch (FailedCommand $e) {
                 $cronJob->delete();
                 throw $e;
             }
