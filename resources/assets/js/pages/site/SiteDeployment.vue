@@ -24,8 +24,12 @@
                         </h3>
 
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
-                            <div class="drag-element" v-for="deploymentStep in inactive">
-                                <deployment-step-card :deployment-step="deploymentStep"></deployment-step-card>
+                            <div class="drag-element" v-for="(deploymentStep, key) in inactive">
+                                <deployment-step-card
+                                        :deployment-step="deploymentStep"
+                                        v-on:updateStep="updateStep('inactive')"
+                                        v-on:deleteStep="deleteStep(key, 'inactive')"
+                                ></deployment-step-card>
                             </div>
                         </draggable>
                     </div>
@@ -39,8 +43,13 @@
                         </h3>
 
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
-                            <div class="drag-element" v-for="deploymentStep in active">
-                                <deployment-step-card :deployment-step="deploymentStep" :key="deploymentStep"></deployment-step-card>
+                            <div class="drag-element" v-for="(deploymentStep, key) in active">
+                                <deployment-step-card
+                                        :deployment-step="deploymentStep"
+                                        :key="deploymentStep"
+                                        v-on:updateStep="updateStep('active')"
+                                        v-on:deleteStep="deleteStep(key, 'active')"
+                                ></deployment-step-card>
                             </div>
                         </draggable>
 
@@ -53,7 +62,7 @@
             </div>
 
             <div class="btn-footer">
-                <button class="btn" @click="clearChanges">Clear Changes</button>
+                <button class="btn" @click="clearChanges">Discard Changes</button>
                 <button type="submit" class="btn btn-primary">Update Deployment</button>
             </div>
         </form>
@@ -63,6 +72,7 @@
 <script>
     import draggable from 'vuedraggable';
     import deploymentStepCard from './components/DeploymentStepCard.vue';
+
     export default {
         components: {
             draggable,
@@ -107,6 +117,7 @@
                     script : '',
                     step: "Custom Step",
                     description: "Custom Step",
+                    editing : true,
                 })
             },
             sortInactiveList: function(){
@@ -143,6 +154,7 @@
 
                 _.each(this.currentSiteDeploymentSteps, (step) => {
                     if(step.script) {
+                        step.editing = false;
                         this.active.push(step);
                     } else {
                         step = _.find(this.deploymentSteps, { internal_deployment_function : step.internal_deployment_function });
@@ -157,6 +169,12 @@
                         this.inactive.push(step);
                     }
                 });
+            },
+            updateStep(state) {
+                this[state] = Object.assign([], this[state], _.cloneDeep(this[state]))
+            },
+            deleteStep(deploymentStep, state) {
+                this[state].splice(deploymentStep, 1)
             }
         },
         computed: {
