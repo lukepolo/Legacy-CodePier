@@ -1695,40 +1695,6 @@ tbody.collapse.in {
   border-top-right-radius: 0px;
 }
 
-/*
-// COLOR DECLARATIONS 
-$jcf-color-background:          transparent                     !default;
-$jcf-color-primary-dark:        $blue                           !default;
-$jcf-color-primary:             $blue                           !default;
-$jcf-color-primary-light:       $blue                           !default;
-$jcf-color-accent:              $blue                           !default;
-$jcf-color-text-primary:        $white                          !default;
-$jcf-color-text-secondary:      $grayLight                      !default;
-$jcf-color-text-inverse:        $black                          !default;
-$jcf-color-divider:             $black                          !default;
-
-
-
-// FONT VARIABLES ------------------------------------------
-// ---------------------------------------------------------
-
-$jcf-bodyFont:                  'Roboto', sans-serif            !default;
-$jcf-headingFont:               'Open Sans', serif              !default; 
-
-
-// FONT DECLARATIONS
-$jcf-font:                      $jcf-bodyFont                   !default;
-$jcf-font-size:                 15px                            !default;
-
-
-// FORM VARIABLES ------------------------------------------
-// ---------------------------------------------------------
-$jcf-form-width:                100%                            !default;
-$jcf-form-padding:              40px                            !default;
-
-$jcf-transition-in:             all .5s                         !default;
-$jcf-transition-out:            all .2s                         !default;
-*/
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -4778,23 +4744,23 @@ $jcf-transition-out:            all .2s                         !default;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
-  color: #2B2B2B;
+  color: #FFFFFF;
   letter-spacing: .2px;
   text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Merriweather", serif;
+  font-family: "Open Sans", serif;
   font-weight: 400;
   letter-spacing: .5px;
-  color: #FF4081;
+  color: #48ACF0;
 }
 
 .btn {
-  background-color: #FFFFFF;
-  color: #3C3F41;
+  background-color: #2B2B2B;
+  color: #B6B6B6;
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -4832,14 +4798,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background-color: #FF4081;
-  color: #FFFFFF;
+  background-color: #48ACF0;
+  color: #2B2B2B;
 }
 
 .btn-footer {
   text-align: center;
-  border-top: 1px solid #B6B6B6;
-  background-color: #CFD8DC;
+  border-top: 1px solid #2B2B2B;
+  background-color: #F4645F;
   margin: 40px -40px -40px;
   padding: 20px 40px;
 }
@@ -4850,7 +4816,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .card hr, .jcf-form-wrap hr {
   border: none;
-  border-bottom: 1px solid #B6B6B6;
+  border-bottom: 1px solid #2B2B2B;
   margin: 40px -40px;
 }
 
@@ -4858,13 +4824,13 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
   background-color: #48ACF0;
   color: rgba(255, 255, 255, 0.5);
-  border-top: 10px solid #455A64;
+  border-top: 10px solid #FFFFFF;
   padding: 20px 40px;
   margin: -40px -40px 40px;
 }
 
 .card .heading h1, .jcf-form-wrap .heading h1, .card .heading h2, .jcf-form-wrap .heading h2, .card .heading h3, .jcf-form-wrap .heading h3, .card .heading h4, .jcf-form-wrap .heading h4, .card .heading h5, .jcf-form-wrap .heading h5, .card .heading h6, .jcf-form-wrap .heading h6 {
-  color: #FFFFFF;
+  color: #2B2B2B;
   margin: 0px;
   padding: 0px;
 }
@@ -4877,19 +4843,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .float-label-active, .jcf-form-wrap input:focus + label .float-label, .jcf-form-wrap input.active + label .float-label {
   position: relative;
-  top: -24px;
+  top: -22.5px;
   font-size: .7em;
-  color: #3C3F41;
+  color: #B6B6B6;
 }
 
 .jcf-form-wrap {
   box-sizing: border-box;
-  width: 400px;
-  max-width: 400px;
-  background-color: #FFFFFF;
-  color: #2B2B2B;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
   margin-left: auto;
   margin-right: auto;
   padding: 40px;
@@ -4906,12 +4872,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .jcf-form-wrap input {
   width: 100%;
-  background-color: #FFFFFF;
-  color: #2B2B2B;
-  font-size: 24px;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 22.5px;
   font-weight: 300;
   border: none;
-  border-bottom: 1px solid #B6B6B6;
+  border-bottom: 1px solid #2B2B2B;
   margin: 0px;
   padding: 0px 10px 10px;
 }
@@ -4928,7 +4894,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .jcf-form-wrap input:focus + label .float-label {
-  color: #FF4081;
+  color: #48ACF0;
 }
 
 .jcf-form-wrap label {
@@ -4949,7 +4915,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0%;
   height: 3px;
   width: 0%;
-  background-color: #FF4081;
+  background-color: #48ACF0;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
@@ -4964,7 +4930,7 @@ h1, h2, h3, h4, h5, h6 {
 .jcf-form-wrap .input-question {
   font-size: .9em;
   font-weight: 600;
-  color: #3C3F41;
+  color: #B6B6B6;
   margin-bottom: 10px;
 }
 
@@ -5054,7 +5020,7 @@ h1, h2, h3, h4, h5, h6 {
 .jcf-form-wrap .input-checkbox input:checked + .icon:before,
 .jcf-form-wrap .input-radio input:checked + .icon:before {
   content: '';
-  color: #FF4081;
+  color: #48ACF0;
 }
 
 .jcf-form-wrap .input-checkbox .icon,
@@ -5070,7 +5036,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 4px;
   top: 2px;
   font-size: 1.2em;
-  color: #3C3F41;
+  color: #B6B6B6;
 }
 
 .jcf-form-wrap .input-checkbox .icon:before {
@@ -5096,10 +5062,10 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border: 1px solid #B6B6B6;
+  border: 1px solid #2B2B2B;
   border-radius: 0px;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
   padding: 10px 50px 10px 10px;
   width: 100%;
   cursor: pointer;
@@ -5110,7 +5076,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .jcf-form-wrap select:hover {
-  background-color: rgba(60, 63, 65, 0.05);
+  background-color: rgba(182, 182, 182, 0.05);
 }
 
 .jcf-form-wrap .select-wrap {
@@ -5125,7 +5091,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 0px;
   right: 0px;
   bottom: 0px;
-  border-left: 1px solid #B6B6B6;
+  border-left: 1px solid #2B2B2B;
   color: #48ACF0;
   display: -webkit-box;
   display: flex;
@@ -5141,7 +5107,7 @@ h1, h2, h3, h4, h5, h6 {
 .jcf-form-wrap .validation-form input[type="password"] + label:before {
   content: "";
   font-family: "icomoon";
-  font-size: 24px;
+  font-size: 22.5px;
   position: absolute;
   top: 5px;
   right: 8px;
@@ -5488,8 +5454,8 @@ p.info {
 }
 
 .btn {
-  background-color: #FFFFFF;
-  color: #2B2B2B !important;
+  background-color: #2B2B2B;
+  color: #FFFFFF !important;
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -5538,12 +5504,12 @@ span.btn {
 
 .btn-primary {
   background-color: #48ACF0;
-  color: #2B2B2B !important;
+  color: #FFFFFF !important;
 }
 
 .btn-danger {
   background-color: #F4645F;
-  color: #2B2B2B !important;
+  color: #FFFFFF !important;
 }
 
 .btn-small {
@@ -5560,7 +5526,7 @@ button[disabled=disabled] {
 
 .btn-footer {
   text-align: center;
-  border-top: 1px solid #B6B6B6;
+  border-top: 1px solid #2B2B2B;
   background-color: transparent;
   margin: 40px -40px -40px;
   padding: 20px 40px;
@@ -5576,7 +5542,7 @@ button[disabled=disabled] {
 
 .card hr, .jcf-form-wrap hr {
   border: none;
-  border-bottom: 1px solid #B6B6B6;
+  border-bottom: 1px solid #2B2B2B;
   margin: 40px -40px;
 }
 
@@ -5584,13 +5550,13 @@ button[disabled=disabled] {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
   background-color: #48ACF0;
   color: rgba(255, 255, 255, 0.8);
-  border-top: 10px solid #455A64;
+  border-top: 10px solid #FFFFFF;
   padding: 20px 40px;
   margin: -40px -40px 40px;
 }
 
 .card .heading h1, .jcf-form-wrap .heading h1, .card .heading h2, .jcf-form-wrap .heading h2, .card .heading h3, .jcf-form-wrap .heading h3, .card .heading h4, .jcf-form-wrap .heading h4, .card .heading h5, .jcf-form-wrap .heading h5, .card .heading h6, .jcf-form-wrap .heading h6 {
-  color: #2B2B2B;
+  color: #FFFFFF;
   margin: 0px;
   padding: 0px;
 }
@@ -6170,7 +6136,7 @@ td {
 textarea {
   width: 100%;
   background-color: transparent;
-  color: #2B2B2B;
+  color: #FFFFFF;
   font-family: "Roboto", sans-serif;
   border: 1px solid #2B2B2B;
   padding: 10px;

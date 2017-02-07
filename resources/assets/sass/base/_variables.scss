@@ -44,37 +44,23 @@ $font-weight:                   300                             !default;
 $spacing:                       20px                            !default;
 
 
-/*
-// COLOR DECLARATIONS 
-$jcf-color-background:          transparent                     !default;
-$jcf-color-primary-dark:        $blue                           !default;
-$jcf-color-primary:             $blue                           !default;
-$jcf-color-primary-light:       $blue                           !default;
-$jcf-color-accent:              $blue                           !default;
-$jcf-color-text-primary:        $white                          !default;
-$jcf-color-text-secondary:      $grayLight                      !default;
-$jcf-color-text-inverse:        $black                          !default;
-$jcf-color-divider:             $black                          !default;
-
-
-
-// FONT VARIABLES ------------------------------------------
-// ---------------------------------------------------------
-
-$jcf-bodyFont:                  'Roboto', sans-serif            !default;
-$jcf-headingFont:               'Open Sans', serif              !default; 
-
-
-// FONT DECLARATIONS
-$jcf-font:                      $jcf-bodyFont                   !default;
-$jcf-font-size:                 15px                            !default;
-
 
 // FORM VARIABLES ------------------------------------------
 // ---------------------------------------------------------
-$jcf-form-width:                100%                            !default;
-$jcf-form-padding:              40px                            !default;
+$jcf-color-background:          transparent;
+$jcf-color-primary-dark:        $color-text-primary;
+$jcf-color-primary:             $color-primary;
+$jcf-color-primary-light:       $color-accent;
+$jcf-color-accent:              $color-primary;
+$jcf-color-text-primary:        $color-text-primary;
+$jcf-color-text-secondary:      $color-text-secondary;
+$jcf-color-text-inverse:        $color-text-inverse;
+$jcf-color-divider:             $color-divider;
 
-$jcf-transition-in:             all .5s                         !default;
-$jcf-transition-out:            all .2s                         !default;
-*/
+$jcf-bodyFont:                  $font-body;
+$jcf-headingFont:               $font-heading;
+$jcf-font:                      $jcf-bodyFont;
+$jcf-font-size:                 $font-size;
+
+$jcf-form-width:                100%;
+$jcf-form-padding:              $spacing*2;
