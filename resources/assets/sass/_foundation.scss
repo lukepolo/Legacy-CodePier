@@ -158,6 +158,25 @@ footer {
 
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
+table {
+  width: 100%;
+  max-width: 100%;
+
+  + table {
+    margin-top: $spacing*2;
+  }
+}
+
+th {
+  border-bottom: 2px solid rgba($white, .1);
+}
+
+th,
+td {
+  padding: 5px;
+}
+
+
 .jcf-form-wrap {
   .input-checkbox,
   .input-radio{

@@ -1,5 +1,6 @@
 <template>
   <div>
+<<<<<<< HEAD
 
       <template v-if="deploymentStep.internal_deployment_function || deploymentStep.editing == false">
 
@@ -7,6 +8,13 @@
               <a class="text-error pull-right" @click="deleteStep"><span class="icon-cancel"></span></a>
               <a class="text-success pull-right" @click="edit"><span class="fa fa-edit"></span></a>
           </template>
+=======
+      <template v-if="deploymentStep.internal_deployment_function">
+          <!-- todo - allow them to delete custom steps
+           -- Note: this should no show up unless it is custom -->
+          <!-- todo jf -- switch out icon -->
+          <a class="text-error pull-right"><span class="icon-cancel"></span></a>
+>>>>>>> ac6436126d95122e4fdb99d5e1555263f35f3d16
 
           <div class="drag-name">
               {{ deploymentStep.step }}
@@ -42,8 +50,16 @@
                   </div>
 
                   <div class="btn-footer">
+<<<<<<< HEAD
                       <a class="btn btn-small" @click="cancel">Cancel</a>
                       <a class="btn btn-primary btn-small" @click="save">Save</a>
+=======
+                      <!-- todo - have save button get it out of edit mode and into a component like the rest -->
+                      <!-- todo - cancel should clear form and close -->
+                      <a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>
+                      <a class="btn btn-small">Cancel</a>
+                      <a class="btn btn-primary btn-small">Save</a>
+>>>>>>> ac6436126d95122e4fdb99d5e1555263f35f3d16
                   </div>
               </form>
 
