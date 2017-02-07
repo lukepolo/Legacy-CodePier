@@ -64,7 +64,7 @@ class WebHookController extends Controller
         $memoryStats = $this->getStats($request->get('memory'));
 
         $server->update([
-            'stats->memory->'.$memoryStats['name'] => $memoryStats,
+            'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
         ]);
 
         $server->notify(new ServerMemory($server));

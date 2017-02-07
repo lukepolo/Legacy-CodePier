@@ -71,7 +71,7 @@
                     <template v-if="server.stats && server.stats.memory">
 
                         <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
-                            {{ memory_name }} {{ stats.used }} / {{ stats.total }}
+                            {{ memory_name }}
                             <div class="server-progress-container">
                                 <div class="server-progress" :style="{ width : (getBytesFromString(stats.used)/getBytesFromString(stats.total))*100+'%' }"></div>
                                 <div class="stats-label stats-used">{{stats.used}}</div>
