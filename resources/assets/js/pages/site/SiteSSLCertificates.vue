@@ -15,19 +15,37 @@
             </form>
         </div>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Domains</th>
+                    <th>Type</th>
+                    <th>Cert Path</th>
+                    <th>Key Path</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="ssl_certificate in ssl_certificates">
+                    <td>{{ ssl_certificate.domains }}</td>
+                    <td>{{ ssl_certificate.type }}</td>
+                    <td>{{ ssl_certificate.cert_path }}</td>
+                    <td>{{ ssl_certificate.key_path }}</td>
+                    <td>
+                        {{ ssl_certificate.status }}
+                        <template v-if="isRunningCommandFor(ssl_certificate.id)">
+                            {{ isRunningCommandFor(ssl_certificate.id).status }}
+                        </template>
+                        <template v-else>
+                            <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
+                            <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                            <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
+                        </template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-        <p v-for="ssl_certificate in ssl_certificates">
-            {{ ssl_certificate.type }} : {{ ssl_certificate.domains }} : {{ ssl_certificate.cert_path }} :
-            {{ ssl_certificate.key_path }}
-            <template v-if="isRunningCommandFor(ssl_certificate.id)">
-                {{ isRunningCommandFor(ssl_certificate.id).status }}
-            </template>
-            <template v-else>
-                <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
-                <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
-                <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
-            </template>
-        </p>
     </div>
 </template>
 

@@ -46,9 +46,5 @@ class RunBitt implements ShouldQueue
         $this->runOnServer(function () use ($serverService) {
             $serverService->runBitt($this->server, $this->bitt);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

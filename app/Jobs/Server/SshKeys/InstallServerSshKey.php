@@ -57,10 +57,6 @@ class InstallServerSshKey implements ShouldQueue
                 $serverService->installSshKey($this->server, $this->sshKey);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-
             $this->server->sshKeys()->save($this->sshKey);
         }
     }

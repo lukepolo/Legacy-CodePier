@@ -39,7 +39,7 @@ class SiteSslController extends Controller
     {
         $type = $request->get('type');
         $domains = $request->get('domains');
-        $site = Site::with('sslCertificates')->findOrFail($siteId);
+        $site = Site::with(['sslCertificates'])->findOrFail($siteId);
 
         if (! $site->sslCertificates
             ->where('type', $type)
@@ -50,14 +50,23 @@ class SiteSslController extends Controller
                 case ServerService::LETS_ENCRYPT:
 
                     $folder = explode(',', $request->get('domains'))[0];
+                    $sslCertificate = $site->letsEncryptSslCertificate();
 
-                    $sslCertificate = SslCertificate::create([
-                        'domains' => $domains,
-                        'type' => $type,
-                        'active' => false,
-                        'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
-                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
-                    ]);
+                    if($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
+                        $sslCertificate->update([
+                            'domains' => $domains,
+                            'status' => 'Updating Let\'s Encrypt certificate for existing domain'
+                        ]);
+                    } else {
+                        $sslCertificate = SslCertificate::create([
+                            'domains' => $domains,
+                            'type' => $type,
+                            'active' => false,
+                            'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
+                            'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
+                            'status' => 'Installing new Let\'s Encrypt certificate'
+                        ]);
+                    }
 
                     break;
                 case 'existing':

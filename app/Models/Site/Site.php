@@ -11,6 +11,7 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
+use App\Services\Server\ServerService;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -65,7 +66,12 @@ class Site extends Model
 
     public function activeSsl()
     {
-        return $this->sslCertificates()->where('active', true)->first();
+        return $this->sslCertificates->where('active', true)->first();
+    }
+
+    public function letsEncryptSslCertificate()
+    {
+        return $this->sslCertificates->where('type', ServerService::LETS_ENCRYPT)->first();
     }
 
     public function cronJobs()

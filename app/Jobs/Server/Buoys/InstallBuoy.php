@@ -49,10 +49,6 @@ class InstallBuoy implements ShouldQueue
                 $buoyService->installBuoy($this->server, $this->buoy);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-
             $this->server->buoys()->save($this->buoy);
         }
     }

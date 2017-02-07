@@ -59,10 +59,6 @@ class AddServerSchema implements ShouldQueue
                 $serverService->addSchema($this->server, $this->schema);
             });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-
             $this->server->schemas()->save($this->schema);
         }
     }
