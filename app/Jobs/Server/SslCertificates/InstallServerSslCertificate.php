@@ -58,7 +58,6 @@ class InstallServerSslCertificate implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-
             try {
                 $this->runOnServer(function () use ($serverService, $siteService) {
                     $serverService->installSslCertificate($this->server, $this->sslCertificate);
