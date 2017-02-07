@@ -4,7 +4,7 @@
         <div class="jcf-form-wrap">
             <form>
                 <div class="jcf-input-group">
-                    <tooltip message="We can fetch a file and replace all content inside by reloading the file">
+                    <tooltip message="We can fetch a file and replace all content inside by reloading the file" class="long">
                         <span class="fa fa-info-circle"></span>
                     </tooltip>
                     <div class="input-question">Select a server</div>

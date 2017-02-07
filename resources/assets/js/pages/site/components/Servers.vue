@@ -14,7 +14,6 @@
                     <ul class="dropdown-menu nowrap">
                         <server-create-list></server-create-list>
                         <template v-if="availableServers.length">
-                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="#" @click.prevent="connectServers = !connectServers">
                                     <span class="icon-server"></span> Attached Servers
@@ -42,6 +41,11 @@
                    <form @submit.prevent="linkServers">
 
                        <div class="jcf-form-wrap">
+                           <div class="jcf-input-group">
+                               <div class="small">
+                                   Select the servers you want to attach your site to.
+                               </div>
+                           </div>
 
                            <template v-for="server in availableServers">
                                <form class="floating-labels">
@@ -60,10 +64,11 @@
                            </template>
 
                            <div class="btn-footer">
-                               <button class="btn" type="submit">{{ attachServersText }}</button>
                                <template v-if="siteServers.length">
                                    <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
                                </template>
+                               <!-- todo - disable attach button when no servers are selected -->
+                               <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
                            </div>
 
                        </div>
@@ -137,7 +142,7 @@
                 return this.$store.state.serversStore.servers;
             },
             attachServersText() {
-                return 'Update attached ' + _('server').pluralize(this.form.connected_servers.length)
+                return 'Attach ' + _('server').pluralize(this.form.connected_servers.length)
             }
 
         }
