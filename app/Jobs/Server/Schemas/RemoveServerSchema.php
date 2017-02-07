@@ -52,6 +52,10 @@ class RemoveServerSchema implements ShouldQueue
                 $serverService->removeSchema($this->server, $this->schema);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->schemas()->detach($this->schema->id);
 
             $this->schema->load('servers');

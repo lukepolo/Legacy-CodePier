@@ -48,5 +48,9 @@ class AddServerSchemaUser implements ShouldQueue
         $this->runOnServer(function () use ($serverService) {
             // TODO - schema command
         });
+
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
+        }
     }
 }

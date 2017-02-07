@@ -51,6 +51,10 @@ class RemoveServerWorker implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->removeWorker($this->worker);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->cronJobs()->detach($this->worker->id);
 
             $this->worker->load('servers');

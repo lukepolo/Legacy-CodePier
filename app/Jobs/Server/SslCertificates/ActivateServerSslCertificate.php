@@ -53,5 +53,9 @@ class ActivateServerSslCertificate implements ShouldQueue
             $serverService->activateSslCertificate($this->server, $this->sslCertificate);
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
+
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
+        }
     }
 }
