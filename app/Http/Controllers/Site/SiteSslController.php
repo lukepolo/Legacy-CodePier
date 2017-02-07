@@ -52,10 +52,10 @@ class SiteSslController extends Controller
                     $folder = explode(',', $request->get('domains'))[0];
                     $sslCertificate = $site->letsEncryptSslCertificate();
 
-                    if($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
+                    if ($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
                         $sslCertificate->update([
                             'domains' => $domains,
-                            'status' => 'Updating Let\'s Encrypt certificate for existing domain'
+                            'status' => 'Updating Let\'s Encrypt certificate for existing domain',
                         ]);
                     } else {
                         $sslCertificate = SslCertificate::create([
@@ -64,7 +64,7 @@ class SiteSslController extends Controller
                             'active' => false,
                             'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
                             'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
-                            'status' => 'Installing new Let\'s Encrypt certificate'
+                            'status' => 'Installing new Let\'s Encrypt certificate',
                         ]);
                     }
 
