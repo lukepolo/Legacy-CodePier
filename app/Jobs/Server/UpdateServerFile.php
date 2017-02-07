@@ -53,9 +53,5 @@ class UpdateServerFile implements ShouldQueue
 
             $serverService->saveFile($this->server, $this->file->file_path, $this->file->content, $user);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

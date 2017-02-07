@@ -49,8 +49,6 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param Site $site
-     *
-     * @return bool
      */
     public function create(Server $server, Site $site)
     {
@@ -61,23 +59,17 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
         $this->serverService->restartWebServices($server);
-
-        return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
-     *
-     * @return array
      */
     public function updateWebServerConfig(Server $server, Site $site)
     {
         $this->getWebServerService($server)->updateWebServerConfig($site);
 
         $this->serverService->restartWebServices($server);
-
-        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -85,7 +77,6 @@ class SiteService implements SiteServiceContract
      * @param Site $site
      * @param $newDomain
      * @param $oldDomain
-     * @return array
      */
     public function renameDomain(Server $server, Site $site, $newDomain, $oldDomain)
     {
@@ -102,22 +93,17 @@ class SiteService implements SiteServiceContract
         $this->getWebServerService($server)->createWebServerConfig($site);
 
         $this->serverService->restartWebServices($server);
-
-        return $this->remoteTaskService->getErrors();
     }
 
     /**
      * @param Server $server
      * @param Site $site
-     * @return array
      */
     private function remove(Server $server, Site $site)
     {
         $this->remoteTaskService->removeDirectory('/home/codepier/'.$site->domain);
 
         $this->getWebServerService($server)->removeWebServerConfig($site);
-
-        return $this->remoteTaskService->getErrors();
     }
 
     /**
@@ -127,7 +113,6 @@ class SiteService implements SiteServiceContract
      * @param null $sha
      *
      * @throws DeploymentFailed
-     * @internal param SiteDeployment $siteDeployment
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, $sha = null)
     {
@@ -191,16 +176,12 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
-     *
-     * @return array|bool
      */
     public function deleteSite(Server $server, Site $site)
     {
         $this->remoteTaskService->ssh($server);
 
         $this->remove($server, $site);
-
-        return $this->remoteTaskService->getErrors();
     }
 
     /**

@@ -46,10 +46,6 @@ class RemoveBuoy implements ShouldQueue
             $buoyService->removeBuoy($this->server, $this->buoy);
         });
 
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
-
         $this->server->buoys()->detach($this->buoy);
     }
 }

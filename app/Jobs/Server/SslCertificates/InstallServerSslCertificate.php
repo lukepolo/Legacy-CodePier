@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Exceptions\FailedCommand;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -44,7 +45,7 @@ class InstallServerSslCertificate implements ShouldQueue
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws ServerCommandFailed
+     * @throws FailedCommand
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -58,12 +59,17 @@ class InstallServerSslCertificate implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-            $this->runOnServer(function () use ($serverService, $siteService) {
-                $serverService->installSslCertificate($this->server, $this->sslCertificate);
-            });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+            try {
+                $this->runOnServer(function () use ($serverService, $siteService) {
+                    $serverService->installSslCertificate($this->server, $this->sslCertificate);
+                });
+            } catch(FailedCommand $e) {
+                $this->sslCertificate->update([
+                    'status' => 'Please look at the events bar'
+                ]);
+
+                throw $e;
             }
 
             $this->server->sslCertificates()->save($this->sslCertificate);

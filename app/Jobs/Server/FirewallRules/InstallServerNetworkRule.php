@@ -44,9 +44,5 @@ class InstallServerNetworkRule implements ShouldQueue
         $this->runOnServer(function () use ($serverService) {
             $serverService->getService(SystemService::FIREWALL, $this->serverNetworkRule->server)->addServerNetworkRule($this->serverNetworkRule->server->ip);
         });
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }
