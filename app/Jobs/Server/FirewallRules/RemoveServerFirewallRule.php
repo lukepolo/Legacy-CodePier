@@ -53,6 +53,10 @@ class RemoveServerFirewallRule implements ShouldQueue
                 $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->firewallRules()->detach($this->firewallRule->id);
 
             $this->firewallRule->load('servers');

@@ -53,6 +53,10 @@ class RemoveServerCronJob implements ShouldQueue
                 $serverService->removeCron($this->server, $this->cronJob);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->cronJobs()->detach($this->cronJob->id);
 
             $this->cronJob->load('servers');

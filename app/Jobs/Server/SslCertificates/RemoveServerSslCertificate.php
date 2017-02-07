@@ -57,6 +57,10 @@ class RemoveServerSslCertificate implements ShouldQueue
                 $siteService->updateWebServerConfig($this->server, $this->site);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->sslCertificates()->detach($this->sslCertificate->id);
 
             $this->sslCertificate->load('servers');

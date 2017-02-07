@@ -51,6 +51,10 @@ class InstallServerWorker implements ShouldQueue
                 $serverService->getService(SystemService::WORKERS, $this->server)->addWorker($this->worker);
             });
 
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
+            }
+
             $this->server->workers()->save($this->worker);
         }
     }
