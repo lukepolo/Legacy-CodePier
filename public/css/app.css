@@ -6133,6 +6133,10 @@ td {
   display: none;
 }
 
+.jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {
+  top: -2px;
+}
+
 textarea {
   width: 100%;
   background-color: transparent;
