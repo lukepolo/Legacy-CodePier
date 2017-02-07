@@ -108,7 +108,9 @@ td {
 .jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
 }
-
+.jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {
+  top: -2px;
+}
 textarea {
   width: 100%;
   background-color: transparent;
