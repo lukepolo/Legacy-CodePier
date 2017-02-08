@@ -32,14 +32,18 @@
                     <td>{{ ssl_certificate.cert_path }}</td>
                     <td>{{ ssl_certificate.key_path }}</td>
                     <td>
-                        {{ ssl_certificate.status }}
                         <template v-if="isRunningCommandFor(ssl_certificate.id)">
                             {{ isRunningCommandFor(ssl_certificate.id).status }}
                         </template>
                         <template v-else>
-                            <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
-                            <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
-                            <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
+                            <template v-if="ssl_certificate.failed">
+                                <a @click="retryInstall(ssl_certificate.domains)">Retry Install</a>
+                            </template>
+                            <template v-else>
+                                <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
+                                <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                                <a @click="deleteSslCertificate(ssl_certificate.id)" href="#">Delete</a>
+                            </template>
                         </template>
                     </td>
                 </tr>
@@ -71,6 +75,8 @@
                     site_id: this.site.id,
                     domains: this.domains,
                     type : 'Let\'s Encrypt'
+                }).then(() => {
+                    this.form = this.$options.data()
                 })
             },
             activateSslCertificate : function(ssl_certificate_id) {
@@ -95,6 +101,15 @@
             },
             isRunningCommandFor(id) {
                 return this.isCommandRunning('App\\Models\\SslCertificate', id);
+            },
+            retryInstall(domains) {
+                this.$store.dispatch('installSslCertificate', {
+                    site_id: this.site.id,
+                    domains: domains,
+                    type : 'Let\'s Encrypt'
+                }).then(() => {
+                    this.form = this.$options.data()
+                })
             }
         },
         computed: {

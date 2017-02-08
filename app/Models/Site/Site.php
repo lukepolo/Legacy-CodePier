@@ -69,9 +69,9 @@ class Site extends Model
         return $this->sslCertificates->where('active', true)->first();
     }
 
-    public function letsEncryptSslCertificate()
+    public function letsEncryptSslCertificates()
     {
-        return $this->sslCertificates->where('type', ServerService::LETS_ENCRYPT)->first();
+        return $this->sslCertificates->where('type', ServerService::LETS_ENCRYPT);
     }
 
     public function cronJobs()

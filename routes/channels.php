@@ -26,3 +26,13 @@ Broadcast::channel('App.Models.Server.Server.{serverId}', function ($user, $serv
 Broadcast::channel('App.Models.Site.Site.{siteId}', function ($user, $siteId) {
     return $user->id === \App\Models\Site\Site::findOrFail($siteId)->user_id;
 });
+
+Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($user, $sslCertificateId) {
+    $sslCertificate = \App\Models\SslCertificate::with(['sites', 'servers'])->findOrfail($sslCertificateId);
+
+    dump($user);
+    dd($user->sites);
+    return $user->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count() ||
+        $user->servers->whereIn('id', $sslCertificate->servers->pluck('id'))->count();
+});
+

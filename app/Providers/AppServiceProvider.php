@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\SslCertificate;
+use App\Observers\SslCertificateObserver;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -44,6 +46,8 @@ class AppServiceProvider extends ServiceProvider
         ServerCommand::observe(ServerCommandObserver::class);
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
+
+        SslCertificate::observe(SslCertificateObserver::class);
 
         Validator::extend('server_name', function ($attribute, $value) {
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
