@@ -32,7 +32,7 @@ Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($us
 
     dump($user);
     dd($user->sites);
+
     return $user->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count() ||
         $user->servers->whereIn('id', $sslCertificate->servers->pluck('id'))->count();
 });
-
