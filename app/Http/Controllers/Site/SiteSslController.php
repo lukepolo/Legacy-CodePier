@@ -53,7 +53,7 @@ class SiteSslController extends Controller
 
                     $sslCertificate->update([
                         'failed' => false,
-                        'domains' => $domains
+                        'domains' => $domains,
                     ]);
                 } else {
                     $sslCertificate = SslCertificate::create([
@@ -61,7 +61,7 @@ class SiteSslController extends Controller
                         'type' => $type,
                         'active' => false,
                         'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
-                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem"
+                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
                     ]);
                 }
 
@@ -79,13 +79,13 @@ class SiteSslController extends Controller
                 break;
         }
 
-        if(!$site->sslCertificates->where('id', $sslCertificate->id)->count()) {
+        if (! $site->sslCertificates->where('id', $sslCertificate->id)->count()) {
             $site->sslCertificates()->attach($sslCertificate);
         }
 
         event(new SiteSslCertificateCreated($site, $sslCertificate));
 
-        if(!$dontReturn) {
+        if (! $dontReturn) {
             return response()->json($sslCertificate);
         }
     }

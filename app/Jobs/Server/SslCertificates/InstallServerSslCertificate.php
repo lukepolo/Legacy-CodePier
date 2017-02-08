@@ -57,7 +57,7 @@ class InstallServerSslCertificate implements ShouldQueue
 
             if (! $this->wasSuccessful()) {
                 $this->sslCertificate->update([
-                    'failed' => true
+                    'failed' => true,
                 ]);
 
                 throw new ServerCommandFailed($this->getCommandErrors());
