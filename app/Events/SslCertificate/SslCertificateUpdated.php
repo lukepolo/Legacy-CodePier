@@ -4,11 +4,11 @@ namespace App\Events\SslCertificate;
 
 use App\Models\SslCertificate;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
 class SslCertificateUpdated implements ShouldBroadcastNow
 {

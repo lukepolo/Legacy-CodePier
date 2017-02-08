@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\SslCertificate;
-use App\Observers\SslCertificateObserver;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
+use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
@@ -17,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
 use App\Models\Site\SiteServerDeployment;
+use App\Observers\SslCertificateObserver;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User\UserNotificationProvider;
 use App\Observers\Server\ServerCommandObserver;
