@@ -50,11 +50,6 @@ class SiteSslController extends Controller
 
                 if ($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
                     $dontReturn = true;
-
-                    $sslCertificate->update([
-                        'failed' => false,
-                        'domains' => $domains,
-                    ]);
                 } else {
                     $sslCertificate = SslCertificate::create([
                         'domains' => $domains,
@@ -88,6 +83,8 @@ class SiteSslController extends Controller
         if (! $dontReturn) {
             return response()->json($sslCertificate);
         }
+
+        return response()->json('OK');
     }
 
     /**

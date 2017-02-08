@@ -14,7 +14,7 @@ class SslCertificateUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $sslCertificate;
+    public $ssl_certificate;
 
     /**
      * Create a new event instance.
@@ -23,7 +23,7 @@ class SslCertificateUpdated implements ShouldBroadcastNow
      */
     public function __construct(SslCertificate $sslCertificate)
     {
-        $this->sslCertificate = $sslCertificate;
+        $this->ssl_certificate = $sslCertificate;
     }
 
     /**
@@ -33,6 +33,6 @@ class SslCertificateUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.Models.SslCertificate.'.$this->sslCertificate->id);
+        return new PrivateChannel('App.Models.SslCertificate.'.$this->ssl_certificate->id);
     }
 }

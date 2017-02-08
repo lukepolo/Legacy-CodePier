@@ -15,7 +15,9 @@ export default {
         },
         installSslCertificate: ({ commit }, data) => {
             Vue.http.post(Vue.action('Site\SiteSslController@store', { site: data.site_id }), data).then((response) => {
-                commit('ADD_SITE_SSL_CERTIFICATE', response.data)
+                if (_.isObject(response.data)) {
+                    commit('UPDATE_SITE_SSL_CERTIFICATE', response.data)
+                }
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -37,19 +39,18 @@ export default {
         listenToSslCertificate: ({ commit }, sslCertificate) => {
             Echo.private('App.Models.SslCertificate.' + sslCertificate.id)
                 .listen('SslCertificate\\SslCertificateUpdated', (data) => {
-                    alert('site ssl')
-                    commit('UPDATE_SITE_SSL_CERTIFICATE', data)
+                    commit('UPDATE_SITE_SSL_CERTIFICATE', data.ssl_certificate)
                 })
         }
     },
     mutations: {
-        ADD_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
-            state.ssl_certificates.push(sslCertificate)
-        },
         UPDATE_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
             const siteSslCertificateKey = _.findKey(state.ssl_certificates, { id: sslCertificate.id })
             if (siteSslCertificateKey) {
-                Vue.set(state[ssl_certificates], siteSslCertificateKey, sslCertificate)
+                Vue.set(state.ssl_certificates, siteSslCertificateKey, sslCertificate)
+            } else {
+                app.$store.dispatch('listenToSslCertificate', sslCertificate)
+                state.ssl_certificates.push(sslCertificate)
             }
         },
         REMOVE_SITE_SSL_CERTIFICATE: (state, sslCertificate) => {
