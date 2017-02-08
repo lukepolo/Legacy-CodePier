@@ -33,4 +33,3 @@ Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($us
     return $user->currentPile->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count() ||
         $user->currentPile->servers->whereIn('id', $sslCertificate->servers->pluck('id'))->count();
 });
-
