@@ -7,9 +7,9 @@ use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
-use App\Exceptions\FailedCommand;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -44,7 +44,7 @@ class InstallServerSslCertificate implements ShouldQueue
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @throws FailedCommand
+     * @throws ServerCommandFailed
      */
     public function handle(ServerService $serverService, SiteService $siteService)
     {
@@ -58,16 +58,17 @@ class InstallServerSslCertificate implements ShouldQueue
         ) {
             $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-            try {
-                $this->runOnServer(function () use ($serverService, $siteService) {
-                    $serverService->installSslCertificate($this->server, $this->sslCertificate);
-                });
-            } catch (FailedCommand $e) {
+            $this->runOnServer(function () use ($serverService, $siteService) {
+                $serverService->installSslCertificate($this->server, $this->sslCertificate);
+            }, null, false);
+
+            if (! $this->wasSuccessful()) {
+
                 $this->sslCertificate->update([
-                    'status' => 'Please look at the events bar',
+                    'status' => 'failed'
                 ]);
 
-                throw $e;
+                throw new ServerCommandFailed($this->getCommandErrors());
             }
 
             $this->server->sslCertificates()->save($this->sslCertificate);
