@@ -16,6 +16,8 @@ class SslCertificateObserver
      */
     public function updated(SslCertificate $sslCertificate)
     {
-        broadcast(new SslCertificateUpdated($sslCertificate))->toOthers();
+        if(!empty($sslCertificate->getDirty())) {
+            broadcast(new SslCertificateUpdated($sslCertificate))->toOthers();
+        }
     }
 }
