@@ -14,7 +14,7 @@ class AddStatusToSsl extends Migration
     public function up()
     {
         Schema::table('ssl_certificates', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->boolean('failed')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddStatusToSsl extends Migration
     public function down()
     {
         Schema::table('ssl_certificates', function (Blueprint $table) {
-            $table->dropColumn('status')->nullable();
+            $table->dropColumn('failed');
         });
     }
 }

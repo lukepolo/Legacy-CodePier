@@ -37,60 +37,57 @@ class SiteSslController extends Controller
      */
     public function store(SslRequest $request, $siteId)
     {
-        $type = $request->get('type');
         $domains = $request->get('domains');
         $site = Site::with(['sslCertificates'])->findOrFail($siteId);
 
-        if (! $site->sslCertificates
-            ->where('type', $type)
-            ->where('domains', $domains)
-            ->count()
-        ) {
-            switch ($type = $request->get('type')) {
-                case ServerService::LETS_ENCRYPT:
+        $dontReturn = false;
 
-                    $folder = explode(',', $request->get('domains'))[0];
-                    $sslCertificate = $site->letsEncryptSslCertificate();
+        switch ($type = $request->get('type')) {
+            case ServerService::LETS_ENCRYPT:
 
-                    if ($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
-                        $sslCertificate->update([
-                            'domains' => $domains,
-                            'status' => 'Updating Let\'s Encrypt certificate for existing domain',
-                        ]);
-                    } else {
-                        $sslCertificate = SslCertificate::create([
-                            'domains' => $domains,
-                            'type' => $type,
-                            'active' => false,
-                            'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
-                            'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
-                            'status' => 'Installing new Let\'s Encrypt certificate',
-                        ]);
-                    }
+                $folder = explode(',', $request->get('domains'))[0];
+                $sslCertificate = $site->letsEncryptSslCertificates()->where('domains', $domains)->first();
 
-                    break;
-                case 'existing':
+                if ($sslCertificate && $folder == explode(',', $sslCertificate->domains)[0]) {
+                    $dontReturn = true;
 
-                    $sslCertificate = SslCertificate::create([
-                        'type' => $request->get('type'),
-                        'active' => false,
-                        'key' => $request->get('key'),
-                        'cert' => $request->get('cert'),
+                    $sslCertificate->update([
+                        'failed' => false,
+                        'domains' => $domains
                     ]);
-                    break;
-                default:
-                    throw new \Exception('Invalid SSL Type');
-                    break;
-            }
+                } else {
+                    $sslCertificate = SslCertificate::create([
+                        'domains' => $domains,
+                        'type' => $type,
+                        'active' => false,
+                        'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
+                        'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem"
+                    ]);
+                }
 
-            $site->sslCertificates()->save($sslCertificate);
-
-            event(new SiteSslCertificateCreated($site, $sslCertificate));
-
-            return response()->json($sslCertificate);
+                break;
+            case 'existing':
+                $sslCertificate = SslCertificate::create([
+                    'type' => $request->get('type'),
+                    'active' => false,
+                    'key' => $request->get('key'),
+                    'cert' => $request->get('cert'),
+                ]);
+                break;
+            default:
+                throw new \Exception('Invalid SSL Type');
+                break;
         }
 
-        return response()->json('SSL Certificate for these domains Already Exists', 400);
+        if(!$site->sslCertificates->where('id', $sslCertificate->id)->count()) {
+            $site->sslCertificates()->attach($sslCertificate);
+        }
+
+        event(new SiteSslCertificateCreated($site, $sslCertificate));
+
+        if(!$dontReturn) {
+            return response()->json($sslCertificate);
+        }
     }
 
     /**

@@ -3,9 +3,12 @@ export default {
         ssl_certificates: []
     },
     actions: {
-        getSslCertificates: ({ commit }, siteId) => {
+        getSslCertificates: ({ commit, dispatch }, siteId) => {
             Vue.http.get(Vue.action('Site\SiteSslController@index', { site: siteId })).then((response) => {
                 commit('SET_SITE_SSL_CERTIFICATES', response.data)
+                _.each(response.data, (sslCertificate) => [
+                    dispatch('listenToSslCertificate', sslCertificate)
+                ])
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -30,6 +33,13 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        listenToSslCertificate: ({ commit }, sslCertificate) => {
+            Echo.private('App.Models.SslCertificate.' + sslCertificate.id)
+                .listen('SslCertificate\\SslCertificateUpdated', (data) => {
+                    alert('site ssl')
+                    commit('UPDATE_SITE_SSL_CERTIFICATE', data)
+                })
         }
     },
     mutations: {
