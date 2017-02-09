@@ -1,0 +1,13 @@
+// COLUMN STYLES ===========================================
+// =========================================================
+.col-split {
+    display: flex;
+
+    > .col {
+        flex: 1 1 1em;
+    }
+
+    @include breakpoint(lg) {
+        flex-direction: column;
+    }
+}
