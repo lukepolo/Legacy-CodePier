@@ -13,8 +13,8 @@ class AddKeepReleasesToSites extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
-           $table->integer('keep_releases')->default(10);
+        Schema::table('sites', function (Blueprint $table) {
+            $table->integer('keep_releases')->default(10);
         });
     }
 
@@ -25,7 +25,7 @@ class AddKeepReleasesToSites extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('keep_releases');
         });
     }
