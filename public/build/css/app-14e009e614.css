@@ -6075,7 +6075,13 @@ td {
 }
 
 .jcf-form-wrap input[type="text"] + label,
-.jcf-form-wrap input[type="integer"] + label {
+.jcf-form-wrap input[type="email"] + label,
+.jcf-form-wrap input[type="integer"] + label,
+.jcf-form-wrap input[type="number"] + label,
+.jcf-form-wrap input[type="date"] + label,
+.jcf-form-wrap input[type="datetime"] + label,
+.jcf-form-wrap input[type="datetime-local"] + label,
+.jcf-form-wrap input[type="password"] + label {
   pointer-events: none;
 }
 
