@@ -52,33 +52,34 @@
             </form>
         </div>
 
+        <br><br>
         <table class="table">
             <thead>
-            <tr>
-                <th>Command</th>
-                <th>User</th>
-                <th>Auto Start</th>
-                <th>Auto Restart</th>
-                <th>Number of Workers</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Command</th>
+                    <th>User</th>
+                    <th>Auto Start</th>
+                    <th>Auto Restart</th>
+                    <th>Number of Workers</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="worker in workers">
-                <td>{{ worker.command }}</td>
-                <td>{{ worker.user }}</td>
-                <td>{{ worker.auto_start }}</td>
-                <td>{{ worker.auto_restart }}</td>
-                <td>{{ worker.number_of_workers }}</td>
-                <td>
-
-                    <template v-if="isRunningCommandFor(worker.id)">
-                        {{ isRunningCommandFor(worker.id).status }}
-                    </template>
-
-                    <a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a>
-                </td>
-            </tr>
+                <tr v-for="worker in workers">
+                    <td>{{ worker.command }}</td>
+                    <td>{{ worker.user }}</td>
+                    <td>{{ worker.auto_start }}</td>
+                    <td>{{ worker.auto_restart }}</td>
+                    <td>{{ worker.number_of_workers }}</td>
+                    <td>
+                        <template v-if="isRunningCommandFor(worker.id)">
+                            {{ isRunningCommandFor(worker.id).status }}
+                        </template>
+                        <template v-else>
+                            <a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a>
+                        </template>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -89,11 +90,10 @@
         data() {
             return {
                 form: {
-                    site_id: null,
                     command: null,
-                    auto_start: null,
-                    auto_restart: null,
-                    number_of_workers: null,
+                    auto_start: true,
+                    auto_restart: true,
+                    number_of_workers: 1,
                 }
             }
         },
@@ -105,34 +105,37 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getWorkers', this.$route.params.site_id);
+                this.$store.dispatch('getWorkers', this.$route.params.site_id)
             },
             installWorker() {
-                this.$store.dispatch('installWorker', this.form);
+                this.form.site = this.$route.params.site_id
+                this.$store.dispatch('installWorker', this.form).then(() => {
+                    this.form = this.$options.data().form
+                })
+                this.form.command = this.site.path
             },
             deleteWorker: function (worker_id) {
                 this.$store.dispatch('deleteWorker', {
                     worker: worker_id,
-                    site: this.site.id,
+                    site: this.$route.params.site_id,
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\Worker', id);
+                return this.isCommandRunning('App\\Models\\Worker', id)
             }
         },
         computed: {
             site() {
-                let site = this.$store.state.sitesStore.site;
+                let site = this.$store.state.sitesStore.site
 
                 if(site) {
-                    this.form.site_id = site.id
-                    this.form.cron = site.path ? site.path : null
+                    this.form.command = site.path
                 }
 
                 return site
             },
             workers() {
-                return this.$store.state.siteWorkersStore.workers;
+                return this.$store.state.siteWorkersStore.workers
             }
         }
     }

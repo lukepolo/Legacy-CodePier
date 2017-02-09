@@ -1,10 +1,15 @@
 <template>
     <div v-if="site">
+
         <div class="jcf-form-wrap">
+
             <span id="cron-preview"></span>
+
             <form @submit.prevent="createSiteCronJob" class="floating-labels">
                 <h3>Site Cron Jobs</h3>
+
                 <input type="hidden" name="cron_timing" v-model="form.cron_timing">
+
                 <div class="jcf-input-group">
                     <input type="text" name="cron" v-model="form.cron">
                     <label for="cron">
@@ -36,23 +41,28 @@
 
             </form>
 
-            <table class="table" v-if="cronJobs" v-for="cronJob in cronJobs">
+            <br>
+            <table class="table" v-if="cronJobs">
                 <thead>
-                <tr>
-                    <th>Job</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Job</th>
+                        <th>User</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>{{ cronJob.job }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(cronJob.id)">
-                            {{ isRunningCommandFor(cronJob.id).status }}
-                        </template>
-                        <a @click="deleteCronJob(cronJob.id)" href="#" class="fa fa-remove">X</a>
-                    </td>
-                </tr>
+                    <tr v-for="cronJob in cronJobs">
+                        <td>{{ cronJob.job }}</td>
+                        <td>{{ cronJob.user }}</td>
+                        <td>
+                            <template v-if="isRunningCommandFor(cronJob.id)">
+                                {{ isRunningCommandFor(cronJob.id).status }}
+                            </template>
+                            <template v-else>
+                                <a @click="deleteCronJob(cronJob.id)" href="#" class="fa fa-remove">X</a>
+                            </template>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -64,21 +74,21 @@
         data() {
             return {
                 form : {
-                    user: 'root',
-                    cron_timing: null,
                     cron: null,
+                    user: 'root',
+                    cron_timing: null
                 }
             }
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         watch: {
             '$route': 'fetchData'
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSiteCronJobs', this.$route.params.site_id);
+                this.$store.dispatch('getSiteCronJobs', this.$route.params.site_id)
             },
             createSiteCronJob() {
                 this.$store.dispatch('createSiteCronJob', {
@@ -92,7 +102,7 @@
                 this.form.site_path = this.site.path;
             },
             getCronTimings() {
-                return $('input[name="cron_timing"]').val();
+                return $('input[name="cron_timing"]').val()
             },
             deleteCronJob(cronJobId) {
                 this.$store.dispatch('deleteSiteCronJob', {
@@ -101,12 +111,15 @@
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\CronJob', id);
+                return this.isCommandRunning('App\\Models\\CronJob', id)
             }
         },
         computed: {
+            job() {
+                return this.form.cron
+            },
             site() {
-                let site = this.$store.state.sitesStore.site;
+                let site = this.$store.state.sitesStore.site
 
                 if(site) {
                     this.form.cron = site.path ? site.path : null
@@ -114,11 +127,8 @@
 
                 return site
             },
-            job() {
-                return this.form.cron
-            },
             cronJobs() {
-                return this.$store.state.siteCronJobsStore.site_cron_jobs;
+                return this.$store.state.siteCronJobsStore.site_cron_jobs
             }
         }
     }

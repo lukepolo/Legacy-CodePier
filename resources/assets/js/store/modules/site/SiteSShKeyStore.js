@@ -11,8 +11,9 @@ export default {
             })
         },
         createSiteSshKey: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Site\SiteSshKeyController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteSshKeyController@store', { site: data.site }), data).then((response) => {
                 commit('ADD_SITE_SSH_KEY', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })

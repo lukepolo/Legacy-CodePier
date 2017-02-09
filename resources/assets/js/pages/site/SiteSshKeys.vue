@@ -20,7 +20,7 @@
             </form>
         </div>
 
-        <table class="table" v-for="sshKey in sshKeys">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Key Name</th>
@@ -28,13 +28,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="sshKey in sshKeys">
                     <td>{{ sshKey.name }}</td>
                     <td>
                         <template v-if="isRunningCommandFor(sshKey.id)">
                             {{ isRunningCommandFor(sshKey.id).status }}
                         </template>
-                        <a href="#" class="fa fa-remove" @click="deleteKey(sshKey.id)">remove</a>
+                        <template v-else>
+                            <a href="#" class="fa fa-remove" @click="deleteKey(sshKey.id)">remove</a>
+                        </template>
                     </td>
                 </tr>
             </tbody>
@@ -48,8 +50,7 @@
             return {
                 form: {
                     name: null,
-                    ssh_key: null,
-                    site : this.$route ? this.$route.params.site_id : null,
+                    ssh_key: null
                 }
             }
         },
@@ -61,28 +62,30 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSiteSshKeys', this.$route.params.site_id);
+                this.$store.dispatch('getSiteSshKeys', this.$route.params.site_id)
             },
             createKey() {
-                this.$store.dispatch('createSiteSshKey', this.form);
-                this.form = this.$options.data().form;
+                this.form.site = this.$route.params.site_id
+                this.$store.dispatch('createSiteSshKey', this.form).then(() => {
+                    this.form = this.$options.data().form
+                })
             },
             deleteKey(sshKeyId) {
                 this.$store.dispatch('deleteSiteSshKey', {
                     ssh_key: sshKeyId,
-                    site: this.form.site,
+                    site: this.$route.params.site_id
                 });
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\SshKey', id);
+                return this.isCommandRunning('App\\Models\\SshKey', id)
             }
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.sitesStore.site
             },
             sshKeys() {
-                return this.$store.state.siteSshKeysStore.site_ssh_keys;
+                return this.$store.state.siteSshKeysStore.site_ssh_keys
             }
         }
     }
