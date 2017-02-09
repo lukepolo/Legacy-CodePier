@@ -40,7 +40,13 @@ td {
   }
 
   input[type="text"] + label,
-  input[type="integer"] + label {
+  input[type="email"] + label,
+  input[type="integer"] + label,
+  input[type="number"] + label,
+  input[type="date"] + label,
+  input[type="datetime"] + label,
+  input[type="datetime-local"] + label,
+  input[type="password"] + label {
     pointer-events: none;
   }
 
