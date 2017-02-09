@@ -9,12 +9,14 @@
                         <span class="float-label">Repository Name</span>
                     </label>
                 </div>
+
                 <div class="jcf-input-group">
                     <input type="text" v-model="form.branch" name="branch">
                     <label for="branch">
                         <span class="float-label">Branch</span>
                     </label>
                 </div>
+
                 <div class="jcf-input-group">
                     <input type="text" name="web_directory" v-model="form.web_directory">
                     <label for="web_directory">
@@ -24,6 +26,7 @@
                         <span class="float-label">Web Directory</span>
                     </label>
                 </div>
+
                 <div class="jcf-input-group input-checkbox">
                     <div class="input-question">Repository Options</div>
                     <label>
@@ -34,6 +37,21 @@
                         <span class="icon"></span>
                         Zerotime Deployment
                     </label>
+                </div>
+
+                <template v-if="form.zerotime_deployment">
+                    <div class="jcf-input-group">
+                        <input type="number" v-model="form.keep_releases" name="keep_releases">
+                        <label for="keep_releases">
+                            <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                                <span class="fa fa-info-circle"></span>
+                            </tooltip>
+                            <span class="float-label">Number of Releases to keep</span>
+                        </label>
+                    </div>
+                </template>
+
+                <div class="jcf-input-group input-checkbox">
                     <label>
                         <tooltip message="If your site requires a wildcard (ex : *.codepier.io) you should check this" size="medium">
                             <span class="fa fa-info-circle"></span>
@@ -43,6 +61,7 @@
                         Wildcard Domain
                     </label>
                 </div>
+
                 <div class="jcf-input-group input-radio">
                     <div class="input-question">Repository Provider</div>
                     <label v-for="user_repository_provider in user_repository_providers">
@@ -116,6 +135,7 @@
                     framework: null,
                     repository: null,
                     web_directory: null,
+                    keep_releases : null,
                     wildcard_domain : false,
                     zerotime_deployment: true,
                     user_repository_provider_id: null
@@ -123,22 +143,22 @@
             }
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         watch: {
             '$route': 'fetchData'
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getRepositoryProviders');
-                this.$store.dispatch('getUserRepositoryProviders');
-                this.$store.dispatch('getSite', this.$route.params.site_id);
-                this.$store.dispatch('getServerAvailableFrameworks');
-                this.$store.dispatch('getServerAvailableLanguages');
+                this.$store.dispatch('getRepositoryProviders')
+                this.$store.dispatch('getUserRepositoryProviders')
+                this.$store.dispatch('getSite', this.$route.params.site_id)
+                this.$store.dispatch('getServerAvailableFrameworks')
+                this.$store.dispatch('getServerAvailableLanguages')
             },
             deploySite: function (site_id) {
                 if(!this.isDeploying) {
-                    Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}));
+                    Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}))
                 }
             },
             updateSite() {
@@ -152,6 +172,7 @@
                         framework: this.form.framework,
                         repository: this.form.repository,
                         web_directory: this.form.web_directory,
+                        keep_releases : this.form.keep_releases,
                         wildcard_domain: this.form.wildcard_domain,
                         zerotime_deployment: this.form.zerotime_deployment,
                         user_repository_provider_id: this.form.user_repository_provider_id
@@ -159,7 +180,7 @@
                 });
             },
             createDeployHook() {
-                return this.$store.dispatch('createDeployHook', this.site.id);
+                return this.$store.dispatch('createDeployHook', this.site.id)
             },
             removeDeployHook() {
                 this.$store.dispatch('removeDeployHook', {
@@ -169,9 +190,9 @@
             },
             getRepositoryName(user_repository_id) {
                 if(this.repository_providers) {
-                    let repository = _.find(this.repository_providers, {id : user_repository_id});
+                    let repository = _.find(this.repository_providers, {id : user_repository_id})
                     if(repository) {
-                        return repository.name;
+                        return repository.name
                     }
                 }
 
@@ -182,41 +203,42 @@
                 let site = this.$store.state.sitesStore.site;
 
                 if (site) {
-                    this.form.type = site.type;
-                    this.form.branch = site.branch;
-                    this.form.framework = site.framework;
-                    this.form.repository = site.repository;
-                    this.form.web_directory = site.web_directory;
-                    this.form.wildcard_domain = site.wildcard_domain;
-                    this.form.zerotime_deployment = site.zerotime_deployment;
-                    this.form.user_repository_provider_id = site.user_repository_provider_id;
+                    this.form.type = site.type
+                    this.form.branch = site.branch
+                    this.form.framework = site.framework
+                    this.form.repository = site.repository
+                    this.form.keep_releases = site.keep_releases
+                    this.form.web_directory = site.web_directory
+                    this.form.wildcard_domain = site.wildcard_domain
+                    this.form.zerotime_deployment = site.zerotime_deployment
+                    this.form.user_repository_provider_id = site.user_repository_provider_id
                 }
 
                 return site;
             },
             repository_providers() {
-                return this.$store.state.userStore.repository_providers;
+                return this.$store.state.userStore.repository_providers
             },
             user_repository_providers() {
-                return this.$store.state.userStore.user_repository_providers;
+                return this.$store.state.userStore.user_repository_providers
             },
             availableLanguages() {
-                return this.$store.state.serversStore.available_server_languages;
+                return this.$store.state.serversStore.available_server_languages
             },
             availableFrameworks() {
-                return this.$store.state.serversStore.available_server_frameworks;
+                return this.$store.state.serversStore.available_server_frameworks
             },
             hasDeployableServers() {
-                return this.$store.state.sitesStore.site_servers.length;
+                return this.$store.state.sitesStore.site_servers.length
             },
             isDeploying() {
                 if(this.site) {
                     return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
-                        return deployment.status != 'Completed' && deployment.status != 'Failed';
+                        return deployment.status != 'Completed' && deployment.status != 'Failed'
                     });
                 }
 
-                return false;
+                return false
             }
         },
     }

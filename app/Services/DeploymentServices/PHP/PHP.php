@@ -116,7 +116,9 @@ class PHP
      */
     public function cleanup()
     {
-        return [$this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf')];
+        if($this->site->keep_releases > 0) {
+            return [$this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" | sort | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
+        }
     }
 
     /**
