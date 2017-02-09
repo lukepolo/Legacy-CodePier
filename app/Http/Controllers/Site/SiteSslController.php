@@ -63,10 +63,11 @@ class SiteSslController extends Controller
                 break;
             case 'existing':
                 $sslCertificate = SslCertificate::create([
+                    'domains' => $domains,
                     'type' => $request->get('type'),
                     'active' => false,
-                    'key' => $request->get('key'),
-                    'cert' => $request->get('cert'),
+                    'key' => $request->get('private_key'),
+                    'cert' => $request->get('certificate'),
                 ]);
                 break;
             default:
