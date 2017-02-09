@@ -26,7 +26,7 @@ class SslRequest extends FormRequest
         return [
             'domains' => 'required',
             'private_key' => 'required_if:type,existing',
-            'certificate' => 'required_if:type,existing'
+            'certificate' => 'required_if:type,existing',
         ];
     }
 }
