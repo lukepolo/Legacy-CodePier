@@ -66,9 +66,5 @@ class InstallServerFeature implements ShouldQueue
                 ]);
             });
         }
-
-        if (! $this->wasSuccessful()) {
-            throw new ServerCommandFailed($this->getCommandErrors());
-        }
     }
 }

@@ -40,27 +40,29 @@
             </form>
         </div>
 
-        <table class="table" v-for="firewallRule in firewallRules">
+        <table class="table">
             <thead>
-            <tr>
-                <th>Name</th>
-                <th>From IP</th>
-                <th>Port</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Port</th>
+                    <th>From IP</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>{{ firewallRule.description }}</td>
-                <td>{{ firewallRule.port }}</td>
-                <td>{{ firewallRule.from_ip }}</td>
-                <td>
-                    <template v-if="isRunningCommandFor(firewallRule.id)">
-                        {{ isRunningCommandFor(firewallRule.id).status }}
-                    </template>
-                    <a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewallRule.id)">remove</a>
-                </td>
-            </tr>
+                <tr v-for="firewallRule in firewallRules">
+                    <td>{{ firewallRule.description }}</td>
+                    <td>{{ firewallRule.port }}  {{ firewallRule.type }}</td>
+                    <td>{{ firewallRule.from_ip }}</td>
+                    <td>
+                        <template v-if="isRunningCommandFor(firewallRule.id)">
+                            {{ isRunningCommandFor(firewallRule.id).status }}
+                        </template>
+                        <template v-else>
+                            <a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewallRule.id)">remove</a>
+                        </template>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -86,14 +88,14 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSiteFirewallRules', this.$route.params.site_id);
+                this.$store.dispatch('getSiteFirewallRules', this.$route.params.site_id)
             },
             createFirewallRule() {
+                this.form.site = this.$route.params.site_id
+                this.$store.dispatch('createSiteFirewallRule', this.form).then(() => {
+                    this.form = this.$options.data().form
+                })
 
-                this.form.site = this.$route.params.site_id;
-
-                this.$store.dispatch('createSiteFirewallRule', this.form);
-                this.form = this.$options.data().form;
             },
             deleteFirewallRule(firewallRuleId) {
                 this.$store.dispatch('deleteSiteFirewallRule', {
@@ -102,15 +104,15 @@
                 })
             },
             isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\FirewallRule', id);
+                return this.isCommandRunning('App\\Models\\FirewallRule', id)
             }
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.sitesStore.site
             },
             firewallRules() {
-                return this.$store.state.siteFirewallRulesStore.site_firewall_rules;
+                return this.$store.state.siteFirewallRulesStore.site_firewall_rules
             }
         }
     }

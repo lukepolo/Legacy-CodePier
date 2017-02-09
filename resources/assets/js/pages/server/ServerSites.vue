@@ -2,42 +2,42 @@
     <section>
         <table class="table">
             <thead>
-            <tr>
-                <th>Domain</th>
-                <th>Repository</th>
-                <th>ZeroTime Deployment</th>
-                <th># of Workers</th>
-                <th>WildCard Domain</th>
-                <th>SSL</th>
-            </tr>
+                <tr>
+                    <th>Domain</th>
+                    <th>Repository</th>
+                    <th>ZeroTime Deployment</th>
+                    <th># of Workers</th>
+                    <th>WildCard Domain</th>
+                    <th>SSL</th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-if="sites" v-for="site in sites">
-                <td>
-                    <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
-                        {{ site.name }}
-                    </router-link>
-                </td>
-                <td>{{ site.repository }}</td>
-                <td class="text-center">
-                    <span v-if="isZerotimeDeployment(site)">
-                        Yes
-                    </span>
-                    <span v-else>
-                        No
-                    </span>
-                </td>
-                <td class="text-center">{{ site.workers }}</td>
-                <td class="text-center">{{ site.wildcard_domain }}</td>
-                <td class="text-center">
-                    <span v-if="hasActiveSSL(site)">
-                        Yes
-                    </span>
-                    <span v-else>
-                        No
-                    </span>
-                </td>
-            </tr>
+                <tr v-if="sites" v-for="site in sites">
+                    <td>
+                        <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
+                            {{ site.name }}
+                        </router-link>
+                    </td>
+                    <td>{{ site.repository }}</td>
+                    <td class="text-center">
+                        <span v-if="isZerotimeDeployment(site)">
+                            Yes
+                        </span>
+                        <span v-else>
+                            No
+                        </span>
+                    </td>
+                    <td class="text-center">{{ site.workers }}</td>
+                    <td class="text-center">{{ site.wildcard_domain }}</td>
+                    <td class="text-center">
+                        <span v-if="hasActiveSSL(site)">
+                            Yes
+                        </span>
+                        <span v-else>
+                            No
+                        </span>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </section>
