@@ -51,9 +51,10 @@ trait ServerCommandTrait
      *
      * @param Closure $function
      * @param ServerCommand $serverCommand
+     * @param bool $debug
      * @throws \Exception
      */
-    public function runOnServer(Closure $function, ServerCommand $serverCommand = null)
+    public function runOnServer(Closure $function, ServerCommand $serverCommand = null, $debug = true)
     {
         if (! empty($serverCommand)) {
             $this->serverCommand = $serverCommand;
@@ -82,7 +83,7 @@ trait ServerCommandTrait
                     $message = $e->getMessage();
                     break;
                 default:
-                    if (config('app.debug')) {
+                    if (config('app.debug') && $debug) {
                         throw $e;
                     }
                     $message = 'We had a system error please contact support.';

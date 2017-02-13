@@ -126,7 +126,7 @@ class User extends Authenticatable
                 foreach ($site->servers as $server) {
                     foreach ($server->commands as $command) {
                         if ($command->command) {
-                            $commandsRunning[$command->command->commandable_type][$command->id] = $command->command;
+                            $commandsRunning[$command->command->commandable_type][] = $command->command;
                         }
                     }
                 }

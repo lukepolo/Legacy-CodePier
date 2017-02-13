@@ -245,7 +245,7 @@ export default {
                 return Vue.set(state.running_commands[command.commandable_type], commandKey, command)
             }
 
-            if (!state.running_commands[command.commandable_type] || !_.isArray(state.running_commands[command.commandable_type])) {
+            if (!state.running_commands[command.commandable_type]) {
                 Vue.set(state.running_commands, command.commandable_type, [])
             }
 

@@ -59,15 +59,19 @@
                 </form>
 
 
+                <br>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Users</th>
+                            <th>User</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>codepier - super user</td>
+                        </tr>
+                        <tr>
+                            <td>codepier_support - super user</td>
                         </tr>
                     </tbody>
                 </table>
