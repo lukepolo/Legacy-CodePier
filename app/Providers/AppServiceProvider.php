@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\ServerCommand;
+use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
 use App\Models\Site\SiteServerDeployment;
+use App\Observers\SslCertificateObserver;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User\UserNotificationProvider;
 use App\Observers\Server\ServerCommandObserver;
@@ -44,6 +46,8 @@ class AppServiceProvider extends ServiceProvider
         ServerCommand::observe(ServerCommandObserver::class);
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
+
+        SslCertificate::observe(SslCertificateObserver::class);
 
         Validator::extend('server_name', function ($attribute, $value) {
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;

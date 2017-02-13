@@ -18,6 +18,7 @@ use App\Models\SlackChannel;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
+use App\Services\Server\ServerService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\User\UserRepositoryProvider;
@@ -65,7 +66,12 @@ class Site extends Model
 
     public function activeSsl()
     {
-        return $this->sslCertificates()->where('active', true)->first();
+        return $this->sslCertificates->where('active', true)->first();
+    }
+
+    public function letsEncryptSslCertificates()
+    {
+        return $this->sslCertificates->where('type', ServerService::LETS_ENCRYPT);
     }
 
     public function cronJobs()
