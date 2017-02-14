@@ -1,0 +1,75 @@
+// NAVIGATION STYLES =======================================
+// =========================================================
+.nav {
+    display: flex;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    
+    li {
+        font-size: 18px; 
+        font-weight: 400;
+        
+        > a, 
+        > span {
+            display: block;
+            color: rgba($color-text-primary, .7);
+            padding: $spacing;
+        }
+        
+        > a:hover,
+        > a:focus,
+        > a:active {
+            color: $blue;
+            text-decoration: none;
+        }
+    }
+}
+
+.nav-left {
+    flex: 0 0 auto;
+}
+
+.nav-right {
+    flex: 1 0 auto;
+    justify-content: flex-end;
+    padding-right: $spacing;
+}
+
+.nav-piles {
+    li {
+        position: relative;
+        
+        &.arrow {
+            margin-right: $spacing*2;
+            
+            &:before {
+                content: '';
+                display: inline-block;
+                border: $spacing*1.6 solid rgba($grayLight, .3);
+                border-top-color: transparent;
+                border-bottom-color: transparent;
+                border-right: none;
+                position: absolute;
+                top: 1px;
+                right: -$spacing*4;
+                bottom: 0px;
+                width: $spacing*4;
+            }
+            
+            &:after {
+                content: '';
+                display: inline-block;
+                border: $spacing*1.6 solid $black;
+                border-top-color: transparent;
+                border-bottom-color: transparent;
+                border-right: none;
+                position: absolute;
+                top: 1px;
+                right: (-$spacing*4) + 2px;
+                bottom: 0px;
+                width: $spacing*4;
+            }
+        }
+    }
+}

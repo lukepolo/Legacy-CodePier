@@ -5,6 +5,7 @@ namespace App\Services\DeploymentServices\PHP;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
@@ -13,22 +14,26 @@ class PHP
 {
     use Laravel;
 
+    public $releaseTime;
+
     private $site;
     private $branch;
     private $server;
     private $release;
-    private $site_folder;
+    private $siteFolder;
     private $repository;
+    private $rollback = false;
     private $remoteTaskService;
     private $repositoryProvider;
     private $zerotimeDeployment;
 
     /**
      * @param RemoteTaskService $remoteTaskService
-     * @param Server            $server
-     * @param \App\Models\Site\Site              $site
+     * @param Server $server
+     * @param \App\Models\Site\Site $site
+     * @param SiteDeployment $siteDeployment
      */
-    public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site)
+    public function __construct(RemoteTaskService $remoteTaskService, Server $server, Site $site, SiteDeployment $siteDeployment = null)
     {
         $this->remoteTaskService = $remoteTaskService;
         $this->remoteTaskService->ssh($server, 'codepier');
@@ -37,9 +42,20 @@ class PHP
         $this->server = $server;
         $this->branch = $site->branch;
         $this->repository = $site->repository;
-        $this->site_folder = '/home/codepier/'.$site->domain;
+        $this->siteFolder = '/home/codepier/'.$site->domain;
         $this->zerotimeDeployment = $site->zerotime_deployment;
-        $this->release = $this->site_folder.'/'.Carbon::now()->format('YmdHis');
+        $this->releaseTime = Carbon::now()->format('YmdHis');
+
+        if (! empty($siteDeployment)) {
+            if ($this->remoteTaskService->hasDirectory($this->siteFolder.'/'.$siteDeployment->folder_name)) {
+                $this->rollback = true;
+                $this->releaseTime = $siteDeployment->folder_name;
+            } else {
+                $this->sha = $siteDeployment->git_commit;
+            }
+        }
+
+        $this->release = $this->siteFolder.'/'.$this->releaseTime;
 
         $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
     }
@@ -49,29 +65,30 @@ class PHP
      *
      * @order 100
      *
-     * @param null $sha
      * @return array
      */
-    public function cloneRepository($sha = null)
+    public function cloneRepository()
     {
         $output = [];
 
-        $this->remoteTaskService->run('mkdir -p '.$this->site_folder);
-        $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
+        if (! $this->rollback) {
+            $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
+            $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
-        $url = 'git://'.$this->repositoryProvider->url.'/'.$this->repository.'.git';
+            $url = 'git://'.$this->repositoryProvider->url.'/'.$this->repository.'.git';
 
-        if ($this->site->private) {
-            $url = $this->repositoryProvider->git_url.':'.$this->repository;
+            if ($this->site->private) {
+                $url = $this->repositoryProvider->git_url.':'.$this->repository;
+            }
+
+            $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1 ' : ' ').$this->release);
+
+            if (! empty($this->sha)) {
+                $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $this->sha");
+            }
+
+            return $output;
         }
-
-        $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->site_folder.'; git clone '.$url.' --branch='.$this->branch.(empty($sha) ? ' --depth=1 ' : ' ').$this->release);
-
-        if (! empty($sha)) {
-            $output[] = $this->remoteTaskService->run("cd $this->release; git reset --hard $sha");
-        }
-
-        return $output;
     }
 
     /**
@@ -93,8 +110,8 @@ class PHP
     {
         $output = [];
 
-        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/node_modules ]) || (cd '.$this->release.'; yarn install --no-progress --production; mv '.$this->release.'/node_modules '.$this->site_folder.')');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/node_modules '.$this->release);
+        $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/node_modules ]) || (cd '.$this->release.'; yarn install --no-progress --production; mv '.$this->release.'/node_modules '.$this->siteFolder.')');
+        $output[] = $this->remoteTaskService->run('ln -s '.$this->siteFolder.'/node_modules '.$this->release);
 
         return $output;
     }
@@ -106,7 +123,7 @@ class PHP
      */
     public function setupFolders()
     {
-        return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->site_folder.($this->zerotimeDeployment ? '/current' : null))];
+        return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null))];
     }
 
     /**
@@ -116,7 +133,9 @@ class PHP
      */
     public function cleanup()
     {
-        return [$this->remoteTaskService->run('cd '.$this->site_folder.'; find . -maxdepth 1 -name "2*" -mmin +2880 | sort | head -n 10 | xargs rm -Rf')];
+        if ($this->site->keep_releases > 0) {
+            return [$this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
+        }
     }
 
     /**

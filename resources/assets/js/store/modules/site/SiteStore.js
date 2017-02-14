@@ -194,6 +194,21 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        deploySite: ({}, site) => {
+            Vue.http.post(Vue.action('Site\SiteController@deploy', { site: site })).then((response) => {
+                app.showSuccess('Your site deployment has been queued.')
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
+        rollbackSite: ({}, data) => {
+            alert(data.siteDeployment)
+            Vue.http.post(Vue.action('Site\SiteController@rollback', { site: data.site }), data).then((response) => {
+                app.showSuccess('You are rolling back a deployment.')
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {

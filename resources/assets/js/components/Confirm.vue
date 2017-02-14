@@ -7,7 +7,7 @@
 </style>
 <template>
     <span class="confirm-container" @click.stop @keyup.32.prevent @keyup.esc="close()">
-        <button class="btn" @click="open()">
+        <button :class="confirm_class" @click="open()">
             <slot></slot>
         </button>
         <transition name="confirm">
@@ -37,13 +37,16 @@
 
 <script>
     export default {
-        props: [
-            'params',
-            'dispatch',
-            'cancel_text',
-            'confirm_text',
-            'confirm_with_text'
-        ],
+        props: {
+            'params' : {},
+            'dispatch' : {},
+            'cancel_text' : {},
+            'confirm_text' : {},
+            'confirm_with_text' : {},
+            'confirm_class' : {
+                default : 'btn'
+            },
+        },
         data() {
             return {
                 confirm: false,

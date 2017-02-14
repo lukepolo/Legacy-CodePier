@@ -1,0 +1,135 @@
+// MAIN CONTENT STYLES =====================================
+// =========================================================
+.section-column {
+    display: flex; 
+    flex-direction: column;
+
+    &:not(:first-child) {
+        border-left: 1px solid $color-divider;
+    }
+
+    // todo jf -- write mixin for this
+    &:nth-child(1) {
+        background-color: $color-background;
+    }
+
+    &:nth-child(2) {
+        @include card(2);
+        background-color: mix($color-background, $white, 95%);
+    }
+    
+    &:nth-child(3) {
+        @include card(2);
+        background-color: mix($color-background, $white, 90%);
+    }
+}
+
+.section-header {
+    flex: 0 0 auto;
+    text-align: center;
+    background-color: rgba($black, .1);
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
+
+    &--btn-right {
+        position: absolute;
+        top: 50%;
+        right: $spacing;
+        left: auto;
+        transform: translateY(-50%);
+        z-index: 1;
+
+        .dropdown + .dropdown,
+        .dropdown + .btn {
+            margin-left: $spacing*.75;
+        }
+
+        .dropdown-menu {
+            right: 0px;
+            left: auto;
+        }
+
+        .jcf-form-wrap {
+            padding: $spacing;
+            min-width: 300px;
+        }
+
+        .jcf-input-group {
+            margin-bottom: 0px;
+        }
+
+        textarea {
+            border: 1px solid $color-background;
+        }
+
+        input[type="text"] {
+            font-size: $font-size;
+            border-bottom: 1px solid $color-background;
+            margin-bottom: $spacing;
+        }
+
+        .clipboard {
+            [class^="icon-"], [class*=" icon-"] {
+                right: 0px;
+            }
+        }
+    }
+
+    &--btn-left {
+        @extend .section-header--btn-right;
+        right: auto;
+        left: $spacing;
+
+        .dropdown-menu {
+            right: auto;
+            left: 0px;
+        }
+    }
+
+    &--secondary {
+        text-align: center;
+        padding: $spacing;
+        position: relative;
+    }
+
+    // delete
+    .pull-right,
+    .pull-left {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index : 1;
+    }
+
+    .pull-right {
+        right: $spacing;
+
+        .dropdown-menu {
+            left: auto;
+            right: 0px;
+        }
+    }
+
+    .pull-left {
+        left: $spacing;
+    }
+
+    .dropdown-menu {
+        text-transform: none;
+        font-weight: normal;
+        font-family: $font-body;
+    }
+
+
+}
+
+.section-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: visible;
+    
+    .container {
+        padding: $spacing*2;
+    }
+}
