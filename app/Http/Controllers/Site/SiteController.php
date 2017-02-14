@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
+use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
@@ -13,7 +14,6 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use App\Models\Site\SiteDeployment;
 
 class SiteController extends Controller
 {

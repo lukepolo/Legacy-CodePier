@@ -2,10 +2,10 @@
 
 namespace App\Services\DeploymentServices\PHP;
 
-use App\Models\Site\SiteDeployment;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
@@ -46,8 +46,8 @@ class PHP
         $this->zerotimeDeployment = $site->zerotime_deployment;
         $this->releaseTime = Carbon::now()->format('YmdHis');
 
-        if(!empty($siteDeployment)) {
-            if($this->remoteTaskService->hasDirectory($this->siteFolder.'/'.$siteDeployment->folder_name)) {
+        if (! empty($siteDeployment)) {
+            if ($this->remoteTaskService->hasDirectory($this->siteFolder.'/'.$siteDeployment->folder_name)) {
                 $this->rollback = true;
                 $this->releaseTime = $siteDeployment->folder_name;
             } else {
@@ -71,8 +71,7 @@ class PHP
     {
         $output = [];
 
-        if(!$this->rollback) {
-
+        if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
             $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
@@ -90,7 +89,6 @@ class PHP
 
             return $output;
         }
-
     }
 
     /**

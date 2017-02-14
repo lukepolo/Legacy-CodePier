@@ -112,7 +112,6 @@ class SiteService implements SiteServiceContract
      * @param SiteServerDeployment $siteServerDeployment
      * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
-     *
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
@@ -128,13 +127,13 @@ class SiteService implements SiteServiceContract
                     $site->repository,
                     $site->branch
                 ), [
-                'folder_name' => $releaseFolder
+                'folder_name' => $releaseFolder,
                 ])
             );
         } else {
             $siteServerDeployment->siteDeployment->update([
                 'git_commit' => $oldSiteDeployment->git_commit,
-                'folder_name' => $releaseFolder
+                'folder_name' => $releaseFolder,
             ]);
         }
 
