@@ -13,6 +13,7 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Models\Site\SiteDeployment;
 
 class SiteController extends Controller
 {
@@ -132,13 +133,28 @@ class SiteController extends Controller
      * Deploys a site.
      * @param DeploySiteRequest $request
      */
-    public function deploy(DeploySiteRequest $request)
+    public function deploy(DeploySiteRequest $request, $siteId)
     {
-        $site = Site::with('provisionedServers')->findOrFail($request->get('site'));
+        $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
             $this->dispatch(
                 (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+            );
+        }
+    }
+
+    /**
+     * Rollbacks a site.
+     * @param DeploySiteRequest $request
+     */
+    public function rollback(DeploySiteRequest $request, $siteId)
+    {
+        $site = Site::with('provisionedServers')->findOrFail($siteId);
+
+        if ($site->provisionedServers->count()) {
+            $this->dispatch(
+                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

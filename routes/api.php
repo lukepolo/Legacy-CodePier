@@ -188,8 +188,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::group(['namespace' => 'Site'], function () {
 
-            // TODO - bad route it should still contain the site with it
-            Route::post('deploy', 'SiteController@deploy');
+            Route::post('deploy/{site}', 'SiteController@deploy');
+            Route::post('rollback/{site}', 'SiteController@rollback');
             Route::get('site/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');
 
             Route::post('restart-server/{site}', 'SiteController@restartServer');
