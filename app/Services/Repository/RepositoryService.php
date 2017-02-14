@@ -85,12 +85,12 @@ class RepositoryService implements RepositoryServiceContract
      * @param UserRepositoryProvider $userRepositoryProvider
      * @param $repository
      * @param $branch
-     * @return mixed
+     * @return array
      */
     public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
     {
         return $this->getProvider($userRepositoryProvider->repositoryProvider)
-            ->getLatestCommit($userRepositoryProvider, $repository, $branch);
+            ->getLatestCommit($userRepositoryProvider, $repository, $branch) ?: [];
     }
 
     /**
