@@ -1,0 +1,34 @@
+// SEARCH STYLES ===========================================
+// =========================================================
+.search-container {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    padding-left: $spacing;
+}
+.search-form {
+    display: inline-block;
+    flex: 0 1 0px;
+    overflow: hidden;
+    transition: all .2s ease;
+    
+    input {
+        width: 100%;
+        background-color: transparent;
+        box-shadow: none;
+        border: none; 
+        border-bottom: 3px solid $color-primary;
+        padding-left: $spacing;
+        padding-right: $spacing;
+        
+        &:focus {
+            outline: none;
+        }
+    }
+    
+    &.open {
+        flex: 1 1 auto;
+        transition: all .2s ease-out;
+    }
+}

@@ -110,23 +110,30 @@ class SiteService implements SiteServiceContract
      * @param \App\Models\Server\Server $server
      * @param Site $site
      * @param SiteServerDeployment $siteServerDeployment
-     * @param null $sha
-     *
+     * @param SiteDeployment $oldSiteDeployment
      * @throws DeploymentFailed
      */
-    public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, $sha = null)
+    public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
         $this->repositoryService->importSshKey($site);
-        $deploymentService = $this->getDeploymentService($server, $site);
+        $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        if (empty($sha)) {
-            $lastCommit = $this->repositoryService->getLatestCommit($site->userRepositoryProvider, $site->repository, $site->branch);
-            if (! empty($lastCommit)) {
-                $siteServerDeployment->siteDeployment->update($lastCommit);
-            }
+        $releaseFolder = $deploymentService->releaseTime;
+
+        if (empty($oldSiteDeployment)) {
+            $siteServerDeployment->siteDeployment->update(array_merge(
+                $this->repositoryService->getLatestCommit(
+                    $site->userRepositoryProvider,
+                    $site->repository,
+                    $site->branch
+                ), [
+                'folder_name' => $releaseFolder,
+                ])
+            );
         } else {
             $siteServerDeployment->siteDeployment->update([
-                'git_commit' => $sha,
+                'git_commit' => $oldSiteDeployment->git_commit,
+                'folder_name' => $releaseFolder,
             ]);
         }
 
@@ -147,7 +154,7 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->customStep($script);
                 } else {
                     $internalFunction = $event->step->internal_deployment_function;
-                    $deploymentStepResult = $deploymentService->$internalFunction($sha);
+                    $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
@@ -163,14 +170,12 @@ class SiteService implements SiteServiceContract
     /**
      * @param \App\Models\Server\Server $server
      * @param \App\Models\Site\Site $site
-     *
+     * @param SiteDeployment $siteDeployment
      * @return mixed
      */
-    private function getDeploymentService(Server $server, Site $site)
+    private function getDeploymentService(Server $server, Site $site, SiteDeployment $siteDeployment = null)
     {
-        $deploymentService = 'php';
-
-        return new $this->deploymentServices[$deploymentService]($this->remoteTaskService, $server, $site);
+        return new $this->deploymentServices[strtolower($site->type)]($this->remoteTaskService, $server, $site, $siteDeployment);
     }
 
     /**

@@ -1,0 +1,132 @@
+// FORMS STYLES ============================================
+// =========================================================
+
+
+// FORMS OVERRIDE ------------------------------------------
+// ---------------------------------------------------------
+table {
+  width: 100%;
+  max-width: 100%;
+
+  + table {
+    margin-top: $spacing*2;
+  }
+}
+
+th {
+  border-bottom: 2px solid rgba($white, .1);
+}
+
+th,
+td {
+  padding: 5px;
+}
+
+
+.jcf-form-wrap {
+  .input-checkbox,
+  .input-radio{
+    margin-bottom: $spacing*2;
+
+    label {
+      margin-bottom: $spacing;
+    }
+  }
+  h3 {
+    margin-bottom: $spacing*2;
+  }
+  .input-question {
+    margin-bottom: $spacing;
+  }
+
+  input[type="text"] + label,
+  input[type="email"] + label,
+  input[type="integer"] + label,
+  input[type="number"] + label,
+  input[type="date"] + label,
+  input[type="datetime"] + label,
+  input[type="datetime-local"] + label,
+  input[type="password"] + label {
+    pointer-events: none;
+  }
+
+  [class^="hint-"], [class*=" hint-"] {
+    position: absolute;
+    left: -$spacing;
+    cursor: pointer;
+    pointer-events: all;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+
+[class*="hint--"] {
+  &:after {
+    display: block;
+    text-transform: none;
+    font-weight: 400;
+    font-family: $font-body;
+  }
+
+  &.long:after {
+    white-space: initial !important;
+    text-align: center;
+    width: 250px;
+  }
+
+  &.hint--small,
+  &.hint--medium,
+  &.hint--large {
+    &:after {
+      text-align: center;
+    }
+  }
+}
+
+#right {
+  .jcf-form-wrap {
+    padding: 0px $spacing;
+
+    .jcf-input-group {
+      margin-bottom: $spacing;
+    }
+
+    .btn-footer {
+      margin: 0px 0px (-$spacing);
+      padding: $spacing/2 0px;
+    }
+  }
+
+  .btn-footer {
+    margin: $spacing*2 0px 0px;
+    padding: $spacing;
+  }
+}
+
+
+
+.jcf-form-wrap {
+  box-shadow: none;
+}
+.jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
+  display: none;
+}
+.jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {
+  top: -2px;
+}
+textarea {
+  width: 100%;
+  background-color: transparent;
+  color: $jcf-color-text-primary;
+  font-family: $font-body;
+  border: 1px solid $color-divider;
+  padding: $spacing/2;
+  resize: none;
+
+  &:focus {
+    outline: 3px solid $color-primary;
+  }
+}

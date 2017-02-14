@@ -1,0 +1,71 @@
+// MAIN CONTENT STYLES =====================================
+// =========================================================
+.section-column {
+    display: flex; 
+    flex-direction: column;
+    
+    &:not(:first-child) {
+        border-left: 1px solid $color-divider;
+    }
+    
+    &:nth-child(2) {
+        @include card(2);
+        background-color: mix($color-background, $white, 95%);
+    }
+    
+    &:nth-child(3) {
+        @include card(2);
+        background-color: mix($color-background, $white, 90%);
+    }
+}
+
+.section-header {
+    flex: 0 0 auto;
+    text-align: center;
+    background-color: rgba($black, .1);
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
+
+    .pull-right,
+    .pull-left {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index : 1;
+    }
+
+    .pull-right {
+        right: $spacing;
+
+        .dropdown-menu {
+            left: auto;
+            right: 0px;
+        }
+    }
+
+    .pull-left {
+        left: $spacing;
+    }
+
+    .dropdown-menu {
+        text-transform: none;
+        font-weight: normal;
+        font-family: $font-body;
+    }
+
+    &.secondary {
+        background-color: transparent;
+        border-bottom: none;
+    }
+}
+
+.section-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: visible;
+    
+    .container {
+        padding: $spacing*2;
+    }
+}
