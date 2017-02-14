@@ -7,7 +7,7 @@
         </a>
 
         <div class="section-header--btn-right">
-            <template v-if="site.repository && !site.private">
+            <template v-if="site.public_ssh_key">
                 <span class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="icon-web"></span>
@@ -29,7 +29,8 @@
                         </li>
                     </ul>
                 </span>
-
+            </template>
+            <template v-if="deployHook">
                 <span class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="icon-webhooks"></span>
