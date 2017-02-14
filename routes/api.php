@@ -187,7 +187,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {
-
             Route::post('deploy/{site}', 'SiteController@deploy');
             Route::post('rollback/{site}', 'SiteController@rollback');
             Route::get('site/{site}/deployment-steps', 'SiteDeploymentStepsController@getDeploymentSteps');

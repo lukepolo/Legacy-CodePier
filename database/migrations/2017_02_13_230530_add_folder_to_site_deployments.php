@@ -13,7 +13,7 @@ class AddFolderToSiteDeployments extends Migration
      */
     public function up()
     {
-        Schema::table('site_deployments', function(Blueprint $table) {
+        Schema::table('site_deployments', function (Blueprint $table) {
             $table->string('folder_name')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddFolderToSiteDeployments extends Migration
      */
     public function down()
     {
-        Schema::table('site_deployments', function(Blueprint $table) {
+        Schema::table('site_deployments', function (Blueprint $table) {
             $table->dropColumn('folder_name');
         });
     }
