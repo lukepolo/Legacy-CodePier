@@ -107,7 +107,7 @@
 
         <template v-if="site.repository && hasDeployableServers">
 
-            <a href="#" @click.prevent="deploySite(site.id)" class="btn btn-primary" :class="{ 'btn-disabled' : isDeploying }">
+            <a href="#" @click.prevent="deploySite" class="btn btn-primary" :class="{ 'btn-disabled' : isDeploying }">
                 Deploy
                 <template v-if="isDeploying">
                     {{ isDeploying.status }}
@@ -156,9 +156,9 @@
                 this.$store.dispatch('getServerAvailableFrameworks')
                 this.$store.dispatch('getServerAvailableLanguages')
             },
-            deploySite: function (site_id) {
+            deploySite: function () {
                 if(!this.isDeploying) {
-                    Vue.http.post(this.action('Site\SiteController@deploy', {site: site_id}))
+                    this.$store.dispatch('deploySite', this.$route.params.site_id)
                 }
             },
             updateSite() {

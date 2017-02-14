@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.9 on 2017-02-05.
+ * Generated for Laravel 5.4.11 on 2017-02-13.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -5182,18 +5182,6 @@ if (! function_exists('remove_events')) {
         }
         
         /**
-         * Extend the builder with a given callback.
-         *
-         * @param string $name
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */
-        public static function macro($name, $callback){
-            \Illuminate\Database\Eloquent\Builder::macro($name, $callback);
-        }
-        
-        /**
          * Get the given macro by name.
          *
          * @param string $name
@@ -6434,6 +6422,18 @@ if (! function_exists('remove_events')) {
         }
         
         /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param callable $macro
+         * @return void 
+         * @static 
+         */
+        public static function macro($name, $macro){
+            \Illuminate\Database\Query\Builder::macro($name, $macro);
+        }
+        
+        /**
          * Checks if macro is registered.
          *
          * @param string $name
@@ -7671,11 +7671,12 @@ if (! function_exists('remove_events')) {
          *
          * @param string $name
          * @param string $level
+         * @param mixed $facility
          * @return \Psr\Log\LoggerInterface 
          * @static 
          */
-        public static function useSyslog($name = 'laravel', $level = 'debug'){
-            return \Illuminate\Log\Writer::useSyslog($name, $level);
+        public static function useSyslog($name = 'laravel', $level = 'debug', $facility = 8){
+            return \Illuminate\Log\Writer::useSyslog($name, $level, $facility);
         }
         
         /**
@@ -9160,6 +9161,7 @@ if (! function_exists('remove_events')) {
          *  * Request::HEADER_CLIENT_HOST:  defaults to X-Forwarded-Host  (see getHost())
          *  * Request::HEADER_CLIENT_PORT:  defaults to X-Forwarded-Port  (see getPort())
          *  * Request::HEADER_CLIENT_PROTO: defaults to X-Forwarded-Proto (see getScheme() and isSecure())
+         *  * Request::HEADER_FORWARDED:    defaults to Forwarded         (see RFC 7239)
          * 
          * Setting an empty value allows to disable the trusted header for the given key.
          *
@@ -13255,6 +13257,29 @@ if (! function_exists('remove_events')) {
          */
         public static function stopPush(){
             return \Illuminate\View\Factory::stopPush();
+        }
+        
+        /**
+         * Start prepending content into a push section.
+         *
+         * @param string $section
+         * @param string $content
+         * @return void 
+         * @static 
+         */
+        public static function startPrepend($section, $content = ''){
+            \Illuminate\View\Factory::startPrepend($section, $content);
+        }
+        
+        /**
+         * Stop prepending content into a push section.
+         *
+         * @return string 
+         * @throws \InvalidArgumentException
+         * @static 
+         */
+        public static function stopPrepend(){
+            return \Illuminate\View\Factory::stopPrepend();
         }
         
         /**

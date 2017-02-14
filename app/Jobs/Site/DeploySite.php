@@ -20,25 +20,26 @@ class DeploySite implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    public $sha;
     public $site;
     public $servers = [];
     public $siteDeployment;
+    public $oldSiteDeployment;
 
     public $tries = 1;
     public $timeout = 300;
+
 
     /**
      * Create a new job instance.
      *
      * @param Site $site
-     * @param null $sha
+     * @param SiteDeployment $oldSiteDeployment
      */
-    public function __construct(Site $site, $sha = null)
+    public function __construct(Site $site, SiteDeployment $oldSiteDeployment = null)
     {
-        $this->sha = $sha;
         $this->site = $site;
         $this->servers = $site->provisionedServers;
+        $this->oldSiteDeployment = $oldSiteDeployment;
 
         $this->siteDeployment = SiteDeployment::create([
             'site_id' => $site->id,
@@ -54,6 +55,7 @@ class DeploySite implements ShouldQueue
         }
 
         $site->notify(new NewSiteDeployment($this->siteDeployment));
+        $this->oldSiteDeployment = $oldSiteDeployment;
     }
 
     /**
@@ -67,7 +69,7 @@ class DeploySite implements ShouldQueue
         $success = true;
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
             try {
-                $siteService->deploy($serverDeployment->server, $this->site, $serverDeployment, $this->sha);
+                $siteService->deploy($serverDeployment->server, $this->site, $serverDeployment, $this->oldSiteDeployment);
             } catch (\Exception $e) {
                 $message = $e->getMessage();
 

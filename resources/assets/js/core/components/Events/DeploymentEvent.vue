@@ -36,7 +36,13 @@
         </div>
         <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
         <div class="event-site">
-            <div class="event-commit"><a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a></div>
+            <div class="event-commit">
+                <a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a>
+
+                <confirm dispatch="rollbackSite" confirm_class="" :params="{ siteDeployment : event.id, site : event.site_id } ">
+                    <p>Rollback</p>
+                </confirm>
+            </div>
             <span class="icon-browser"></span>
             {{ getSite(event.site_id, 'name') }}
         </div>
