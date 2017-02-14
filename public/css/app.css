@@ -5324,6 +5324,10 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   border-left: 1px solid #2B2B2B;
 }
 
+.section-column:nth-child(1) {
+  background-color: #3C3F41;
+}
+
 .section-column:nth-child(2) {
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
   background-color: #46494b;
@@ -5340,6 +5344,65 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   text-align: center;
   background-color: rgba(43, 43, 43, 0.1);
   border-bottom: 1px solid #2B2B2B;
+  padding: 20px;
+  position: relative;
+}
+
+.section-header--btn-right, .section-header--btn-left {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  left: auto;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.section-header--btn-right .dropdown + .dropdown, .section-header--btn-left .dropdown + .dropdown,
+.section-header--btn-right .dropdown + .btn, .section-header--btn-left .dropdown + .btn {
+  margin-left: 15px;
+}
+
+.section-header--btn-right .dropdown-menu, .section-header--btn-left .dropdown-menu {
+  right: 0px;
+  left: auto;
+}
+
+.section-header--btn-right .jcf-form-wrap, .section-header--btn-left .jcf-form-wrap {
+  padding: 20px;
+  min-width: 300px;
+}
+
+.section-header--btn-right .jcf-input-group, .section-header--btn-left .jcf-input-group {
+  margin-bottom: 0px;
+}
+
+.section-header--btn-right textarea, .section-header--btn-left textarea {
+  border: 1px solid #3C3F41;
+}
+
+.section-header--btn-right input[type="text"], .section-header--btn-left input[type="text"] {
+  font-size: 15px;
+  border-bottom: 1px solid #3C3F41;
+  margin-bottom: 20px;
+}
+
+.section-header--btn-right .clipboard [class^="icon-"], .section-header--btn-left .clipboard [class^="icon-"], .section-header--btn-right .clipboard [class*=" icon-"], .section-header--btn-left .clipboard [class*=" icon-"] {
+  right: 0px;
+}
+
+.section-header--btn-left {
+  right: auto;
+  left: 20px;
+}
+
+.section-header--btn-left .dropdown-menu {
+  right: auto;
+  left: 0px;
+}
+
+.section-header--secondary {
+  text-align: center;
   padding: 20px;
   position: relative;
 }
@@ -5370,11 +5433,6 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   text-transform: none;
   font-weight: normal;
   font-family: "Roboto", sans-serif;
-}
-
-.section-header.secondary {
-  background-color: transparent;
-  border-bottom: none;
 }
 
 .section-content {
@@ -5843,7 +5901,7 @@ button[disabled=disabled] {
   right: 5px;
 }
 
-.dropdown-menu li a {
+.dropdown-menu li > a {
   display: block;
 }
 
