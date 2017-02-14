@@ -36,13 +36,13 @@
         <div id="app-layout">
             <navigation></navigation>
 
-            <div class="xlarge-wrap">
+            <div id="xlarge-wrap">
 
-            <div id="main">
-                @yield('content')
-            </div>
+                <div id="main">
+                    @yield('content')
+                </div>
 
-            <notification-bar></notification-bar>
+                <notification-bar></notification-bar>
 
             </div>
         </div>

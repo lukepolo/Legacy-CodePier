@@ -11,8 +11,8 @@ trait Laravel
     public function laravelCreateSymbolicEnv()
     {
         $output = [];
-        $output[] = $this->remoteTaskService->run('([ -f '.$this->site_folder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->site_folder.'/.env');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/.env '.$this->release.'/.env');
+        $output[] = $this->remoteTaskService->run('([ -f '.$this->siteFolder.'/.env ]) || cat '.$this->release.'/.env.example >> '.$this->siteFolder.'/.env');
+        $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
 
         return $output;
     }
@@ -24,9 +24,9 @@ trait Laravel
     public function laravelCreateSymbolicStorageFolder()
     {
         $output = [];
-        $output[] = $this->remoteTaskService->run('([ -d '.$this->site_folder.'/storage ]) || (mv '.$this->release.'/storage '.$this->site_folder.')');
+        $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/storage ]) || (mv '.$this->release.'/storage '.$this->siteFolder.')');
         $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->site_folder.'/storage '.$this->release);
+        $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
 
         return $output;
     }

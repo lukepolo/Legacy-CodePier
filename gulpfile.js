@@ -83,6 +83,6 @@ elixir((mix) => {
         .browserSync({
             open: false,
             proxy: env.APP_URL,
-            reloadDelay: 1000
+            reloadDelay: 1200
         })
 })

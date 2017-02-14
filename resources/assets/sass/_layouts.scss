@@ -1,0 +1,80 @@
+@import 'layouts/layout';
+@import 'layouts/header';   //cleanup
+@import 'layouts/footer';   //cleanup
+@import 'layouts/main';     //cleanup
+
+
+// TEXT ----------------------------------------------------
+// ---------------------------------------------------------
+p.info {
+  font-size: 1.2em;
+}
+
+.small {
+  font-size: 11px;
+  color: rgba($color-text-primary, .7);
+  padding-top: $spacing/4;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+
+
+// COLORS --------------------------------------------------
+// ---------------------------------------------------------
+.text-success {
+  color: $green;
+}
+
+.text-error {
+  color: $red;
+}
+
+.text-warning {
+  color: $yellow;
+}
+
+.primary {
+  color: $color-primary;
+}
+
+.accent {
+  color: $color-accent;
+}
+
+
+
+// LABELS --------------------------------------------------
+// ---------------------------------------------------------
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+.label-primary {
+  background-color: $color-primary;
+  color : $color-text-primary !important;
+}
+
+.label-danger {
+  background-color: $red;
+  color : $color-text-primary !important;
+}

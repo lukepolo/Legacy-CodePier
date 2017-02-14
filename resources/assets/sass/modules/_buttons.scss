@@ -1,0 +1,85 @@
+// BUTTON STYLES ===========================================
+// =========================================================
+.btn {
+    background-color: $jcf-color-text-inverse;
+    color: $jcf-color-text-primary !important;
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    border: none; 
+    border-radius: 2px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transform: scale(1);
+    transition: all .1s;
+    @include card(1);
+    
+    &:hover,
+    &:focus {
+        @include card(2);
+        outline: none;
+        transform: scale(1.02);
+        transition: all .1s;
+    }
+    
+    &:active {
+        @include card(1);
+        outline: none;
+        transform: scale(1);
+        transition: all .1s;
+    }
+    
+    + .btn {
+        margin-left: 15px;
+    }
+
+    p {
+        font-size: 15px;
+        font-weight: 300;
+        text-transform: none;
+    }
+}
+
+span.btn {
+    display: inline-block;
+}
+    
+.btn-primary { 
+    background-color: $jcf-color-primary;
+    color: $jcf-color-text-primary !important;
+}
+
+.btn-danger {
+    background-color: $red;
+    color: $jcf-color-text-primary !important;
+}
+
+.btn-small {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+
+.btn-disabled,
+button[disabled=disabled] {
+    background-color: mix($gray, $white, 80%);
+    color: mix($gray, $white, 60%) !important;
+    pointer-events: none;
+}
+
+// BUTTON FOOTER STYLES ------------------------------------
+// ---------------------------------------------------------
+.btn-footer {
+    text-align: center;
+    border-top: 1px solid $jcf-color-divider;
+    background-color: transparent;
+    margin: $jcf-form-padding (-$jcf-form-padding) (-$jcf-form-padding);
+    padding: ($jcf-form-padding/2) $jcf-form-padding;
+}
+
+
+// BUTTON CONTAINER STYLES ---------------------------------
+// ---------------------------------------------------------
+.btn-container {
+    padding: $spacing;
+}

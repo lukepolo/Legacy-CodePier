@@ -1,0 +1,23 @@
+// NOTIFICATION STYLES =====================================
+// =========================================================
+.fade-enter-active, 
+.fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, 
+.fade-leave-active {
+  opacity: 0
+}
+
+.notifications {
+  position: fixed;
+  right: 10px;
+  top: 100px;
+  width: 350px;
+  z-index: 10;
+
+  background-color: $black;
+}
+.notification p {
+  margin-right: 20px;
+}

@@ -194,6 +194,16 @@ echo \"Wrote\"", $read);
     }
 
     /**
+     * Checks to see if the server has the file.
+     * @param $directory
+     * @return string
+     */
+    public function hasDirectory($directory)
+    {
+        return filter_var($this->run("[ -d $directory ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
      * @param \App\Models\Server\Server $server
      * @param string $user
      *

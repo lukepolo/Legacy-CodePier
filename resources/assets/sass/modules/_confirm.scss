@@ -1,0 +1,72 @@
+// CONFIRM DIALOG STYLES ===================================
+// =========================================================
+
+
+// CONFIRM DIALOG ------------------------------------------
+// ---------------------------------------------------------
+.confirm-container {
+  display: inline-block;
+  margin-right: $spacing;
+  position: relative;
+}
+
+.confirm-dialog {
+  @include card(1);
+  position: absolute;
+  bottom: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  background-color: $color-background;
+  border: 1px solid mix($black, $gray, 50%);
+  border-radius: 3px;
+
+  &:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 10px solid $color-background;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    z-index: 2;
+  }
+
+  &:after {
+    content: '';
+    width: 10px;
+    height: 11px;
+    border: 10px solid mix($black, $gray, 50%);
+    border-bottom-width: 11px;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -12px;
+  }
+
+  .btn-footer {
+    border-top: 1px solid $black;
+    margin: 0px;
+    padding: $spacing/2;
+  }
+}
+
+.confirm-header {
+  border-bottom: 1px solid $black;
+  padding: $spacing/2;
+}
+
+.confirm-content {
+  padding: ($spacing/2) $spacing;
+
+  input {
+    //border-bottom-color: $color-text-primary !important;
+  }
+}
