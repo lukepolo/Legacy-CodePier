@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
+use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteRequest;
 use App\Http\Requests\Site\DeploySiteRequest;
@@ -91,6 +92,7 @@ class SiteController extends Controller
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
+            'keep_releases'               => $request->get('keep_releases', 10),
             'wildcard_domain'             => $request->get('wildcard_domain', 0),
             'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
@@ -131,13 +133,28 @@ class SiteController extends Controller
      * Deploys a site.
      * @param DeploySiteRequest $request
      */
-    public function deploy(DeploySiteRequest $request)
+    public function deploy(DeploySiteRequest $request, $siteId)
     {
-        $site = Site::with('provisionedServers')->findOrFail($request->get('site'));
+        $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
             $this->dispatch(
                 (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+            );
+        }
+    }
+
+    /**
+     * Rollbacks a site.
+     * @param DeploySiteRequest $request
+     */
+    public function rollback(DeploySiteRequest $request, $siteId)
+    {
+        $site = Site::with('provisionedServers')->findOrFail($siteId);
+
+        if ($site->provisionedServers->count()) {
+            $this->dispatch(
+                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
             );
         }
     }
