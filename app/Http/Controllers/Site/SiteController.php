@@ -278,7 +278,7 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $site->update([
-            'hash' => create_redis_hash()
+            'hash' => create_redis_hash(),
         ]);
 
         if($site->automatic_deployment_id) {
