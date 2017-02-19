@@ -254,4 +254,33 @@ class SiteController extends Controller
 
         return $this->remoteResponse();
     }
+
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshSshKeys($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $site->public_ssh_key = null;
+        $this->repositoryService->importSshKey($site);
+
+        return response()->json($site);
+    }
+
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshDeployKey($siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $site->update([
+            'hash' => create_redis_hash()
+        ]);
+
+        return response()->json($site);
+    }
 }

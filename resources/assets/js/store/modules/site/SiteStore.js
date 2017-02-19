@@ -209,6 +209,22 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
+        },
+        refreshSshKeys: ({ commit }, site) => {
+            Vue.http.post(Vue.action('Site\SiteController@refreshSshKeys', { site: site })).then((response) => {
+                app.showSuccess('You refreshed your sites ssh keys.')
+                commit('SET_SITE', response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
+        refreshDeployKey: ({ commit }, site) => {
+            Vue.http.post(Vue.action('Site\SiteController@refreshDeployKey', { site: site })).then((response) => {
+                app.showSuccess('You refreshed your sites deploy key.')
+                commit('SET_SITE', response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         }
     },
     mutations: {
