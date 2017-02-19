@@ -179,6 +179,16 @@ class Server extends Model
         return collect($features);
     }
 
+    public function encode()
+    {
+        return \Hashids::encode($this->id);
+    }
+
+    public function decode($hash)
+    {
+        return $this->findOrFail(\Hashids::decode($hash));
+    }
+
     /**
      * Route notifications for the mail channel.
      *

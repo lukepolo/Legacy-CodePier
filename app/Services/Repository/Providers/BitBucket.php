@@ -141,7 +141,7 @@ class BitBucket implements RepositoryContract
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository), [
             'description' => 'CodePier',
-            'url'         => action('WebHookController@deploy', $site->encode()),
+            'url'         => action('WebHookController@deploy', $site->hash),
             'active'      => true,
             'events'      => [
                 'repo:push',

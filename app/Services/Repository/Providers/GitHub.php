@@ -90,7 +90,7 @@ class GitHub implements RepositoryContract
                 'push',
             ],
             'config' => [
-                'url'          => action('WebHookController@deploy', $site->encode()),
+                'url'          => action('WebHookController@deploy', $site->hash),
                 'content_type' => 'json',
             ],
         ]);
