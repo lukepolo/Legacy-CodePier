@@ -43,7 +43,7 @@
                                     <div class="input-question">
                                         Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
                                     </div>
-                                    <textarea type="text" readonly :value="deployHook"></textarea>
+                                    <textarea  rows="3" readonly :value="deployHook"></textarea>
                                     <div class="text-right">
                                         <clipboard :data="deployHook"></clipboard>
                                     </div>
