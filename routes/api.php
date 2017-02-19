@@ -184,6 +184,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::resource('sites', 'Site\SiteController');
 
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
+        Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshSshKeys');
+        Route::post('site/{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {

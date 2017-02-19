@@ -74,3 +74,17 @@ if (! function_exists('remove_events')) {
         return $model;
     }
 }
+
+
+if (! function_exists('create_redis_hash')) {
+
+    /**
+     * Gets Makes a new hash based on redis.
+     * @param string $key
+     * @return mixed
+     */
+    function create_redis_hash($key = 'default')
+    {
+        return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::command('INCR', [$key]));
+    }
+}
