@@ -75,7 +75,6 @@ if (! function_exists('remove_events')) {
     }
 }
 
-
 if (! function_exists('create_redis_hash')) {
 
     /**

@@ -13,7 +13,7 @@ class AddHashIdsToSitesServers extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->string('hash', 16)->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddHashIdsToSitesServers extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('hash');
         });
     }
