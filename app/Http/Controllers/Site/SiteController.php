@@ -281,7 +281,7 @@ class SiteController extends Controller
             'hash' => create_redis_hash(),
         ]);
 
-        if($site->automatic_deployment_id) {
+        if ($site->automatic_deployment_id) {
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }
