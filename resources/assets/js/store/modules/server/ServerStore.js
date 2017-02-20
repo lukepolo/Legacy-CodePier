@@ -5,6 +5,7 @@ export default {
         all_servers: [],
         server_sites: [],
         running_commands: {},
+        trashed_servers : [],
         provisioned_servers: [],
         servers_listening_to: [],
         available_server_features: [],
@@ -54,6 +55,13 @@ export default {
                 app.handleApiError(errors)
             })
         },
+        getTrashedServers: ({ commit }) => {
+            return Vue.http.get(Vue.action('Server\ServerController@index', { trashed : true })).then((response) => {
+                commit('SET_TRASHED_SERVERS', response.data)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
         listenToServer: ({ commit, state, dispatch }, server) => {
             if (_.indexOf(state.servers_listening_to, server.id) === -1) {
                 commit('SET_SERVERS_LISTENING_TO', server)
@@ -94,9 +102,9 @@ export default {
                     })
             }
         },
-        createServer: ({ dispatch, rootState }, form) => {
+        createServer: ({ dispatch }, form) => {
             return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
-                rootState.serversStore.all_servers.push(response.data)
+                commit('ADD_SERVER', response.data)
                 dispatch('listenToServer', response.data)
                 app.showSuccess('Your server is in queue to be provisioned')
 
@@ -113,6 +121,15 @@ export default {
 
                 commit('REMOVE_SERVER', server)
                 commit('REMOVE_SERVER_FROM_SITE_SERVERS', server)
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
+        },
+        restoreServer: ({ commit, dispatch }, server) => {
+            Vue.http.post(Vue.action('Server\ServerController@restore', { server: server })).then((response) => {
+                commit('ADD_SERVER', response.data)
+                dispatch('listenToServer', response.data)
+                commit('REMOVE_TRASHED_SERVER', response.data)
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -183,6 +200,10 @@ export default {
         }
     },
     mutations: {
+        ADD_SERVER: (state, server) => {
+            state.servers.push(server)
+            state.all_servers.push(server)
+        },
         SET_SERVER: (state, server) => {
             state.server = server
         },
@@ -257,6 +278,12 @@ export default {
         },
         SET_SERVER_INSTALLED_FEATURES: (state, serverFeatures) => {
             state.server_installed_features = serverFeatures
+        },
+        SET_TRASHED_SERVERS: (state, trashedServers) => {
+            state.trashed_servers = trashedServers
+        },
+        REMOVE_TRASHED_SERVER: (state, server) => {
+            Vue.set(state, 'trashed_servers', _.reject(state.trashed_servers, { id: server.id }))
         }
     }
 }
