@@ -54,7 +54,13 @@
                         <div class="server-info condensed" v-for="(stats, disk) in server.stats.disk_usage">
                             {{ disk }}
                             <div class="server-progress-container">
-                                <div class="server-progress" :style="{ width : stats.percent }"></div>
+                                <div
+                                    class="server-progress"
+                                    :class="{
+                                        danger : parseInt(stats.percent) >= 75,
+                                        warning : parseInt(stats.percent) < 75 && parseInt(stats.percent) >= 50
+                                    }"
+                                    :style="{ width : stats.percent }"></div>
                                 <div class="stats-label stats-used">{{ stats.used }}</div>
                                 <div class="stats-label stats-available">{{ stats.available }}</div>
                             </div>
@@ -73,7 +79,16 @@
                         <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
                             {{ memory_name }}
                             <div class="server-progress-container">
-                                <div class="server-progress" :style="{ width : (getBytesFromString(stats.used)/getBytesFromString(stats.total))*100+'%' }"></div>
+                                <div
+                                    class="server-progress"
+                                    :class="{
+                                        danger : getMemoryUsage(stats) >= 75,
+                                        warning : getMemoryUsage(stats) < 75 && getMemoryUsage(stats) >= 50
+                                    }"
+                                    :style="{
+                                        width : getMemoryUsage(stats)+'%'
+                                    }"
+                                ></div>
                                 <div class="stats-label stats-used">{{stats.used}}</div>
                                 <div class="stats-label stats-available">{{stats.total}}</div>
                             </div>
@@ -160,6 +175,9 @@
         methods : {
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
+            },
+            getMemoryUsage(stats) {
+                return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100
             }
         },
     }
