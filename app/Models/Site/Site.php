@@ -51,7 +51,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
-        'last_deployment_status'
+        'last_deployment_status',
     ];
 
     protected $casts = [
@@ -223,7 +223,7 @@ class Site extends Model
 
     public function getLastDeploymentStatusAttribute()
     {
-        if($this->lastDeployment) {
+        if ($this->lastDeployment) {
             return $this->lastDeployment->status;
         }
     }
