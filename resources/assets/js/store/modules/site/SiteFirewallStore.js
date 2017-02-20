@@ -11,8 +11,9 @@ export default {
             })
         },
         createSiteFirewallRule: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }), data).then((response) => {
                 commit('ADD_SITE_FIREWALL_RULE', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })

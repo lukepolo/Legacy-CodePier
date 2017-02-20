@@ -66,8 +66,10 @@
             },
             createKey() {
                 this.form.site = this.$route.params.site_id
-                this.$store.dispatch('createSiteSshKey', this.form).then(() => {
-                    this.form = this.$options.data().form
+                this.$store.dispatch('createSiteSshKey', this.form).then((sshKey) => {
+                    if(sshKey.id) {
+                        this.form = this.$options.data().form
+                    }
                 })
             },
             deleteKey(sshKeyId) {
