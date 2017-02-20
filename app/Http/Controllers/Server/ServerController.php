@@ -142,17 +142,21 @@ class ServerController extends Controller
      */
     public function destroy($id)
     {
-        Server::findOrFail($id)->delete();
+        return response()->json(Server::findOrFail($id)->delete());
     }
 
     /**
      * Restores a server.
-     *
      * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restore($id)
     {
-        Server::onlyTrashed()->findOrFail($id)->restore();
+        $server = Server::onlyTrashed()->findOrFail($id);
+
+        $server->restore();
+
+        return response()->json($server);
     }
 
     /**

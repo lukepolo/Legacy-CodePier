@@ -242,6 +242,7 @@ const router = new VueRouter({
         },
 
     { path: '/servers', name: 'servers', component: serverPages.Servers },
+    { path: '/servers/archived', name: 'archived_servers', component: serverPages.Servers },
     { path: '/my/teams', name: 'teams', component: teamPages.Teams },
     { path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers },
 
