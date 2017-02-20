@@ -51,6 +51,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
+        'last_deployment_status'
     ];
 
     protected $casts = [
@@ -218,6 +219,13 @@ class Site extends Model
     public function getPathAttribute()
     {
         return '/home/codepier/'.$this->domain;
+    }
+
+    public function getLastDeploymentStatusAttribute()
+    {
+        if($this->lastDeployment) {
+            return $this->lastDeployment->status;
+        }
     }
 
     /**

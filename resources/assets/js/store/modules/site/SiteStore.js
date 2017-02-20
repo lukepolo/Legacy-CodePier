@@ -49,6 +49,7 @@ export default {
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                        commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
                     })
                     .listen('Site\\DeploymentStepCompleted', (data) => {
                         commit('UPDATE_DEPLOYMENT_EVENT', data)
@@ -61,15 +62,18 @@ export default {
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                        commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
                     })
                     .listen('Site\\DeploymentCompleted', (data) => {
                         commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
                         commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                        commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
                     })
                     .notification((notification) => {
                         if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
                             commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment)
+                            commit('UPDATE_SITE_DEPLOYMENT_STATUS', notification.siteDeployment)
                         }
                     })
             }
@@ -298,6 +302,16 @@ export default {
                 })
             } else {
                 siteDeployments.push(event.site_deployment)
+            }
+        },
+        UPDATE_SITE_DEPLOYMENT_STATUS: (state, siteDeployment) => {
+
+            const siteKey = _.findKey(state.sites, { id: siteDeployment.site_id })
+
+            console.info(siteDeployment.status)
+
+            if (siteKey) {
+                Vue.set(state.sites[siteKey], 'last_deployment_status', siteDeployment.status)
             }
         }
     }
