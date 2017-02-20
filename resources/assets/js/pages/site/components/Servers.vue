@@ -67,7 +67,6 @@
                                <template v-if="siteServers.length">
                                    <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
                                </template>
-                               <!-- todo - disable attach button when no servers are selected -->
                                <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
                            </div>
 
@@ -142,7 +141,8 @@
                 return this.$store.state.serversStore.servers;
             },
             attachServersText() {
-                return 'Attach ' + _('server').pluralize(this.form.connected_servers.length)
+                let serverCount = this.form.connected_servers.length
+                return 'Attach ' + _('server').pluralize(serverCount > 0 ? serverCount : 1)
             }
 
         }

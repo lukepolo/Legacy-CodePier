@@ -10,8 +10,9 @@ export default {
             })
         },
         installWorker: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Site\SiteWorkerController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteWorkerController@store', { site: data.site }), data).then((response) => {
                 commit('ADD_SITE_WORKER', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
