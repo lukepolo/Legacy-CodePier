@@ -186,6 +186,7 @@
   font-weight: 600;
   line-height: $spacing;
   padding: 0px ($spacing/4);
+  z-index: 10;
 }
 
 .server-progress {
