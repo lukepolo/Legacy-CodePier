@@ -11,8 +11,9 @@ export default {
             })
         },
         createSiteCronJob: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Site\SiteCronJobController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteCronJobController@store', { site: data.site }), data).then((response) => {
                 commit('ADD_SITE_CRON_JOB', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
