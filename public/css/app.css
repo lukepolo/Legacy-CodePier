@@ -6596,6 +6596,7 @@ textarea:focus {
   font-weight: 600;
   line-height: 20px;
   padding: 0px 5px;
+  z-index: 10;
 }
 
 .server-progress {
