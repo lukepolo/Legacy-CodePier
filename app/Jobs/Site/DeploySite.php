@@ -83,7 +83,7 @@ class DeploySite implements ShouldQueue
                     return $event->completed == false || $event->failed;
                 });
 
-                if(!$event) {
+                if (! $event) {
                     $event = $serverDeployment->events->last();
                 }
 
