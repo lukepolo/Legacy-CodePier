@@ -6106,6 +6106,34 @@ button[disabled=disabled] {
   color: #F4645F;
 }
 
+#drag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 10px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+#collapseEvents {
+  height: 30vh;
+  overflow-y: scroll;
+  -webkit-transition: height .5s;
+  transition: height .5s;
+}
+
+#collapseEvents.events-hidden {
+  height: 0px !important;
+  -webkit-transition: height .5s;
+  transition: height .5s;
+  overflow: hidden;
+}
+
+#collapseEvents.dragging {
+  -webkit-transition: all 0s;
+  transition: all 0s;
+}
+
 table {
   width: 100%;
   max-width: 100%;
