@@ -6,7 +6,6 @@ use Bitbucket\API\User;
 use App\Models\Site\Site;
 use Bitbucket\API\Users\SshKeys;
 use Bitbucket\API\Repositories\Hooks;
-use Bitbucket\API\Repositories\Commits;
 use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
