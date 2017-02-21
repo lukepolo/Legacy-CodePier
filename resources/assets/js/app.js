@@ -26,7 +26,7 @@ Vue.directive('file-editor', {
 })
 
 Vue.directive('cronjob', {
-    bind: function (el) {
+    inserted: function (el) {
         $(el).cron({
             onChange () {
                 const cronTiming = $(this).cron('value')
