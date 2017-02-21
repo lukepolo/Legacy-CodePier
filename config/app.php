@@ -28,6 +28,8 @@ return [
 
     'registration' => env('APP_REGISTRATION', true),
 
+    'teams' => env('APP_ENV') == 'local' ? true : false,
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

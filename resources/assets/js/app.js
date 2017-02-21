@@ -39,6 +39,9 @@ Vue.directive('cronjob', {
 
 Vue.mixin({
     methods: {
+        teamsEnabled () {
+            return Laravel.teams
+        },
         now () {
             return moment()
         },
