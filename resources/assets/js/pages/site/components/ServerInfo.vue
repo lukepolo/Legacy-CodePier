@@ -15,8 +15,6 @@
             <template v-if="server.stats && server.stats.loads && !showServerInfo">
                 <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
             </template>
-
-
         </div>
 
         <div class="server-info" v-if="showServerInfo">
@@ -153,15 +151,16 @@
                 default : false
             }
         },
-        data() {
-          return {
-              showServerInfo : this.showInfo
-          }
-        },
         components : {
           CpuLoads
         },
         computed : {
+            showServerInfo() {
+                if(this.server.progress < 100) {
+                    return true
+                }
+                return this.showInfo
+            },
             currentProvisioningStep() {
                 let provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
 
