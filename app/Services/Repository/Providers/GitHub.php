@@ -51,31 +51,6 @@ class GitHub implements RepositoryContract
     }
 
     /**
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $branch
-     * @return array
-     */
-    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
-    {
-        $this->setToken($userRepositoryProvider);
-
-        $lastCommit = null;
-
-        try {
-            $lastCommit = collect(GitHubService::api('repo')->commits()->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), ['sha' => $branch]))->first();
-        } catch (RuntimeException $e) {
-        }
-
-        if (! empty($lastCommit)) {
-            return [
-                'git_commit' => $lastCommit['sha'],
-                'commit_message' => $lastCommit['commit']['message'],
-            ];
-        }
-    }
-
-    /**
      * @param Site $site
      * @return Site
      */

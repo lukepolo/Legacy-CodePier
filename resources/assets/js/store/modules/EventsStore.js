@@ -33,12 +33,12 @@ export default {
         CLEAR_EVENTS: (state) => {
             state.events = []
         },
-        SET_EVENTS: (state, events_pagination) => {
-            _.forEach(events_pagination.data, function (event) {
+        SET_EVENTS: (state, eventsPagination) => {
+            _.forEach(eventsPagination.data, function (event) {
                 state.events.push(event)
             })
 
-            state.events_pagination = events_pagination
+            state.events_pagination = eventsPagination
         },
         ADD_NEW_SITE_DEPLOYMENT: (state, deployment) => {
             state.events.unshift(deployment)
@@ -46,15 +46,19 @@ export default {
 
         // TODO - we need to add the type
         UPDATE_DEPLOYMENT_EVENT: (state, event) => {
-            const site_deployment = _.find(state.events, { id: event.site_deployment.id })
-            const server_deployment = _.find(site_deployment.server_deployments, { id: event.server_deployment.id })
+            const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
 
-            if (server_deployment) {
-                Vue.set(
-                    server_deployment.events,
-                    _.findKey(server_deployment.events, { id: event.deployment_event.id }),
-                    event.deployment_event
-                )
+            if (siteDeployment) {
+                const serverDeployment = _.find(siteDeployment.server_deployments, { id: event.server_deployment.id })
+                if (serverDeployment) {
+                    Vue.set(
+                        serverDeployment.events,
+                        _.findKey(serverDeployment.events, {
+                            id: event.deployment_event.id
+                        }),
+                        event.deployment_event
+                    )
+                }
             }
         },
         UPDATE_SITE_DEPLOYMENT_EVENT: (state, event) => {
@@ -62,18 +66,22 @@ export default {
             const siteDeployment = state.events[siteDeploymentKey]
 
             _.each(event.site_deployment, function (value, key) {
-                if (key != 'server_deployments') {
+                if (key !== 'server_deployments') {
                     siteDeployment[key] = value
                 }
             })
         },
         UPDATE_SERVER_DEPLOYMENT_EVENT: (state, event) => {
-            const site_deployment = _.find(state.events, { id: event.site_deployment.id })
-            const server_deployment = _.find(site_deployment.server_deployments, { id: event.server_deployment.id })
+            const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
 
-            _.each(event.server_deployment, function (value, key) {
-                server_deployment[key] = value
-            })
+            if (siteDeployment) {
+                const serverDeployment = _.find(siteDeployment.server_deployments, { id: event.server_deployment.id })
+                if (serverDeployment) {
+                    _.each(event.server_deployment, function (value, key) {
+                        serverDeployment[key] = value
+                    })
+                }
+            }
         },
         SET_VERSION: (state, version) => {
             state.version = version

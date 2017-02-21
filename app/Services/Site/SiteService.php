@@ -118,25 +118,6 @@ class SiteService implements SiteServiceContract
         $this->repositoryService->importSshKey($site);
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        $releaseFolder = $deploymentService->releaseTime;
-
-        if (empty($oldSiteDeployment)) {
-            $siteServerDeployment->siteDeployment->update(array_merge(
-                $this->repositoryService->getLatestCommit(
-                    $site->userRepositoryProvider,
-                    $site->repository,
-                    $site->branch
-                ), [
-                'folder_name' => $releaseFolder,
-                ])
-            );
-        } else {
-            $siteServerDeployment->siteDeployment->update([
-                'git_commit' => $oldSiteDeployment->git_commit,
-                'folder_name' => $releaseFolder,
-            ]);
-        }
-
         foreach ($siteServerDeployment->events as $event) {
             try {
                 if (empty($event->step)) {
@@ -163,6 +144,13 @@ class SiteService implements SiteServiceContract
                 throw new DeploymentFailed($e->getMessage());
             }
         }
+
+        $releaseFolder = $deploymentService->releaseTime;
+        $siteServerDeployment->siteDeployment->update([
+            'folder_name' => $releaseFolder,
+            'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
+            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log | sed -e '1,/Date/d'"))
+        ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }

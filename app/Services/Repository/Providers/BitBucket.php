@@ -92,38 +92,6 @@ class BitBucket implements RepositoryContract
     }
 
     /**
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $branch
-     * @return array
-     */
-    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
-    {
-        $this->setToken($userRepositoryProvider);
-
-        $commits = new Commits();
-
-        $commits->getClient()->addListener(
-            new OAuthListener($this->oauthParams)
-        );
-
-        $commits = $commits->all($this->getRepositoryUser($repository), $this->getRepositorySlug($repository), [
-            'branch' => $branch,
-        ]);
-
-        $lastCommit = collect(json_decode($commits->getContent())->values)->first();
-
-        if (! empty($lastCommit)) {
-            if (! empty($lastCommit)) {
-                return [
-                    'git_commit' => $lastCommit->hash,
-                    'commit_message' => $lastCommit->message,
-                ];
-            }
-        }
-    }
-
-    /**
      * @param Site $site
      * @return Site
      */
