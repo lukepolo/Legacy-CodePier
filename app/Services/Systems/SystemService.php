@@ -76,7 +76,7 @@ class SystemService implements SystemServiceContract
 
             return false;
         } catch (\Exception $e) {
-            if (config('app.env')) {
+            if (config('app.debug')) {
                 throw $e;
             }
 
@@ -93,13 +93,13 @@ class SystemService implements SystemServiceContract
     }
 
     /**
-     * @param $status
+     * @param $step
      */
-    private function updateProgress($status)
+    private function updateProgress($step)
     {
         event(new ServerProvisionStatusChanged(
                 $this->server,
-                $status,
+                $step,
                 $this->server->provisioningProgress()
             )
         );

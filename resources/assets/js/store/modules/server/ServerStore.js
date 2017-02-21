@@ -5,7 +5,7 @@ export default {
         all_servers: [],
         server_sites: [],
         running_commands: {},
-        trashed_servers : [],
+        trashed_servers: [],
         provisioned_servers: [],
         servers_listening_to: [],
         available_server_features: [],
@@ -56,7 +56,7 @@ export default {
             })
         },
         getTrashedServers: ({ commit }) => {
-            return Vue.http.get(Vue.action('Server\ServerController@index', { trashed : true })).then((response) => {
+            return Vue.http.get(Vue.action('Server\ServerController@index', { trashed: true })).then((response) => {
                 commit('SET_TRASHED_SERVERS', response.data)
             }, (errors) => {
                 app.handleApiError(errors)
@@ -102,7 +102,7 @@ export default {
                     })
             }
         },
-        createServer: ({ dispatch }, form) => {
+        createServer: ({ commit, dispatch }, form) => {
             return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 commit('ADD_SERVER', response.data)
                 dispatch('listenToServer', response.data)
@@ -223,15 +223,7 @@ export default {
             state.available_server_frameworks = availableServerFrameworks
         },
         SET_SERVERS_CURRENT_PROVISIONING_STEP: (state, [server, currentStep]) => {
-            const serversCurrentProvisioningSteps = {}
-
-            serversCurrentProvisioningSteps[server] = currentStep
-
-            _.each(state.servers_current_provisioning_step, function (currentStep, server) {
-                serversCurrentProvisioningSteps[server] = currentStep
-            })
-
-            state.servers_current_provisioning_step = serversCurrentProvisioningSteps
+            Vue.set(state.servers_current_provisioning_step, server, currentStep)
         },
         UPDATE_SERVER: (state, server) => {
             const foundServer = _.find(state.servers, function (tempServer) {
