@@ -16,7 +16,7 @@
                 <div class="drag">
                     <div class="col">
                         <h3>
-                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments" class="long">
+                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran during deployments" class="long">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
                             Inactive

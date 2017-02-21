@@ -7,6 +7,11 @@
     margin-top: $spacing/2;
     padding-top: $spacing;
 
+    .col {
+        display: flex;
+        flex-direction: column;
+    }
+
     .col:not(:last-child) {
         border-right: 1px solid $color-divider;
         padding-right: $spacing;
@@ -34,6 +39,7 @@
 }
 
 .dragArea {
+    flex: 1 1 auto;
     margin: $spacing 0px;
 }
 

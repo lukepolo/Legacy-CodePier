@@ -5805,6 +5805,14 @@ button[disabled=disabled] {
   padding-top: 20px;
 }
 
+.drag .col {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
 .drag .col:not(:last-child) {
   border-right: 1px solid #2B2B2B;
   padding-right: 20px;
@@ -5829,6 +5837,8 @@ button[disabled=disabled] {
 }
 
 .dragArea {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
   margin: 20px 0px;
 }
 
@@ -6152,6 +6162,10 @@ td {
 
 .jcf-form-wrap [class^="hint-"]:hover, .jcf-form-wrap [class*=" hint-"]:hover {
   color: #48ACF0;
+}
+
+.jcf-form-wrap .heading {
+  border-top: none;
 }
 
 [class*="hint--"]:after {
