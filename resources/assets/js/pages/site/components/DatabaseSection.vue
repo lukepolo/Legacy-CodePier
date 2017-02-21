@@ -24,15 +24,16 @@
                 <thead>
                     <tr>
                         <th>Schemas</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="schema in siteSchemas">
                         <td>{{ schema.name }}</td>
+                        <td><a href="#" @click="deleteSchema(schema.id)">delete</a> </td>
                     </tr>
                 </tbody>
             </table>
-
 
             <div class="jcf-form-wrap">
                 <form @submit.prevent="createUser(database)" class="floating-labels">
@@ -51,13 +52,11 @@
                         </label>
                     </div>
 
-
                     <div class="btn-footer">
                         <button class="btn btn-primary" type="submit">Create User</button>
                     </div>
 
                 </form>
-
 
                 <br>
                 <table class="table">
@@ -111,13 +110,17 @@
                     database : this.database,
                     name : this.schemaForm.name,
                     site : this.$route.params.site_id
+                }).then((schema) => {
+                    if(schema.id) {
+                        this.schemaForm.name = ''
+                    }
                 })
             },
-            updateSchema(database) {
-
-            },
             deleteSchema(database) {
-
+                this.$store.dispatch('deleteSiteSchema', {
+                    schema : database,
+                    site : this.$route.params.site_id
+                })
             }
         },
         computed : {
