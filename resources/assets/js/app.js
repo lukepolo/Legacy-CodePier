@@ -105,7 +105,7 @@ Vue.mixin({
                 title: !_.isEmpty(title) ? title : 'Error!!',
                 text: message,
                 class: 'error',
-                timeout: false
+                timeout: 5000
             })
         },
         showSuccess (message, title, timeout) {
@@ -113,7 +113,7 @@ Vue.mixin({
                 title: !_.isEmpty(title) ? title : 'Success!!',
                 text: message,
                 class: 'success',
-                timeout: false
+                timeout: 5000
             })
         },
         back () {

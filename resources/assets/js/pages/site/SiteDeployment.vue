@@ -42,7 +42,7 @@
                             <a class="pull-right" @click="selectAllDeployments">Select All</a>
                         </h3>
 
-                        <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
+                        <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
                             <div class="drag-element" v-for="(deploymentStep, key) in active">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
@@ -125,11 +125,6 @@
                     this.inactive = _.sortBy(this.inactive, 'order');
                 });
             },
-            sortActiveList: function(){
-                this.$nextTick(function(){
-                    this.active = _.sortBy(this.active, 'order');
-                });
-            },
             deselectAllDeployments() {
                 _.each(this.active, (step) => {
                     this.inactive.push(step);
@@ -145,8 +140,6 @@
                 });
 
                 this.inactive = [];
-
-                this.sortActiveList();
             },
             clearChanges() {
                 this.active = [];
