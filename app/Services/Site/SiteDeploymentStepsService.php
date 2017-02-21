@@ -127,8 +127,9 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
             }
         }
 
-        return collect(collect($deploymentSteps)->sortBy('order')->values())->map(function($deploymentStep, $index) {
+        return collect(collect($deploymentSteps)->sortBy('order')->values())->map(function ($deploymentStep, $index) {
             $deploymentStep['order'] = $index + 1;
+
             return $deploymentStep;
         });
     }
