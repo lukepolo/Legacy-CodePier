@@ -29,7 +29,7 @@
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
                 'app_registration' => config('app.registration'),
                 'version' => app()->make('gitCommit'),
-                'teams' => config('app.teams')
+                'teams' => config('app.teams'),
             ]); ?>
         </script>
     </head>
