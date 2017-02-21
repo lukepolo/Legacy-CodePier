@@ -11,8 +11,9 @@ export default {
             })
         },
         createSiteSchema: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Site\SiteSchemaController@store', { site: data.site }), data).then((response) => {
+            return Vue.http.post(Vue.action('Site\SiteSchemaController@store', { site: data.site }), data).then((response) => {
                 commit('ADD_SITE_SCHEMA', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
