@@ -14,12 +14,12 @@ class PHP
 {
     use Laravel;
 
+    public $release;
     public $releaseTime;
 
     private $site;
     private $branch;
     private $server;
-    private $release;
     private $siteFolder;
     private $repository;
     private $rollback = false;
