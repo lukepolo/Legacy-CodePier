@@ -140,10 +140,13 @@
 }
 
 #collapseEvents {
-  height: 30vh;
   overflow-y: scroll;
   transition: height .5s;
 
+  height: 30vh;
+  @include breakpoint(xl) {
+    height : 100%;
+  }
   &.events-hidden {
     height: 0px !important;
     transition: height .5s;
