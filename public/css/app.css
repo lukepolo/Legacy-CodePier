@@ -6116,10 +6116,16 @@ button[disabled=disabled] {
 }
 
 #collapseEvents {
-  height: 30vh;
   overflow-y: scroll;
   -webkit-transition: height .5s;
   transition: height .5s;
+  height: 30vh;
+}
+
+@media (min-width: 2100px) {
+  #collapseEvents {
+    height: 100%;
+  }
 }
 
 #collapseEvents.events-hidden {

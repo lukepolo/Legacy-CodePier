@@ -174,6 +174,10 @@
                         </template>
                     </template>
                 </section>
+
+                <div id="events-loading" class="hide" style="text-align: center;padding: 30px">
+                    <span class="icon-spinner"></span>
+                </div>
             </div>
         </div>
 
@@ -218,7 +222,7 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-            let container = $(el).find('.events-container');
+            let container = $('#collapseEvents');
 
             container.unbind('scroll');
 
@@ -231,7 +235,10 @@
                     container.bind('scroll', function() {
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
                             form.page = nextPage;
-                            app.$store.dispatch('getEvents', form);
+                            $('#events-loading').removeClass('hide')
+                            app.$store.dispatch('getEvents', form).then((data) => {
+                                $('#events-loading').addClass('hide')
+                            });
                         }
                     });
                 }

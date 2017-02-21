@@ -19,8 +19,9 @@ export default {
                 }, _.isEmpty)
             )
 
-            Vue.http.post(Vue.action('EventController@store'), filters).then((response) => {
+            return Vue.http.post(Vue.action('EventController@store'), filters).then((response) => {
                 commit('SET_EVENTS', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
