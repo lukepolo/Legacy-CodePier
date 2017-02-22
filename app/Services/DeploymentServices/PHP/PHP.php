@@ -134,7 +134,10 @@ class PHP
     public function cleanup()
     {
         if ($this->site->keep_releases > 0) {
-            return [$this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
+
+            $this->remoteTaskService->ssh($this->server, 'root');
+
+            return [$this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
         }
     }
 

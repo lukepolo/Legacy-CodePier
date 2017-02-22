@@ -104,6 +104,8 @@ class SiteService implements SiteServiceContract
         $this->remoteTaskService->removeDirectory('/home/codepier/'.$site->domain);
 
         $this->getWebServerService($server)->removeWebServerConfig($site);
+
+        $this->serverService->restartWebServices($server);
     }
 
     /**

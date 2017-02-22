@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Jobs\Site\DeleteSite;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Models\Server\Server;
@@ -40,6 +41,12 @@ class SiteServerController extends Controller
         foreach ($changes['attached'] as $attached) {
             $this->dispatch(
                 (new CreateSite(Server::findOrFail($attached), $site))->onQueue(config('queue.channels.server_commands'))
+            );
+        }
+
+        foreach($changes['detached'] as $detached) {
+            $this->dispatch(
+                (new DeleteSite(Server::findOrFail($detached), $site))->onQueue(config('queue.channels.server_commands'))
             );
         }
 
