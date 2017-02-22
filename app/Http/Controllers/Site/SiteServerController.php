@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Jobs\Site\DeleteSite;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
+use App\Jobs\Site\DeleteSite;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteServerRequest;
@@ -44,7 +44,7 @@ class SiteServerController extends Controller
             );
         }
 
-        foreach($changes['detached'] as $detached) {
+        foreach ($changes['detached'] as $detached) {
             $this->dispatch(
                 (new DeleteSite(Server::findOrFail($detached), $site))->onQueue(config('queue.channels.server_commands'))
             );
