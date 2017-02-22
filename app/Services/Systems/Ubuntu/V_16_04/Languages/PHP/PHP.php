@@ -192,6 +192,10 @@ class PHP
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php'.$this->getPhpVersion().'-fpm.sock;
