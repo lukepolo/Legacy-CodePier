@@ -34,6 +34,5 @@ class Laravel
 
     public function getNginxConfig()
     {
-
     }
 }
