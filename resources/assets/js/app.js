@@ -104,19 +104,29 @@ Vue.mixin({
             }
         },
         showError (message, title, timeout) {
+
+            if(timeout === null) {
+                timeout = 5000
+            }
+
             this.$store.dispatch('addNotification', {
                 title: !_.isEmpty(title) ? title : 'Error!!',
                 text: message,
                 class: 'error',
-                timeout: 5000
+                timeout: timeout
             })
         },
         showSuccess (message, title, timeout) {
+
+            if(timeout === null) {
+                timeout = 5000
+            }
+
             this.$store.dispatch('addNotification', {
                 title: !_.isEmpty(title) ? title : 'Success!!',
                 text: message,
                 class: 'success',
-                timeout: 5000
+                timeout: timeout
             })
         },
         back () {
