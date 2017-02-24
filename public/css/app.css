@@ -6140,6 +6140,15 @@ button[disabled=disabled] {
   transition: all 0s;
 }
 
+.event-site {
+  -webkit-box-flex: 0;
+  flex: 0 0 20%;
+}
+
+.event-site p {
+  margin: 0px;
+}
+
 table {
   width: 100%;
   max-width: 100%;
