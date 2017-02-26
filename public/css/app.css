@@ -6140,6 +6140,15 @@ button[disabled=disabled] {
   transition: all 0s;
 }
 
+.event-site {
+  -webkit-box-flex: 0;
+  flex: 0 0 20%;
+}
+
+.event-site p {
+  margin: 0px;
+}
+
 table {
   width: 100%;
   max-width: 100%;
@@ -6921,12 +6930,39 @@ a.item:hover:before {
   right: 10px;
   top: 100px;
   width: 350px;
-  z-index: 10;
-  background-color: #2B2B2B;
+  z-index: 40;
 }
 
-.notification p {
-  margin-right: 20px;
+.notification {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+  border-radius: 2px;
+  border: 1px solid #2B2B2B;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.notification.error {
+  background-color: #F4645F;
+}
+
+.notification.success {
+  background-color: #83B692;
+}
+
+.notification-close {
+  background-color: transparent;
+  font-size: 22px;
+  line-height: 14px;
+  float: right;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.notification-close:hover {
+  color: #FFFFFF;
+}
+
+.notification-close:focus {
+  outline: none;
 }
 
 .filter {
