@@ -133,7 +133,7 @@ class PHP
      */
     public function setupFolders()
     {
-        if($this->zerotimeDeployment) {
+        if ($this->zerotimeDeployment) {
             return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null))];
         }
     }
