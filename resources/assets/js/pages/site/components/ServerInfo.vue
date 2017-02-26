@@ -140,6 +140,7 @@
                 </tooltip>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
