@@ -25,7 +25,11 @@
             <ul class="nav left">
                 <li>
                     <div class="nav--logo-container">
-                        {{--<img src="assets/img/codepier.svg">--}}
+                        @if(url('/') != url()->current())
+                            <a href="{{ url('/') }}" style="width:100%">
+                                <img src="assets/img/codepier.svg">
+                            </a>
+                        @endif
                     </div>
                 </li>
             </ul>
@@ -48,7 +52,7 @@
                         {{--<li><a href="#">Getting Started</a></li>--}}
                         {{--<li><a href="#">Documentation</a></li>--}}
                         {{--<li><a href="#">FAQs</a></li>--}}
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="{{ action('PublicController@privacy') }}">Privacy Policy</a></li>
                         <li><a href="{{ action('PublicController@termsOfService') }}">Terms Of Service</a></li>
                     </ul>
                 </div>

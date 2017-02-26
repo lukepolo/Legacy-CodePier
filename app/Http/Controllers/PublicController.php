@@ -8,4 +8,9 @@ class PublicController extends Controller
     {
         return view('terms');
     }
+
+    public function privacy()
+    {
+        return view('privacy');
+    }
 }
