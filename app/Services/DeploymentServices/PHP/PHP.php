@@ -57,7 +57,7 @@ class PHP
 
         $this->release = $this->siteFolder;
 
-        if($this->zerotimeDeployment) {
+        if ($this->zerotimeDeployment) {
             $this->release = $this->release.'/'.$this->releaseTime;
         }
 
