@@ -119,21 +119,27 @@ class PHP
     /**
      * @description Setups the folders for web service.
      *
+     * @zerotime-deployment
+     *
      * @order 400
      */
     public function setupFolders()
     {
-        return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null))];
+        if($this->zerotimeDeployment) {
+            return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null))];
+        }
     }
 
     /**
      * @description Cleans up the old deploys.
      *
+     * @zerotime-deployment
+     *
      * @order 500
      */
     public function cleanup()
     {
-        if ($this->site->keep_releases > 0) {
+        if ($this->zerotimeDeployment && $this->site->keep_releases > 0) {
             $this->remoteTaskService->ssh($this->server, 'root');
 
             return [$this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
