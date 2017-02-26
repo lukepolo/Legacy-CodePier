@@ -5142,6 +5142,10 @@ body {
   color: #FFFFFF;
 }
 
+img {
+  max-width: 100%;
+}
+
 span {
   display: inline-block;
 }
@@ -5573,6 +5577,12 @@ span.btn {
 .btn-small {
   font-size: 14px;
   padding: 5px 10px;
+}
+
+.btn-large {
+  font-size: 18px;
+  padding: 10px 18px;
+  font-weight: 400;
 }
 
 .btn-disabled,

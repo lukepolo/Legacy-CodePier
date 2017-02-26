@@ -1,0 +1,66 @@
+// VARIABLES ===============================================
+// =========================================================
+
+
+// COLOR VARIABLES -----------------------------------------
+// ---------------------------------------------------------
+$white:                         #FFFFFF                         !default;
+$black:                         #2B2B2B                         !default;
+$gray:                          #3C3F41                         !default;
+$grayLight:                     #B6B6B6                         !default;
+
+$blue:                          #48ACF0                         !default;
+$red:                           #F4645F                         !default;
+$green:                         #83B692                         !default;
+$yellow:                        #FEC07A                         !default;
+
+
+// COLOR DECLARATIONS 
+$color-background:              $white                          !default;
+$color-primary:                 $blue                           !default;
+$color-accent:                  $red                            !default;
+$color-text-primary:            $black                          !default;
+$color-text-secondary:          $gray                           !default;
+$color-text-inverse:            $white                          !default;
+$color-text-accent:             $blue                           !default;
+$color-divider:                 $grayLight                      !default;
+
+
+
+// FONT VARIABLES ------------------------------------------
+// ---------------------------------------------------------
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i';
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono');
+
+$font-body:                     'Roboto', sans-serif            !default;
+$font-heading:                  'Open Sans', serif              !default; 
+$font-size:                     15px                            !default;
+$font-weight:                   300                             !default;
+
+
+
+// LAYOUT VARIABLES ----------------------------------------
+// ---------------------------------------------------------
+$spacing:                       20px                            !default;
+
+
+
+// FORM VARIABLES ------------------------------------------
+// ---------------------------------------------------------
+$jcf-color-background:          transparent;
+$jcf-color-primary-dark:        $color-text-primary;
+$jcf-color-primary:             $color-primary;
+$jcf-color-primary-light:       $color-accent;
+$jcf-color-accent:              $color-primary;
+$jcf-color-text-primary:        $color-text-primary;
+$jcf-color-text-secondary:      $color-text-secondary;
+$jcf-color-text-inverse:        $color-text-inverse;
+$jcf-color-divider:             $color-divider;
+
+$jcf-bodyFont:                  $font-body;
+$jcf-headingFont:               $font-heading;
+$jcf-font:                      $jcf-bodyFont;
+$jcf-font-size:                 $font-size;
+
+$jcf-form-width:                100%;
+$jcf-form-padding:              $spacing*2;
