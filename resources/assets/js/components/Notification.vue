@@ -1,11 +1,11 @@
 <template>
     <transition name="fade">
         <div class="notification" :class="notification.class">
-            <button @click="close(notification)" class="close-button" type="button">
+            <button @click="close(notification)" class="notification-close" type="button">
                 <span>&times;</span>
             </button>
-            <h5 v-if="notification.title">{{notification.title}}</h5>
-            <p v-html="notification.text"></p>
+            <h4 class="notification-heading" v-if="notification.title">{{notification.title}}</h4>
+            <div class="notification-text" v-html="notification.text"></div>
         </div>
     </transition>
 </template>
