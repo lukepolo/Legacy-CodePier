@@ -118,6 +118,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
 
                         $deploymentSteps[] = [
                             'order' => (int) $order,
+                            'zerotime_deployment' => $this->getFirstDocParam($method, 'zerotime-deployment') ? true : false,
                             'description' => $description,
                             'internal_deployment_function' => $method->name,
                             'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),

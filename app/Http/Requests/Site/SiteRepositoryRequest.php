@@ -26,10 +26,10 @@ class SiteRepositoryRequest extends FormRequest
         return [
             'type' => 'required|string',
             'branch' => 'required|string',
-            'wildcard_domain' => 'integer',
+            'wildcard_domain' => 'nullable|boolean',
             'framework' => 'nullable|string',
             'repository'=> 'required|string',
-            'zerotime_deployment' => 'integer',
+            'zerotime_deployment' => 'nullable|boolean',
             'web_directory' => 'nullable|string',
             'user_repository_provider_id' => 'required|integer',
             'keep_releases' => 'required_if:zerotime_deployment,true',
