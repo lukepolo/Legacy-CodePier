@@ -46,7 +46,7 @@ class PHP
         ],
         'DatabaseService' => [
             'Redis',
-            'MariaDB',
+            'MySQL',
         ],
         'Languages\PHP\PHP' => [
             'PHP',

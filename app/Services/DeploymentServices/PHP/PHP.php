@@ -55,7 +55,11 @@ class PHP
             }
         }
 
-        $this->release = $this->siteFolder.'/'.$this->releaseTime;
+        $this->release = $this->siteFolder;
+
+        if($this->zerotimeDeployment) {
+            $this->release = $this->release.'/'.$this->releaseTime;
+        }
 
         $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
     }
