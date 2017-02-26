@@ -14,8 +14,8 @@ trait Laravel
     public function laravelCreateSymbolicEnv()
     {
         $output = [];
-        if($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('ln -sfn ' . $this->siteFolder . '/.env ' . $this->release . '/.env');
+        if ($this->zerotimeDeployment) {
+            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
 
         return $output;
@@ -32,7 +32,7 @@ trait Laravel
     {
         $output = [];
 
-        if($this->zerotimeDeployment) {
+        if ($this->zerotimeDeployment) {
             $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/storage ]) || (mv '.$this->release.'/storage '.$this->siteFolder.')');
             $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
             $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
