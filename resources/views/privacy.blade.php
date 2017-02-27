@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('content')
-    <section id="comparison" class="section">
+    <section class="section">
         <div class="section--content">
             <h1>Privacy Policy</h1>
 
