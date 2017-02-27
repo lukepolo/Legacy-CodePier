@@ -71,7 +71,7 @@
                     <ul class="footer--links-list">
                         <li><a target="_blank" href="https://support.codepier.io">Get Help</a></li>
                         <li><a target="_blank" href="https://github.com/CodePier/CodePier-Issues/issues">Report a Bug</a></li>
-                        <li><a href="mailto:codepier.io">Contact Us</a></li>
+                        <li><a href="mailto:support@codepier.io">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer--img">
