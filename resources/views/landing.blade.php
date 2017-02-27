@@ -9,19 +9,27 @@
             <h1>You Build it. We Deploy it.</h1>
             <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
 
+            @if(!(\Illuminate\Support\Facades\Session::get('registered_for_beta') || \Illuminate\Support\Facades\Cookie::get('registered_for_beta')))
+                <form method="POST" action="{{ action('PublicController@subscribe') }}">
+                    {{ csrf_field() }}
+                    <div class="jcf-form-wrap">
+                        <div class="jcf-input-group">
+                            <input type="email" id="email" name="email" required value="{{ old('email') }}">
+                            <label for="email"><span class="float-label">Enter your email to join our beta</span></label>
+                        </div>
+                        @if($errors->count())
+                            <span class="error">{{ $errors->first() }}</span>
+                        @endif
+                    </div>
 
-            <div class="jcf-form-wrap">
-                <form>
-                    <div class="jcf-input-group">
-                        <input type="email" id="email" name="email" required="">
-                        <label for="email"><span class="float-label">Enter your email to join our beta</span></label>
+                    <div class="btn-container">
+                        <button class="btn btn-primary btn-large">Join our Beta</button>
                     </div>
                 </form>
-            </div>
 
-            <div class="btn-container">
-                <a href="#" class="btn btn-primary btn-large">Join our Beta</a>
-            </div>
+            @else
+                <h3>Thanks for registering for the beta! We will email when your invite is ready!</h3>
+            @endif
         </div>
     </section>
     <section id="section-video" class="section">
