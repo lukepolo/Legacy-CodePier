@@ -1,12 +1,6 @@
 {
-<<<<<<< HEAD
-  "css/app.css": "css/app-32bec76c0d.css",
+  "css/app.css": "css/app-172ad527bc.css",
+  "css/site.css": "css/site-db55097a7a.css",
   "js/all.js": "js/all-918712083e.js",
-  "js/app.js": "js/app-01e60dd17e.js"
-=======
-  "css/app.css": "css/app-bc56149d4b.css",
-  "css/site.css": "css/site-1b5b63db8d.css",
-  "js/all.js": "js/all-6c9de8995c.js",
-  "js/app.js": "js/app-5440ea2b06.js"
->>>>>>> c8d85791fc3548b5a244068fd40879883b857e35
+  "js/app.js": "js/app-a8a96bb4a1.js"
 }

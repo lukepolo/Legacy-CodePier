@@ -14,13 +14,12 @@ class Controller extends BaseController
 
     public function app()
     {
-        if(\Auth::check()) {
+        if (\Auth::check()) {
             return view('codepier', [
                 'user' => \Auth::user(),
             ]);
         }
 
         return view('landing');
-
     }
 }
