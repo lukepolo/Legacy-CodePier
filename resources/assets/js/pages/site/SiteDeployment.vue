@@ -24,7 +24,7 @@
                         </h3>
 
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
-                            <div class="drag-element" v-for="(deploymentStep, key) in inactive">
+                            <div class="drag-element" v-for="(deploymentStep, key) in inactive"  v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         v-on:updateStep="updateStep('inactive')"
@@ -43,7 +43,7 @@
                         </h3>
 
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
-                            <div class="drag-element" v-for="(deploymentStep, key) in active">
+                            <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         :key="deploymentStep"
@@ -92,8 +92,8 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then((possibleDeploymentSteps) => {
-                    this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then((currentDeploymentSteps) => {
+                this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then(() => {
+                    this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
                         this.clearChanges()
                     });
                 });
@@ -179,6 +179,9 @@
             },
             currentSiteDeploymentSteps() {
                 return this.$store.state.sitesStore.site_deployment_steps;
+            },
+            showZeroTimeDeploymentOptions() {
+                return this.site.zerotime_deployment
             }
         }
     }

@@ -151,7 +151,7 @@ class SiteService implements SiteServiceContract
         $siteServerDeployment->siteDeployment->update([
             'folder_name' => $releaseFolder,
             'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
-            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log | sed -e '1,/Date/d'")),
+            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
         ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
