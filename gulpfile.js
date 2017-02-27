@@ -60,6 +60,7 @@ elixir((mix) => {
         .copy(paths.fontawesome + 'fonts', paths.fonts_build)
         .copy(paths.jcf_forms + 'dist/img/icons', paths.imgs_build + 'icons')
         .sass('app.scss')
+        .sass('site.scss')
         .scripts([
             paths.jquery + 'jquery.min.js',
             paths.bootstrap + 'js/bootstrap.js',
@@ -76,6 +77,7 @@ elixir((mix) => {
         ])
         .version([
             paths.css_public + 'app.css',
+            paths.css_public + 'site.css',
             paths.js_public + 'all.js',
             paths.js_public + 'app.js'
         ])

@@ -1,10 +1,212 @@
-@extends('layouts.app')
+@extends('layouts.public')
 
 @section('content')
-<div id="main">
-    <div class="img-wrap">
-        <a href="/login" class="btn btn-primary">Login</a>
-        <img src="/assets/img/kodi_w.svg" alt="CodePier" style="display: block;">
-    </div>
-</div>
+    <section id="cover-main" class="cover">
+        <div class="cover--content">
+            <div class="cover--logo-container">
+                <img src="assets/img/codepier.svg">
+            </div>
+            <h1>You Build it. We Deploy it.</h1>
+            <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
+
+
+            <div class="jcf-form-wrap">
+                <form>
+                    <div class="jcf-input-group">
+                        <input type="email" id="email" name="email" required="">
+                        <label for="email"><span class="float-label">Enter your email to join our beta</span></label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-container">
+                <a href="#" class="btn btn-primary btn-large">Join our Beta</a>
+            </div>
+        </div>
+    </section>
+    <section id="section-video" class="section">
+        <div class="section--content">
+            <div class="video">
+                <iframe src="https://player.vimeo.com/video/205614363" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+    <section id="comparison" class="section">
+        <div class="section--content">
+            <table class="table table--comparison">
+                <tr>
+                    <th class="row1"></th>
+                    <th class="row2"><img src="/assets/img/codepier.svg" style="max-width: 130px;"></th>
+                    <th class="row3">Forge</th>
+                    <th class="row4">Heroku</th>
+                    <th class="row5">Engine Yard</th>
+                </tr>
+                <tr>
+                    <td>Languages</td>
+                    <td>Ruby, Java, PHP, Python, Node.js</td>
+                    <td>PHP</td>
+                    <td>Ruby, Java, PHP, Python, Node.js, Scala, Clojure</td>
+                    <td>Ruby, JRuby, PHP, Node.js</td>
+                </tr>
+                <tr>
+                    <td>Multiple Frameworks Support</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Automated Provisioning</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Custom Server Features</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"> * Installable plugins</td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Docker Support</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Databases</td>
+                    <td>MariaDB, Mysql, MongodB, PostgreSQL, SqlLite</td>
+                    <td>MariaDB, Mysql</td>
+                    <td>PostgreSQL</td>
+                    <td>Mysql, PostgreSQL</td>
+                </tr>
+                <tr>
+                    <td>Horizontal Scaling</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Vertical Scaling</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Easy Custom Deployments</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Zerotime Deployments out of box</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Deploy Rollbacks</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Cron Jobs</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"> * Cost Extra / Not Real Cron Jobs</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Firewall Rules</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Workers</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg">* Cost Extra</td>
+                    <td><img src="/assets/img/no.svg">* Cost Extra</td>
+                </tr>
+                <tr>
+                    <td>Free SSL Certificates</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>SSH Management</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Custom Runnable Scripts</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Allow Integration for Continuous Delivery</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>1 Click Application Installs</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Basic Server Monitoring</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                </tr>
+                <tr>
+                    <td>Platform independence</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg">* AWS Only</td>
+                    <td><img src="/assets/img/yes.svg">* AWS Only</td>
+                </tr>
+                <tr>
+                    <td>Team Management</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+                <tr>
+                    <td>Easy Cost Calculation</td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/yes.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                    <td><img src="/assets/img/no.svg"></td>
+                </tr>
+            </table>
+            <div class="text-right">
+                <p><em>* this is not a comprehensive list of features</em></p>
+                <p><em>** CodePier Beta will be missing some features until launch</em></p>
+            </div>
+        </div>
+    </section>
 @endsection
