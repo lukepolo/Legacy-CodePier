@@ -15,7 +15,7 @@ class CreateBetaEmailsTable extends Migration
     {
         Schema::create('beta_emails', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

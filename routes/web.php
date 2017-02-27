@@ -70,6 +70,7 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 
 Route::get('/', 'Controller@app');
 Route::get('/privacy', 'PublicController@privacy');
+Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
 
 Route::group(['middleware' => 'auth'], function () {
