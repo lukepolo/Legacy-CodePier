@@ -5445,9 +5445,20 @@ header {
   justify-content: space-between;
 }
 
-#main {
+#content {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  overflow: auto;
+}
+
+#main {
+  -webkit-box-flex: 1;
+  flex: 1 0 auto;
   overflow: auto;
 }
 
@@ -5455,6 +5466,8 @@ header {
   display: -webkit-box;
   display: flex;
   list-style: none;
+  -webkit-box-align: center;
+  align-items: center;
   margin: 0px;
   padding: 0px;
 }
@@ -5466,6 +5479,8 @@ header {
 
 .nav--logo-container {
   width: 250px;
+  margin-left: 10px;
+  padding: 0px 20px;
 }
 
 .nav--link {
@@ -5594,6 +5609,8 @@ header {
 }
 
 .footer {
+  -webkit-box-flex: 0;
+  flex: 0 0 auto;
   display: -webkit-box;
   display: flex;
   border-top: 1px solid #B6B6B6;

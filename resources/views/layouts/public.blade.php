@@ -42,8 +42,10 @@
             </ul>
         </header>
 
-        <div id="main">
-            @yield('content')
+        <div id="content">
+            <div id="main">
+                @yield('content')
+            </div>
 
             <footer class="footer">
                 <div class="footer--links">

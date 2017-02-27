@@ -33,14 +33,22 @@ header {
   justify-content: space-between;
 }
 
-#main {
+#content {
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+#main {
+  flex: 1 0 auto;
   overflow: auto;
 }
 
 .nav {
   display: flex;
   list-style: none;
+  align-items: center;
   margin: 0px;
   padding: 0px;
 
@@ -50,6 +58,8 @@ header {
 
   &--logo-container {
     width: 250px;
+    margin-left: $spacing/2;
+    padding: 0px $spacing;
   }
 
   &--link {
@@ -187,6 +197,7 @@ header {
 
 
 .footer {
+  flex: 0 0 auto;
   display: flex;
   border-top: 1px solid $color-divider;
   padding: $spacing*4;
