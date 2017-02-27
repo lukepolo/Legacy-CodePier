@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BetaEmail;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,10 +34,11 @@ class PublicController extends Controller
 
         try {
             BetaEmail::create([
-                'email' => $request->get('email')
+                'email' => $request->get('email'),
             ]);
-        } catch(QueryException $e) {
+        } catch (QueryException $e) {
             Session::put('registered_for_beta', true);
+
             return back()
                 ->cookie('registered_for_beta', true);
         }
