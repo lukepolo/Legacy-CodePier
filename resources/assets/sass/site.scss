@@ -183,7 +183,7 @@ header {
   @include breakpoint(sm) {
     background-size: cover;
     background-position: center center;
-    
+
     &--content {
       width: 100%;
     }
@@ -206,6 +206,10 @@ header {
   &--content {
     max-width: 800px;
     margin: 0px auto;
+  }
+
+  @include breakpoint(sm) {
+    padding: $spacing;
   }
 }
 
@@ -277,6 +281,7 @@ header {
   &--links {
     flex: 0 1 300px;
     padding: 0px $spacing/2;
+    transition: all .3s;
 
     &-heading {
       font-weight: 700;
@@ -308,6 +313,31 @@ header {
     right: $spacing;
     bottom: $spacing;
     width: 920px;
+    max-width: 70%;
+  }
+
+  @include breakpoint(md) {
+    &--links {
+      flex-basis: 200px;
+      transition: all .3s;
+
+    }
+  }
+
+  @include breakpoint(sm) {
+    padding: 40px 40px 150px;
+
+    &--links {
+      flex: 1 1 1em;
+      flex-basis: 200px;
+      transition: all .3s;
+    }
+  }
+
+  @include breakpoint(xs) {
+    &--img {
+      max-width: 100%;
+    }
   }
 }
 
