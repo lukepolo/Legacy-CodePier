@@ -5729,6 +5729,8 @@ header {
 }
 
 .table--comparison td img {
+  display: block;
+  margin: 0px auto;
   max-width: 30px;
 }
 

@@ -80,7 +80,7 @@
                         <td>Custom Server Features</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/no.svg"></td>
-                        <td><img src="/assets/img/no.svg"> * Installable plugins</td>
+                        <td><img src="/assets/img/kinda.svg">Installable plugins</td>
                         <td><img src="/assets/img/no.svg"></td>
                     </tr>
                     <tr>
@@ -136,7 +136,7 @@
                         <td>Cron Jobs</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg"> * Cost Extra</td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
                         <td><img src="/assets/img/yes.svg"></td>
                     </tr>
                     <tr>
@@ -150,8 +150,8 @@
                         <td>Workers</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg">* Cost Extra</td>
-                        <td><img src="/assets/img/no.svg">* Cost Extra</td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
                     </tr>
                     <tr>
                         <td>Free SSL Certificates</td>
@@ -199,8 +199,8 @@
                         <td>Platform independence</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg">* AWS Only</td>
-                        <td><img src="/assets/img/yes.svg">* AWS Only</td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg">AWS Only</td>
                     </tr>
                     <tr>
                         <td>Team Management</td>
