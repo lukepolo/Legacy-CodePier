@@ -5656,6 +5656,55 @@ header {
   height: 100%;
 }
 
+.table--responsive {
+  display: -webkit-box;
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 414px) {
+  .table--responsive {
+    box-shadow: 0px 0px 5px #B6B6B6;
+  }
+}
+
+.table--responsive table {
+  display: -webkit-box;
+  display: flex;
+}
+
+.table--responsive tbody {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
+.table--responsive tr {
+  display: -webkit-box;
+  display: flex;
+  position: relative;
+}
+
+.table--responsive td, .table--responsive th {
+  -webkit-box-flex: 1;
+  flex: 1 0 120px;
+}
+
+.table--responsive td:first-child,
+.table--responsive th:first-child {
+  flex-basis: 200px;
+}
+
+@media (max-width: 414px) {
+  .table--responsive td:first-child,
+  .table--responsive th:first-child {
+    flex-basis: 120px;
+  }
+}
+
 .table--comparison {
   table-layout: fixed;
 }
@@ -5665,12 +5714,14 @@ header {
 }
 
 .table--comparison td {
-  border: 1px solid #B6B6B6;
+  border-right: 1px solid #B6B6B6;
+  border-bottom: 1px solid #B6B6B6;
   padding: 10px;
 }
 
 .table--comparison td:first-child {
   font-weight: 400;
+  border-left: 1px solid #B6B6B6;
 }
 
 .table--comparison td:not(:first-child) {
