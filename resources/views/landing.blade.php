@@ -46,176 +46,179 @@
     </section>
     <section id="comparison" class="section">
         <div class="section--content">
-            <table class="table table--comparison">
-                <tr>
-                    <th class="row1"></th>
-                    <th class="row2"><img src="/assets/img/codepier.svg" style="max-width: 130px;"></th>
-                    <th class="row3">Forge</th>
-                    <th class="row4">Heroku</th>
-                    <th class="row5">Engine Yard</th>
-                </tr>
-                <tr>
-                    <td>Languages</td>
-                    <td>Ruby, Java, PHP, Python, Node.js</td>
-                    <td>PHP</td>
-                    <td>Ruby, Java, PHP, Python, Node.js, Scala, Clojure</td>
-                    <td>Ruby, JRuby, PHP, Node.js</td>
-                </tr>
-                <tr>
-                    <td>Multiple Frameworks Support</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Automated Provisioning</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Custom Server Features</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"> * Installable plugins</td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Docker Support</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Databases</td>
-                    <td>MariaDB, Mysql, MongodB, PostgreSQL, SqlLite</td>
-                    <td>MariaDB, Mysql</td>
-                    <td>PostgreSQL</td>
-                    <td>Mysql, PostgreSQL</td>
-                </tr>
-                <tr>
-                    <td>Horizontal Scaling</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Vertical Scaling</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Easy Custom Deployments</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Zerotime Deployments out of box</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Deploy Rollbacks</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Cron Jobs</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"> * Cost Extra</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Firewall Rules</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Workers</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg">* Cost Extra</td>
-                    <td><img src="/assets/img/no.svg">* Cost Extra</td>
-                </tr>
-                <tr>
-                    <td>Free SSL Certificates</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>SSH Management</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Custom Runnable Scripts</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Allow Integration for Continuous Delivery</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>1 Click Application Installs</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Basic Server Monitoring</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                </tr>
-                <tr>
-                    <td>Platform independence</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg">* AWS Only</td>
-                    <td><img src="/assets/img/yes.svg">* AWS Only</td>
-                </tr>
-                <tr>
-                    <td>Team Management</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-                <tr>
-                    <td>Easy Cost Calculation</td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                    <td><img src="/assets/img/no.svg"></td>
-                </tr>
-            </table>
+            <div class="table--responsive">
+                <table class="table table--comparison">
+                    <tr>
+                        <th class="row1"></th>
+                        <th class="row2"><img src="/assets/img/codepier.svg" style="max-width: 130px;"></th>
+                        <th class="row3">Forge</th>
+                        <th class="row4">Heroku</th>
+                        <th class="row5">Engine Yard</th>
+                    </tr>
+                    <tr>
+                        <td>Languages</td>
+                        <td>Ruby, Java, PHP, Python, Node.js</td>
+                        <td>PHP</td>
+                        <td>Ruby, Java, PHP, Python, Node.js, Scala, Clojure</td>
+                        <td>Ruby, JRuby, PHP, Node.js</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple Frameworks Support</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Automated Provisioning</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Server Features</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"> * Installable plugins</td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Docker Support</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Databases</td>
+                        <td>MariaDB, Mysql, MongodB, PostgreSQL, SqlLite</td>
+                        <td>MariaDB, Mysql</td>
+                        <td>PostgreSQL</td>
+                        <td>Mysql, PostgreSQL</td>
+                    </tr>
+                    <tr>
+                        <td>Horizontal Scaling</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Vertical Scaling</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Easy Custom Deployments</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Zerotime Deployments out of box</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Deploy Rollbacks</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Cron Jobs</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"> * Cost Extra</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Firewall Rules</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Workers</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg">* Cost Extra</td>
+                        <td><img src="/assets/img/no.svg">* Cost Extra</td>
+                    </tr>
+                    <tr>
+                        <td>Free SSL Certificates</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>SSH Management</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Runnable Scripts</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Allow Integration for Continuous Delivery</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>1 Click Application Installs</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Basic Server Monitoring</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Platform independence</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg">* AWS Only</td>
+                        <td><img src="/assets/img/yes.svg">* AWS Only</td>
+                    </tr>
+                    <tr>
+                        <td>Team Management</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                    <tr>
+                        <td>Easy Cost Calculation</td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/no.svg"></td>
+                    </tr>
+                </table>
+            </div>
+
             <div class="text-right">
                 <p><em>* this is not a comprehensive list of features</em></p>
             </div>
