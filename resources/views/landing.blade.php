@@ -28,14 +28,19 @@
                 </form>
 
             @else
-                <h3>Thanks for registering for the beta! We will email when your invite is ready!</h3>
+                <hr>
+                <h3>Thanks for registering for the beta! We will email you when your invite is ready!</h3>
             @endif
         </div>
     </section>
     <section id="section-video" class="section">
         <div class="section--content">
             <div class="video">
-                <iframe src="https://player.vimeo.com/video/205614363" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                <div class="video--item">
+                    <div class="video--item-embed">
+                        <iframe src='https://player.vimeo.com/video/205614363' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -130,7 +135,7 @@
                     <td>Cron Jobs</td>
                     <td><img src="/assets/img/yes.svg"></td>
                     <td><img src="/assets/img/yes.svg"></td>
-                    <td><img src="/assets/img/no.svg"> * Cost Extra / Not Real Cron Jobs</td>
+                    <td><img src="/assets/img/no.svg"> * Cost Extra</td>
                     <td><img src="/assets/img/yes.svg"></td>
                 </tr>
                 <tr>
@@ -213,7 +218,6 @@
             </table>
             <div class="text-right">
                 <p><em>* this is not a comprehensive list of features</em></p>
-                <p><em>** CodePier Beta will be missing some features until launch</em></p>
             </div>
         </div>
     </section>
