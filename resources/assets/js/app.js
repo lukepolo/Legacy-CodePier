@@ -26,7 +26,7 @@ Vue.directive('file-editor', {
 })
 
 Vue.directive('cronjob', {
-    bind: function (el) {
+    inserted: function (el) {
         $(el).cron({
             onChange () {
                 const cronTiming = $(this).cron('value')
@@ -39,6 +39,9 @@ Vue.directive('cronjob', {
 
 Vue.mixin({
     methods: {
+        teamsEnabled () {
+            return Laravel.teams
+        },
         now () {
             return moment()
         },
@@ -101,19 +104,27 @@ Vue.mixin({
             }
         },
         showError (message, title, timeout) {
+            if (!timeout) {
+                timeout = 5000
+            }
+
             this.$store.dispatch('addNotification', {
                 title: !_.isEmpty(title) ? title : 'Error!!',
                 text: message,
                 class: 'error',
-                timeout: false
+                timeout: timeout
             })
         },
         showSuccess (message, title, timeout) {
+            if (!timeout) {
+                timeout = 5000
+            }
+
             this.$store.dispatch('addNotification', {
                 title: !_.isEmpty(title) ? title : 'Success!!',
                 text: message,
                 class: 'success',
-                timeout: false
+                timeout: timeout
             })
         },
         back () {
@@ -242,6 +253,7 @@ const router = new VueRouter({
         },
 
     { path: '/servers', name: 'servers', component: serverPages.Servers },
+    { path: '/servers/archived', name: 'archived_servers', component: serverPages.Servers },
     { path: '/my/teams', name: 'teams', component: teamPages.Teams },
     { path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers },
 

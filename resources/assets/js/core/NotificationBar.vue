@@ -1,25 +1,15 @@
-<style>
-    #drag {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        height: 10px;
-        width: 100%;
-        cursor: ns-resize;
-    }
-</style>
 <template>
     <footer v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
         <div id="drag"></div>
         <div class="header">
             <h4>
-                <a class="toggle collapsed" data-toggle="collapse" href="#collapseEvents">
+                <a class="toggle" @click="showEvents = !showEvents">
                     <span class="icon-warning"></span> Events
                 </a>
             </h4>
         </div>
 
-        <div class="collapse" id="collapseEvents">
+        <div :class="{ 'events-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
             <ul class="filter">
                 <li>
                     <span>Event Filters</span>
@@ -184,6 +174,10 @@
                         </template>
                     </template>
                 </section>
+
+                <div id="events-loading" class="hide" style="text-align: center;padding: 30px">
+                    <span class="icon-spinner"></span>
+                </div>
             </div>
         </div>
 
@@ -200,32 +194,26 @@
 
             let isResizing = false,
                 lastOffset = null,
-                container = $('#app-layout'),
-                top = $('#main'),
-                bottom = $(el),
+                container = $('footer'),
+                bottom = $('#collapseEvents'),
                 handle = $('#drag');
 
             handle.on('mousedown', function (e) {
                 isResizing = true;
-            });
-
-            $('#collapseEvents').on('hide.bs.collapse', function (el) {
-                if($(el.target).attr('id') == 'collapseEvents') {
-                    bottom.css('height', 'auto');
-                }
+                bottom.addClass('dragging')
             });
 
             $(document).on('mousemove', function (e) {
-                if (!isResizing || !$('#collapseEvents').hasClass('in')) {
+                if (!isResizing) {
                     return;
                 }
 
                 lastOffset = container.height() - (e.clientY - container.offset().top);
 
-                top.css('height', lastOffset);
-                bottom.css('height', lastOffset);
+                bottom.css('height', lastOffset - 40);
             }).on('mouseup', function (e) {
                 isResizing = false;
+                bottom.removeClass('dragging')
             });
 
         }
@@ -234,7 +222,7 @@
     Vue.directive('watch-scroll', {
         update: function (el, bindings) {
 
-            let container = $(el).find('.events-container');
+            let container = $('#collapseEvents');
 
             container.unbind('scroll');
 
@@ -247,7 +235,10 @@
                     container.bind('scroll', function() {
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
                             form.page = nextPage;
-                            app.$store.dispatch('getEvents', form);
+                            $('#events-loading').removeClass('hide')
+                            app.$store.dispatch('getEvents', form).then((data) => {
+                                $('#events-loading').addClass('hide')
+                            });
                         }
                     });
                 }
@@ -262,6 +253,8 @@
         },
         data() {
             return {
+                windowWidth : 0,
+                showEvents : false,
                 defaultNotificationTypes : Laravel.defaultNotificationTypes,
                 form : {
                     page : 1,
@@ -288,6 +281,13 @@
         },
         created() {
             this.fetchData();
+        },
+        mounted() {
+            this.$nextTick(function() {
+                window.addEventListener('resize', this.getWindowWidth);
+                this.getWindowWidth()
+            })
+
         },
         methods: {
             fetchData() {
@@ -318,7 +318,10 @@
                 let filters = _.cloneDeep(this.prev_filters[type]);
 
                 Vue.set(this.form.filters, type, filters);
-            }
+            },
+            getWindowWidth() {
+                this.windowWidth = document.documentElement.clientWidth;
+            },
         },
         computed: {
             pilesList() {
@@ -389,7 +392,7 @@
             },
             events_pagination() {
                 return this.$store.state.eventsStore.events_pagination;
-            },
+            }
         },
     }
 

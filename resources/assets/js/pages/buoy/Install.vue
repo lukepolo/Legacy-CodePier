@@ -50,6 +50,7 @@
                 </div>
 
             </form>
+        </div>
     </section>
 </template>
 

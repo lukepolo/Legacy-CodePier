@@ -18,7 +18,7 @@
                             <div class="jcf-form-wrap">
                                 <div class="jcf-input-group">
                                     <div class="input-question">
-                                        Public SSH Deploy Key:
+                                        Public SSH Key <confirm confirm_class="fa fa-refresh" dispatch="refreshSshKeys" :params="site.id"></confirm>
                                     </div>
                                     <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
                                     <div class="text-right">
@@ -41,9 +41,9 @@
                             <div class="jcf-form-wrap">
                                 <div class="jcf-input-group">
                                     <div class="input-question">
-                                        Deploy Hook URL :
+                                        Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
                                     </div>
-                                    <input type="text" readonly :value="deployHook"></input>
+                                    <textarea  rows="3" readonly :value="deployHook"></textarea>
                                     <div class="text-right">
                                         <clipboard :data="deployHook"></clipboard>
                                     </div>

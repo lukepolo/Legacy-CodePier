@@ -92,8 +92,10 @@
             },
             createFirewallRule() {
                 this.form.site = this.$route.params.site_id
-                this.$store.dispatch('createSiteFirewallRule', this.form).then(() => {
+                this.$store.dispatch('createSiteFirewallRule', this.form).then((firewallRule) => {
+                    if (firewallRule.id) {
                     this.form = this.$options.data().form
+                    }
                 })
 
             },

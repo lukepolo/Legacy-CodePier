@@ -16,7 +16,7 @@
                 <div class="drag">
                     <div class="col">
                         <h3>
-                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran durring deployments" class="long">
+                            <tooltip message="We keep steps so you can always put them back into the list. These steps will not be ran during deployments" class="long">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
                             Inactive
@@ -24,7 +24,7 @@
                         </h3>
 
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
-                            <div class="drag-element" v-for="(deploymentStep, key) in inactive">
+                            <div class="drag-element" v-for="(deploymentStep, key) in inactive"  v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         v-on:updateStep="updateStep('inactive')"
@@ -42,8 +42,8 @@
                             <a class="pull-right" @click="selectAllDeployments">Select All</a>
                         </h3>
 
-                        <draggable :list="active" class="dragArea" :options="{group:'tasks'}" @add="sortActiveList">
-                            <div class="drag-element" v-for="(deploymentStep, key) in active">
+                        <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
+                            <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
                                         :key="deploymentStep"
@@ -92,8 +92,8 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then((possibleDeploymentSteps) => {
-                    this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then((currentDeploymentSteps) => {
+                this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then(() => {
+                    this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
                         this.clearChanges()
                     });
                 });
@@ -125,11 +125,6 @@
                     this.inactive = _.sortBy(this.inactive, 'order');
                 });
             },
-            sortActiveList: function(){
-                this.$nextTick(function(){
-                    this.active = _.sortBy(this.active, 'order');
-                });
-            },
             deselectAllDeployments() {
                 _.each(this.active, (step) => {
                     this.inactive.push(step);
@@ -145,8 +140,6 @@
                 });
 
                 this.inactive = [];
-
-                this.sortActiveList();
             },
             clearChanges() {
                 this.active = [];
@@ -186,6 +179,9 @@
             },
             currentSiteDeploymentSteps() {
                 return this.$store.state.sitesStore.site_deployment_steps;
+            },
+            showZeroTimeDeploymentOptions() {
+                return this.site.zerotime_deployment
             }
         }
     }

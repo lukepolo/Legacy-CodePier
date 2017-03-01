@@ -57,7 +57,7 @@ class CreateBuoysTable extends Migration
     public function down()
     {
         Schema::dropIfExists('buoys');
-        Schema::dropIfExists('buoyable');
+        Schema::dropIfExists('buoyables');
         Schema::dropIfExists('buoy_apps');
     }
 }

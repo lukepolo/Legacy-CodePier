@@ -42,7 +42,8 @@ class EventController extends Controller
             SiteDeployment::class,
         ],
     ];
-    const PER_PAGE = 10;
+
+    const PER_PAGE = 20;
 
     /**
      * Display a listing of the resource.

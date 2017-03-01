@@ -51,7 +51,7 @@ class Site extends Model
 
     protected $appends = [
         'path',
-        'hash',
+        'last_deployment_status',
     ];
 
     protected $casts = [
@@ -160,11 +160,6 @@ class Site extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function decode($hash)
-    {
-        return $this->findOrFail(\Hashids::decode($hash));
-    }
-
     public function hasActiveSSL()
     {
         if (! empty($this->activeSsl())) {
@@ -177,11 +172,6 @@ class Site extends Model
     public function lastDeployment()
     {
         return $this->hasOne(SiteDeployment::class)->orderBy('id', 'desc');
-    }
-
-    public function encode()
-    {
-        return \Hashids::encode($this->id);
     }
 
     /**
@@ -231,14 +221,11 @@ class Site extends Model
         return '/home/codepier/'.$this->domain;
     }
 
-    /**
-     * Get the administrator flag for the user.
-     *
-     * @return bool
-     */
-    public function getHashAttribute()
+    public function getLastDeploymentStatusAttribute()
     {
-        return $this->encode();
+        if ($this->lastDeployment) {
+            return $this->lastDeployment->status;
+        }
     }
 
     /**

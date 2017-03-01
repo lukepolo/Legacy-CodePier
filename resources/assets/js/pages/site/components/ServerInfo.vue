@@ -2,7 +2,7 @@
     <div class="server">
         <div class="server-header">
             <div class="server-name">
-                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="showServerInfo = !showServerInfo"></span>
+                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="showInfo = !showInfo"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.name }}
@@ -15,8 +15,6 @@
             <template v-if="server.stats && server.stats.loads && !showServerInfo">
                 <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
             </template>
-
-
         </div>
 
         <div class="server-info" v-if="showServerInfo">
@@ -54,7 +52,13 @@
                         <div class="server-info condensed" v-for="(stats, disk) in server.stats.disk_usage">
                             {{ disk }}
                             <div class="server-progress-container">
-                                <div class="server-progress" :style="{ width : stats.percent }"></div>
+                                <div
+                                    class="server-progress"
+                                    :class="{
+                                        danger : parseInt(stats.percent) >= 75,
+                                        warning : parseInt(stats.percent) < 75 && parseInt(stats.percent) >= 50
+                                    }"
+                                    :style="{ width : stats.percent }"></div>
                                 <div class="stats-label stats-used">{{ stats.used }}</div>
                                 <div class="stats-label stats-available">{{ stats.available }}</div>
                             </div>
@@ -73,7 +77,16 @@
                         <div class="server-info condensed" v-for="(stats, memory_name) in server.stats.memory">
                             {{ memory_name }}
                             <div class="server-progress-container">
-                                <div class="server-progress" :style="{ width : (getBytesFromString(stats.used)/getBytesFromString(stats.total))*100+'%' }"></div>
+                                <div
+                                    class="server-progress"
+                                    :class="{
+                                        danger : getMemoryUsage(stats) >= 75,
+                                        warning : getMemoryUsage(stats) < 75 && getMemoryUsage(stats) >= 50
+                                    }"
+                                    :style="{
+                                        width : getMemoryUsage(stats)+'%'
+                                    }"
+                                ></div>
                                 <div class="stats-label stats-used">{{stats.used}}</div>
                                 <div class="stats-label stats-available">{{stats.total}}</div>
                             </div>
@@ -127,6 +140,7 @@
                 </tooltip>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -138,15 +152,16 @@
                 default : false
             }
         },
-        data() {
-          return {
-              showServerInfo : this.showInfo
-          }
-        },
         components : {
           CpuLoads
         },
         computed : {
+            showServerInfo() {
+                if(this.server.progress < 100) {
+                    return true
+                }
+                return this.showInfo
+            },
             currentProvisioningStep() {
                 let provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
 
@@ -160,6 +175,9 @@
         methods : {
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
+            },
+            getMemoryUsage(stats) {
+                return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100
             }
         },
     }

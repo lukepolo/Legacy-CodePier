@@ -127,3 +127,40 @@
 .event-details .event-error  pre {
   color: $red;
 }
+
+// DRAGGING STYLES -----------------------------------------
+// ---------------------------------------------------------
+#drag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 10px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+#collapseEvents {
+  overflow-y: scroll;
+  transition: height .5s;
+
+  height: 30vh;
+  @include breakpoint(xl) {
+    height : 100%;
+  }
+  &.events-hidden {
+    height: 0px !important;
+    transition: height .5s;
+    overflow: hidden;
+  }
+
+  &.dragging {
+    transition: all 0s;
+  }
+}
+
+
+.event-site {
+  flex: 0 0 20%;
+
+  p {margin: 0px}
+}

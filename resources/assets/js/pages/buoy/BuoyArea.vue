@@ -24,8 +24,6 @@
 
 <script>
     export default {
-        components: {
-        },
         data() {
             return {
                 transitionName : null
