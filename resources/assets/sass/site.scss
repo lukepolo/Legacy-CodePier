@@ -217,6 +217,12 @@ header {
   max-width: 800px;
   margin: 0px auto;
 
+  &--header {
+    text-align: center;
+    color: $color-text-inverse;
+    margin: -$spacing/2 0px $spacing;
+  }
+
   &--item {
 
     &-embed {
@@ -235,6 +241,40 @@ header {
         left: 0;
         width: 100%;
         height: 100%;
+      }
+    }
+
+  }
+
+  &--controls {
+    display: flex;
+    border: 1px solid $color-text-secondary;
+    background-color: $color-text-primary;
+
+    &-item {
+      flex: 1 1 1em;
+      text-align: center;
+      font-weight: 600;
+      color: $color-text-inverse;
+      padding: $spacing $spacing*2;
+      position: relative;
+
+      &:hover {
+        background-color: darken($color-text-primary, 2);
+        cursor: pointer;
+      }
+
+      &.active {
+
+        &:before {
+          content: '';
+          height: 3px;
+          position: absolute;
+          right: 0px;
+          bottom: 100%;
+          left: 0px;
+          background-color: $color-primary;
+        }
       }
     }
 
