@@ -36,10 +36,15 @@
     <section id="section-video" class="section">
         <div class="section--content">
             <div class="video">
+                <h2 class="video--header">Deploying Your App</h2>
                 <div class="video--item">
                     <div class="video--item-embed">
-                        <iframe src='https://player.vimeo.com/video/205614363' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                        <div id='deploy_app_url'></div>
                     </div>
+                </div>
+                <div class="video--controls">
+                    <div data-video="205611637" class="video--controls-item active">Provision</div>
+                    <div data-video="205614363" class="video--controls-item">Deploy</div>
                 </div>
             </div>
         </div>
@@ -225,3 +230,36 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+        var player;
+
+        switchVideo($('.video--controls-item').first().data('video'))
+
+        $(document).on('click', '.video--controls-item', function () {
+            $('.video--controls-item').removeClass('active')
+            $(this).addClass('active')
+            switchVideo($(this).data('video'))
+        })
+
+        function switchVideo(video) {
+            if(!player) {
+                player = new Vimeo.Player('deploy_app_url', { id : video })
+                player.on('ended', function() {
+                    var nextVideo = $('.video--controls-item.active').next()
+                    if(nextVideo) {
+                        $('.video--controls-item').removeClass('active')
+                        nextVideo.addClass('active')
+                        switchVideo(nextVideo.data('video'))
+                    }
+                });
+            } else {
+                player.loadVideo(video).then(function() {
+                    player.play()
+                })
+            }
+        }
+    </script>
+@endpush
