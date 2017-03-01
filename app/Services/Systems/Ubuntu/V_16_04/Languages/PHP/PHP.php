@@ -46,7 +46,7 @@ class PHP
         ],
         'DatabaseService' => [
             'Redis',
-            'MariaDB',
+            'MySQL',
         ],
         'Languages\PHP\PHP' => [
             'PHP',
@@ -85,25 +85,7 @@ class PHP
                 break;
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            php'.$installVersion.'-cli \
-            php'.$installVersion.'-dev \
-            php'.$installVersion.'-pgsql \
-            php'.$installVersion.'-sqlite3 \
-            php'.$installVersion.'-gd \
-            php'.$installVersion.'-curl \
-            php'.$installVersion.'-memcached \
-            php'.$installVersion.'-imap \
-            php'.$installVersion.'-mysql \
-            php'.$installVersion.'-mbstring \
-            php'.$installVersion.'-xml \
-            php'.$installVersion.'-zip \
-            php'.$installVersion.'-bcmath \
-            php'.$installVersion.'-soap \
-            php'.$installVersion.'-intl \
-            php'.$installVersion.'-readline \
-            php'.$installVersion.'-mongodb \
-        ');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb ');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
@@ -192,6 +174,10 @@ class PHP
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php/php'.$this->getPhpVersion().'-fpm.sock;

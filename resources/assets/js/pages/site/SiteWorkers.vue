@@ -109,10 +109,13 @@
             },
             installWorker() {
                 this.form.site = this.$route.params.site_id
-                this.$store.dispatch('installWorker', this.form).then(() => {
-                    this.form = this.$options.data().form
+                this.$store.dispatch('installWorker', this.form).then((worker) => {
+                    if(worker.id) {
+                        this.form = this.$options.data().form
+                        this.form.command = this.site.path
+                    }
                 })
-                this.form.command = this.site.path
+
             },
             deleteWorker: function (worker_id) {
                 this.$store.dispatch('deleteWorker', {

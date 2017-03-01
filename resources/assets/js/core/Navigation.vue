@@ -58,7 +58,7 @@
                 <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
             </li>
 
-            <li class="dropdown">
+            <li class="dropdown" v-if="teamsEnabled()">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="true">
                     <span class="muted">Team:</span>
@@ -97,7 +97,7 @@
                     <li>
                         <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
                     </li>
-                    <li>
+                    <li v-if="teamsEnabled()">
                         <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                     </li>
                     <li>

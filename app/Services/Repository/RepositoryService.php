@@ -6,7 +6,6 @@ use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\DeployKeyAlreadyUsed;
-use App\Models\User\UserRepositoryProvider;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -79,18 +78,6 @@ class RepositoryService implements RepositoryServiceContract
     private function getProvider(RepositoryProvider $repositoryProvider)
     {
         return new $repositoryProvider->repository_class();
-    }
-
-    /**
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $branch
-     * @return array
-     */
-    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
-    {
-        return $this->getProvider($userRepositoryProvider->repositoryProvider)
-            ->getLatestCommit($userRepositoryProvider, $repository, $branch) ?: [];
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository\Providers;
 
+use GuzzleHttp\Client;
 use App\Models\Site\Site;
-use Gitlab\Api\Repositories;
 use Gitlab\Exception\RuntimeException;
+use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
-use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class GitLab implements RepositoryContract
 {
@@ -18,12 +18,13 @@ class GitLab implements RepositoryContract
      * Imports a deploy key so we can clone the repositories.
      *
      * @param Site $site
+     * @throws \Exception
      */
     public function importSshKey(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $client = new \Guzzle\Http\Client();
+        $client = new Client();
 
         try {
             $client->post('https://gitlab.com/api/v3/user/keys', [
@@ -33,7 +34,7 @@ class GitLab implements RepositoryContract
                 'title' => $this->sshKeyLabel($site),
                 'key' => $site->public_ssh_key,
             ])->send();
-        } catch (ClientErrorResponseException $e) {
+        } catch (ClientException $e) {
             // They have terrible error codes
             if (str_contains($e->getMessage(), '400')) {
                 $this->throwKeyAlreadyUsed();
@@ -49,26 +50,6 @@ class GitLab implements RepositoryContract
     {
         $this->client = new \Gitlab\Client($userRepositoryProvider->repositoryProvider->url.'/api/v3/'); // change here
         $this->client->authenticate($userRepositoryProvider->token, \Gitlab\Client::AUTH_OAUTH_TOKEN);
-    }
-
-    /**
-     * @param UserRepositoryProvider $userRepositoryProvider
-     * @param $repository
-     * @param $branch
-     * @return array
-     */
-    public function getLatestCommit(UserRepositoryProvider $userRepositoryProvider, $repository, $branch)
-    {
-        $this->setToken($userRepositoryProvider);
-
-        $lastCommit = collect($this->client->api('repositories')->commits($repository, 0, Repositories::PER_PAGE, $branch))->first();
-
-        if (! empty($lastCommit)) {
-            return [
-                'git_commit' => $lastCommit['short_id'],
-                'commit_message' => $lastCommit['message'],
-            ];
-        }
     }
 
     /**
@@ -103,7 +84,7 @@ class GitLab implements RepositoryContract
 
         $webhook = $this->client->api('projects')->addHook($site->repository, [
             'push_events'           => true,
-            'url'                   => action('WebHookController@deploy', $site->encode()),
+            'url'                   => action('WebHookController@deploy', $site->hash),
         ]);
 
         $site->automatic_deployment_id = $webhook['id'];

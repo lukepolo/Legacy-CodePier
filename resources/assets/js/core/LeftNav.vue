@@ -6,6 +6,18 @@
             <div class="site" v-for="site in sites">
                 <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
                 <div class="site-name">
+                    <tooltip
+                        class="event-status"
+                        :class="{
+                            'event-status-neutral' : site.last_deployment_status == 'Queued',
+                            'event-status-success' : site.last_deployment_status == 'Completed',
+                            'event-status-error' : site.last_deployment_status == 'Failed',
+                            'icon-spinner' : site.last_deployment_status == 'Running'
+                        }"
+                        :message="getDeploymentStatusText(site)"
+                        placement="top-right"
+                    >
+                    </tooltip>
                     {{ site.name }}
                 </div>
             </router-link>
@@ -71,6 +83,23 @@
                     }
                 });
 
+            },
+            getDeploymentStatusText(site) {
+
+                switch(site.last_deployment_status) {
+                    case 'Completed':
+                        return 'All Good'
+                        break;
+                    case 'Failed' :
+                        return 'Something Failed'
+                        break;
+                    case 'Queued' :
+                        return 'Queued'
+                        break;
+                    default :
+                        return 'Deploying'
+                        break;
+                }
             }
         },
         computed: {

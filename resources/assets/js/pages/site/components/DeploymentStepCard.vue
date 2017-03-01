@@ -8,6 +8,14 @@
           </template>
 
           <div class="drag-name">
+              <tooltip
+                  v-if="deploymentStep.internal_deployment_function"
+                  :message="'Suggested order ' + deploymentStep.order"
+                  class="pull-right"
+                  placement="top-left"
+              >
+                  <span class="fa fa-info-circle"></span>
+              </tooltip>
               {{ deploymentStep.step }}
           </div>
 

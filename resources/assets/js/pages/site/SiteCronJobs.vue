@@ -3,15 +3,18 @@
 
         <div class="jcf-form-wrap">
 
-            <span id="cron-preview"></span>
-
             <form @submit.prevent="createSiteCronJob" class="floating-labels">
                 <h3>Site Cron Jobs</h3>
 
                 <input type="hidden" name="cron_timing" v-model="form.cron_timing">
 
                 <div class="jcf-input-group">
+                    <span class="input-group-addon">
+                        <span id="cron-preview"></span>
+                    </span>
+
                     <input type="text" name="cron" v-model="form.cron">
+
                     <label for="cron">
                         <span class="float-label">Cron Job</span>
                     </label>
@@ -31,7 +34,7 @@
 
                 <div class="jcf-input-group">
                     <div class="select-wrap">
-                        <div v-cronjob></div>
+                        <div id="cronjob-maker" v-cronjob></div>
                     </div>
                 </div>
 
@@ -91,18 +94,24 @@
                 this.$store.dispatch('getSiteCronJobs', this.$route.params.site_id)
             },
             createSiteCronJob() {
-                this.$store.dispatch('createSiteCronJob', {
-                    site : this.$route.params.site_id,
-                    job : this.getCronTimings() + ' ' + this.job,
-                    user : this.form.user
-                });
-
-                this.form.user = 'root';
-                this.form.cron_timing =  null;
-                this.form.site_path = this.site.path;
+                if(this.getCronTimings()) {
+                    this.$store.dispatch('createSiteCronJob', {
+                        site: this.$route.params.site_id,
+                        job: this.getCronTimings() + ' ' + this.form.cron,
+                        user: this.form.user
+                    }).then((cronJob) => {
+                        if(cronJob) {
+                            this.form.user = 'root';
+                            this.form.cron_timing = null;
+                            this.form.cron = this.site.path
+                        }
+                    })
+                } else {
+                    app.showError('You need to set a time for the cron to run.')
+                }
             },
             getCronTimings() {
-                return $('input[name="cron_timing"]').val()
+                return $('#cronjob-maker').cron('value')
             },
             deleteCronJob(cronJobId) {
                 this.$store.dispatch('deleteSiteCronJob', {
@@ -115,9 +124,6 @@
             }
         },
         computed: {
-            job() {
-                return this.form.cron
-            },
             site() {
                 let site = this.$store.state.sitesStore.site
 

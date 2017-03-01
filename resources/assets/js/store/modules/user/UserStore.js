@@ -56,7 +56,7 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        deleteUserRepositoryProvider: ({ dispatch }, data) => {
+        deleteUserRepositoryProvider: ({ commit }, data) => {
             Vue.http.delete(Vue.action('User\Providers\UserRepositoryProviderController@destroy', {
                 user: data.user_id,
                 repository_provider: data.user_repository_provider_id

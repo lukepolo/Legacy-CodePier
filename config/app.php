@@ -28,6 +28,8 @@ return [
 
     'registration' => env('APP_REGISTRATION', true),
 
+    'teams' => env('APP_ENV') == 'local' ? true : false,
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -53,6 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'url_stats' => env('APP_STATS_URL'),
     'url_provision' => env('APP_PROVISION_URL'),
 
     /*
@@ -186,6 +189,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
          * Custom Service Providers

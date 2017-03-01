@@ -34,10 +34,5 @@ class Laravel
 
     public function getNginxConfig()
     {
-        return '
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-';
     }
 }

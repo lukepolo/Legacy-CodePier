@@ -17,6 +17,7 @@ return [
 
     'default' => env('QUEUE_DRIVER', 'sync'),
 
+    'throw_errors' => env('QUEUE_THROW_ERRORS=false', false),
     /*
     |--------------------------------------------------------------------------
     | Queue Connections

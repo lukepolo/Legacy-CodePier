@@ -65,7 +65,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         if (! config('app.registration')) {
-            return abort('Registration is disabled');
+            return abort(402, 'Registration is disabled');
         }
 
         return User::create([
