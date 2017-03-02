@@ -20,7 +20,7 @@ class Command extends Model
     ];
 
     protected $casts = [
-        'log' => 'array'
+        'log' => 'array',
     ];
 
     public function getEventTypeAttribute()
