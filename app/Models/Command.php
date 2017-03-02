@@ -19,6 +19,10 @@ class Command extends Model
         'event_type',
     ];
 
+    protected $casts = [
+        'log' => 'array',
+    ];
+
     public function getEventTypeAttribute()
     {
         return get_class($this);

@@ -75,7 +75,7 @@
                     </ul>
                 </div>
                 <div class="footer--img">
-                    <img src="/assets/img/boats.svg">
+                    <img src="/assets/img/boats.png">
                 </div>
             </footer>
         </div>

@@ -17,7 +17,7 @@ class CreateSiteServerDeploymentsTable extends Migration
             $table->increments('id');
             $table->string('status');
             $table->integer('server_id');
-            $table->text('log')->nullable();
+            $table->json('log')->nullable();
             $table->integer('site_deployment_id');
             $table->timestamps();
         });
@@ -42,7 +42,7 @@ class CreateSiteServerDeploymentsTable extends Migration
     {
         Schema::table('site_deployments', function (Blueprint $table) {
             $table->integer('server_id');
-            $table->text('log')->nullable();
+            $table->json('log')->nullable();
         });
 
         Schema::dropIfExists('site_server_deployments');

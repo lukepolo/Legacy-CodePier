@@ -37,12 +37,12 @@ header {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #main {
   flex: 1 0 auto;
-  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav {
@@ -362,6 +362,7 @@ header {
     flex: 0 1 300px;
     padding: 0px $spacing/2;
     transition: all .3s;
+    z-index: 5;
 
     &-heading {
       font-weight: 700;
@@ -394,6 +395,7 @@ header {
     bottom: $spacing;
     width: 920px;
     max-width: 70%;
+    z-index: 1;
   }
 
   @include breakpoint(md) {
