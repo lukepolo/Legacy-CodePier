@@ -128,6 +128,7 @@
     flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: visible;
+    -webkit-overflow-scrolling: touch;
     
     .container {
         padding: $spacing*2;
