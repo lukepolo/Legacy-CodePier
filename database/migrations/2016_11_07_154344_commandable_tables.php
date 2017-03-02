@@ -22,13 +22,11 @@ class CommandableTables extends Migration
             $table->boolean('failed')->default(0);
             $table->boolean('completed')->default(0);
             $table->string('runtime')->nullable();
-            $table->longText('log')->nullable();
+            $table->json('log')->nullable();
             $table->integer('commandable_id')->nullable();
             $table->string('commandable_type')->nullable();
             $table->timestamps();
         });
-
-        Schema::dropIfExists('events');
     }
 
     /**
