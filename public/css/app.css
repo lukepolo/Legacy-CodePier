@@ -5444,6 +5444,7 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
 }
 
 .section-content .container {
@@ -5970,6 +5971,7 @@ button[disabled=disabled] {
 
 .events-container {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   -webkit-box-flex: 1;
   flex-grow: 1;
   flex-shrink: 1;
