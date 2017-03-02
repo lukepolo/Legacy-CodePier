@@ -5453,13 +5453,13 @@ header {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
-  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #main {
   -webkit-box-flex: 1;
   flex: 1 0 auto;
-  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav {
@@ -5750,6 +5750,7 @@ header {
   padding: 0px 10px;
   -webkit-transition: all .3s;
   transition: all .3s;
+  z-index: 5;
 }
 
 .footer--links-heading {
@@ -5780,6 +5781,7 @@ header {
   bottom: 20px;
   width: 920px;
   max-width: 70%;
+  z-index: 1;
 }
 
 @media (max-width: 1024px) {
