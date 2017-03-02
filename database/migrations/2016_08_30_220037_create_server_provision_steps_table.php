@@ -19,10 +19,10 @@ class CreateServerProvisionStepsTable extends Migration
             $table->string('service');
             $table->string('function');
             $table->string('step');
-            $table->text('parameters');
+            $table->json('parameters');
             $table->boolean('completed')->default(0);
             $table->boolean('failed')->default(0);
-            $table->longText('log')->nullable();
+            $table->json('log')->nullable();
 
             $table->timestamps();
         });
