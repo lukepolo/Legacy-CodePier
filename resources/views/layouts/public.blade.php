@@ -7,7 +7,7 @@
         <meta property="og:title" content="CodePier">
         <meta property="og:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
         <meta property="og:image" content="{{ asset('/assets/img/social_img.png') }}">
-        <meta property="og:url" content="{{ url('/') }}">
+        <meta property="og:url" content="{{ url('/') }}/">
         <meta name="twitter:title" content="CodePier">
         <meta name="twitter:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
         <meta name="twitter:image" content="{{ asset('/assets/img/social_img.png') }}">
