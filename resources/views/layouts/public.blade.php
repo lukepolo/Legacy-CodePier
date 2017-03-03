@@ -6,11 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="CodePier">
         <meta property="og:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
-        <meta property="og:image" content="{{ asset('/assets/img/share_img.png') }}">
+        <meta property="og:image" content="http://codepier.io/assets/img/share_img.png">
         <meta property="og:url" content="http://codepier.io">
         <meta name="twitter:title" content="CodePier">
         <meta name="twitter:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
-        <meta name="twitter:image" content="{{ asset('/assets/img/share_img.png') }}">
+        <meta name="twitter:image" content="http://codepier.io/assets/img/share_img.png">
         <meta name="twitter:card" content="summary_large_image">
 
         <meta property="og:site_name" content="CodePier">
