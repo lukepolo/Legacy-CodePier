@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\Slack\SlackExtendSocialite;
 use SocialiteProviders\GitLab\GitLabExtendSocialite;
 use SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

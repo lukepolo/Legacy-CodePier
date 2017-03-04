@@ -205,6 +205,7 @@ class Site extends Model
         });
 
         \Log::debug($slackProvider);
+
         return $slackProvider ? $slackProvider->token : null;
     }
 

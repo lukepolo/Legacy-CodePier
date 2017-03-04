@@ -77,9 +77,9 @@ class SlackMessageChannel
                 ],
             ]);
 
-
             \Log::debug($response->getStatusCode());
             \Log::debug($response->getBody());
+
             return $response;
         }
     }
