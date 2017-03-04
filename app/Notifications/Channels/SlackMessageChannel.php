@@ -42,6 +42,7 @@ class SlackMessageChannel
     {
         $token = $notifiable->routeNotificationFor('slack');
 
+        \Log::debug($token);
         if (! empty($token)) {
             if (! $channel = $notification->slackChannel) {
                 throw new SlackMessageMissingParams('Notification must have a public $slackChannel set');
@@ -67,7 +68,7 @@ class SlackMessageChannel
                 }
             }
 
-            return $this->http->post('https://slack.com/api/chat.postMessage', [
+            $response = $this->http->post('https://slack.com/api/chat.postMessage', [
                 'form_params' => [
                     'token'       => $token,
                     'channel'     => '#'.$channel,
@@ -75,6 +76,11 @@ class SlackMessageChannel
                     'attachments' => json_encode($this->attachments($message)),
                 ],
             ]);
+
+
+            \Log::debug($response->getStatusCode());
+            \Log::debug($response->getBody());
+            return $response;
         }
     }
 
