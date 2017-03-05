@@ -21,7 +21,7 @@ class SiteSshKeyCreated
      */
     public function __construct(Site $site, SshKey $sshKey)
     {
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $sshKey);
 
             foreach ($site->provisionedServers as $server) {
