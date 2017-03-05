@@ -20,12 +20,15 @@ class SiteSchemaCreated
      */
     public function __construct(Site $site, Schema $schema)
     {
-        $siteCommand = $this->makeCommand($site, $schema);
+        if($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $schema);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new AddServerSchema($server, $schema, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new AddServerSchema($server, $schema,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

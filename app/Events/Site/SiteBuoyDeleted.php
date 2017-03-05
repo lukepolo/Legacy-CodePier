@@ -20,12 +20,17 @@ class SiteBuoyDeleted
      */
     public function __construct(Site $site, Buoy $buoy)
     {
-        $siteCommand = $this->makeCommand($site, $buoy);
+        $site->buoys()->detach($buoy);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new RemoveBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+        if($site->provisionedServers->count()) {
+
+            $siteCommand = $this->makeCommand($site, $buoy);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new RemoveBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

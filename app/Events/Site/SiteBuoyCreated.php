@@ -20,12 +20,16 @@ class SiteBuoyCreated
      */
     public function __construct(Site $site, Buoy $buoy)
     {
-        $siteCommand = $this->makeCommand($site, $buoy);
+        if($site->provisionedServers->count()) {
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new InstallBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            $siteCommand = $this->makeCommand($site, $buoy);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new InstallBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
+
         }
     }
 }
