@@ -43,8 +43,6 @@ class WebService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get --force-yes remove nginx');
-
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 
         $this->remoteTaskService->removeFile('/etc/nginx/sites-enabled/default');
