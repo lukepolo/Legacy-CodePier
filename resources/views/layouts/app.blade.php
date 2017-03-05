@@ -69,5 +69,10 @@
             @endif
         @endif
 
+        @if($errors->count())
+            <script>
+                app.showError('{{ $errors->first() }}', null, 0)
+            </script>
+        @endif
     </body>
 </html>

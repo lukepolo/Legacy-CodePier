@@ -20,12 +20,15 @@ class SiteSslCertificateCreated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        $siteCommand = $this->makeCommand($site, $sslCertificate);
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $sslCertificate);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new InstallServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new InstallServerSslCertificate($server, $site, $sslCertificate,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

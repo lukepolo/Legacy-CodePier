@@ -20,14 +20,17 @@ class SiteSchemaDeleted
      */
     public function __construct(Site $site, Schema $schema)
     {
-        $siteCommand = $this->makeCommand($site, $schema);
-
         $site->schemas()->detach($schema);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new RemoveServerSchema($server, $schema, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $schema);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new RemoveServerSchema($server, $schema,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

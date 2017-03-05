@@ -20,12 +20,15 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
-        $siteCommand = $this->makeCommand($site, $cronJob);
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $cronJob);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new InstallServerCronJob($server, $cronJob,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

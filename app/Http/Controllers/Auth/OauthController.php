@@ -61,7 +61,7 @@ class OauthController extends Controller
                 $providerDriver->scopes(['read write']);
                 break;
             case self::SLACK:
-                $providerDriver->scopes(['channels:write chat:write:bot']);
+                $providerDriver->scopes(['chat:write:user']);
                 break;
         }
 
@@ -81,7 +81,7 @@ class OauthController extends Controller
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
-
+                    \Log::debug($tokenData);
                     $newUserNotificationProvider = $this->saveNotificationProvider($provider,
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
@@ -139,7 +139,7 @@ class OauthController extends Controller
                 $newUserNotificationProvider->delete();
             }
 
-            return redirect(\Auth::check() ? url('/profile') : '/login')->withErrors($e->getMessage());
+            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
         }
     }
 

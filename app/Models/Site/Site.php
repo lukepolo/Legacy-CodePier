@@ -199,9 +199,12 @@ class Site extends Model
      */
     public function routeNotificationForSlack()
     {
+        \Log::debug($this->user->userNotificationProviders);
         $slackProvider = $this->user->userNotificationProviders->first(function ($userNotificationProvider) {
             return $userNotificationProvider->notificationProvider->provider_name == OauthController::SLACK;
         });
+
+        \Log::debug($slackProvider);
 
         return $slackProvider ? $slackProvider->token : null;
     }

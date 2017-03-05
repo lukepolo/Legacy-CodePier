@@ -7,6 +7,7 @@ use App\Models\SslCertificate;
 use App\Http\Requests\SslRequest;
 use App\Http\Controllers\Controller;
 use App\Services\Server\ServerService;
+use App\Http\Requests\SslActivateRequest;
 use App\Events\Site\SiteSslCertificateCreated;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Events\Site\SiteSslCertificateUpdated;
@@ -89,12 +90,12 @@ class SiteSslController extends Controller
     }
 
     /**
-     * @param SslRequest $request
+     * @param SslActivateRequest $request
      * @param $siteId
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(SslRequest $request, $siteId, $id)
+    public function update(SslActivateRequest $request, $siteId, $id)
     {
         $site = Site::with('sslCertificates')->findOrFail($siteId);
 

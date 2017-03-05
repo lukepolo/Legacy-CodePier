@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\Slack\SlackExtendSocialite;
 use SocialiteProviders\GitLab\GitLabExtendSocialite;
 use SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         SocialiteWasCalled::class => [
-            SlackExtendSocialite::class.'@handle',
+            \App\SocialProviders\Slack\SlackExtendSocialite::class.'@handle',
             GitLabExtendSocialite::class.'@handle',
             DigitalOceanExtendSocialite::class.'@handle',
         ],
