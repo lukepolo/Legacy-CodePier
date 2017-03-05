@@ -20,7 +20,7 @@ class SiteFirewallRuleCreated
      */
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $firewallRule);
 
             foreach ($site->provisionedServers as $server) {

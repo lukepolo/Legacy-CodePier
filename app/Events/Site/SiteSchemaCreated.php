@@ -20,7 +20,7 @@ class SiteSchemaCreated
      */
     public function __construct(Site $site, Schema $schema)
     {
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $schema);
 
             foreach ($site->provisionedServers as $server) {

@@ -22,8 +22,7 @@ class SiteBuoyDeleted
     {
         $site->buoys()->detach($buoy);
 
-        if($site->provisionedServers->count()) {
-
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $buoy);
 
             foreach ($site->provisionedServers as $server) {

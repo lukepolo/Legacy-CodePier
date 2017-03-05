@@ -21,7 +21,7 @@ class SiteSslCertificateUpdated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $activeSsl = $site->activeSsl();
             $siteCommand = $this->makeCommand($site, $sslCertificate);
 
