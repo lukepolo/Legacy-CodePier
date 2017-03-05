@@ -20,7 +20,8 @@ class WebHookController extends Controller
     public function deploy(Request $request, $siteHashID)
     {
         $site = Site::with('userRepositoryProvider.repositoryProvider')
-            ->findOrFail(\Hashids::decode($siteHashID)[0]);
+            ->where('hash', $siteHashID)
+            ->firstOrFail();
 
         $branch = null;
 

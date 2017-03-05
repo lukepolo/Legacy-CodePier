@@ -20,14 +20,17 @@ class SiteFirewallRuleDeleted
      */
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
-        $siteCommand = $this->makeCommand($site, $firewallRule);
-
         $site->firewallRules()->detach($firewallRule);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new RemoveServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $firewallRule);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new RemoveServerFirewallRule($server, $firewallRule,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

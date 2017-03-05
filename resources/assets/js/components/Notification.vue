@@ -20,10 +20,9 @@
         created() {
             let timeout = this.notification.hasOwnProperty('timeout') ? this.notification.timeout : true;
             if (timeout) {
-                let delay = this.notification.delay || 3000;
                 this.timer = setTimeout(function () {
                     this.close(this.notification)
-                }.bind(this), delay);
+                }.bind(this),  this.notification.timeout);
             }
         },
         methods : {

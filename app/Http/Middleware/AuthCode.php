@@ -16,7 +16,12 @@ class AuthCode
     public function handle($request, Closure $next)
     {
         if ($request->has('code')) {
-            \Session::put('auth_code', $request->get('code'));
+            $code = $request->get('code');
+            if ($authCode = \App\Models\AuthCode::where('code', $code)->first()) {
+                if (! empty($authCode)) {
+                    \Session::put('auth_code', $code);
+                }
+            }
         }
 
         return $next($request);
