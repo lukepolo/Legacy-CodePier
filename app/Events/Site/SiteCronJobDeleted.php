@@ -22,8 +22,7 @@ class SiteCronJobDeleted
     {
         $site->cronJobs()->detach($cronJob);
 
-        if($site->provisionedServers->count()) {
-
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob);
 
             foreach ($cronJob->servers as $server) {

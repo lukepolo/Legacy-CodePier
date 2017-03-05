@@ -20,7 +20,7 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
-        if($site->provisionedServers->count()) {
+        if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob);
 
             foreach ($site->provisionedServers as $server) {
