@@ -17,8 +17,8 @@ class AuthCode
     {
         if ($request->has('code')) {
             $code = $request->get('code');
-            if($authCode = \App\Models\AuthCode::where('code', $code)->first()) {
-                if(!empty($authCode)) {
+            if ($authCode = \App\Models\AuthCode::where('code', $code)->first()) {
+                if (! empty($authCode)) {
                     \Session::put('auth_code', $code);
                 }
             }
