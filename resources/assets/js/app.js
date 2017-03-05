@@ -104,7 +104,7 @@ Vue.mixin({
             }
         },
         showError (message, title, timeout) {
-            if (!timeout) {
+            if (timeout === undefined) {
                 timeout = 5000
             }
 
@@ -116,7 +116,7 @@ Vue.mixin({
             })
         },
         showSuccess (message, title, timeout) {
-            if (!timeout) {
+            if (timeout === undefined) {
                 timeout = 5000
             }
 
