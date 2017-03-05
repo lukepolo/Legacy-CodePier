@@ -23,7 +23,7 @@ class MonitoringService
 
         $this->remoteTaskService->writeToFile('/opt/codepier/diskusage_monitor', '
 '.self::DISK_USAGE_SCRIPT.' | while read -r disk_usage;  do
-    curl '.config('app.url_stats').'/webhook/diskspace/'.$this->server->encode().'?disk_usage=$disk_usage
+    curl "'.config('app.url_stats').'/webhook/diskusage/'.$this->server->encode().'?disk_usage=$disk_usage"
 done');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/diskusage_monitor');
@@ -45,7 +45,7 @@ done');
         // Loads are 1m 5m 15m
         $this->remoteTaskService->writeToFile('/opt/codepier/load_monitor', '
     '.self::LOAD_AVG_SCRIPT.'
-    curl "'.config('app.url_stats').'/webhook/load/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
+    curl "'.config('app.url_stats').'/webhook/loads/'.$this->server->encode().'?loads=$current_load&cpus=$cpus"
 ');
 
         $this->remoteTaskService->run('chmod 775 /opt/codepier/load_monitor');
