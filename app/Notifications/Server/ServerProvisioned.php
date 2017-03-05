@@ -31,6 +31,7 @@ class ServerProvisioned extends Notification
     public function toMail(Server $server)
     {
         return (new MailMessage())
+            ->subject($server->name.' ('.$server->ip.') has been provisioned.')
             ->line($server->name.' ('.$server->ip.') has been provisioned.')
             ->line('Here is your Root and Mysql Password.')
             ->line('SUDO Password : '.$server->sudo_password)
