@@ -19,12 +19,15 @@ class SiteFileUpdated
      */
     public function __construct(Site $site, File $file)
     {
-        $siteCommand = $this->makeCommand($site, $file);
+        if($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $file);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new UpdateServerFile($server, $file, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new UpdateServerFile($server, $file,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

@@ -35,7 +35,7 @@
                                 </template>
                                 <template v-else>
                                     Please link a
-                                    <router-link to="/my-profile/server-providers">
+                                    <router-link :to="{ name : 'user_server_providers' }">
                                         <a> server provider</a>
                                     </router-link>
                                     before creating a server.

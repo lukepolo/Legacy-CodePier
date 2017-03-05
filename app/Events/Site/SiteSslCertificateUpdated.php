@@ -21,24 +21,29 @@ class SiteSslCertificateUpdated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        $activeSsl = $site->activeSsl();
-        $siteCommand = $this->makeCommand($site, $sslCertificate);
+        if($site->provisionedServers->count()) {
+            $activeSsl = $site->activeSsl();
+            $siteCommand = $this->makeCommand($site, $sslCertificate);
 
-        foreach ($site->provisionedServers as $server) {
-            if ($sslCertificate->active) {
-                if ($activeSsl->id != $sslCertificate->id) {
+            foreach ($site->provisionedServers as $server) {
+                if ($sslCertificate->active) {
+                    if ($activeSsl->id != $sslCertificate->id) {
+                        dispatch(
+                            (new DeactivateServerSslCertificate($server, $site, $activeSsl,
+                                $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                        );
+                    }
+
                     dispatch(
-                        (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                        (new ActivateServerSslCertificate($server, $site, $sslCertificate,
+                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    );
+                } else {
+                    dispatch(
+                        (new DeactivateServerSslCertificate($server, $site, $sslCertificate,
+                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
-                dispatch(
-                    (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                );
-            } else {
-                dispatch(
-                    (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                );
             }
         }
     }
