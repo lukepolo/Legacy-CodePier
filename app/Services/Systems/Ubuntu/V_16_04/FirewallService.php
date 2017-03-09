@@ -43,7 +43,6 @@ do
       sleep $[ ( $RANDOM % 10 )  + 1 ]s
    fi
 done');
-
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
