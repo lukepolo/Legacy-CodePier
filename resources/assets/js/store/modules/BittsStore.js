@@ -28,7 +28,6 @@ export default {
             })
         },
         updateBitt: ({ commit }, data) => {
-            console.info(data)
             Vue.http.put(Vue.action('BittsController@update', { bitt: data.bitt }), data.form).then((response) => {
                 commit('UPDATE_BITT', response.data)
                 app.$router.push({ name: 'bitts_market_place' })
@@ -60,7 +59,7 @@ export default {
             state.bitts = bitts
         },
         ADD_BITT: (state, bitt) => {
-            state.bitts.push(bitt)
+            // state.bitts.push(bitt)
         },
         UPDATE_BITT: (state, bitt) => {
             Vue.set(state, _.findKey(state.bitts, { id: bitt.id }), bitt)

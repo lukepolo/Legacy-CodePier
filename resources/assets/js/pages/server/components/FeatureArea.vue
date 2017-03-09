@@ -1,63 +1,70 @@
 <template>
     <section>
-        <h3>{{ getSectionTitle(area) }}</h3>
         <template v-for="feature in features">
+
             <div class="jcf-input-group input-checkbox">
-                <div class="input-question">
-                    {{ feature.name }}
-                </div>
-            </div>
-            <p>
-                <template v-if="server && hasFeature(feature)">
-                    Installed
-                </template>
 
-                <template v-else>
+                <label>
 
-                    <template v-if="server">
-                        <button @click="installFeature(feature)">Install</button>
+                    <template v-if="server && hasFeature(feature)">
+                        Installed
                     </template>
-
-                    <template v-else>
+                    <template v-else-if="!server">
                         <input
                             :name="getInputName(feature)"
                             type="checkbox"
                             :checked="(server && feature.required) || hasFeature(feature)"
                             value="1"
+                            v-if="!server"
                         >
                     </template>
-                    <div>
-                        <small>{{ feature.description }}</small>
-                    </div>
-                </template>
-            </p>
+
+                    <span class="icon"></span>
+                    {{ feature.name }}
+                    <br>
+                    <small>
+                        {{ feature.description }}
+                    </small>
+
+                    <template v-if="server && !hasFeature(feature)">
+                        <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
+                    </template>
+
+                </label>
+
+            </div>
 
             <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
-                <div class="input-group">
+
                     <template v-if="feature.options">
                         <div class="input-question">{{ parameter }}</div>
                         <div class="select-wrap">
                             <select :name="getInputName(feature, parameter)">
                                 <template v-for="option in feature.options">
-
                                     <option :selected="getParameterValue(feature, parameter, value) == option" :value="option">{{ option }}</option>
                                 </template>
                             </select>
                         </div>
                     </template>
+
                     <template v-else>
-                        <input
-                            :id="parameter"
-                            :name="getInputName(feature, parameter)"
-                            type="text" :value="getParameterValue(feature, parameter, value)"
-                        >
-                        <label :for="parameter"><span class="float-label">{{ parameter }}</span></label>
+                        <div class="jcf-input-group">
+                            <input
+                                :id="parameter"
+                                :name="getInputName(feature, parameter)"
+                                type="text" :value="getParameterValue(feature, parameter, value)"
+                            >
+                            <label :for="parameter">
+                                <span class="float-label">{{ parameter }}</span>
+                            </label>
+                        </div>
                     </template>
-                </div>
+
             </template>
 
             <template v-if="server && hasFeature(feature)">
-                <button @click="installFeature(feature)">Update</button>
+                <!--Im not sure if we are able to update or not-->
+                <!--<button class="btn btn-primary" @click="installFeature(feature)">Update</button>-->
             </template>
 
         </template>
@@ -135,14 +142,6 @@
                     server: this.server.id,
                     service: feature.service,
                 });
-            },
-            getSectionTitle: function (area) {
-                let areaName = area;
-                if((/[a-z]/.test(area))) {
-                    areaName = area.replace(/([A-Z].*)(?=[A-Z]).*/g, '$1')
-                }
-                return areaName + ' Features';
-
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];

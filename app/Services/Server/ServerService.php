@@ -467,6 +467,8 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->run('chmod 775 '.self::BITT_FILES.'/'.$bittFile);
 
         $this->remoteTaskService->run(self::BITT_FILES.'/./'.$bittFile);
+
+        $bitt->increment('installs');
     }
 
     /**

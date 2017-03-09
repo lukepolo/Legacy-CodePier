@@ -39,7 +39,6 @@ do
         '.$command.'
       break
    else
-        echo DONT RUN IT
       sleep $[ ( $RANDOM % 10 )  + 1 ]s
    fi
 done');

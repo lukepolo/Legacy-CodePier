@@ -53,7 +53,6 @@ export default {
             })
         },
         reloadSiteFile: ({ commit }, data) => {
-            console.info(data)
             Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
                 site: data.site,
                 file: data.file,
