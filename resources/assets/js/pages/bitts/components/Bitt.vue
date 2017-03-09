@@ -5,7 +5,7 @@
                 {{ bitt.title }}
 
                 <p class="pull-right">
-                    <!--{{ bitt.uses }} uses -->
+                    {{ bitt.uses }} uses
                     <br>
                     <router-link :to="{ name: 'bitt_edit', params : { bitt_id : bitt.id} }">
                         Edit
