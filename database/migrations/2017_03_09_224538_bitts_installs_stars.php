@@ -14,7 +14,7 @@ class BittsInstallsStars extends Migration
     public function up()
     {
         Schema::table('bitts', function(Blueprint $table) {
-            $table->integer('installs')->default(0);
+            $table->integer('uses')->default(0);
             $table->integer('stars')->default(0);
         });
     }
@@ -27,7 +27,7 @@ class BittsInstallsStars extends Migration
     public function down()
     {
         Schema::table('bitts', function(Blueprint $table) {
-            $table->dropColumn('installs');
+            $table->dropColumn('uses');
             $table->dropColumn('stars');
         });
     }
