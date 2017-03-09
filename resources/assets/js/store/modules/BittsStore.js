@@ -57,10 +57,11 @@ export default {
             state.bitt = bitt
         },
         SET_BITTS: (state, bitts) => {
+            console.info(bitts)
             state.bitts = bitts
         },
         ADD_BITT: (state, bitt) => {
-            state.bitts.push(bitt)
+            // state.bitts.push(bitt)
         },
         UPDATE_BITT: (state, bitt) => {
             Vue.set(state, _.findKey(state.bitts, { id: bitt.id }), bitt)
