@@ -226,14 +226,16 @@ export default {
             Vue.set(state.servers_current_provisioning_step, server, currentStep)
         },
         UPDATE_SERVER: (state, server) => {
-            const foundServer = _.find(state.servers, function (tempServer) {
-                return tempServer.id === server.id
-            })
+            let foundServerKey = _.findKey(state.servers, { id: server.id })
 
-            if (foundServer) {
-                _.each(server, function (value, index) {
-                    foundServer[index] = value
-                })
+            if (foundServerKey) {
+                Vue.set(state.servers, foundServerKey, server)
+            }
+
+            foundServerKey = _.findKey(state.servers, { id: server.id })
+
+            if (foundServerKey) {
+                Vue.set(state.all_servers, foundServerKey, server)
             }
         },
         SET_ALL_SERVERS: (state, servers) => {
