@@ -11,13 +11,15 @@
                         </router-link>
                     </div>
 
-                    <p class="text-success">
-                        <div class="text-center">
-                            <h2>
-                                Registration code accepted
-                            </h2>
-                        </div>
-                    </p>
+                    @if(session('auth_code') || cookie('auth_code'))
+                        <p class="text-success">
+                            <div class="text-center">
+                                <h2>
+                                    Registration code accepted
+                                </h2>
+                            </div>
+                        </p>
+                    @endif
 
                     <div class="jcf-form-wrap" id="login_form">
                         <div class="heading">
@@ -48,7 +50,7 @@
                                 <label for="password"><span class="float-label">Password</span></label>
                             </div>
                             <div class="btn-footer">
-                                @if(env('APP_REGISTRATION') || session('auth_code'))
+                                @if(env('APP_REGISTRATION') || session('auth_code') || cookie('auth_code'))
                                     <span class="btn toggle-forms">Create Account</span>
                                 @endif
                                 <button class="btn btn-primary" type="submit">Login</button>

@@ -79,8 +79,7 @@
                                         <div class="input-question">Server Region</div>
 
                                         <select name="server_region">
-                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}
-                                            </option>
+                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
                                         </select>
                                     </div>
 
@@ -89,9 +88,9 @@
                                         <template v-for="feature in server_provider_features">
                                             <label>
                                                 <input
-                                                        type="checkbox"
-                                                        name="server_provider_features[]"
-                                                        :value="feature.id"
+                                                    type="checkbox"
+                                                    name="server_provider_features[]"
+                                                    :value="feature.id"
                                                 >
                                                 <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                                 <small>{{ feature.cost }}</small>
@@ -206,7 +205,7 @@
                 return this.$store.state.serverProvidersStore.server_provider_options
             },
             server_regions() {
-                return this.$store.state.serverProvidersStore.server_provider_regions
+                return _.sortBy(this.$store.state.serverProvidersStore.server_provider_regions, 'name')
             },
             server_provider_features() {
                 return this.$store.state.serverProvidersStore.server_provider_features
