@@ -17,7 +17,7 @@ class RepositoryService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y git');
 
-        $this->remoteTaskService->run('echo git config --global user.name "'.$this->server->user->name.'"');
-        $this->remoteTaskService->run('echo git config --global user.email '.$this->server->user->email.'');
+        $this->remoteTaskService->run('git config --global user.name "'.$this->server->user->name.'"');
+        $this->remoteTaskService->run('git config --global user.email "'.$this->server->user->email.'"');
     }
 }
