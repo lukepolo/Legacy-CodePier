@@ -114,7 +114,6 @@
                     private_key : this.form.private_key,
                     certificate : this.form.certificate,
                 }).then((data) => {
-                    console.info(data)
                     if(data) {
                         this.$data.form = this.$options.data().form
                     }
