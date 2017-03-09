@@ -9,7 +9,7 @@
             <h1>You Build it. We Deploy it.</h1>
             <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
 
-            @if(!(\Illuminate\Support\Facades\Session::get('registered_for_beta') || \Illuminate\Support\Facades\Cookie::get('registered_for_beta')))
+            @if(!(session('registered_for_beta') || cookie('registered_for_beta')->getValue()))
                 <form method="POST" action="{{ action('PublicController@subscribe') }}">
                     {{ csrf_field() }}
                     <div class="jcf-form-wrap">
