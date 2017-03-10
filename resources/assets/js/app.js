@@ -9,6 +9,8 @@ import * as bittPages from './pages/bitts'
 import * as adminPages from './pages/admin'
 import * as serverPages from './pages/server'
 
+import * as setupPages from './pages/setup'
+
 import store from './store'
 import Piles from './pages/pile/Piles.vue'
 import PageNotFound from './core/PageNotFound.vue'
@@ -293,7 +295,7 @@ const router = new VueRouter({
                     path: 'security',
                     name: 'server_ssh_keys',
                     components: {
-                        default: serverPages.ServerSshKeys,
+                        default: setupPages.SshKeys,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.SecurityNav
                     }
@@ -302,7 +304,7 @@ const router = new VueRouter({
                     path: 'security/firewall-rules',
                     name: 'server_firewall_rules',
                     components: {
-                        default: serverPages.ServerFirewallRules,
+                        default: setupPages.FirewallRules,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.SecurityNav
                     }
@@ -311,7 +313,7 @@ const router = new VueRouter({
                     path: 'setup',
                     name: 'server_cron_jobs',
                     components: {
-                        default: serverPages.ServerCronJobs,
+                        default: setupPages.CronJobs,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.ServerSetupNav
                     }
@@ -320,7 +322,7 @@ const router = new VueRouter({
                     path: 'setup/workers',
                     name: 'server_workers',
                     components: {
-                        default: serverPages.ServerWorkers,
+                        default: setupPages.Workers,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.ServerSetupNav
                     }
@@ -380,7 +382,7 @@ const router = new VueRouter({
                     path: 'setup/databases',
                     name: 'site_databases',
                     components: {
-                        default: sitePages.SiteDatabases,
+                        default: setupPages.Databases,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.SiteSetupNav
                     }
@@ -389,7 +391,7 @@ const router = new VueRouter({
                     path: 'security/firewall-rules',
                     name: 'site_firewall_rules',
                     components: {
-                        default: sitePages.SiteFirewallRules,
+                        default: setupPages.FirewallRules,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.SecurityNav
                     }
@@ -398,7 +400,7 @@ const router = new VueRouter({
                     path: 'security',
                     name: 'site_ssh_keys',
                     components: {
-                        default: sitePages.SiteSshKeys,
+                        default: setupPages.SshKeys,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.SecurityNav
                     }
@@ -407,7 +409,7 @@ const router = new VueRouter({
                     path: 'security/ssl-certificates',
                     name: 'site_ssl_certs',
                     components: {
-                        default: sitePages.SiteSSLCertificates,
+                        default: setupPages.SslCertificates,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.SecurityNav
                     }
@@ -416,7 +418,7 @@ const router = new VueRouter({
                     path: 'server-setup',
                     name: 'site_cron_jobs',
                     components: {
-                        default: sitePages.SiteCronJobs,
+                        default: setupPages.CronJobs,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }
@@ -425,7 +427,7 @@ const router = new VueRouter({
                     path: 'server-setup/workers',
                     name: 'site_workers',
                     components: {
-                        default: sitePages.SiteWorkers,
+                        default: setupPages.Workers,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }
