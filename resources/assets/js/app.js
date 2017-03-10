@@ -258,7 +258,7 @@ const router = new VueRouter({
     { path: '/my/team/:team_id/members', name: 'team_members', component: teamPages.TeamMembers },
 
     { path: '/server/create', name: 'server_form', component: serverPages.ServerForm },
-    { path: '/server/create/:site/:type', name: 'server_form_with_site', component: serverPages.ServerForm },
+    { path: '/server/create/:site_id/:type', name: 'server_form_with_site', component: serverPages.ServerForm },
         {
             path: '/server/:server_id', component: serverPages.ServerArea,
             children: [
