@@ -53,7 +53,7 @@
 
                 </div>
 
-                <div class="btn-footer" v-if="!server">
+                <div class="btn-footer" v-if="!server && update != false">
                     <button class="btn btn-primary" type="submit">Update Site Server Features</button>
                 </div>
 
@@ -67,7 +67,7 @@
     import FeatureArea from './FeatureArea.vue'
 
     export default {
-        props : ["dispatch"],
+        props : ["dispatch", "update"],
         components: {
             FeatureArea
         },

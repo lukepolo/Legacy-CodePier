@@ -2,7 +2,7 @@
     <div>
         <template v-if="site.repository">
             <li>
-                <router-link :class="classes" :to="{ name : 'server_form_with_site' , params : { site : site.id , type : 'full_stack' } }">
+                <router-link :class="classes" :to="{ name : 'server_form_with_site' , params : { site_id : site.id , type : 'full_stack' } }">
                     <span class="icon-server"></span> Create Full Stack Server
                 </router-link>
             </li>
