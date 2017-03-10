@@ -340,7 +340,7 @@ const router = new VueRouter({
                     path: 'setup/features',
                     name: 'server_features',
                     components: {
-                        default: serverPages.ServerFeatures,
+                        default: setupPages.ServerFeatures,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.ServerSetupNav
                     }
@@ -445,7 +445,7 @@ const router = new VueRouter({
                     path: 'server-setup/server-features',
                     name: 'site_server_features',
                     components: {
-                        default: sitePages.SiteServerFeatures,
+                        default: setupPages.ServerFeatures,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }

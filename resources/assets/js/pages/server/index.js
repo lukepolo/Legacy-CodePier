@@ -4,7 +4,6 @@ export const ServerArea = require('./ServerArea.vue')
 export const ServerBuoys = require('./ServerBuoys.vue')
 export const ServerSites = require('./ServerSites.vue')
 export const ServerFiles = require('./ServerFiles.vue')
-export const ServerFeatures = require('./ServerFeatures.vue')
 export const ServerNav = require('./components/ServerNav.vue')
 export const ServerMonitoring = require('./ServerMonitoring.vue')
 
