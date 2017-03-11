@@ -27,21 +27,25 @@
                 <div role="tabpanel" class="tab-pane active">
 
                     <feature-area
-                            :server="server"
-                            :selected_server_features="serverFeatures"
-                            :area="serverFeatureArea"
-                            :features="features"
-                            v-for="(features, serverFeatureArea) in availableServerFeatures"
-                            v-show="section == serverFeatureArea"
+                        :server="server"
+                        :selected_server_features="serverFeatures"
+                        :area="serverFeatureArea"
+                        :features="features"
+                        v-for="(features, serverFeatureArea) in availableServerFeatures"
+                        v-show="section == serverFeatureArea"
+                        :current_selected_features="currentSelectedFeatures"
+                        v-on:featuresChanged="updateSelectedFeatures"
                     ></feature-area>
                     <feature-area
-                            :server="server"
-                            :selected_server_features="serverFeatures"
-                            :area="serverLanguageArea"
-                            :features="features"
-                            :frameworks="true"
-                            v-for="(features, serverLanguageArea) in availableServerLanguages"
-                            v-show="section == serverLanguageArea"
+                        :server="server"
+                        :selected_server_features="serverFeatures"
+                        :area="serverLanguageArea"
+                        :features="features"
+                        :frameworks="true"
+                        v-for="(features, serverLanguageArea) in availableServerLanguages"
+                        v-show="section == serverLanguageArea"
+                        :current_selected_features="currentSelectedFeatures"
+                        v-on:featuresChanged="updateSelectedFeatures"
                     ></feature-area>
 
                 </div>
@@ -67,7 +71,8 @@
         },
         data() {
             return {
-                section : null
+                section : null,
+                currentSelectedFeatures : null
             }
         },
         methods: {
@@ -94,6 +99,14 @@
             },
             switchSection: function(area) {
                 Vue.set(this, 'section', area)
+            },
+            updateSelectedFeatures(feature, enabled) {
+                let areaFeatures = this.currentSelectedFeatures[feature.service];
+                if(!_.has(areaFeatures, feature.name)) {
+                    Vue.set(areaFeatures, feature.name, { enabled : enabled })
+                } else {
+                    Vue.set(areaFeatures[feature.name], 'enabled', enabled)
+                }
             }
         },
         computed: {
@@ -106,16 +119,22 @@
                 }
             },
             serverId() {
-                console.info(this.$route.params)
                 return this.$route.params.server_id
             },
             serverFeatures() {
+                let serverFeatures = null
                 if(this.siteId) {
-                    return this.$store.state.siteServersFeaturesStore.site_server_features;
+                    serverFeatures = this.$store.state.siteServersFeaturesStore.site_server_features;
                 }
                 if(this.serverId) {
                     return this.$store.state.serversStore.server_installed_features;
                 }
+
+                console.info(serverFeatures)
+
+                this.currentSelectedFeatures = serverFeatures
+
+                return serverFeatures
             },
             availableServerFeatures() {
                 let serverFeatures = this.$store.state.serversStore.available_server_features
@@ -129,7 +148,7 @@
             },
             availableServerFrameworks() {
                 return this.$store.state.serversStore.available_server_frameworks;
-            },
+            }
         }
     }
 </script>

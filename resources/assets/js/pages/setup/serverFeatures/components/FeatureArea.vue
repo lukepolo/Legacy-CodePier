@@ -8,10 +8,13 @@
 
                     <template v-if="!server">
                         <input
-                            :name="getInputName(feature)"
-                            type="checkbox"
-                            :checked="(server && feature.required) || hasFeature(feature)"
+                            v-on:click="updateValue(feature, $event.target.checked)"
                             value="1"
+                            type="checkbox"
+                            :name="getInputName(feature)"
+                            :disabled="hasConflicts(feature)"
+                            :class="{ disabled : hasConflicts(feature) }"
+                            :checked="(server && feature.required) || hasFeature(feature)"
                             v-if="!server"
                         >
                         <span class="icon"></span>
@@ -28,7 +31,14 @@
                         [Installed]
                     </template>
                     <template v-else-if="server && !hasFeature(feature)">
-                        <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
+                        <template v-if="hasConflicts(feature)">
+                            <p>
+                                conflicts with {{ hasConflicts(feature) }}
+                            </p>
+                        </template>
+                        <template v-else>
+                            <div class="btn btn-small btn-primary" @click="installFeature(feature)">Install</div>
+                        </template>
                     </template>
 
                 </label>
@@ -87,8 +97,11 @@
 <script>
     export default {
         name: 'featureArea',
-        props: ['area', 'features', 'frameworks', 'server', 'selected_server_features'],
+        props: ['area', 'features', 'frameworks', 'server', 'selected_server_features', 'current_selected_features'],
         methods: {
+            updateValue(feature, enabled) {
+                this.$emit('featuresChanged', feature, enabled)
+            },
             getInputName : function(feature, parameter) {
 
                 let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
@@ -121,6 +134,22 @@
 
                 return false;
             },
+            currentlySelectedHasFeature: function (service, feature) {
+
+                let areaFeatures = null;
+
+                if(this.current_selected_features) {
+                    areaFeatures = _.get(this.current_selected_features, service);
+                } else {
+                    areaFeatures = _.get(this.selected_server_features, service);
+                }
+
+                if(_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
+                    return feature;
+                }
+
+                return false;
+            },
             getParameterValue: function (feature, parameter, default_value) {
                 let area = this.hasFeature(feature);
 
@@ -146,6 +175,12 @@
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];
+            },
+            hasConflicts: function(feature) {
+                if(feature.conflicts.length) {
+                    return this.currentlySelectedHasFeature(feature.service, feature.conflicts[0]);
+                }
+                return false
             }
         },
         computed: {

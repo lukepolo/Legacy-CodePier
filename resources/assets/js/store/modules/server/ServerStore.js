@@ -104,9 +104,6 @@ export default {
             }
         },
         createServer: ({ commit, dispatch }, form) => {
-
-            console.info(form)
-
             return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
                 commit('ADD_SERVER', response.data)
                 dispatch('listenToServer', response.data)

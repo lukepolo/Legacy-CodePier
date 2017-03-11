@@ -6,6 +6,7 @@ export default {
         getServerSslCertificates: ({ commit, dispatch }, serverId) => {
             Vue.http.get(Vue.action('Server\ServerSslController@index', { server: serverId })).then((response) => {
                 commit('SET_SERVER_SSL_CERTIFICATES', response.data)
+
                 _.each(response.data, (sslCertificate) => [
                     dispatch('listenToSslCertificate', sslCertificate)
                 ])
