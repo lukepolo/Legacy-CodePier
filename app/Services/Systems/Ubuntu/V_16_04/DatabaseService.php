@@ -13,6 +13,8 @@ class DatabaseService
 
     /**
      * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
+     *
+     * @conflicts MySQL
      */
     public function installMariaDB()
     {
@@ -47,6 +49,8 @@ class DatabaseService
 
     /**
      * @description MySQL is the world's most popular open source database.
+     *
+     * @conflicts MariaDB
      */
     public function installMySQL()
     {

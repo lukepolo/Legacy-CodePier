@@ -109,13 +109,14 @@ trait SystemFiles
                 $name = str_replace('install', '', $method->name);
 
                 $features->get($reflection->getShortName())->put($name, collect([
-                    'name' => $name,
+                    'name' => $this->getFirstDocParam($method, 'name', $name),
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
                     'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
                     'multiple' => $this->getFirstDocParam($method, 'multiple', false),
+                    'conflicts' => array_filter(explode(',' , $this->getFirstDocParam($method, 'conflicts')))
                 ]));
             }
         }

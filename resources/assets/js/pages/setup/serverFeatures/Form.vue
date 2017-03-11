@@ -49,12 +49,12 @@
             },
             server() {
                 if(this.serverId) {
-                    return this.$store.state.serversStore.server;
+                    return this.$store.state.serversStore.server
                 }
             },
             serverId() {
                 return this.$route.params.server_id
-            },
+            }
         }
 
     }
