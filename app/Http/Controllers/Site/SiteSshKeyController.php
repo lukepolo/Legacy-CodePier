@@ -22,6 +22,7 @@ class SiteSshKeyController extends Controller
             Site::findOrFail($siteId)->sshKeys
         );
     }
+
     /**
      * Store a newly created resource in storage.
      *
