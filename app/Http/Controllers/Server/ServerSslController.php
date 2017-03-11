@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Server;
 
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
-use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Http\Requests\SslRequest;
 use App\Http\Controllers\Controller;
+use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
+use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 
 class ServerSslController extends Controller
 {
