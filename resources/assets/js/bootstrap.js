@@ -10,7 +10,7 @@ if (Laravel.env === 'production') {
 
 window.Clipboard = require('clipboard')
 
-window.VueRouter = require('vue-router')
+window.VueRouter = require('vue-router/dist/vue-router.common.js')
 require('vue-resource')
 
 Vue.use(VueRouter)

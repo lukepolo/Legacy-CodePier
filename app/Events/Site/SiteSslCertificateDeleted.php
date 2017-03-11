@@ -20,14 +20,17 @@ class SiteSslCertificateDeleted
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        $siteCommand = $this->makeCommand($site, $sslCertificate);
-
         $site->sslCertificates()->detach($sslCertificate);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new RemoveServerSslCertificate($server, $site, $sslCertificate, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $sslCertificate);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new RemoveServerSslCertificate($server, $site, $sslCertificate,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

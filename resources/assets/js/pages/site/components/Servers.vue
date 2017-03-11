@@ -100,8 +100,7 @@
             return {
                 connectServers : false,
                 form: {
-                    connected_servers: [],
-                    site: this.$route.params.site_id
+                    connected_servers: []
                 }
             }
         },
@@ -119,6 +118,7 @@
                 this.$store.dispatch('getSiteServers', this.$route.params.site_id);
             },
             linkServers() {
+                this.form.site = this.$route.params.site_id
                 this.$store.dispatch('updateLinkedServers', this.form).then(() => {
                     this.connectServers = false
                 })
@@ -138,7 +138,11 @@
                 return siteServers;
             },
             availableServers() {
-                return this.$store.state.serversStore.servers;
+                return _.filter(this.$store.state.serversStore.servers, function(server){
+                    if(server.progress >= 100) {
+                        return true
+                    }
+                });
             },
             attachServersText() {
                 let serverCount = this.form.connected_servers.length

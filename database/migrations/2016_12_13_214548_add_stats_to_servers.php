@@ -14,7 +14,7 @@ class AddStatsToServers extends Migration
     public function up()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->longText('stats')->nullable();
+            $table->json('stats')->nullable();
         });
     }
 
