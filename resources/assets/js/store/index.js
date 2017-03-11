@@ -49,6 +49,7 @@ export default new Vuex.Store({
         serverBuoysStore: ServerStore.buoys,
         serverWorkersStore: ServerStore.workers,
         serverSshKeysStore: ServerStore.sshKeys,
+        serverSchemasStore :ServerStore.schemas,
         serverCronJobsStore: ServerStore.cronJobs,
         serverFirewallStore: ServerStore.firewall,
         serverServicesStore: ServerStore.services,
