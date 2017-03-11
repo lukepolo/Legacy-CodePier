@@ -172,6 +172,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
+            Route::resource('servers.ssl-certificate', 'ServerSslController');
         });
 
         /*

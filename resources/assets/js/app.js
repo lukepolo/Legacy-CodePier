@@ -322,6 +322,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'security/ssl-certificates',
+                    name: 'server_ssl_certs',
+                    components: {
+                        default: setupPages.SslCertificates,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.SecurityNav
+                    }
+                },
+                {
                     path: 'setup',
                     name: 'server_cron_jobs',
                     components: {
