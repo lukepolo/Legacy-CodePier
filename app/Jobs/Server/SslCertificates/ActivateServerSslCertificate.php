@@ -32,7 +32,6 @@ class ActivateServerSslCertificate implements ShouldQueue
      * @param Site $site
      * @param SslCertificate $sslCertificate
      * @param Command $siteCommand
-     * @internal param ServerSslCertificate $serverSslCertificate
      */
     public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
     {

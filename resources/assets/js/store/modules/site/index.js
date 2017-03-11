@@ -1,9 +1,9 @@
 export const site = require('./SiteStore').default
-export const siteFiles = require('./SiteFileStore').default
-export const siteSshKeys = require('./SiteSShKeyStore').default
-export const siteWorkers = require('./SiteWorkerStore').default
-export const siteSchemas = require('./SiteSchemaStore').default
-export const siteCronJobs = require('./SiteCronJobStore').default
-export const siteFirewallRules = require('./SiteFirewallStore').default
-export const siteServersFeatures = require('./SiteServerFeatureStore').default
-export const siteSslCertificates = require('./SiteSslCertificateStore').default
+export const files = require('./SiteFileStore').default
+export const sshKeys = require('./SiteSShKeyStore').default
+export const workers = require('./SiteWorkerStore').default
+export const schemas = require('./SiteSchemaStore').default
+export const cronJobs = require('./SiteCronJobStore').default
+export const firewallRules = require('./SiteFirewallStore').default
+export const serversFeatures = require('./SiteServerFeatureStore').default
+export const sslCertificates = require('./SiteSslCertificateStore').default

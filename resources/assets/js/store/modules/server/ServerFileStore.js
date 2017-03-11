@@ -46,7 +46,7 @@ export default {
                 file_path: data.file,
                 content: data.content
             }).then((response) => {
-
+                app.showSuccess('You have updated the server file.')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -57,6 +57,7 @@ export default {
                 server: data.server
             })).then((response) => {
                 commit('UPDATE_SERVER_FILE', response.data)
+                app.showSuccess('You have reloaded the server file.')
             }, (errors) => {
                 app.handleApiError(errors)
             })

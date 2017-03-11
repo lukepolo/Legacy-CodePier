@@ -53,8 +53,6 @@ class ServerFirewallRuleController extends Controller
                 'description' => $request->get('description'),
             ]);
 
-            $server->firewallRules()->save($firewallRule);
-
             dispatch(
                 (new InstallServerFirewallRule($server, $firewallRule))->onQueue(config('queue.channels.server_commands'))
             );

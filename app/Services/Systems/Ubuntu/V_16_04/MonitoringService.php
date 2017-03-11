@@ -15,6 +15,7 @@ class MonitoringService
     const DISK_USAGE_SCRIPT = 'df -h / | grep / | awk \'{ print "disk="$1 " used="$3 " available="$4 " percent="$5}\'';
 
     /**
+     *  @name Disk Monitoring Script
      *  @description This script monitors your disk usage and will notify you if your disks are getting full.
      */
     public function installDiskMonitoringScript()
@@ -36,6 +37,7 @@ done');
     }
 
     /**
+     *  @name Server Load Monitoring Script
      *  @description This script monitors your load across your cores, it will notify you if your load activity is abnormally high.
      */
     public function installLoadMonitoringScript()
@@ -58,6 +60,7 @@ done');
     }
 
     /**
+     *  @name Memory Monitoring Script
      *  @description This script monitors your memory usage and will notify you if your available memory is getting low
      */
     public function installServerMemoryMonitoringScript()
