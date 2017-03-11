@@ -4,6 +4,17 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="CodePier">
+        <meta property="og:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
+        <meta property="og:image" content="{{ asset('/assets/img/social_img.png') }}">
+        <meta property="og:url" content="{{ url('/') }}/">
+        <meta name="twitter:title" content="CodePier">
+        <meta name="twitter:description" content="You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more.">
+        <meta name="twitter:image" content="{{ asset('/assets/img/social_img.png') }}">
+        <meta name="twitter:card" content="summary_large_image">
+
+        <meta property="og:site_name" content="CodePier">
+        <meta name="twitter:image:alt" content="CodePier | You Build It. We Deploy It.">
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
