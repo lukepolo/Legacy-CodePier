@@ -11,8 +11,9 @@ export default {
             })
         },
         createServerWorker: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Server\ServerWorkerController@store', { server: data.server }), data).then((response) => {
+            return Vue.http.post(Vue.action('Server\ServerWorkerController@store', { server: data.server }), data).then((response) => {
                 commit('ADD_SERVER_WORKER', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })

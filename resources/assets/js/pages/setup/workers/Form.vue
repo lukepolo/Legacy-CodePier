@@ -128,7 +128,7 @@
                 }
 
                 if(this.serverId) {
-                    this.form.site = this.serverId
+                    this.form.server = this.serverId
                     this.$store.dispatch('createServerWorker', this.form).then((worker) => {
                         if(worker.id) {
                             this.resetForm()
@@ -141,14 +141,14 @@
                 if(this.siteId) {
                     this.$store.dispatch('deleteWorker', {
                         worker: worker_id,
-                        site: this.$route.params.site_id,
+                        site: this.siteId,
                     });
                 }
 
                 if(this.serverId) {
                     this.$store.dispatch('deleteServerWorker', {
                         worker: worker_id,
-                        site: this.$route.params.site_id,
+                        server: this.serverId
                     });
                 }
             },
@@ -179,7 +179,14 @@
                 return this.$route.params.server_id
             },
             workers() {
-                return this.$store.state.siteWorkersStore.workers
+                if(this.siteId) {
+                    return this.$store.state.siteWorkersStore.workers
+                }
+
+                if(this.serverId) {
+                    return this.$store.state.serverWorkersStore.server_workers
+                }
+
             }
         }
     }

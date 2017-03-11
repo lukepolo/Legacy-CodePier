@@ -106,6 +106,7 @@
                 }
             },
             serverId() {
+                console.info(this.$route.params)
                 return this.$route.params.server_id
             },
             serverFeatures() {
