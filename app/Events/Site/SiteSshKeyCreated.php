@@ -21,12 +21,15 @@ class SiteSshKeyCreated
      */
     public function __construct(Site $site, SshKey $sshKey)
     {
-        $siteCommand = $this->makeCommand($site, $sshKey);
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $sshKey);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new InstallServerSshKey($server, $sshKey, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new InstallServerSshKey($server, $sshKey,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

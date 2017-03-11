@@ -35,7 +35,7 @@
                                 </template>
                                 <template v-else>
                                     Please link a
-                                    <router-link to="/my-profile/server-providers">
+                                    <router-link :to="{ name : 'user_server_providers' }">
                                         <a> server provider</a>
                                     </router-link>
                                     before creating a server.
@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="input-group">
-                                        <div class="input-question">Server Option</div>
+                                        <div class="input-question">Server Name</div>
 
                                         <select name="server_option">
                                             <option v-for="option in server_options" :value="option.id">
@@ -79,8 +79,7 @@
                                         <div class="input-question">Server Region</div>
 
                                         <select name="server_region">
-                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}
-                                            </option>
+                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
                                         </select>
                                     </div>
 
@@ -89,9 +88,9 @@
                                         <template v-for="feature in server_provider_features">
                                             <label>
                                                 <input
-                                                        type="checkbox"
-                                                        name="server_provider_features[]"
-                                                        :value="feature.id"
+                                                    type="checkbox"
+                                                    name="server_provider_features[]"
+                                                    :value="feature.id"
                                                 >
                                                 <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                                 <small>{{ feature.cost }}</small>
@@ -100,23 +99,18 @@
                                     </div>
                                 </template>
 
-                                <feature-area
-                                    :features="features"
-                                    :area="serverFeatureArea"
-                                    :selected_server_features="siteServerFeatures"
-                                    v-for="(features, serverFeatureArea) in availableServerFeatures"
-                                ></feature-area>
+                                <div class="jcf-input-group">
+                                    <label for="web_directory">
+                                        <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
+                                            <span class="fa fa-info-circle"></span>
+                                        </tooltip>
+                                        <h3 v-if="$route.params.site_id">Your server has been customized for your application</h3>
+                                    </label>
+                                </div>
 
-                                <feature-area
-                                    :frameworks="true"
-                                    :features="features"
-                                    :area="serverLanguageArea"
-                                    :selected_server_features="siteServerFeatures"
-                                    v-for="(features, serverLanguageArea) in availableServerLanguages"
-                                ></feature-area>
+                                <server-features :update="false"></server-features>
 
                                 <div class="btn-footer">
-                                    <button class="btn">Cancel</button>
                                     <button type="submit" class="btn btn-primary">Create Server</button>
                                 </div>
 
@@ -131,12 +125,12 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
-    import FeatureArea from './components/FeatureArea.vue';
+    import ServerFeatures from './../setup/serverFeatures/Form.vue'
 
     export default {
         components: {
             LeftNav,
-            FeatureArea,
+            ServerFeatures
         },
         created() {
             this.fetchData();
@@ -154,14 +148,6 @@
             fetchData() {
                 this.$store.dispatch('getServerProviders');
                 this.$store.dispatch('getUserServerProviders');
-
-                this.$store.dispatch('getServerAvailableFeatures');
-                this.$store.dispatch('getServerAvailableLanguages');
-                this.$store.dispatch('getServerAvailableFrameworks');
-
-                if (this.$route.params.site) {
-                    this.$store.dispatch('getSiteServerFeatures', this.$route.params.site);
-                }
             },
             getProviderData(server_provider_id) {
                 this.is_custom = false
@@ -181,7 +167,7 @@
                             app.$router.push('/')
                         }
                     }
-                });
+                })
             },
             getServerProviderName(server_provider_id) {
                 if(this.server_providers) {
@@ -190,44 +176,29 @@
                         return server_provider.name
                     }
                 }
-            },
-            createCustomServer() {
-
             }
         },
         computed: {
+            pile() {
+                return this.$store.state.userStore.user.current_pile_id
+            },
+            siteId() {
+                return this.$route.params.site
+            },
+            server_options() {
+                return this.$store.state.serverProvidersStore.server_provider_options
+            },
+            server_regions() {
+                return _.sortBy(this.$store.state.serverProvidersStore.server_provider_regions, 'name')
+            },
             server_providers() {
                 return this.$store.state.serverProvidersStore.server_providers
             },
             user_server_providers() {
                 return this.$store.state.userStore.user_server_providers
             },
-            server_options() {
-                return this.$store.state.serverProvidersStore.server_provider_options
-            },
-            server_regions() {
-                return this.$store.state.serverProvidersStore.server_provider_regions
-            },
             server_provider_features() {
                 return this.$store.state.serverProvidersStore.server_provider_features
-            },
-            availableServerFeatures() {
-                return this.$store.state.serversStore.available_server_features
-            },
-            availableServerLanguages() {
-                return this.$store.state.serversStore.available_server_languages
-            },
-            availableServerFrameworks() {
-                return this.$store.state.serversStore.available_server_frameworks
-            },
-            siteId() {
-                return this.$route.params.site
-            },
-            pile() {
-                return this.$store.state.userStore.user.current_pile_id
-            },
-            siteServerFeatures() {
-               return this.$store.state.siteServersFeaturesStore.site_server_features
             }
         }
     }

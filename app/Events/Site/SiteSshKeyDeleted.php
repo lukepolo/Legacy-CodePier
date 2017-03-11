@@ -21,14 +21,17 @@ class SiteSshKeyDeleted
      */
     public function __construct(Site $site, SshKey $sshKey)
     {
-        $siteCommand = $this->makeCommand($site, $sshKey);
-
         $site->sshKeys()->detach($sshKey);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new RemoveServerSshKey($server, $sshKey, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $sshKey);
+
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new RemoveServerSshKey($server, $sshKey,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

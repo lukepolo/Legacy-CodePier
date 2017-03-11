@@ -20,12 +20,15 @@ class SiteFirewallRuleCreated
      */
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
-        $siteCommand = $this->makeCommand($site, $firewallRule);
+        if ($site->provisionedServers->count()) {
+            $siteCommand = $this->makeCommand($site, $firewallRule);
 
-        foreach ($site->provisionedServers as $server) {
-            dispatch(
-                (new InstallServerFirewallRule($server, $firewallRule, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-            );
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new InstallServerFirewallRule($server, $firewallRule,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
         }
     }
 }

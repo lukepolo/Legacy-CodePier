@@ -24,13 +24,24 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->addBasicFirewallRules();
+        $command = 'ufw allow '.$firewallRule->port.'/'.$firewallRule->type;
 
         if ($firewallRule->from_ip) {
-            return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
+            $command = $command.' from '.$firewallRule->from_ip;
         }
 
-        return $this->remoteTaskService->run("ufw allow $firewallRule->port/$firewallRule->type");
+        return $this->remoteTaskService->run('
+for i in {1..5}
+do
+   count=$(ps -A -ww | grep [^]]ufw | wc -l)
+   if [ $count -eq 0 ]
+   then
+        '.$command.'
+      break
+   else
+      sleep $[ ( $RANDOM % 10 )  + 1 ]s
+   fi
+done');
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)

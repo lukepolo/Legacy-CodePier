@@ -308,8 +308,6 @@ export default {
 
             const siteKey = _.findKey(state.sites, { id: siteDeployment.site_id })
 
-            console.info(siteDeployment.status)
-
             if (siteKey) {
                 Vue.set(state.sites[siteKey], 'last_deployment_status', siteDeployment.status)
             }

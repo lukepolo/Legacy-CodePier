@@ -14,7 +14,7 @@ class AddDockerContainerToBuoys extends Migration
     public function up()
     {
         Schema::table('buoys', function (Blueprint $table) {
-            $table->text('container_ids')->nullable();
+            $table->json('container_ids')->nullable();
         });
     }
 

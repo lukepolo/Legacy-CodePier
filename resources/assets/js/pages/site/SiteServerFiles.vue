@@ -1,30 +1,52 @@
 <template>
-    <div v-if="site">
-        <server-files></server-files>
-    </div>
+    <section>
+        <template v-if="possibleFiles && site">
+            <site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
+        </template>
+    </section>
 </template>
 
 <script>
-    import ServerFiles from  './components/SiteServerFiles.vue'
+    import SiteFile from './components/SiteFile.vue';
     export default {
         components : {
-            ServerFiles
+            SiteFile
         },
         created() {
-            this.fetchData()
+            this.fetchData();
         },
         watch: {
             '$route': 'fetchData'
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSiteFiles', this.$route.params.site_id)
+                this.$store.commit('SET_EDITABLE_SITE_FILES', []);
+                this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
+            },
+            isRunningCommandFor(file) {
+                if(this.siteFiles) {
+                    let foundFile =_.find(this.siteFiles, { file_path : file });
+                    if(foundFile) {
+                        return this.isCommandRunning('App\\Models\\File', foundFile.id);
+                    }
+                }
+
+                return false;
             }
         },
         computed: {
+            runningCommands() {
+                return this.$store.state.serversStore.running_commands;
+            },
             site() {
-                return this.$store.state.sitesStore.site
+                return this.$store.state.sitesStore.site;
+            },
+            possibleFiles() {
+                return this.$store.state.siteFilesStore.site_editable_files;
+            },
+            siteFiles() {
+                return this.$store.state.siteFilesStore.site_files;
             }
-        }
+        },
     }
 </script>
