@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\SslCertificates;
 
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
