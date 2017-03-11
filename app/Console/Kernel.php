@@ -29,9 +29,8 @@ class Kernel extends ConsoleKernel
         // REACTIVITY TESTS
         ServerCommandUpdated::class,
 
-
         // BETA - Emails - TEMP
-        SendBetaEmails::class
+        SendBetaEmails::class,
     ];
 
     /**
