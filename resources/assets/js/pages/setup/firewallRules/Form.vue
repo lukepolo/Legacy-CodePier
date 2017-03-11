@@ -120,16 +120,19 @@
             },
             deleteFirewallRule(firewallRuleId) {
 
-                this.$store.dispatch('deleteSiteFirewallRule', {
-                    site: this.$route.params.site_id,
-                    firewall_rule: firewallRuleId,
-                })
+                if(this.siteId) {
+                    this.$store.dispatch('deleteSiteFirewallRule', {
+                        site: this.siteId,
+                        firewall_rule: firewallRuleId,
+                    })
+                }
 
-
-                this.$store.dispatch('deleteServerFirewallRule', {
-                    server: this.server.id,
-                    firewall: firewall_rule_id
-                })
+                if(this.serverId) {
+                    this.$store.dispatch('deleteServerFirewallRule', {
+                        server: this.serverId,
+                        firewall: firewall_rule_id
+                    })
+                }
             },
             isRunningCommandFor(id) {
                 return this.isCommandRunning('App\\Models\\FirewallRule', id)

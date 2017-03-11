@@ -187,6 +187,9 @@ Vue.mixin({
         },
         getBytesFromString (string) {
             return filesizeParser(string, { base: 10 })
+        },
+        local() {
+            return Laravel.env === 'local'
         }
     }
 })
