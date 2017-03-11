@@ -116,7 +116,7 @@ trait SystemFiles
                     'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
                     'multiple' => $this->getFirstDocParam($method, 'multiple', false),
-                    'conflicts' => array_filter(explode(',' , $this->getFirstDocParam($method, 'conflicts')))
+                    'conflicts' => array_filter(explode(',', $this->getFirstDocParam($method, 'conflicts'))),
                 ]));
             }
         }
