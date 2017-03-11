@@ -2,6 +2,7 @@ export const server = require('./ServerStore').default
 export const files = require('./ServerFileStore').default
 export const buoys = require('./ServerBuoyStore').default
 export const workers = require('./ServerWorkerStore').default
+export const schemas = require('./ServerSchemaStore').default
 export const sshKeys = require('./ServerSshKeyStore').default
 export const cronJobs = require('./ServerCronJobStore').default
 export const services = require('./ServerServicesStore').default

@@ -286,6 +286,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'databases',
+                    name: 'server_databases',
+                    components: {
+                        default: setupPages.Databases,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerInformationNav
+                    }
+                },
+                {
                     path: 'buoys',
                     name: 'server_buoys',
                     components: {
