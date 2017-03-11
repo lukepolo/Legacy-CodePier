@@ -125,13 +125,11 @@
 
 <script>
     import LeftNav from './../../core/LeftNav.vue';
-    import FeatureArea from './components/FeatureArea.vue';
-    import ServerFeatures from './../../components/ServerFeatures.vue'
+    import ServerFeatures from './../setup/serverFeatures/Form.vue'
 
     export default {
         components: {
             LeftNav,
-            FeatureArea,
             ServerFeatures
         },
         created() {
@@ -163,8 +161,8 @@
             createServer() {
                 this.$store.dispatch('createServer', this.getFormData(this.$el)).then((server) => {
                     if(server.id) {
-                        if (this.$route.params.site) {
-                            app.$router.push({ name : 'site_repository', params : { site_id : this.$route.params.site}})
+                        if (this.siteId) {
+                            app.$router.push({ name : 'site_repository', params : { site_id : this.siteId}})
                         } else {
                             app.$router.push('/')
                         }
@@ -185,7 +183,7 @@
                 return this.$store.state.userStore.user.current_pile_id
             },
             siteId() {
-                return this.$route.params.site
+                return this.$route.params.site_id
             },
             server_options() {
                 return this.$store.state.serverProvidersStore.server_provider_options

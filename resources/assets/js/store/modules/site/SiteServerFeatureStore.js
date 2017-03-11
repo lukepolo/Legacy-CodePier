@@ -11,8 +11,9 @@ export default {
             })
         },
         updateSiteServerFeatures: ({ dispatch }, data) => {
-            Vue.http.post(Vue.action('Site\SiteServerFeaturesController@update', { site: data.site }), data.form).then(() => {
-                dispatch('getSite', data.site)
+            Vue.http.post(Vue.action('Site\SiteServerFeaturesController@update', { site: data.site_id }), data.form).then(() => {
+                dispatch('getSite', data.site_id)
+                app.showSuccess('Updated your site\'s server features')
             }, (errors) => {
                 app.handleApiError(errors)
             })

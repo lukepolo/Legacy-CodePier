@@ -15,11 +15,13 @@ export default {
         },
         installSslCertificate: ({ commit }, data) => {
             return Vue.http.post(Vue.action('Site\SiteSslController@store', { site: data.site_id }), data).then((response) => {
+
                 if (_.isObject(response.data)) {
                     commit('UPDATE_SITE_SSL_CERTIFICATE', response.data)
                 }
 
                 return response.data
+
             }, (errors) => {
                 app.handleApiError(errors)
             })

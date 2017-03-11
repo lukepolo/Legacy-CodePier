@@ -95,6 +95,7 @@ export default {
         updateSite: ({ commit }, data) => {
             Vue.http.put(Vue.action('Site\SiteController@update', { site: data.site_id }), data.data).then((response) => {
                 commit('SET_SITE', response.data)
+                app.showSuccess('You have updated the site')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -107,6 +108,7 @@ export default {
                     pile: rootState.userStore.user.current_pile_id
                 })
                 app.$router.push('/')
+                app.showSuccess('You have deleted the site')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -142,7 +144,7 @@ export default {
         },
         updateSiteDeployment: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteDeploymentStepsController@store', { site: data.site }), data).then(() => {
-
+                app.showSuccess('You have updated the site deployment')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -178,6 +180,7 @@ export default {
         createDeployHook: ({ commit }, site) => {
             Vue.http.post(Vue.action('Site\Repository\RepositoryHookController@store', { site: site })).then((response) => {
                 commit('SET_SITE', response.data)
+                app.showSuccess('You have added automatic deployments')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -188,6 +191,7 @@ export default {
                 hook: data.hook
             })).then((response) => {
                 commit('SET_SITE', response.data)
+                app.showSuccess('You have removed automatic deployments')
             }, (errors) => {
                 app.handleApiError(errors)
             })

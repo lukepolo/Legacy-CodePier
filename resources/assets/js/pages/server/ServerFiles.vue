@@ -1,11 +1,10 @@
 <template>
-    <div>
-        <h3>Server Files</h3>
+    <section>
         <custom-files></custom-files>
         <template v-if="possibleFiles && server">
             <server-file :server="server" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></server-file>
         </template>
-    </div>
+    </section>
 </template>
 
 <script>
