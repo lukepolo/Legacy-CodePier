@@ -123,14 +123,14 @@
                 if(this.siteId) {
                     this.$store.dispatch('deleteSiteFirewallRule', {
                         site: this.siteId,
-                        firewall_rule: firewallRuleId,
+                        firewall_rule: firewallRuleId
                     })
                 }
 
                 if(this.serverId) {
                     this.$store.dispatch('deleteServerFirewallRule', {
                         server: this.serverId,
-                        firewall: firewall_rule_id
+                        firewall: firewallRuleId
                     })
                 }
             },

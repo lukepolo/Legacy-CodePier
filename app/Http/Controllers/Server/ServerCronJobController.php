@@ -39,7 +39,7 @@ class ServerCronJobController extends Controller
         $job = $request->get('job');
         $user = $request->get('user');
 
-        if (! $server->cronJobs->cronJobs
+        if (! $server->cronJobs
             ->where('job', $job)
             ->where('user', $user)
             ->count()
@@ -49,7 +49,7 @@ class ServerCronJobController extends Controller
                 'user' => $user,
             ]);
 
-            $server->cronJob()->save($cronJob);
+            $server->cronJobs()->save($cronJob);
 
             $this->dispatch(
                 (new InstallServerCronJob($server, $cronJob))->onQueue(config('queue.channels.server_commands'))

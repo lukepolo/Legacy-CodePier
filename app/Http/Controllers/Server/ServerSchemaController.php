@@ -49,8 +49,6 @@ class ServerSchemaController extends Controller
                 'database' =>  $database,
             ]);
 
-            $server->schemas()->save($schema);
-
             $this->dispatch(
                 (new AddServerSchema($server, $schema))->onQueue(config('queue.channels.server_commands'))
             );

@@ -44,8 +44,6 @@ class ServerWorkerController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        $server->workers()->save($worker);
-
         dispatch(
             (new InstallServerWorker($server, $worker))->onQueue(config('queue.channels.server_commands'))
         );

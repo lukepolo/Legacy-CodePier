@@ -46,8 +46,6 @@ class ServerSshKeyController extends Controller
                 'ssh_key' => $sshKey,
             ]);
 
-            $server->sshKeys()->save($sshKey);
-
             dispatch(
                 (new InstallServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
             );
