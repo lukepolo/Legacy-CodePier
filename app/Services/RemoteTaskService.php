@@ -38,7 +38,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        if(config('app.env') === 'local') {
+        if (config('app.env') === 'local') {
             \Log::info('Running Command '.$command);
         }
 
