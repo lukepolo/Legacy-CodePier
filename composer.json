@@ -16,6 +16,7 @@
         "php": ">=7.0.0",
         "authy/php": "2.*",
         "barryvdh/laravel-ide-helper": "^2.2",
+        "darovi/laravelslackinvite": "^1.0",
         "doctrine/dbal": "dev-mysql57-json",
         "dompdf/dompdf": "~0.7",
         "filp/whoops": "^2.1",
