@@ -2,16 +2,14 @@
 # Beta Registraton is Now Open!
 
 @component('vendor.mail.html.cover')
-promotion
-@endcomponent
-
-
-
-I am excited to invite you to our Beta 1 of CodePier!
+## I am excited to invite you to our Beta 1 of CodePier!
 
 @component('mail::button', ['url' => 'https://codepier.io/login'])
 Join the Beta Now
 @endcomponent
+
+@endcomponent
+
 
 It's important that you remember we are still developing the application and some features have been turned off. This is so we can test the core features.
 Will will notify you when new features are ready for you to test.

@@ -37,11 +37,6 @@ a img {
     border: none;
 }
 
-.footer a {
-    color: #FFFFFF;
-    font-size: 12px;
-}
-
 hr {
     border: none;
     border-top: 1px solid #dddddd;
@@ -114,21 +109,29 @@ img {
     -premailer-width: 100%;
 }
 
-.content {
+.container {
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 600px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 100%;
+    -premailer-width: 600px;
+}
+
+.content {
+    max-width: 600px;
+    margin: 0 auto;
+    display: block;
+    padding: 20px;
 }
 
 /* Header */
 
 .header {
-    padding: 7px 0;
     text-align: center;
     border-bottom: 1px solid #B6B6B6;
+    margin-bottom: 25px;
+    padding: 7px 0px;
 }
 
 .header a {
@@ -141,35 +144,11 @@ img {
 
 .logo {
     width: 210px;
-    margin-left: 30px;
+    margin-left: 25px;
 }
 
 .logo img {
     width: 100%;
-}
-
-/* Body */
-
-.body {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #EDEFF2;
-    border-top: 1px solid #EDEFF2;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    -premailer-cellpadding: 0;
-    -premailer-cellspacing: 0;
-    -premailer-width: 100%;
-}
-
-.inner-body {
-    background-color: #FFFFFF;
-    margin: 0 auto;
-    padding: 0;
-    width: 570px;
-    -premailer-cellpadding: 0;
-    -premailer-cellspacing: 0;
-    -premailer-width: 580px;
 }
 
 /* Subcopy */
@@ -187,24 +166,22 @@ img {
 
 /* Footer */
 
-.footer-row {
-    background-color: #48ACF0;
-}
 .footer {
-    color: #FFFFFF;
-    margin: 0 auto;
-    padding: 0;
+    background-color: #48ACF0;
+    margin: 25px auto 0px;
+    padding: 20px 10px 10px;
     text-align: center;
-    width: 570px;
-    -premailer-cellpadding: 0;
-    -premailer-cellspacing: 0;
-    -premailer-width: 570px;
 }
 
 .footer p {
     color: #FFFFFF;
     font-size: 12px;
     text-align: center;
+}
+
+.footer a {
+    color: #FFFFFF;
+    font-size: 12px;
 }
 
 /* Tables */
@@ -230,7 +207,7 @@ img {
 }
 
 .content-cell {
-    padding: 35px;
+    padding: 35px 15px;
 }
 
 /* Buttons */
@@ -323,3 +300,15 @@ img {
 }
 
 /* Cover */
+.cover {
+    text-align: center;
+    margin: 20px 0px 20px;
+    padding: 25px 0px 0px;
+}
+
+.cover h2 {
+    text-align: center;
+    font-size: 18px;
+    text-transform: none;
+    letter-spacing: 0px;
+}

@@ -1,11 +1,3 @@
-<tr class="footer-row">
-    <td>
-        <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0">
-            <tr>
-                <td class="content-cell" align="center">
-                    {{ Illuminate\Mail\Markdown::parse($slot) }}
-                </td>
-            </tr>
-        </table>
-    </td>
-</tr>
+<div class="footer">
+    {{ Illuminate\Mail\Markdown::parse($slot) }}
+</div>
