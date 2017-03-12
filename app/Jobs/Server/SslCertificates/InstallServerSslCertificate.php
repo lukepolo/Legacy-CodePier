@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\SslCertificates;
 
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
@@ -19,7 +18,6 @@ class InstallServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $site;
     private $server;
     private $sslCertificate;
 
@@ -29,13 +27,11 @@ class InstallServerSslCertificate implements ShouldQueue
     /**
      * InstallServerWorker constructor.
      * @param Server $server
-     * @param Site $site
      * @param SslCertificate $sslCertificate
      * @param Command $siteCommand
      */
-    public function __construct(Server $server, Site $site, SslCertificate $sslCertificate, Command $siteCommand = null)
+    public function __construct(Server $server, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
-        $this->site = $site;
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
         $this->makeCommand($server, $sslCertificate, $siteCommand);

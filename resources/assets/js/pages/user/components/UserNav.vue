@@ -8,14 +8,14 @@
             </a>
         </router-link>
 
-        <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }">
+        <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }" v-if="local()">
             <a>
                 Subscription
                 <div class="small">Sadly we require a subscription, but there are options for everyone!</div>
             </a>
         </router-link>
-        <!--<router-link tag="li" class="wizard-item" to="/my-profile/oauth">-->
-        <!--<a>OAuth</a>-->
+        <!--<router-link tag="li" class="wizard-item" to="/my-profile/oauth" v-if="local()">-->
+            <!--<a>OAuth</a>-->
         <!--</router-link>-->
         <router-link tag="li" class="wizard-item" :to="{ name : 'user_ssh_keys' }">
             <a>

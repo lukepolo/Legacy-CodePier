@@ -38,7 +38,9 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         $output = null;
 
-        \Log::info('Running Command '.$command);
+        if (config('app.env') === 'local') {
+            \Log::info('Running Command '.$command);
+        }
 
         try {
             $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
@@ -71,6 +73,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         if ($this->session->getExitStatus() != 0) {
+            \Log::warning('Error while running Command '.$command);
             \Log::error($output);
 
             $this->errors[] = $output;

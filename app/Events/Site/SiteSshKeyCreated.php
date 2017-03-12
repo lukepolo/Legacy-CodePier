@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Sites;
+namespace App\Events\Site;
 
 use App\Models\SshKey;
 use App\Models\Site\Site;

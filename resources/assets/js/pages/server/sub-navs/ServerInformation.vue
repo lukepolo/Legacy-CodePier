@@ -17,7 +17,14 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item">
+                <router-link :to="{ name : 'server_databases', params : { server_id : serverId } }" tag="li">
+                    <a>
+                        Databases
+                        <div class="small">Setup your servers's databases and users</div>
+                    </a>
+                </router-link>
+
+                <router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local()">
                     <a>
                         Buoys
                         <div class="small">Installed buoys on the system</div>

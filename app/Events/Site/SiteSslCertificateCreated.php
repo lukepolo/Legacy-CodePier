@@ -25,8 +25,13 @@ class SiteSslCertificateCreated
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new InstallServerSslCertificate($server, $site, $sslCertificate,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (
+                        new InstallServerSslCertificate(
+                            $server,
+                            $sslCertificate,
+                            $siteCommand
+                        )
+                    )->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

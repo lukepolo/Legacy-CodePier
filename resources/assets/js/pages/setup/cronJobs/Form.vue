@@ -141,10 +141,21 @@
                 return $('#cronjob-maker').cron('value')
             },
             deleteCronJob(cronJobId) {
-                this.$store.dispatch('deleteSiteCronJob', {
-                    cron_job : cronJobId,
-                    site : this.$route.params.site_id,
-                });
+                if(this.siteId) {
+                    this.$store.dispatch('deleteSiteCronJob', {
+                        site : this.siteId,
+                        cron_job : cronJobId
+
+                    });
+                }
+
+                if(this.serverId) {
+                    this.$store.dispatch('deleteServerCronJob', {
+                        cron_job : cronJobId,
+                        server : this.serverId
+                    });
+                }
+
             },
             isRunningCommandFor(id) {
                 return this.isCommandRunning('App\\Models\\CronJob', id)
@@ -175,7 +186,13 @@
                 return this.$route.params.server_id
             },
             cronJobs() {
-                return this.$store.state.siteCronJobsStore.site_cron_jobs
+                if(this.siteId) {
+                    return this.$store.state.siteCronJobsStore.site_cron_jobs
+                }
+
+                if(this.serverId) {
+                    return this.$store.state.serverCronJobsStore.server_cron_jobs
+                }
             }
         }
     }

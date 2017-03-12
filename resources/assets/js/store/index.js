@@ -35,23 +35,26 @@ export default new Vuex.Store({
         userNotificationsStore: UserStore.notifications,
 
         sitesStore: SiteStore.site,
-        siteFilesStore: SiteStore.siteFiles,
-        siteWorkersStore: SiteStore.siteWorkers,
-        siteSchemasStore: SiteStore.siteSchemas,
-        siteSshKeysStore: SiteStore.siteSshKeys,
-        siteCronJobsStore: SiteStore.siteCronJobs,
-        siteFirewallRulesStore: SiteStore.siteFirewallRules,
-        siteServersFeaturesStore: SiteStore.siteServersFeatures,
-        siteSslCertificatesStore: SiteStore.siteSslCertificates,
+        siteFilesStore: SiteStore.files,
+        siteWorkersStore: SiteStore.workers,
+        siteSchemasStore: SiteStore.schemas,
+        siteSshKeysStore: SiteStore.sshKeys,
+        siteCronJobsStore: SiteStore.cronJobs,
+        siteFirewallRulesStore: SiteStore.firewallRules,
+        siteServersFeaturesStore: SiteStore.serversFeatures,
+        siteSslCertificatesStore: SiteStore.sslCertificates,
 
         serversStore: ServerStore.server,
         serverFilesStore: ServerStore.files,
         serverBuoysStore: ServerStore.buoys,
         serverWorkersStore: ServerStore.workers,
         serverSshKeysStore: ServerStore.sshKeys,
+        serverSchemasStore :ServerStore.schemas,
         serverCronJobsStore: ServerStore.cronJobs,
         serverFirewallStore: ServerStore.firewall,
         serverServicesStore: ServerStore.services,
-        serverProvidersStore: ServerStore.providers
+        serverProvidersStore: ServerStore.providers,
+        serverSslCertificatesStore: ServerStore.sslCertificates,
+
     }
 })

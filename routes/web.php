@@ -75,6 +75,7 @@ Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

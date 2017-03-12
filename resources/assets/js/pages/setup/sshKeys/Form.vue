@@ -82,7 +82,7 @@
                 }
 
                 if(this.serverId) {
-                    this.form['server'] = this.server.id;
+                    this.form.server = this.serverId
                     this.$store.dispatch('createServerSshKey', this.form).then((sshKey) => {
                         if(sshKey.id) {
                             this.resetForm()
@@ -102,7 +102,7 @@
                 if(this.serverId) {
                     this.$store.dispatch('deleteServerSshKey', {
                         ssh_key: sshKeyId,
-                        site: this.serverId
+                        server: this.serverId
                     });
                 }
             },

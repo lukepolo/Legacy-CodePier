@@ -55,6 +55,13 @@
                 </div>
             </div>
 
+            <li v-if="user.invited_to_slack">
+                <a :href="slackInviteLink()">
+                    <i class="fa fa-slack" aria-hidden="true"></i>
+                    Get Invite to Slack
+                </a>
+            </li>
+
         </div>
 
     </section>
@@ -100,9 +107,15 @@
                         return 'Deploying'
                         break;
                 }
+            },
+            slackInviteLink() {
+                return this.action('User\UserController@slackInvite')
             }
         },
         computed: {
+            user() {
+                return this.$store.state.userStore.user;
+            },
             sites() {
                 return this.$store.state.sitesStore.sites;
             },

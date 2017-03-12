@@ -53,9 +53,9 @@
             createSchema() {
                 if(this.siteId) {
                     this.$store.dispatch('createSiteSchema', {
+                        site : this.siteId,
                         database : this.database,
-                        name : this.schemaForm.name,
-                        site : this.siteId
+                        name : this.schemaForm.name
                     }).then((schema) => {
                         if(schema.id) {
                             this.schemaForm.name = ''
@@ -64,7 +64,15 @@
                 }
 
                 if(this.serverId) {
-                    alert('we need to save server schemas!')
+                    this.$store.dispatch('createServerSchema', {
+                        server : this.serverId,
+                        database : this.database,
+                        name : this.schemaForm.name,
+                    }).then((schema) => {
+                        if(schema.id) {
+                        this.schemaForm.name = ''
+                    }
+                })
                 }
 
             },
@@ -73,12 +81,16 @@
                 if(this.siteId) {
                     this.$store.dispatch('deleteSiteSchema', {
                         schema: database,
-                        site: this.$route.params.site_id
+                        site: this.siteId
+
                     })
                 }
 
                 if(this.serverId) {
-                    alert('we need to delete server schemas!')
+                    this.$store.dispatch('deleteServerSchema', {
+                        schema: database,
+                        server: this.serverId
+                    })
                 }
             }
         },
@@ -97,10 +109,9 @@
                 }
 
                 if(this.serverId) {
-                    alert('we need to setup server schema store')
-//                    return _.filter(this.$store.state.siteSchemasStore.site_schemas, (schema) => {
-//                        return schema.database == this.database
-//                    })
+                    return _.filter(this.$store.state.serverSchemasStore.server_schemas, (schema) => {
+                        return schema.database == this.database
+                    })
                 }
             }
         }

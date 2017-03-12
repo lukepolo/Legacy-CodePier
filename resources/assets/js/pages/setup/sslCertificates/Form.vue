@@ -5,7 +5,7 @@
 
                 <div class="jcf-input-group input-radio">
                     <div class="input-question">Certificate Type</div>
-                    <label>
+                    <label v-if="!serverId">
                         <input name="type" type="radio" v-model="form.type" value="Let's Encrypt">
                         <span class="icon"></span>
                         Let's Encrypt
@@ -48,36 +48,36 @@
 
         <table class="table">
             <thead>
-            <tr>
-                <th>Domains</th>
-                <th>Type</th>
-                <!--<th>Cert Path</th>-->
-                <!--<th>Key Path</th>-->
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Domains</th>
+                    <th>Type</th>
+                    <th>Cert Path</th>
+                    <th>Key Path</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate">
-                <td>{{ ssl_certificate.domains }}</td>
-                <td>{{ ssl_certificate.type }}</td>
-                <!--<td>{{ ssl_certificate.cert_path }}</td>-->
-                <!--<td>{{ ssl_certificate.key_path }}</td>-->
-                <td>
-                    <template v-if="isRunningCommandFor(ssl_certificate.id)">
-                        {{ isRunningCommandFor(ssl_certificate.id).status }}
-                    </template>
-                    <template v-else>
-                        <template v-if="ssl_certificate.failed">
-                            <a @click="retryInstall(ssl_certificate.domains)">Retry Install</a>
+                <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate">
+                    <td>{{ ssl_certificate.domains }}</td>
+                    <td>{{ ssl_certificate.type }}</td>
+                    <td>{{ ssl_certificate.cert_path }}</td>
+                    <td>{{ ssl_certificate.key_path }}</td>
+                    <td>
+                        <template v-if="isRunningCommandFor(ssl_certificate.id)">
+                            {{ isRunningCommandFor(ssl_certificate.id).status }}
                         </template>
                         <template v-else>
-                            <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
-                            <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                            <template v-if="ssl_certificate.failed">
+                                <a @click="retryInstall(ssl_certificate.domains)">Retry Install</a>
+                            </template>
+                            <template v-else-if="!server">
+                                <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
+                                <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                            </template>
+                            <a @click="deleteSslCertificate(ssl_certificate.id)">Delete</a>
                         </template>
-                        <a @click="deleteSslCertificate(ssl_certificate.id)">Delete</a>
-                    </template>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
@@ -105,69 +105,123 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSslCertificates', this.$route.params.site_id);
+                    this.$store.dispatch('getSslCertificates', this.siteId);
                 }
 
                 if(this.serverId) {
-                    alert('we need to get sever ssl certificates')
+                    this.$store.dispatch('getServerSslCertificates', this.serverId);
                 }
 
             },
             installCertificate() {
-                this.$store.dispatch('installSslCertificate', {
-                    site_id: this.siteId,
-                    type : this.form.type,
-                    domains: this.form.domains,
-                    private_key : this.form.private_key,
-                    certificate : this.form.certificate,
-                }).then((data) => {
-                    if(data) {
-                        this.$data.form = this.$options.data().form
-                    }
-                })
+                if(this.siteId) {
+                    this.$store.dispatch('installSslCertificate', {
+                        site_id: this.siteId,
+                        type : this.form.type,
+                        domains: this.form.domains,
+                        private_key : this.form.private_key,
+                        certificate : this.form.certificate,
+                    }).then((data) => {
+                        if(data) {
+                            this.resetForm()
+                        }
+                    })
+                }
+
+                if(this.serverId) {
+                    this.$store.dispatch('installServerSslCertificate', {
+                        type : this.form.type,
+                        server_id: this.serverId,
+                        domains: this.form.domains,
+                        private_key : this.form.private_key,
+                        certificate : this.form.certificate,
+                    }).then((data) => {
+                        if(data) {
+                            this.resetForm()
+                        }
+                    })
+                }
+
             },
             activateSslCertificate : function(ssl_certificate_id) {
-                this.$store.dispatch('updateSslCertificate', {
-                    active : true,
-                    site : this.siteId,
-                    ssl_certificate : ssl_certificate_id
-                })
+                if(this.siteId) {
+                    this.$store.dispatch('updateSslCertificate', {
+                        active : true,
+                        site : this.siteId,
+                        ssl_certificate : ssl_certificate_id
+                    })
+                }
             },
             deactivateSslCertificate : function(ssl_certificate_id) {
-                this.$store.dispatch('updateSslCertificate', {
-                    active : false,
-                    site : this.siteId,
-                    ssl_certificate : ssl_certificate_id
-                })
+                if(this.siteId) {
+                    this.$store.dispatch('updateSslCertificate', {
+                        active : false,
+                        site : this.siteId,
+                        ssl_certificate : ssl_certificate_id
+                    })
+                }
             },
             deleteSslCertificate: function (ssl_certificate_id) {
-                this.$store.dispatch('deleteSslCertificate', {
-                    site : this.siteId,
-                    ssl_certificate : ssl_certificate_id
-                })
+
+                if(this.siteId) {
+                    this.$store.dispatch('deleteSslCertificate', {
+                        site : this.siteId,
+                        ssl_certificate : ssl_certificate_id
+                    })
+                }
+
+                if(this.serverId) {
+                    this.$store.dispatch('deleteServerSslCertificate', {
+                        server : this.serverId,
+                        ssl_certificate : ssl_certificate_id
+                    })
+                }
+
             },
             isRunningCommandFor(id) {
                 return this.isCommandRunning('App\\Models\\SslCertificate', id);
             },
             retryInstall(domains) {
-                this.$store.dispatch('installSslCertificate', {
-                    site_id: this.siteId,
-                    domains: domains,
-                    type : 'Let\'s Encrypt'
-                }).then(() => {
-                    this.$data.form = this.$options.data().form
-                })
+
+                if(this.siteId) {
+                    this.$store.dispatch('installSslCertificate', {
+                        site_id: this.siteId,
+                        domains: domains,
+                        type : 'Let\'s Encrypt'
+                    }).then(() => {
+                        this.$data.form = this.$options.data().form
+                    })
+                }
+
+                if(this.serverId) {
+                    this.$store.dispatch('installServerSslCertificate', {
+                        domains: domains,
+                        type : 'Let\'s Encrypt',
+                        server_id: this.serverId,
+                    }).then(() => {
+                        this.$data.form = this.$options.data().form
+                    })
+                }
+
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.$data.form = this.$options.data().form
             }
         },
         computed: {
             siteId() {
-                return this.$route.params.site_id
+                let siteId = this.$route.params.site_id
+                if(siteId) {
+                    this.form.type = 'Let\'s Encrypt'
+                }
+                return siteId
             },
             serverId() {
-                return this.$route.params.server_id
+                let serverId = this.$route.params.server_id
+                if(serverId) {
+                    this.form.type = 'existing'
+                }
+                return serverId
             },
             ssl_certificates() {
                 return this.$store.state.siteSslCertificatesStore.ssl_certificates;

@@ -32,6 +32,7 @@ export default {
         retryProvisioning: ({ commit }, server) => {
             Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', { server: server })).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server, response.data])
+                app.showSuccess('Retrying to provision the server')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -121,6 +122,9 @@ export default {
 
                 commit('REMOVE_SERVER', server)
                 commit('REMOVE_SERVER_FROM_SITE_SERVERS', server)
+
+                app.showSuccess('You have archived the server')
+
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -130,6 +134,7 @@ export default {
                 commit('ADD_SERVER', response.data)
                 dispatch('listenToServer', response.data)
                 commit('REMOVE_TRASHED_SERVER', response.data)
+                app.showSuccess('You have restored the server')
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -169,7 +174,7 @@ export default {
                 feature: data.feature,
                 parameters: data.parameters
             }).then((response) => {
-                alert('install server feature')
+                app.showSuccess('You have queued a server feature install')
             }, (errors) => {
                 app.handleApiError(errors)
             })
