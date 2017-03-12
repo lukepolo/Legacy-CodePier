@@ -13,7 +13,7 @@ class AddSlackInvitedToUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->boolean('invited_to_slack')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddSlackInvitedToUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('invited_to_slack');
         });
     }
