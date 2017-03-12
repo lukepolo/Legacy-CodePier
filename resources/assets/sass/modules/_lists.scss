@@ -233,42 +233,46 @@
 
 
 // SERVER LIST
-.group-list {
-  .item:last-child {
-    border: none;
+.list {
+
+  &--item {
+    display: block;
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
+
+    &:last-child {
+      border: none;
+    }
+
+    @at-root a#{&}:hover {
+      cursor: pointer;
+
+      &:before {
+        content: '\f105';
+        font-family: 'icomoon';
+        font-size: 2em;
+        line-height: .7em;
+        display: inline-block;
+        float: right;
+      }
+    }
+
+    &.selected {
+      background-color: mix($gray, $black, 50%);
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: $spacing/4;
+      padding-right: 1.4em;
+    }
   }
 }
 
-.item {
-  display: block;
-  border-bottom: 1px solid $color-divider;
-  padding: $spacing;
-  position: relative;
 
-  &.selected {
-    background-color: mix($gray, $black, 50%);
-  }
-}
 
-.item-name {
-  font-weight: 600;
-  font-size: 1.2em;
-  margin-bottom: $spacing/4;
-  padding-right: 1.4em;
-}
-
-a.item:hover {
-  cursor: pointer;
-
-  &:before {
-    content: '\f105';
-    font-family: 'icomoon';
-    font-size: 2em;
-    line-height: .7em;
-    display: inline-block;
-    float: right;
-  }
-}
 
 
 

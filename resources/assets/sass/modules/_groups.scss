@@ -1,0 +1,83 @@
+// GROUP STYLES ============================================
+// =========================================================
+.group {
+    display: flex;
+    flex-wrap: wrap;
+
+    &--item {
+        flex: 0 1 380px;
+        display: flex;
+        flex-direction: column;
+        @include card(1);
+        border: 1px solid mix($black, $gray, 60%);
+        margin: $spacing;
+        padding: $spacing;
+
+        &-heading  {
+            background-color: mix($white, $gray, 10%);
+            border-bottom: 1px solid mix($black, $gray, 10%);
+            margin: (-$spacing) (-$spacing) ($spacing);
+            padding: $spacing;
+            position: relative;
+
+            h4 {
+                text-transform: none;
+            }
+
+            input {
+                display: block;
+                font-size: 14px;
+                font-weight: 400;
+                letter-spacing: .5px;
+                background-color: transparent;
+                border: 1px solid $black;
+                width: calc(100% - 35px);
+                margin: -10px;
+                padding: 9px;
+
+                &:focus {
+                    outline: 2px solid $color-primary;
+                }
+            }
+
+            .action-btn {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+        &-content {
+            flex: 1 0 100px;
+            position: relative;
+        }
+
+        .btn-footer {
+            margin: ($spacing) (-$spacing) (-$spacing);
+            padding: $spacing;
+        }
+
+        .add-pile {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            margin: -$spacing;
+            padding: $spacing;
+
+            .icon-layers {
+                display: block;
+                text-align: center;
+                font-size: 80px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        // Responsive
+        @include breakpoint(md) {
+            flex-grow: 1;
+        }
+    }
+}
