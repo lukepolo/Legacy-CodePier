@@ -1,22 +1,30 @@
 <template>
-    <div class="group">
-        <div class="group-heading">
+    <div class="group--item">
+        <div class="group--item-heading">
             <h4>
                 <template v-if="editing">
                     <input v-model="form.name" type="text" :value="pile.name">
+
+                    <div class="action-btn">
+                        <button @click="savePile" class="btn btn-small btn-primary"><span class="icon-check_circle"></span></button>
+                    </div>
                 </template>
                 <template v-else>
                     {{ pile.name }}
+
+                    <div class="action-btn">
+                        <button @click="edit" class="btn btn-small"><span class="icon-pencil"></span></button>
+                    </div>
                 </template>
             </h4>
         </div>
 
         <template v-if="pile.sites && pile.sites.length">
-            <div class="group-content">
+            <div class="group--item-content">
                 <h4>Sites</h4>
-                <div class="group-list">
-                    <router-link class="item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites">
-                        <div class="item-name">
+                <div class="list">
+                    <router-link class="list--item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites">
+                        <div class="list--item-name">
                             {{ site.name }}
                         </div>
                     </router-link>
@@ -25,7 +33,7 @@
         </template>
 
         <template v-else="pile.sites">
-            <div class="group-content">
+            <div class="group--item-content">
                 <h4>No Sites</h4>
             </div>
         </template>
@@ -35,8 +43,8 @@
             <button @click="savePile" class="btn btn-primary">Save</button>
         </div>
         <div class="btn-footer text-center" v-else>
-            <button @click="edit" class="btn">Edit</button>
             <button @click="deletePile()" class="btn">Delete</button>
+            <button class="btn">Create Site</button>
         </div>
     </div>
 </template>

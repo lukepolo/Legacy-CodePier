@@ -7,7 +7,7 @@
                 <div class="login-wrap">
                     <div class="img-wrap">
                         <router-link to="/">
-                            <img src="/assets/img/kodi_w.svg" alt="CodePier" style="display: block;">
+                            <img src="/assets/img/codepier_w.svg" alt="CodePier" style="display: block;">
                         </router-link>
                     </div>
 
