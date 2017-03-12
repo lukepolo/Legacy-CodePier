@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'current_pile_id',
+        'invited_to_slack',
         'user_login_provider_id',
     ];
 
