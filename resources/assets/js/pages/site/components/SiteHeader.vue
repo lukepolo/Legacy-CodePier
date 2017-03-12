@@ -17,7 +17,7 @@
                         <div class="jcf-form-wrap">
                             <div class="jcf-input-group">
                                 <div class="input-question">
-                                    Public SSH Key <confirm confirm_class="fa fa-refresh" dispatch="refreshSshKeys" :params="site.id"></confirm>
+                                    <confirm-dropdown dispatch="refreshSshKeys" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
                                 </div>
                                 <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
                                 <div class="text-right">
@@ -38,7 +38,7 @@
                         <div class="jcf-form-wrap">
                             <div class="jcf-input-group">
                                 <div class="input-question">
-                                    Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
+                                    <confirm-dropdown dispatch="refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
                                 </div>
                                 <textarea  rows="3" readonly :value="deployHook"></textarea>
                                 <div class="text-right">
@@ -55,7 +55,7 @@
                     <span class="icon-server"></span>
                 </button>
 
-                <ul class="dropdown-menu nowrap">
+                <ul class="dropdown-menu nowrap dropdown-list">
                     <li>
                         <confirm-dropdown dispatch="restartSiteWebServices" :params="site.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>

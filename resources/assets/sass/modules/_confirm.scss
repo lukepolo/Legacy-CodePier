@@ -1,5 +1,58 @@
 // CONFIRM DIALOG STYLES ===================================
 // =========================================================
+.confirm {
+  background-color: $color-background;
+  border: 1px solid mix($black, $gray, 50%);
+  border-radius: 3px;
+  margin: $spacing/2;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 10px solid $color-background;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -10px;
+    z-index: 2;
+  }
+
+  &--header {
+    text-align: center;
+    border-bottom: 1px solid $color-divider;
+    font-size: 15px;
+    padding: $spacing/2;
+  }
+
+  &--content {
+    font-size: 15px;
+    text-transform: none;
+    color: $color-text-primary;
+    font-weight: $font-weight;
+    padding: 0px $spacing/2;
+  }
+
+  .jcf-input-group {
+    margin-bottom: $spacing;
+
+    input {
+      border-bottom: 1px solid $color-divider;
+      margin-bottom: 0px;
+    }
+  }
+
+  .btn-footer {
+    border-top: none;
+    margin: 0px;
+    padding: $spacing/2;
+  }
+}
+
 
 
 // CONFIRM DIALOG ------------------------------------------
