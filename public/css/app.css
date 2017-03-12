@@ -6503,6 +6503,40 @@ textarea:focus {
   padding-right: 1.4em;
 }
 
+#left .section-content {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
+#left .section-content .btn-container {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+}
+
+.site-container {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
+.slack-invite a {
+  display: block;
+  border-top: 1px solid #2B2B2B;
+  text-align: center;
+  padding: 20px;
+}
+
+.slack-invite a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .server {
   display: block;
   border-bottom: 1px solid #2B2B2B;
