@@ -50,6 +50,10 @@
         .dropdown-menu {
             right: 0px;
             left: auto;
+
+            > li a {
+                display: block;
+            }
         }
 
         .jcf-form-wrap {

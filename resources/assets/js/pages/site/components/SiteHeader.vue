@@ -13,21 +13,19 @@
                         <span class="icon-web"></span>
                     </button>
 
-                    <ul class="dropdown-menu nowrap">
-                        <li>
-                            <div class="jcf-form-wrap">
-                                <div class="jcf-input-group">
-                                    <div class="input-question">
-                                        Public SSH Key <confirm confirm_class="fa fa-refresh" dispatch="refreshSshKeys" :params="site.id"></confirm>
-                                    </div>
-                                    <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
-                                    <div class="text-right">
-                                        <clipboard :data="site.public_ssh_key"></clipboard>
-                                    </div>
+                    <div class="dropdown-menu nowrap">
+                        <div class="jcf-form-wrap">
+                            <div class="jcf-input-group">
+                                <div class="input-question">
+                                    Public SSH Key <confirm confirm_class="fa fa-refresh" dispatch="refreshSshKeys" :params="site.id"></confirm>
+                                </div>
+                                <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
+                                <div class="text-right">
+                                    <clipboard :data="site.public_ssh_key"></clipboard>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </span>
             </template>
             <template v-if="deployHook">
@@ -36,21 +34,19 @@
                         <span class="icon-webhooks"></span>
                     </button>
 
-                    <ul class="dropdown-menu nowrap">
-                        <li>
-                            <div class="jcf-form-wrap">
-                                <div class="jcf-input-group">
-                                    <div class="input-question">
-                                        Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
-                                    </div>
-                                    <textarea  rows="3" readonly :value="deployHook"></textarea>
-                                    <div class="text-right">
-                                        <clipboard :data="deployHook"></clipboard>
-                                    </div>
+                    <div class="dropdown-menu nowrap">
+                        <div class="jcf-form-wrap">
+                            <div class="jcf-input-group">
+                                <div class="input-question">
+                                    Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
+                                </div>
+                                <textarea  rows="3" readonly :value="deployHook"></textarea>
+                                <div class="text-right">
+                                    <clipboard :data="deployHook"></clipboard>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </span>
             </template>
 
