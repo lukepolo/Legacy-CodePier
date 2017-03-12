@@ -4,8 +4,7 @@
         <h3 class="section-header">
             Server Info
 
-            <div class="pull-right">
-
+            <div class="section-header--btn-right">
                 <div class="dropdown">
 
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
