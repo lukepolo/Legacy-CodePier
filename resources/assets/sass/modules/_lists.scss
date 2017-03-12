@@ -25,6 +25,32 @@
   padding-right: 1.4em;
 }
 
+// Clean Up
+
+#left .section-content {
+  display: flex;
+  flex-direction: column;
+
+  .btn-container {
+    flex: 1 1 auto;
+  }
+}
+.site-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slack-invite a {
+  display: block;
+  border-top: 1px solid $color-divider;
+  text-align: center;
+  padding: $spacing;
+
+  &:hover {
+    background-color: rgba($white, .05);
+  }
+}
 
 
 
