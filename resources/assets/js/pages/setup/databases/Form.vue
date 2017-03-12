@@ -37,13 +37,15 @@
                 return this.$route.params.server_id
             },
             databases() {
+
                 let serverFeatures = {}
+
                 if(this.siteId) {
                     serverFeatures = this.$store.state.siteServersFeaturesStore.site_server_features
                 }
 
                 if(this.serverId) {
-                    serverFeatures = this.$store.state.serversStore.server_features
+                    serverFeatures = this.$store.state.serversStore.server_installed_features
                 }
 
                 if(_.has(serverFeatures, 'DatabaseService')) {

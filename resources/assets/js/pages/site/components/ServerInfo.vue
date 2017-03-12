@@ -37,6 +37,9 @@
                             {{ server.status }}
                         </div>
                     </div>
+                    <div class="server-status-text" v-else>
+                        {{ server.status }}
+                    </div>
 
                     <template v-if="server.progress == 0 && server.custom_server_url">
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>

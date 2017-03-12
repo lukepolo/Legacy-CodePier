@@ -187,6 +187,9 @@ Vue.mixin({
         },
         getBytesFromString (string) {
             return filesizeParser(string, { base: 10 })
+        },
+        local() {
+            return Laravel.env === 'local'
         }
     }
 })
@@ -283,6 +286,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'databases',
+                    name: 'server_databases',
+                    components: {
+                        default: setupPages.Databases,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerInformationNav
+                    }
+                },
+                {
                     path: 'buoys',
                     name: 'server_buoys',
                     components: {
@@ -305,6 +317,15 @@ const router = new VueRouter({
                     name: 'server_firewall_rules',
                     components: {
                         default: setupPages.FirewallRules,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.SecurityNav
+                    }
+                },
+                {
+                    path: 'security/ssl-certificates',
+                    name: 'server_ssl_certs',
+                    components: {
+                        default: setupPages.SslCertificates,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.SecurityNav
                     }

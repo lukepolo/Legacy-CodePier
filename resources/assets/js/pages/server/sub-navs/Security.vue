@@ -17,9 +17,9 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_firewall_rules', params : { server_id : serverId } }" tag="li">
+                <router-link :to="{ name : 'server_ssl_certs', params : { server_id : serverId } }" tag="li">
                     <a>
-                        SSL Certificates -- TODO - we don't have this setup?!
+                        SSL Certificates
                         <div class="small">Configure SSL certificates</div>
                     </a>
                 </router-link>

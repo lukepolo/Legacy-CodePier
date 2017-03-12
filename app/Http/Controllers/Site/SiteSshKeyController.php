@@ -6,8 +6,8 @@ use App\Models\SshKey;
 use App\Models\Site\Site;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SshKeyRequest;
-use App\Events\Sites\SiteSshKeyCreated;
-use App\Events\Sites\SiteSshKeyDeleted;
+use App\Events\Site\SiteSshKeyCreated;
+use App\Events\Site\SiteSshKeyDeleted;
 
 class SiteSshKeyController extends Controller
 {

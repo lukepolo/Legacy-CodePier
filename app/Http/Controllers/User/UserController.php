@@ -64,4 +64,27 @@ class UserController extends Controller
             \Auth::user()->getRunningDeployments()
         );
     }
+
+    /**
+     *  Sends a slack invite.
+     */
+    public function slackInvite()
+    {
+        $email = \Auth::user()->email;
+        $response = json_decode(\Darovi\LaravelSlackInvite\Slack::invite($email));
+
+        \Auth::user()->update([
+            'invited_to_slack' => 1,
+        ]);
+
+        if (isset($response->error)) {
+            if ($response->error == 'already_invited') {
+                return back()->withErrors(['You have already been invited. Please check your email : '.$email]);
+            } else {
+                return back()->withErrors([$response->error]);
+            }
+        } else {
+            return back()->with('success', 'We have invited you to our slack channel please look at your email : '.$email);
+        }
+    }
 }
