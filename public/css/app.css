@@ -5372,6 +5372,10 @@ footer .toggle [class^="icon-"], footer .toggle [class*=" icon-"] {
   left: auto;
 }
 
+.section-header--btn-right .dropdown-menu > li a, .section-header--btn-left .dropdown-menu > li a {
+  display: block;
+}
+
 .section-header--btn-right .jcf-form-wrap, .section-header--btn-left .jcf-form-wrap {
   padding: 20px;
   min-width: 300px;
