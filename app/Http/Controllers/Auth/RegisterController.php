@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Mail\BetaInvite;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {

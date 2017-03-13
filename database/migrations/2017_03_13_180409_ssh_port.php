@@ -13,7 +13,7 @@ class SshPort extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->integer('port')->default(22);
         });
     }
@@ -25,7 +25,7 @@ class SshPort extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->dropColumn('port');
         });
     }
