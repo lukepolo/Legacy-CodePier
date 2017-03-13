@@ -3,11 +3,12 @@
         <div class="group--item-heading">
             <h4>
                 <template v-if="editing">
-                    <input v-model="form.name" type="text" :value="pile.name">
+                    <input ref="pile_name" v-model="form.name" type="text" :value="pile.name" placeholder="Pile Name">
 
                     <div class="action-btn">
                         <button @click="savePile" class="btn btn-small btn-primary"><span class="icon-check_circle"></span></button>
                     </div>
+
                 </template>
                 <template v-else>
                     {{ pile.name }}
@@ -38,11 +39,7 @@
             </div>
         </template>
 
-        <div class="btn-footer text-center" v-if="editing">
-            <button @click="cancel" class="btn">Cancel</button>
-            <button @click="savePile" class="btn btn-primary">Save</button>
-        </div>
-        <div class="btn-footer text-center" v-else>
+        <div class="btn-footer text-center">
             <button @click="deletePile()" class="btn">Delete</button>
             <button class="btn">Create Site</button>
         </div>
@@ -60,41 +57,53 @@
                 editing: this.pile.editing
             }
         },
+        watch: {
+            'editing'() {
+                Vue.nextTick(() => {
+                    if (this.editing) {
+                        this.$refs.pile_name.focus()
+                    }
+                })
+            },
+        },
         methods: {
             cancel() {
                 if (!this.pile.id) {
-                    this.$store.state.pilesStore.piles.splice(this.index, 1);
+                    this.$store.state.pilesStore.piles.splice(this.index, 1)
                 }
 
-                this.editing = false;
+                this.editing = false
             },
             edit() {
-                this.editing = true;
+                this.editing = true
             },
             deletePile() {
-                this.$store.dispatch('deletePile', this.pile.id);
+                this.$store.dispatch('deletePile', this.pile.id)
             },
             savePile() {
                 if (this.pile.id) {
 
-                    this.form['pile'] = this.pile;
+                    this.form['pile'] = this.pile
 
-                    this.$store.dispatch('updatePile', this.form);
+                    this.$store.dispatch('updatePile', this.form)
 
                 } else {
-                    this.$store.dispatch('createPile', this.form);
+                    this.$store.dispatch('createPile', this.form).then(function(pile) {
+                        if(pile.id) {
+                            this.$emit('deletePile', this.index)
+                        }
+                    })
                 }
-                this.editing = false;
             }
         },
         computed : {
             sites() {
-                return this.$store.state.pilesStore.piles[this.pile.id].sites;
+                return this.$store.state.pilesStore.piles[this.pile.id].sites
             }
         },
         created() {
             if(this.pile.id) {
-                this.$store.dispatch('getPileSites', this.pile.id);
+                this.$store.dispatch('getPileSites', this.pile.id)
             }
         }
     }
