@@ -1,6 +1,6 @@
 <template>
     <section id="left" class="section-column">
-        <h3 class="section-header">Sites</h3>
+        <h3 class="section-header">{{ currentPile.name }}'s Sites</h3>
 
         <div class="section-content">
             <div class="site-container">
@@ -115,6 +115,9 @@
             }
         },
         computed: {
+            currentPile() {
+                return this.getPile(this.$store.state.userStore.user.current_pile_id);
+            },
             user() {
                 return this.$store.state.userStore.user;
             },
