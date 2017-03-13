@@ -5537,6 +5537,15 @@ p.info {
   text-transform: none;
 }
 
+.btn-link {
+  padding: 0px;
+  background-color: transparent;
+}
+
+.btn-link:hover {
+  color: #48ACF0;
+}
+
 span.btn {
   display: inline-block;
 }
@@ -5949,7 +5958,7 @@ a.item:hover:before {
 .events-container .confirm-dialog {
   width: 220px;
   top: 50%;
-  right: calc(100% + 30px);
+  right: calc(100% + 9px);
   left: auto;
   bottom: auto;
   -webkit-transform: translateY(-50%);
@@ -6237,6 +6246,10 @@ a.item:hover:before {
   padding: 0px 10px;
   display: inline-block;
   float: right;
+}
+
+.event-commit .confirm-container {
+  margin: 0px 0px 0px 10px;
 }
 
 [data-toggle="collapse"]:not(.collapsed) .icon-play {
