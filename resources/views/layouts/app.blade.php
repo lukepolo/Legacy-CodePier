@@ -42,7 +42,7 @@
                     @yield('content')
                 </div>
 
-                <notification-bar></notification-bar>
+                <events-bar></events-bar>
 
             </div>
         </div>
