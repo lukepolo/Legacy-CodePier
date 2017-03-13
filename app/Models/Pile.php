@@ -21,7 +21,7 @@ class Pile extends Model
     public $teamworkSync = true;
 
     public $with = [
-        'sites'
+        'sites',
     ];
 
     /**
