@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\MakeAuthCode;
 use App\Console\Commands\SendBetaEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
