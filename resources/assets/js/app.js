@@ -190,7 +190,7 @@ Vue.mixin({
         },
         local() {
             return Laravel.env === 'local'
-        }
+        },
     }
 })
 

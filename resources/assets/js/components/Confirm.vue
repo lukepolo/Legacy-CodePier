@@ -1,10 +1,3 @@
-<style>
-    .confirm-enter-active, .confirm-leave-active {
-    }
-    .confirm-enter, .confirm-leave-active {
-    }
-
-</style>
 <template>
     <span class="confirm-container" @click.stop @keyup.32.prevent @keyup.esc="close()">
         <button :class="confirm_class" @click="open()">
@@ -49,49 +42,55 @@
             return {
                 confirm: false,
                 confirmedText : '',
-            };
+            }
         },
         watch : {
             'confirm'() {
                 Vue.nextTick(() => {
                     if( this.$refs.confirm_input) {
-                        this.$refs.confirm_input.focus();
+                        this.$refs.confirm_input.focus()
                     }
-                });
+                })
             },
 
         },
         computed: {
             cancelText() {
-                return 'Cancel';
+                return 'Cancel'
             },
             confirmText() {
-                return this.confirm_text ? this.confirm_text : 'Confirm';
+                return this.confirm_text ? this.confirm_text : 'Confirm'
             },
             textConfirmed() {
                 if(this.confirm_with_text) {
                     if(_.lowerCase(this.confirmedText) != _.lowerCase(this.confirm_with_text)) {
-                        return false;
+                        return false
                     }
                 }
-                return true;
+                return true
             }
         },
         methods: {
             open() {
-                this.confirm = true;
+                app.$emit('close-confirms')
+                this.confirm = true
             },
             close() {
-                $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle');
-                this.confirm = false;
+                $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle')
+                this.confirm = false
             },
             confirmMethod() {
                 if(this.textConfirmed) {
-                    this.confirmedText = '';
-                    this.$store.dispatch(this.dispatch, this.params);
-                    this.close();
+                    this.confirmedText = ''
+                    this.$store.dispatch(this.dispatch, this.params)
+                    this.close()
                 }
             }
         },
+        created() {
+            app.$on('close-confirms', () => {
+                this.confirm = false
+            })
+        }
     }
 </script>
