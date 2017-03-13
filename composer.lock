@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8d62e5577a221e31617a7dd0436be52",
+    "content-hash": "8688b1bdf6d6798f0b1ee546e2abb54d",
     "packages": [
         {
             "name": "authy/php",
@@ -215,59 +215,6 @@
                 "stream_filter_register"
             ],
             "time": "2015-11-08T23:41:30+00:00"
-        },
-        {
-            "name": "darovi/laravelslackinvite",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Darovi/Laravel-Slack-Invite.git",
-                "reference": "332ac6baa50ab91161d0de522f303cf1e437260d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Darovi/Laravel-Slack-Invite/zipball/332ac6baa50ab91161d0de522f303cf1e437260d",
-                "reference": "332ac6baa50ab91161d0de522f303cf1e437260d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "laravel/framework": "5.3.*",
-                "phpunit/phpunit": "4.8.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Darovi\\LaravelSlackInvite\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dan Rovito",
-                    "email": "dan@darovi.co"
-                }
-            ],
-            "description": "A Slack user invite service provider for Laravel",
-            "keywords": [
-                "Invite",
-                "laravel",
-                "slack"
-            ],
-            "time": "2016-09-12T13:13:58+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2558,16 +2505,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.0",
+            "version": "1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558"
+                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bad29cb8d18ab0315e6c477751418a82c850d558",
-                "reference": "bad29cb8d18ab0315e6c477751418a82c850d558",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
                 "shasum": ""
             },
             "require": {
@@ -2632,7 +2579,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-11-26T00:15:39+00:00"
+            "time": "2017-03-13T07:08:03+00:00"
         },
         {
             "name": "mpociot/teamwork",
@@ -2832,16 +2779,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.9",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "6968531206671f94377b01dc7888d5d1b858a01b"
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/6968531206671f94377b01dc7888d5d1b858a01b",
-                "reference": "6968531206671f94377b01dc7888d5d1b858a01b",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/634bae8e911eefa89c1abfbf1b66da679ac8f54d",
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d",
                 "shasum": ""
             },
             "require": {
@@ -2876,7 +2823,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-03T20:43:42+00:00"
+            "time": "2017-03-13T16:27:32+00:00"
         },
         {
             "name": "pda/pheanstalk",
