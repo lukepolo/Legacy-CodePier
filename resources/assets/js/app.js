@@ -270,7 +270,7 @@ const router = new VueRouter({
             children: [
                 {
                     alias: '',
-                    path: 'setup',
+                    path: 'info',
                     name: 'server_sites',
                     components: {
                         default: serverPages.ServerSites,
@@ -279,7 +279,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'setup/monitoring',
+                    path: 'info/monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
@@ -288,7 +288,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'setup/databases',
+                    path: 'info/databases',
                     name: 'server_databases',
                     components: {
                         default: setupPages.Databases,
@@ -297,7 +297,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'setup/buoys',
+                    path: 'info/buoys',
                     name: 'server_buoys',
                     components: {
                         default: serverPages.ServerBuoys,
