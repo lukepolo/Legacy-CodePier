@@ -167,7 +167,7 @@
                         <td>1 Click Application Installs</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/no.svg"></td>
-                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
                         <td><img src="/assets/img/no.svg"></td>
                     </tr>
                     <tr>
@@ -187,9 +187,9 @@
                     <tr>
                         <td>Team Management</td>
                         <td><img src="/assets/img/yes.svg"></td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
+                        <td><img src="/assets/img/money.svg">Costs Extra</td>
                         <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg"></td>
                     </tr>
                     <tr>
                         <td>Easy Cost Calculation</td>
