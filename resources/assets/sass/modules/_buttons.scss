@@ -38,6 +38,15 @@
         font-weight: 300;
         text-transform: none;
     }
+
+    &-link {
+        padding: 0px;
+        background-color: transparent;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
 }
 
 span.btn {

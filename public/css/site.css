@@ -5247,6 +5247,15 @@ button {
   text-transform: none;
 }
 
+.btn-link {
+  padding: 0px;
+  background-color: transparent;
+}
+
+.btn-link:hover {
+  color: #48ACF0;
+}
+
 span.btn {
   display: inline-block;
 }
