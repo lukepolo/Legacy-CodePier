@@ -11,26 +11,24 @@
             <slot></slot>
         </button>
         <transition name="confirm">
-            <span v-show="confirm">
-                <div class="confirm-dialog">
-                    <template v-if="confirm_with_text">
-                        <h4 class="confirm-header">Are you sure?</h4>
-                        <div class="confirm-content">
-                            <p>Please confirm by typing in: {{ confirm_with_text }}</p>
-                            <div class="jcf-input-group">
-                                <form @submit.prevent.stop="confirmMethod">
-                                    <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name">
-                                    <label for="confirm-name"><span class="float-label"></span></label>
-                                </form>
-                            </div>
+            <div v-show="confirm" class="confirm-dialog">
+                <template v-if="confirm_with_text">
+                    <h4 class="confirm-header">Are you sure?</h4>
+                    <div class="confirm-content">
+                        <p>Please confirm by typing in: {{ confirm_with_text }}</p>
+                        <div class="jcf-input-group">
+                            <form @submit.prevent.stop="confirmMethod">
+                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name">
+                                <label for="confirm-name"><span class="float-label"></span></label>
+                            </form>
                         </div>
-                    </template>
-                    <div class="btn-footer">
-                        <button class="btn" @click.stop="close()">{{ cancelText }}</button>
-                        <button class="btn btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
                     </div>
+                </template>
+                <div class="btn-footer">
+                    <button class="btn" @click.stop="close()">{{ cancelText }}</button>
+                    <button class="btn btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
                 </div>
-            </span>
+            </div>
         </transition>
     </span>
 </template>

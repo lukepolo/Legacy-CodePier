@@ -123,23 +123,23 @@
 
             <div class="btn-container">
                 <tooltip message="Restart web services" placement="top-right">
-                    <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart server">
-                    <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
+                    <confirm-sidebar dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart databases">
-                    <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart workers">
-                    <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">
-                    <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                    <confirm-sidebar dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
                 </tooltip>
             </div>
         </div>

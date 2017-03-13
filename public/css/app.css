@@ -5808,10 +5808,69 @@ a.item:hover:before {
   margin-bottom: 0px;
 }
 
-.confirm .btn-footer {
-  border-top: none;
-  margin: 0px;
+.confirm .confirm--btns {
+  text-align: center;
   padding: 10px;
+}
+
+.confirm-sidebar .confirm {
+  position: absolute;
+  top: calc(100% + 25px);
+  margin: 0px;
+  left: 0px;
+  width: 284px;
+}
+
+#right .btn-container > span:nth-child(0) .confirm {
+  left: 60px;
+}
+
+#right .btn-container > span:nth-child(0) .confirm:after {
+  left: -38px;
+}
+
+#right .btn-container > span:nth-child(1) .confirm {
+  left: 0px;
+}
+
+#right .btn-container > span:nth-child(1) .confirm:after {
+  left: 22px;
+}
+
+#right .btn-container > span:nth-child(2) .confirm {
+  left: -60px;
+}
+
+#right .btn-container > span:nth-child(2) .confirm:after {
+  left: 82px;
+}
+
+#right .btn-container > span:nth-child(3) .confirm {
+  left: -120px;
+}
+
+#right .btn-container > span:nth-child(3) .confirm:after {
+  left: 142px;
+}
+
+#right .btn-container > span:nth-child(4) .confirm {
+  left: -180px;
+}
+
+#right .btn-container > span:nth-child(4) .confirm:after {
+  left: 202px;
+}
+
+#right .btn-container > span:nth-child(5) .confirm {
+  left: -240px;
+}
+
+#right .btn-container > span:nth-child(5) .confirm:after {
+  left: 262px;
+}
+
+#right .btn-container span:nth-child(3) .confirm {
+  margin-left: -4px;
 }
 
 .confirm-container {
@@ -6637,7 +6696,6 @@ textarea:focus {
   justify-content: space-between;
 }
 
-.server .btn-container .btn + .btn,
 .server .btn-container .confirm-container {
   margin: 0px;
 }
