@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use GuzzleHttp\Client;
 use App\Models\User\User;
+use GuzzleHttp\Psr7\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserUpdateRequest;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Response;
 
 class UserController extends Controller
 {
@@ -82,18 +81,18 @@ class UserController extends Controller
 
         if (isset($response->error)) {
             if ($response->error == 'already_invited') {
-                return back()->withErrors(['You have already been invited. Please check your email : ' . $email]);
+                return back()->withErrors(['You have already been invited. Please check your email : '.$email]);
             } else {
                 return back()->withErrors([$response->error]);
             }
         } else {
             return back()->with('success',
-                'We have invited you to our slack channel please look at your email : ' . $email);
+                'We have invited you to our slack channel please look at your email : '.$email);
         }
     }
 
     /**
-     * Invites a user to the slack channel via email
+     * Invites a user to the slack channel via email.
      * @param $email
      * @return mixed
      */
@@ -108,7 +107,7 @@ class UserController extends Controller
                 'token'      => config('services.slack.token'),
                 'set_active' => true,
                 '_attempts'  => '1',
-            ]
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents());

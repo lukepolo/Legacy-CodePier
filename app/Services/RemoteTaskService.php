@@ -236,17 +236,16 @@ echo \"Wrote\"", $read);
                 throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
-
             $server->update([
-                'ssh_connection' => false
+                'ssh_connection' => false,
             ]);
 
             throw new SshConnectionFailed($e->getMessage());
         }
 
-        if(!$server->ssh_connection) {
+        if (! $server->ssh_connection) {
             $server->update([
-                'ssh_connection' => true
+                'ssh_connection' => true,
             ]);
         }
 

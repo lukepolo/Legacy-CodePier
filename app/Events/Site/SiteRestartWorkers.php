@@ -2,8 +2,8 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\RestartWorkers;
 use App\Models\Site\Site;
+use App\Jobs\Server\RestartWorkers;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
