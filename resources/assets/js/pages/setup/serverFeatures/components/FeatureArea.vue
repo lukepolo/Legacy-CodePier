@@ -104,7 +104,7 @@
             },
             getInputName : function(feature, parameter) {
 
-                let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
+                let name = 'services[' + feature.service + ']' + '[' + feature.input_name + ']';
 
                 if(parameter) {
                     name = name + '[parameters][' + parameter + ']';

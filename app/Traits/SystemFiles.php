@@ -106,10 +106,11 @@ trait SystemFiles
                     $options = array_map('trim', explode(',', $options));
                 }
 
-                $name = str_replace('install', '', $method->name);
+                $inputName = str_replace('install', '', $method->name);
 
-                $features->get($reflection->getShortName())->put($name, collect([
-                    'name' => $this->getFirstDocParam($method, 'name', $name),
+                $features->get($reflection->getShortName())->put($inputName, collect([
+                    'name' => $this->getFirstDocParam($method, 'name', $inputName),
+                    'input_name' => $inputName,
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
