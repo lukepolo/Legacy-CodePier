@@ -104,6 +104,7 @@
             },
             getInputName : function(feature, parameter) {
 
+                console.info(feature.input_name)
                 let name = 'services[' + feature.service + ']' + '[' + feature.input_name + ']';
 
                 if(parameter) {
@@ -128,8 +129,8 @@
                     areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
 
-                if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
-                    return _.get(areaFeatures, feature.name);
+                if(areaFeatures && _.has(areaFeatures, feature.input_name) && areaFeatures[feature.input_name].enabled) {
+                    return _.get(areaFeatures, feature.input_name);
                 }
 
                 return false;
@@ -167,7 +168,7 @@
                 });
 
                 this.$store.dispatch('installFeature', {
-                    feature: feature.name,
+                    feature: feature.input_name,
                     parameters: parameters,
                     server: this.server.id,
                     service: feature.service,
