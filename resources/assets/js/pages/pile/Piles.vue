@@ -43,7 +43,6 @@
         },
         methods: {
             deletePile(index) {
-                alert(index)
                 this.$store.commit('REMOVE_TEMP_PILE', index)
             },
             newPile() {

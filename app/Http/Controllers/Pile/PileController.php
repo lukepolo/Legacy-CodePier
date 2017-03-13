@@ -71,11 +71,15 @@ class PileController extends Controller
         $pile = Pile::with(['sites', 'servers'])->findOrFail($id);
 
         if ($pile->sites->count()) {
-            return back()->withErrors(['Sorry you cannot delete piles that have sites connected to it']);
+            return response()->json(
+                'Sorry you cannot delete piles that have sites connected to it', 400
+            );
         }
 
         if ($pile->servers->count()) {
-            return back()->withErrors(['Sorry you cannot delete piles that have servers connected to it']);
+            return response()->json(
+                'Sorry you cannot delete piles that have servers connected to it', 400
+            );
         }
 
         return response()->json($pile->delete());
