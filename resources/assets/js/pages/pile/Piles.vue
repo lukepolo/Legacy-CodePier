@@ -43,7 +43,8 @@
         },
         methods: {
             deletePile(index) {
-                this.$store.commit('DELETE_PILE', index)
+                alert(index)
+                this.$store.commit('REMOVE_TEMP_PILE', index)
             },
             newPile() {
                 this.$store.state.pilesStore.piles.push({

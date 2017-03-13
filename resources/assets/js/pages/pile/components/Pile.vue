@@ -88,7 +88,7 @@
                     this.$store.dispatch('updatePile', this.form)
 
                 } else {
-                    this.$store.dispatch('createPile', this.form).then(function(pile) {
+                    this.$store.dispatch('createPile', this.form).then((pile) => {
                         if(pile.id) {
                             this.$emit('deletePile', this.index)
                         }
