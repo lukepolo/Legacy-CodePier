@@ -226,7 +226,7 @@ echo \"Wrote\"", $read);
         $key = new RSA();
         $key->loadKey($server->private_ssh_key);
 
-        $ssh = new SSH2($this->server->ip);
+        $ssh = new SSH2($this->server->ip, $this->server->port);
 
         try {
             if (! $ssh->login($user, $key)) {
@@ -236,9 +236,18 @@ echo \"Wrote\"", $read);
                 throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
             }
         } catch (\Exception $e) {
-            $server->ssh_connection = false;
-            $server->save();
+
+            $server->update([
+                'ssh_connection' => false
+            ]);
+
             throw new SshConnectionFailed($e->getMessage());
+        }
+
+        if(!$server->ssh_connection) {
+            $server->update([
+                'ssh_connection' => true
+            ]);
         }
 
         $ssh->setTimeout(0);
