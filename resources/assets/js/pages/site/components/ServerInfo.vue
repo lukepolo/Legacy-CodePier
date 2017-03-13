@@ -69,8 +69,11 @@
 
                     </template>
                     <template v-else>
-                        <div class="server-info">
-                            N/A
+                        <div class="server-info condensed">
+                            <div class="server-progress-container">
+                                <div class="server-progress"></div>
+                                <div class="stats-label stats-used">N/A</div>
+                            </div>
                         </div>
                     </template>
 
@@ -97,8 +100,11 @@
 
                     </template>
                     <template v-else>
-                        <div class="server-info">
-                            N/A
+                        <div class="server-info condensed">
+                            <div class="server-progress-container">
+                                <div class="server-progress"></div>
+                                <div class="stats-label stats-used">N/A</div>
+                            </div>
                         </div>
                     </template>
 
@@ -114,8 +120,40 @@
                     <template v-if="server.stats && server.stats.loads">
                         <cpu-loads :stats="server.stats"></cpu-loads>
                     </template>
+
                     <template v-else>
-                        N/A
+                        <div class="server-info condensed">
+                            <div class="cpu-load">
+                                <div class="cpu-group">
+                                    <div class="cpu-min">1 min</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">5 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">15 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </template>
                 </template>
 
