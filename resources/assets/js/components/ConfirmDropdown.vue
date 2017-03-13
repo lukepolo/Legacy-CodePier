@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </template>
-                <div class="btn-footer">
+                <div class="confirm--btns">
                     <button class="btn btn-small" @click.stop="close()">{{ cancelText }}</button>
                     <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
                 </div>

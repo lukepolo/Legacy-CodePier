@@ -206,6 +206,7 @@ Vue.component('Tooltip', require('./components/ToolTip.vue'))
 Vue.component('Clipboard', require('./components/Clipboard.vue'))
 Vue.component('Confirm', require('./components/Confirm.vue'))
 Vue.component('ConfirmDropdown', require('./components/ConfirmDropdown.vue'))
+Vue.component('ConfirmSidebar', require('./components/ConfirmSidebar.vue'))
 Vue.component('Navigation', require('./core/Navigation.vue'))
 Vue.component('NotificationBar', require('./core/NotificationBar.vue'))
 

@@ -46,10 +46,41 @@
     }
   }
 
-  .btn-footer {
-    border-top: none;
-    margin: 0px;
+  .confirm--btns {
+    text-align: center;
     padding: $spacing/2;
+  }
+}
+
+// CONFIRMS IN SIDEBARS ------------------------------------
+// ---------------------------------------------------------
+.confirm-sidebar {
+  .confirm {
+    position: absolute;
+    top: calc(100% + 25px);
+    margin: 0px;
+    left: 0px;
+    width: 284px;
+  }
+}
+
+#right {
+  .btn-container {
+    @for $i from 0 to 6 {
+      > span:nth-child(#{$i}) {
+        .confirm {
+          left: 0px - (60*($i - 1));
+
+          &:after {
+            left: (22px * $i) + (38px * ($i - 1));
+          }
+        }
+      }
+    }
+
+    span:nth-child(3) .confirm {
+      margin-left: -4px;
+    }
   }
 }
 
