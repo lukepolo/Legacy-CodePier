@@ -9,7 +9,7 @@
                 </router-link>
             </div>
             <div class="server-ip">
-                {{ server.ip }}
+                {{ server.ip }} &nbsp;
             </div>
 
             <template v-if="server.stats && server.stats.loads && !showServerInfo">
