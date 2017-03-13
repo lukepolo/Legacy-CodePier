@@ -37,7 +37,7 @@ class RestartDatabases implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $this->runOnServer(function () use ($serverService) {
-              $serverService->restartDatabase($this->server);
+            $serverService->restartDatabase($this->server);
         });
     }
 }
