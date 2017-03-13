@@ -46,8 +46,6 @@ class WebHookController extends Controller
 
     public function loadMonitor(Request $request, $serverHasId)
     {
-        var_dump($request->all());
-        die;
         $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
 
         $server->update([
