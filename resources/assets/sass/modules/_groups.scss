@@ -20,6 +20,13 @@
             padding: $spacing;
             position: relative;
 
+            &-name {
+                white-space: nowrap;
+                max-width: 288px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
             h4 {
                 text-transform: none;
             }

@@ -11,7 +11,7 @@
 
                 </template>
                 <template v-else>
-                    {{ pile.name }}
+                    <div class="group--item-heading-name">{{ pile.name }}</div>
 
                     <div class="action-btn">
                         <button @click="edit" class="btn btn-small"><span class="icon-pencil"></span></button>
