@@ -90,7 +90,7 @@ export default {
             Vue.set(pile, 'sites', _.reject(pile, data.site))
         },
         REMOVE_TEMP_PILE: (state, index) => {
-            Vue.set(state, 'piles', _.reject(state.piles, { index }))
+            state.piles.splice(index, 1);
         }
     }
 }
