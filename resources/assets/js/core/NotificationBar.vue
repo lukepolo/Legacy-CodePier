@@ -210,6 +210,10 @@
 
                 lastOffset = container.height() - (e.clientY - container.offset().top);
 
+                if(lastOffset < 100) {
+                    lastOffset = 100
+                }
+
                 bottom.css('height', lastOffset - 40);
             }).on('mouseup', function (e) {
                 isResizing = false;
