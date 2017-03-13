@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Events\Site\SiteRestartDatabases;
-use App\Events\Site\SiteRestartServers;
-use App\Events\Site\SiteRestartWebServices;
-use App\Events\Site\SiteRestartWorkers;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
+use App\Events\Site\SiteRestartServers;
+use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
+use App\Events\Site\SiteRestartDatabases;
+use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;

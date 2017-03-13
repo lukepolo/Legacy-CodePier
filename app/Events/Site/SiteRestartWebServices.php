@@ -2,9 +2,9 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\RestartWebServices;
 use App\Models\Site\Site;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\RestartWebServices;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 

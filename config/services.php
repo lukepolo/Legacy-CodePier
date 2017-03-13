@@ -58,7 +58,7 @@ return [
         'client_id'     => env('SLACK_KEY'),
         'client_secret' => env('SLACK_SECRET'),
         'redirect'      => env('SLACK_REDIRECT_URI'),
-        'token'         => env('SLACK_TOKEN')
+        'token'         => env('SLACK_TOKEN'),
     ],
 
     'gitlab' => [
