@@ -3,47 +3,37 @@
         <back></back>
         Server {{ server.name }} <small>({{ server.ip }})</small>
 
-        <div class="pull-right">
-            <div class="dropdown">
+        <div class="section-header--btn-right">
+            <span class="dropdown">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="fa fa-cog"></i>
+                    <span class="icon-settings"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <ul class="dropdown-menu nowrap dropdown-list" aria-labelledby="dropdownMenu1">
                     <li>
-                        <confirm dispatch="archiveServer" :params="server.id"><a href="#">Archive Server</a></confirm>
+                        <confirm-dropdown dispatch="archiveServer" :params="server.id"><a href="#"><span class="icon-archive"></span> Archive Server</a></confirm-dropdown>
                     </li>
                 </ul>
-            </div>
+            </span>
 
-            <div class="dropdown">
+            <span class="dropdown">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="fa fa-server"></i>
+                    <span class="icon-server"></span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu nowrap dropdown-list">
                     <li>
-                        <confirm dispatch="restartServer" :params="server.id"><a href="#">Restart Server</a></confirm>
+                        <confirm-dropdown dispatch="restartServerWebServices" :params="server.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerWebServices" :params="server.id"><a href="#">Restart Web Services</a></confirm>
+                        <confirm-dropdown dispatch="restartServer" :params="server.id"><a href="#"><span class="icon-server"></span> Restart Server</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerDatabases" :params="server.id"><a href="#">Restart Databases</a></confirm>
+                        <confirm-dropdown dispatch="restartServerDatabases" :params="server.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm dispatch="restartServerWorkers" :params="server.id"><a href="#">Restart Workers</a></confirm>
+                        <confirm-dropdown dispatch="restartServerWorkers" :params="server.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
                     </li>
                 </ul>
-            </div>
-
-            <div class="dropdown">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                    <i class="fa fa-files-o"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Edit Nginx Config</a></li>
-                    <li><a href="#">Edit PHP Config</a></li>
-                </ul>
-            </div>
+            </span>
         </div>
     </h3>
 </template>
