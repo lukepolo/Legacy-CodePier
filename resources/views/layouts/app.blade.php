@@ -27,7 +27,6 @@
                 'csrfToken' => csrf_token(),
                 'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'app_registration' => config('app.registration'),
                 'version' => app()->make('gitCommit'),
                 'teams' => config('app.teams'),
             ]); ?>

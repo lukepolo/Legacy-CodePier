@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        MakeAuthCode::class,
         ReleasedNewVersion::class,
         TestMonitorScripts::class,
         ClearFailedCommands::class,

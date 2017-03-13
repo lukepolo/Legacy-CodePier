@@ -92,12 +92,6 @@ class OauthController extends Controller
                         if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
                             $authCode = session('auth_code');
 
-                            if (! config('app.registration')) {
-                                if (empty($authCode = AuthCode::whereNull('user_id')->where('code', $authCode)->first())) {
-                                    return back()->withErrors('Registration is disabled');
-                                }
-                            }
-
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
                             $newUserModel = $this->createUser($user, $newLoginProvider, $authCode);
                             \Auth::loginUsingId($newUserModel->id, true);

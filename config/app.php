@@ -26,8 +26,6 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-    'registration' => env('APP_REGISTRATION', true),
-
     'teams' => env('APP_ENV') == 'local' ? true : false,
 
     /*
