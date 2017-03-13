@@ -17,6 +17,7 @@ class BetaInvite extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.beta_invite');
+        return $this->from('luke@codepier.io', 'Luke Policinski')
+            ->markdown('mail.beta_invite');
     }
 }
