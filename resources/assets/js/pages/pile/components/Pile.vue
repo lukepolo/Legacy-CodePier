@@ -94,6 +94,8 @@
                         }
                     })
                 }
+
+                this.editing = false
             }
         },
         computed : {

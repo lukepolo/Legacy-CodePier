@@ -43,7 +43,7 @@
         },
         methods: {
             deletePile(index) {
-                this.$store.commit('DELETE_PILE', )
+                this.$store.commit('DELETE_PILE', index)
             },
             newPile() {
                 this.$store.state.pilesStore.piles.push({
