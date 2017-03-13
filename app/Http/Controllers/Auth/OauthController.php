@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Socialite;
-use App\Models\AuthCode;
 use Bitbucket\API\Users;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -90,10 +89,8 @@ class OauthController extends Controller
 
                     if (! \Auth::user()) {
                         if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
-                            $authCode = session('auth_code');
-
                             $newLoginProvider = $this->createLoginProvider($provider, $user);
-                            $newUserModel = $this->createUser($user, $newLoginProvider, $authCode);
+                            $newUserModel = $this->createUser($user, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id, true);
                         } else {
                             \Auth::loginUsingId($userProvider->user->id, true);
@@ -143,11 +140,10 @@ class OauthController extends Controller
      * @param $user
      * @param UserLoginProvider $userLoginProvider
      *
-     * @param AuthCode $authCode
      * @return mixed
      * @throws \Exception
      */
-    public function createUser($user, UserLoginProvider $userLoginProvider, AuthCode $authCode = null)
+    public function createUser($user, UserLoginProvider $userLoginProvider)
     {
         switch ($userLoginProvider->provider) {
             case self::BITBUCKET:
@@ -188,12 +184,6 @@ class OauthController extends Controller
             'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
-
-        if (! empty($authCode)) {
-            $authCode->update([
-                'user_id' => $userModel->id,
-            ]);
-        }
 
         return $userModel;
     }
