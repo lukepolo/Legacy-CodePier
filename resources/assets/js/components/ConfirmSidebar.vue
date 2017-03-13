@@ -37,12 +37,12 @@
             'confirm_with_text' : {},
             'confirm_class' : {
                 default : 'btn'
-            },
+            }
         },
         data() {
             return {
                 confirm: false,
-                confirmedText : '',
+                confirmedText : ''
             }
         },
         watch : {
@@ -52,7 +52,7 @@
                         this.$refs.confirm_input.focus()
                     }
                 })
-            },
+            }
 
         },
         computed: {

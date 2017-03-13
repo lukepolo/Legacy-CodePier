@@ -48,7 +48,11 @@
     </ul>
 </template>
 <script>
-    export default{
-
+    export default {
+        watch: {
+            '$route': function() {
+                $('#middle .section-content').scrollTop(0)
+            }
+        },
     }
 </script>
