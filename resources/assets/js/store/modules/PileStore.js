@@ -29,8 +29,9 @@ export default {
             })
         },
         createPile: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
+            return Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 commit('ADD_PILE', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -84,6 +85,9 @@ export default {
         REMOVE_SITE_FROM_PILE: (state, data) => {
             const pile = _.find(state.piles, { id: data.pile })
             Vue.set(pile, 'sites', _.reject(pile, data.site))
+        },
+        REMOVE_TEMP_PILE: (state, index) => {
+            Vue.set(state, 'piles', _.reject(state.piles, { index }))
         }
     }
 }
