@@ -47,6 +47,11 @@
             serverId() {
                 return this.$route.params.server_id
             }
+        },
+        watch: {
+            '$route': function() {
+                $('#middle .section-content').scrollTop(0)
+            }
         }
     }
 </script>

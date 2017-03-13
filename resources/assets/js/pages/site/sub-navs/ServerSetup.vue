@@ -60,6 +60,11 @@
             site() {
                 return this.$store.state.sitesStore.site
             }
+        },
+        watch: {
+            '$route': function() {
+                $('#middle .section-content').scrollTop(0)
+            }
         }
     }
 </script>

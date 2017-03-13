@@ -82,12 +82,12 @@
                     this.$store.dispatch(this.dispatch, this.params)
                     this.close()
                 }
-            },
-            created() {
-                app.$on('close-confirms', () => {
-                    this.confirm = false
-                })
             }
         },
+        created() {
+            app.$on('close-confirms', () => {
+                this.confirm = false
+            })
+        }
     }
 </script>
