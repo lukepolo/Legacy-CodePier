@@ -54,9 +54,11 @@ return [
     ],
 
     'slack' => [
+        'domain'        => env('SLACK_DOMAIN'),
         'client_id'     => env('SLACK_KEY'),
         'client_secret' => env('SLACK_SECRET'),
         'redirect'      => env('SLACK_REDIRECT_URI'),
+        'token'         => env('SLACK_TOKEN')
     ],
 
     'gitlab' => [
