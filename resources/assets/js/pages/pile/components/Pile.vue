@@ -3,7 +3,7 @@
         <div class="group--item-heading">
             <h4>
                 <template v-if="editing">
-                    <input ref="pile_name" v-model="form.name" type="text" :value="pile.name" placeholder="Pile Name">
+                    <input ref="pile_name" v-model="form.name" type="text" :value="pile.name" placeholder="Pile Name" @keyup.enter="savePile">
 
                     <div class="action-btn">
                         <button @click="savePile" class="btn btn-small btn-primary"><span class="icon-check_circle"></span></button>
