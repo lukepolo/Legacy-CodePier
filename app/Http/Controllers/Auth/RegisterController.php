@@ -65,10 +65,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (! config('app.registration') && empty($authCode = AuthCode::whereNull('user_id')->where('code', session('auth_code'))->first())) {
-            return abort(402, 'Registration is disabled');
-        }
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
