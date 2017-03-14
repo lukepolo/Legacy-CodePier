@@ -62,7 +62,7 @@
             </div>
 
             <div class="btn-footer">
-                <button class="btn" @click="clearChanges">Discard Changes</button>
+                <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
                 <button type="submit" class="btn btn-primary">Update Deployment</button>
             </div>
         </form>
