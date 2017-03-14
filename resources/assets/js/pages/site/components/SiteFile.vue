@@ -101,10 +101,9 @@
         },
         computed : {
             site_servers() {
-                let site_servers = this.$store.state.sitesStore.site_servers;
-
-                if(site_servers) {
-                    let server = _.first(site_servers);
+                let siteServers = this.$store.state.sitesStore.site_servers[this.$route.params.site_id]
+                if(siteServers) {
+                    let server = _.first(siteServers);
                     if(server) {
                         this.reload_server = server.id;
                     }
