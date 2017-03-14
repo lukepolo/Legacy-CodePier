@@ -20,6 +20,10 @@ class Pile extends Model
     public static $teamworkModel = 'teams';
     public $teamworkSync = true;
 
+    public $with = [
+        'sites',
+    ];
+
     /**
      * The "booting" method of the model.
      *

@@ -10,7 +10,7 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item">
+                <router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local()">
                     <a>
                         Monitoring
                         <div class="small">Server statisitics</div>
@@ -44,6 +44,11 @@
         computed : {
             serverId() {
                 return this.$route.params.server_id
+            }
+        },
+        watch: {
+            '$route': function() {
+                $('#middle .section-content').scrollTop(0)
             }
         }
     }

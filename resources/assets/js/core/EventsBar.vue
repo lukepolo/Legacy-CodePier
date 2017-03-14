@@ -14,8 +14,8 @@
                 <li>
                     <span>Event Filters</span>
                 </li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                <li class="dropdown" ref="piles">
+                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('piles')">
                         <strong>Pile:</strong>
                         <span class="filter-selection">
                             {{ pilesList }}
@@ -50,8 +50,8 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                <li class="dropdown" ref="sites">
+                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('sites')">
                         <strong>Site:</strong> <span class="filter-selection">{{ siteList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
@@ -81,8 +81,8 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                <li class="dropdown" ref="servers">
+                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('servers')">
                         <strong>Server:</strong> <span class="filter-selection">{{ serverList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
@@ -112,8 +112,8 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle">
+                <li class="dropdown" ref="types">
+                    <a href="#" role="button" class="dropdown-toggle" @click="showFilter('types')">
                         <strong>Event Type:</strong> <span class="filter-selection">{{ eventList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
@@ -153,8 +153,8 @@
                         </div>
                     </ul>
                 </li>
-
             </ul>
+
             <div class="events-container">
                 <section v-if="!events">
                     <div class="event-none">
@@ -209,6 +209,10 @@
                 }
 
                 lastOffset = container.height() - (e.clientY - container.offset().top);
+
+                if(lastOffset < 100) {
+                    lastOffset = 100
+                }
 
                 bottom.css('height', lastOffset - 40);
             }).on('mouseup', function (e) {
@@ -290,6 +294,11 @@
 
         },
         methods: {
+            showFilter(filter) {
+                let filterList = $(this.$refs[filter])
+                $('#collapseEvents .dropdown').removeClass('open')
+                filterList.toggleClass('open').find('.dropdown-menu').css('left', filterList.position().left)
+            },
             fetchData() {
                 this.$store.dispatch('getEvents');
                 this.$store.dispatch('getAllUserPiles'); // todo - rename
@@ -314,6 +323,8 @@
                 }) + 's';
             },
             cancel(type) {
+
+                $('#collapseEvents .dropdown').removeClass('open')
 
                 let filters = _.cloneDeep(this.prev_filters[type]);
 

@@ -7,6 +7,8 @@
 table {
   width: 100%;
   max-width: 100%;
+  margin-top: $spacing*2;
+  border: 1px solid $color-divider;
 
   + table {
     margin-top: $spacing*2;
@@ -14,22 +16,90 @@ table {
 }
 
 th {
-  border-bottom: 2px solid rgba($white, .1);
+  text-align: left;
+  border-bottom: 1px solid $color-divider;
+  color: rgba($color-text-primary, .7);
 }
 
 th,
 td {
-  padding: 5px;
+  padding: 8px 10px;
 }
 
 
+tr {
+  &:nth-child(even) {
+    background-color: rgba($black, .1);
+  }
+}
+
+.table--action {
+  text-align: right;
+  white-space: nowrap;
+
+  [class^="icon-"],
+  [class*=" icon-"],
+  .fa {
+    font-size: 1.3em;
+  }
+
+  &-delete {
+    a {
+      color: $red;
+    }
+  }
+
+  &-deactivate {
+    a {
+      color: $yellow;
+    }
+  }
+
+  &-activate {
+    a {
+      color: $green;
+    }
+  }
+
+  &-retry {
+    a {
+      color: $yellow;
+    }
+  }
+
+  [class^="hint-"] + [class^="hint-"], [class*=" hint-"] + [class*=" hint-"] {
+    padding-left: 10px;
+  }
+}
+
+
+
+
+
 .jcf-form-wrap {
+
+  .jcf-form-wrap {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
   .input-checkbox,
   .input-radio{
     margin-bottom: $spacing*2;
 
     label {
       margin-bottom: $spacing;
+
+      &.disabled {
+        opacity: .3;
+        cursor: not-allowed;
+      }
+
+      small {
+        display: block;
+        margin-top: 4px;
+        margin-left: $spacing/2;
+      }
     }
   }
   h3 {
@@ -133,4 +203,11 @@ textarea {
   &:focus {
     outline: 3px solid $color-primary;
   }
+}
+
+
+.jcf-sub-form {
+  border-left: 1px solid $color-divider;
+  margin: -30px 0px 0px 30px;
+  padding: 30px 0px 0px 20px;
 }

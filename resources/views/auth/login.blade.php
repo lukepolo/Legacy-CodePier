@@ -7,19 +7,9 @@
                 <div class="login-wrap">
                     <div class="img-wrap">
                         <router-link to="/">
-                            <img src="/assets/img/kodi_w.svg" alt="CodePier" style="display: block;">
+                            <img src="/assets/img/codepier_w.svg" alt="CodePier" style="display: block;">
                         </router-link>
                     </div>
-
-                    @if(session('auth_code') || cookie('registered_for_beta')->getValue())
-                        <p class="text-success">
-                            <div class="text-center">
-                                <h2>
-                                    Registration code accepted
-                                </h2>
-                            </div>
-                        </p>
-                    @endif
 
                     <div class="jcf-form-wrap" id="login_form">
                         <div class="heading">
@@ -50,9 +40,7 @@
                                 <label for="password"><span class="float-label">Password</span></label>
                             </div>
                             <div class="btn-footer">
-                                @if(env('APP_REGISTRATION') || session('auth_code') || cookie('registered_for_beta')->getValue())
-                                    <span class="btn toggle-forms">Create Account</span>
-                                @endif
+                                <span class="btn toggle-forms">Create Account</span>
                                 <button class="btn btn-primary" type="submit">Login</button>
                             </div>
                         </form>

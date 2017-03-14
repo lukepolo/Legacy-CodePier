@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\AuthCode;
+use App\Mail\BetaInvite;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -65,14 +66,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (! config('app.registration') && empty($authCode = AuthCode::whereNull('user_id')->where('code', session('auth_code'))->first())) {
-            return abort(402, 'Registration is disabled');
-        }
-
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        Mail::to($user)->send(new BetaInvite());
+
+        return $user;
     }
 }

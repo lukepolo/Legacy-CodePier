@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\MakeAuthCode;
 use App\Console\Commands\SendBetaEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
@@ -20,7 +19,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        MakeAuthCode::class,
         ReleasedNewVersion::class,
         TestMonitorScripts::class,
         ClearFailedCommands::class,

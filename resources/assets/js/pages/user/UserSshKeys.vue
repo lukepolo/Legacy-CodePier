@@ -1,5 +1,8 @@
 <template>
     <section>
+        <p>
+            This allows you to connect to your servers with the user "codepier" and the supplied SSH Keys.
+        </p>
         <div class="jcf-form-wrap">
             <form @submit.prevent="createSshkey" class="floating-labels">
 
@@ -25,7 +28,6 @@
             <thead>
             <tr>
                 <th>Key Name</th>
-                <th>key info</th>
                 <th></th>
             </tr>
             </thead>

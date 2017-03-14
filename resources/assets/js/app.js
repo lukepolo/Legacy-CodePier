@@ -190,7 +190,7 @@ Vue.mixin({
         },
         local() {
             return Laravel.env === 'local'
-        }
+        },
     }
 })
 
@@ -206,8 +206,9 @@ Vue.component('Tooltip', require('./components/ToolTip.vue'))
 Vue.component('Clipboard', require('./components/Clipboard.vue'))
 Vue.component('Confirm', require('./components/Confirm.vue'))
 Vue.component('ConfirmDropdown', require('./components/ConfirmDropdown.vue'))
+Vue.component('ConfirmSidebar', require('./components/ConfirmSidebar.vue'))
 Vue.component('Navigation', require('./core/Navigation.vue'))
-Vue.component('NotificationBar', require('./core/NotificationBar.vue'))
+Vue.component('EventsBar', require('./core/EventsBar.vue'))
 
 const router = new VueRouter({
     mode: 'history',
@@ -268,7 +269,8 @@ const router = new VueRouter({
             path: '/server/:server_id', component: serverPages.ServerArea,
             children: [
                 {
-                    path: '',
+                    alias: '',
+                    path: 'info',
                     name: 'server_sites',
                     components: {
                         default: serverPages.ServerSites,
@@ -277,7 +279,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'monitoring',
+                    path: 'info/monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
@@ -286,7 +288,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'databases',
+                    path: 'info/databases',
                     name: 'server_databases',
                     components: {
                         default: setupPages.Databases,
@@ -295,7 +297,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'buoys',
+                    path: 'info/buoys',
                     name: 'server_buoys',
                     components: {
                         default: serverPages.ServerBuoys,

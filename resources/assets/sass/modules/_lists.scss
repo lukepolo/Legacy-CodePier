@@ -22,9 +22,62 @@
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: $spacing/4;
-  padding-right: 1.4em;
+
+  .event-status {
+    margin-right: 10px;
+  }
+
+  .deploy-status {
+    float: right;
+    text-align: right;
+
+    [class^="icon-"], [class*=" icon-"] {
+      font-size: 1.5em;
+
+    }
+
+    .btn-disabled {
+      background-color: transparent;
+
+    }
+
+    .deploy-status-text {
+      display: block;
+      font-size: .7em;
+      color: $color-text-secondary;
+      position: relative;
+      left: 7px;
+      top: -5px;
+    }
+  }
 }
 
+// Clean Up
+
+#left .section-content {
+  display: flex;
+  flex-direction: column;
+
+  .btn-container {
+    flex: 1 1 auto;
+  }
+}
+.site-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slack-invite a {
+  display: block;
+  border-top: 1px solid $color-divider;
+  text-align: center;
+  padding: $spacing;
+
+  &:hover {
+    background-color: rgba($white, .05);
+  }
+}
 
 
 
@@ -54,7 +107,6 @@
     display: flex;
     justify-content: space-between;
 
-    .btn + .btn,
     .confirm-container {
       margin: 0px;
     }
@@ -207,42 +259,46 @@
 
 
 // SERVER LIST
-.group-list {
-  .item:last-child {
-    border: none;
+.list {
+
+  &--item {
+    display: block;
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
+
+    &:last-child {
+      border: none;
+    }
+
+    @at-root a#{&}:hover {
+      cursor: pointer;
+
+      &:before {
+        content: '\f105';
+        font-family: 'icomoon';
+        font-size: 2em;
+        line-height: .7em;
+        display: inline-block;
+        float: right;
+      }
+    }
+
+    &.selected {
+      background-color: mix($gray, $black, 50%);
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: $spacing/4;
+      padding-right: 1.4em;
+    }
   }
 }
 
-.item {
-  display: block;
-  border-bottom: 1px solid $color-divider;
-  padding: $spacing;
-  position: relative;
 
-  &.selected {
-    background-color: mix($gray, $black, 50%);
-  }
-}
 
-.item-name {
-  font-weight: 600;
-  font-size: 1.2em;
-  margin-bottom: $spacing/4;
-  padding-right: 1.4em;
-}
-
-a.item:hover {
-  cursor: pointer;
-
-  &:before {
-    content: '\f105';
-    font-family: 'icomoon';
-    font-size: 2em;
-    line-height: .7em;
-    display: inline-block;
-    float: right;
-  }
-}
 
 
 

@@ -4,7 +4,7 @@
 
             <div class="jcf-input-group input-checkbox">
 
-                <label>
+                <label :class="{ disabled : hasConflicts(feature) }">
 
                     <template v-if="!server">
                         <input
@@ -13,7 +13,6 @@
                             type="checkbox"
                             :name="getInputName(feature)"
                             :disabled="hasConflicts(feature)"
-                            :class="{ disabled : hasConflicts(feature) }"
                             :checked="(server && feature.required) || hasFeature(feature)"
                             v-if="!server"
                         >
@@ -45,43 +44,50 @@
 
             </div>
 
-            <template v-if="feature.parameters" v-for="(value, parameter) in feature.parameters">
+            <template v-if="isObject(feature.parameters)">
+                <div class="jcf-sub-form">
+                    <template v-for="(value, parameter) in feature.parameters">
+                        <template v-if="feature.options">
+                            <div class="jcf-input-group">
+                                <div class="input-question">{{ parameter }}</div>
+                                <div class="select-wrap">
+                                    <select :name="getInputName(feature, parameter)">
+                                        <template v-for="option in feature.options">
+                                            <option :selected="getParameterValue(feature, parameter, value) == option" :value="option">{{ option }}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </template>
 
-                    <template v-if="feature.options">
-                        <div class="input-question">{{ parameter }}</div>
-                        <div class="select-wrap">
-                            <select :name="getInputName(feature, parameter)">
-                                <template v-for="option in feature.options">
-                                    <option :selected="getParameterValue(feature, parameter, value) == option" :value="option">{{ option }}</option>
-                                </template>
-                            </select>
-                        </div>
+                        <template v-else>
+                            <div class="jcf-input-group">
+                                <input
+                                        :id="parameter"
+                                        :name="getInputName(feature, parameter)"
+                                        type="text" :value="getParameterValue(feature, parameter, value)"
+                                >
+                                <label :for="parameter">
+                                    <span class="float-label">{{ parameter }}</span>
+                                </label>
+                            </div>
+                        </template>
                     </template>
-
-                    <template v-else>
-                        <div class="jcf-input-group">
-                            <input
-                                :id="parameter"
-                                :name="getInputName(feature, parameter)"
-                                type="text" :value="getParameterValue(feature, parameter, value)"
-                            >
-                            <label :for="parameter">
-                                <span class="float-label">{{ parameter }}</span>
-                            </label>
-                        </div>
-                    </template>
-
+                </div>
             </template>
 
-            <template v-if="server && hasFeature(feature)">
+            <!--<template v-if="server && hasFeature(feature)">-->
                 <!--Im not sure if we are able to update or not-->
                 <!--<button class="btn btn-primary" @click="installFeature(feature)">Update</button>-->
-            </template>
+            <!--</template>-->
 
         </template>
 
         <template v-if="frameworks">
-            <h2>Frameworks Features for {{ area }}</h2>
+            <hr>
+            <div class="jcf-input-group">
+                <h3>Frameworks Features for {{ area }}</h3>
+            </div>
             <feature-area
                 :server="server"
                 :area="framework"
@@ -104,7 +110,7 @@
             },
             getInputName : function(feature, parameter) {
 
-                let name = 'services[' + feature.service + ']' + '[' + feature.name + ']';
+                let name = 'services[' + feature.service + ']' + '[' + feature.input_name + ']';
 
                 if(parameter) {
                     name = name + '[parameters][' + parameter + ']';
@@ -128,8 +134,8 @@
                     areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
 
-                if(areaFeatures && _.has(areaFeatures, feature.name) && areaFeatures[feature.name].enabled) {
-                    return _.get(areaFeatures, feature.name);
+                if(areaFeatures && _.has(areaFeatures, feature.input_name) && areaFeatures[feature.input_name].enabled) {
+                    return _.get(areaFeatures, feature.input_name);
                 }
 
                 return false;
@@ -167,7 +173,7 @@
                 });
 
                 this.$store.dispatch('installFeature', {
-                    feature: feature.name,
+                    feature: feature.input_name,
                     parameters: parameters,
                     server: this.server.id,
                     service: feature.service,
@@ -181,6 +187,9 @@
                     return this.currentlySelectedHasFeature(feature.service, feature.conflicts[0]);
                 }
                 return false
+            },
+            isObject(params) {
+                return _.keys(params).length
             }
         },
         computed: {
