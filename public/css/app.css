@@ -5154,6 +5154,10 @@ pre {
   font-family: 'Cutive Mono', monospace;
 }
 
+.break-word {
+  word-break: break-word;
+}
+
 input {
   background-color: transparent;
 }
@@ -6406,12 +6410,49 @@ table + table {
 }
 
 th {
+  text-align: left;
   border-bottom: 1px solid #2B2B2B;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 th,
 td {
   padding: 8px 10px;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(43, 43, 43, 0.1);
+}
+
+.table--action {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table--action [class^="icon-"],
+.table--action [class*=" icon-"],
+.table--action .fa {
+  font-size: 1.3em;
+}
+
+.table--action-delete a {
+  color: #F4645F;
+}
+
+.table--action-deactivate a {
+  color: #FEC07A;
+}
+
+.table--action-activate a {
+  color: #83B692;
+}
+
+.table--action-retry a {
+  color: #FEC07A;
+}
+
+.table--action [class^="hint-"] + [class^="hint-"], .table--action [class*=" hint-"] + [class*=" hint-"] {
+  padding-left: 10px;
 }
 
 .jcf-form-wrap .input-checkbox,
