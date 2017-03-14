@@ -222,6 +222,11 @@
             },
             resetForm() {
                 this.$data.form = this.$options.data().form
+                if(this.siteId()) {
+                    this.form.type = 'Let\'s Encrypt'
+                } else {
+                    this.form.type = 'existing'
+                }
             }
         },
         computed: {
