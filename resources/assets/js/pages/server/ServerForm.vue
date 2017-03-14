@@ -56,31 +56,35 @@
 
                                 <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
 
-                                    <div class="input-group">
+                                    <div class="jcf-input-group">
                                         <input type="text" id="server_name" name="server_name" required>
                                         <label for="server_name"><span class="float-label">Name</span></label>
                                     </div>
 
-                                    <div class="input-group">
+                                    <div class="jcf-input-group">
                                         <div class="input-question">Server Name</div>
 
-                                        <select name="server_option">
-                                            <option v-for="option in server_options" :value="option.id">
-                                                {{ option.memory }} MB RAM
-                                                - {{ option.cpus }} CPUS
-                                                - {{ option.space }} SSD
-                                                - ${{ option.priceHourly }} / Hour
-                                                - ${{ option.priceMonthly }} / Month
-                                            </option>
-                                        </select>
+                                        <div class="select-wrap">
+                                            <select name="server_option">
+                                                <option v-for="option in server_options" :value="option.id">
+                                                    {{ option.memory }} MB RAM
+                                                    - {{ option.cpus }} CPUS
+                                                    - {{ option.space }} SSD
+                                                    - ${{ option.priceHourly }} / Hour
+                                                    - ${{ option.priceMonthly }} / Month
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="input-group">
+                                    <div class="jcf-input-group">
                                         <div class="input-question">Server Region</div>
 
-                                        <select name="server_region">
-                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
-                                        </select>
+                                        <div class="select-wrap">
+                                            <select name="server_region">
+                                                <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="input-group input-checkbox">
@@ -98,6 +102,8 @@
                                         </template>
                                     </div>
                                 </template>
+
+                                <hr></hr>
 
                                 <div class="jcf-input-group">
                                     <label for="web_directory">
