@@ -6397,6 +6397,8 @@ a.item:hover:before {
 table {
   width: 100%;
   max-width: 100%;
+  margin-top: 40px;
+  border: 1px solid #2B2B2B;
 }
 
 table + table {
@@ -6404,12 +6406,12 @@ table + table {
 }
 
 th {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #2B2B2B;
 }
 
 th,
 td {
-  padding: 5px;
+  padding: 8px 10px;
 }
 
 .jcf-form-wrap .input-checkbox,

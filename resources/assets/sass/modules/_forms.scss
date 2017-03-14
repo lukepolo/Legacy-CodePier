@@ -7,19 +7,22 @@
 table {
   width: 100%;
   max-width: 100%;
+  margin-top: $spacing*2;
 
   + table {
     margin-top: $spacing*2;
   }
+
+  border: 1px solid $color-divider;
 }
 
 th {
-  border-bottom: 2px solid rgba($white, .1);
+  border-bottom: 1px solid $color-divider;
 }
 
 th,
 td {
-  padding: 5px;
+  padding: 8px 10px;
 }
 
 
