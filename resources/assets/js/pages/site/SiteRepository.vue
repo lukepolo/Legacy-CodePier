@@ -107,18 +107,18 @@
 
         <template v-if="site.repository && hasDeployableServers">
 
-            <a href="#" @click.prevent="deploySite" class="btn btn-primary" :class="{ 'btn-disabled' : isDeploying }">
-                Deploy
+            <a href="#" @click.prevent="deploySite" :class="{ 'btn-disabled' : isDeploying }">
+                <span class="icon-deploy"></span>
                 <template v-if="isDeploying">
                     {{ isDeploying.status }}
                 </template>
             </a>
 
             <template v-if="!site.automatic_deployment_id">
-                <a class="btn btn-primary" @click.prevent="createDeployHook">Start Automatic Deployments</a>
+                <a @click.prevent="createDeployHook"><span class="icon-cloud-auto-deploy"></span></a>
             </template>
             <template v-else>
-                <a class="btn btn-primary" @click.prevent="removeDeployHook">Stop Automatic Deployments</a>
+                <a @click.prevent="removeDeployHook"><span class="icon-cloud-auto-deploy"></span></a>
             </template>
         </template>
     </div>
