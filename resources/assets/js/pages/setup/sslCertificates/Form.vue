@@ -60,21 +60,37 @@
                 <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate">
                     <td>{{ ssl_certificate.domains }}</td>
                     <td>{{ ssl_certificate.type }}</td>
-                    <td>{{ ssl_certificate.cert_path }}</td>
-                    <td>{{ ssl_certificate.key_path }}</td>
-                    <td>
+                    <td class="break-word">{{ ssl_certificate.cert_path }}</td>
+                    <td class="break-word">{{ ssl_certificate.key_path }}</td>
+                    <td class="table--action">
                         <template v-if="isRunningCommandFor(ssl_certificate.id)">
                             {{ isRunningCommandFor(ssl_certificate.id).status }}
                         </template>
                         <template v-else>
                             <template v-if="ssl_certificate.failed">
-                                <a @click="retryInstall(ssl_certificate.domains)">Retry Install</a>
+                                <tooltip message="Retry Install">
+                                    <span class="table--action-retry">
+                                        <a @click="retryInstall(ssl_certificate.domains)"><span class="icon-refresh"></span></a>
+                                    </span>
+                                </tooltip>
                             </template>
                             <template v-else-if="!server">
-                                <a @click="deactivateSslCertificate(ssl_certificate.id)" v-if="ssl_certificate.active">Deactivate</a>
-                                <a @click="activateSslCertificate(ssl_certificate.id)" v-else>Activate</a>
+                                <tooltip message="Deactivate" v-if="ssl_certificate.active">
+                                    <span class="table--action-deactivate">
+                                        <a @click="deactivateSslCertificate(ssl_certificate.id)"><span class="icon-cancel"></span></a>
+                                    </span>
+                                </tooltip>
+                                <tooltip message="Activate" v-else>
+                                    <span class="table--action-activate">
+                                        <a @click="activateSslCertificate(ssl_certificate.id)"><span class="icon-check_circle"></span></a>
+                                    </span>
+                                </tooltip>
                             </template>
-                            <a @click="deleteSslCertificate(ssl_certificate.id)">Delete</a>
+                            <tooltip message="Delete">
+                                <span class="table--action-delete">
+                                    <a @click="deleteSslCertificate(ssl_certificate.id)"><span class="fa fa-trash"></span></a>
+                                </span>
+                            </tooltip>
                         </template>
                     </td>
                 </tr>

@@ -88,6 +88,9 @@
 
 // CONFIRM DIALOG ------------------------------------------
 // ---------------------------------------------------------
+
+// NEEDS REFORMATTING!!!
+
 .confirm-container {
   display: inline-block;
   margin-right: $spacing;
@@ -152,5 +155,45 @@
 
   input {
     //border-bottom-color: $color-text-primary !important;
+  }
+}
+
+
+
+// EVENTS PANEL ROLLBACK CONFIRMS
+.events-container {
+  .confirm-dialog {
+    width: 220px;
+    top: 50%;
+    right: calc(100% + 9px);
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+
+    &:before {
+      left: 100%;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      border: 10px solid $color-background;
+      border-right: none;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    &:after {
+      left: calc(100% + 1px);
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      border: 10px solid mix($black, $gray, 50%);;
+      border-right: none;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    .btn-footer {
+      border: none;
+    }
   }
 }
