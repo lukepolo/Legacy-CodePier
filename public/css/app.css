@@ -6455,6 +6455,11 @@ tr:nth-child(even) {
   padding-left: 10px;
 }
 
+.jcf-form-wrap .jcf-form-wrap {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
 .jcf-form-wrap .input-checkbox,
 .jcf-form-wrap .input-radio {
   margin-bottom: 40px;
@@ -6463,6 +6468,19 @@ tr:nth-child(even) {
 .jcf-form-wrap .input-checkbox label,
 .jcf-form-wrap .input-radio label {
   margin-bottom: 20px;
+}
+
+.jcf-form-wrap .input-checkbox label.disabled,
+.jcf-form-wrap .input-radio label.disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+.jcf-form-wrap .input-checkbox label small,
+.jcf-form-wrap .input-radio label small {
+  display: block;
+  margin-top: 4px;
+  margin-left: 10px;
 }
 
 .jcf-form-wrap h3 {
@@ -6558,6 +6576,12 @@ textarea {
 
 textarea:focus {
   outline: 3px solid #48ACF0;
+}
+
+.jcf-sub-form {
+  border-left: 1px solid #2B2B2B;
+  margin: -30px 0px 0px 30px;
+  padding: 30px 0px 0px 20px;
 }
 
 @font-face {
