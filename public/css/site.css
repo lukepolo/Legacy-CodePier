@@ -5303,6 +5303,8 @@ button[disabled=disabled] {
 table {
   width: 100%;
   max-width: 100%;
+  margin-top: 40px;
+  border: 1px solid #B6B6B6;
 }
 
 table + table {
@@ -5310,12 +5312,12 @@ table + table {
 }
 
 th {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #B6B6B6;
 }
 
 th,
 td {
-  padding: 5px;
+  padding: 8px 10px;
 }
 
 .jcf-form-wrap .input-checkbox,

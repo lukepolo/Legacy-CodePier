@@ -1,13 +1,13 @@
 <template>
     <section>
-        <h1>{{ database }}</h1>
+        <H3>{{ database }}</H3>
 
         <div class="jcf-form-wrap">
 
             <form @submit.prevent="createSchema" class="floating-labels">
-
-                <h3>Schemas :</h3>
-
+                <div class="jcf-input-group">
+                    <div class="input-question">Schemas :</div>
+                </div>
                 <div class="jcf-input-group">
                     <input type="text" name="name" v-model="schemaForm.name">
                     <label for="name">
