@@ -107,7 +107,7 @@
                     if(server) {
                         this.reload_server = server.id;
                     }
-                    return site_servers;
+                    return siteServers;
                 }
             },
             filePath() {
