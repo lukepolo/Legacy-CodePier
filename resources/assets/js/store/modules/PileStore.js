@@ -49,9 +49,9 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        updatePile: ({}, data) => {
+        updatePile: ({ commit }, data) => {
             Vue.http.put(Vue.action('Pile\PileController@update', { pile: data.pile.id }), data).then((response) => {
-
+                commit('UPDATE_PILE', response.data)
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -67,6 +67,9 @@ export default {
     mutations: {
         ADD_PILE: (state, pile) => {
             state.piles.push(pile)
+        },
+        UPDATE_PILE: (state, pile) => {
+            Vue.set(state.piles, _.findKey(state.piles, { id : pile.id }), pile)
         },
         REMOVE_PILE: (state, pile_id) => {
             Vue.set(state, 'piles', _.reject(state.piles, { id: pile_id }))
@@ -87,7 +90,7 @@ export default {
             Vue.set(pile, 'sites', _.reject(pile, data.site))
         },
         REMOVE_TEMP_PILE: (state, index) => {
-            Vue.set(state, 'piles', _.reject(state.piles, { index }))
+            state.piles.splice(index, 1);
         }
     }
 }

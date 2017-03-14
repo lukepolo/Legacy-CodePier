@@ -96,7 +96,7 @@
                 </tr>
             </tbody>
         </table>
-
+        <input type="hidden" v-if="site">
     </section>
 </template>
 
@@ -222,9 +222,22 @@
             },
             resetForm() {
                 this.$data.form = this.$options.data().form
+                if(this.siteId()) {
+                    this.form.type = 'Let\'s Encrypt'
+                    this.form.domains = this.site.domain
+                } else {
+                    this.form.type = 'existing'
+                }
             }
         },
         computed: {
+            site() {
+                let site = this.$store.state.sitesStore.site
+                if(site) {
+                    this.form.domains = site.domain
+                }
+                return site
+            },
             siteId() {
                 let siteId = this.$route.params.site_id
                 if(siteId) {

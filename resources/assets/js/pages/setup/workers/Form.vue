@@ -2,7 +2,7 @@
     <section>
         <div class="jcf-form-wrap">
             <form @submit.prevent="installWorker()" class="floating-labels">
-                <h3>Workers</h3>
+
                 <div class="jcf-input-group">
                     <input type="text" name="command" v-model="form.command">
                     <label for="command">

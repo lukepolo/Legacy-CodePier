@@ -4,7 +4,6 @@
         <div class="jcf-form-wrap">
 
             <form @submit.prevent="createCronJob" class="floating-labels">
-                <h3>Cron Jobs</h3>
 
                 <input type="hidden" name="cron_timing" v-model="form.cron_timing">
 
