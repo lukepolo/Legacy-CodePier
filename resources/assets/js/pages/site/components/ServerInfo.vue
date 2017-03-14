@@ -42,6 +42,9 @@
                     </div>
 
                     <template v-if="server.progress == 0 && server.custom_server_url">
+                        <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-right">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
                         <clipboard :data="server.custom_server_url"></clipboard>
                     </template>
