@@ -8,22 +8,71 @@ table {
   width: 100%;
   max-width: 100%;
   margin-top: $spacing*2;
+  border: 1px solid $color-divider;
 
   + table {
     margin-top: $spacing*2;
   }
-
-  border: 1px solid $color-divider;
 }
 
 th {
+  text-align: left;
   border-bottom: 1px solid $color-divider;
+  color: rgba($color-text-primary, .7);
 }
 
 th,
 td {
   padding: 8px 10px;
 }
+
+
+tr {
+  &:nth-child(even) {
+    background-color: rgba($black, .1);
+  }
+}
+
+.table--action {
+  text-align: right;
+  white-space: nowrap;
+
+  [class^="icon-"],
+  [class*=" icon-"],
+  .fa {
+    font-size: 1.3em;
+  }
+
+  &-delete {
+    a {
+      color: $red;
+    }
+  }
+
+  &-deactivate {
+    a {
+      color: $yellow;
+    }
+  }
+
+  &-activate {
+    a {
+      color: $green;
+    }
+  }
+
+  &-retry {
+    a {
+      color: $yellow;
+    }
+  }
+
+  [class^="hint-"] + [class^="hint-"], [class*=" hint-"] + [class*=" hint-"] {
+    padding-left: 10px;
+  }
+}
+
+
 
 
 .jcf-form-wrap {

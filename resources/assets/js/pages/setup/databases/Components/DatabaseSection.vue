@@ -32,7 +32,13 @@
             <tbody>
                 <tr v-for="schema in schemas">
                     <td>{{ schema.name }}</td>
-                    <td><a href="#" @click="deleteSchema(schema.id)">delete</a> </td>
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a href="#" @click="deleteSchema(schema.id)"><span class="fa fa-trash"></span></a>
+                            </span>
+                        </tooltip>
+                    </td>
                 </tr>
             </tbody>
         </table>
