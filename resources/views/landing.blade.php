@@ -8,6 +8,9 @@
             </div>
             <h1>You Build it. We Deploy it.</h1>
             <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
+            <div class="btn-container">
+                <a href="{{ route('login') }}" class="btn btn-primary btn-large">Join our Beta</a>
+            </div>
         </div>
     </section>
     <section id="section-video" class="section">
