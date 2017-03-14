@@ -56,6 +56,13 @@
                     </div>
                 </div>
 
+                <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
+                    <router-link :to="{ name : 'user_ssh_keys' }">
+                        Create A SSH Key
+                        <div class="small">You have not created an account ssh key</div>
+                    </router-link>
+                </div>
+
                 <div class="slack-invite" v-if="!user.invited_to_slack">
                     <a :href="slackInviteLink()">
                         <i class="fa fa-slack" aria-hidden="true"></i>
@@ -73,6 +80,7 @@
     export default {
         created() {
             this.$store.dispatch('getSites');
+            this.$store.dispatch('getUserSshKeys');
         },
         data() {
             return {
@@ -115,6 +123,9 @@
             }
         },
         computed: {
+            userSshKeys() {
+                return this.$store.state.userSshKeysStore.user_ssh_keys;
+            },
             currentPile() {
                 return this.getPile(this.$store.state.userStore.user.current_pile_id);
             },
