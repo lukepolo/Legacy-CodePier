@@ -190,7 +190,7 @@ Vue.mixin({
         },
         local() {
             return Laravel.env === 'local'
-        }
+        },
     }
 })
 
@@ -269,7 +269,8 @@ const router = new VueRouter({
             path: '/server/:server_id', component: serverPages.ServerArea,
             children: [
                 {
-                    path: '',
+                    alias: '',
+                    path: 'info',
                     name: 'server_sites',
                     components: {
                         default: serverPages.ServerSites,
@@ -278,7 +279,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'monitoring',
+                    path: 'info/monitoring',
                     name: 'server_monitoring',
                     components: {
                         default: serverPages.ServerMonitoring,
@@ -287,7 +288,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'databases',
+                    path: 'info/databases',
                     name: 'server_databases',
                     components: {
                         default: setupPages.Databases,
@@ -296,7 +297,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: 'buoys',
+                    path: 'info/buoys',
                     name: 'server_buoys',
                     components: {
                         default: serverPages.ServerBuoys,

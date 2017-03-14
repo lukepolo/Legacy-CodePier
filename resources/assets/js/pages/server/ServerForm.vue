@@ -54,15 +54,15 @@
 
                             <template v-if="is_custom || server_provider">
 
+                                <div class="jcf-input-group">
+                                    <input type="text" id="server_name" name="server_name" required>
+                                    <label for="server_name"><span class="float-label">Name</span></label>
+                                </div>
+
                                 <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
 
                                     <div class="jcf-input-group">
-                                        <input type="text" id="server_name" name="server_name" required>
-                                        <label for="server_name"><span class="float-label">Name</span></label>
-                                    </div>
-
-                                    <div class="jcf-input-group">
-                                        <div class="input-question">Server Name</div>
+                                        <div class="input-question">Size</div>
 
                                         <div class="select-wrap">
                                             <select name="server_option">
@@ -78,7 +78,7 @@
                                     </div>
 
                                     <div class="jcf-input-group">
-                                        <div class="input-question">Server Region</div>
+                                        <div class="input-question">Region</div>
 
                                         <div class="select-wrap">
                                             <select name="server_region">
@@ -88,7 +88,7 @@
                                     </div>
 
                                     <div class="input-group input-checkbox">
-                                        <div class="input-question">Server Options</div>
+                                        <div class="input-question">Features</div>
                                         <template v-for="feature in server_provider_features">
                                             <label>
                                                 <input
