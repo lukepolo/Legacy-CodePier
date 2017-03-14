@@ -90,7 +90,10 @@
                 return this.$store.state.sitesStore.site;
             },
             siteServers() {
-                return _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id)
+                let siteServers = _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id);
+                if(siteServers && _.keys(siteServers).length) {
+                    return siteServers
+                }
             },
             deployHook() {
                 if(this.site) {
