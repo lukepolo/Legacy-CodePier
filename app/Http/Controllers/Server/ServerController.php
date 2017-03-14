@@ -17,8 +17,6 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
 {
-    const CUSTOM_SERVER_NAME = 'Custom Server';
-
     private $serverService;
     private $remoteTaskService;
 
@@ -70,7 +68,7 @@ class ServerController extends Controller
 
         $server = Server::create([
             'user_id' => \Auth::user()->id,
-            'name' => $request->get('server_name', self::CUSTOM_SERVER_NAME),
+            'name' => $request->get('server_name'),
             'server_provider_id' => $request->get('server_provider_id', ServerProvider::where('provider_class', CustomProvider::class)->first()->id),
             'status' => $request->has('custom') ? '' : 'Queued For Creation',
             'progress' => '0',

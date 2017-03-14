@@ -208,7 +208,7 @@ Vue.component('Confirm', require('./components/Confirm.vue'))
 Vue.component('ConfirmDropdown', require('./components/ConfirmDropdown.vue'))
 Vue.component('ConfirmSidebar', require('./components/ConfirmSidebar.vue'))
 Vue.component('Navigation', require('./core/Navigation.vue'))
-Vue.component('NotificationBar', require('./core/NotificationBar.vue'))
+Vue.component('EventsBar', require('./core/EventsBar.vue'))
 
 const router = new VueRouter({
     mode: 'history',

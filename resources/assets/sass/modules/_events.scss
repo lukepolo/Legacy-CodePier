@@ -3,6 +3,44 @@
 #collapseEvents {
   border-top: 2px solid rgba($white, .2);
 
+  .dropdown {
+    position: initial;
+  }
+
+  .dropup {
+    bottom: calc(100% - 42px);
+
+    &:after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: 10px solid mix($gray, $black, 50%);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom: none;
+      position: absolute;
+      left: 10%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      z-index: 2;
+    }
+
+    &:before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: 10px solid rgba(0, 0, 0, .4);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom: none;
+      position: absolute;
+      left: 10%;
+      transform: translateX(-50%);
+      bottom: -11px;
+      z-index: 2;
+    }
+  }
+
   &.in {
     flex-grow: 1;
     flex-shrink: 1;
@@ -17,6 +55,7 @@
   flex-grow: 1;
   flex-shrink: 1;
   border-top: 1px solid rgba($white, .1);
+
 }
 
 .event {
@@ -72,6 +111,10 @@
   padding: 0px ($spacing/2);
   display: inline-block;
   float: right;
+
+  .confirm-container {
+    margin: 0px 0px 0px 10px;
+  }
 }
 
 //a:first-child:not(.collapsed) {
