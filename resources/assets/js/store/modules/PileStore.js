@@ -29,8 +29,9 @@ export default {
             })
         },
         createPile: ({ commit }, data) => {
-            Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
+            return Vue.http.post(Vue.action('Pile\PileController@store'), data).then((response) => {
                 commit('ADD_PILE', response.data)
+                return response.data
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -48,9 +49,9 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        updatePile: ({}, data) => {
+        updatePile: ({ commit }, data) => {
             Vue.http.put(Vue.action('Pile\PileController@update', { pile: data.pile.id }), data).then((response) => {
-
+                commit('UPDATE_PILE', response.data)
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -66,6 +67,9 @@ export default {
     mutations: {
         ADD_PILE: (state, pile) => {
             state.piles.push(pile)
+        },
+        UPDATE_PILE: (state, pile) => {
+            Vue.set(state.piles, _.findKey(state.piles, { id : pile.id }), pile)
         },
         REMOVE_PILE: (state, pile_id) => {
             Vue.set(state, 'piles', _.reject(state.piles, { id: pile_id }))
@@ -84,6 +88,9 @@ export default {
         REMOVE_SITE_FROM_PILE: (state, data) => {
             const pile = _.find(state.piles, { id: data.pile })
             Vue.set(pile, 'sites', _.reject(pile, data.site))
+        },
+        REMOVE_TEMP_PILE: (state, index) => {
+            state.piles.splice(index, 1);
         }
     }
 }

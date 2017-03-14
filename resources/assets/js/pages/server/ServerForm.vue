@@ -54,37 +54,41 @@
 
                             <template v-if="is_custom || server_provider">
 
+                                <div class="jcf-input-group">
+                                    <input type="text" id="server_name" name="server_name" required>
+                                    <label for="server_name"><span class="float-label">Name</span></label>
+                                </div>
+
                                 <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
 
-                                    <div class="input-group">
-                                        <input type="text" id="server_name" name="server_name" required>
-                                        <label for="server_name"><span class="float-label">Name</span></label>
+                                    <div class="jcf-input-group">
+                                        <div class="input-question">Size</div>
+
+                                        <div class="select-wrap">
+                                            <select name="server_option">
+                                                <option v-for="option in server_options" :value="option.id">
+                                                    {{ option.memory }} MB RAM
+                                                    - {{ option.cpus }} CPUS
+                                                    - {{ option.space }} SSD
+                                                    - ${{ option.priceHourly }} / Hour
+                                                    - ${{ option.priceMonthly }} / Month
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="input-group">
-                                        <div class="input-question">Server Name</div>
+                                    <div class="jcf-input-group">
+                                        <div class="input-question">Region</div>
 
-                                        <select name="server_option">
-                                            <option v-for="option in server_options" :value="option.id">
-                                                {{ option.memory }} MB RAM
-                                                - {{ option.cpus }} CPUS
-                                                - {{ option.space }} SSD
-                                                - ${{ option.priceHourly }} / Hour
-                                                - ${{ option.priceMonthly }} / Month
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="input-group">
-                                        <div class="input-question">Server Region</div>
-
-                                        <select name="server_region">
-                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
-                                        </select>
+                                        <div class="select-wrap">
+                                            <select name="server_region">
+                                                <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="input-group input-checkbox">
-                                        <div class="input-question">Server Options</div>
+                                        <div class="input-question">Features</div>
                                         <template v-for="feature in server_provider_features">
                                             <label>
                                                 <input
@@ -98,6 +102,8 @@
                                         </template>
                                     </div>
                                 </template>
+
+                                <hr></hr>
 
                                 <div class="jcf-input-group">
                                     <label for="web_directory">

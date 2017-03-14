@@ -9,5 +9,9 @@
 
     @include breakpoint(lg) {
         flex-direction: column;
+
+        > .col {
+            flex: 1 0 auto;
+        }
     }
 }

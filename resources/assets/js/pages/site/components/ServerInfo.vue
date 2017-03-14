@@ -9,7 +9,7 @@
                 </router-link>
             </div>
             <div class="server-ip">
-                {{ server.ip }}
+                {{ server.ip }} &nbsp;
             </div>
 
             <template v-if="server.stats && server.stats.loads && !showServerInfo">
@@ -42,6 +42,9 @@
                     </div>
 
                     <template v-if="server.progress == 0 && server.custom_server_url">
+                        <tooltip message="Login via ssh into your server , and paste this command into your terminal" size="medium" placement="top-right">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
                         <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
                         <clipboard :data="server.custom_server_url"></clipboard>
                     </template>
@@ -69,8 +72,11 @@
 
                     </template>
                     <template v-else>
-                        <div class="server-info">
-                            N/A
+                        <div class="server-info condensed">
+                            <div class="server-progress-container">
+                                <div class="server-progress"></div>
+                                <div class="stats-label stats-used">N/A</div>
+                            </div>
                         </div>
                     </template>
 
@@ -97,8 +103,11 @@
 
                     </template>
                     <template v-else>
-                        <div class="server-info">
-                            N/A
+                        <div class="server-info condensed">
+                            <div class="server-progress-container">
+                                <div class="server-progress"></div>
+                                <div class="stats-label stats-used">N/A</div>
+                            </div>
                         </div>
                     </template>
 
@@ -114,8 +123,40 @@
                     <template v-if="server.stats && server.stats.loads">
                         <cpu-loads :stats="server.stats"></cpu-loads>
                     </template>
+
                     <template v-else>
-                        N/A
+                        <div class="server-info condensed">
+                            <div class="cpu-load">
+                                <div class="cpu-group">
+                                    <div class="cpu-min">1 min</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">5 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cpu-group">
+                                    <div class="cpu-min">15 mins</div>
+                                    <div class="cpu-stats">
+                                        <div class="server-progress-container">
+                                            <div class="server-progress"></div>
+                                            <div class="stats-label stats-available">N/A</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </template>
                 </template>
 
@@ -123,23 +164,23 @@
 
             <div class="btn-container">
                 <tooltip message="Restart web services" placement="top-right">
-                    <confirm dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart server">
-                    <confirm dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm>
+                    <confirm-sidebar dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart databases">
-                    <confirm dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart workers">
-                    <confirm dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm>
+                    <confirm-sidebar dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">
-                    <confirm dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm>
+                    <confirm-sidebar dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
                 </tooltip>
             </div>
         </div>

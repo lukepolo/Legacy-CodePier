@@ -13,21 +13,19 @@
                         <span class="icon-web"></span>
                     </button>
 
-                    <ul class="dropdown-menu nowrap">
-                        <li>
-                            <div class="jcf-form-wrap">
-                                <div class="jcf-input-group">
-                                    <div class="input-question">
-                                        Public SSH Key <confirm confirm_class="fa fa-refresh" dispatch="refreshSshKeys" :params="site.id"></confirm>
-                                    </div>
-                                    <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
-                                    <div class="text-right">
-                                        <clipboard :data="site.public_ssh_key"></clipboard>
-                                    </div>
+                    <div class="dropdown-menu nowrap">
+                        <div class="jcf-form-wrap">
+                            <div class="jcf-input-group">
+                                <div class="input-question">
+                                    <confirm-dropdown dispatch="refreshSshKeys" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                                </div>
+                                <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
+                                <div class="text-right">
+                                    <clipboard :data="site.public_ssh_key"></clipboard>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </span>
             </template>
             <template v-if="deployHook">
@@ -36,30 +34,28 @@
                         <span class="icon-webhooks"></span>
                     </button>
 
-                    <ul class="dropdown-menu nowrap">
-                        <li>
-                            <div class="jcf-form-wrap">
-                                <div class="jcf-input-group">
-                                    <div class="input-question">
-                                        Deploy Hook URL <confirm confirm_class="fa fa-refresh" dispatch="refreshDeployKey" :params="site.id"></confirm>
-                                    </div>
-                                    <textarea  rows="3" readonly :value="deployHook"></textarea>
-                                    <div class="text-right">
-                                        <clipboard :data="deployHook"></clipboard>
-                                    </div>
+                    <div class="dropdown-menu nowrap">
+                        <div class="jcf-form-wrap">
+                            <div class="jcf-input-group">
+                                <div class="input-question">
+                                    <confirm-dropdown dispatch="refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                                </div>
+                                <textarea  rows="3" readonly :value="deployHook"></textarea>
+                                <div class="text-right">
+                                    <clipboard :data="deployHook"></clipboard>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </span>
             </template>
 
-            <template v-if="siteServers.length">
+            <template v-if="siteServers">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     <span class="icon-server"></span>
                 </button>
 
-                <ul class="dropdown-menu nowrap">
+                <ul class="dropdown-menu nowrap dropdown-list">
                     <li>
                         <confirm-dropdown dispatch="restartSiteWebServices" :params="site.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
@@ -94,7 +90,10 @@
                 return this.$store.state.sitesStore.site;
             },
             siteServers() {
-                return this.$store.state.sitesStore.site_servers;
+                let siteServers = _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id);
+                if(siteServers && _.keys(siteServers).length) {
+                    return siteServers
+                }
             },
             deployHook() {
                 if(this.site) {

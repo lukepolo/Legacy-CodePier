@@ -4,8 +4,7 @@
         <h3 class="section-header">
             Server Info
 
-            <div class="pull-right">
-
+            <div class="section-header--btn-right">
                 <div class="dropdown">
 
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -27,7 +26,7 @@
 
         <div class="section-content">
 
-            <template v-if="!connectServers && siteServers.length">
+            <template v-if="!connectServers && siteServers">
                 <template v-for="server in siteServers">
                     <server-info :server="server" :showInfo="siteServers.length == 1 ? true : false"></server-info>
                 </template>
@@ -64,7 +63,7 @@
                            </template>
 
                            <div class="btn-footer">
-                               <template v-if="siteServers.length">
+                               <template v-if="siteServers">
                                    <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
                                </template>
                                <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
@@ -115,7 +114,6 @@
                 this.connectServers = false
                 this.form.connected_servers = []
                 this.$store.dispatch('getServers');
-                this.$store.dispatch('getSiteServers', this.$route.params.site_id);
             },
             linkServers() {
                 this.form.site = this.$route.params.site_id
@@ -133,9 +131,12 @@
                 return this.$store.state.sitesStore.site;
             },
             siteServers() {
-                let siteServers = this.$store.state.sitesStore.site_servers;
-                this.form.connected_servers = _.map(siteServers, 'id')
-                return siteServers;
+                let siteServers = this.$store.state.sitesStore.site_servers[this.$route.params.site_id];
+                if(siteServers && _.keys(siteServers).length) {
+                    this.form.connected_servers = _.map(siteServers, 'id')
+                    return siteServers;
+                }
+
             },
             availableServers() {
                 return _.filter(this.$store.state.serversStore.servers, function(server){

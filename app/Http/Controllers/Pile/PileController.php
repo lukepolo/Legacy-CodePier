@@ -20,7 +20,6 @@ class PileController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param PileRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -36,7 +35,6 @@ class PileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param PileRequest $request
      * @param int $id
      * @return \Illuminate\Http\Response
@@ -55,9 +53,7 @@ class PileController extends Controller
 
     /**
      * Display the specified resource.
-     *
      * @param int $id
-     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -67,19 +63,30 @@ class PileController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        Pile::findOrFail($id)->delete();
+        $pile = Pile::with(['sites', 'servers'])->findOrFail($id);
+
+        if ($pile->sites->count()) {
+            return response()->json(
+                'Sorry you cannot delete piles that have sites connected to it', 400
+            );
+        }
+
+        if ($pile->servers->count()) {
+            return response()->json(
+                'Sorry you cannot delete piles that have servers connected to it', 400
+            );
+        }
+
+        return response()->json($pile->delete());
     }
 
     /**
      * Changes the users pile.
-     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

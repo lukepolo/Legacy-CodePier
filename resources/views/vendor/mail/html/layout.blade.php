@@ -3,12 +3,14 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Roboto:300,500" rel="stylesheet">
 </head>
 <body>
     <style>
         @media only screen and (max-width: 600px) {
-            .inner-body {
+            .content {
                 width: 100% !important;
+                padding: 0px;
             }
 
             .footer {
@@ -25,29 +27,19 @@
 
     <table class="wrapper" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="center">
-                <table class="content" width="100%" cellpadding="0" cellspacing="0">
+            <td></td>
+            <td class="container">
+                <div class="content">
                     {{ $header or '' }}
 
-                    <!-- Email Body -->
-                    <tr>
-                        <td class="body" width="100%" cellpadding="0" cellspacing="0">
-                            <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0">
-                                <!-- Body content -->
-                                <tr>
-                                    <td class="content-cell">
-                                        {{ Illuminate\Mail\Markdown::parse($slot) }}
+                    {{ Illuminate\Mail\Markdown::parse($slot) }}
 
-                                        {{ $subcopy or '' }}
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    {{ $subcopy or '' }}
 
                     {{ $footer or '' }}
-                </table>
+                </div>
             </td>
+            <td></td>
         </tr>
     </table>
 </body>

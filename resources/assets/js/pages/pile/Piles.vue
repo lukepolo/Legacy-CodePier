@@ -7,11 +7,11 @@
                 <div class="container">
                     <h1>Welcome. Let's Get Started.</h1>
                     <p class="info">Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.</p>
-                    <div class="group-container">
-                        <pile :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
-                        <div class="group">
+                    <div class="group">
+                        <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
+                        <div class="group--item">
                             <a @click="newPile()" class="add-pile">
-                                <div class="group-content">
+                                <div class="group--item-content">
                                     <span class="icon-layers"></span>
                                 </div>
 
@@ -42,11 +42,13 @@
             }
         },
         methods: {
+            deletePile(index) {
+                this.$store.commit('REMOVE_TEMP_PILE', index)
+            },
             newPile() {
                 this.$store.state.pilesStore.piles.push({
-                    name: 'New Pile',
+                    name: null,
                     editing: true
-                    // TODO jf - when you click edit - auto focus on the heading input text
                 });
             }
         }

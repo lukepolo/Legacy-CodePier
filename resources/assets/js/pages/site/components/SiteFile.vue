@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="saveFile()">
         {{ filePath }}
-        <div class="jcf-form-wrap">
+        <div class="jcf-form-wrap" v-if="site_servers">
             <form>
                 <div class="jcf-input-group">
                     <tooltip message="We can fetch a file and replace all content inside by reloading the file" class="long">
@@ -101,16 +101,14 @@
         },
         computed : {
             site_servers() {
-                let site_servers = this.$store.state.sitesStore.site_servers;
-
-                if(site_servers) {
-                    let server = _.first(site_servers);
+                let siteServers = _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id);
+                if(siteServers && _.keys(siteServers).length) {
+                    let server = _.first(siteServers);
                     if(server) {
                         this.reload_server = server.id;
                     }
+                    return site_servers;
                 }
-
-                return site_servers;
             },
             filePath() {
               if(_.isObject(this.file)) {

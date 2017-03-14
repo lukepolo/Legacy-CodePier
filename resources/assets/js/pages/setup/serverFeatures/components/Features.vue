@@ -130,8 +130,6 @@
                     return this.$store.state.serversStore.server_installed_features;
                 }
 
-                console.info(serverFeatures)
-
                 this.currentSelectedFeatures = serverFeatures
 
                 return serverFeatures

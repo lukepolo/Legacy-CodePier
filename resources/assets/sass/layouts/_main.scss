@@ -24,6 +24,8 @@
     }
 }
 
+// SECTION HEADER
+
 .section-header {
     flex: 0 0 auto;
     text-align: center;
@@ -48,6 +50,10 @@
         .dropdown-menu {
             right: 0px;
             left: auto;
+
+            > li a {
+                display: block;
+            }
         }
 
         .jcf-form-wrap {
@@ -92,37 +98,9 @@
         padding: $spacing;
         position: relative;
     }
-
-    // delete
-    .pull-right,
-    .pull-left {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index : 1;
-    }
-
-    .pull-right {
-        right: $spacing;
-
-        .dropdown-menu {
-            left: auto;
-            right: 0px;
-        }
-    }
-
-    .pull-left {
-        left: $spacing;
-    }
-
-    .dropdown-menu {
-        text-transform: none;
-        font-weight: normal;
-        font-family: $font-body;
-    }
-
-
 }
+
+// SECTION CONTENT
 
 .section-content {
     flex: 1 1 auto;

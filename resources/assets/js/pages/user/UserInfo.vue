@@ -13,7 +13,7 @@
                 <div class="jcf-input-group">
                     <input name="email" type="email" v-model="form.email">
                     <label for="email">
-                        <span class="float-label">Email - need to include email as a type for jcf forms</span>
+                        <span class="float-label">Email</span>
                     </label>
                 </div>
 

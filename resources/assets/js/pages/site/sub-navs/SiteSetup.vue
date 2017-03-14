@@ -50,6 +50,11 @@
             serverFeatures() {
                 return this.$store.state.siteServersFeaturesStore.site_server_features
             }
+        },
+        watch: {
+            '$route': function() {
+                $('#middle .section-content').scrollTop(0)
+            }
         }
     }
 </script>

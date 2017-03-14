@@ -3,7 +3,7 @@ export default {
         sites: [],
         site: null,
         all_sites: [],
-        site_servers: [],
+        site_servers: {},
         deployment_steps: [],
         sites_listening_to: [],
         running_deployments: [],
@@ -115,7 +115,10 @@ export default {
         },
         getSiteServers: ({ commit }, siteId) => {
             Vue.http.get(Vue.action('Site\SiteServerController@index', { site: siteId })).then((response) => {
-                commit('SET_SITE_SERVERS', response.data)
+                commit('SET_SITE_SERVERS', {
+                    site : siteId,
+                    servers : response.data
+                })
             }, (errors) => {
                 app.handleApiError(errors)
             })
@@ -255,11 +258,15 @@ export default {
         SET_ALL_SITES: (state, sites) => {
             state.all_sites = sites
         },
-        SET_SITE_SERVERS: (state, servers) => {
-            state.site_servers = servers
+        SET_SITE_SERVERS: (state, {site, servers}) => {
+            Vue.set(state.site_servers, site, servers)
         },
         REMOVE_SERVER_FROM_SITE_SERVERS: (state, server) => {
-            Vue.set(state, 'site_servers', _.reject(state.site_servers, { id: server }))
+            _.each(state.site_servers, (site) => {
+                alert(site)
+                Vue.set(state.site_servers, site, _.reject(state.site_servers[site], { id: server }))
+            })
+
         },
         SET_DEPLOYMENT_STEPS: (state, deploymentSteps) => {
             state.deployment_steps = deploymentSteps
@@ -271,15 +278,16 @@ export default {
             state.sites_listening_to.push(site.id)
         },
         UPDATE_SITE_SERVER: (state, server) => {
-            const foundServer = _.find(state.site_servers, function (tempServer) {
-                return tempServer.id === server.id
-            })
-
-            if (foundServer) {
-                _.each(server, function (value, index) {
-                    foundServer[index] = value
-                })
-            }
+            alert('sorry we have a bug updating site servesr')
+            // const foundServer = _.find(state.site_servers, function (tempServer) {
+            //     return tempServer.id === server.id
+            // })
+            //
+            // if (foundServer) {
+            //     _.each(server, function (value, index) {
+            //         foundServer[index] = value
+            //     })
+            // }
         },
         SET_SERVER_STATS: (state, data) => {
             const server = _.find(state.site_servers, { id: data.server })

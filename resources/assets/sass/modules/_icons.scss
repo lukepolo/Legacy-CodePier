@@ -53,41 +53,11 @@
 }
 
 
-.icon-refresh:before {
-  content: "\e90b";
+.icon-users:before {
+  content: "\e911";
 }
-.icon-archive:before {
-  content: "\e90c";
-}
-.icon-buoy:before {
-  content: "\e90a";
-}
-.icon-bitbucket:before {
-  content: "\e904";
-}
-.icon-gitlab:before {
-  content: "\e905";
-}
-.icon-arrow-up:before {
-  content: "\f106";
-}
-.icon-arrow-right:before {
-  content: "\f105";
-}
-.icon-arrow-down:before {
-  content: "\f107";
-}
-.icon-arrow-left:before {
-  content: "\f104";
-}
-.icon-browser:before {
-  content: "\e902";
-}
-.icon-server:before {
-  content: "\e903";
-}
-.icon-warning:before {
-  content: "\e900";
+.icon-mail:before {
+  content: "\e912";
 }
 .icon-web:before {
   content: "\e90d";
@@ -137,11 +107,77 @@
 .icon-settings:before {
   content: "\e8b8";
 }
+.icon-info:before {
+  content: "\e913";
+}
+.icon-pencil:before {
+  content: "\e910";
+}
+.icon-trash:before {
+  content: "\e914";
+}
+.icon-plus:before {
+  content: "\e915";
+}
+.icon-slack:before {
+  content: "\e916";
+}
+.icon-refresh:before {
+  content: "\e917";
+}
+.icon-cloud-auto-deploy:before {
+  content: "\e918";
+}
+.icon-refresh2:before {
+  content: "\e90b";
+}
+.icon-archive:before {
+  content: "\e90c";
+}
+.icon-worker:before {
+  content: "\e90f";
+}
+.icon-buoy:before {
+  content: "\e90a";
+}
+.icon-bitbucket:before {
+  content: "\e904";
+}
+.icon-gitlab:before {
+  content: "\e905";
+}
+.icon-arrow-up:before {
+  content: "\f106";
+}
+.icon-arrow-right:before {
+  content: "\f105";
+}
+.icon-arrow-down:before {
+  content: "\f107";
+}
+.icon-arrow-left:before {
+  content: "\f104";
+}
+.icon-browser:before {
+  content: "\e902";
+}
+.icon-server:before {
+  content: "\e903";
+}
+.icon-warning:before {
+  content: "\e900";
+}
+.icon-deploy:before {
+  content: "\e919";
+}
+.icon-spinner8:before {
+  content: "\e982";
+}
 .icon-database:before {
   content: "\e90e";
 }
-.icon-spinner82:before {
-  content: "\e983";
+.icon-spinner822:before {
+  content: "\e984";
 }
 .icon-github:before {
   content: "\eab0";
@@ -157,10 +193,4 @@
 }
 .icon-clipboard:before {
   content: "\e908";
-}
-.icon-spinner8:before {
-  content: "\e982";
-}
-.icon-worker:before {
-  content: "\e90f";
 }

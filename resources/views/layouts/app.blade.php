@@ -27,7 +27,6 @@
                 'csrfToken' => csrf_token(),
                 'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'app_registration' => config('app.registration'),
                 'version' => app()->make('gitCommit'),
                 'teams' => config('app.teams'),
             ]); ?>
@@ -43,7 +42,7 @@
                     @yield('content')
                 </div>
 
-                <notification-bar></notification-bar>
+                <events-bar></events-bar>
 
             </div>
         </div>
@@ -71,7 +70,12 @@
 
         @if($errors->count())
             <script>
-                app.showError('{{ $errors->first() }}', null, 0)
+                app.showError('{{ $errors->first() }}')
+            </script>
+        @endif
+        @if (session('success'))
+            <script>
+                app.showSuccess('{{ session('success') }}')
             </script>
         @endif
     </body>

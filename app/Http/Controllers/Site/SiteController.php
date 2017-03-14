@@ -8,7 +8,11 @@ use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
+use App\Events\Site\SiteRestartServers;
+use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
+use App\Events\Site\SiteRestartDatabases;
+use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
@@ -184,15 +188,9 @@ class SiteController extends Controller
      */
     public function restartServer($siteId)
     {
-        $site = Site::findOrFail($siteId);
+        event(new SiteRestartServers(Site::findOrFail($siteId)));
 
-        $this->runOnServer(function () use ($site) {
-            foreach ($site->provisionedServers as $server) {
-                $this->serverService->restartServer($server);
-            }
-        });
-
-        return $this->remoteResponse();
+        return $this->remoteResponse('OK');
     }
 
     /**
@@ -204,15 +202,9 @@ class SiteController extends Controller
      */
     public function restartWebServices($siteId)
     {
-        $site = Site::findOrFail($siteId);
+        event(new SiteRestartWebServices(Site::findOrFail($siteId)));
 
-        $this->runOnServer(function () use ($site) {
-            foreach ($site->provisionedServers as $server) {
-                $this->serverService->restartWebServices($server);
-            }
-        });
-
-        return $this->remoteResponse();
+        return $this->remoteResponse('OK');
     }
 
     /**
@@ -224,15 +216,9 @@ class SiteController extends Controller
      */
     public function restartDatabases($siteId)
     {
-        $site = Site::findOrFail($siteId);
+        event(new SiteRestartDatabases(Site::findOrFail($siteId)));
 
-        $this->runOnServer(function () use ($site) {
-            foreach ($site->provisionedServers as $server) {
-                $this->serverService->restartDatabase($server);
-            }
-        });
-
-        return $this->remoteResponse();
+        return $this->remoteResponse('OK');
     }
 
     /**
@@ -244,15 +230,9 @@ class SiteController extends Controller
      */
     public function restartWorkerServices($siteId)
     {
-        $site = Site::findOrFail($siteId);
+        event(new SiteRestartWorkers(Site::findOrFail($siteId)));
 
-        $this->runOnServer(function () use ($site) {
-            foreach ($site->provisionedServers as $server) {
-                $this->serverService->restartWorkers($server);
-            }
-        });
-
-        return $this->remoteResponse();
+        return $this->remoteResponse('OK');
     }
 
     /**
