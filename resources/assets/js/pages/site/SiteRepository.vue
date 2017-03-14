@@ -156,11 +156,6 @@
                 this.$store.dispatch('getServerAvailableFrameworks')
                 this.$store.dispatch('getServerAvailableLanguages')
             },
-            deploySite: function () {
-                if(!this.isDeploying) {
-                    this.$store.dispatch('deploySite', this.$route.params.site_id)
-                }
-            },
             updateSite() {
                 this.$store.dispatch('updateSite', {
                     site_id: this.site.id,
@@ -227,18 +222,6 @@
             },
             availableFrameworks() {
                 return this.$store.state.serversStore.available_server_frameworks
-            },
-            hasDeployableServers() {
-                return this.$store.state.sitesStore.site_servers.length
-            },
-            isDeploying() {
-                if(this.site) {
-                    return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
-                        return deployment.status != 'Completed' && deployment.status != 'Failed'
-                    });
-                }
-
-                return false
             }
         },
     }

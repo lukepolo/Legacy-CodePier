@@ -50,7 +50,7 @@
                 </span>
             </template>
 
-            <template v-if="siteServers.length">
+            <template v-if="siteServers">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     <span class="icon-server"></span>
                 </button>
@@ -90,7 +90,7 @@
                 return this.$store.state.sitesStore.site;
             },
             siteServers() {
-                return this.$store.state.sitesStore.site_servers;
+                return _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id)
             },
             deployHook() {
                 if(this.site) {

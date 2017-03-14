@@ -6840,7 +6840,32 @@ textarea:focus {
   font-weight: 600;
   font-size: 1.2em;
   margin-bottom: 5px;
-  padding-right: 1.4em;
+}
+
+.site-name .event-status {
+  margin-right: 10px;
+}
+
+.site-name .deploy-status {
+  float: right;
+  text-align: right;
+}
+
+.site-name .deploy-status [class^="icon-"], .site-name .deploy-status [class*=" icon-"] {
+  font-size: 1.5em;
+}
+
+.site-name .deploy-status .btn-disabled {
+  background-color: transparent;
+}
+
+.site-name .deploy-status .deploy-status-text {
+  display: block;
+  font-size: .7em;
+  color: #B6B6B6;
+  position: relative;
+  left: 7px;
+  top: -5px;
 }
 
 #left .section-content {

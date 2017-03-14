@@ -16,10 +16,11 @@
                                 'icon-spinner' : site.last_deployment_status == 'Running'
                             }"
                             :message="getDeploymentStatusText(site)"
-                            placement="top-right"
+                            placement="right"
                         >
                         </tooltip>
                         {{ site.name }}
+                        <site-deploy :site="site"></site-deploy>
                     </div>
                 </router-link>
                 </div>
@@ -70,7 +71,11 @@
 </template>
 
 <script>
+    import SiteDeploy from './components/SiteDeploy.vue'
     export default {
+        components : {
+            SiteDeploy
+        },
         created() {
             this.$store.dispatch('getSites');
         },
