@@ -26,7 +26,6 @@
             <tr>
                 <th>Key Name</th>
                 <th></th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
