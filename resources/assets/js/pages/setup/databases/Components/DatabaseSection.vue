@@ -6,9 +6,6 @@
 
             <form @submit.prevent="createSchema" class="floating-labels">
                 <div class="jcf-input-group">
-                    <div class="input-question">Schemas :</div>
-                </div>
-                <div class="jcf-input-group">
                     <input type="text" name="name" v-model="schemaForm.name">
                     <label for="name">
                         <span class="float-label">Name</span>
