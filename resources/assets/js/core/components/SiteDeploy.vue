@@ -13,7 +13,7 @@
    </span>
 </template>
 <script>
-    export default{
+    export default {
         props : ['site'],
         methods: {
             deploySite: function () {
@@ -24,7 +24,11 @@
         },
         computed : {
             hasDeployableServers() {
-                return this.$store.state.sitesStore.site_servers[this.site.id]
+                let deployableServers = this.$store.state.sitesStore.site_servers[this.site.id]
+                if(deployableServers && _.keys(deployableServers).length) {
+                    return true
+                }
+                return false
             },
             isDeploying() {
                 return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
@@ -33,6 +37,9 @@
 
                 return false
             }
+        },
+        created() {
+            this.$store.dispatch('getSiteServers', this.site.id);
         }
     }
 </script>

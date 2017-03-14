@@ -114,7 +114,6 @@
                 this.connectServers = false
                 this.form.connected_servers = []
                 this.$store.dispatch('getServers');
-                this.$store.dispatch('getSiteServers', this.$route.params.site_id);
             },
             linkServers() {
                 this.form.site = this.$route.params.site_id
@@ -133,8 +132,11 @@
             },
             siteServers() {
                 let siteServers = this.$store.state.sitesStore.site_servers[this.$route.params.site_id];
-                this.form.connected_servers = _.map(siteServers, 'id')
-                return siteServers;
+                if(siteServers && _.keys(siteServers).length) {
+                    this.form.connected_servers = _.map(siteServers, 'id')
+                    return siteServers;
+                }
+
             },
             availableServers() {
                 return _.filter(this.$store.state.serversStore.servers, function(server){
