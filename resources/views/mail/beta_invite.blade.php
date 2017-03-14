@@ -64,8 +64,8 @@ I know this is a lot, but I hope I can get you as excited as I am. With the way 
 Again, I'll provide updates when there are major feature releases.
 
 In addition to <a href="https://github.com/CodePier/CodePier-Issues/issues" target="_blank">adding issues to Github</a>,
-we also have setup a Slack channel that you can join. You will find the link in the application in the lower left hand corner Feel free to contact us directly or chat with other Beta users.
-Feel free to shoot us any questions, suggestions, etc.
+we also have setup a Slack channel that you can join. You will find the link in the application in the lower left hand corner when you log in. Feel free chat with other Beta users, or contact us directly
+to shoot us any questions, suggestions, etc.
 
 
 @slot('subcopy')
