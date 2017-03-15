@@ -2,6 +2,7 @@
 
 namespace App\Observers\Site;
 
+use App\Events\Site\SiteSshKeyDeleted;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
@@ -12,7 +13,6 @@ use App\Jobs\Site\RenameSiteDomain;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Sites\SiteSshKeyDeleted;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
