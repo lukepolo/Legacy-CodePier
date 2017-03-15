@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site\Repository;
 
 use App\Models\Site\Site;
+use App\Exceptions\DeployHookFailed;
 use App\Http\Controllers\Controller;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
@@ -28,9 +29,13 @@ class RepositoryHookController extends Controller
      */
     public function store($siteId)
     {
-        return response()->json(
-            $this->siteService->createDeployHook(Site::findOrFail($siteId))
-        );
+        try {
+            return response()->json(
+                $this->siteService->createDeployHook(Site::findOrFail($siteId))
+            );
+        } catch (DeployHookFailed $e) {
+            return response()->json($e->getMessage(), 400);
+        }
     }
 
     /**

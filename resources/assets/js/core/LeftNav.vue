@@ -57,6 +57,13 @@
                     </div>
                 </div>
 
+                <div class="slack-invite" v-if="userRepositoryProviders && !userRepositoryProviders.length">
+                    <router-link :to="{ name : 'user_repository_providers' }">
+                        Connect Repository Provider
+                        <div class="small">You have not connected a repository provider</div>
+                    </router-link>
+                </div>
+
                 <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
                     <router-link :to="{ name : 'user_ssh_keys' }">
                         Create A SSH Key
@@ -84,16 +91,16 @@
             SiteDeploy
         },
         created() {
-            this.$store.dispatch('getSites');
-            this.$store.dispatch('getUserSshKeys');
+            this.$store.dispatch('getSites')
+            this.$store.dispatch('getUserSshKeys')
+            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.userStore.user.id);
         },
         data() {
             return {
-
                 adding_site: false,
                 form: {
                     domain: null,
-                    domainless: false,
+                    domainless: false
                 }
             }
         },
@@ -101,26 +108,25 @@
             saveSite() {
                 this.$store.dispatch('createSite', this.form).then((site) => {
                     if(site) {
-                        this.adding_site = false;
+                        this.adding_site = false
                     }
-                });
-
+                })
             },
             getDeploymentStatusText(site) {
 
                 switch(site.last_deployment_status) {
                     case 'Completed':
                         return 'All Good'
-                        break;
+                        break
                     case 'Failed' :
                         return 'Something Failed'
-                        break;
+                        break
                     case 'Queued' :
                         return 'Queued'
-                        break;
+                        break
                     default :
                         return 'Deploying'
-                        break;
+                        break
                 }
             },
             slackInviteLink() {
@@ -129,19 +135,22 @@
         },
         computed: {
             userSshKeys() {
-                return this.$store.state.userSshKeysStore.user_ssh_keys;
+                return this.$store.state.userSshKeysStore.user_ssh_keys
             },
             currentPile() {
-                return this.getPile(this.$store.state.userStore.user.current_pile_id);
+                return this.getPile(this.$store.state.userStore.user.current_pile_id)
             },
             user() {
-                return this.$store.state.userStore.user;
+                return this.$store.state.userStore.user
             },
             sites() {
-                return this.$store.state.sitesStore.sites;
+                return this.$store.state.sitesStore.sites
             },
             current_pile_id() {
-                return this.$store.state.userStore.user.current_pile_id;
+                return this.$store.state.userStore.user.current_pile_id
+            },
+            userRepositoryProviders() {
+                return this.$store.state.userStore.user_repository_providers;
             }
         }
     }

@@ -7,48 +7,61 @@
         </a>
 
         <div class="section-header--btn-right">
-            <template v-if="site.public_ssh_key">
-                <span class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="icon-web"></span>
-                    </button>
 
-                    <div class="dropdown-menu nowrap">
-                        <div class="jcf-form-wrap">
-                            <div class="jcf-input-group">
-                                <div class="input-question">
-                                    <confirm-dropdown dispatch="refreshSshKeys" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
-                                </div>
-                                <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
-                                <div class="text-right">
-                                    <clipboard :data="site.public_ssh_key"></clipboard>
-                                </div>
+            <template v-if="site && !site.automatic_deployment_id">
+                <span @click="createDeployHook" class="dropdown">
+                    <tooltip message="Enable Auto Deploy" placement="bottom-left" class="btn btn-default">
+                        <span class="icon-cloud-auto-deploy"></span>
+                    </tooltip>
+                </span>
+            </template>
+            <template v-else>
+                <span class="dropdown">
+                    <tooltip @click="removeDeployHook" message="Remove Auto Deploy" placement="bottom-left" class="btn btn-default">
+                        <span class="icon-cloud-auto-deploy active"></span>
+                    </tooltip>
+                </span>
+            </template>
+
+            <span class="dropdown">
+                <tooltip message="Site SSH Key" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="icon-web"></span>
+                </tooltip>
+
+                <div class="dropdown-menu nowrap">
+                    <div class="jcf-form-wrap">
+                        <div class="jcf-input-group">
+                            <div class="input-question">
+                                <confirm-dropdown dispatch="refreshSshKeys" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                            </div>
+                            <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
+                            <div class="text-right">
+                                <clipboard :data="site.public_ssh_key"></clipboard>
                             </div>
                         </div>
                     </div>
-                </span>
-            </template>
-            <template v-if="deployHook">
-                <span class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="icon-webhooks"></span>
-                    </button>
+                </div>
+            </span>
 
-                    <div class="dropdown-menu nowrap">
-                        <div class="jcf-form-wrap">
-                            <div class="jcf-input-group">
-                                <div class="input-question">
-                                    <confirm-dropdown dispatch="refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
-                                </div>
-                                <textarea  rows="3" readonly :value="deployHook"></textarea>
-                                <div class="text-right">
-                                    <clipboard :data="deployHook"></clipboard>
-                                </div>
+            <span class="dropdown">
+                <tooltip message="Deploy Hook URL" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="icon-webhooks"></span>
+                </tooltip>
+
+                <div class="dropdown-menu nowrap">
+                    <div class="jcf-form-wrap">
+                        <div class="jcf-input-group">
+                            <div class="input-question">
+                                <confirm-dropdown dispatch="refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                            </div>
+                            <textarea  rows="3" readonly :value="deployHook"></textarea>
+                            <div class="text-right">
+                                <clipboard :data="deployHook"></clipboard>
                             </div>
                         </div>
                     </div>
-                </span>
-            </template>
+                </div>
+            </span>
 
             <template v-if="siteServers">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
@@ -82,8 +95,16 @@
               sshKey: false,
           }
         },
-        methods() {
-
+        methods: {
+            createDeployHook() {
+                return this.$store.dispatch('createDeployHook', this.$route.params.site_id)
+            },
+            removeDeployHook() {
+                this.$store.dispatch('removeDeployHook', {
+                    site : this.$route.params.site_id,
+                    hook : this.site.automatic_deployment_id
+                });
+            },
         },
         computed: {
             site() {

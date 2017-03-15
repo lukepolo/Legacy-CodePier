@@ -142,6 +142,9 @@ tr {
 
 
 [class*="hint--"] {
+
+  z-index: 1000;
+
   &:after {
     display: block;
     text-transform: none;
