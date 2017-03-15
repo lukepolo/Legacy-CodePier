@@ -1,6 +1,7 @@
 // CONFIRM DIALOG STYLES ===================================
 // =========================================================
 .confirm {
+  z-index : 100;
   background-color: $color-background;
   border: 1px solid mix($black, $gray, 50%);
   border-radius: 3px;
