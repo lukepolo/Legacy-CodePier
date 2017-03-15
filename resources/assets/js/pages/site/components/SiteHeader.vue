@@ -9,9 +9,9 @@
         <div class="section-header--btn-right">
             <template v-if="site.public_ssh_key">
                 <span class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <tooltip message="Site SSH Key" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="icon-web"></span>
-                    </button>
+                    </tooltip>
 
                     <div class="dropdown-menu nowrap">
                         <div class="jcf-form-wrap">
@@ -30,9 +30,9 @@
             </template>
             <template v-if="deployHook">
                 <span class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <tooltip message="Deploy Hook URL" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="icon-webhooks"></span>
-                    </button>
+                    </tooltip>
 
                     <div class="dropdown-menu nowrap">
                         <div class="jcf-form-wrap">
