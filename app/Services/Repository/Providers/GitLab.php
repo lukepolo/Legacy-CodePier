@@ -2,9 +2,9 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
+use App\Exceptions\DeployHookFailed;
 use Gitlab\Exception\RuntimeException;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
@@ -103,7 +103,6 @@ class GitLab implements RepositoryContract
                 }
                 throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
             }
-
             throw new DeployHookFailed($e->getMessage());
         }
 

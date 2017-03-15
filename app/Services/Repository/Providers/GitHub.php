@@ -2,9 +2,9 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
+use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
@@ -75,10 +75,9 @@ class GitHub implements RepositoryContract
                     'content_type' => 'json',
                 ],
             ]);
-        } catch(RuntimeException $e) {
-
-            if($e->getMessage() == 'Not Found') {
-                if($site->private) {
+        } catch (RuntimeException $e) {
+            if ($e->getMessage() == 'Not Found') {
+                if ($site->private) {
                     throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
                 }
                 throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
