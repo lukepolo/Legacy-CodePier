@@ -84,7 +84,6 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-
         $owner = $this->getRepositoryUser($site->repository);
         $slug = $this->getRepositorySlug($site->repository);
 
@@ -96,9 +95,9 @@ class GitLab implements RepositoryContract
 
             $site->automatic_deployment_id = $webhook['id'];
             $site->save();
-        } catch(RuntimeException $e) {
-            if($e->getMessage() == '404 Project Not Found') {
-                if($site->private) {
+        } catch (RuntimeException $e) {
+            if ($e->getMessage() == '404 Project Not Found') {
+                if ($site->private) {
                     throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
                 }
                 throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');

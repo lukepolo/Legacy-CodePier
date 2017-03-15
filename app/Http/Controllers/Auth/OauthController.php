@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use GuzzleHttp\Exception\ClientException;
 use Socialite;
 use Bitbucket\API\Users;
 use App\Models\User\User;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use App\Models\Server\Provider\ServerProvider;
@@ -132,8 +132,8 @@ class OauthController extends Controller
                 $newUserNotificationProvider->delete();
             }
 
-            if(config('app.env') === 'local') {
-                /** @var ClientException $e */
+            if (config('app.env') === 'local') {
+                /* @var ClientException $e */
                 dump($e->getRequest());
                 dd($e->getResponse()->getBody()->getContents());
             }
