@@ -48,6 +48,9 @@
                                     <template v-if="is_custom">
                                         <input type="hidden" name="custom" value="true">
                                     </template>
+                                    <small>
+                                        This must be a clean Ubuntu 16.04 system
+                                    </small>
                                 </label>
 
                             </div>
