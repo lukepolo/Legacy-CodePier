@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use GuzzleHttp\Exception\ClientException;
 use Socialite;
 use Bitbucket\API\Users;
 use App\Models\User\User;
@@ -129,6 +130,12 @@ class OauthController extends Controller
 
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
+            }
+
+            if(config('app.env') === 'local') {
+                /** @var ClientException $e */
+                dump($e->getRequest());
+                dd($e->getResponse()->getBody()->getContents());
             }
 
             return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());

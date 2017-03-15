@@ -10,6 +10,7 @@ use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
 use Bitbucket\API\Http\Listener\OAuthListener;
+use Buzz\Message\Response;
 
 class BitBucket implements RepositoryContract
 {
@@ -106,9 +107,14 @@ class BitBucket implements RepositoryContract
             new OAuthListener($this->oauthParams)
         );
 
+
+        $owner = $this->getRepositoryUser($site->repository);
+        $slug = $this->getRepositorySlug($site->repository);
+
+        /** @var Response $response */
         $response = $hook->create(
-            $this->getRepositoryUser($site->repository),
-            $this->getRepositorySlug($site->repository), [
+            $owner,
+            $slug, [
             'description' => 'CodePier',
             'url'         => action('WebHookController@deploy', $site->hash),
             'active'      => true,
@@ -116,6 +122,13 @@ class BitBucket implements RepositoryContract
                 'repo:push',
             ],
         ]);
+
+        if($response->getStatusCode() == 401) {
+            if($site->private) {
+                throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
+            }
+            throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+        }
 
         $site->automatic_deployment_id = json_decode($response->getContent())->uuid;
         $site->save();
