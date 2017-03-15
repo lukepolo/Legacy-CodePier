@@ -2,10 +2,10 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\User;
 use App\Models\Site\Site;
 use Bitbucket\API\Users\SshKeys;
+use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\Repositories\Hooks;
 use Bitbucket\API\Repositories\Repository;
 use App\Models\User\UserRepositoryProvider;
