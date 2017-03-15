@@ -214,7 +214,6 @@ export default {
             })
         },
         rollbackSite: ({}, data) => {
-            alert(data.siteDeployment)
             Vue.http.post(Vue.action('Site\SiteController@rollback', { site: data.site }), data).then((response) => {
                 app.showSuccess('You are rolling back a deployment.')
             }, (errors) => {
@@ -262,11 +261,9 @@ export default {
             Vue.set(state.site_servers, site, servers)
         },
         REMOVE_SERVER_FROM_SITE_SERVERS: (state, server) => {
-            _.each(state.site_servers, (site) => {
-                alert(site)
+            _.each(state.site_servers, (servers, site) => {
                 Vue.set(state.site_servers, site, _.reject(state.site_servers[site], { id: server }))
             })
-
         },
         SET_DEPLOYMENT_STEPS: (state, deploymentSteps) => {
             state.deployment_steps = deploymentSteps
@@ -285,6 +282,7 @@ export default {
 
                 if (foundServer) {
                     _.each(server, function (value, index) {
+
                         foundServer[index] = value
                     })
                 }
