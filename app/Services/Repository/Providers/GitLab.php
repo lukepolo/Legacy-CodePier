@@ -4,6 +4,7 @@ namespace App\Services\Repository\Providers;
 
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
+use App\Exceptions\DeployHookFailed;
 use Gitlab\Exception\RuntimeException;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
@@ -77,18 +78,32 @@ class GitLab implements RepositoryContract
     /**
      * @param Site $site
      * @return Site
+     * @throws DeployHookFailed
      */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $webhook = $this->client->api('projects')->addHook($site->repository, [
-            'push_events'           => true,
-            'url'                   => action('WebHookController@deploy', $site->hash),
-        ]);
+        $owner = $this->getRepositoryUser($site->repository);
+        $slug = $this->getRepositorySlug($site->repository);
 
-        $site->automatic_deployment_id = $webhook['id'];
-        $site->save();
+        try {
+            $webhook = $this->client->api('projects')->addHook($site->repository, [
+                'push_events' => true,
+                'url' => action('WebHookController@deploy', $site->hash),
+            ]);
+
+            $site->automatic_deployment_id = $webhook['id'];
+            $site->save();
+        } catch (RuntimeException $e) {
+            if ($e->getMessage() == '404 Project Not Found') {
+                if ($site->private) {
+                    throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
+                }
+                throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+            }
+            throw new DeployHookFailed($e->getMessage());
+        }
 
         return $site;
     }

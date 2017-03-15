@@ -1,7 +1,6 @@
 <template>
     <div v-if="site">
-
-        <div class="jcf-form-wrap">
+        <div class="jcf-form-wrap" v-if="user_repository_providers.length">
             <form @submit.prevent="updateSite" class="floating-labels">
                 <div class="jcf-input-group">
                     <input type="text" v-model="form.repository" name="repository">
@@ -104,23 +103,13 @@
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
+        <div v-else>
 
-        <template v-if="site.repository && hasDeployableServers">
-
-            <a href="#" @click.prevent="deploySite" :class="{ 'btn-disabled' : isDeploying }">
-                <span class="icon-deploy"></span>
-                <template v-if="isDeploying">
-                    {{ isDeploying.status }}
-                </template>
-            </a>
-
-            <template v-if="!site.automatic_deployment_id">
-                <a @click.prevent="createDeployHook"><span class="icon-cloud-auto-deploy"></span></a>
-            </template>
-            <template v-else>
-                <a @click.prevent="removeDeployHook"><span class="icon-cloud-auto-deploy"></span></a>
-            </template>
-        </template>
+            You do not have any connected repsoitory providers, please
+            <router-link :to="{ name : 'user_repository_providers' }">
+                connect a repository provider
+            </router-link>
+        </div>
     </div>
 </template>
 
@@ -172,15 +161,6 @@
                         zerotime_deployment: this.form.zerotime_deployment,
                         user_repository_provider_id: this.form.user_repository_provider_id
                     }
-                });
-            },
-            createDeployHook() {
-                return this.$store.dispatch('createDeployHook', this.site.id)
-            },
-            removeDeployHook() {
-                this.$store.dispatch('removeDeployHook', {
-                    site : this.site.id,
-                    hook : this.site.automatic_deployment_id
                 });
             },
             getRepositoryName(user_repository_id) {

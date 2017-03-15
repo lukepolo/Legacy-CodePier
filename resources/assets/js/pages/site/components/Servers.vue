@@ -2,7 +2,7 @@
     <section id="right" v-if="site && site.repository" class="section-column">
 
         <h3 class="section-header">
-            Server Info
+            Servers
 
             <div class="section-header--btn-right">
                 <div class="dropdown">

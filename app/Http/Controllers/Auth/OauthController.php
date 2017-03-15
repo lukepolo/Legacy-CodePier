@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use App\Models\Server\Provider\ServerProvider;
@@ -85,6 +86,7 @@ class OauthController extends Controller
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default:
+
                     $user = Socialite::driver($provider)->user();
 
                     if (! \Auth::user()) {
@@ -128,6 +130,12 @@ class OauthController extends Controller
 
             if (! empty($newUserNotificationProvider)) {
                 $newUserNotificationProvider->delete();
+            }
+
+            if (config('app.env') === 'local') {
+                /* @var ClientException $e */
+                dump($e->getRequest());
+                dd($e->getResponse()->getBody()->getContents());
             }
 
             return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
