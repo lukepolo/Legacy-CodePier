@@ -8486,4 +8486,8 @@ a.list--item:hover:before {
   cursor: pointer;
 }
 
+.icon-cloud-auto-deploy.active:before {
+  color: #83B692;
+}
+
 /*# sourceMappingURL=app.css.map */

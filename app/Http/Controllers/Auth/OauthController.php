@@ -85,6 +85,7 @@ class OauthController extends Controller
                         new TokenData($tokenData['access_token'], $tokenData['user_id']));
                     break;
                 default:
+
                     $user = Socialite::driver($provider)->user();
 
                     if (! \Auth::user()) {

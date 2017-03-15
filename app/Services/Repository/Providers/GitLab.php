@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Exceptions\DeployHookFailed;
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
 use Gitlab\Exception\RuntimeException;
@@ -77,18 +78,23 @@ class GitLab implements RepositoryContract
     /**
      * @param Site $site
      * @return Site
+     * @throws DeployHookFailed
      */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $webhook = $this->client->api('projects')->addHook($site->repository, [
-            'push_events'           => true,
-            'url'                   => action('WebHookController@deploy', $site->hash),
-        ]);
+        try {
+            $webhook = $this->client->api('projects')->addHook($site->repository, [
+                'push_events' => true,
+                'url' => action('WebHookController@deploy', $site->hash),
+            ]);
 
-        $site->automatic_deployment_id = $webhook['id'];
-        $site->save();
+            $site->automatic_deployment_id = $webhook['id'];
+            $site->save();
+        } catch(RuntimeException $e) {
+            throw new DeployHookFailed($e->getMessage());
+        }
 
         return $site;
     }

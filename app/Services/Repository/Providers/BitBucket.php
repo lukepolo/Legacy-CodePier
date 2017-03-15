@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Exceptions\DeployHookFailed;
 use Bitbucket\API\User;
 use App\Models\Site\Site;
 use Bitbucket\API\Users\SshKeys;
@@ -93,6 +94,7 @@ class BitBucket implements RepositoryContract
     /**
      * @param Site $site
      * @return Site
+     * @throws DeployHookFailed
      */
     public function createDeployHook(Site $site)
     {
