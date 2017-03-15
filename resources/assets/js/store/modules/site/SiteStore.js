@@ -278,16 +278,17 @@ export default {
             state.sites_listening_to.push(site.id)
         },
         UPDATE_SITE_SERVER: (state, server) => {
-            alert('sorry we have a bug updating site servesr')
-            // const foundServer = _.find(state.site_servers, function (tempServer) {
-            //     return tempServer.id === server.id
-            // })
-            //
-            // if (foundServer) {
-            //     _.each(server, function (value, index) {
-            //         foundServer[index] = value
-            //     })
-            // }
+            _.each(state.site_servers, (servers) => {
+                let foundServer = _.find(servers, (tempServer) => {
+                    return tempServer.id === server.id
+                })
+
+                if (foundServer) {
+                    _.each(server, function (value, index) {
+                        foundServer[index] = value
+                    })
+                }
+            })
         },
         SET_SERVER_STATS: (state, data) => {
             const server = _.find(state.site_servers, { id: data.server })
