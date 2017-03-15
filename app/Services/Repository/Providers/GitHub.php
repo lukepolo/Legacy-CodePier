@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository\Providers;
 
+use App\Exceptions\DeployHookFailed;
 use App\Models\Site\Site;
 use GitHub as GitHubService;
 use Github\Exception\RuntimeException;
@@ -53,22 +54,38 @@ class GitHub implements RepositoryContract
     /**
      * @param Site $site
      * @return Site
+     * @throws DeployHookFailed
      */
     public function createDeployHook(Site $site)
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $webhook = GitHubService::api('repo')->hooks()->create($this->getRepositoryUser($site->repository), $this->getRepositorySlug($site->repository), [
-            'name'   => 'web',
-            'active' => true,
-            'events' => [
-                'push',
-            ],
-            'config' => [
-                'url'          => action('WebHookController@deploy', $site->hash),
-                'content_type' => 'json',
-            ],
-        ]);
+        $owner = $this->getRepositoryUser($site->repository);
+        $slug = $this->getRepositorySlug($site->repository);
+
+        try {
+            $webhook = GitHubService::api('repo')->hooks()->create($owner, $slug, [
+                'name'   => 'web',
+                'active' => true,
+                'events' => [
+                    'push',
+                ],
+                'config' => [
+                    'url'          => action('WebHookController@deploy', $site->hash),
+                    'content_type' => 'json',
+                ],
+            ]);
+        } catch(RuntimeException $e) {
+
+            if($e->getMessage() == 'Not Found') {
+                if($site->private) {
+                    throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
+                }
+                throw new DeployHookFailed('We could not create the webhook as it is not owned by you. Please fork the repository ('.$owner.'/'.$slug.') to allow for this feature.');
+            }
+
+            throw new DeployHookFailed($e->getMessage());
+        }
 
         $site->automatic_deployment_id = $webhook['id'];
         $site->save();
