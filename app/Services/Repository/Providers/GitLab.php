@@ -2,9 +2,9 @@
 
 namespace App\Services\Repository\Providers;
 
-use App\Exceptions\DeployHookFailed;
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
+use App\Exceptions\DeployHookFailed;
 use Gitlab\Exception\RuntimeException;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
@@ -92,7 +92,7 @@ class GitLab implements RepositoryContract
 
             $site->automatic_deployment_id = $webhook['id'];
             $site->save();
-        } catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             throw new DeployHookFailed($e->getMessage());
         }
 
