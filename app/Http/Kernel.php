@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
             \App\Http\Middleware\GitCommit::class,
+            \App\Http\Middleware\SentryContext::class,
         ],
 
         'api' => [
