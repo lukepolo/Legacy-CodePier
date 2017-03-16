@@ -77,7 +77,7 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Request $request, $provider)
     {
-        //        try {
+        try {
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
@@ -110,37 +110,36 @@ class OauthController extends Controller
                     break;
             }
 
-        return redirect()->intended('/');
-//        } catch (\Exception $e) {
-//            if (! empty($newLoginProvider)) {
-//                $newLoginProvider->delete();
-//            }
-//
-//            if (! empty($newUserModel)) {
-//                $newUserModel->delete();
-//            }
-//
-//            if (! empty($newUserRepositoryProvider)) {
-//                $newUserRepositoryProvider->delete();
-//            }
-//
-//            if (! empty($newUserServerProvider)) {
-//                $newUserServerProvider->delete();
-//            }
-//
-//            if (! empty($newUserNotificationProvider)) {
-//                $newUserNotificationProvider->delete();
-//            }
-//
-//            if (config('app.env') === 'local') {
-//                /* @var ClientException $e */
-//                dd($e->getMessage());
-////                dump($e->getRequest());
-////                dd($e->getResponse()->getBody()->getContents());
-//            }
+            return redirect()->intended('/');
 
-//            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
-//        }
+        } catch (\Exception $e) {
+            if (! empty($newLoginProvider)) {
+                $newLoginProvider->delete();
+            }
+
+            if (! empty($newUserModel)) {
+                $newUserModel->delete();
+            }
+
+            if (! empty($newUserRepositoryProvider)) {
+                $newUserRepositoryProvider->delete();
+            }
+
+            if (! empty($newUserServerProvider)) {
+                $newUserServerProvider->delete();
+            }
+
+            if (! empty($newUserNotificationProvider)) {
+                $newUserNotificationProvider->delete();
+            }
+
+            if (config('app.env') === 'local') {
+                /* @var ClientException $e */
+                dd($e->getMessage());
+            }
+
+            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
+        }
     }
 
     /**
