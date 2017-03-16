@@ -77,7 +77,7 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Request $request, $provider)
     {
-        try {
+//        try {
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
@@ -111,35 +111,36 @@ class OauthController extends Controller
             }
 
             return redirect()->intended('/');
-        } catch (\Exception $e) {
-            if (! empty($newLoginProvider)) {
-                $newLoginProvider->delete();
-            }
+//        } catch (\Exception $e) {
+//            if (! empty($newLoginProvider)) {
+//                $newLoginProvider->delete();
+//            }
+//
+//            if (! empty($newUserModel)) {
+//                $newUserModel->delete();
+//            }
+//
+//            if (! empty($newUserRepositoryProvider)) {
+//                $newUserRepositoryProvider->delete();
+//            }
+//
+//            if (! empty($newUserServerProvider)) {
+//                $newUserServerProvider->delete();
+//            }
+//
+//            if (! empty($newUserNotificationProvider)) {
+//                $newUserNotificationProvider->delete();
+//            }
+//
+//            if (config('app.env') === 'local') {
+//                /* @var ClientException $e */
+//                dd($e->getMessage());
+////                dump($e->getRequest());
+////                dd($e->getResponse()->getBody()->getContents());
+//            }
 
-            if (! empty($newUserModel)) {
-                $newUserModel->delete();
-            }
-
-            if (! empty($newUserRepositoryProvider)) {
-                $newUserRepositoryProvider->delete();
-            }
-
-            if (! empty($newUserServerProvider)) {
-                $newUserServerProvider->delete();
-            }
-
-            if (! empty($newUserNotificationProvider)) {
-                $newUserNotificationProvider->delete();
-            }
-
-            if (config('app.env') === 'local') {
-                /* @var ClientException $e */
-                dump($e->getRequest());
-                dd($e->getResponse()->getBody()->getContents());
-            }
-
-            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
-        }
+//            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
+//        }
     }
 
     /**
