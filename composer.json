@@ -15,20 +15,20 @@
     "require": {
         "php": ">=7.0.0",
         "authy/php": "2.*",
-        "barryvdh/laravel-ide-helper": "^2.2",
+        "barryvdh/laravel-ide-helper": "^2.3",
         "doctrine/dbal": "dev-mysql57-json",
-        "dompdf/dompdf": "~0.7",
+        "dompdf/dompdf": "~0.8",
         "filp/whoops": "^2.1",
         "gentle/bitbucket-api": "^0.8.2",
         "graham-campbell/digitalocean": "^3.2",
         "graham-campbell/github": "^5.1",
-        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/guzzle": "~6.2",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.4.*",
         "laravel/passport": "2.0.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
-        "lord/laroute": "^2.4.1",
+        "lord/laroute": "^2.4.4",
         "m4tthumphrey/php-gitlab-api": "^7.15",
         "mpociot/teamwork": "~5.0",
         "pda/pheanstalk": "^3.1",
@@ -43,9 +43,9 @@
         "vinkla/hashids": "^3.1"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
+        "fzaninotto/faker": "~1.6",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "classmap": [

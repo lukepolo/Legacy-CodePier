@@ -134,8 +134,7 @@ class OauthController extends Controller
 
             if (config('app.env') === 'local') {
                 /* @var ClientException $e */
-                dump($e->getRequest());
-                dd($e->getResponse()->getBody()->getContents());
+                dd($e->getMessage());
             }
 
             return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());

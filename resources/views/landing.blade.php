@@ -77,10 +77,10 @@
                     </tr>
                     <tr>
                         <td>Databases</td>
-                        <td>MariaDB, Mysql, MongodB, PostgreSQL, SqlLite</td>
-                        <td>MariaDB, Mysql</td>
+                        <td>MariaDB, MySQL, MongoDB, PostgreSQL, SQLite</td>
+                        <td>MariaDB, MySQL</td>
                         <td>PostgreSQL</td>
-                        <td>Mysql, PostgreSQL</td>
+                        <td>MySQL, PostgreSQL</td>
                     </tr>
                     <tr>
                         <td>Horizontal Scaling</td>
