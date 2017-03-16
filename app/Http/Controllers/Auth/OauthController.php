@@ -77,7 +77,7 @@ class OauthController extends Controller
      */
     public function getHandleProviderCallback(Request $request, $provider)
     {
-//        try {
+        //        try {
             switch ($provider) {
                 case self::SLACK:
                     $tokenData = Socialite::driver($provider)->getAccessTokenResponse($request->get('code'));
@@ -110,7 +110,7 @@ class OauthController extends Controller
                     break;
             }
 
-            return redirect()->intended('/');
+        return redirect()->intended('/');
 //        } catch (\Exception $e) {
 //            if (! empty($newLoginProvider)) {
 //                $newLoginProvider->delete();
