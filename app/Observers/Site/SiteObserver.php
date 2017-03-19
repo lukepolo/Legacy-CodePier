@@ -127,14 +127,13 @@ class SiteObserver
                 );
             }
         }
-//        "Class App\Services\Systems\Ubuntu\V_16_04\Languages\PHP\FrameworksRuby.RubyOnRails does not exist"
 
-//        if ($site->isDirty('type') || $site->isDirty('framework')) {
+        if ($site->isDirty('type') || $site->isDirty('framework')) {
             $site->deploymentSteps()->delete();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
-//        }
+        }
     }
 
     /**
