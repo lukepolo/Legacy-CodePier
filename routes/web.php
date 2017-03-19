@@ -78,5 +78,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });
-
-
