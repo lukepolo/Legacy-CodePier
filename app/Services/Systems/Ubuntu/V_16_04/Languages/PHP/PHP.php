@@ -162,7 +162,6 @@ class PHP
             $frameworkConfig = $this->getFrameworkService($site)->getNginxConfig();
         }
 
-
         return '
     index index.html index.htm index.php;
 
