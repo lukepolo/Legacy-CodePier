@@ -28,7 +28,7 @@ class SiteService implements SiteServiceContract
 
     public $deploymentServices = [
         'php' => PHP::class,
-        'ruby' => Ruby::class
+        'ruby' => Ruby::class,
     ];
 
     /**

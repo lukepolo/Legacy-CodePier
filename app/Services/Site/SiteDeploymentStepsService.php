@@ -22,7 +22,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
      */
     public function getDeploymentClass(Site $site)
     {
-       return $this->getSiteClass($site);
+        return $this->getSiteClass($site);
     }
 
     /**
