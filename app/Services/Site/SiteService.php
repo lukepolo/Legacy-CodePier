@@ -15,6 +15,7 @@ use App\Events\Site\DeploymentStepStarted;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Services\DeploymentServices\PHP\PHP;
+use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -27,6 +28,7 @@ class SiteService implements SiteServiceContract
 
     public $deploymentServices = [
         'php' => PHP::class,
+        'ruby' => Ruby::class
     ];
 
     /**
