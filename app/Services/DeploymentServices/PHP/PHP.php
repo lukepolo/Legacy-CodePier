@@ -2,8 +2,8 @@
 
 namespace App\Services\DeploymentServices\PHP;
 
-use App\Services\DeploymentServices\DeployTrait;
 use App\Services\Systems\SystemService;
+use App\Services\DeploymentServices\DeployTrait;
 use App\Services\DeploymentServices\PHP\Frameworks\Laravel;
 
 class PHP
@@ -47,5 +47,4 @@ class PHP
 
         return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP)];
     }
-
 }
