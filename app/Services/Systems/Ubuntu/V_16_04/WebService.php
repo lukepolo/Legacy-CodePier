@@ -70,10 +70,6 @@ class WebService
 
         $this->remoteTaskService->run('service nginx stop');
 
-        \Log::info($this->remoteTaskService->run('nginx -c /etc/nginx/nginx.conf', true));
-
-        $this->remoteTaskService->run('service nginx restart');
-
         $this->remoteTaskService->writeToFile('/etc/nginx/dhparam.pem',
             '-----BEGIN DH PARAMETERS-----
 MIIBCAKCAQEA5M2MrvvA978Z4Zz6FBf/1CUZA3QcJyCUmeMwPVWBeTS9M3XJTYUY
@@ -84,7 +80,9 @@ rPJFzPmaWrfBecGIEWEN77NLT8ieYpiLUw0s4PgnlM6Pijax/Z/YsqsZpN8nvmDc
 gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 -----END DH PARAMETERS-----');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service nginx restart');
+        $this->remoteTaskService->run('service nginx restart');
+
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'nginx -t && service nginx restart');
     }
 
     /**
