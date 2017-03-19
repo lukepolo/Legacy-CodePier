@@ -15,6 +15,7 @@ class Ruby
     public function installRubyDependencies()
     {
         $this->remoteTaskService->ssh($this->server);
+
         return [$this->remoteTaskService->run('cd '.$this->release.'; bundle install --path ~/.gem/'.$this->site->domain)];
     }
 
