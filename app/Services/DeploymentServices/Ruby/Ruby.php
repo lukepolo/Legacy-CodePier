@@ -2,13 +2,13 @@
 
 namespace App\Services\DeploymentServices\Ruby;
 
-use App\Services\DeploymentServices\Ruby\Frameworks\RubyOnRails;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
+use App\Services\DeploymentServices\Ruby\Frameworks\RubyOnRails;
 
 class Ruby
 {
