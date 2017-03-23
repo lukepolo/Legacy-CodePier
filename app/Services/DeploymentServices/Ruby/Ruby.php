@@ -2,13 +2,12 @@
 
 namespace App\Services\DeploymentServices\Ruby;
 
+use App\Services\Systems\SystemService;
 use App\Services\DeploymentServices\DeployTrait;
 use App\Services\DeploymentServices\Ruby\Frameworks\RubyOnRails;
-use App\Services\Systems\SystemService;
 
 class Ruby
 {
-
     use RubyOnRails;
     use DeployTrait;
 
@@ -20,6 +19,7 @@ class Ruby
     public function installRubyDependencies()
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
+
         return [$this->remoteTaskService->run('cd '.$this->release.'; source /usr/local/rvm/scripts/rvm ;rvm use 2.4.0 ; bundle install --path .bundle')];
     }
 

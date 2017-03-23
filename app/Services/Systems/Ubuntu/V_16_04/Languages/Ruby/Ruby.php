@@ -16,7 +16,7 @@ class Ruby
 
     public static $files = [
         'Ruby' => [
-            'config/secrets.yml'
+            'config/secrets.yml',
         ],
     ];
 
