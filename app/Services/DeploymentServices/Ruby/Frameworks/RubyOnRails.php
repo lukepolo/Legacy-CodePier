@@ -4,12 +4,10 @@ namespace App\Services\DeploymentServices\Ruby\Frameworks;
 
 trait RubyOnRails
 {
-
     /**
      * @description Runs the migrations
      *
      * @order 210
-     *
      */
     public function rubyOnRailsRunMigrations()
     {
@@ -20,7 +18,6 @@ trait RubyOnRails
      * @description Runs the migrations
      *
      * @order 250
-     *
      */
     public function rubyOnRailsRunPrecompile()
     {
