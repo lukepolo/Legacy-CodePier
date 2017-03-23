@@ -92,9 +92,9 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        $site->load('sslCertificates');
+        $this->createWebServerSite($site);
 
-        $this->remoteTaskService->ssh($this->server);
+        $site->load('sslCertificates');
 
         if ($site->hasActiveSSL()) {
             $activeSsl = $site->activeSsl();
@@ -145,8 +145,9 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
 
     private function createWebServerSite($site)
     {
-        $domain = $site->domain;
         $this->connectToServer();
+
+        $domain = $site->domain;
 
         $webserver = $this->getWebServer();
 
@@ -172,9 +173,6 @@ server {
     
     sendfile off;
     
-    location ~ /\.ht {
-        deny all;
-    }
     '.$config.'
 }
 
@@ -198,7 +196,6 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/server");
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/after");
 
-        $this->createWebServerSite($site);
         $this->updateWebServerConfig($site);
     }
 

@@ -165,8 +165,6 @@ class PHP
         return '
     index index.html index.htm index.php;
 
-    charset utf-8;
- 
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options "nosniff";

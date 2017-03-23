@@ -55,7 +55,6 @@ trait Laravel
      *
      * @order 210
      *
-     * @return [
      */
     public function laravelRunMigrations()
     {
@@ -67,7 +66,6 @@ trait Laravel
      *
      * @order 310
      *
-     * @return [
      */
     public function laravelCacheRoutes()
     {
@@ -79,7 +77,6 @@ trait Laravel
      *
      * @order 320
      *
-     * @return [
      */
     public function laravelCacheConfig()
     {
@@ -91,7 +88,6 @@ trait Laravel
      *
      * @order 410
      *
-     * @return [
      */
     public function laravelRestartWorkers()
     {

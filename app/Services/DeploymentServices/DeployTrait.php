@@ -135,6 +135,7 @@ trait DeployTrait
      */
     public function customStep($script)
     {
+        $this->remoteTaskService->ssh($this->server, 'codepier');
         $this->remoteTaskService->run('cd '.$this->release.' && '.$script);
     }
 }
