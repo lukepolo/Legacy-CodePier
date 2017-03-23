@@ -54,7 +54,6 @@ trait Laravel
      * @description Runs the migrations
      *
      * @order 210
-     *
      */
     public function laravelRunMigrations()
     {
@@ -65,7 +64,6 @@ trait Laravel
      * @description Caches the Laravel Routes
      *
      * @order 310
-     *
      */
     public function laravelCacheRoutes()
     {
@@ -76,7 +74,6 @@ trait Laravel
      * @description Caches Laravel Configs
      *
      * @order 320
-     *
      */
     public function laravelCacheConfig()
     {
@@ -87,7 +84,6 @@ trait Laravel
      * @description Restarts any queue workers
      *
      * @order 410
-     *
      */
     public function laravelRestartWorkers()
     {
