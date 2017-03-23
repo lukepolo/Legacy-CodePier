@@ -107,6 +107,7 @@ class SiteObserver
                 event(new SiteCronJobCreated($site, $cronJob));
             }
         }
+
     }
 
     public function updated(Site $site)

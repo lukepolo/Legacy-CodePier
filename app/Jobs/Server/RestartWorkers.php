@@ -3,6 +3,7 @@
 namespace App\Jobs\Server;
 
 use App\Models\Server\Server;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +13,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class RestartWorkers implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $server;
 
