@@ -32,6 +32,6 @@ class Ruby
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUPB)];
+        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP)];
     }
 }
