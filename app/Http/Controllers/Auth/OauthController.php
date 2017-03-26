@@ -111,7 +111,6 @@ class OauthController extends Controller
             }
 
             return redirect()->intended('/');
-
         } catch (\Exception $e) {
             if (! empty($newLoginProvider)) {
                 $newLoginProvider->delete();
