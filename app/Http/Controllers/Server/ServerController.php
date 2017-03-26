@@ -76,6 +76,7 @@ class ServerController extends Controller
                 'server_region',
                 'server_option',
             ]),
+            'port' =>  $request->get('port', 22),
             'server_provider_features' => $request->get('server_provider_features'),
             'server_features' => $request->get('services'),
             'pile_id' => $pileId,
