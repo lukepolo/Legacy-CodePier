@@ -62,6 +62,16 @@
                                     <label for="server_name"><span class="float-label">Name</span></label>
                                 </div>
 
+                                <div class="jcf-input-group" v-if="is_custom">
+                                    <input type="number" name="port" required value="22">
+                                    <label for="port">
+                                        <tooltip message="We will use this port ssh connections" size="medium">
+                                            <span class="fa fa-info-circle"></span>
+                                        </tooltip>
+                                        <span class="float-label">SSH Port</span>
+                                    </label>
+                                </div>
+
                                 <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
 
                                     <div class="jcf-input-group">

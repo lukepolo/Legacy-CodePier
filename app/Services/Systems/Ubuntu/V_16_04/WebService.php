@@ -39,7 +39,7 @@ class WebService
     /**
      * @description NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server.
      */
-    public function installNginx($workerProcesses = 1, $workerConnections = 512)
+    public function installNginx($workerProcesses = 'auto', $workerConnections = 512)
     {
         $this->connectToServer();
 
