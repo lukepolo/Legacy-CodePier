@@ -70,6 +70,11 @@ class Ruby
         $this->remoteTaskService->run('\curl -sSL https://get.rvm.io | bash -s stable');
         $this->remoteTaskService->run('usermod -a -G rvm codepier');
 
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y passenger');
+        $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'include /etc/nginx/sites-enabled/*;', '## Passenger');
+        $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', '## Passenger', 'include /etc/nginx/passenger.conf;');
+
         switch ($version) {
             case '2.3':
                 $this->remoteTaskService->run('source /usr/local/rvm/scripts/rvm; rvm install 2.3.0');
