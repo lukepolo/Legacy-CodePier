@@ -52,6 +52,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
+        // TODO - if error is to big it will fail completely
         return [
             'server' => $this->server,
             'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep,

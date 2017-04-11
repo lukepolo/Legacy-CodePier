@@ -22,7 +22,8 @@ class RubyOnRails
 
     public function installRubyOnRails()
     {
-        $this->remoteTaskService->run('gem update --system && gem install rails bundler');
+        $this->connectToServer();
+        $this->remoteTaskService->run('gem update --system && gem install rails bundler --no-ri --no-rdoc');
     }
 
     public function getNginxConfig()
