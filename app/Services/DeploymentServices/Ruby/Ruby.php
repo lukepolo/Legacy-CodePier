@@ -20,7 +20,7 @@ class Ruby
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
 
-        return [$this->remoteTaskService->run('cd '.$this->release.'; source /usr/local/rvm/scripts/rvm ;rvm use 2.4.0 ; bundle install --path .bundle')];
+        return [$this->remoteTaskService->run('cd '.$this->release.'; bundle install --path .bundle')];
     }
 
     /**
