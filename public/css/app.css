@@ -714,7 +714,6 @@ img {
   background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 4px;
-  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   max-width: 100%;
@@ -759,7 +758,6 @@ hr {
 
 .fade {
   opacity: 0;
-  -webkit-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
 }
 
@@ -787,11 +785,8 @@ tbody.collapse.in {
   position: relative;
   height: 0;
   overflow: hidden;
-  -webkit-transition-property: height, visibility;
   transition-property: height, visibility;
-  -webkit-transition-duration: 0.35s;
   transition-duration: 0.35s;
-  -webkit-transition-timing-function: ease;
   transition-timing-function: ease;
 }
 
@@ -977,7 +972,6 @@ tbody.collapse.in {
 .modal.fade .modal-dialog {
   -webkit-transform: translate(0, -25%);
   transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
@@ -1386,7 +1380,6 @@ tbody.collapse.in {
 .carousel-inner > .item {
   display: none;
   position: relative;
-  -webkit-transition: 0.6s ease-in-out left;
   transition: 0.6s ease-in-out left;
 }
 
@@ -1397,7 +1390,6 @@ tbody.collapse.in {
 
 @media all and (transform-3d), (-webkit-transform-3d) {
   .carousel-inner > .item {
-    -webkit-transition: -webkit-transform 0.6s ease-in-out;
     transition: -webkit-transform 0.6s ease-in-out;
     transition: transform 0.6s ease-in-out;
     transition: transform 0.6s ease-in-out, -webkit-transform 0.6s ease-in-out;
@@ -1481,8 +1473,6 @@ tbody.collapse.in {
 }
 
 .carousel-control.left {
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.0001)));
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
@@ -1491,8 +1481,6 @@ tbody.collapse.in {
 .carousel-control.right {
   left: auto;
   right: 0;
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.0001)), to(rgba(0, 0, 0, 0.5)));
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
@@ -4770,7 +4758,6 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   -webkit-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: all .1s;
   transition: all .1s;
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
 }
@@ -4780,7 +4767,6 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
-  -webkit-transition: all .1s;
   transition: all .1s;
 }
 
@@ -4789,7 +4775,6 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   -webkit-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: all .1s;
   transition: all .1s;
 }
 
@@ -4889,7 +4874,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .jcf-form-wrap input:focus + label:after {
   width: 100%;
-  -webkit-transition: all 0.5s;
   transition: all 0.5s;
 }
 
@@ -4916,14 +4900,12 @@ h1, h2, h3, h4, h5, h6 {
   height: 3px;
   width: 0%;
   background-color: #48ACF0;
-  -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
 .jcf-form-wrap label .float-label {
   position: relative;
   top: 0px;
-  -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
@@ -5508,7 +5490,6 @@ p.info {
   cursor: pointer;
   -webkit-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: all .1s;
   transition: all .1s;
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
 }
@@ -5518,7 +5499,6 @@ p.info {
   outline: none;
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
-  -webkit-transition: all .1s;
   transition: all .1s;
 }
 
@@ -5527,7 +5507,6 @@ p.info {
   outline: none;
   -webkit-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: all .1s;
   transition: all .1s;
 }
 
@@ -6367,7 +6346,6 @@ a.item:hover:before {
 
 #collapseEvents {
   overflow-y: scroll;
-  -webkit-transition: height .5s;
   transition: height .5s;
   height: 30vh;
 }
@@ -6380,13 +6358,11 @@ a.item:hover:before {
 
 #collapseEvents.events-hidden {
   height: 0px !important;
-  -webkit-transition: height .5s;
   transition: height .5s;
   overflow: hidden;
 }
 
 #collapseEvents.dragging {
-  -webkit-transition: all 0s;
   transition: all 0s;
 }
 
@@ -6961,7 +6937,6 @@ textarea:focus {
 .server-name [class^="icon-"], .server-name [class*=" icon-"] {
   font-size: 2em;
   cursor: pointer;
-  -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
 
@@ -6972,7 +6947,6 @@ textarea:focus {
 .server-name [class^="icon-"].closed, .server-name [class*=" icon-"].closed {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
-  -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
 
@@ -7335,7 +7309,6 @@ a.list--item:hover:before {
 
 .fade-enter-active,
 .fade-leave-active {
-  -webkit-transition: opacity .5s;
   transition: opacity .5s;
 }
 
@@ -7489,7 +7462,6 @@ a.list--item:hover:before {
   -webkit-box-flex: 0;
   flex: 0 1 0px;
   overflow: hidden;
-  -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
 
@@ -7510,7 +7482,6 @@ a.list--item:hover:before {
 .search-form.open {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
-  -webkit-transition: all .2s ease-out;
   transition: all .2s ease-out;
 }
 
@@ -7663,7 +7634,6 @@ a.list--item:hover:before {
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .swap-enter-active, .swap-leave-active {
-  -webkit-transition: opacity .5s;
   transition: opacity .5s;
 }
 
@@ -7782,9 +7752,7 @@ a.list--item:hover:before {
   opacity: 0;
   z-index: 1000000;
   pointer-events: none;
-  -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
-  -webkit-transition-delay: 0ms;
   transition-delay: 0ms;
 }
 
@@ -7794,7 +7762,6 @@ a.list--item:hover:before {
 }
 
 [class*="hint--"]:hover:before, [class*="hint--"]:hover:after {
-  -webkit-transition-delay: 100ms;
   transition-delay: 100ms;
 }
 
@@ -8471,12 +8438,10 @@ a.list--item:hover:before {
  *
  */
 .hint--no-animate:before, .hint--no-animate:after {
-  -webkit-transition-duration: 0ms;
   transition-duration: 0ms;
 }
 
 .hint--bounce:before, .hint--bounce:after {
-  -webkit-transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
   transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24), -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
