@@ -66,7 +66,7 @@ elixir((mix) => {
             paths.bootstrap + 'js/bootstrap.js',
             paths.select2 + 'js/select2.js',
             paths.moment + 'moment.js',
-            paths.moment_timezone + 'moment-timezone-with-data-2010-2020.min.js',
+            paths.moment_timezone + 'moment-timezone-with-data-2012-2022.min.js',
             paths.confirm2 + 'jquery-confirm.min.js',
             paths.ace + 'ace.js',
             paths.ace + 'mode-sh.js',

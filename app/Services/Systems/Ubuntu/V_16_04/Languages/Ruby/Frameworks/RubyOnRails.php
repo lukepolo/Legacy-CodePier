@@ -9,6 +9,7 @@ class RubyOnRails
     use ServiceConstructorTrait;
 
     public static $files = [
+        ''
     ];
 
     public $suggestedFeatures = [

@@ -88,10 +88,12 @@ class SiteObserver
 
             $tempSite->framework = $site->getOriginal('framework');
 
-            foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
-                foreach ($site->cronJobs as $siteCronJob) {
-                    if ($siteCronJob->job == $cronJob) {
-                        $site->cronJobs()->detach($siteCronJob);
+            if(!empty( $tempSite->framework)) {
+                foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
+                    foreach ($site->cronJobs as $siteCronJob) {
+                        if ($siteCronJob->job == $cronJob) {
+                            $site->cronJobs()->detach($siteCronJob);
+                        }
                     }
                 }
             }

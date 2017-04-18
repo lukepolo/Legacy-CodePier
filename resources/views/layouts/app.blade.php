@@ -51,7 +51,7 @@
         <script src="{{ elixir('js/all.js') }}"></script>
 
         <script type="text/javascript">
-            moment.tz.setDefault("UTC");
+            moment.tz.setDefault("UTC")
         </script>
 
         @stack('scripts')
