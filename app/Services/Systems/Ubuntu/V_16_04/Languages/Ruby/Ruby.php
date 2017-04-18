@@ -94,7 +94,6 @@ class Ruby
         }
 
         $this->remoteTaskService->appendTextToFile('/home/codepier/.bashrc', 'source /usr/local/rvm/scripts/rvm');
-
     }
 
     public function getNginxConfig(Site $site)

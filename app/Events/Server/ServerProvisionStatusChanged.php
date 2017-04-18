@@ -54,6 +54,7 @@ class ServerProvisionStatusChanged implements ShouldBroadcastNow
     {
         $provisionStep = $this->serverCurrentProvisioningStep;
         unset($provisionStep->log);
+
         return [
             'server' => $this->server,
             'serverCurrentProvisioningStep' => $this->serverCurrentProvisioningStep,
