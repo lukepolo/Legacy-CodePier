@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Mail\BetaInvite;
-use App\Models\BetaEmail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,12 +29,6 @@ class SendBetaEmails extends Command
      */
     public function handle()
     {
-        foreach (BetaEmail::all() as $betaEmail) {
-            try {
-                Mail::to($betaEmail->email)->send(new BetaInvite());
-            } catch (\Exception $e) {
-                \Log::info($betaEmail->email.' could not send');
-            }
-        }
+        dd(Mail::to('lpolicinski@gmail.com')->send(new BetaInvite()));
     }
 }

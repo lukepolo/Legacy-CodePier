@@ -48,13 +48,6 @@
                         <td>Ruby, JRuby, PHP, Node.js</td>
                     </tr>
                     <tr>
-                        <td>Multiple Frameworks Support</td>
-                        <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg"></td>
-                        <td><img src="/assets/img/no.svg"></td>
-                    </tr>
-                    <tr>
                         <td>Automated Provisioning</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/yes.svg"></td>
@@ -142,7 +135,7 @@
                         <td>Free SSL Certificates</td>
                         <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/yes.svg"></td>
-                        <td><img src="/assets/img/no.svg"></td>
+                        <td><img src="/assets/img/yes.svg"></td>
                         <td><img src="/assets/img/no.svg"></td>
                     </tr>
                     <tr>

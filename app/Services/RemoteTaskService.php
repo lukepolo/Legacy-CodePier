@@ -43,7 +43,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         try {
-            $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
+            $output = $this->session->exec('(bash -lc "'.str_replace('"', '\\"', rtrim($command, ';')).'") && echo codepier-done;');
             if (! str_contains($output, 'codepier-done')) {
                 \Log::info($output);
                 $this->output[] = $output;

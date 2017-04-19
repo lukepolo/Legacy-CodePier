@@ -3,7 +3,7 @@
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
             <div class="logo">
-                <img src="https://codepier.io/assets/img/codepier.svg">
+                <img src="https://codepier.io/assets/img/codepier.png">
             </div>
         @endcomponent
     @endslot
