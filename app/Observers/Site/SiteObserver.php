@@ -88,10 +88,12 @@ class SiteObserver
 
             $tempSite->framework = $site->getOriginal('framework');
 
-            foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
-                foreach ($site->cronJobs as $siteCronJob) {
-                    if ($siteCronJob->job == $cronJob) {
-                        $site->cronJobs()->detach($siteCronJob);
+            if (! empty($tempSite->framework)) {
+                foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
+                    foreach ($site->cronJobs as $siteCronJob) {
+                        if ($siteCronJob->job == $cronJob) {
+                            $site->cronJobs()->detach($siteCronJob);
+                        }
                     }
                 }
             }
@@ -128,12 +130,10 @@ class SiteObserver
             }
         }
 
-        if ($site->repository && $site->deploymentSteps->isEmpty()) {
+        if ($site->isDirty('type') || $site->isDirty('framework')) {
+            $site->deploymentSteps()->delete();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
-        }
-
-        if ($site->isDirty('framework')) {
             $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
     }

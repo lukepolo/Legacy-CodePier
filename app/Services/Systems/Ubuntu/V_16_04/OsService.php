@@ -14,7 +14,8 @@ class OsService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip');
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
     }
 
     public function setTimezoneToUTC()

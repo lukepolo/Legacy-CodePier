@@ -79,7 +79,7 @@ class CreateSite implements ShouldQueue
 
         $this->site->sslCertificates->each(function ($sslCertificate) {
             dispatch(
-                (new InstallServerSslCertificate($this->server, $this->site, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
