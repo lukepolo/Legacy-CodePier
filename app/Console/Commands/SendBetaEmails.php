@@ -30,12 +30,6 @@ class SendBetaEmails extends Command
      */
     public function handle()
     {
-        foreach (BetaEmail::all() as $betaEmail) {
-            try {
-                Mail::to($betaEmail->email)->send(new BetaInvite());
-            } catch (\Exception $e) {
-                \Log::info($betaEmail->email.' could not send');
-            }
-        }
+        dd(Mail::to('lpolicinski@gmail.com')->send(new BetaInvite()));
     }
 }

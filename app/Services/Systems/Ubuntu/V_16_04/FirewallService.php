@@ -17,6 +17,7 @@ class FirewallService
         $this->remoteTaskService->run('ufw default allow outgoing');
         $this->remoteTaskService->run('ufw allow ssh');
         $this->remoteTaskService->run('ufw disable');
+        $this->remoteTaskService->run('ufw allow '.$this->server->port.'/tcp');
         $this->remoteTaskService->run('echo "y" | ufw enable');
     }
 
