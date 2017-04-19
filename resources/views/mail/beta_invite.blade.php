@@ -1,11 +1,10 @@
 @component('mail::message')
-# Beta Registraton is Now Open!
+# Welcome to the beta!
 
 @component('vendor.mail.html.cover')
-## I am excited to invite you to our Beta 1 of CodePier!
 
 @component('mail::button', ['url' => 'https://codepier.io/login'])
-Join the Beta Now
+Login Now
 @endcomponent
 
 @endcomponent
