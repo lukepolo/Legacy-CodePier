@@ -1,13 +1,13 @@
 <template>
     <section>
 
-        <div class="event-status" :class="statusClass" v-if="statusClass"></div>
+        <div class="events--item-status" :class="statusClass" v-if="statusClass"></div>
 
         <a class="collapsed" data-toggle="collapse" :href="'#' + eventName" v-if="showDropDown">
             <span class="icon-play"></span>
         </a>
         {{ title }}
-        <div class="event-details collapse" :id="eventName">
+        <div class="events--item-details collapse" :id="eventName">
             <slot></slot>
         </div>
     </section>
@@ -24,11 +24,11 @@
                 if(typeof this.status == 'undefined') {
                     if(this.event.hasOwnProperty('failed') && this.event.hasOwnProperty('completed') && this.event.hasOwnProperty('started')) {
                         if(!this.event.failed && ! this.event.completed && !this.event.started) {
-                            return 'event-status-neutral';
+                            return 'events--item-status-neutral';
                         } else if(this.event.failed) {
-                            return 'event-status-error';
+                            return 'events--item-status-error';
                         } else if(this.event.completed) {
-                            return 'event-status-success';
+                            return 'events--item-status-success';
                         } else if(!this.event.failed && !this.event.completed && this.event.started) {
                             return 'icon-spinner';
                         }
