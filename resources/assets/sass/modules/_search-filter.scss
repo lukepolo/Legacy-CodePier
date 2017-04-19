@@ -7,43 +7,55 @@
   margin: ($spacing/2) $spacing;
   padding: 0px;
 
-  > li > a {
-    display: block;
-    color: $color-text-primary;
-    border: 1px solid $gray;
-    margin-right: $spacing;
-    padding: ($spacing/4) ($spacing*2) ($spacing/4) ($spacing/2);
-    position: relative;
-
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: rgba($color-text-primary, .05);
-    }
-
-    [class^="icon-"], [class*=" icon-"] {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      bottom: 0px;
-      padding: 0px ($spacing/3);
-      border-left: 1px solid $gray;
-      font-size: 20px;
-      line-height: 26px;
-
-      &:before {
-        color: $color-primary;
-      }
-    }
-  }
-
-  > li > span {
+  &--label > * {
     display: block;
     color: $color-primary;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-right: $spacing;
     padding: ($spacing/4) 0px;
+  }
+
+  &--item {
+    position: initial;
+
+    > a {
+      display: block;
+      color: $color-text-primary;
+      border: 1px solid $gray;
+      margin-right: $spacing;
+      padding: ($spacing/4) ($spacing*2) ($spacing/4) ($spacing/2);
+      position: relative;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: rgba($color-text-primary, .05);
+      }
+
+      [class^="icon-"], [class*=" icon-"] {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        padding: 0px ($spacing/3);
+        border-left: 1px solid $gray;
+        font-size: 20px;
+        line-height: 26px;
+
+        &:before {
+          color: $color-primary;
+        }
+      }
+    }
+
+    &-selection {
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+    }
   }
 
   strong {
@@ -69,6 +81,48 @@
     }
   }
 
+  .dropup {
+    bottom: calc(100% - 42px);
+
+    &:after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: 10px solid mix($gray, $black, 50%);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom: none;
+      position: absolute;
+      left: 10%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      z-index: 2;
+    }
+
+    &:before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: 10px solid rgba(0, 0, 0, .4);
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom: none;
+      position: absolute;
+      left: 10%;
+      transform: translateX(-50%);
+      bottom: -11px;
+      z-index: 2;
+    }
+  }
+
+  //TODO: Think we can delete this. Believe it is bootstrap which we are no longer using.
+  //&.in {
+  //  flex-grow: 1;
+  //  flex-shrink: 1;
+  //  display: flex;
+  //  flex-direction: column;
+  //}
+
   .jcf-form-wrap {
     padding: $spacing/2;
 
@@ -80,8 +134,6 @@
       margin-bottom: 12px;
     }
   }
-
-
 
   .btn-footer {
     border-top: 1px solid $gray;
