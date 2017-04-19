@@ -16,7 +16,6 @@ use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use App\Models\Server\Provider\ServerProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
 
 class OauthController extends Controller
 {

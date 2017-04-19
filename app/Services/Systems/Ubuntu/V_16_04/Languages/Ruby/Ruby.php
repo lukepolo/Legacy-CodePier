@@ -70,7 +70,6 @@ class Ruby
         $this->remoteTaskService->run('\curl -sSL https://get.rvm.io | bash -s stable');
         $this->remoteTaskService->run('usermod -a -G rvm codepier');
 
-
         $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates');
 
