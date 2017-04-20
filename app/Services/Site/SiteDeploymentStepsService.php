@@ -18,17 +18,11 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     /**
      * Gets all deployment classes for their site.
      * @param $site
-     * @return array
+     * @return string
      */
-    public function getDeploymentClasses(Site $site)
+    public function getDeploymentClass(Site $site)
     {
-        $classes = [$this->getSiteClass($site)];
-
-        if (! empty($site->getFrameworkClass())) {
-            $classes[] = $this->getFrameworkClass($site);
-        }
-
-        return $classes;
+        return $this->getSiteClass($site);
     }
 
     /**
@@ -59,7 +53,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     {
         return $this->saveNewSteps(
             $site,
-            collect($this->buildDeploymentOptions($this->getDeploymentClasses($site))->values()->all())
+            collect($this->buildDeploymentOptions($this->getDeploymentClass($site))->values()->all())
         );
     }
 
@@ -90,40 +84,38 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     }
 
     /**
-     * Gest all the deployment options.
-     * @param array $classes
+     * Gets all the deployment options.
+     * @param $class
      * @return Collection
      */
-    public function buildDeploymentOptions(array $classes)
+    public function buildDeploymentOptions($class)
     {
         $deploymentSteps = [];
 
-        foreach ($classes as $class) {
-            $reflection = new ReflectionClass($class);
+        $reflection = new ReflectionClass($class);
 
-            $traitMethods = [];
+        $traitMethods = [];
 
-            foreach ($reflection->getTraits() as $reflectionTraitClass) {
-                foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    $traitMethods[] = $method->name;
-                }
+        foreach ($reflection->getTraits() as $reflectionTraitClass) {
+            foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                $traitMethods[] = $method->name;
             }
+        }
 
-            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                if ($method->name != '__construct' && ! in_array($method->name, $traitMethods)) {
-                    $order = $this->getFirstDocParam($method, 'order');
+        foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            if ($method->name != '__construct') {
+                $order = $this->getFirstDocParam($method, 'order');
 
-                    if (! empty($order)) {
-                        $description = $this->getFirstDocParam($method, 'description');
+                if (! empty($order)) {
+                    $description = $this->getFirstDocParam($method, 'description');
 
-                        $deploymentSteps[] = [
-                            'order' => (int) $order,
-                            'zerotime_deployment' => $this->getFirstDocParam($method, 'zerotime-deployment') ? true : false,
-                            'description' => $description,
-                            'internal_deployment_function' => $method->name,
-                            'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                        ];
-                    }
+                    $deploymentSteps[] = [
+                        'order' => (int) $order,
+                        'zerotime_deployment' => $this->getFirstDocParam($method, 'zerotime-deployment') ? true : false,
+                        'description' => $description,
+                        'internal_deployment_function' => $method->name,
+                        'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
+                    ];
                 }
             }
         }
@@ -145,7 +137,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     public function getDeploymentStep(Site $site, $deploymentStep)
     {
         if (empty($this->deploymentSteps)) {
-            $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClasses($site))->keyBy('internal_deployment_function');
+            $this->deploymentSteps = $this->buildDeploymentOptions($this->getDeploymentClass($site))->keyBy('internal_deployment_function');
         }
 
         return ! empty($deploymentStep['internal_deployment_function']) ? $this->deploymentSteps->get($deploymentStep['internal_deployment_function']) : null;
