@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Mail\BetaInvite;
-use App\Models\BetaEmail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 

@@ -24,7 +24,7 @@
                     >
                         <ul>
                             <template v-for="deployment_event in server_deployment.events">
-                                <li :class="{'event-error' : deployment_event.failed }">
+                                <li :class="{'event-error' : deployment_event.failed }" v-if="deployment_event.step">
                                     <drop-down-event
                                             :title="deployment_event.step.step + (deployment_event.completed ? ' took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
                                             :event="deployment_event"
