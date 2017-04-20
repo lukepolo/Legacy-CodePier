@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bitt;
 use App\Models\Buoy;
+use App\Models\EnvironmentVariable;
 use App\Models\File;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -37,6 +38,7 @@ class EventController extends Controller
             SchemaUser::class,
             FirewallRule::class,
             SslCertificate::class,
+            EnvironmentVariable::class,
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,
