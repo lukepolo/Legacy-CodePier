@@ -15,9 +15,7 @@ class Ruby
     private $remoteTaskService;
 
     public static $files = [
-        'Ruby' => [
-            'config/secrets.yml',
-        ],
+
     ];
 
     public $suggestedFeatures = [

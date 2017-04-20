@@ -77,6 +77,8 @@ class SiteObserver
 
     public function updating(Site $site)
     {
+        remove_events($site);
+
         if ($site->isDirty('domain')) {
             dispatch(
                 (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(config('queue.channels.server_commands'))
@@ -109,18 +111,6 @@ class SiteObserver
                 event(new SiteCronJobCreated($site, $cronJob));
             }
         }
-    }
-
-    public function updated(Site $site)
-    {
-        remove_events($site);
-
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
-            $site->save();
-        }
 
         if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
@@ -135,6 +125,18 @@ class SiteObserver
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
+        }
+    }
+
+    public function updated(Site $site)
+    {
+        remove_events($site);
+
+        if ($site->isDirty('repository')) {
+            $site->private = false;
+            $site->public_ssh_key = null;
+            $site->private_ssh_key = null;
+            $site->save();
         }
     }
 
