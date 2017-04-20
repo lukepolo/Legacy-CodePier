@@ -2,11 +2,11 @@
 
 namespace App\Jobs\Server\SshKeys;
 
-use App\Models\EnvironmentVariable;
 use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
+use App\Models\EnvironmentVariable;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
