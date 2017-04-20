@@ -9,7 +9,7 @@ class RubyOnRails
     use ServiceConstructorTrait;
 
     public static $files = [
-        '',
+        'config/secrets.yml',
     ];
 
     public $suggestedFeatures = [
