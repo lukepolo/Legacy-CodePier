@@ -3,6 +3,7 @@
 namespace App\Services\Server;
 
 use App\Models\Bitt;
+use App\Models\EnvironmentVariable;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -487,5 +488,26 @@ class ServerService implements ServerServiceContract
     public function removeSchema(Server $server, Schema $schema)
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
+    }
+
+    /**
+     * @param Server $server
+     * @param EnvironmentVariable $environmentVariable
+     */
+    public function addEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
+    {
+        $this->remoteTaskService->ssh($server);
+        $value = str_replace('"', '\\"', $environmentVariable->value);
+        $this->remoteTaskService->appendTextToFile('/etc/environment', "$environmentVariable->variable=\"$value\"");
+    }
+
+    /**
+     * @param Server $server
+     * @param EnvironmentVariable $environmentVariable
+     */
+    public function removeEnvironmentVariable(Server $server, EnvironmentVariable $environmentVariable)
+    {
+        $this->remoteTaskService->ssh($server);
+        $this->remoteTaskService->removeLineByText('/etc/environment', $environmentVariable->variable);
     }
 }

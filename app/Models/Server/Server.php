@@ -155,6 +155,11 @@ class Server extends Model
         return $this->morphToMany(Schema::class, 'schemable');
     }
 
+    public function environmentVariables()
+    {
+        return $this->morphToMany(Schema::class, 'environmentVariable');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
