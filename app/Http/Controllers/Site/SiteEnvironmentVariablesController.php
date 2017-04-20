@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Site\SiteEnvironmentVariableCreated;
-use App\Events\Site\SiteEnvironmentVariableDeleted;
-use App\Models\EnvironmentVariable;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
+use App\Models\EnvironmentVariable;
+use App\Events\Site\SiteEnvironmentVariableCreated;
+use App\Events\Site\SiteEnvironmentVariableDeleted;
 
 class SiteEnvironmentVariablesController extends Controller
 {
@@ -42,7 +42,7 @@ class SiteEnvironmentVariablesController extends Controller
         ) {
             $environmentVariable = EnvironmentVariable::create([
                 'variable' => $variable,
-                'value' => $request->get('value')
+                'value' => $request->get('value'),
             ]);
 
             $site->environmentVariables()->save($environmentVariable);
@@ -53,8 +53,6 @@ class SiteEnvironmentVariablesController extends Controller
         }
 
         return response()->json('SSH Key Already Exists', 400);
-
-
     }
 
     /**

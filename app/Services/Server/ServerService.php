@@ -3,7 +3,6 @@
 namespace App\Services\Server;
 
 use App\Models\Bitt;
-use App\Models\EnvironmentVariable;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -13,6 +12,7 @@ use App\Classes\DiskSpace;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Exceptions\FailedCommand;
+use App\Models\EnvironmentVariable;
 use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
 use App\Models\Server\Provider\ServerProvider;

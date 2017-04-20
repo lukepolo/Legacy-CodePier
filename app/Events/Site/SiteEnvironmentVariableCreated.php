@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\SshKeys\InstallServerEnvironmentVariable;
-use App\Models\EnvironmentVariable;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
+use App\Models\EnvironmentVariable;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\SshKeys\InstallServerEnvironmentVariable;
 
 class SiteEnvironmentVariableCreated
 {
