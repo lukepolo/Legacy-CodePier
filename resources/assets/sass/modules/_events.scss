@@ -114,55 +114,8 @@
 }
 
 
-// XL SCREEN STYLES ----------------------------------------
-// ---------------------------------------------------------
-@include breakpoint(xl) {
-  #collapseEvents {
-    height: 100%;
-  }
-}
 
-
-
-// DRAGGING STYLES -----------------------------------------
-// ---------------------------------------------------------
-#drag {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  height: 10px;
-  width: 100%;
-  cursor: ns-resize;
-}
-
-#collapseEvents {
-  &.dragging {
-    transition: all 0s;
-  }
-}
-
-
-
-
-// OLD STUFF //////////////////////////
-
-// JS COLLAPSE STUFF ---------------------------------------
-// ---------------------------------------------------------
-
-
-
-// Think we might be able to remove this
-//.event-none {
-//  text-align: center;
-//  padding: $spacing;
-//}
-
-
-
-
-
-
-// EVENT DETAILS -------------------------------------------
+// EVENTS ITEM DETAILS -------------------------------------
 // ---------------------------------------------------------
 .events--item-details {
   margin-left: $spacing;
@@ -191,6 +144,7 @@
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    overflow: auto;
     color: $yellow;
   }
 
@@ -201,6 +155,56 @@
   .events--item-error {
     pre {
       color: $red;
+    }
+  }
+}
+
+
+
+// DRAGGING STYLES -----------------------------------------
+// ---------------------------------------------------------
+#drag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 10px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+#collapseEvents {
+  &.dragging {
+    transition: all 0s;
+  }
+}
+
+
+
+// XL SCREEN STYLES ----------------------------------------
+// ---------------------------------------------------------
+@include breakpoint(xl) {
+  .events {
+
+    &--collapse {
+      height: 100%;
+    }
+
+    &--item {
+      flex-wrap: wrap;
+
+      &-name {
+        flex: 1 1 90%;
+        margin-bottom: 5px;
+      }
+
+      &-pile {
+        flex: 1 1 15%;
+        margin-left: 55px;
+      }
+
+      &-site {
+        flex: 1 1 15%;
+      }
     }
   }
 }
