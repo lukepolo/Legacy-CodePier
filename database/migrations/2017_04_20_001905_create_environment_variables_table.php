@@ -37,6 +37,5 @@ class CreateEnvironmentVariablesTable extends Migration
     {
         Schema::dropIfExists('environmentables');
         Schema::dropIfExists('environment_variables');
-
     }
 }
