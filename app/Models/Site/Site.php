@@ -3,6 +3,7 @@
 namespace App\Models\Site;
 
 use App\Models\Buoy;
+use App\Models\EnvironmentVariable;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
@@ -156,7 +157,7 @@ class Site extends Model
 
     public function environmentVariables()
     {
-        return $this->morphToMany(Schema::class, 'environmentVariable');
+        return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
     }
 
     /*

@@ -20,11 +20,11 @@ class CreateEnvironmentVariablesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('environment_variableables', function (Blueprint $table) {
+        Schema::create('environmentables', function (Blueprint $table) {
             $table->integer('environment_variable_id');
-            $table->integer('environmentVariable_id');
-            $table->string('environmentVariable_type');
-            $table->index(['environment_variable_id', 'environmentVariable_id', 'environmentVariable_type'], 'env_variables');
+            $table->integer('environmentable_id');
+            $table->string('environmentable_type');
+            $table->index(['environment_variable_id', 'environmentable_id', 'environmentable_type'], 'env_variables');
         });
     }
 
@@ -35,7 +35,8 @@ class CreateEnvironmentVariablesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('environmentables');
         Schema::dropIfExists('environment_variables');
-        Schema::dropIfExists('environment_variableables');
+
     }
 }

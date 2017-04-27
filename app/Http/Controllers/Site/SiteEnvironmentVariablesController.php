@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use App\Models\EnvironmentVariable;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\EnvironmentVariableRequest;
 use App\Events\Site\SiteEnvironmentVariableCreated;
 use App\Events\Site\SiteEnvironmentVariableDeleted;
 
@@ -26,11 +27,11 @@ class SiteEnvironmentVariablesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  EnvironmentVariableRequest $request
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $siteId)
+    public function store(EnvironmentVariableRequest $request, $siteId)
     {
         $site = Site::with('environmentVariables')->findOrFail($siteId);
 
@@ -52,7 +53,7 @@ class SiteEnvironmentVariablesController extends Controller
             return response()->json($environmentVariable);
         }
 
-        return response()->json('SSH Key Already Exists', 400);
+        return response()->json('Environment Variable Already Exists', 400);
     }
 
     /**

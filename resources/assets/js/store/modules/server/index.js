@@ -9,3 +9,4 @@ export const services = require('./ServerServicesStore').default
 export const firewall = require('./ServerFirewallStore').default
 export const providers = require('./ServerProviderStore').default
 export const sslCertificates = require('./ServerSslCertificateStore').default
+export const environmentVariables = require('./ServerEnvironmentVariablesStore').default
