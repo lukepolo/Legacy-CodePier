@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Server;
 
-use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Models\EnvironmentVariable;
-use App\Jobs\Server\SshKeys\RemoveServerEnvironmentVariable;
-use App\Jobs\Server\SshKeys\InstallServerEnvironmentVariable;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\EnvironmentVariableRequest;
+use App\Jobs\Server\EnvironmentVariables\RemoveServerEnvironmentVariable;
+use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 
 class ServerEnvironmentVariablesController extends Controller
 {
@@ -26,11 +27,11 @@ class ServerEnvironmentVariablesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param EnvironmentVariableRequest $request
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $serverId)
+    public function store(EnvironmentVariableRequest $request, $serverId)
     {
         $server = Server::with('environmentVariables')->findOrFail($serverId);
 
@@ -54,7 +55,7 @@ class ServerEnvironmentVariablesController extends Controller
             return response()->json($environmentVariable);
         }
 
-        return response()->json('SSH Key Already Exists', 400);
+        return response()->json('Environment Variable Already Exists', 400);
     }
 
     /**

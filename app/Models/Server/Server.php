@@ -3,6 +3,7 @@
 namespace App\Models\Server;
 
 use App\Models\Buoy;
+use App\Models\EnvironmentVariable;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
@@ -157,7 +158,7 @@ class Server extends Model
 
     public function environmentVariables()
     {
-        return $this->morphToMany(Schema::class, 'environmentVariable');
+        return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
     }
 
     /*

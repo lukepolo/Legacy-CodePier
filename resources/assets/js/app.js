@@ -360,6 +360,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'server-setup/environment-variables',
+                    name: 'site_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
                     path: 'setup/features',
                     name: 'server_features',
                     components: {
@@ -460,6 +469,15 @@ const router = new VueRouter({
                     name: 'site_server_files',
                     components: {
                         default: sitePages.SiteServerFiles,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/environment-variables',
+                    name: 'site_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }

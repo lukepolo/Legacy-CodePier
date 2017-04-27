@@ -18,11 +18,11 @@ class EnvironmentVariable extends Model
 
     public function sites()
     {
-        return $this->morphedByMany(Site::class, 'environmentVariable');
+        return $this->morphedByMany(Site::class, 'environmentable');
     }
 
     public function servers()
     {
-        return $this->morphedByMany(Server::class, 'environmentVariable');
+        return $this->morphedByMany(Server::class, 'environmentable');
     }
 }
