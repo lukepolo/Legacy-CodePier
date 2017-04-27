@@ -3,7 +3,6 @@
 namespace App\Models\Server;
 
 use App\Models\Buoy;
-use App\Models\EnvironmentVariable;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
@@ -19,6 +18,7 @@ use App\Models\SlackChannel;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
+use App\Models\EnvironmentVariable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
