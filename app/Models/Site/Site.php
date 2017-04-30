@@ -3,7 +3,6 @@
 namespace App\Models\Site;
 
 use App\Models\Buoy;
-use App\Models\EnvironmentVariable;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
@@ -19,6 +18,7 @@ use App\Models\SlackChannel;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
+use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
