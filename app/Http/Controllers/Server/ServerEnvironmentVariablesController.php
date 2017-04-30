@@ -46,8 +46,6 @@ class ServerEnvironmentVariablesController extends Controller
                 'value' => $request->get('value'),
             ]);
 
-            $server->environmentVariables()->save($environmentVariable);
-
             $this->dispatch(
                 (new InstallServerEnvironmentVariable($server, $environmentVariable))->onQueue(config('queue.channels.server_commands'))
             );
@@ -65,7 +63,7 @@ class ServerEnvironmentVariablesController extends Controller
      * @param $serverId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $serverId)
+    public function destroy($serverId, $id)
     {
         $server = Server::with('environmentVariables')->findOrFail($serverId);
 
