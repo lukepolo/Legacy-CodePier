@@ -3,6 +3,13 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
 
+                <router-link :to="{ name : 'site_environment_variables', params : { site_id : siteId } }" tag="li" exact>
+                    <a>
+                        Environment Variables
+                        <div class="small">Add environment variables for you applications</div>
+                    </a>
+                </router-link>
+
                 <router-link :to="{ name : 'site_cron_jobs', params : { site_id : siteId } }" tag="li" exact>
                     <a>
                         Cron Jobs

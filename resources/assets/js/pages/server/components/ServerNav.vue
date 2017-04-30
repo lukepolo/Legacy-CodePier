@@ -10,7 +10,7 @@
             <a>Security</a>
         </router-link>
 
-        <router-link :to="{ name : 'server_cron_jobs', params : { server_id : server.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_environment_variables', params : { server_id : server.id } }" tag="li" class="wizard-item">
             <a>Server Setup</a>
         </router-link>
 
