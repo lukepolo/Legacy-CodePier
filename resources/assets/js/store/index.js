@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import { action } from './helpers'
 import * as UserStore from './modules/user'
 import * as SiteStore from './modules/site'
@@ -43,6 +44,7 @@ export default new Vuex.Store({
         siteFirewallRulesStore: SiteStore.firewallRules,
         siteServersFeaturesStore: SiteStore.serversFeatures,
         siteSslCertificatesStore: SiteStore.sslCertificates,
+        siteEnvironmentVariablesStore : SiteStore.environmentVariables,
 
         serversStore: ServerStore.server,
         serverFilesStore: ServerStore.files,
@@ -55,6 +57,7 @@ export default new Vuex.Store({
         serverServicesStore: ServerStore.services,
         serverProvidersStore: ServerStore.providers,
         serverSslCertificatesStore: ServerStore.sslCertificates,
+        serverEnvironmentVariablesStore : ServerStore.environmentVariables,
 
     }
 })

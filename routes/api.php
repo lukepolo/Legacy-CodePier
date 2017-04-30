@@ -169,10 +169,11 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.ssh-keys', 'ServerSshKeyController');
             Route::resource('servers.features', 'ServerFeatureController');
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
+            Route::resource('servers.ssl-certificate', 'ServerSslController');
             Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
-            Route::resource('servers.ssl-certificate', 'ServerSslController');
+            Route::resource('servers.environment-variables', 'ServerEnvironmentVariablesController');
         });
 
         /*
@@ -211,6 +212,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('sites.server-features', 'SiteServerFeaturesController');
             Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
+            Route::resource('sites.environment-variables', 'SiteEnvironmentVariablesController');
         });
     });
 

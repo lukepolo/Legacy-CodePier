@@ -57,6 +57,12 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
         });
 
+        // http://stackoverflow.com/questions/2821043/allowed-characters-in-linux-environment-variable-names
+        // https://regex101.com/r/nBGmWp/1
+        Validator::extend('environmentVariable', function ($attribute, $value) {
+            return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
+        });
+
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);

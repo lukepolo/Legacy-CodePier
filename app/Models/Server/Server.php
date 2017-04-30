@@ -18,6 +18,7 @@ use App\Models\SlackChannel;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
 use App\Traits\ConnectedToUser;
+use App\Models\EnvironmentVariable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -153,6 +154,11 @@ class Server extends Model
     public function schemas()
     {
         return $this->morphToMany(Schema::class, 'schemable');
+    }
+
+    public function environmentVariables()
+    {
+        return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
     }
 
     /*

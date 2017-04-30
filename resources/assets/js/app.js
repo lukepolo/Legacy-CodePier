@@ -334,6 +334,15 @@ const router = new VueRouter({
                 },
                 {
                     path: 'setup',
+                    name: 'server_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/cron-jobs',
                     name: 'server_cron_jobs',
                     components: {
                         default: setupPages.CronJobs,
@@ -439,6 +448,15 @@ const router = new VueRouter({
                 },
                 {
                     path: 'server-setup',
+                    name: 'site_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/cron-jobs',
                     name: 'site_cron_jobs',
                     components: {
                         default: setupPages.CronJobs,
