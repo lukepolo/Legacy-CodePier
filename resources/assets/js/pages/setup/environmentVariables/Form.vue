@@ -55,7 +55,6 @@
 
         <input type="hidden" v-if="site">
 
-
     </section>
 </template>
 
