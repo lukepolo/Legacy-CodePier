@@ -63,7 +63,7 @@ class SiteEnvironmentVariablesController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $siteId)
+    public function destroy($siteId, $id)
     {
         $site = Site::with('environmentVariables')->findOrFail($siteId);
 

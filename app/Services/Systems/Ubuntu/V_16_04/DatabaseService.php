@@ -140,7 +140,7 @@ class DatabaseService
         switch ($schema->database) {
             case 'MariaDB':
             case 'MySQL':
-                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
+                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS $database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
             case 'PostgreSQL':
                 $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
@@ -159,16 +159,13 @@ class DatabaseService
     {
         $this->connectToServer();
 
-        $this->connectToServer();
-
         $databasePassword = $this->server->database_password;
         $database = $schema->name;
 
         switch ($schema->database) {
             case 'MariaDB':
             case 'MySQL':
-                $this->remoteTaskService->run("mysql --user=codepier_servers --password=$databasePassword -e 'DROP DATABASE `$database`'");
-                $this->remoteTaskService->run("mysql --user=codepier_servers --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS `$database` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
+                $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE $database'");
                 break;
             case 'PostgreSQL':
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
