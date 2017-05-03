@@ -44,7 +44,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
         try {
             $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
-
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect to');
