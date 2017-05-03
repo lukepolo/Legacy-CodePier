@@ -43,11 +43,8 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         try {
-            $output = $this->session->exec('(bash -lc "'.str_replace('"', '\\"', rtrim($command, ';')).'") && echo codepier-done;');
-            if (! str_contains($output, 'codepier-done')) {
-                \Log::info($output);
-                $this->output[] = $output;
-            }
+            $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
+
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect to');
@@ -64,17 +61,19 @@ class RemoteTaskService implements RemoteTaskServiceContract
             }
         }
 
-        \Log::debug($this->session->getExitStatus());
-
         $output = $this->cleanResponse($output);
+
+        if (config('app.env') === 'local') {
+            \Log::info($output);
+        }
 
         if (! empty($output)) {
             $this->output[] = $output;
         }
 
         if ($this->session->getExitStatus() != 0) {
-            \Log::warning('Error while running Command '.$command);
-            \Log::error($output);
+            \Log::critical('Error while running Command '.$command);
+            \Log::critical($output);
 
             $this->errors[] = $output;
 
