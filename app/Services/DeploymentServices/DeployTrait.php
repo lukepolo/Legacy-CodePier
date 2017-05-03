@@ -71,10 +71,6 @@ trait DeployTrait
     {
         $output = [];
 
-        $this->remoteTaskService->ssh($this->server, 'root');
-        $this->remoteTaskService->updateText('/root/.profile', 'msg n', 'tty -s && mesg n');
-
-        $this->remoteTaskService->ssh($this->server, 'codepier');
         if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
             $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
