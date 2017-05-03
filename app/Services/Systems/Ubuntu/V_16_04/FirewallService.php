@@ -25,7 +25,7 @@ class FirewallService
     {
         $this->connectToServer();
 
-        if (!empty($firewallRule->from_ip)) {
+        if (! empty($firewallRule->from_ip)) {
             $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
         } else {
             $command = "ufw allow $firewallRule->port/$firewallRule->type";
