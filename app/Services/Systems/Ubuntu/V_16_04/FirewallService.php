@@ -25,10 +25,10 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $command = 'ufw allow '.$firewallRule->port.'/'.$firewallRule->type;
-
-        if ($firewallRule->from_ip) {
-            $command = $command.' from '.$firewallRule->from_ip;
+        if (!empty($firewallRule->from_ip)) {
+            $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
+        } else {
+            $command = "ufw allow $firewallRule->port/$firewallRule->type";
         }
 
         return $this->remoteTaskService->run('
@@ -51,7 +51,7 @@ done');
         $this->connectToServer();
 
         if ($firewallRule->from_ip) {
-            return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type from $firewallRule->from_ip");
+            return $this->remoteTaskService->run("ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port");
         }
 
         return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type");
