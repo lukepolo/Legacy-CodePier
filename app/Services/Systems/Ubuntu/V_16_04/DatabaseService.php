@@ -159,8 +159,8 @@ class DatabaseService
     {
         $this->connectToServer();
 
-        $databasePassword = $this->server->database_password;
         $database = $schema->name;
+        $databasePassword = $this->server->database_password;
 
         switch ($schema->database) {
             case 'MariaDB':

@@ -15,6 +15,7 @@ echo "--"
 echo "Installing CodePier SSH key so that we can connect to your server..."
 public_key=`curl -s https://provision.codepier.io/keys/$1/public`
 private_key=`curl -s https://provision.codepier.io/keys/$1/private`
+mkdir ~/.ssh -p
 if [ ! -e ~/.ssh/id_rsa ]; then
     echo "$private_key" > ~/.ssh/id_rsa
 else
