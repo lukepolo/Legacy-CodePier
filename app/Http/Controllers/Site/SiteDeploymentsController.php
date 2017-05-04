@@ -17,11 +17,10 @@ class SiteDeploymentsController extends Controller
             SiteDeployment::with([
                     'serverDeployments.events.step' => function ($query) {
                         $query->withTrashed();
-                    }]
+                    }, ]
                 )
                 ->where('site_id', $siteId)
                 ->findOrFail($siteDeploymentId)
         );
     }
-
 }

@@ -34,14 +34,13 @@ class Deploy implements ShouldQueue
      */
     public function __construct(Site $site, SiteServerDeployment $serverDeployment, $oldSiteDeployment = null)
     {
-
         $this->site = $site;
         $this->serverDeployment = $serverDeployment;
 
         $this->serverDeployment->load([
             'events',
             'server',
-            'siteDeployment.serverDeployments'
+            'siteDeployment.serverDeployments',
         ]);
 
         $this->oldSiteDeployment = $oldSiteDeployment;
