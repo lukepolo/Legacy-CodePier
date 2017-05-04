@@ -12,7 +12,8 @@ class OsService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get update');
+        // https://github.com/docker/machine/issues/3358 - sleeping for 30
+        $this->remoteTaskService->run('sleep 30; DEBIAN_FRONTEND=noninteractive apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
