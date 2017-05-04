@@ -208,6 +208,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.ssh-keys', 'SiteSshKeyController');
             Route::resource('sites.cron-jobs', 'SiteCronJobController');
             Route::resource('sites.ssl-certificate', 'SiteSslController');
+            Route::resource('sites.deployments', 'SiteDeploymentsController');
             Route::resource('sites.hooks', 'Repository\RepositoryHookController');
             Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('sites.server-features', 'SiteServerFeaturesController');

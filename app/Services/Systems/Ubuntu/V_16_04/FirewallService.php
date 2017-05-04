@@ -40,8 +40,7 @@ do
         '.$command.'
       break
    else
-    sleepFor=$(( ( RANDOM % 10 )  + 1 ))
-      sleep $sleepFor
+      sleep $[ ( $RANDOM % 10 )  + 1 ]s
    fi
 done');
     }
