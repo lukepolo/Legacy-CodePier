@@ -11,7 +11,7 @@ trait RubyOnRails
      */
     public function rubyOnRailsRunMigrations()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; rake db:migrate')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; rake db:migrate');
     }
 
     /**
@@ -21,6 +21,6 @@ trait RubyOnRails
      */
     public function rubyOnRailsRunPrecompile()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; rake assets:precompile')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; rake assets:precompile');
     }
 }

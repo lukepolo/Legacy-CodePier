@@ -20,7 +20,7 @@ class Ruby
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
 
-        return [$this->remoteTaskService->run('cd '.$this->release.'; bundle install --path .bundle')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; bundle install --path .bundle');
     }
 
     /**
@@ -32,6 +32,6 @@ class Ruby
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP)];
+        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
     }
 }

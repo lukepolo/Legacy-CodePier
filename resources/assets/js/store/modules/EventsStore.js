@@ -54,9 +54,9 @@ export default {
                 if (serverDeployment) {
                     Vue.set(
                         serverDeployment.events,
-                        _.findKey(serverDeployment.events, {
+                        parseInt(_.findKey(serverDeployment.events, {
                             id: event.deployment_event.id
-                        }),
+                        })),
                         event.deployment_event
                     )
                 }
@@ -76,7 +76,9 @@ export default {
             const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
 
             if (siteDeployment) {
+
                 const serverDeployment = _.find(siteDeployment.server_deployments, { id: event.server_deployment.id })
+
                 if (serverDeployment) {
                     _.each(event.server_deployment, function (value, key) {
                         serverDeployment[key] = value
@@ -98,7 +100,7 @@ export default {
                 return
             }
 
-            Vue.set(state.events, commandKey, command)
+            Vue.set(state.events, parseInt(commandKey), command)
         }
     }
 }
