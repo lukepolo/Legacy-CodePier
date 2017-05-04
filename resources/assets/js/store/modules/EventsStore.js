@@ -63,7 +63,14 @@ export default {
             }
         },
         UPDATE_SITE_DEPLOYMENT_EVENT: (state, event) => {
-            const siteDeploymentKey = _.findKey(state.events, { id: event.site_deployment.id })
+
+            let siteDeploymentKey = _.findKey(state.events, { id : event.site_deployment.id })
+
+            if(!siteDeploymentKey) {
+                state.events.unshift(event.site_deployment)
+                siteDeploymentKey = 0
+            }
+
             const siteDeployment = state.events[siteDeploymentKey]
 
             _.each(event.site_deployment, function (value, key) {
@@ -71,6 +78,7 @@ export default {
                     siteDeployment[key] = value
                 }
             })
+
         },
         UPDATE_SERVER_DEPLOYMENT_EVENT: (state, event) => {
             const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
