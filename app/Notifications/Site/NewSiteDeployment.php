@@ -44,11 +44,7 @@ class NewSiteDeployment extends Notification
     public function toBroadcast($notifiable)
     {
         return [
-            'siteDeployment' => $this->siteDeployment->load([
-                'serverDeployments.events.step' => function ($query) {
-                    $query->withTrashed();
-                },
-            ]),
+            'siteDeployment' => $this->siteDeployment,
         ];
     }
 }
