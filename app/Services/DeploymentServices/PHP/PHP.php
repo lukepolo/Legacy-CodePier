@@ -18,7 +18,7 @@ class PHP
      */
     public function installPhpDependencies()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction');
     }
 
     /**
@@ -45,6 +45,6 @@ class PHP
     {
         $this->remoteTaskService->ssh($this->server, 'root');
 
-        return [$this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP)];
+        return $this->remoteTaskService->run('/opt/codepier/./'.SystemService::DEPLOYMENT_SERVICE_GROUP);
     }
 }

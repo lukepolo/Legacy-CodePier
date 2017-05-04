@@ -109,7 +109,7 @@ trait DeployTrait
     public function setupFolders()
     {
         if ($this->zerotimeDeployment) {
-            return [$this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null))];
+            return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null));
         }
     }
 
@@ -125,17 +125,19 @@ trait DeployTrait
         if ($this->zerotimeDeployment && $this->site->keep_releases > 0) {
             $this->remoteTaskService->ssh($this->server, 'root');
 
-            return [$this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf')];
+            return $this->remoteTaskService->run('cd '.$this->siteFolder.'; find . -maxdepth 1 -name "2*" | sort -r | tail -n +'.($this->site->keep_releases + 1).' | xargs rm -Rf');
         }
     }
 
     /**
      * Runs a custom step on the server.
      * @param $script
+     * @return string
      */
     public function customStep($script)
     {
         $this->remoteTaskService->ssh($this->server, 'codepier');
-        $this->remoteTaskService->run('cd '.$this->release.' && '.$script);
+
+        return $this->remoteTaskService->run('cd '.$this->release.' && '.$script);
     }
 }
