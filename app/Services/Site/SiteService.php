@@ -142,9 +142,9 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
-                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, [$e->getMessage()]));
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
