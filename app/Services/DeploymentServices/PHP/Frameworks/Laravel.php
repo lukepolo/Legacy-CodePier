@@ -13,12 +13,9 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
-        $output = [];
         if ($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+            return $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
-
-        return $output;
     }
 
     /**
@@ -47,7 +44,7 @@ trait Laravel
      */
     public function laravelMapStorageFolderToPublic()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link');
     }
 
     /**
@@ -57,7 +54,7 @@ trait Laravel
      */
     public function laravelRunMigrations()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
     }
 
     /**
@@ -67,7 +64,7 @@ trait Laravel
      */
     public function laravelCacheRoutes()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache');
     }
 
     /**
@@ -77,7 +74,7 @@ trait Laravel
      */
     public function laravelCacheConfig()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
     }
 
     /**
@@ -87,6 +84,6 @@ trait Laravel
      */
     public function laravelRestartWorkers()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
     }
 }

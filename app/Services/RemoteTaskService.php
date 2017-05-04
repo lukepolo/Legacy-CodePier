@@ -17,7 +17,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
     private $session;
     private $errors = [];
 
-    private $output = [];
+    private $output = '';
 
     /**
      * @param $command
@@ -60,14 +60,14 @@ class RemoteTaskService implements RemoteTaskServiceContract
             }
         }
 
-        $output = $this->cleanResponse($output);
+        $output = $this->cleanOutput($output);
 
         if (config('app.env') === 'local') {
             \Log::info($output);
         }
 
         if (! empty($output)) {
-            $this->output[] = $output;
+            $this->output .= $output."\n";
         }
 
         if ($this->session->getExitStatus() != 0) {
@@ -267,14 +267,14 @@ echo \"Wrote\"", $read);
      */
     public function getOutput()
     {
-        return array_filter($this->output);
+        return $this->output;
     }
 
     /**
      * @param $response
      * @return string
      */
-    private function cleanResponse($response)
+    private function cleanOutput($response)
     {
         return trim(str_replace('codepier-done', '', $response));
     }

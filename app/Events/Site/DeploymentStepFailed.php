@@ -68,10 +68,16 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      */
     public function broadcastWith()
     {
+        strip_relations($this->deploymentEvent)->load('step');
+
+        if(strlen($this->deploymentEvent->log) >= 7000) {
+            $this->deploymentEvent->log = substr($this->deploymentEvent->log, 0, 7000)."\n , please reload to see the rest of the log";
+        }
+
         return [
             'site_deployment' => strip_relations($this->siteDeployment),
             'server_deployment' => strip_relations($this->serverDeployment),
-            'deployment_event' => strip_relations($this->deploymentEvent)->load('step'),
+            'deployment_event' => $this->deploymentEvent,
         ];
     }
 }

@@ -71,14 +71,15 @@
                 return 'https://'+ repositoryProvider.url + '/' + site.repository + '/'+repositoryProvider.commit_url+'/' + event.git_commit;
             },
             filterArray(data) {
-                if (Array.isArray(data)) {
-                    return _.reject(
-                        _.reject(data, _.isEmpty),
-                        _.isNull
-                    )
+
+                if (!Array.isArray(data)) {
+                    data = [data]
                 }
 
-                return [];
+                return _.reject(
+                    _.reject(data, _.isEmpty),
+                    _.isNull
+                )
             },
             formatSeconds(number) {
                 let seconds = parseFloat(number).toFixed(2);
