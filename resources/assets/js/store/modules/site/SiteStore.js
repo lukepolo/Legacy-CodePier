@@ -40,7 +40,7 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        listenToSite: ({ commit, state }, site) => {
+        listenToSite: ({ commit, state, dispatch }, site) => {
             if (_.indexOf(state.sites_listening_to, site.id) === -1) {
                 commit('SET_SITES_LISTENING_TO', site)
                 Echo.private('App.Models.Site.Site.' + site.id)
@@ -72,8 +72,10 @@ export default {
                     })
                     .notification((notification) => {
                         if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
-                            commit('ADD_NEW_SITE_DEPLOYMENT', notification.siteDeployment)
-                            commit('UPDATE_SITE_DEPLOYMENT_STATUS', notification.siteDeployment)
+                            dispatch('getDeployment', {
+                                site :  notification.siteDeployment.site_id,
+                                deployment : notification.siteDeployment.id,
+                            })
                         }
                     })
             }
@@ -127,6 +129,15 @@ export default {
             return Vue.http.post(Vue.action('Site\SiteServerController@store', { site: data.site }), data).then((response) => {
                 dispatch('getSiteServers', data.site)
                 return response.data
+            })
+        },
+        getDeployment : ({commit}, data) => {
+            return Vue.http.get(Vue.action('Site\SiteDeploymentsController@show', { site :  data.site, deployment: data.deployment })).then((response) => {
+                commit('ADD_NEW_SITE_DEPLOYMENT', response.data)
+                commit('UPDATE_SITE_DEPLOYMENT_STATUS', response.data)
+                return response.data
+            }, (errors) => {
+                app.handleApiError(errors)
             })
         },
         getDeploymentSteps: ({ commit }, site) => {
