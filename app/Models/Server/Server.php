@@ -4,6 +4,7 @@ namespace App\Models\Server;
 
 use App\Models\Buoy;
 use App\Models\File;
+use App\Models\LanguageSetting;
 use App\Models\Pile;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -159,6 +160,11 @@ class Server extends Model
     public function environmentVariables()
     {
         return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
+    }
+
+    public function languageSettings()
+    {
+        return $this->morphToMany(LanguageSetting::class, 'language_settingable');
     }
 
     /*

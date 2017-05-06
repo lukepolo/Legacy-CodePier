@@ -483,6 +483,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'server-setup/language-settings',
+                    name: 'site_language_settings',
+                    components: {
+                        default: setupPages.LanguageSettings,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
                     path: 'server-setup/server-features',
                     name: 'site_server_features',
                     components: {

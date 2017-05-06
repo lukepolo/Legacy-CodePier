@@ -31,6 +31,13 @@
                     </a>
                 </router-link>
 
+                <router-link :to="{ name : 'site_language_settings', params : { site_id : siteId } }" tag="li">
+                    <a>
+                        Language Settings
+                        <div class="small">Customize your server to handle bigger uploads etc.</div>
+                    </a>
+                </router-link>
+
                 <template v-if="site && !site.repository">
                     <router-link :to="{ name : 'site_repository', params : { site_id : site.id } }" tag="li">
                         <a>
