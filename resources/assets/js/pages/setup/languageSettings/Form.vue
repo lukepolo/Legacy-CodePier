@@ -1,12 +1,21 @@
 <template>
     <section>
-        Language Settings
-         {{ availableLanguageSettings }}
+        <div class="jcf-form-wrap">
+            <form class="floating-labels">
+                <template v-for="availableLanguageSetting in availableLanguageSettings">
+                    <language-setting :setting="availableLanguageSetting"></language-setting>
+                </template>
+            </form>
+        </div>
     </section>
 </template>
 
 <script>
+    import LanguageSetting from './components/LanguageSetting.vue'
     export default {
+        components: {
+          LanguageSetting
+        },
         data() {
             return {
                 form : {

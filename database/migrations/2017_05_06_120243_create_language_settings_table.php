@@ -15,9 +15,9 @@ class CreateLanguageSettingsTable extends Migration
     {
         Schema::create('language_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('class');
-            $table->string('function');
-            $table->json('data');
+            $table->string('setting');
+            $table->string('language');
+            $table->json('params');
             $table->timestamps();
         });
 

@@ -11,7 +11,7 @@ class LanguageSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'data' => 'array'
+        'params' => 'array'
     ];
 
     /*
