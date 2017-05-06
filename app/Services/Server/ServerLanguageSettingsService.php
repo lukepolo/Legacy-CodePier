@@ -30,8 +30,6 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
     {
         $languageSettings = [];
 
-
-
         dd($server);
 //        foreach($reflectionClass->getMethods() as $method) {
 //            $languageSettings[] = [
