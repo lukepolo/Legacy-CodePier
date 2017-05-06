@@ -114,6 +114,7 @@ class SystemService implements SystemServiceContract
     public function createSystemService($service, Server $server)
     {
         $service = 'App\Services\Systems\\'.self::PROVISION_SYSTEMS[$server->system_class].'\\'.$service;
+
         return new $service($this->remoteTaskService, ! empty($server) ? $server : $this->server);
     }
 }

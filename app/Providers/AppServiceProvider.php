@@ -66,7 +66,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('valid_language_type', function ($attribute, $value) {
             return collect([
                 'PHP',
-                'Ruby'
+                'Ruby',
             ])->contains($value);
         });
 
