@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Models\Site\Site;
 use App\Models\LanguageSetting;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\UpdateServerLanguageSetting;
 
 class SiteLanguageSettingUpdated
 {
