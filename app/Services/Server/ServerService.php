@@ -3,6 +3,7 @@
 namespace App\Services\Server;
 
 use App\Models\Bitt;
+use App\Models\LanguageSetting;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -509,5 +510,15 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->removeLineByText('/etc/environment', $environmentVariable->variable);
+    }
+
+    /**
+     * @param Server $server
+     * @param LanguageSetting $languageSetting
+     * @return bool
+     */
+    public function runLanguageSetting(Server $server, LanguageSetting $languageSetting)
+    {
+        $this->getService($languageSetting->class, $server)->{$languageSetting->function}($languageSetting);
     }
 }

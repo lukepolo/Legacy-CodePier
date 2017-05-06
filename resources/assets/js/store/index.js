@@ -45,6 +45,7 @@ export default new Vuex.Store({
         siteServersFeaturesStore: SiteStore.serversFeatures,
         siteSslCertificatesStore: SiteStore.sslCertificates,
         siteEnvironmentVariablesStore : SiteStore.environmentVariables,
+        siteLanguageSettingsStore : SiteStore.languageSettings,
 
         serversStore: ServerStore.server,
         serverFilesStore: ServerStore.files,

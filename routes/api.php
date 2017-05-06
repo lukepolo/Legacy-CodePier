@@ -213,7 +213,10 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('sites.server-features', 'SiteServerFeaturesController');
             Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
+            Route::resource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::resource('sites.environment-variables', 'SiteEnvironmentVariablesController');
+            Route::get('site/{site}/language-settings', 'SiteLanguageSettingsController@getLanguageSettings');
+
         });
     });
 
