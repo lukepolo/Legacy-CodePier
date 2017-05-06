@@ -3,7 +3,6 @@
 namespace App\Services\Server;
 
 use App\Models\Bitt;
-use App\Models\LanguageSetting;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\CronJob;
@@ -12,6 +11,7 @@ use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use App\Exceptions\FailedCommand;
 use App\Models\EnvironmentVariable;
 use App\Exceptions\SshConnectionFailed;

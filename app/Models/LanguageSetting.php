@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class LanguageSetting extends Model
@@ -11,7 +11,7 @@ class LanguageSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'params' => 'array'
+        'params' => 'array',
     ];
 
     /*
@@ -29,5 +29,4 @@ class LanguageSetting extends Model
     {
         return $this->morphedByMany(Server::class, 'language_settingable');
     }
-
 }

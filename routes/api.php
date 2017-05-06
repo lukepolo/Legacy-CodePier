@@ -216,7 +216,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::resource('sites.environment-variables', 'SiteEnvironmentVariablesController');
             Route::get('site/{site}/language-settings', 'SiteLanguageSettingsController@getLanguageSettings');
-
         });
     });
 

@@ -4,7 +4,6 @@ namespace App\Models\Server;
 
 use App\Models\Buoy;
 use App\Models\File;
-use App\Models\LanguageSetting;
 use App\Models\Pile;
 use App\Models\Schema;
 use App\Models\SshKey;
@@ -18,6 +17,7 @@ use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
 use Illuminate\Database\Eloquent\Model;
