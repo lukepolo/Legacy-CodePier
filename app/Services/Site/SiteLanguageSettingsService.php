@@ -34,10 +34,10 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
         // and looped through stuff, but seems pointless as some version may not have
         // the same settings as the others
         $reflectionClass = $this->buildReflection(
-            $this->getLanguageFile('Ubuntu','V_16_04', $site->type, $site->type.'Settings')
+            $this->getLanguageFile('Ubuntu', 'V_16_04', $site->type, $site->type.'Settings')
         );
 
-        foreach($reflectionClass->getMethods() as $method) {
+        foreach ($reflectionClass->getMethods() as $method) {
             $languageSettings[] = [
                 'type' => $site->type,
                 'name' => $method->getName(),
