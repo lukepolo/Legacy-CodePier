@@ -9,6 +9,8 @@ use App\Services\Server\ServerFeatureService;
 use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Contracts\Server\ServerFeatureServiceContract;
+use App\Services\Server\ServerLanguageSettingsService;
+use App\Contracts\Site\ServerLanguageSettingsServiceContract;
 
 class ServerServiceProvider extends ServiceProvider
 {
@@ -40,6 +42,11 @@ class ServerServiceProvider extends ServiceProvider
             ServerFeatureServiceContract::class,
             ServerFeatureService::class
         );
+
+        $this->app->bind(
+            ServerLanguageSettingsServiceContract::class,
+            ServerLanguageSettingsService::class
+        );
     }
 
     /**
@@ -53,6 +60,7 @@ class ServerServiceProvider extends ServiceProvider
             ServerServiceContract::class,
             SystemServiceContract::class,
             ServerFeatureServiceContract::class,
+            ServerLanguageSettingsServiceContract::class,
         ];
     }
 }
