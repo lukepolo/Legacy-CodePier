@@ -15,18 +15,21 @@ export default {
             })
 
         },
-        updateSiteFile: ({ commit }, data) => {
-            // Vue.http.put(Vue.action('Site\SiteFileController@update', {
-            //     site: data.site,
-            //     file: data.file_id
-            // }), {
-            //     file_path: data.file,
-            //     content: data.content
-            // }).then((response) => {
-            //     app.showSuccess('You have updated the file')
-            // }, (errors) => {
-            //     app.handleApiError(errors)
-            // })
+        runSiteLanguageSetting: ({ }, data) => {
+
+            console.info(data)
+
+            Vue.http.post(Vue.action('Site\SiteLanguageSettingsController@store', {
+                site: data.site,
+            }), {
+                params : data.params,
+                setting : data.setting,
+                language : data.language,
+            }).then((response) => {
+                app.showSuccess('You have updated the settings')
+            }, (errors) => {
+                app.handleApiError(errors)
+            })
         },
     },
     mutations: {

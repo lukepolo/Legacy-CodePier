@@ -24,7 +24,9 @@ class LanguageSettingRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'params' => 'array|nullable',
+            'setting' => 'required|string',
+            'language' => 'required|valid_language_type',
         ];
     }
 }

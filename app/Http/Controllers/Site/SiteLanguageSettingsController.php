@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\LanguageSetting;
 use App\Models\Site\Site;
+use App\Models\LanguageSetting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageSettingRequest;
 use App\Events\Site\SiteLanguageSettingUpdated;
+use App\Contracts\Site\SiteLanguageSettingsServiceContract as SiteLanguageSettingsService;
 
 class SiteLanguageSettingsController extends Controller
 {
+    private $siteLanguageSettingsService;
+
+    /**
+     * SiteFeatureController constructor.
+     * @param \App\Services\Site\SiteLanguageSettingsService | SiteLanguageSettingsService $siteLanguageSettingsService
+     */
+    public function __construct(SiteLanguageSettingsService $siteLanguageSettingsService)
+    {
+        $this->siteLanguageSettingsService = $siteLanguageSettingsService;
+    }
+
     /**
      * Display a listing of the resource.
      * @param  int $siteId
@@ -34,22 +46,26 @@ class SiteLanguageSettingsController extends Controller
         $site = Site::with('languageSettings')->findOrFail($siteId);
 
         $languageSetting = LanguageSetting::create([
-            'data' => $request->get('data'),
-            'class' => $request->get('class'),
-            'function' => $request->get('function'),
+            'params' => $request->get('params'),
+            'setting' => $request->get('setting'),
+            'language' => $request->get('language'),
         ]);
 
-        $site->languageSetting()->save($languageSetting);
+        $site->languageSettings()->save($languageSetting);
 
         broadcast(new SiteLanguageSettingUpdated($site, $languageSetting))->toOthers();
 
         return response()->json($languageSetting);
     }
 
+    /**
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLanguageSettings($siteId)
     {
-
-
-        return response()->json('SITE LANG SETTINGS');
+        return response()->json($this->siteLanguageSettingsService->getLanguageSettings(
+            Site::findOrFail($siteId)
+        ));
     }
 }
