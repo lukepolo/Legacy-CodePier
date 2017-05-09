@@ -2,8 +2,11 @@
     <section>
         <div class="jcf-form-wrap">
             <form class="floating-labels">
-                <template v-for="availableLanguageSetting in availableLanguageSettings">
-                    <language-setting :setting="availableLanguageSetting"></language-setting>
+                <template v-for="(settings, language) in availableLanguageSettings">
+                    <h1>{{ language }}'s settings</h1>
+                    <template v-for="setting in settings">
+                        <language-setting :setting="setting" :languageSettings="languageSettings"></language-setting>
+                    </template>
                 </template>
             </form>
         </div>
@@ -16,14 +19,6 @@
         components: {
           LanguageSetting
         },
-        data() {
-            return {
-                form : {
-                    value: '',
-                    variable: null,
-                }
-            }
-        },
         created() {
             this.fetchData()
         },
@@ -34,11 +29,12 @@
             fetchData() {
                 if(this.siteId) {
                     this.$store.dispatch('getSiteLanguageSettings', this.siteId)
-                    this.$store.dispatch('getAvailableLanguageSettings', this.siteId)
+                    this.$store.dispatch('getSiteAvailableLanguageSettings', this.siteId)
                 }
 
                 if(this.serverId) {
-//                    this.$store.dispatch('getServerEnvironmentVariables', this.serverId)
+                    this.$store.dispatch('getServerLanguageSettings', this.serverId)
+                    this.$store.dispatch('getServerAvailableLanguageSettings', this.serverId)
                 }
             },
             isRunningCommandFor(id) {
@@ -57,11 +53,11 @@
             },
             languageSettings() {
                 if (this.siteId) {
-                    return this.$store.state.siteEnvironmentVariablesStore.site_environment_variables
+                    return this.$store.state.siteLanguageSettingsStore.site_language_settings
                 }
 
                 if (this.serverId) {
-                    return this.$store.state.serverEnvironmentVariablesStore.server_environment_variables
+                    return this.$store.state.serverLanguageSettingsStore.server_language_settings
                 }
             },
             availableLanguageSettings() {
@@ -70,6 +66,7 @@
                 }
 
                 if (this.serverId) {
+                    return this.$store.state.serverLanguageSettingsStore.available_language_settings
                 }
             }
         }

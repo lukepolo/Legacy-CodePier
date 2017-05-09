@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Site;
+namespace App\Contracts\Server;
 
 interface ServerLanguageSettingsServiceContract
 {

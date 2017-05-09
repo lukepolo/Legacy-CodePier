@@ -17,7 +17,7 @@ class CreateLanguageSettingsTable extends Migration
             $table->increments('id');
             $table->string('setting');
             $table->string('language');
-            $table->json('params');
+            $table->json('params')->nullable();
             $table->timestamps();
         });
 

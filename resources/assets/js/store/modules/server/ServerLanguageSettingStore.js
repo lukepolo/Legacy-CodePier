@@ -1,31 +1,27 @@
 export default {
     state: {
-        site_language_settings: [],
+        server_language_settings: [],
         available_language_settings: []
     },
     actions: {
-        getSiteLanguageSettings: ({ commit }, site) => {
-            Vue.http.get(Vue.action('Site\SiteLanguageSettingsController@index', { site : site })).then((response) => {
-                commit('SET_SITE_LANGUAGE_SETTINGS', response.data)
+        getServerLanguageSettings: ({ commit }, server) => {
+            Vue.http.get(Vue.action('Server\ServerLanguageSettingsController@index', { server : server })).then((response) => {
+                commit('SET_SERVER_LANGUAGE_SETTINGS', response.data)
             })
         },
-        getAvailableLanguageSettings: ({ commit }, site) => {
-            Vue.http.get(Vue.action('Site\SiteLanguageSettingsController@getLanguageSettings', { site : site })).then((response) => {
+        getServerAvailableLanguageSettings: ({ commit }, server) => {
+            Vue.http.get(Vue.action('Server\ServerLanguageSettingsController@getLanguageSettings', { server : server })).then((response) => {
                 commit('SET_AVAILABLE_LANGUAGE_SETTINGS', response.data)
             })
-
         },
-        runSiteLanguageSetting: ({ }, data) => {
-
-            console.info(data)
-
-            Vue.http.post(Vue.action('Site\SiteLanguageSettingsController@store', {
-                site: data.site,
+        runServerLanguageSetting: ({ }, data) => {
+            Vue.http.post(Vue.action('Server\ServerLanguageSettingsController@store', {
+                server: data.server,
             }), {
                 params : data.params,
                 setting : data.setting,
                 language : data.language,
-            }).then((response) => {
+            }).then(() => {
                 app.showSuccess('You have updated the settings')
             }, (errors) => {
                 app.handleApiError(errors)
@@ -33,8 +29,8 @@ export default {
         },
     },
     mutations: {
-        SET_SITE_LANGUAGE_SETTINGS: (state, language_settings) => {
-            state.site_language_settings = language_settings
+        SET_SERVER_LANGUAGE_SETTINGS: (state, language_settings) => {
+            state.server_language_settings = language_settings
         },
         SET_AVAILABLE_LANGUAGE_SETTINGS: (state, language_settings) => {
             state.available_language_settings = language_settings

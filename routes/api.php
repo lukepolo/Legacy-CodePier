@@ -173,7 +173,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
+            Route::resource('servers.language-settings', 'ServerLanguageSettingsController');
             Route::resource('servers.environment-variables', 'ServerEnvironmentVariablesController');
+            Route::get('server/{server}/language-settings', 'ServerLanguageSettingsController@getLanguageSettings');
         });
 
         /*
