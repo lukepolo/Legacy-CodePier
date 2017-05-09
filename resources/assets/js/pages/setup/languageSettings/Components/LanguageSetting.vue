@@ -28,7 +28,7 @@
 
 <script>
     export default {
-        props : ['setting', 'params'],
+        props : ['setting', 'params', 'languageSettings'],
         data() {
             return {
                 form : {
@@ -37,9 +37,12 @@
             }
         },
         created() {
+            // Some weird reactivity issue, but this solves it by setting null first
+            let languageSetting = null
             if(this.setting.params) {
+                languageSetting = this.languageSetting ? this.languageSetting : null
                 _.each(this.setting.params, (param) => {
-                    this.form.params[param] = null
+                    this.form.params[param] = languageSetting ? languageSetting['params'][param] : null
                 })
             }
         },
@@ -55,7 +58,12 @@
                 }
 
                 if(this.serverId) {
-                    alert('server id')
+                    this.$store.dispatch('runServerLanguageSetting', {
+                        server: this.serverId,
+                        params: this.form.params,
+                        setting: this.setting.name,
+                        language: this.setting.type,
+                    })
                 }
 
             },
@@ -69,6 +77,11 @@
             },
             serverId() {
                 return this.$route.params.server_id
+            },
+            languageSetting() {
+                return _.find(this.languageSettings, (languageSetting) => {
+                    return languageSetting.languageSetting == this.setting.language && languageSetting.setting == this.setting.name;
+                })
             }
         }
     }

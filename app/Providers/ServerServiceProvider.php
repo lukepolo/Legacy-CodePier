@@ -10,7 +10,7 @@ use App\Contracts\Server\ServerServiceContract;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Contracts\Server\ServerFeatureServiceContract;
 use App\Services\Server\ServerLanguageSettingsService;
-use App\Contracts\Site\ServerLanguageSettingsServiceContract;
+use App\Contracts\Server\ServerLanguageSettingsServiceContract;
 
 class ServerServiceProvider extends ServiceProvider
 {

@@ -11,6 +11,7 @@ use App\Models\Worker;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Services\Systems\SystemService;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -189,6 +190,24 @@ class Server extends Model
         }
 
         return collect($features);
+    }
+
+    public function getLanguages()
+    {
+        $hasLanguages = [];
+
+        foreach(SystemService::LANGUAGES as $language => $languageClass) {
+            if(isset($this->server_features[$languageClass])) {
+                if(isset($this->server_features[$languageClass][$language]['enabled'])) {
+                    $hasLanguages[$language] = [
+                        'class' => $languageClass,
+                        'version' => $this->server_features[$languageClass][$language]['parameters']['version']
+                    ];
+                }
+            }
+        }
+
+        return collect($hasLanguages);
     }
 
     public function encode()

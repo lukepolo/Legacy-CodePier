@@ -45,13 +45,26 @@ class SiteLanguageSettingsController extends Controller
     {
         $site = Site::with('languageSettings')->findOrFail($siteId);
 
-        $languageSetting = LanguageSetting::create([
-            'params' => $request->get('params'),
-            'setting' => $request->get('setting'),
-            'language' => $request->get('language'),
-        ]);
+        $setting = $request->get('setting');
+        $language = $request->get('language');
 
-        $site->languageSettings()->save($languageSetting);
+        $languageSetting = $site->languageSettings
+            ->where('setting', $setting)
+            ->where('language', $language)
+            ->first();
+
+        if(empty($languageSetting)) {
+            $languageSetting = LanguageSetting::create([
+                'setting' => $setting,
+                'language' => $language,
+            ]);
+
+            $site->languageSettings()->save($languageSetting);
+        }
+
+        $languageSetting->update([
+            'params' => $request->get('params', [])
+        ]);
 
         broadcast(new SiteLanguageSettingUpdated($site, $languageSetting))->toOthers();
 

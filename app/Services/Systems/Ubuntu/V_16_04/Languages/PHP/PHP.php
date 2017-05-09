@@ -196,7 +196,7 @@ class PHP
 
     private function getPhpVersion()
     {
-        return $this->server->server_features['Languages\PHP\PHP']['PHP']['parameters']['version'];
+        return $this->server->getLanguages()['PHP']['version'];
     }
 
     private function getFrameworkService(Site $site)

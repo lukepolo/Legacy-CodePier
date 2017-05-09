@@ -7,14 +7,14 @@ use App\Models\LanguageSetting;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LanguageSettingRequest;
 use App\Jobs\Server\UpdateServerLanguageSetting;
-use App\Contracts\Site\ServerLanguageSettingsServiceContract as ServerLanguageSettingsService;
+use App\Contracts\Server\ServerLanguageSettingsServiceContract as ServerLanguageSettingsService;
 
 class ServerLanguageSettingsController extends Controller
 {
     private $serverLanguageSettingsService;
 
     /**
-     * SiteFeatureController constructor.
+     * ServerFeatureController constructor.
      * @param \App\Services\Server\ServerLanguageSettingsService | ServerLanguageSettingsService $serverLanguageSettingsService
      */
     public function __construct(ServerLanguageSettingsService $serverLanguageSettingsService)
@@ -24,13 +24,13 @@ class ServerLanguageSettingsController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  int $siteId
+     * @param  int $serverId
      * @return \Illuminate\Http\Response
      */
-    public function index($siteId)
+    public function index($serverId)
     {
         return response()->json(
-            Server::findOrFail($siteId)->languageSettings
+            Server::findOrFail($serverId)->languageSettings
         );
     }
 
@@ -43,15 +43,29 @@ class ServerLanguageSettingsController extends Controller
      */
     public function store(LanguageSettingRequest $request, $serverId)
     {
+
         $server = Server::with('languageSettings')->findOrFail($serverId);
 
-        $languageSetting = LanguageSetting::create([
-            'params' => $request->get('params'),
-            'setting' => $request->get('setting'),
-            'language' => $request->get('language'),
-        ]);
+        $setting = $request->get('setting');
+        $language = $request->get('language');
 
-        $server->languageSettings()->save($languageSetting);
+        $languageSetting = $server->languageSettings
+            ->where('setting', $setting)
+            ->where('language', $language)
+            ->first();
+
+        if(empty($languageSetting)) {
+            $languageSetting = LanguageSetting::create([
+                'setting' => $setting,
+                'language' => $language,
+            ]);
+
+            $server->languageSettings()->save($languageSetting);
+        }
+
+        $languageSetting->update([
+            'params' => $request->get('params', [])
+        ]);
 
         dispatch(
             (new UpdateServerLanguageSetting($server, $languageSetting))->onQueue(config('queue.channels.server_commands'))

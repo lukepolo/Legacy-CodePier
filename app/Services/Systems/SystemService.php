@@ -33,6 +33,12 @@ class SystemService implements SystemServiceContract
     const DATABASE_SERVICE_GROUP = 'database_services';
     const DEPLOYMENT_SERVICE_GROUP = 'deployment_services';
 
+
+    const LANGUAGES = [
+        'PHP' => 'Languages\PHP\PHP',
+        'Ruby' => 'Languages\Ruby\Ruby',
+    ];
+
     /**
      * @param RemoteTaskService $remoteTaskService
      */

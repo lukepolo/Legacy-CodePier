@@ -9,16 +9,13 @@ export default {
                 commit('SET_SITE_LANGUAGE_SETTINGS', response.data)
             })
         },
-        getAvailableLanguageSettings: ({ commit }, site) => {
+        getSiteAvailableLanguageSettings: ({ commit }, site) => {
             Vue.http.get(Vue.action('Site\SiteLanguageSettingsController@getLanguageSettings', { site : site })).then((response) => {
                 commit('SET_AVAILABLE_LANGUAGE_SETTINGS', response.data)
             })
 
         },
-        runSiteLanguageSetting: ({ }, data) => {
-
-            console.info(data)
-
+        runSiteLanguageSetting: ({}, data) => {
             Vue.http.post(Vue.action('Site\SiteLanguageSettingsController@store', {
                 site: data.site,
             }), {
