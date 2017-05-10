@@ -7,5 +7,4 @@ use App\Services\Systems\ServiceConstructorTrait;
 class RubySettings
 {
     use ServiceConstructorTrait;
-
 }

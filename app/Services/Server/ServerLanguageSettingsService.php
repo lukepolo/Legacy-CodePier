@@ -30,7 +30,7 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
     {
         $languageSettings = [];
 
-        foreach($server->getLanguages() as $language => $class) {
+        foreach ($server->getLanguages() as $language => $class) {
             // TODO - so how should we handle things like this, i think i was just assuming before hand
             // and looped through stuff, but seems pointless as some version may not have
             // the same settings as the others
@@ -38,8 +38,8 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
                 $this->getLanguageFile('Ubuntu', 'V_16_04', $language, $language.'Settings')
             );
 
-            foreach($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                if($method->name != '__construct') {
+            foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                if ($method->name != '__construct') {
                     $languageSettings[$language][] = [
                         'type' => $language,
                         'name' => $method->getName(),

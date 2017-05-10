@@ -86,7 +86,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param $file
      * @param $string
      *
-     * @return boolean
+     * @return bool
      */
     public function doesFileHaveLine($file, $string)
     {
@@ -189,7 +189,7 @@ echo \"Wrote\"", $read);
      */
     public function updateText($file, $text, $replaceWithText)
     {
-        if(!$this->doesFileHaveLine($file, $text)) {
+        if (! $this->doesFileHaveLine($file, $text)) {
             \Log::critical($file.' does not contain'.$text);
         }
 
@@ -202,7 +202,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $file
-     * @return boolean
+     * @return bool
      */
     public function hasFile($file)
     {
@@ -212,7 +212,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $directory
-     * @return boolean
+     * @return bool
      */
     public function hasDirectory($directory)
     {
