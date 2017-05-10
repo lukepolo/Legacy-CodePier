@@ -43,7 +43,6 @@ class ServerLanguageSettingsController extends Controller
      */
     public function store(LanguageSettingRequest $request, $serverId)
     {
-
         $server = Server::with('languageSettings')->findOrFail($serverId);
 
         $setting = $request->get('setting');
@@ -54,7 +53,7 @@ class ServerLanguageSettingsController extends Controller
             ->where('language', $language)
             ->first();
 
-        if(empty($languageSetting)) {
+        if (empty($languageSetting)) {
             $languageSetting = LanguageSetting::create([
                 'setting' => $setting,
                 'language' => $language,
@@ -64,7 +63,7 @@ class ServerLanguageSettingsController extends Controller
         }
 
         $languageSetting->update([
-            'params' => $request->get('params', [])
+            'params' => $request->get('params', []),
         ]);
 
         dispatch(

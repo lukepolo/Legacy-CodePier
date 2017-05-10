@@ -37,8 +37,8 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
             $this->getLanguageFile('Ubuntu', 'V_16_04', $site->type, $site->type.'Settings')
         );
 
-        foreach($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if($method->name != '__construct') {
+        foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            if ($method->name != '__construct') {
                 $languageSettings[$site->type][] = [
                     'type' => $site->type,
                     'name' => $method->getName(),

@@ -11,7 +11,6 @@ use App\Models\Worker;
 use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use App\Services\Systems\SystemService;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -21,6 +20,7 @@ use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -196,12 +196,12 @@ class Server extends Model
     {
         $hasLanguages = [];
 
-        foreach(SystemService::LANGUAGES as $language => $languageClass) {
-            if(isset($this->server_features[$languageClass])) {
-                if(isset($this->server_features[$languageClass][$language]['enabled'])) {
+        foreach (SystemService::LANGUAGES as $language => $languageClass) {
+            if (isset($this->server_features[$languageClass])) {
+                if (isset($this->server_features[$languageClass][$language]['enabled'])) {
                     $hasLanguages[$language] = [
                         'class' => $languageClass,
-                        'version' => $this->server_features[$languageClass][$language]['parameters']['version']
+                        'version' => $this->server_features[$languageClass][$language]['parameters']['version'],
                     ];
                 }
             }
