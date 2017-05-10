@@ -14,14 +14,19 @@
             </div>
         </template>
 
-        <div class="btn btn-primary" @click="runSetting">
-            <template v-if="setting.params.length">
-                Update Setting
-            </template>
-            <template v-else>
-                Run
-            </template>
-        </div>
+        <template v-if="isCommandCurrentlyRunning">
+            {{ isCommandCurrentlyRunning.status }}
+        </template>
+        <template v-else>
+            <div class="btn btn-primary" @click="runSetting">
+                <template v-if="setting.params.length">
+                    Update {{ setting.name }}
+                </template>
+                <template v-else>
+                    Run {{ setting.name }}
+                </template>
+            </div>
+        </template>
     </section>
 
 </template>
@@ -40,7 +45,7 @@
             // Some weird reactivity issue, but this solves it by setting null first
             let languageSetting = null
             if(this.setting.params) {
-                languageSetting = this.languageSetting ? this.languageSetting : null
+                languageSetting = this.languageSetting
                 _.each(this.setting.params, (param) => {
                     this.form.params[param] = languageSetting ? languageSetting['params'][param] : null
                 })
@@ -69,7 +74,8 @@
             },
             ucwords(param) {
                 return _.startCase(param);
-            }
+            },
+
         },
         computed : {
             siteId() {
@@ -82,7 +88,12 @@
                 return _.find(this.languageSettings, (languageSetting) => {
                     return languageSetting.languageSetting == this.setting.language && languageSetting.setting == this.setting.name;
                 })
-            }
+            },
+            isCommandCurrentlyRunning() {
+                if(this.languageSetting) {
+                    return this.isCommandRunning('App\\Models\\LanguageSetting', this.languageSetting.id)
+                }
+            },
         }
     }
 </script>
