@@ -2,11 +2,16 @@
     <section>
         <div class="jcf-form-wrap">
             <form class="floating-labels">
-                <template v-for="(settings, language) in availableLanguageSettings">
-                    <h1>{{ language }}'s settings</h1>
-                    <template v-for="setting in settings">
-                        <language-setting :setting="setting" :languageSettings="languageSettings"></language-setting>
+                <template v-if="hasLanguageItems">
+                    <template v-for="(settings, language) in availableLanguageSettings">
+                        <h1>{{ language }}'s settings</h1>
+                        <template v-for="setting in settings">
+                            <language-setting :setting="setting" :languageSettings="languageSettings"></language-setting>
+                        </template>
                     </template>
+                </template>
+                <template v-else>
+                    <h3>No language settings available.</h3>
                 </template>
             </form>
         </div>
@@ -68,6 +73,9 @@
                 if (this.serverId) {
                     return this.$store.state.serverLanguageSettingsStore.available_language_settings
                 }
+            },
+            hasLanguageItems() {
+                return !_.isEmpty(this.availableLanguageSettings)
             }
         }
     }
