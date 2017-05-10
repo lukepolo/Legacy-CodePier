@@ -53,7 +53,7 @@ class SiteLanguageSettingsController extends Controller
             ->where('language', $language)
             ->first();
 
-        if(empty($languageSetting)) {
+        if (empty($languageSetting)) {
             $languageSetting = LanguageSetting::create([
                 'setting' => $setting,
                 'language' => $language,
@@ -63,7 +63,7 @@ class SiteLanguageSettingsController extends Controller
         }
 
         $languageSetting->update([
-            'params' => $request->get('params', [])
+            'params' => $request->get('params', []),
         ]);
 
         broadcast(new SiteLanguageSettingUpdated($site, $languageSetting))->toOthers();
