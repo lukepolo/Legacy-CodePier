@@ -2,6 +2,8 @@
 
 namespace App\Jobs\Site;
 
+use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
+use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -92,6 +94,18 @@ class CreateSite implements ShouldQueue
         $this->site->schemas->each(function ($schema) {
             dispatch(
                 (new AddServerSchema($this->server, $schema, $this->makeCommand($this->site, $schema)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
+
+        $this->site->environmentVariables->each(function ($environmentVariable) {
+            dispatch(
+                (new InstallServerEnvironmentVariable($this->server, $environmentVariable, $this->makeCommand($this->site, $environmentVariable)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
+
+        $this->site->languageSettings->each(function ($languageSetting) {
+            dispatch(
+                (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->makeCommand($this->site, $languageSetting)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
