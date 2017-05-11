@@ -24,7 +24,7 @@
                 'teams' => config('app.teams'),
             ]); ?>
         </script>
-        @if(config('app.env') == 'production')
+        @if(config('app.env') == 'production' && \Auth::check())
             <script>
                 window['_fs_debug'] = false;
                 window['_fs_host'] = 'fullstory.com';
