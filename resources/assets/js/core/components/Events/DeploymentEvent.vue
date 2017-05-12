@@ -1,14 +1,14 @@
 <template>
-    <div class="event">
+    <div class="events--item">
         <div
-            class="event-status"
+            class="events--item-status"
             :class="{
-                'event-status-neutral' : event.status == 'Queued',
-                'event-status-success' : event.status == 'Completed',
-                'event-status-error' : event.status == 'Failed',
+                'events--item-status-neutral' : event.status == 'Queued',
+                'events--item-status-success' : event.status == 'Completed',
+                'events--item-status-error' : event.status == 'Failed',
                 'icon-spinner' : event.status == 'Running'
              }"></div>
-        <div class="event-name">
+        <div class="events--item-name">
             <drop-down-event
                     title="Deployment"
                     :event="event"
@@ -24,7 +24,7 @@
                     >
                         <ul>
                             <template v-for="deployment_event in server_deployment.events">
-                                <li :class="{'event-error' : deployment_event.failed }" v-if="deployment_event.step">
+                                <li :class="{'events--item-error' : deployment_event.failed }" v-if="deployment_event.step">
                                     <drop-down-event
                                             :title="deployment_event.step.step + (deployment_event.completed ? ' took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
                                             :event="deployment_event"
@@ -41,19 +41,20 @@
                 </template>
             </drop-down-event>
         </div>
-        <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
-        <div class="event-site">
-            <div class="event-commit">
-                <a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a>
-
-                <confirm dispatch="rollbackSite" confirm_class="btn-link" :params="{ siteDeployment : event.id, site : event.site_id } ">
-                    Rollback
-                </confirm>
-            </div>
+        <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+        <div class="events--item-site">
             <span class="icon-browser"></span>
             {{ getSite(event.site_id, 'name') }}
         </div>
-        <div class="event-time">{{ timeAgo(event.created_at) }}</div>
+
+        <div class="events--item-commit">
+            <a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a>
+
+            <confirm dispatch="rollbackSite" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } ">
+                Rollback
+            </confirm>
+        </div>
+        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
     </div>
 </template>
 

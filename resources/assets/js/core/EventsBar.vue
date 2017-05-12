@@ -1,23 +1,22 @@
 <template>
-    <footer v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
-        <div id="drag"></div>
-        <div class="header">
+    <footer class="events" v-watch-scroll="{ events_pagination : events_pagination, form : form}" v-resizeable>
+        <div id="drag" class="events--drag"></div>
+        <div class="header events--header">
             <h4>
                 <a class="toggle" @click="showEvents = !showEvents">
                     <span class="icon-warning"></span> Events
                 </a>
             </h4>
         </div>
-
-        <div :class="{ 'events-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
+        <div class="events--collapse" :class="{ 'events--collapse-hidden' : !showEvents && windowWidth < 2100 }" id="collapseEvents">
             <ul class="filter">
-                <li>
+                <li class="filter--label">
                     <span>Event Filters</span>
                 </li>
-                <li class="dropdown" ref="piles">
+                <li class="filter--item dropdown" ref="piles">
                     <a href="#" role="button" class="dropdown-toggle" @click="showFilter('piles')">
                         <strong>Pile:</strong>
-                        <span class="filter-selection">
+                        <span class="filter--item-selection">
                             {{ pilesList }}
                         </span>
                         <span class="icon-arrow-up"></span>
@@ -50,9 +49,9 @@
                     </ul>
                 </li>
 
-                <li class="dropdown" ref="sites">
+                <li class="filter--item dropdown" ref="sites">
                     <a href="#" role="button" class="dropdown-toggle" @click="showFilter('sites')">
-                        <strong>Site:</strong> <span class="filter-selection">{{ siteList }}</span> <span class="icon-arrow-up"></span>
+                        <strong>Site:</strong> <span class="filter--item-selection">{{ siteList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -81,9 +80,9 @@
                     </ul>
                 </li>
 
-                <li class="dropdown" ref="servers">
+                <li class="filter--item dropdown" ref="servers">
                     <a href="#" role="button" class="dropdown-toggle" @click="showFilter('servers')">
-                        <strong>Server:</strong> <span class="filter-selection">{{ serverList }}</span> <span class="icon-arrow-up"></span>
+                        <strong>Server:</strong> <span class="filter--item-selection">{{ serverList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -112,9 +111,9 @@
                     </ul>
                 </li>
 
-                <li class="dropdown" ref="types">
+                <li class="filter--item dropdown" ref="types">
                     <a href="#" role="button" class="dropdown-toggle" @click="showFilter('types')">
-                        <strong>Event Type:</strong> <span class="filter-selection">{{ eventList }}</span> <span class="icon-arrow-up"></span>
+                        <strong>Event Type:</strong> <span class="filter--item-selection">{{ eventList }}</span> <span class="icon-arrow-up"></span>
                     </a>
 
                     <ul class="dropdown-menu dropup">
@@ -155,9 +154,9 @@
                 </li>
             </ul>
 
-            <div class="events-container">
+            <div class="events--container">
                 <section v-if="!events">
-                    <div class="event-none">
+                    <div class="event--none">
                         There are no events with these filters.
                     </div>
                 </section>
