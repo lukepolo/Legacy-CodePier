@@ -29,7 +29,7 @@
 
 <script>
     import Pile from './components/Pile.vue';
-    import LeftNav from '../../../core/LeftNav.vue';
+    import LeftNav from '../../core/LeftNav.vue';
 
     export default {
         components: {

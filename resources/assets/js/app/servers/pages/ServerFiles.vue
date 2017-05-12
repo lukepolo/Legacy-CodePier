@@ -8,8 +8,8 @@
 </template>
 
 <script>
-    import ServerFile from './components/ServerFile.vue';
-    import CustomFiles from './components/ServerCustomFiles.vue';
+    import ServerFile from '../components/ServerFile.vue';
+    import CustomFiles from '../components/ServerCustomFiles.vue';
     export default {
         components : {
             ServerFile,

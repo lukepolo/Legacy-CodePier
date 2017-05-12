@@ -57,7 +57,7 @@
 
 <script>
     import LeftNav from '../../core/LeftNav.vue';
-    import ServerHeader from './components/ServerHeader.vue';
+    import ServerHeader from './ServerHeader.vue';
 
     export default {
         components: {
