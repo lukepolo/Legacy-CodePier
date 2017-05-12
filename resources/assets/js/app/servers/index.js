@@ -1,0 +1,12 @@
+export const Servers = require('./pages/Servers.vue')
+export const ServerForm = require('./pages/server/ServerForm.vue')
+export const ServerArea = require('./components/ServerArea.vue')
+export const ServerBuoys = require('./pages/ServerBuoys.vue')
+export const ServerSites = require('./pages/ServerSites.vue')
+export const ServerFiles = require('./pages/ServerFiles.vue')
+export const ServerNav = require('./components/ServerNav.vue')
+export const ServerMonitoring = require('./pages/ServerMonitoring.vue')
+
+export const SecurityNav = require('./components/sub-navs/Security.vue')
+export const ServerSetupNav = require('./components/sub-navs/ServerSetup.vue')
+export const ServerInformationNav = require('./components/sub-navs/ServerInformation.vue')

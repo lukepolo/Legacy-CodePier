@@ -1,6 +1,6 @@
 import admin from './admin/routes'
 import bitts from './bitts/routes'
-import buoy from './buoy/routes'
+import buoys from './buoys/routes'
 import piles from './piles/routes'
 
 import {Piles} from './piles/components/index'
@@ -11,7 +11,7 @@ export default [
 
     ... admin,
     ... bitts,
-    ... buoy,
+    ... buoys,
     ... piles,
 
 

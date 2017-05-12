@@ -144,7 +144,7 @@
 
 <script>
     import LeftNav from '../../core/LeftNav.vue';
-    import ServerFeatures from '../setup/serverFeatures/Form.vue'
+    import ServerFeatures from '../../setup/serverFeatures/Form.vue'
 
     export default {
         components: {
