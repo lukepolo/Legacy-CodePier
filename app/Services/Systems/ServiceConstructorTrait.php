@@ -20,22 +20,22 @@ trait ServiceConstructorTrait
         $this->remoteTaskService = $remoteTaskService;
     }
 
-    private function connectToServer($user = 'root')
+    public function connectToServer($user = 'root')
     {
         $this->remoteTaskService->ssh($this->server);
     }
 
-    private function getErrors()
+    public function getErrors()
     {
         return $this->remoteTaskService->getErrors();
     }
 
-    private function getOutput()
+    public function getOutput()
     {
         return $this->remoteTaskService->getOutput();
     }
 
-    private function addToServiceRestartGroup($group, $command)
+    public function addToServiceRestartGroup($group, $command)
     {
         $serviceGroupFile = '/opt/codepier/'.$group;
         $this->remoteTaskService->appendTextToFile($serviceGroupFile, $command);
@@ -43,21 +43,21 @@ trait ServiceConstructorTrait
         $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
     }
 
-    private function restartWebServices()
+    public function restartWebServices()
     {
         $this->connectToServer();
 
         $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
     }
 
-    private function restartDatabase()
+    public function restartDatabase()
     {
         $this->connectToServer();
 
         $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
     }
 
-    private function restartWorkers()
+    public function restartWorkers()
     {
         $this->connectToServer();
 
