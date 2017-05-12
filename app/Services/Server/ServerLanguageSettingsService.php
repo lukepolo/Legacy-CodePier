@@ -38,16 +38,15 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
                 $this->getLanguageFile('Ubuntu', 'V_16_04', $language, $language.'Settings')
             );
 
-
             $traitMethods = collect();
-            foreach($reflectionClass->getTraits() as $trait) {
-                foreach($trait->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            foreach ($reflectionClass->getTraits() as $trait) {
+                foreach ($trait->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     $traitMethods->push($method->getName());
                 }
             }
 
             foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                if (!$traitMethods->contains($method->name)) {
+                if (! $traitMethods->contains($method->name)) {
                     $languageSettings[$language][] = [
                         'type' => $language,
                         'name' => $method->getName(),
