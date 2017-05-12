@@ -244,7 +244,12 @@ class SiteController extends Controller
         $site = Site::findOrFail($siteId);
 
         $site->public_ssh_key = null;
-        $this->repositoryService->importSshKey($site);
+
+        try {
+            $this->repositoryService->importSshKey($site);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
 
         return response()->json($site);
     }

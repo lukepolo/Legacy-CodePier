@@ -5,7 +5,6 @@ namespace App\Services\Repository\Providers;
 use GuzzleHttp\Client;
 use App\Models\Site\Site;
 use App\Exceptions\DeployHookFailed;
-use Gitlab\Exception\RuntimeException;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 
@@ -13,7 +12,9 @@ class GitLab implements RepositoryContract
 {
     use RepositoryTrait;
 
+    /** @var  Client */
     private $client;
+    private $gitlab_url = 'https://gitlab.com/api/v4';
 
     /**
      * Imports a deploy key so we can clone the repositories.
@@ -25,16 +26,13 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $client = new Client();
-
         try {
-            $client->post('https://gitlab.com/api/v3/user/keys', [
-                'Authorization' => 'Bearer '.$site->userRepositoryProvider->token,
-                'Content-Type' => 'application/json',
-            ], [
-                'title' => $this->sshKeyLabel($site),
-                'key' => $site->public_ssh_key,
-            ])->send();
+            $this->client->post($this->gitlab_url.'/projects/'.$this->getRepository($site)->id.'/deploy_keys', [
+                'form_params' => [
+                    'title' => $this->sshKeyLabel($site),
+                    'key' => $site->public_ssh_key,
+                ]
+            ]);
         } catch (ClientException $e) {
             // They have terrible error codes
             if (str_contains($e->getMessage(), '400')) {
@@ -49,8 +47,13 @@ class GitLab implements RepositoryContract
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        $this->client = new \Gitlab\Client($userRepositoryProvider->repositoryProvider->url.'/api/v3/'); // change here
-        $this->client->authenticate($userRepositoryProvider->token, \Gitlab\Client::AUTH_OAUTH_TOKEN);
+        $this->client = new Client([
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer '.$userRepositoryProvider->token,
+            ]
+        ]);
+
     }
 
     /**
@@ -65,14 +68,31 @@ class GitLab implements RepositoryContract
         $this->setToken($site->userRepositoryProvider);
 
         try {
-            $this->client->api('projects')->show($site->repository);
-        } catch (RuntimeException $e) {
+            $repository = $this->getRepository($site);
+
+            if(!empty($repository)) {
+                return $repository->visibility === 'private';
+            }
+
+        } catch (ClientException $e) {
             if ($e->getCode() == 404) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @param Site $site
+     * @return mixed
+     */
+    public function getRepository(Site $site) {
+
+        $owner = $this->getRepositoryUser($site->repository);
+        $slug = $this->getRepositorySlug($site->repository);
+
+        return json_decode($this->client->get($this->gitlab_url.'/projects/'.urlencode($owner.'/'.$slug))->getBody());
     }
 
     /**
@@ -88,15 +108,17 @@ class GitLab implements RepositoryContract
         $slug = $this->getRepositorySlug($site->repository);
 
         try {
-            $webhook = $this->client->api('projects')->addHook($site->repository, [
-                'push_events' => true,
-                'url' => action('WebHookController@deploy', $site->hash),
-            ]);
+            $webhook = json_decode($this->client->post($this->gitlab_url.'/projects/'.$this->getRepository($site)->id.'/hooks', [
+                'form_params' => [
+                    'push_events' => true,
+                    'url' => action('WebHookController@deploy', $site->hash),
+                ]
+            ])->getBody());
 
-            $site->automatic_deployment_id = $webhook['id'];
+            $site->automatic_deployment_id = $webhook->id;
             $site->save();
-        } catch (RuntimeException $e) {
-            if ($e->getMessage() == '404 Project Not Found') {
+        } catch (ClientException $e) {
+            if ($e->getCode()) {
                 if ($site->private) {
                     throw new DeployHookFailed('We could not create the webhook, please make sure you have access to the repository');
                 }
@@ -116,7 +138,7 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $this->client->api('projects')->removeHook($site->repository, $site->automatic_deployment_id);
+        $this->client->delete($this->gitlab_url . '/projects/' . $this->getRepository($site)->id . '/hooks/' . $site->automatic_deployment_id);
 
         $site->automatic_deployment_id = null;
         $site->save();
