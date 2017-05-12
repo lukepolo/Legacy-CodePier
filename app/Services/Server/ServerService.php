@@ -11,6 +11,7 @@ use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use App\Exceptions\FailedCommand;
 use App\Models\EnvironmentVariable;
 use App\Exceptions\SshConnectionFailed;
@@ -509,5 +510,15 @@ class ServerService implements ServerServiceContract
     {
         $this->remoteTaskService->ssh($server);
         $this->remoteTaskService->removeLineByText('/etc/environment', $environmentVariable->variable);
+    }
+
+    /**
+     * @param Server $server
+     * @param LanguageSetting $languageSetting
+     * @return bool
+     */
+    public function runLanguageSetting(Server $server, LanguageSetting $languageSetting)
+    {
+        $this->getService('Languages\\'.$languageSetting->language.'\\'.$languageSetting->language.'Settings', $server)->{$languageSetting->setting}($languageSetting);
     }
 }

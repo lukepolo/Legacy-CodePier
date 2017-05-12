@@ -13,7 +13,7 @@ class SystemService implements SystemServiceContract
     protected $server;
     protected $remoteTaskService;
 
-    public $provisionSystems = [
+    const PROVISION_SYSTEMS = [
         'ubuntu 16.04' => 'Ubuntu\V_16_04',
     ];
 
@@ -32,6 +32,11 @@ class SystemService implements SystemServiceContract
     const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
     const DEPLOYMENT_SERVICE_GROUP = 'deployment_services';
+
+    const LANGUAGES = [
+        'PHP' => 'Languages\PHP\PHP',
+        'Ruby' => 'Languages\Ruby\Ruby',
+    ];
 
     /**
      * @param RemoteTaskService $remoteTaskService
@@ -113,7 +118,7 @@ class SystemService implements SystemServiceContract
      */
     public function createSystemService($service, Server $server)
     {
-        $service = 'App\Services\Systems\\'.$this->provisionSystems[$server->system_class].'\\'.$service;
+        $service = 'App\Services\Systems\\'.self::PROVISION_SYSTEMS[$server->system_class].'\\'.$service;
 
         return new $service($this->remoteTaskService, ! empty($server) ? $server : $this->server);
     }

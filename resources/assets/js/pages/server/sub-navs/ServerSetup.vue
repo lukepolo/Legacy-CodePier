@@ -32,6 +32,13 @@
                     </a>
                 </router-link>
 
+                <router-link :to="{ name : 'server_language_settings', params : { server_id : serverId } }" tag="li">
+                    <a>
+                        Language Settings
+                        <div class="small">Customize your server to handle bigger uploads etc.</div>
+                    </a>
+                </router-link>
+
                 <router-link :to="{ name : 'server_features', params : { server_id : serverId } }" tag="li">
                     <a>
                         Server Features
