@@ -1,7 +1,7 @@
 <template>
-    <section class="event">
-        <div class="event-status" :class="{'event-status-neutral' : event.status == 'Queued', 'event-status-success' : event.status == 'Completed', 'event-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
-        <div class="event-name">
+    <section class="events--item">
+        <div class="events--item-status" :class="{'events--item-status-neutral' : event.status == 'Queued', 'events--item-status-success' : event.status == 'Completed', 'events--item-status-error' : event.status == 'Failed', 'icon-spinner' : event.status == 'Running'}"></div>
+        <div class="events--item-name">
             <drop-down-event
                     :title="eventTitle"
                     :event="event"
@@ -24,14 +24,16 @@
             </drop-down-event>
         </div>
         <template v-if="event.site_id">
-                <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
-                <div class="event-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
+                <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getSite(event.site_id, 'pile_id'), 'name') }}</div>
+                <div class="events--item-site"><span class="icon-browser"></span> {{ getSite(event.site_id, 'name') }}</div>
+            <div class="events--item-commit"></div>
         </template>
         <template v-else>
-            <div class="event-pile"><span class="icon-layers"></span> {{ getPile(getServer(event.server_id, 'pile_id'), 'name') }}</div>
-            <div class="event-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
+            <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getServer(event.server_id, 'pile_id'), 'name') }}</div>
+            <div class="events--item-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
+            <div class="events--item-commit"></div>
         </template>
-        <div class="event-time">{{ timeAgo(event.created_at) }}</div>
+        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
     </section>
 </template>
 
