@@ -3,7 +3,7 @@
         <h3>Bitts</h3>
         <router-link :to="{ name: 'bitt_create' }">Create Bitt</router-link>
         <div class="group-container">
-            <bitt :bitt="bitt" v-for="bitt in bitts"></bitt>
+            <bitt :bitt="bitt" v-for="bitt in bitts" :key="bitt.id"></bitt>
         </div>
     </section>
 </template>

@@ -17,7 +17,7 @@
                 </form>
             </div>
 
-            <server-file :server="server" :file="file" v-for="file in customServerFiles" :running="isRunningCommandFor(file)"></server-file>
+            <server-file :server="server" :file="file" v-for="file in customServerFiles" :key="file" :running="isRunningCommandFor(file)"></server-file>
         </template>
     </div>
 </template>

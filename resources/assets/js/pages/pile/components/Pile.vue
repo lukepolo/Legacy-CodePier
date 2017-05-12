@@ -24,7 +24,7 @@
             <div class="group--item-content">
                 <h4>Sites</h4>
                 <div class="list">
-                    <router-link class="list--item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites">
+                    <router-link class="list--item" :to="{ name: 'site_repository', params : { site_id : site.id} }" v-for="site in pile.sites" :key="site.id">
                         <div class="list--item-name">
                             {{ site.name }}
                         </div>

@@ -35,6 +35,7 @@
                         v-show="section == serverFeatureArea"
                         :current_selected_features="currentSelectedFeatures"
                         v-on:featuresChanged="updateSelectedFeatures"
+                        :key="serverFeatureArea"
                     ></feature-area>
                     <feature-area
                         :server="server"
@@ -46,6 +47,7 @@
                         v-show="section == serverLanguageArea"
                         :current_selected_features="currentSelectedFeatures"
                         v-on:featuresChanged="updateSelectedFeatures"
+                        :key="serverLanguageArea"
                     ></feature-area>
 
                 </div>

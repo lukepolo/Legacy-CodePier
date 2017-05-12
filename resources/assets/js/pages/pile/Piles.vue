@@ -8,7 +8,7 @@
                     <h1>Welcome. Let's Get Started.</h1>
                     <p class="info">Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.</p>
                     <div class="group">
-                        <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" v-for="(pile, index) in piles"></pile>
+                        <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" :key="pile.id" v-for="(pile, index) in piles"></pile>
                         <div class="group--item">
                             <a @click="newPile()" class="add-pile">
                                 <div class="group--item-content">
