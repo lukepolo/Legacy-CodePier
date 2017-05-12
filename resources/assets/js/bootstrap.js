@@ -12,20 +12,13 @@ require('vue-resource')
 
 window.moment = require('moment-timezone')
 window.moment.tz.setDefault('UTC')
-// window.ace = require('ace-builds')
+window.ace = require('brace')
 
-//     paths.ace + 'mode-sh.js',
-//     paths.ace + 'ext-searchbox.js',
+require('brace/mode/sh');
+require('brace/ext/searchbox');
+require('brace/theme/monokai');
 
-    // .copy(paths.fontawesome + 'fonts', paths.fonts_build)
-    // .copy(paths.jcf_forms + 'dist/img/icons', paths.imgs_build + 'icons')
-    // .scripts([
-
-    //     paths.jcf_forms + '/js/jcf_forms.js',
-    //     paths.jquery_cron + 'jquery-cron-min.js'
-    // ])
-
-
+require('jcf-forms')
 
 Vue.use(VueRouter)
 
