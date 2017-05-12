@@ -94,6 +94,7 @@
                 :features="features"
                 :selected_server_features="selected_server_features"
                 v-for="(features, framework) in getFrameworks(area)"
+                :key="framework"
             >
             </feature-area>
         </template>

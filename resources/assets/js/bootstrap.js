@@ -1,3 +1,5 @@
+window.laroute = require('./laroute')
+window.$ = window.JQuery = require('jquery')
 window._ = require('lodash')
 _.mixin(require("lodash-inflection"))
 
@@ -7,6 +9,23 @@ window.Clipboard = require('clipboard')
 
 window.VueRouter = require('vue-router/dist/vue-router.common.js')
 require('vue-resource')
+
+window.moment = require('moment-timezone')
+window.moment.tz.setDefault('UTC')
+// window.ace = require('ace-builds')
+
+//     paths.ace + 'mode-sh.js',
+//     paths.ace + 'ext-searchbox.js',
+
+    // .copy(paths.fontawesome + 'fonts', paths.fonts_build)
+    // .copy(paths.jcf_forms + 'dist/img/icons', paths.imgs_build + 'icons')
+    // .scripts([
+
+    //     paths.jcf_forms + '/js/jcf_forms.js',
+    //     paths.jquery_cron + 'jquery-cron-min.js'
+    // ])
+
+
 
 Vue.use(VueRouter)
 

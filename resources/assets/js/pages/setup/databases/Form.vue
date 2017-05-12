@@ -1,6 +1,6 @@
 <template>
     <div>
-        <database-section :database="database" v-for="database in databases"></database-section>
+        <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
     </div>
 </template>
 

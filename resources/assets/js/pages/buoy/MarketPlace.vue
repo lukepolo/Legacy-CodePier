@@ -7,7 +7,7 @@
             <!--{{ category.name }}-->
         <!--</p>-->
         <div class="group-container">
-            <buoy-app :buoyApp="buoyApp" v-for="buoyApp in buoyApps"></buoy-app>
+            <buoy-app :buoyApp="buoyApp" v-for="buoyApp in buoyApps" :key="buoyApp.id"></buoy-app>
         </div>
 
     </section>

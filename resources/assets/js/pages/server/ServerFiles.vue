@@ -2,7 +2,7 @@
     <section>
         <custom-files></custom-files>
         <template v-if="possibleFiles && server">
-            <server-file :server="server" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></server-file>
+            <server-file :server="server" :file="file" v-for="file in possibleFiles" :key="file" :running="isRunningCommandFor(file)"></server-file>
         </template>
     </section>
 </template>

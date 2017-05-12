@@ -1,8 +1,9 @@
 <template id="notifications">
     <div class="notifications">
         <notification
-            v-for="notification in notifications"
+            v-for="(notification, index) in notifications"
             :notification="notification"
+            :key="index"
         >
         </notification>
     </div>

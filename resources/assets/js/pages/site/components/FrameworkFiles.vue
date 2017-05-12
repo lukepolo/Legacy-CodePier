@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="possibleFiles && site">
-            <site-file :site="site" :file="file" v-for="file in possibleFiles" :running="isRunningCommandFor(file)"></site-file>
+            <site-file :site="site" :file="file" v-for="file in possibleFiles" :key="file" :running="isRunningCommandFor(file)"></site-file>
         </template>
     </div>
 </template>
