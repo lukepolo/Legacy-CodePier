@@ -4,11 +4,11 @@
  |--------------------------------------------------------------------------
  |
  */
+
 window.Vue = require('vue')
 window.laroute = require('./laroute')
 window.moment = require('moment-timezone')
 window.moment.tz.setDefault('UTC')
-window.VueRouter = require('vue-router/dist/vue-router.common.js')
 
 /*
  |--------------------------------------------------------------------------
@@ -33,27 +33,35 @@ require('brace/theme/monokai');
 
 /*
  |--------------------------------------------------------------------------
- | Vue Setup
+ | Axios Setup
  |--------------------------------------------------------------------------
  |
  */
-Vue.use(VueRouter)
 
 import NProgress from 'nprogress'
 
-Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken)
+window.axios = require('axios')
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-    NProgress.start()
-    next((response) => {
-        if (_.isSet(response.data)) {
-            if (response.data.error === 'Unauthenticated.') {
-                location.reload()
-            }
-        }
-        NProgress.done()
+axios.interceptors.request.use((config) => {
+    NProgress.configure({
+        easing: 'ease',
+        speed: 500,
+        showSpinner: false,
     })
-})
+    NProgress.start()
+    NProgress.inc(0.3)
+    return config
+}, function (error) {
+    return Promise.reject(error)
+});
+
+axios.interceptors.response.use((response) => {
+    NProgress.done()
+    return response
+}, function (error) {
+    return Promise.reject(error)
+});
 
 /*
  |--------------------------------------------------------------------------

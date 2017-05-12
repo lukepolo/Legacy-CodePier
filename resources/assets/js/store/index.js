@@ -2,6 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { action } from './helpers'
+import Form from './../classes/Form'
+import Errors from './../classes/Errors'
+import Request from './../classes/Request'
+
+Vue.use(Vuex)
+Vue.Form = Form
+Vue.Errors = Errors
+Vue.action = action
+Vue.Request = Request
+
+Vue.request = (data) => {
+    return new Request(data)
+}
+
+
+
 import * as UserStore from './modules/user'
 import * as SiteStore from './modules/site'
 import * as ServerStore from './modules/server'
@@ -14,9 +30,7 @@ import BuoyAppsStore from './modules/BuoyAppsStore'
 import CategoriesStore from './modules/CategoriesStore'
 import NotificationStore from './modules/NotificationStore'
 
-Vue.action = action
 
-Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
