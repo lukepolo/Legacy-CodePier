@@ -33,5 +33,8 @@
     "vue-router": "^2.3.0",
     "vuedraggable": "^2.9.0",
     "vuex": "^2.2.1"
+  },
+  "devDependencies": {
+    "purifycss-webpack": "^0.6.2"
   }
 }
