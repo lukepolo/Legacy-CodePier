@@ -62,11 +62,6 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
-Route::group(['domain' => '{account}.myapp.com'], function () {
-    Route::get('user/{id}', function ($account, $id) {
-        //
-    });
-});
 
 /*
 |--------------------------------------------------------------------------
