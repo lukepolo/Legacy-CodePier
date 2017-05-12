@@ -38,7 +38,7 @@ mix
         'lodash-inflection',
     ])
     .autoload({
-        jquery: ['$', 'window.jQuery'],
+        jquery: ['$', 'jQuery'],
         lodash : '_',
         clipboard : 'Clipboard',
         moment : 'moment',
