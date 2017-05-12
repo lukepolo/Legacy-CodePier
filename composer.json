@@ -29,7 +29,6 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "lord/laroute": "^2.4.4",
-        "m4tthumphrey/php-gitlab-api": "^7.15",
         "mpociot/teamwork": "~5.0",
         "pda/pheanstalk": "^3.1",
         "php-http/guzzle6-adapter": "^1.1",
