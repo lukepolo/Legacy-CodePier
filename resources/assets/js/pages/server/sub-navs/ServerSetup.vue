@@ -3,6 +3,13 @@
         <div class="tab-container tab-left">
             <ul class="nav nav-tabs">
 
+                <router-link :to="{ name : 'server_environment_variables', params : { server_id : serverId } }" tag="li" exact>
+                    <a>
+                        Environment Variables
+                        <div class="small">Add environment variables for you applications</div>
+                    </a>
+                </router-link>
+
                 <router-link :to="{ name : 'server_cron_jobs', params : { server_id : serverId } }" tag="li" exact>
                     <a>
                         Cron Jobs
@@ -22,6 +29,13 @@
                     <a>
                         Server Files
                         <div class="small">Customize your server files</div>
+                    </a>
+                </router-link>
+
+                <router-link :to="{ name : 'server_language_settings', params : { server_id : serverId } }" tag="li">
+                    <a>
+                        Language Settings
+                        <div class="small">Customize your server to handle bigger uploads etc.</div>
                     </a>
                 </router-link>
 

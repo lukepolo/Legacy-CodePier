@@ -77,6 +77,8 @@ class SiteObserver
 
     public function updating(Site $site)
     {
+        remove_events($site);
+
         if ($site->isDirty('domain')) {
             dispatch(
                 (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(config('queue.channels.server_commands'))
@@ -88,10 +90,12 @@ class SiteObserver
 
             $tempSite->framework = $site->getOriginal('framework');
 
-            foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
-                foreach ($site->cronJobs as $siteCronJob) {
-                    if ($siteCronJob->job == $cronJob) {
-                        $site->cronJobs()->detach($siteCronJob);
+            if (! empty($tempSite->framework)) {
+                foreach ($this->siteFeatureService->getSuggestedCronJobs($tempSite) as $cronJob) {
+                    foreach ($site->cronJobs as $siteCronJob) {
+                        if ($siteCronJob->job == $cronJob) {
+                            $site->cronJobs()->detach($siteCronJob);
+                        }
                     }
                 }
             }
@@ -107,6 +111,21 @@ class SiteObserver
                 event(new SiteCronJobCreated($site, $cronJob));
             }
         }
+
+        if ($site->isDirty('web_directory')) {
+            foreach ($site->provisionedServers as $server) {
+                dispatch(
+                    (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
+                );
+            }
+        }
+
+        if ($site->isDirty('type') || $site->isDirty('framework')) {
+            $site->deploymentSteps()->delete();
+            $this->siteDeploymentStepsService->saveDefaultSteps($site);
+            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
+            $this->siteFeatureService->saveSuggestedCronJobs($site);
+        }
     }
 
     public function updated(Site $site)
@@ -118,23 +137,6 @@ class SiteObserver
             $site->public_ssh_key = null;
             $site->private_ssh_key = null;
             $site->save();
-        }
-
-        if ($site->isDirty('web_directory')) {
-            foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
-                );
-            }
-        }
-
-        if ($site->repository && $site->deploymentSteps->isEmpty()) {
-            $this->siteDeploymentStepsService->saveDefaultSteps($site);
-            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
-        }
-
-        if ($site->isDirty('framework')) {
-            $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
     }
 

@@ -203,6 +203,17 @@ trait SystemFiles
     }
 
     /**
+     * @param $system
+     * @param $version
+     * @param $language
+     * @return mixed
+     */
+    private function getLanguageFile($system, $version, $language, $file)
+    {
+        return app_path("Services/Systems/$system/$version/Languages/$language/$file.php");
+    }
+
+    /**
      * @param $language
      * @return mixed
      */

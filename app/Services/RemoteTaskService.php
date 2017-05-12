@@ -17,7 +17,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
     private $session;
     private $errors = [];
 
-    private $output = [];
+    private $output = '';
 
     /**
      * @param $command
@@ -43,11 +43,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         try {
-            $output = $this->session->exec('('.rtrim($command, ';').') && echo codepier-done;');
-            if (! str_contains($output, 'codepier-done')) {
-                \Log::info($output);
-                $this->output[] = $output;
-            }
+            $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
         } catch (\ErrorException $e) {
             if ($e->getMessage() == 'Unable to open channel') {
                 \Log::warning('retrying to connect to');
@@ -64,17 +60,19 @@ class RemoteTaskService implements RemoteTaskServiceContract
             }
         }
 
-        \Log::debug($this->session->getExitStatus());
+        $output = $this->cleanOutput($output);
 
-        $output = $this->cleanResponse($output);
+        if (config('app.env') === 'local') {
+            \Log::info($output);
+        }
 
         if (! empty($output)) {
-            $this->output[] = $output;
+            $this->output .= $output."\n";
         }
 
         if ($this->session->getExitStatus() != 0) {
-            \Log::warning('Error while running Command '.$command);
-            \Log::error($output);
+            \Log::critical('Error while running Command '.$command);
+            \Log::critical($output);
 
             $this->errors[] = $output;
 
@@ -82,6 +80,17 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         return $output;
+    }
+
+    /**
+     * @param $file
+     * @param $string
+     *
+     * @return bool
+     */
+    public function doesFileHaveLine($file, $string)
+    {
+        return filter_var($this->run("grep -R \"$string\" \"$file\" | wc -l"), FILTER_VALIDATE_INT) > 1;
     }
 
     /**
@@ -180,6 +189,10 @@ echo \"Wrote\"", $read);
      */
     public function updateText($file, $text, $replaceWithText)
     {
+        if (! $this->doesFileHaveLine($file, $text)) {
+            \Log::critical($file.' does not contain'.$text);
+        }
+
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
 
@@ -189,7 +202,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $file
-     * @return string
+     * @return bool
      */
     public function hasFile($file)
     {
@@ -199,7 +212,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $directory
-     * @return string
+     * @return bool
      */
     public function hasDirectory($directory)
     {
@@ -269,14 +282,14 @@ echo \"Wrote\"", $read);
      */
     public function getOutput()
     {
-        return array_filter($this->output);
+        return $this->output;
     }
 
     /**
      * @param $response
      * @return string
      */
-    private function cleanResponse($response)
+    private function cleanOutput($response)
     {
         return trim(str_replace('codepier-done', '', $response));
     }

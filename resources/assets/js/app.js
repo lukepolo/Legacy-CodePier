@@ -334,6 +334,15 @@ const router = new VueRouter({
                 },
                 {
                     path: 'setup',
+                    name: 'server_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/cron-jobs',
                     name: 'server_cron_jobs',
                     components: {
                         default: setupPages.CronJobs,
@@ -355,6 +364,15 @@ const router = new VueRouter({
                     name: 'server_files',
                     components: {
                         default: serverPages.ServerFiles,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'setup/language-settings',
+                    name: 'server_language_settings',
+                    components: {
+                        default: setupPages.LanguageSettings,
                         nav: serverPages.ServerNav,
                         subNav: serverPages.ServerSetupNav
                     }
@@ -439,6 +457,15 @@ const router = new VueRouter({
                 },
                 {
                     path: 'server-setup',
+                    name: 'site_environment_variables',
+                    components: {
+                        default: setupPages.EnvironmentVariables,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/cron-jobs',
                     name: 'site_cron_jobs',
                     components: {
                         default: setupPages.CronJobs,
@@ -460,6 +487,15 @@ const router = new VueRouter({
                     name: 'site_server_files',
                     components: {
                         default: sitePages.SiteServerFiles,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/language-settings',
+                    name: 'site_language_settings',
+                    components: {
+                        default: setupPages.LanguageSettings,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }

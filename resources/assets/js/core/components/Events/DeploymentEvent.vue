@@ -24,7 +24,7 @@
                     >
                         <ul>
                             <template v-for="deployment_event in server_deployment.events">
-                                <li :class="{'events--item-error' : deployment_event.failed }">
+                                <li :class="{'events--item-error' : deployment_event.failed }" v-if="deployment_event.step">
                                     <drop-down-event
                                             :title="deployment_event.step.step + (deployment_event.completed ? ' took ' + formatSeconds(deployment_event.runtime) + ' seconds' : '')"
                                             :event="deployment_event"
@@ -72,14 +72,15 @@
                 return 'https://'+ repositoryProvider.url + '/' + site.repository + '/'+repositoryProvider.commit_url+'/' + event.git_commit;
             },
             filterArray(data) {
-                if (Array.isArray(data)) {
-                    return _.reject(
-                        _.reject(data, _.isEmpty),
-                        _.isNull
-                    )
+
+                if (!Array.isArray(data)) {
+                    data = [data]
                 }
 
-                return [];
+                return _.reject(
+                    _.reject(data, _.isEmpty),
+                    _.isNull
+                )
             },
             formatSeconds(number) {
                 let seconds = parseFloat(number).toFixed(2);

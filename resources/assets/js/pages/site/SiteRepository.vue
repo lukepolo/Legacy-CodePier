@@ -81,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="jcf-input-group">
+                <div class="jcf-input-group" v-if="form.type">
                     <tooltip message="By selecting a framework, we customize the options surrounding your app" size="medium">
                         <span class="fa fa-info-circle"></span>
                     </tooltip>
@@ -89,9 +89,7 @@
                     <div class="select-wrap">
                         <select v-model="form.framework" name="framework">
                             <option value="">None</option>
-                            <optgroup :label="language" v-for="(features, language) in availableLanguages">
-                                <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
-                            </optgroup>
+                            <option v-for="(features, framework) in availableFrameworks[form.type]" :value="form.type+'.'+framework"> {{ framework }}</option>
                         </select>
                     </div>
                 </div>

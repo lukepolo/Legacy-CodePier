@@ -15,6 +15,7 @@ use App\Events\Site\DeploymentStepStarted;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Services\DeploymentServices\PHP\PHP;
+use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
@@ -27,6 +28,7 @@ class SiteService implements SiteServiceContract
 
     public $deploymentServices = [
         'php' => PHP::class,
+        'ruby' => Ruby::class,
     ];
 
     /**
@@ -140,9 +142,9 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
-                event(new DeploymentStepCompleted($site, $server, $event, $event->step, $deploymentStepResult, microtime(true) - $start));
+                event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, [$e->getMessage()]));
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }
         }

@@ -12,12 +12,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\Server\Schemas\AddServerSchema;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
+use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Jobs\Server\Workers\InstallServerWorker;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
+use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 
 class CreateSite implements ShouldQueue
 {
@@ -79,7 +81,7 @@ class CreateSite implements ShouldQueue
 
         $this->site->sslCertificates->each(function ($sslCertificate) {
             dispatch(
-                (new InstallServerSslCertificate($this->server, $this->site, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
@@ -92,6 +94,18 @@ class CreateSite implements ShouldQueue
         $this->site->schemas->each(function ($schema) {
             dispatch(
                 (new AddServerSchema($this->server, $schema, $this->makeCommand($this->site, $schema)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
+
+        $this->site->environmentVariables->each(function ($environmentVariable) {
+            dispatch(
+                (new InstallServerEnvironmentVariable($this->server, $environmentVariable, $this->makeCommand($this->site, $environmentVariable)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
+
+        $this->site->languageSettings->each(function ($languageSetting) {
+            dispatch(
+                (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->makeCommand($this->site, $languageSetting)))->onQueue(config('queue.channels.server_commands'))
             );
         });
 

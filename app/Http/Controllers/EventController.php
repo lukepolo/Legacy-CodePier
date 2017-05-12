@@ -14,8 +14,10 @@ use App\Models\SchemaUser;
 use App\Models\FirewallRule;
 use Illuminate\Http\Request;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\EnvironmentVariable;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -37,6 +39,8 @@ class EventController extends Controller
             SchemaUser::class,
             FirewallRule::class,
             SslCertificate::class,
+            LanguageSetting::class,
+            EnvironmentVariable::class,
         ],
         self::SITE_DEPLOYMENTS => [
             SiteDeployment::class,
