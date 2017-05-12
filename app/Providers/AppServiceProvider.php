@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Server\ServerService;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -68,6 +69,10 @@ class AppServiceProvider extends ServiceProvider
                 'PHP',
                 'Ruby',
             ])->contains($value);
+        });
+
+        Validator::extend('valid_server_type', function ($attribute, $value) {
+            return collect(ServerService::SERVER_TYPES)->contains($value);
         });
 
         UserLoginProvider::updating(function ($provider) {
