@@ -5587,8 +5587,8 @@ button[disabled=disabled] {
   text-align: center;
   border-top: 1px solid #2B2B2B;
   background-color: transparent;
-  margin: 40px -40px -40px;
-  padding: 20px 40px;
+  margin: 20px 0px 0px;
+  padding: 20px;
 }
 
 .btn-container {
@@ -5678,13 +5678,11 @@ a.item:hover:before {
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
   border: 1px solid #323334;
   margin: 20px;
-  padding: 20px;
 }
 
 .group--item-heading {
   background-color: #505254;
   border-bottom: 1px solid #3a3d3f;
-  margin: -20px -20px 20px;
   padding: 20px;
   position: relative;
 }
@@ -5722,15 +5720,45 @@ a.item:hover:before {
   right: 15px;
 }
 
+.group--item-subheading {
+  display: -webkit-box;
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid #2B2B2B;
+}
+
+.group--item-subheading-info {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  font-weight: 400;
+}
+
+.group--item-subheading-info:last-child {
+  text-align: right;
+}
+
 .group--item-content {
   -webkit-box-flex: 1;
   flex: 1 0 100px;
   position: relative;
+  padding: 20px;
 }
 
-.group--item .btn-footer {
-  margin: 20px -20px -20px;
-  padding: 20px;
+.group--item-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  margin: -10px 10px -10px -5px;
+}
+
+.group--item-img img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
 }
 
 .group--item .add-pile {
@@ -5741,8 +5769,6 @@ a.item:hover:before {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
-  margin: -20px;
-  padding: 20px;
 }
 
 .group--item .add-pile .icon-layers {
@@ -6558,8 +6584,8 @@ textarea:focus {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("/assets/img/icons/icomoon.eot?gx80it");
-  src: url("/assets/img/icons/icomoon.eot?gx80it#iefix") format("embedded-opentype"), url("/assets/img/icons/icomoon.ttf?gx80it") format("truetype"), url("/assets/img/icons/icomoon.woff?gx80it") format("woff"), url("/assets/img/icons/icomoon.svg?gx80it#icomoon") format("svg");
+  src: url("/assets/img/icons/icomoon/fonts/icomoon.eot?gx80it");
+  src: url("/assets/img/icons/icomoon/fonts/icomoon.eot?gx80it#iefix") format("embedded-opentype"), url("/assets/img/icons/icomoon/fonts/icomoon.ttf?gx80it") format("truetype"), url("/assets/img/icons/icomoon/fonts/icomoon.woff?gx80it") format("woff"), url("/assets/img/icons/icomoon/fonts/icomoon.svg?gx80it#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
