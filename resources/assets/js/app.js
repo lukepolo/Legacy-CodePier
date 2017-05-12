@@ -369,6 +369,15 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: 'setup/language-settings',
+                    name: 'server_language_settings',
+                    components: {
+                        default: setupPages.LanguageSettings,
+                        nav: serverPages.ServerNav,
+                        subNav: serverPages.ServerSetupNav
+                    }
+                },
+                {
                     path: 'setup/features',
                     name: 'server_features',
                     components: {
@@ -478,6 +487,15 @@ const router = new VueRouter({
                     name: 'site_server_files',
                     components: {
                         default: sitePages.SiteServerFiles,
+                        nav: sitePages.SiteNav,
+                        subNav: sitePages.ServerSetupNav
+                    }
+                },
+                {
+                    path: 'server-setup/language-settings',
+                    name: 'site_language_settings',
+                    components: {
+                        default: setupPages.LanguageSettings,
                         nav: sitePages.SiteNav,
                         subNav: sitePages.ServerSetupNav
                     }

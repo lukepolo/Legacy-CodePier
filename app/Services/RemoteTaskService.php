@@ -84,6 +84,17 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
     /**
      * @param $file
+     * @param $string
+     *
+     * @return bool
+     */
+    public function doesFileHaveLine($file, $string)
+    {
+        return filter_var($this->run("grep -R \"$string\" \"$file\" | wc -l"), FILTER_VALIDATE_INT) > 1;
+    }
+
+    /**
+     * @param $file
      * @param $contents
      * @param bool $read
      *
@@ -178,6 +189,10 @@ echo \"Wrote\"", $read);
      */
     public function updateText($file, $text, $replaceWithText)
     {
+        if (! $this->doesFileHaveLine($file, $text)) {
+            \Log::critical($file.' does not contain'.$text);
+        }
+
         $text = $this->cleanRegex($text);
         $replaceWithText = $this->cleanText($replaceWithText);
 
@@ -187,7 +202,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $file
-     * @return string
+     * @return bool
      */
     public function hasFile($file)
     {
@@ -197,7 +212,7 @@ echo \"Wrote\"", $read);
     /**
      * Checks to see if the server has the file.
      * @param $directory
-     * @return string
+     * @return bool
      */
     public function hasDirectory($directory)
     {
