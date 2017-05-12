@@ -47,4 +47,8 @@ class PublicController extends Controller
 
         return back()->cookie('registered_for_beta', true);
     }
+
+    public function styleGuide() {
+        return view('style-guide.index');
+    }
 }
