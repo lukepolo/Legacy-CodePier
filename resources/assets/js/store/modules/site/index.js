@@ -7,3 +7,5 @@ export const cronJobs = require('./SiteCronJobStore').default
 export const firewallRules = require('./SiteFirewallStore').default
 export const serversFeatures = require('./SiteServerFeatureStore').default
 export const sslCertificates = require('./SiteSslCertificateStore').default
+export const languageSettings = require('./SiteLanguageSettingStore').default
+export const environmentVariables = require('./SiteEnvironmentVariablesStore').default

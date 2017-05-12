@@ -259,17 +259,20 @@ export default {
             state.running_commands = Object.keys(commands).length > 0 ? commands : {}
         },
         UPDATE_COMMAND: (state, command) => {
-            const commandKey = _.findKey(state.running_commands[command.commandable_type], { id: command.id })
+
+            const commandKey = _.findKey(state.running_commands[command.commandable_type], { id: parseInt(command.id) })
 
             if (commandKey) {
-                return Vue.set(state.running_commands[command.commandable_type], commandKey, command)
+                Vue.set(state.running_commands[command.commandable_type], parseInt(commandKey), command)
+            } else {
+
+                if (!state.running_commands[command.commandable_type]) {
+                    Vue.set(state.running_commands, command.commandable_type, [])
+                }
+
+                state.running_commands[command.commandable_type].push(command)
             }
 
-            if (!state.running_commands[command.commandable_type]) {
-                Vue.set(state.running_commands, command.commandable_type, [])
-            }
-
-            state.running_commands[command.commandable_type].push(command)
         },
         REMOVE_SERVER: (state, server) => {
             Vue.set(state, 'servers', _.reject(state.servers, { id: server }))

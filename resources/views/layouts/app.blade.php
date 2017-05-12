@@ -8,17 +8,20 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/assets/img/favicon/manifest.json">
+        <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#48acf0">
+        <link rel="shortcut icon" href="/assets/img/favicon/favicon.ico">
+        <meta name="msapplication-config" content="/assets/img/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+
         <title>CodePier</title>
 
         <!-- Styles -->
         <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
-
-        @if(env('APP_ENV') == 'production')
-            <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
-            <script>
-                Raven.config('{{ env('SENTRY_JS') }}').install()
-            </script>
-        @endif
 
         <!-- Scripts -->
         <script>
@@ -31,6 +34,30 @@
                 'teams' => config('app.teams'),
             ]); ?>
         </script>
+        @if(config('app.env') == 'production' && \Auth::check())
+            <script>
+                window['_fs_debug'] = false;
+                window['_fs_host'] = 'fullstory.com';
+                window['_fs_org'] = '4GYB9';
+                window['_fs_namespace'] = 'FS';
+                (function(m,n,e,t,l,o,g,y){
+                    if (e in m && m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].'); return;}
+                    g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
+                    o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+                    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+                    g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};
+                    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+                    g.clearUserCookie=function(c,d,i){if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')){
+                        d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+
+                            ';path=/;expires='+new Date(0).toUTCString();i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}};
+                })(window,document,window['_fs_namespace'],'script','user');
+
+                FS.identify('{{ auth()->user()->id }}', {
+                    displayName: '{{ auth()->user()->name }}',
+                    email: '{{ auth()->user()->email }}',
+                });
+            </script>
+        @endif
     </head>
     <body>
         <div id="app-layout">
@@ -51,7 +78,7 @@
         <script src="{{ elixir('js/all.js') }}"></script>
 
         <script type="text/javascript">
-            moment.tz.setDefault("UTC");
+            moment.tz.setDefault("UTC")
         </script>
 
         @stack('scripts')

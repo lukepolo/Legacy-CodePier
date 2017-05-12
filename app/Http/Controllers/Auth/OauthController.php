@@ -16,7 +16,6 @@ use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
 use App\Models\Server\Provider\ServerProvider;
-use Bitbucket\API\Http\Listener\OAuthListener;
 
 class OauthController extends Controller
 {
@@ -152,47 +151,11 @@ class OauthController extends Controller
      */
     public function createUser($user, UserLoginProvider $userLoginProvider)
     {
-        switch ($userLoginProvider->provider) {
-            case self::BITBUCKET:
-
-                $oauth_params = [
-                    'oauth_token'           => $user->token,
-                    'oauth_token_secret'    => $user->tokenSecret,
-                    'oauth_consumer_key'    => config('services.bitbucket.client_id'),
-                    'oauth_consumer_secret' => config('services.bitbucket.client_secret'),
-                    'oauth_callback'        => config('services.bitbucket.redirect'),
-                ];
-
-                $users = new Users();
-
-                $users->getClient()->addListener(
-                    new OAuthListener($oauth_params)
-                );
-
-                // now you can access protected endpoints as consumer owner
-                $response = $users->emails()->all($user->id);
-
-                if ($response->getStatusCode() != '200') {
-                    throw new \Exception('Unable to get email from Bitbucket API');
-                }
-
-                $email = collect(json_decode($response->getContent(), true))->first(function ($email) {
-                    return $email['primary'];
-                })['email'];
-
-                break;
-            default:
-                $email = $user->getEmail();
-                break;
-        }
-
-        $userModel = User::create([
-            'email'                  => $email,
+        return User::create([
+            'email'                  => $user->getEmail(),
             'name'                   => empty($user->getName()) ? $user->getEmail() : $user->getName(),
             'user_login_provider_id' => $userLoginProvider->id,
         ]);
-
-        return $userModel;
     }
 
     /**
@@ -309,6 +272,10 @@ class OauthController extends Controller
                 $token = $user->accessTokenResponseBody['access_token'];
                 $refreshToken = $user->accessTokenResponseBody['refresh_token'];
                 $expiresIn = $user->accessTokenResponseBody['expires_in'];
+                break;
+            default:
+                // TODO - other server providers
+                dd($user);
                 break;
         }
 

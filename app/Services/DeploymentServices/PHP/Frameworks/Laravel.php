@@ -13,12 +13,9 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
-        $output = [];
         if ($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+            return $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
-
-        return $output;
     }
 
     /**
@@ -47,54 +44,46 @@ trait Laravel
      */
     public function laravelMapStorageFolderToPublic()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan storage:link');
     }
 
     /**
      * @description Runs the migrations
      *
      * @order 210
-     *
-     * @return [
      */
     public function laravelRunMigrations()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan migrate --force --no-interaction');
     }
 
     /**
      * @description Caches the Laravel Routes
      *
      * @order 310
-     *
-     * @return [
      */
     public function laravelCacheRoutes()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan route:cache');
     }
 
     /**
      * @description Caches Laravel Configs
      *
      * @order 320
-     *
-     * @return [
      */
     public function laravelCacheConfig()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan config:cache');
     }
 
     /**
      * @description Restarts any queue workers
      *
      * @order 410
-     *
-     * @return [
      */
     public function laravelRestartWorkers()
     {
-        return [$this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart')];
+        return $this->remoteTaskService->run('cd '.$this->release.'; php artisan queue:restart');
     }
 }

@@ -17,7 +17,10 @@ use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
+use App\Models\EnvironmentVariable;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -155,6 +158,16 @@ class Server extends Model
         return $this->morphToMany(Schema::class, 'schemable');
     }
 
+    public function environmentVariables()
+    {
+        return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
+    }
+
+    public function languageSettings()
+    {
+        return $this->morphToMany(LanguageSetting::class, 'language_settingable');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
@@ -177,6 +190,24 @@ class Server extends Model
         }
 
         return collect($features);
+    }
+
+    public function getLanguages()
+    {
+        $hasLanguages = [];
+
+        foreach (SystemService::LANGUAGES as $language => $languageClass) {
+            if (isset($this->server_features[$languageClass])) {
+                if (isset($this->server_features[$languageClass][$language]['enabled'])) {
+                    $hasLanguages[$language] = [
+                        'class' => $languageClass,
+                        'version' => $this->server_features[$languageClass][$language]['parameters']['version'],
+                    ];
+                }
+            }
+        }
+
+        return collect($hasLanguages);
     }
 
     public function encode()
