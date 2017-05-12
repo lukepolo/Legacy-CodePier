@@ -14,6 +14,7 @@ use App\Models\SchemaUser;
 use App\Models\FirewallRule;
 use Illuminate\Http\Request;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\EnvironmentVariable;
@@ -38,6 +39,7 @@ class EventController extends Controller
             SchemaUser::class,
             FirewallRule::class,
             SslCertificate::class,
+            LanguageSetting::class,
             EnvironmentVariable::class,
         ],
         self::SITE_DEPLOYMENTS => [

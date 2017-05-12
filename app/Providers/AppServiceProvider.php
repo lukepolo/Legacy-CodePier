@@ -63,6 +63,13 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
         });
 
+        Validator::extend('valid_language_type', function ($attribute, $value) {
+            return collect([
+                'PHP',
+                'Ruby',
+            ])->contains($value);
+        });
+
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);

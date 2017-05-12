@@ -13,7 +13,7 @@ class SystemSeeder extends Seeder
     {
         /** @var \App\Services\Systems\SystemService $systemService */
         $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
-        foreach ($systemService->provisionSystems as $system => $systemClass) {
+        foreach (\App\Services\Systems\SystemService::PROVISION_SYSTEMS as $system => $systemClass) {
             \App\Models\System::firstOrCreate([
                 'name' => ucwords($system),
             ]);

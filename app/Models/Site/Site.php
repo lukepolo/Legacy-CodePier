@@ -17,6 +17,7 @@ use App\Models\FirewallRule;
 use App\Models\SlackChannel;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
+use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
@@ -158,6 +159,11 @@ class Site extends Model
     public function environmentVariables()
     {
         return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
+    }
+
+    public function languageSettings()
+    {
+        return $this->morphToMany(LanguageSetting::class, 'language_settingable');
     }
 
     /*

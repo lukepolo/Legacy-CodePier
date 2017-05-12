@@ -44,6 +44,7 @@ export default new Vuex.Store({
         siteFirewallRulesStore: SiteStore.firewallRules,
         siteServersFeaturesStore: SiteStore.serversFeatures,
         siteSslCertificatesStore: SiteStore.sslCertificates,
+        siteLanguageSettingsStore : SiteStore.languageSettings,
         siteEnvironmentVariablesStore : SiteStore.environmentVariables,
 
         serversStore: ServerStore.server,
@@ -57,6 +58,7 @@ export default new Vuex.Store({
         serverServicesStore: ServerStore.services,
         serverProvidersStore: ServerStore.providers,
         serverSslCertificatesStore: ServerStore.sslCertificates,
+        serverLanguageSettingsStore : ServerStore.languageSettings,
         serverEnvironmentVariablesStore : ServerStore.environmentVariables,
 
     }
