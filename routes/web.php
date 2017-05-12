@@ -62,7 +62,6 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
-
 /*
 |--------------------------------------------------------------------------
 | Style Guide Routes
