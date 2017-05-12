@@ -62,7 +62,6 @@ class Deploy implements ShouldQueue
         try {
             $siteService->deploy($this->server, $this->site, $this->serverDeployment, $this->oldSiteDeployment);
         } catch (\Exception $e) {
-
             \Log::error($e);
 
             $message = $e->getMessage();
