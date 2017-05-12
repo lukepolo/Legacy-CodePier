@@ -82,6 +82,7 @@ class ServerController extends Controller
             'pile_id' => $pileId,
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
+            'type' => $request->get('type', \App\Services\Server\ServerService::SERVER_TYPES['Full Stack'])
         ]);
 
         if (! empty($site)) {

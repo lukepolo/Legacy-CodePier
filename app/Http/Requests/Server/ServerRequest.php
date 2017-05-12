@@ -31,6 +31,7 @@ class ServerRequest extends FormRequest
             'server_option' => 'required_without:custom|integer',
             'pile_id' => 'required_without:site',
             'site' => 'integer',
+            'type' => 'valid_server_type'
         ];
     }
 }
