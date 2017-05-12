@@ -5296,8 +5296,8 @@ button[disabled=disabled] {
   text-align: center;
   border-top: 1px solid #B6B6B6;
   background-color: transparent;
-  margin: 40px -40px -40px;
-  padding: 20px 40px;
+  margin: 20px 0px 0px;
+  padding: 20px;
 }
 
 .btn-container {
