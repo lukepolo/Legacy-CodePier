@@ -12,7 +12,7 @@ class GitLab implements RepositoryContract
 {
     use RepositoryTrait;
 
-    /** @var  Client */
+    /** @var Client */
     private $client;
     private $gitlab_url = 'https://gitlab.com/api/v4';
 
@@ -31,7 +31,7 @@ class GitLab implements RepositoryContract
                 'form_params' => [
                     'title' => $this->sshKeyLabel($site),
                     'key' => $site->public_ssh_key,
-                ]
+                ],
             ]);
         } catch (ClientException $e) {
             // They have terrible error codes
@@ -51,9 +51,8 @@ class GitLab implements RepositoryContract
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer '.$userRepositoryProvider->token,
-            ]
+            ],
         ]);
-
     }
 
     /**
@@ -70,10 +69,9 @@ class GitLab implements RepositoryContract
         try {
             $repository = $this->getRepository($site);
 
-            if(!empty($repository)) {
+            if (! empty($repository)) {
                 return $repository->visibility === 'private';
             }
-
         } catch (ClientException $e) {
             if ($e->getCode() == 404) {
                 return true;
@@ -87,8 +85,8 @@ class GitLab implements RepositoryContract
      * @param Site $site
      * @return mixed
      */
-    public function getRepository(Site $site) {
-
+    public function getRepository(Site $site)
+    {
         $owner = $this->getRepositoryUser($site->repository);
         $slug = $this->getRepositorySlug($site->repository);
 
@@ -112,7 +110,7 @@ class GitLab implements RepositoryContract
                 'form_params' => [
                     'push_events' => true,
                     'url' => action('WebHookController@deploy', $site->hash),
-                ]
+                ],
             ])->getBody());
 
             $site->automatic_deployment_id = $webhook->id;
@@ -138,7 +136,7 @@ class GitLab implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        $this->client->delete($this->gitlab_url . '/projects/' . $this->getRepository($site)->id . '/hooks/' . $site->automatic_deployment_id);
+        $this->client->delete($this->gitlab_url.'/projects/'.$this->getRepository($site)->id.'/hooks/'.$site->automatic_deployment_id);
 
         $site->automatic_deployment_id = null;
         $site->save();
