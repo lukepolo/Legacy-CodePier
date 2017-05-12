@@ -62,9 +62,26 @@ Route::group(['prefix' => 'webhook'], function () {
 */
 Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')->name('teams.accept_invite');
 
+Route::group(['domain' => '{account}.myapp.com'], function () {
+    Route::get('user/{id}', function ($account, $id) {
+        //
+    });
+});
+
 /*
 |--------------------------------------------------------------------------
-| Catch All Route
+| Style Guide Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::group(['domain' => 'style-guide.codepier.dev'], function () {
+    Route::get('/', 'PublicController@styleGuide');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
 |--------------------------------------------------------------------------
 |
 */
@@ -73,6 +90,13 @@ Route::get('/', 'Controller@app');
 Route::get('/privacy', 'PublicController@privacy');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
+
+/*
+|--------------------------------------------------------------------------
+| App Routes
+|--------------------------------------------------------------------------
+|
+*/
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
