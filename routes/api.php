@@ -173,7 +173,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.network', 'ServerNetworkRuleController');
             Route::resource('servers.firewall', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
+            Route::resource('servers.language-settings', 'ServerLanguageSettingsController');
             Route::resource('servers.environment-variables', 'ServerEnvironmentVariablesController');
+            Route::get('server/{server}/language-settings', 'ServerLanguageSettingsController@getLanguageSettings');
         });
 
         /*
@@ -213,7 +215,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::resource('sites.server-features', 'SiteServerFeaturesController');
             Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
+            Route::resource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::resource('sites.environment-variables', 'SiteEnvironmentVariablesController');
+            Route::get('site/{site}/language-settings', 'SiteLanguageSettingsController@getLanguageSettings');
         });
     });
 

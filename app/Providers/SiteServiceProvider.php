@@ -8,7 +8,9 @@ use App\Services\Site\SiteFeatureService;
 use App\Contracts\Site\SiteServiceContract;
 use App\Services\Site\SiteDeploymentStepsService;
 use App\Contracts\Site\SiteFeatureServiceContract;
+use App\Services\Site\SiteLanguageSettingsService;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract;
+use App\Contracts\Site\SiteLanguageSettingsServiceContract;
 
 class SiteServiceProvider extends ServiceProvider
 {
@@ -40,6 +42,11 @@ class SiteServiceProvider extends ServiceProvider
             SiteDeploymentStepsServiceContract::class,
             SiteDeploymentStepsService::class
         );
+
+        $this->app->bind(
+            SiteLanguageSettingsServiceContract::class,
+            SiteLanguageSettingsService::class
+        );
     }
 
     /**
@@ -53,6 +60,7 @@ class SiteServiceProvider extends ServiceProvider
             SiteServiceContract::class,
             SiteFeatureServiceContract::class,
             SiteDeploymentStepsServiceContract::class,
+            SiteLanguageSettingsServiceContract::class,
         ];
     }
 }
