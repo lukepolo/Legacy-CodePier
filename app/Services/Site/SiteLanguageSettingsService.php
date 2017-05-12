@@ -38,14 +38,14 @@ class SiteLanguageSettingsService implements SiteLanguageSettingsServiceContract
         );
 
         $traitMethods = collect();
-        foreach($reflectionClass->getTraits() as $trait) {
-            foreach($trait->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflectionClass->getTraits() as $trait) {
+            foreach ($trait->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 $traitMethods->push($method->getName());
             }
         }
 
         foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if (!$traitMethods->contains($method->name)) {
+            if (! $traitMethods->contains($method->name)) {
                 $languageSettings[$site->type][] = [
                     'type' => $site->type,
                     'name' => $method->getName(),
