@@ -247,7 +247,7 @@ class SiteController extends Controller
 
         try {
             $this->repositoryService->importSshKey($site);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
 
