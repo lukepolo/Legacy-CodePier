@@ -1,135 +1,123 @@
 // EVENT STYLES ============================================
 // =========================================================
-#collapseEvents {
+.events {
   border-top: 2px solid rgba($white, .2);
 
-  .dropdown {
-    position: initial;
+  &--drag {
+
   }
 
-  .dropup {
-    bottom: calc(100% - 42px);
+  &--header {
 
-    &:after {
-      content: '';
-      width: 10px;
-      height: 10px;
-      border: 10px solid mix($gray, $black, 50%);
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-bottom: none;
-      position: absolute;
-      left: 10%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      z-index: 2;
-    }
+  }
 
-    &:before {
-      content: '';
-      width: 10px;
-      height: 10px;
-      border: 10px solid rgba(0, 0, 0, .4);
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-bottom: none;
-      position: absolute;
-      left: 10%;
-      transform: translateX(-50%);
-      bottom: -11px;
-      z-index: 2;
+  &--collapse {
+    overflow-y: scroll;
+    transition: height .5s;
+    height: 30vh;
+
+    &-hidden {
+      height: 0px !important;
+      transition: height .5s;
+      overflow: hidden;
     }
   }
 
-  &.in {
+  &--container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     flex-grow: 1;
     flex-shrink: 1;
+    border-top: 1px solid rgba($white, .1);
+  }
+
+
+  // EVENTS ITEM ---------------------------------------------
+  // ---------------------------------------------------------
+  &--item {
     display: flex;
-    flex-direction: column;
+    padding: ($spacing/2) $spacing;
+    border-bottom: 1px solid rgba($white, .1);
+
+    // EVENTS ITEM STATUS
+    &-status {
+      flex: 0 0 auto;
+      margin-right: $spacing;
+
+
+      &-neutral {
+        @include status(null);
+      }
+
+      &-success {
+        @include status(success);
+      }
+
+      &-error {
+        @include status(error);
+      }
+
+      &-warning {
+        @include status(warning);
+      }
+    }
+
+    // EVENTS ITEM FIELDS
+    &-name {
+      flex: 1 1 auto;
+    }
+
+    &-pile {
+      flex: 0 0 15%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: $spacing;
+    }
+
+    &-commit {
+      flex: 0 0 130px;
+
+      // Rollback Text
+      .confirm-container {
+        margin: 0px 0px 0px 10px;
+      }
+
+      .btn-small {
+        margin: -5px 0px;
+        text-transform: none;
+      }
+    }
+
+    &-site {
+      flex: 0 0 20%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: $spacing;
+    }
+
+    &-time {
+      flex: 0 0 130px;
+      text-align: right;
+    }
+
+    // EVENTS ITEM EXPAND / COLLAPSE ARROW
+    [data-toggle="collapse"]:not(.collapsed) .icon-play {
+      display: block;
+      transform: rotate(90deg);
+      position: relative;
+      left: -4px;
+      top: 2px;
+    }
   }
 }
 
-.events-container {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  flex-grow: 1;
-  flex-shrink: 1;
-  border-top: 1px solid rgba($white, .1);
-
-}
-
-.event {
-  display: flex;
-  padding: ($spacing/2) $spacing;
-  border-bottom: 1px solid rgba($white, .1);
-}
-
-.event-status {
-  flex: 0 0 auto;
-  margin-right: $spacing;
-
-  &.event-status-neutral {
-    @include status(null);
-  }
-
-  &.event-status-success {
-    @include status(success);
-  }
-
-  &.event-status-error {
-    @include status(error);
-  }
-
-  &.event-status-warning {
-    @include status(warning);
-  }
-}
-
-.event-name {
-  flex: 1 1 auto;
-}
-
-.event-pile {
-  flex: 0 0 15%;
-}
-
-.event-site {
-  flex: 0 0 15%;
-}
-
-.event-time {
-  flex: 0 0 130px;
-  text-align: right;
-}
-
-.event-none {
-  text-align: center;
-  padding: $spacing;
-}
-
-.event-commit {
-  padding: 0px ($spacing/2);
-  display: inline-block;
-  float: right;
-
-  .confirm-container {
-    margin: 0px 0px 0px 10px;
-  }
-}
-
-//a:first-child:not(.collapsed) {
-[data-toggle="collapse"]:not(.collapsed) .icon-play {
-  display: block;
-  transform: rotate(90deg);
-  position: relative;
-  left: -4px;
-  top: 2px;
-}
 
 
-// EVENT DETAILS -------------------------------------------
+// EVENTS ITEM DETAILS -------------------------------------
 // ---------------------------------------------------------
-.event-details {
+.events--item-details {
   margin-left: $spacing;
 
   // can't do margin-top -- makes collapse jump
@@ -156,21 +144,22 @@
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-
+    overflow: auto;
+    color: $yellow;
   }
 
   .icon-spinner {
     margin-right: $spacing;
   }
+
+  .events--item-error {
+    pre {
+      color: $red;
+    }
+  }
 }
 
-.event-details pre {
-  color: $yellow;
-}
 
-.event-details .event-error  pre {
-  color: $red;
-}
 
 // DRAGGING STYLES -----------------------------------------
 // ---------------------------------------------------------
@@ -184,27 +173,38 @@
 }
 
 #collapseEvents {
-  overflow-y: scroll;
-  transition: height .5s;
-
-  height: 30vh;
-  @include breakpoint(xl) {
-    height : 100%;
-  }
-  &.events-hidden {
-    height: 0px !important;
-    transition: height .5s;
-    overflow: hidden;
-  }
-
   &.dragging {
     transition: all 0s;
   }
 }
 
 
-.event-site {
-  flex: 0 0 20%;
 
-  p {margin: 0px}
+// XL SCREEN STYLES ----------------------------------------
+// ---------------------------------------------------------
+@include breakpoint(xl) {
+  .events {
+
+    &--collapse {
+      height: 100%;
+    }
+
+    &--item {
+      flex-wrap: wrap;
+
+      &-name {
+        flex: 1 1 90%;
+        margin-bottom: 5px;
+      }
+
+      &-pile {
+        flex: 1 1 15%;
+        margin-left: 55px;
+      }
+
+      &-site {
+        flex: 1 1 15%;
+      }
+    }
+  }
 }
