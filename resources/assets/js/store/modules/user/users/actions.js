@@ -1,19 +1,13 @@
 export const get = ({}, data) => {
-    return Vue.request(data).get('')
-}
-
-export const show = ({}, data) => {
-    return Vue.request(data).get('')
-}
-
-export const store = ({}, data) => {
-    return Vue.request(data).post('')
+    return Vue.request(data).get(
+        Vue.action('User\UserController@index'),
+        'set'
+    )
 }
 
 export const update = ({}, data) => {
-    return Vue.request(data).patch('')
-}
-
-export const destroy = ({}, data) => {
-    return Vue.request(data).delete('')
+    return Vue.request(data).patch(
+        Vue.action('User\UserController@update', { user : data.user }),
+        'set'
+    )
 }
