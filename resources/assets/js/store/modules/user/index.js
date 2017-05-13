@@ -1,5 +1,5 @@
 export const user = require('./UserStore').default
-export const teams = require('./UserTeamStore').default
-export const sshKeys = require('./UserSshKeyStore').default
-export const subscriptions = require('./UserSubscriptionStore').default
-export const notifications = require('./UserNotificationStore').default
+export const teams = require('./teams/UserTeamStore').default
+export const sshKeys = require('./ssh-keys/UserSshKeyStore').default
+export const subscriptions = require('./subscription/UserSubscriptionStore').default
+export const notifications = require('./notifications/UserNotificationStore').default
