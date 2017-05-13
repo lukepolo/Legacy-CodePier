@@ -16,8 +16,6 @@ Vue.request = (data) => {
     return new Request(data)
 }
 
-
-
 import * as UserStore from './modules/user'
 import * as SiteStore from './modules/site'
 import * as ServerStore from './modules/server'
@@ -29,8 +27,6 @@ import SystemsStore from './modules/SystemsStore'
 import BuoyAppsStore from './modules/BuoyAppsStore'
 import CategoriesStore from './modules/CategoriesStore'
 import NotificationStore from './modules/NotificationStore'
-
-
 
 export default new Vuex.Store({
     modules: {

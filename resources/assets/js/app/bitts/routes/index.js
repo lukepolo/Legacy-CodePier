@@ -1,8 +1,11 @@
 import {
-    BittsArea,
     BittsForm,
-    BittInstall,
     BittsMarketPlace,
+} from '../pages'
+
+import {
+    BittsArea,
+    BittInstall,
 } from '../components'
 
 export default [

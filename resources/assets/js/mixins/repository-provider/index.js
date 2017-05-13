@@ -1,4 +1,4 @@
-export const getRepositoryProvider = (providerId, attribute) => {
+export const getRepositoryProvider = function(providerId, attribute) {
     const provider = _.find(this.$store.state.userStore.repository_providers, { id: providerId })
     if (provider) {
         if (attribute) {

@@ -1,8 +1,11 @@
 import {
     BuoyForm,
-    AdminArea,
     Categories,
     CategoryForm,
+} from '../pages'
+
+import {
+    AdminArea
 } from '../components'
 
 export default [

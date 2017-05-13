@@ -1,4 +1,3 @@
+export const Bitt = require('./Bitt.vue')
 export const BittsArea = require('./BittsArea.vue')
-export const BittsForm = require('../pages/bitt/Form.vue')
-export const BittInstall = require('../pages/bitt/Install.vue')
-export const BittsMarketPlace = require('../pages/market-place/BittsMarketPlace.vue')
+export const BittInstall = require('./Install.vue')

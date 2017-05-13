@@ -1,4 +1,4 @@
-export const showError = (message, title, timeout) => {
+export const showError = function(message, title, timeout) {
     if (timeout === undefined) {
         timeout = 5000
     }
@@ -10,7 +10,7 @@ export const showError = (message, title, timeout) => {
         timeout: timeout
     })
 }
-export const showSuccess = (message, title, timeout) => {
+export const showSuccess = function(message, title, timeout) {
     if (timeout === undefined) {
         timeout = 5000
     }
@@ -23,7 +23,7 @@ export const showSuccess = (message, title, timeout) => {
     })
 }
 
-export const handleApiError = (response) => {
+export const handleApiError = function(response) {
     let message = response
 
     if (_.isObject(response)) {
