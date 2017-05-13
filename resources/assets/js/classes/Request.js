@@ -150,6 +150,10 @@ class Request {
 
                 })
                 .catch(error => {
+
+
+                    // TODO - handle errors here
+                    // app.handleApiError(errors)
                     if(error.response) {
                         this.onFail(error.response.data)
                         reject(error.response.data)

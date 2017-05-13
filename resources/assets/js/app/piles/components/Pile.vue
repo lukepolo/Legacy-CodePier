@@ -105,6 +105,7 @@
         },
         created() {
             if(this.pile.id) {
+                alert('is this her?e')
                 this.$store.dispatch('getPileSites', this.pile.id)
             }
         }
