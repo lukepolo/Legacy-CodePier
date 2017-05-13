@@ -1,9 +1,9 @@
-export const set = (state, {response, requestData}) => {
-
+export const set = (state, {response}) => {
+    state.site = response
 }
 
-export const setAll = (state, {response, requestData}) => {
-
+export const setAll = (state, {response}) => {
+    state.sites = response
 }
 
 export const add = (state, {response, requestData}) => {

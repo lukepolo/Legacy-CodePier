@@ -57565,24 +57565,30 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listen", function() { return listen; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
-    _objectDestructuringEmpty(_ref);
+var get = function get(_ref) {
+    var dispatch = _ref.dispatch;
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteController@index'), 'user_sites/setAll').then(function (sites) {
+        _.each(sites, function (site) {
+            console.info(site);
+            dispatch('listen', site);
+        });
+    });
 };
 
-var show = function show(_ref2, data) {
+var show = function show(_ref2, site) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteController@show', { site: site }), 'user_sites/set');
 };
 
 var store = function store(_ref3, data) {
@@ -57603,12 +57609,87 @@ var destroy = function destroy(_ref5, data) {
     return Vue.request(data).delete('');
 };
 
-/***/ }),
+var listen = function listen(_ref6, site) {
+    var commit = _ref6.commit,
+        state = _ref6.state,
+        dispatch = _ref6.dispatch;
 
-/***/ "./resources/assets/js/store/modules/user/sites/sites/getters.js":
-/***/ (function(module, exports) {
-
-
+    console.info('listen to ' + site.id);
+    // if (_.indexOf(state.sites_listening_to, site.id) === -1) {
+    //     commit('SET_SITES_LISTENING_TO', site)
+    //     Echo.private('App.Models.Site.Site.' + site.id)
+    //         .listen('Site\\DeploymentStepStarted', (data) => {
+    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+    //         })
+    //         .listen('Site\\DeploymentStepCompleted', (data) => {
+    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+    //         })
+    //         .listen('Site\\DeploymentStepFailed', (data) => {
+    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+    //         })
+    //         .listen('Site\\DeploymentCompleted', (data) => {
+    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+    //         })
+    //         .notification((notification) => {
+    //             if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
+    //                 dispatch('getDeployment', {
+    //                     site :  notification.siteDeployment.site_id,
+    //                     deployment : notification.siteDeployment.id,
+    //                 })
+    //             }
+    //         })
+    // }
+};
+//     createSite: ({ commit, dispatch, rootState }, data) => {
+//     return Vue.http.post(Vue.action('Site\SiteController@store'), {
+//         domain: data.domain,
+//         domainless: data.domainless,
+//         pile_id: rootState.userStore.user.current_pile_id
+//     }).then((response) => {
+//         commit('ADD_SITE', response.data)
+//         dispatch('listenToSite', response.data)
+//         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
+//         return response.data
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     updateSite: ({ commit }, data) => {
+//     Vue.http.put(Vue.action('Site\SiteController@update', { site: data.site_id }), data.data).then((response) => {
+//         commit('SET_SITE', response.data)
+//         app.showSuccess('You have updated the site')
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     deleteSite: ({ commit, rootState }, siteId) => {
+//     Vue.http.delete(Vue.action('Site\SiteController@destroy', { site: siteId })).then(() => {
+//         commit('DELETE_SITE', siteId)
+//         commit('REMOVE_SITE_FROM_PILE', {
+//             site: siteId,
+//             pile: rootState.userStore.user.current_pile_id
+//         })
+//         app.$router.push('/')
+//         app.showSuccess('You have deleted the site')
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -57617,20 +57698,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -57647,28 +57724,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+    var response = _ref.response;
+
+    state.site = response;
 };
 
 var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+    var response = _ref2.response;
+
+    state.sites = response;
 };
 
 var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+    var response = _ref3.response,
+        requestData = _ref3.requestData;
 };
 
 var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    var response = _ref4.response,
+        requestData = _ref4.requestData;
 };
 
 var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+    var response = _ref5.response,
+        requestData = _ref5.requestData;
 };
 
 /***/ }),
@@ -57677,7 +57756,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    sites: []
+});
 
 /***/ }),
 
