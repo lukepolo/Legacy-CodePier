@@ -3385,7 +3385,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        this.$store.dispatch('getPiles');
+        this.$store.dispatch('piles/get');
         this.$store.dispatch('getTeams');
     }
 });
@@ -6281,6 +6281,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         if (this.pile.id) {
+            alert('is this her?e');
             this.$store.dispatch('getPileSites', this.pile.id);
         }
     }
@@ -52579,6 +52580,14 @@ __webpack_require__("./node_modules/brace/theme/monokai.js");
 window.axios = __webpack_require__("./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
 axios.interceptors.request.use(function (config) {
     __WEBPACK_IMPORTED_MODULE_0_nprogress___default.a.configure({
         easing: 'ease',
@@ -52964,6 +52973,9 @@ var Request = function () {
 
                     resolve(response.data);
                 }).catch(function (error) {
+
+                    // TODO - handle errors here
+                    // app.handleApiError(errors)
                     if (error.response) {
                         _this.onFail(error.response.data);
                         reject(error.response.data);
@@ -53378,9 +53390,9 @@ var getFormData = function getFormData(form) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     now: __WEBPACK_IMPORTED_MODULE_5__date_time__["a" /* now */],
-    back: __WEBPACK_IMPORTED_MODULE_3__routes__["a" /* back */],
+    back: __WEBPACK_IMPORTED_MODULE_3__routes__["b" /* back */],
     local: __WEBPACK_IMPORTED_MODULE_7__environment__["a" /* local */],
-    action: __WEBPACK_IMPORTED_MODULE_3__routes__["b" /* action */],
+    action: __WEBPACK_IMPORTED_MODULE_3__routes__["a" /* action */],
     getPile: __WEBPACK_IMPORTED_MODULE_1__pile__["a" /* getPile */],
     getSite: __WEBPACK_IMPORTED_MODULE_2__site__["a" /* getSite */],
     timeAgo: __WEBPACK_IMPORTED_MODULE_5__date_time__["b" /* timeAgo */],
@@ -53518,8 +53530,8 @@ var getRepositoryProvider = function getRepositoryProvider(providerId, attribute
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return back; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return action; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return back; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return action; });
 var back = function back() {
     window.history.back();
 };
@@ -53625,8 +53637,10 @@ var router = new VueRouter({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Form__ = __webpack_require__("./resources/assets/js/classes/Form.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__classes_Errors__ = __webpack_require__("./resources/assets/js/classes/Errors.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__classes_Request__ = __webpack_require__("./resources/assets/js/classes/Request.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules__ = __webpack_require__("./resources/assets/js/store/modules/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_routes__ = __webpack_require__("./resources/assets/js/mixins/routes/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__classes_Request__ = __webpack_require__("./resources/assets/js/classes/Request.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules__ = __webpack_require__("./resources/assets/js/store/modules/index.js");
+
 
 
 
@@ -53637,14 +53651,15 @@ var router = new VueRouter({
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.Form = __WEBPACK_IMPORTED_MODULE_2__classes_Form__["a" /* default */];
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.Errors = __WEBPACK_IMPORTED_MODULE_3__classes_Errors__["a" /* default */];
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.Request = __WEBPACK_IMPORTED_MODULE_4__classes_Request__["a" /* default */];
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.Request = __WEBPACK_IMPORTED_MODULE_5__classes_Request__["a" /* default */];
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.action = __WEBPACK_IMPORTED_MODULE_4__mixins_routes__["a" /* action */];
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.request = function (data) {
-    return new __WEBPACK_IMPORTED_MODULE_4__classes_Request__["a" /* default */](data);
+    return new __WEBPACK_IMPORTED_MODULE_5__classes_Request__["a" /* default */](data);
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-    modules: __WEBPACK_IMPORTED_MODULE_5__modules__["a" /* default */]
+    modules: __WEBPACK_IMPORTED_MODULE_6__modules__["a" /* default */]
 }));
 
 /***/ }),
@@ -54379,40 +54394,59 @@ var remove = function remove(state, _ref5) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePile", function() { return changePile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sites", function() { return sites; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref, data) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    // TODO - why not get all the piles?
+    // Vue.action('Pile\PileController@allPiles', 'setAll')
+    return Vue.request(data).get(Vue.action('Pile\PileController@index'), 'setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Pile\PileController@store'), 'add');
 };
 
-var store = function store(_ref3, data) {
+var update = function update(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).patch(Vue.action('Pile\PileController@update', { pile: data.pile }), 'update');
 };
 
-var update = function update(_ref4, data) {
+var destroy = function destroy(_ref4, data) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(data).patch('');
+    return Vue.request(data).delete(Vue.action('Pile\PileController@destroy', { pile: data.pile }), 'destroy');
 };
 
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
+var changePile = function changePile(_ref5, pile) {
+    var dispatch = _ref5.dispatch;
 
-    return Vue.request(data).delete('');
+    Vue.request({
+        pile: pile
+    }).post('Pile\PileController@changePile', 'SET_USER').then(function () {
+
+        dispatch('getSites');
+        dispatch('getServers');
+
+        if (app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
+            app.$router.push('/');
+        }
+    });
+};
+
+var sites = function sites(_ref6, pile) {
+    _objectDestructuringEmpty(_ref6);
+
+    Vue.request().get(Vue.action('Pile\PileSitesController@index', { pile: pile }), 'setPileSites');
 };
 
 /***/ }),
@@ -54452,36 +54486,60 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeTemp", function() { return removeTemp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setPileSites", function() { return setPileSites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFromPileSites", function() { return removeFromPileSites; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.piles = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.piles.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+var update = function update(state, _ref3) {
+    var response = _ref3.response;
+
+    Vue.set(state.piles, parseInt(_.findKey(state.piles, {
+        id: pile.id
+    })), response);
 };
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+var remove = function remove(state, _ref4) {
+    var requestData = _ref4.requestData;
+
+    Vue.set(state, 'piles', _.reject(state.piles, {
+        id: requestData.pile
+    }));
 };
 
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+var removeTemp = function removeTemp(state, index) {
+    state.piles.splice(index, 1);
 };
+
+var setPileSites = function setPileSites(state, _ref5) {
+    var response = _ref5.response,
+        requestData = _ref5.requestData;
+
+    Vue.set(state.pile_sites, requestData.pile, response);
+};
+
+var removeFromPileSites = function removeFromPileSites(state, _ref6) {
+    var requestData = _ref6.requestData;
+
+    alert('remove site from pile');
+    // Vue.set(state.pile_sites, requestData.pile, requestData.site)
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -54489,7 +54547,11 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    piles: [],
+    pile_sites: {},
+    all_user_piles: [] // TODO - i dont think i want this
+});
 
 /***/ }),
 

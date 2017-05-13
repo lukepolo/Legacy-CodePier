@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Form from './../classes/Form'
 import Errors from './../classes/Errors'
+import {action} from './../mixins/routes'
 import Request from './../classes/Request'
 import { default as modules } from './modules'
 
@@ -10,6 +11,7 @@ Vue.Form = Form
 Vue.Errors = Errors
 Vue.Request = Request
 
+Vue.action = action
 Vue.request = (data) => {
     return new Request(data)
 }

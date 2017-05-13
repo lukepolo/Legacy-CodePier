@@ -182,7 +182,7 @@
             }
         },
         created() {
-            this.$store.dispatch('getPiles');
+            this.$store.dispatch('piles/get');
             this.$store.dispatch('getTeams');
         }
     }
