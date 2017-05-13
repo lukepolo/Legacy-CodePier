@@ -105,7 +105,7 @@
         },
         created() {
             if(this.pile.id) {
-                this.$store.dispatch('piles/sites', this.pile.id)
+                this.$store.dispatch('user_piles/sites', this.pile.id)
             }
         }
     }

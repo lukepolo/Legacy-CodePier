@@ -138,7 +138,7 @@
         methods: {
             fetchData() {
                 this.$store.dispatch('getRepositoryProviders')
-                this.$store.dispatch('getUserRepositoryProviders')
+                this.$store.dispatch('user_repository_providers/get')
                 this.$store.dispatch('getSite', this.$route.params.site_id)
                 this.$store.dispatch('getServerAvailableFrameworks')
                 this.$store.dispatch('getServerAvailableLanguages')

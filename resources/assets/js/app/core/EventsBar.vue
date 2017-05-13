@@ -239,7 +239,7 @@
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
                             form.page = nextPage;
                             $('#events-loading').removeClass('hide')
-                            app.$store.dispatch('getEvents', form).then((data) => {
+                            app.$store.dispatch('events/get', form).then((data) => {
                                 $('#events-loading').addClass('hide')
                             });
                         }
@@ -299,12 +299,12 @@
                 filterList.toggleClass('open').find('.dropdown-menu').css('left', filterList.position().left)
             },
             fetchData() {
-                this.$store.dispatch('getEvents');
-                this.$store.dispatch('getAllUserPiles'); // todo - rename
-                this.$store.dispatch('getAllSites');
-                this.$store.dispatch('getAllServers');
+                this.$store.dispatch('events/get');
+//                this.$store.dispatch('getAllUserPiles'); // todo - rename
+                this.$store.dispatch('user_sites/get');
+                this.$store.dispatch('user_servers/get');
 
-                this.$store.dispatch('getRepositoryProviders');
+                this.$store.dispatch('repository_providers/get');
 
             },
             updateFilters() {
@@ -312,7 +312,7 @@
                 this.form.page = 1;
 
                 this.prev_filters = _.cloneDeep(this.form.filters);
-                this.$store.dispatch('getEvents', this.form);
+                this.$store.dispatch('events/get', this.form);
             },
             renderType(type) {
                 let title = type.substring(type.lastIndexOf('\\') + 1);
@@ -391,10 +391,10 @@
                 return this.$store.state.user_piles.all_user_piles;
             },
             sites() {
-                return this.$store.state.sitesStore.all_sites;
+                return this.$store.state.user_sites.all_sites;
             },
             servers() {
-                return this.$store.state.serversStore.all_servers;
+                return this.$store.state.user_servers.all_servers;
             },
 
             events() {
