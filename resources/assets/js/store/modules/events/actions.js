@@ -13,10 +13,11 @@ export const get = ({}, data) => {
         }, _.isEmpty)
     )
 
-    return Vue.request(filters).get(
-        Vue.action('EventController@store'),
-        'events/setAll'
-    )
+    console.warn('events endpoint not working correctly')
+    // return Vue.request(filters).get(
+    //     Vue.action('EventController@store'),
+    //     'events/setAll'
+    // )
 }
 
 export const setVersion = ({commit}, data) => {

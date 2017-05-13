@@ -4,6 +4,7 @@ import events from './events'
 import system from './system'
 import categories from './admin/categories'
 import notifications from './notifications'
+import repository_providers from './repository-providers'
 
 import user from './user/user'
 import user_ssh_keys from './user/ssh-keys'
@@ -21,6 +22,7 @@ import user_site_schemas from './user/sites/schemas'
 import user_site_ssh_keys from './user/sites/ssh-keys'
 import user_site_cron_jobs from './user/sites/cron-jobs'
 import user_site_firewalls from './user/sites/firewalls'
+import user_repository_providers from './user/repository-providers'
 import user_site_server_features from './user/sites/server-features'
 import user_site_ssl_certificates from './user/sites/ssl-certificates'
 import user_site_language_settings from './user/sites/language-settings'
@@ -47,6 +49,7 @@ export default {
     system,
     categories,
     notifications,
+    repository_providers,
 
     user,
     user_ssh_keys,
@@ -64,6 +67,7 @@ export default {
     user_site_ssh_keys,
     user_site_cron_jobs,
     user_site_firewalls,
+    user_repository_providers,
     user_site_server_features,
     user_site_ssl_certificates,
     user_site_language_settings,
