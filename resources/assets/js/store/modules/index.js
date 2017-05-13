@@ -16,12 +16,14 @@ import user_team_members from './user/teams/members'
 
 import user_piles from './user/piles'
 import user_sites from './user/sites/sites'
+import user_commands from './user/commands'
 import user_site_files from './user/sites/files'
 import user_site_workers from './user/sites/workers'
 import user_site_schemas from './user/sites/schemas'
 import user_site_ssh_keys from './user/sites/ssh-keys'
 import user_site_cron_jobs from './user/sites/cron-jobs'
 import user_site_firewalls from './user/sites/firewalls'
+import user_sites_deployments from './user/sites/deployments'
 import user_repository_providers from './user/repository-providers'
 import user_site_server_features from './user/sites/server-features'
 import user_site_ssl_certificates from './user/sites/ssl-certificates'
@@ -61,12 +63,14 @@ export default {
 
     user_piles,
     user_sites,
+    user_commands,
     user_site_files,
     user_site_workers,
     user_site_schemas,
     user_site_ssh_keys,
     user_site_cron_jobs,
     user_site_firewalls,
+    user_sites_deployments,
     user_repository_providers,
     user_site_server_features,
     user_site_ssl_certificates,

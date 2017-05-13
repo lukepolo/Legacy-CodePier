@@ -1,5 +1,8 @@
-export const get = ({}, data) => {
-    return Vue.request(data).get('')
+export const get = ({}) => {
+    return Vue.request().get(
+        Vue.action('User\UserController@getRunningCommands'),
+        'user_commands/setAll'
+    )
 }
 
 export const show = ({}, data) => {
@@ -18,6 +21,4 @@ export const destroy = ({}, data) => {
     return Vue.request(data).delete('')
 }
 
-export const setVersion = ({commit}, data) => {
-    commit('system/setVersion', data.version)
-}
+

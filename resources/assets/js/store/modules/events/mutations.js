@@ -6,10 +6,6 @@ export const setAll = (state, {response}) => {
     state.events_pagination = response
 }
 
-export const setVersion = (state, version) => {
-    state.version = version
-}
-
 export const clear = (state) => {
     state.events = []
     state.events_pagination = null

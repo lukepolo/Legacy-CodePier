@@ -210,13 +210,7 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        getRunningDeployments: ({ commit }) => {
-            Vue.http.get(Vue.action('User\UserController@getRunningDeployments')).then((response) => {
-                commit('SET_RUNNING_DEPLOYMENTS', response.data)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
+
         deploySite: ({}, site) => {
             Vue.http.post(Vue.action('Site\SiteController@deploy', { site: site })).then((response) => {
                 app.showSuccess('Your site deployment has been queued.')
@@ -305,9 +299,7 @@ export default {
                 Vue.set(server, 'stats', data.stats)
             }
         },
-        SET_RUNNING_DEPLOYMENTS: (state, deployments) => {
-            state.running_deployments = Object.keys(deployments).length > 0 ? deployments : {}
-        },
+
         UPDATE_RUNNING_SITE_DEPLOYMENT: (state, event) => {
             if (!state.running_deployments[event.site_deployment.site_id]) {
                 Vue.set(state.running_deployments, event.site_deployment.site_id, [])

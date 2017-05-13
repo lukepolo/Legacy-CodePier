@@ -20,10 +20,6 @@ export const get = ({}, data) => {
     // )
 }
 
-export const setVersion = ({commit}, data) => {
-    commit('events/setVersion', data.version)
-}
-
 //
 // ADD_NEW_SITE_DEPLOYMENT: (state, deployment) => {
 //     state.events.unshift(deployment)
