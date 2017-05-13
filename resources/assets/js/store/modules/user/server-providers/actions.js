@@ -1,7 +1,7 @@
 export const get = ({}, user) => {
     return Vue.request().get(
         Vue.action('User\Providers\UserServerProviderController@index', { user: user }),
-        'setAll'
+        'user_server_providers/setAll'
     )
 }
 
@@ -11,6 +11,6 @@ export const destroy = ({}, data) => {
             user: data.user,
             server_provider: data.server_provider
         }),
-        'remove'
+        'user_server_providers/remove'
     )
 }

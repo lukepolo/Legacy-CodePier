@@ -190,10 +190,10 @@
                 return site;
             },
             repository_providers() {
-                return this.$store.state.userStore.repository_providers
+                return this.$store.state.user.repository_providers
             },
             user_repository_providers() {
-                return this.$store.state.userStore.user_repository_providers
+                return this.$store.state.user.user_repository_providers
             },
             availableLanguages() {
                 return this.$store.state.serversStore.available_server_languages

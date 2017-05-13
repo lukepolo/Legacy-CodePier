@@ -57,7 +57,7 @@
         },
         computed: {
             user() {
-                return this.$store.state.userStore.user;
+                return this.$store.state.user.user;
             }
         },
         methods: {

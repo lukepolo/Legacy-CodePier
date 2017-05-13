@@ -1,7 +1,7 @@
 export const get = ({}, team) => {
     return Vue.request().get(
         Vue.action('User\Team\UserTeamMemberController@show', { team: team }),
-        'setAll'
+        'user_team_members/setAll'
     )
 }
 
@@ -11,14 +11,14 @@ export const destroy = ({}, data) => {
             team: data.team,
             member: data.member,
         }),
-        'remove'
+        'user_team_members/remove'
     )
 }
 
 export const sendInvite = ({}, data) => {
     return Vue.request(data).post(
         Vue.action('User\Team\UserTeamMemberController@invite'),
-        'add'
+        'user_team_members/add'
     )
 }
 

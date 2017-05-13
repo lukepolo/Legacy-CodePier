@@ -199,7 +199,7 @@
         },
         computed: {
             pile() {
-                return this.$store.state.userStore.user.current_pile_id
+                return this.$store.state.user.user.current_pile_id
             },
             siteId() {
                 return this.$route.params.site_id
@@ -214,7 +214,7 @@
                 return this.$store.state.serverProvidersStore.server_providers
             },
             user_server_providers() {
-                return this.$store.state.userStore.user_server_providers
+                return this.$store.state.user.user_server_providers
             },
             server_provider_features() {
                 return this.$store.state.serverProvidersStore.server_provider_features

@@ -41,7 +41,7 @@
         },
         computed: {
             piles() {
-                return this.$store.state.pilesStore.piles;
+                return this.$store.state.user_piles.piles;
             }
         },
         methods: {
@@ -49,7 +49,7 @@
                 this.$store.commit('REMOVE_TEMP_PILE', index)
             },
             newPile() {
-                this.$store.state.pilesStore.piles.push({
+                this.$store.state.user_piles.piles.push({
                     name: null,
                     editing: true
                 });

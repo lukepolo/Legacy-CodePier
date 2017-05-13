@@ -21,7 +21,7 @@
                 return this.$store.state.serverProvidersStore.server_providers;
             },
             user_server_providers() {
-                return this.$store.state.userStore.user_server_providers;
+                return this.$store.state.user.user_server_providers;
             }
         },
         methods: {
@@ -34,14 +34,14 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserServerProvider', {
-                    user_id: this.$store.state.userStore.user.id,
+                    user_id: this.$store.state.user.user.id,
                     user_server_provider_id: user_server_provider_id
                 });
             }
         },
         mounted() {
             this.$store.dispatch('getServerProviders');
-            this.$store.dispatch('getUserServerProviders', this.$store.state.userStore.user.id);
+            this.$store.dispatch('getUserServerProviders', this.$store.state.user.user.id);
         },
     }
 </script>
