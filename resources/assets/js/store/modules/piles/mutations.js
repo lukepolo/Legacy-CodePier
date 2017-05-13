@@ -10,7 +10,7 @@ export const update = (state, {response}) => {
     Vue.set(state.piles,
         parseInt(
             _.findKey(state.piles, {
-                id : pile.id
+                id : response.id
             })
         ),
         response

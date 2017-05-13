@@ -183,7 +183,7 @@
         },
         created() {
             this.$store.dispatch('piles/get');
-            this.$store.dispatch('getTeams');
+            this.$store.dispatch('teams/get');
         }
     }
 </script>
