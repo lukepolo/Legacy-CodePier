@@ -3125,7 +3125,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.$store.dispatch('user_sites/get');
-        this.$store.dispatch('getUserSshKeys');
+        this.$store.dispatch('user_ssh_keys/get');
         this.$store.dispatch('getUserRepositoryProviders', this.$store.state.user.user.id);
     },
     data: function data() {
@@ -11143,7 +11143,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         fetchData: function fetchData() {
-            this.$store.dispatch('getUserSshKeys');
+            this.$store.dispatch('user_ssh_keys/get');
         },
         createSshkey: function createSshkey() {
             var _this = this;
@@ -57669,40 +57669,26 @@ var remove = function remove(state, _ref5) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('UserUserSshKeyController@index'), 'setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('UserUserSshKeyController@store'), 'add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
+    return Vue.request(data).delete(Vue.action('UserUserSshKeyController@destroy', { ssh_key: data.ssh_key }), 'remove');
 };
 
 /***/ }),
@@ -57742,36 +57728,30 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.ssh_keys = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.ssh_keys.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'ssh_keys', _.reject(state.ssh_keys, {
+        id: requestData.ssh_key
+    }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -57779,7 +57759,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    ssh_keys: []
+});
 
 /***/ }),
 
