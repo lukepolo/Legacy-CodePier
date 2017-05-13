@@ -4,7 +4,6 @@ export default {
         server: null,
         all_servers: [],
         server_sites: [],
-        running_commands: {},
         trashed_servers: [],
         provisioned_servers: [],
         servers_listening_to: [],
@@ -179,13 +178,7 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        getRunningCommands: ({ commit }) => {
-            Vue.http.get(Vue.action('User\UserController@getRunningCommands')).then((response) => {
-                commit('SET_RUNNING_COMMANDS', response.data)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
+
         getServerFeatures: ({ commit }, server) => {
             Vue.http.get(Vue.action('Server\ServerFeatureController@index', { server: server })).then((response) => {
                 commit('SET_SERVER_INSTALLED_FEATURES', response.data)
@@ -254,25 +247,6 @@ export default {
         },
         SET_SERVERS_LISTENING_TO: (state, server) => {
             state.servers_listening_to.push(server.id)
-        },
-        SET_RUNNING_COMMANDS: (state, commands) => {
-            state.running_commands = Object.keys(commands).length > 0 ? commands : {}
-        },
-        UPDATE_COMMAND: (state, command) => {
-
-            const commandKey = _.findKey(state.running_commands[command.commandable_type], { id: parseInt(command.id) })
-
-            if (commandKey) {
-                Vue.set(state.running_commands[command.commandable_type], parseInt(commandKey), command)
-            } else {
-
-                if (!state.running_commands[command.commandable_type]) {
-                    Vue.set(state.running_commands, command.commandable_type, [])
-                }
-
-                state.running_commands[command.commandable_type].push(command)
-            }
-
         },
         REMOVE_SERVER: (state, server) => {
             Vue.set(state, 'servers', _.reject(state.servers, { id: server }))

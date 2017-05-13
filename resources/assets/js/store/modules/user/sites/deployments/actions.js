@@ -1,5 +1,8 @@
-export const get = ({}, data) => {
-    return Vue.request(data).get('')
+export const get = ({}) => {
+    return Vue.request().get(
+        Vue.action('User\UserController@getRunningDeployments'),
+        'user_sites_deployments/setAll'
+    )
 }
 
 export const show = ({}, data) => {
@@ -16,8 +19,4 @@ export const update = ({}, data) => {
 
 export const destroy = ({}, data) => {
     return Vue.request(data).delete('')
-}
-
-export const setVersion = ({commit}, data) => {
-    commit('system/setVersion', data.version)
 }

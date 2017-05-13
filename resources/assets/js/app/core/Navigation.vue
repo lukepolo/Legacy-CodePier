@@ -141,7 +141,7 @@
         },
         computed: {
             version() {
-                return this.$store.state.events.version
+                return this.$store.state.system.version
             },
             piles() {
                 return this.$store.state.user_piles.piles;

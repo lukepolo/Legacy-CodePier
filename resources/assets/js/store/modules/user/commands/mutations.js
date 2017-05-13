@@ -17,7 +17,3 @@ export const update = (state, {response, requestData}) => {
 export const remove = (state, {response, requestData}) => {
 
 }
-
-export const setVersion = (state, version) => {
-    state.version = version
-}
