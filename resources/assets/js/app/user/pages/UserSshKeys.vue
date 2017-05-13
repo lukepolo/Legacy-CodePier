@@ -56,7 +56,7 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getUserSshKeys');
+                this.$store.dispatch('user_ssh_keys/get');
             },
             createSshkey() {
                 this.$store.dispatch('createUserSshKey', this.form).then(() => {
