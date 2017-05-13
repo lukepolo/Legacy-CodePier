@@ -105,7 +105,7 @@
         },
         computed: {
             user() {
-                return this.$store.state.userStore.user;
+                return this.$store.state.user.user;
             },
             plans() {
                 let plans = this.$store.state.userSubscriptionsStore.plans;

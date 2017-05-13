@@ -141,10 +141,10 @@
         },
         computed: {
             version() {
-                return this.$store.state.eventsStore.version
+                return this.$store.state.events.version
             },
             piles() {
-                return this.$store.state.pilesStore.piles;
+                return this.$store.state.user_piles.piles;
             },
             currentPile() {
                 if(this.user) {
@@ -152,13 +152,13 @@
                 }
             },
             currentTeam() {
-                return this.$store.state.userStore.user.current_team;
+                return this.$store.state.user.user.current_team;
             },
             user() {
-                return this.$store.state.userStore.user;
+                return this.$store.state.user.user;
             },
             teams() {
-                return this.$store.state.teamsStore.teams;
+                return this.$store.state.user_teams.teams;
             }
         },
         methods: {
@@ -182,8 +182,8 @@
             }
         },
         created() {
-            this.$store.dispatch('piles/get');
-            this.$store.dispatch('teams/get');
+            this.$store.dispatch('user_piles/get');
+            this.$store.dispatch('user_teams/get');
         }
     }
 </script>

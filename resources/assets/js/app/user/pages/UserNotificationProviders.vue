@@ -72,7 +72,7 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserNotificationProvider', {
-                    user_id: this.$store.state.userStore.user.id,
+                    user_id: this.$store.state.user.user.id,
                     user_notification_provider_id: user_notification_provider_id
                 });
             },

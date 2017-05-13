@@ -91,9 +91,9 @@
             SiteDeploy
         },
         created() {
-            this.$store.dispatch('getSites')
+            this.$store.dispatch('user_sites/get')
             this.$store.dispatch('getUserSshKeys')
-            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.userStore.user.id);
+            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.user.user.id);
         },
         data() {
             return {
@@ -138,19 +138,19 @@
                 return this.$store.state.userSshKeysStore.user_ssh_keys
             },
             currentPile() {
-                return this.getPile(this.$store.state.userStore.user.current_pile_id)
+                return this.getPile(this.$store.state.user.user.current_pile_id)
             },
             user() {
-                return this.$store.state.userStore.user
+                return this.$store.state.user.user
             },
             sites() {
                 return this.$store.state.sitesStore.sites
             },
             current_pile_id() {
-                return this.$store.state.userStore.user.current_pile_id
+                return this.$store.state.user.user.current_pile_id
             },
             userRepositoryProviders() {
-                return this.$store.state.userStore.user_repository_providers;
+                return this.$store.state.user.user_repository_providers;
             }
         }
     }

@@ -142,7 +142,7 @@
                 this.$store.dispatch('deleteTeam', team_id);
             },
             isOwnerOfTeam: function (team) {
-                return team.owner_id == this.$store.state.userStore.user.id;
+                return team.owner_id == this.$store.state.user.user.id;
             },
             createTeamForm() {
                 this.create_form = this.$options.data().create_form;
@@ -164,10 +164,10 @@
         },
         computed: {
             teams() {
-                return this.$store.state.teamsStore.teams;
+                return this.$store.state.user_teams.teams;
             },
             all_user_piles() {
-                return this.$store.state.pilesStore.all_user_piles;
+                return this.$store.state.user_piles.all_user_piles;
             }
         }
     }

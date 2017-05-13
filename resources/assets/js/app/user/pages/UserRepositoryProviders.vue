@@ -17,10 +17,10 @@
     export default {
         computed: {
             repository_providers() {
-                return this.$store.state.userStore.repository_providers;
+                return this.$store.state.user.repository_providers;
             },
             user_repository_providers() {
-                return this.$store.state.userStore.user_repository_providers;
+                return this.$store.state.user.user_repository_providers;
             }
         },
         methods: {
@@ -33,13 +33,13 @@
                 }).id;
 
                 this.$store.dispatch('deleteUserRepositoryProvider', {
-                    user_id: this.$store.state.userStore.user.id,
+                    user_id: this.$store.state.user.user.id,
                     user_repository_provider_id: user_repository_provider_id
                 });
             }
         },
         created() {
-            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.userStore.user.id);
+            this.$store.dispatch('getUserRepositoryProviders', this.$store.state.user.user.id);
         }
     }
 </script>

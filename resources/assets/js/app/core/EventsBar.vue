@@ -388,7 +388,7 @@
                 return _.join(events, ', ');
             },
             piles() {
-                return this.$store.state.pilesStore.all_user_piles;
+                return this.$store.state.user_piles.all_user_piles;
             },
             sites() {
                 return this.$store.state.sitesStore.all_sites;
@@ -398,10 +398,10 @@
             },
 
             events() {
-                return this.$store.state.eventsStore.events;
+                return this.$store.state.events.events;
             },
             events_pagination() {
-                return this.$store.state.eventsStore.events_pagination;
+                return this.$store.state.events.events_pagination;
             }
         },
     }

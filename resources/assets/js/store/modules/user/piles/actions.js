@@ -3,28 +3,28 @@ export const get = ({}, data) => {
   // Vue.action('Pile\PileController@allPiles', 'setAll')
     return Vue.request(data).get(
         Vue.action('Pile\PileController@index'),
-        'setAll'
+        'user_piles/setAll'
     )
 }
 
 export const store = ({}, data) => {
     return Vue.request(data).post(
         Vue.action('Pile\PileController@store'),
-        'add'
+        'user_piles/add'
     )
 }
 
 export const update = ({}, data) => {
     return Vue.request(data).patch(
         Vue.action('Pile\PileController@update', { pile: data.pile }),
-        'update'
+        'user_piles/update'
     )
 }
 
 export const destroy = ({}, data) => {
     return Vue.request(data).delete(
         Vue.action('Pile\PileController@destroy', { pile: data.pile }),
-        'destroy'
+        'user_piles/destroy'
     )
 }
 
@@ -33,8 +33,8 @@ export const changePile = ({dispatch}, pile) => {
         pile : pile
     }).post('Pile\PileController@changePile', 'SET_USER').then(() => {
 
-        dispatch('getSites')
-        dispatch('getServers')
+        dispatch('user_sites/get')
+        dispatch('servers/get')
 
         if (app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
             app.$router.push('/')
@@ -45,6 +45,6 @@ export const changePile = ({dispatch}, pile) => {
 export const sites = ({}, pile) => {
     Vue.request().get(
         Vue.action('Pile\PileSitesController@index', { pile: pile }),
-        'setPileSites'
+        'user_piles/setPileSites'
     )
 }

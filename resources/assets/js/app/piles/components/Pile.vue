@@ -69,7 +69,7 @@
         methods: {
             cancel() {
                 if (!this.pile.id) {
-                    this.$store.state.pilesStore.piles.splice(this.index, 1)
+                    this.$store.state.user_piles.piles.splice(this.index, 1)
                 }
 
                 this.editing = false
@@ -100,13 +100,12 @@
         },
         computed : {
             sites() {
-                return this.$store.state.pilesStore.piles[this.pile.id].sites
+                return this.$store.state.user_piles.piles[this.pile.id].sites
             }
         },
         created() {
             if(this.pile.id) {
-                alert('is this her?e')
-                this.$store.dispatch('getPileSites', this.pile.id)
+                this.$store.dispatch('piles/sites', this.pile.id)
             }
         }
     }

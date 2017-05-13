@@ -17,7 +17,7 @@
         },
         computed: {
             notifications() {
-                return this.$store.state.notificationsStore.notifications;
+                return this.$store.state.notifications.notifications;
             }
         },
         methods: {
