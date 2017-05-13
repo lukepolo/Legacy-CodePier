@@ -28,7 +28,10 @@
 </template>
 
 <script>
-    import Pile from './components/Pile.vue';
+    import {
+        Pile
+    } from '../components';
+
     import LeftNav from '../../core/LeftNav.vue';
 
     export default {

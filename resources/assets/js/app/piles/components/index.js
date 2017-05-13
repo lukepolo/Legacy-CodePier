@@ -1,1 +1,1 @@
-export const Piles = require('../pages/Piles.vue')
+export const Pile = require('./Pile.vue')

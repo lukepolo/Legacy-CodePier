@@ -1,7 +1,10 @@
 import {
+    BuoyMarketPlace,
+} from '../pages'
+
+import {
     BuoyArea,
     BuoyInstall,
-    BuoyMarketPlace
 } from '../components'
 
 export default [

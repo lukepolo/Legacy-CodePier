@@ -1,6 +1,6 @@
 import {
     Piles
-} from '../components'
+} from '../pages'
 
 export default [
     {

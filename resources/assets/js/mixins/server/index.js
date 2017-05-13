@@ -1,4 +1,4 @@
-export const getServer = (serverId, attribute) => {
+export const getServer = function(serverId, attribute) {
     const server = _.find(this.$store.state.serversStore.all_servers, { id: parseInt(serverId) })
     if (server) {
         if (attribute) {
