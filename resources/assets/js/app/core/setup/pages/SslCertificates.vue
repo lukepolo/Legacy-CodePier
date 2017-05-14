@@ -232,7 +232,7 @@
         },
         computed: {
             site() {
-                let site = this.$store.state.sitesStore.site
+                let site = this.$store.state.user_sites.site
                 if(site) {
                     this.form.domains = site.domain
                 }

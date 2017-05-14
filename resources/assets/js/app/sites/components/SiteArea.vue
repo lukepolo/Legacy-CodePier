@@ -64,10 +64,10 @@
 </template>
 
 <script>
-    import SiteNav from './SiteNav.vue';
-    import LeftNav from '../../core/LeftNav.vue';
-    import Servers from './Servers.vue';
-    import SiteHeader from './SiteHeader.vue';
+    import SiteNav from './SiteNav.vue'
+    import Servers from './Servers.vue'
+    import SiteHeader from './SiteHeader.vue'
+    import LeftNav from '../../core/LeftNav.vue'
 
     export default {
         data() {
@@ -95,12 +95,12 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSite', this.$route.params.site_id);
+                this.$store.dispatch('user_sites/show', this.$route.params.site_id)
             }
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site
+                return this.$store.state.user_sites.site
             }
         }
     }

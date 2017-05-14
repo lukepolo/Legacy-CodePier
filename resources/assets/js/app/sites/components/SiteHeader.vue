@@ -108,10 +108,10 @@
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.user_sites.site;
             },
             siteServers() {
-                let siteServers = _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id);
+                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id);
                 if(siteServers && _.keys(siteServers).length) {
                     return siteServers
                 }

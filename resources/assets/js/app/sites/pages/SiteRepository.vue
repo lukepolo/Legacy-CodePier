@@ -137,28 +137,25 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getRepositoryProviders')
+                this.$store.dispatch('repository_providers/get')
                 this.$store.dispatch('user_repository_providers/get')
-                this.$store.dispatch('getSite', this.$route.params.site_id)
-                this.$store.dispatch('getServerAvailableFrameworks')
-                this.$store.dispatch('getServerAvailableLanguages')
+                this.$store.dispatch('system_frameworks/get')
+                this.$store.dispatch('system_languages/get')
             },
             updateSite() {
-                this.$store.dispatch('updateSite', {
-                    site_id: this.site.id,
-                    data: {
-                        type : this.form.type,
-                        branch: this.form.branch,
-                        domain: this.site.domain,
-                        pile_id: this.site.pile_id,
-                        framework: this.form.framework,
-                        repository: this.form.repository,
-                        web_directory: this.form.web_directory,
-                        keep_releases : this.form.keep_releases,
-                        wildcard_domain: this.form.wildcard_domain,
-                        zerotime_deployment: this.form.zerotime_deployment,
-                        user_repository_provider_id: this.form.user_repository_provider_id
-                    }
+                this.$store.dispatch('user_sites/update', {
+                    site: this.site.id,
+                    type : this.form.type,
+                    branch: this.form.branch,
+                    domain: this.site.domain,
+                    pile_id: this.site.pile_id,
+                    framework: this.form.framework,
+                    repository: this.form.repository,
+                    web_directory: this.form.web_directory,
+                    keep_releases : this.form.keep_releases,
+                    wildcard_domain: this.form.wildcard_domain,
+                    zerotime_deployment: this.form.zerotime_deployment,
+                    user_repository_provider_id: this.form.user_repository_provider_id
                 });
             },
             getRepositoryName(user_repository_id) {
@@ -173,7 +170,7 @@
         },
         computed: {
             site() {
-                let site = this.$store.state.sitesStore.site;
+                let site = this.$store.state.user_sites.site;
 
                 if (site) {
                     this.form.type = site.type
@@ -190,16 +187,16 @@
                 return site;
             },
             repository_providers() {
-                return this.$store.state.user.repository_providers
+                return this.$store.state.repository_providers.providers
             },
             user_repository_providers() {
-                return this.$store.state.user.user_repository_providers
+                return this.$store.state.user_repository_providers.providers
             },
             availableLanguages() {
-                return this.$store.state.serversStore.available_server_languages
+                return this.$store.state.system_languages.languages
             },
             availableFrameworks() {
-                return this.$store.state.serversStore.available_server_frameworks
+                return this.$store.state.system_frameworks.frameworks
             }
         },
     }

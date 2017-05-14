@@ -138,7 +138,7 @@
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site
+                return this.$store.state.user_sites.site
             },
             siteId() {
                 return this.$route.params.site_id

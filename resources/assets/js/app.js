@@ -18,7 +18,7 @@ const app = new Vue({
 window.app = app
 
 app.$store.dispatch('user_commands/get')
-app.$store.dispatch('user_sites_deployments/get')
+app.$store.dispatch('user_site_deployments/getDeployments')
 
 Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('system/setVersion', data)

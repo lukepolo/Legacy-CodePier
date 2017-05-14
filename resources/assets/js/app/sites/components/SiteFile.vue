@@ -101,7 +101,7 @@
         },
         computed : {
             site_servers() {
-                let siteServers = _.get(this.$store.state.sitesStore.site_servers, this.$route.params.site_id);
+                let siteServers = _.get(this.$store.state.user_sites.site_servers, this.$route.params.site_id);
                 if(siteServers && _.keys(siteServers).length) {
                     let server = _.first(siteServers);
                     if(server) {
