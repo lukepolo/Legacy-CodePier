@@ -388,13 +388,13 @@
                 return _.join(events, ', ');
             },
             piles() {
-                return this.$store.state.user_piles.all_user_piles;
+                return this.$store.state.user_piles.piles;
             },
             sites() {
-                return this.$store.state.user_sites.all_sites;
+                return this.$store.state.user_sites.sites;
             },
             servers() {
-                return this.$store.state.user_servers.all_servers;
+                return this.$store.state.user_servers.servers;
             },
 
             events() {

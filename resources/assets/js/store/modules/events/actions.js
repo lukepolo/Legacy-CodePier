@@ -13,11 +13,10 @@ export const get = ({}, data) => {
         }, _.isEmpty)
     )
 
-    console.warn('events endpoint not working correctly')
-    // return Vue.request(filters).get(
-    //     Vue.action('EventController@store'),
-    //     'events/setAll'
-    // )
+    return Vue.request(filters).post(
+        Vue.action('EventController@store'),
+        'events/setAll'
+    )
 }
 
 //
