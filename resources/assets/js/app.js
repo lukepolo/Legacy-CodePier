@@ -13,7 +13,7 @@ Vue.mixin({
 const app = new Vue({
     store,
     router
-}).$mount('#app-layout')
+})
 
 window.app = app
 
@@ -23,3 +23,7 @@ app.$store.dispatch('user_sites_deployments/get')
 Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('system/setVersion', data)
 })
+
+app.$mount('#app-layout')
+
+require('./emitters')
