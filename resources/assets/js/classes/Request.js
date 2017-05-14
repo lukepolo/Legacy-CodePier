@@ -12,7 +12,11 @@ class Request {
 
         this.resetData = reset ? reset : false
 
-        this.originalData = data
+        if(data && !_.isObject(data)) {
+            this['value'] = data
+        } else {
+            this.originalData = data
+        }
 
         for (let field in data) {
             this[field] = data[field]

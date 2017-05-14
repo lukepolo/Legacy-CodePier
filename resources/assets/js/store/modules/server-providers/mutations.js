@@ -1,3 +1,3 @@
-export const set = (state, {response}) => {
+export const setAll = (state, {response}) => {
     state.providers = response
 }

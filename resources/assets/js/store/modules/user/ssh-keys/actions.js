@@ -12,9 +12,9 @@ export const store = ({}, data) => {
     )
 }
 
-export const destroy = ({}, data) => {
-    return Vue.request(data).delete(
-        Vue.action('User\UserSshKeyController@destroy', { ssh_key: data.ssh_key }),
+export const destroy = ({}, ssh_key) => {
+    return Vue.request(ssh_key).delete(
+        Vue.action('User\UserSshKeyController@destroy', { ssh_key: ssh_key }),
         'user_ssh_keys/remove'
     )
 }

@@ -11043,10 +11043,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
         repository_providers: function repository_providers() {
-            return this.$store.state.user.repository_providers;
+            return this.$store.state.repository_providers.providers;
         },
         user_repository_providers: function user_repository_providers() {
-            return this.$store.state.user.user_repository_providers;
+            return this.$store.state.user_repository_providers.providers;
         }
     },
     methods: {
@@ -11054,13 +11054,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return _.find(this.user_repository_providers, { 'repository_provider_id': repository_provider_id });
         },
         disconnectProvider: function disconnectProvider(repository_provider_id) {
-            var user_repository_provider_id = _.find(this.user_repository_providers, function (repository_provider) {
-                return repository_provider.repository_provider_id == repository_provider_id;
+            var repository_provider = _.find(this.user_repository_providers, function (repository_provider) {
+                return repository_provider.repository_provider_id === repository_provider_id;
             }).id;
 
-            this.$store.dispatch('deleteUserRepositoryProvider', {
-                user_id: this.$store.state.user.user.id,
-                user_repository_provider_id: user_repository_provider_id
+            this.$store.dispatch('user_repository_providers/destroy', {
+                user: this.$store.state.user.user.id,
+                repository_provider: repository_provider
             });
         }
     },
@@ -11097,10 +11097,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
         server_providers: function server_providers() {
-            return this.$store.state.serverProvidersStore.server_providers;
+            return this.$store.state.server_providers.providers;
         },
         user_server_providers: function user_server_providers() {
-            return this.$store.state.user.user_server_providers;
+            return this.$store.state.user_server_providers.providers;
         }
     },
     methods: {
@@ -11108,19 +11108,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return _.find(this.user_server_providers, { 'server_provider_id': server_provider_id });
         },
         disconnectProvider: function disconnectProvider(server_provider_id) {
-            var user_server_provider_id = _.find(this.user_server_providers, function (server_provider) {
-                return server_provider.server_provider_id == server_provider_id;
+            var server_provider = _.find(this.user_server_providers, function (server_provider) {
+                return server_provider.server_provider_id === server_provider_id;
             }).id;
 
-            this.$store.dispatch('deleteUserServerProvider', {
-                user_id: this.$store.state.user.user.id,
-                user_server_provider_id: user_server_provider_id
+            this.$store.dispatch('user_server_providers/destroy', {
+                user: this.$store.state.user.user.id,
+                server_provider: server_provider
             });
         }
     },
     mounted: function mounted() {
-        this.$store.dispatch('getServerProviders');
-        this.$store.dispatch('getUserServerProviders', this.$store.state.user.user.id);
+        this.$store.dispatch('server_providers/get');
+        this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id);
     }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
@@ -11196,18 +11196,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createSshkey: function createSshkey() {
             var _this = this;
 
-            this.$store.dispatch('createUserSshKey', this.form).then(function () {
+            this.$store.dispatch('user_ssh_keys/store', this.form).then(function () {
                 _this.form = _this.$options.data().form;
             });
         },
 
         deleteSshKey: function deleteSshKey(sshKeyId) {
-            this.$store.dispatch('deleteUserSshKey', sshKeyId);
+            this.$store.dispatch('user_ssh_keys/destroy', sshKeyId);
         }
     },
     computed: {
         user_ssh_keys: function user_ssh_keys() {
-            return this.$store.state.userSshKeysStore.user_ssh_keys;
+            return this.$store.state.user_ssh_keys.ssh_keys;
         }
     }
 });
@@ -52897,7 +52897,11 @@ var Request = function () {
 
         this.resetData = reset ? reset : false;
 
-        this.originalData = data;
+        if (data && !_.isObject(data)) {
+            this['value'] = data;
+        } else {
+            this.originalData = data;
+        }
 
         for (var field in data) {
             this[field] = data[field];
@@ -54295,42 +54299,44 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__system__ = __webpack_require__("./resources/assets/js/store/modules/system/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__admin_categories__ = __webpack_require__("./resources/assets/js/store/modules/admin/categories/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__notifications__ = __webpack_require__("./resources/assets/js/store/modules/notifications/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_notifications__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__server_providers__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__user_notifications__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+
 
 
 
@@ -54385,46 +54391,47 @@ var clear = function clear(state) {
     system: __WEBPACK_IMPORTED_MODULE_3__system__["a" /* default */],
     categories: __WEBPACK_IMPORTED_MODULE_4__admin_categories__["a" /* default */],
     notifications: __WEBPACK_IMPORTED_MODULE_5__notifications__["a" /* default */],
-    repository_providers: __WEBPACK_IMPORTED_MODULE_6__repository_providers__["a" /* default */],
+    server_providers: __WEBPACK_IMPORTED_MODULE_6__server_providers__["a" /* default */],
+    repository_providers: __WEBPACK_IMPORTED_MODULE_7__repository_providers__["a" /* default */],
 
-    user: __WEBPACK_IMPORTED_MODULE_7__user_user__["a" /* default */],
-    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_8__user_ssh_keys__["a" /* default */],
-    user_subscriptions: __WEBPACK_IMPORTED_MODULE_9__user_subscription__["a" /* default */],
-    user_notifications: __WEBPACK_IMPORTED_MODULE_10__user_notifications__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_8__user_user__["a" /* default */],
+    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_9__user_ssh_keys__["a" /* default */],
+    user_subscriptions: __WEBPACK_IMPORTED_MODULE_10__user_subscription__["a" /* default */],
+    user_notifications: __WEBPACK_IMPORTED_MODULE_11__user_notifications__["a" /* default */],
 
-    user_teams: __WEBPACK_IMPORTED_MODULE_11__user_teams__["a" /* default */],
-    user_team_members: __WEBPACK_IMPORTED_MODULE_12__user_teams_members__["a" /* default */],
+    user_teams: __WEBPACK_IMPORTED_MODULE_12__user_teams__["a" /* default */],
+    user_team_members: __WEBPACK_IMPORTED_MODULE_13__user_teams_members__["a" /* default */],
 
-    user_piles: __WEBPACK_IMPORTED_MODULE_13__user_piles__["a" /* default */],
-    user_sites: __WEBPACK_IMPORTED_MODULE_14__user_sites_sites__["a" /* default */],
-    user_commands: __WEBPACK_IMPORTED_MODULE_15__user_commands__["a" /* default */],
-    user_site_files: __WEBPACK_IMPORTED_MODULE_16__user_sites_files__["a" /* default */],
-    user_site_servers: __WEBPACK_IMPORTED_MODULE_17__user_sites_servers__["a" /* default */],
-    user_site_workers: __WEBPACK_IMPORTED_MODULE_18__user_sites_workers__["a" /* default */],
-    user_site_schemas: __WEBPACK_IMPORTED_MODULE_19__user_sites_schemas__["a" /* default */],
-    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_20__user_sites_ssh_keys__["a" /* default */],
-    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_21__user_sites_cron_jobs__["a" /* default */],
-    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_22__user_sites_firewalls__["a" /* default */],
-    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_23__user_sites_deployments__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_24__user_repository_providers__["a" /* default */],
-    user_site_server_features: __WEBPACK_IMPORTED_MODULE_25__user_sites_server_features__["a" /* default */],
-    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_26__user_sites_ssl_certificates__["a" /* default */],
-    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_27__user_sites_language_settings__["a" /* default */],
-    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_28__user_sites_environment_varaibles__["a" /* default */],
+    user_piles: __WEBPACK_IMPORTED_MODULE_14__user_piles__["a" /* default */],
+    user_sites: __WEBPACK_IMPORTED_MODULE_15__user_sites_sites__["a" /* default */],
+    user_commands: __WEBPACK_IMPORTED_MODULE_16__user_commands__["a" /* default */],
+    user_site_files: __WEBPACK_IMPORTED_MODULE_17__user_sites_files__["a" /* default */],
+    user_site_servers: __WEBPACK_IMPORTED_MODULE_18__user_sites_servers__["a" /* default */],
+    user_site_workers: __WEBPACK_IMPORTED_MODULE_19__user_sites_workers__["a" /* default */],
+    user_site_schemas: __WEBPACK_IMPORTED_MODULE_20__user_sites_schemas__["a" /* default */],
+    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_21__user_sites_ssh_keys__["a" /* default */],
+    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_22__user_sites_cron_jobs__["a" /* default */],
+    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_23__user_sites_firewalls__["a" /* default */],
+    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_24__user_sites_deployments__["a" /* default */],
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_25__user_repository_providers__["a" /* default */],
+    user_site_server_features: __WEBPACK_IMPORTED_MODULE_26__user_sites_server_features__["a" /* default */],
+    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_27__user_sites_ssl_certificates__["a" /* default */],
+    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_28__user_sites_language_settings__["a" /* default */],
+    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_29__user_sites_environment_varaibles__["a" /* default */],
 
-    user_servers: __WEBPACK_IMPORTED_MODULE_29__user_servers_servers__["a" /* default */],
-    user_server_buoys: __WEBPACK_IMPORTED_MODULE_30__user_servers_buoys__["a" /* default */],
-    user_server_files: __WEBPACK_IMPORTED_MODULE_31__user_servers_files__["a" /* default */],
-    user_server_schemas: __WEBPACK_IMPORTED_MODULE_32__user_servers_schemas__["a" /* default */],
-    user_server_workers: __WEBPACK_IMPORTED_MODULE_33__user_servers_workers__["a" /* default */],
-    user_server_services: __WEBPACK_IMPORTED_MODULE_34__user_servers_services__["a" /* default */],
-    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_35__user_servers_ssh_keys__["a" /* default */],
-    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_36__user_servers_cron_jobs__["a" /* default */],
-    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_37__user_servers_firewalls__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_38__user_servers_providers__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_39__user_servers_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_40__user_servers_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_41__user_servers_environment_varaibles__["a" /* default */]
+    user_servers: __WEBPACK_IMPORTED_MODULE_30__user_servers_servers__["a" /* default */],
+    user_server_buoys: __WEBPACK_IMPORTED_MODULE_31__user_servers_buoys__["a" /* default */],
+    user_server_files: __WEBPACK_IMPORTED_MODULE_32__user_servers_files__["a" /* default */],
+    user_server_schemas: __WEBPACK_IMPORTED_MODULE_33__user_servers_schemas__["a" /* default */],
+    user_server_workers: __WEBPACK_IMPORTED_MODULE_34__user_servers_workers__["a" /* default */],
+    user_server_services: __WEBPACK_IMPORTED_MODULE_35__user_servers_services__["a" /* default */],
+    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_36__user_servers_ssh_keys__["a" /* default */],
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_37__user_server_providers__["a" /* default */],
+    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_38__user_servers_cron_jobs__["a" /* default */],
+    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_39__user_servers_firewalls__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_40__user_servers_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_41__user_servers_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_42__user_servers_environment_varaibles__["a" /* default */]
 });
 
 /***/ }),
@@ -54551,6 +54558,66 @@ var setAll = function setAll(state, _ref) {
 /***/ }),
 
 /***/ "./resources/assets/js/store/modules/repository-providers/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/server-providers/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('Auth\Providers\ServerProvidersController@index'), 'server_providers/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/server-providers/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/server-providers/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/server-providers/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54962,9 +55029,7 @@ var update = function update(_ref3, data) {
 var destroy = function destroy(_ref4, pile) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request({
-        pile: pile
-    }).delete(Vue.action('Pile\PileController@destroy', { pile: pile }), 'user_piles/remove');
+    return Vue.request(pile).delete(Vue.action('Pile\PileController@destroy', { pile: pile }), 'user_piles/remove');
 };
 
 var changePile = function changePile(_ref5, pile) {
@@ -55047,7 +55112,7 @@ var remove = function remove(state, _ref4) {
     var requestData = _ref4.requestData;
 
     Vue.set(state, 'piles', _.reject(state.piles, {
-        id: requestData.pile
+        id: requestData.value
     }));
 };
 
@@ -55146,13 +55211,91 @@ var setAll = function setAll(state, _ref) {
 var remove = function remove(state, _ref2) {
     var requestData = _ref2.requestData;
 
-    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.provider }));
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.repository_provider }));
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
 /***/ "./resources/assets/js/store/modules/user/repository-providers/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server-providers/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, user) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('UserProvidersUserServerProviderController@index', { user: user }), 'user_server_providers/setAll');
+};
+
+var destroy = function destroy(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).delete(Vue.action('UserProvidersUserServerProviderController@destroy', {
+        user: data.user,
+        server_provider: data.server_provider
+    }), 'user_server_providers/remove');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server-providers/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server-providers/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+var remove = function remove(state, _ref2) {
+    var requestData = _ref2.requestData;
+
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.server_provider }));
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server-providers/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55875,126 +56018,6 @@ var remove = function remove(state, _ref5) {
 /***/ }),
 
 /***/ "./resources/assets/js/store/modules/user/servers/language-settings/state.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/servers/providers/actions.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
-var get = function get(_ref, data) {
-    _objectDestructuringEmpty(_ref);
-
-    return Vue.request(data).get('');
-};
-
-var show = function show(_ref2, data) {
-    _objectDestructuringEmpty(_ref2);
-
-    return Vue.request(data).get('');
-};
-
-var store = function store(_ref3, data) {
-    _objectDestructuringEmpty(_ref3);
-
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/servers/providers/getters.js":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/servers/providers/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/providers/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/providers/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/providers/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/providers/mutations.js");
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
-    namespaced: true
-});
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/servers/providers/mutations.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
-};
-
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
-};
-
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
-
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
-};
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/servers/providers/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58366,10 +58389,10 @@ var store = function store(_ref2, data) {
     return Vue.request(data).post(Vue.action('UserUserSshKeyController@store'), 'user_ssh_keys/add');
 };
 
-var destroy = function destroy(_ref3, data) {
+var destroy = function destroy(_ref3, ssh_key) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).delete(Vue.action('UserUserSshKeyController@destroy', { ssh_key: data.ssh_key }), 'user_ssh_keys/remove');
+    return Vue.request(ssh_key).delete(Vue.action('UserUserSshKeyController@destroy', { ssh_key: ssh_key }), 'user_ssh_keys/remove');
 };
 
 /***/ }),
@@ -58429,7 +58452,7 @@ var remove = function remove(state, _ref3) {
     var requestData = _ref3.requestData;
 
     Vue.set(state, 'ssh_keys', _.reject(state.ssh_keys, {
-        id: requestData.ssh_key
+        id: requestData.value
     }));
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))

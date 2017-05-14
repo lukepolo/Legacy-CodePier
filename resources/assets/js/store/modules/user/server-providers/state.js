@@ -1,3 +1,3 @@
 export default {
-    server_providers: [],
+    providers: [],
 }
