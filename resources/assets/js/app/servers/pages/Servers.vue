@@ -5,14 +5,15 @@
             <div class="section-content">
                 <div class="jcf-form-wrap">
                     <div class="container">
-
-                        <template v-if="!showArchived">
-                            <router-link :to="{ name: 'archived_servers' }">Archived Servers</router-link>
-                        </template>
-                        <template v-else>
-                            <router-link :to="{ name: 'servers' }">Servers</router-link>
-                        </template>
-
+                        <div class="btn btn-primary" @click="showArchive= !showArchive">
+                            Show
+                            <template v-if="!showArchive">
+                                Archived
+                            </template>
+                            <template v-else>
+                                Unarchived
+                            </template>
+                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -36,7 +37,7 @@
                                     <td>{{ server.ip }}</td>
                                     <td>
                                         <template v-if="server.deleted_at">
-                                            <confirm dispatch="restoreServer" :params="server.id">
+                                            <confirm dispatch="user_servers/restore" :params="server.id">
                                                 Restore
                                             </confirm>
                                         </template>
@@ -48,7 +49,7 @@
                                             <template v-else>
                                                 {{ server.status }}
                                             </template>
-                                            <confirm dispatch="archiveServer" :params="server.id">
+                                            <confirm dispatch="user_servers/archive" :params="server.id">
                                                 Archive Server
                                             </confirm>
                                         </template>
@@ -77,13 +78,14 @@
         watch: {
             '$route': 'fetchData'
         },
+        data() {
+            return {
+                showArchive : false
+            }
+        },
         methods: {
             fetchData() {
-                if(!this.showArchived) {
-                    this.$store.dispatch('getServers');
-                } else {
-                    this.$store.dispatch('getTrashedServers')
-                }
+                this.$store.dispatch('user_servers/getTrashed');
             }
         },
         computed: {
@@ -91,11 +93,10 @@
                 return this.$route.name != 'servers'
             },
             servers() {
-                if(!this.showArchived) {
-                    return this.$store.state.serversStore.servers;
+                if(!this.showArchive) {
+                    return this.$store.state.user_servers.servers;
                 }
-
-                return this.$store.state.serversStore.trashed_servers;
+                return this.$store.state.user_servers.trashed;
             }
         }
     }

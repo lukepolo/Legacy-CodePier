@@ -58,7 +58,7 @@ class Request {
         for (let value in config) {
             this[value] = config[value]
         }
-        return this.submit('get', url, mutations)
+        return this.submit('get', url, mutations, config)
     }
 
     /**
@@ -162,10 +162,8 @@ class Request {
 
                 })
                 .catch(error => {
-
-
                     // TODO - handle errors here
-                    app.handleApiError(errors)
+                    // app.handleApiError(error)
                     if(error.response) {
                         this.onFail(error.response.data)
                         reject(error.response.data)

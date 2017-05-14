@@ -3,7 +3,7 @@ export const showError = function(message, title, timeout) {
         timeout = 5000
     }
 
-    this.$store.dispatch('addNotification', {
+    this.$store.dispatch('notifications/add', {
         title: !_.isEmpty(title) ? title : 'Error!!',
         text: message,
         class: 'error',
@@ -14,8 +14,8 @@ export const showSuccess = function(message, title, timeout) {
     if (timeout === undefined) {
         timeout = 5000
     }
-
-    this.$store.dispatch('addNotification', {
+    
+    this.$store.dispatch('notifications/add', {
         title: !_.isEmpty(title) ? title : 'Success!!',
         text: message,
         class: 'success',
