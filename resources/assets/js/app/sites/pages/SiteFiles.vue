@@ -21,12 +21,12 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getSiteFiles', this.$route.params.site_id)
+                this.$store.dispatch('user_site_files/get', this.$route.params.site_id)
             }
         },
         computed: {
             site() {
-                return this.$store.state.user_sites.site
+                return this.$store.state.user_site_files.files
             }
         }
     }
