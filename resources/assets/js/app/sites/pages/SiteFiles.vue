@@ -26,7 +26,7 @@
         },
         computed: {
             site() {
-                return this.$store.state.user_site_files.files
+                return this.$store.state.user_sites.site
             }
         }
     }

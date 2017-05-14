@@ -18,6 +18,6 @@ export const remove = (state, {response, requestData}) => {
 
 }
 
-export const setVersion = (state, version) => {
-    state.version = version
+export const setCurrentStep = (state, {response, requestData}) => {
+    Vue.set(state.current_step, requestData.server, response)
 }
