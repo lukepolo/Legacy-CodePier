@@ -15,7 +15,6 @@
             <br>
             <br>
             <form @submit.prevent="updateUserNotifications">
-                <input type="hidden" name="user" :value="$store.state.userStore.user.id">
                 <template v-for="notification_setting in notification_settings">
                     {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
                     <template v-for="service in notification_setting.services">
@@ -35,17 +34,17 @@
     export default {
         computed: {
             notification_settings() {
-                return this.$store.state.userNotificationsStore.notification_settings;
+                return this.$store.state.notification_settings.settings
             },
             notification_providers() {
-                return this.$store.state.userNotificationsStore.notification_providers;
-            },
-            user_notification_providers() {
-                return this.$store.state.userNotificationsStore.user_notification_providers;
+                return this.$store.state.notification_providers.providers
             },
             user_notification_settings() {
-                return this.$store.state.userNotificationsStore.user_notification_settings;
-            }
+                return this.$store.state.user_notification_settings.settings
+            },
+            user_notification_providers() {
+                return this.$store.state.user_notification_providers.providers
+            },
         },
         methods: {
             hasNotificationSetting(notification_setting, service) {
@@ -67,24 +66,26 @@
                 return false;
             },
             disconnectProvider: function (notification_provider_id) {
-                let user_notification_provider_id = _.find(this.user_notification_providers, function (notification_provider) {
-                    return notification_provider.notification_provider_id == notification_provider_id;
+                let notification_provider = _.find(this.user_notification_providers, function (notification_provider) {
+                    return notification_provider.notification_provider_id === notification_provider_id;
                 }).id;
 
-                this.$store.dispatch('deleteUserNotificationProvider', {
-                    user_id: this.$store.state.user.user.id,
-                    user_notification_provider_id: user_notification_provider_id
+                this.$store.dispatch('user_notification_providers/destroy', {
+                    user: this.$store.state.user.user.id,
+                    notification_provider: notification_provider
                 });
             },
             updateUserNotifications() {
-                this.$store.dispatch('updateUserNotificationSettings', this.getFormData(this.$el));
+
+                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el));
             }
         },
         mounted() {
-            this.$store.dispatch('getNotificationSettings');
-            this.$store.dispatch('getNotificationProviders');
-            this.$store.dispatch('getUserNotificationProviders');
-            this.$store.dispatch('getUserNotificationSettings');
+            this.$store.dispatch('notification_providers/get');
+            this.$store.dispatch('user_notification_providers/get');
+
+            this.$store.dispatch('notification_settings/get');
+            this.$store.dispatch('user_notification_settings/get');
         },
     }
 </script>

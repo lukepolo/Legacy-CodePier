@@ -10935,21 +10935,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
         notification_settings: function notification_settings() {
-            return this.$store.state.userNotificationsStore.notification_settings;
+            return this.$store.state.notification_settings.settings;
         },
         notification_providers: function notification_providers() {
-            return this.$store.state.userNotificationsStore.notification_providers;
-        },
-        user_notification_providers: function user_notification_providers() {
-            return this.$store.state.userNotificationsStore.user_notification_providers;
+            return this.$store.state.notification_providers.providers;
         },
         user_notification_settings: function user_notification_settings() {
-            return this.$store.state.userNotificationsStore.user_notification_settings;
+            return this.$store.state.user_notification_settings.settings;
+        },
+        user_notification_providers: function user_notification_providers() {
+            return this.$store.state.user_notification_providers.providers;
         }
     },
     methods: {
@@ -10972,24 +10971,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return false;
         },
         disconnectProvider: function disconnectProvider(notification_provider_id) {
-            var user_notification_provider_id = _.find(this.user_notification_providers, function (notification_provider) {
-                return notification_provider.notification_provider_id == notification_provider_id;
+            var notification_provider = _.find(this.user_notification_providers, function (notification_provider) {
+                return notification_provider.notification_provider_id === notification_provider_id;
             }).id;
 
-            this.$store.dispatch('deleteUserNotificationProvider', {
-                user_id: this.$store.state.user.user.id,
-                user_notification_provider_id: user_notification_provider_id
+            this.$store.dispatch('user_notification_providers/destroy', {
+                user: this.$store.state.user.user.id,
+                notification_provider: notification_provider
             });
         },
         updateUserNotifications: function updateUserNotifications() {
-            this.$store.dispatch('updateUserNotificationSettings', this.getFormData(this.$el));
+
+            this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el));
         }
     },
     mounted: function mounted() {
-        this.$store.dispatch('getNotificationSettings');
-        this.$store.dispatch('getNotificationProviders');
-        this.$store.dispatch('getUserNotificationProviders');
-        this.$store.dispatch('getUserNotificationSettings');
+        this.$store.dispatch('notification_providers/get');
+        this.$store.dispatch('user_notification_providers/get');
+
+        this.$store.dispatch('notification_settings/get');
+        this.$store.dispatch('user_notification_settings/get');
     }
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
@@ -11330,7 +11331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.state.user.user;
         },
         plans: function plans() {
-            var plans = this.$store.state.userSubscriptionsStore.plans;
+            var plans = this.$store.state.subscriptions.plans;
 
             if (this.validSubscription) {
                 var plan = _.find(plans, { id: this.user_subscription.stripe_plan });
@@ -11342,16 +11343,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return plans;
         },
         invoices: function invoices() {
-            return this.$store.state.userSubscriptionsStore.user_invoices;
+            return this.$store.state.user_subscription.invoices;
         },
         user_subscription: function user_subscription() {
-            return this.$store.state.userSubscriptionsStore.user_subscription;
+            return this.$store.state.user_subscription.subscription;
         },
         validSubscription: function validSubscription() {
-            return this.$store.state.userSubscriptionsStore.valid_subscription;
+            return this.$store.state.user_subscription.valid_subscription;
         },
         upcomingSubscription: function upcomingSubscription() {
-            return this.$store.state.userSubscriptionsStore.user_upcoming_subscription;
+            return this.$store.state.user_subscription.upcoming_subscription;
         },
         isCanceled: function isCanceled() {
             return this.user_subscription.ends_at != null;
@@ -11359,24 +11360,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         fetchData: function fetchData() {
-            this.$store.dispatch('getPlans');
-            this.$store.dispatch('getUserInvoices');
-            this.$store.dispatch('getUserSubscription');
-            this.$store.dispatch('getUpcomingSubscription');
+            this.$store.dispatch('subscriptions/plans');
+            this.$store.dispatch('user_subscription/get');
+            this.$store.dispatch('user_subscription/getInvoices');
+            this.$store.dispatch('user_subscription/getUpcomingSubscription');
         },
         createSubscription: function createSubscription() {
-            var _this = this;
-
-            this.$store.dispatch('createUserSubscription', this.form).then(function () {
-                _this.form = _this.$options.data().form;
-            });
+            this.$store.dispatch('user_subscription/store', this.form);
         },
         cancelSubscription: function cancelSubscription() {
             this.$store.dispatch('cancelSubscription', this.user_subscription.id);
         },
 
-        downloadLink: function downloadLink(invoice_id) {
-            return this.action('UserSubscriptionUserSubscriptionInvoiceController@show', { invoice: invoice_id });
+        downloadLink: function downloadLink(invoice) {
+            return this.action('UserSubscriptionUserSubscriptionInvoiceController@show', { invoice: invoice });
         }
     }
 });
@@ -42012,15 +42009,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.updateUserNotifications($event)
       }
     }
-  }, [_c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "user"
-    },
-    domProps: {
-      "value": _vm.$store.state.userStore.user.id
-    }
-  }), _vm._v(" "), _vm._l((_vm.notification_settings), function(notification_setting) {
+  }, [_vm._l((_vm.notification_settings), function(notification_setting) {
     return [_vm._v("\n                " + _vm._s(notification_setting.name) + " - "), _c('small', [_vm._v(_vm._s(notification_setting.description))]), _vm._v(" "), _vm._l((notification_setting.services), function(service) {
       return [_c('input', {
         attrs: {
@@ -52889,7 +52878,7 @@ var Request = function () {
     /**
      * Create a new Form instance.
      *
-     * @param {object} data
+     * @param {object, FormData} data
      * @param {boolean} reset
      */
     function Request(data, reset) {
@@ -52903,8 +52892,12 @@ var Request = function () {
             this.originalData = data;
         }
 
-        for (var field in data) {
-            this[field] = data[field];
+        if (data instanceof FormData) {
+            this.formData = data;
+        } else {
+            for (var field in data) {
+                this[field] = data[field];
+            }
         }
 
         this.errors = new __WEBPACK_IMPORTED_MODULE_0__Errors__["a" /* default */]();
@@ -52918,6 +52911,11 @@ var Request = function () {
     _createClass(Request, [{
         key: 'data',
         value: function data() {
+
+            if (this.formData) {
+                return this.formData;
+            }
+
             var data = Object.assign({}, this);
 
             delete data.errors;
@@ -52938,7 +52936,6 @@ var Request = function () {
     }, {
         key: 'get',
         value: function get(url, mutations, config) {
-
             for (var value in config) {
                 this[value] = config[value];
             }
@@ -53443,6 +53440,8 @@ var getBytesFromString = function getBytesFromString(string) {
 // NOTE - this will not work with PUT!!!
 // https://github.com/symfony/symfony/issues/9226
 var getFormData = function getFormData(form) {
+
+    console.info(form);
     if (!$(form).is('form')) {
         form = $(form).find('form')[0];
     }
@@ -54299,43 +54298,51 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__system__ = __webpack_require__("./resources/assets/js/store/modules/system/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__admin_categories__ = __webpack_require__("./resources/assets/js/store/modules/admin/categories/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__notifications__ = __webpack_require__("./resources/assets/js/store/modules/notifications/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__server_providers__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__user_notifications__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__subscriptions__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__server_providers__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+
+
+
+
 
 
 
@@ -54391,47 +54398,171 @@ var clear = function clear(state) {
     system: __WEBPACK_IMPORTED_MODULE_3__system__["a" /* default */],
     categories: __WEBPACK_IMPORTED_MODULE_4__admin_categories__["a" /* default */],
     notifications: __WEBPACK_IMPORTED_MODULE_5__notifications__["a" /* default */],
-    server_providers: __WEBPACK_IMPORTED_MODULE_6__server_providers__["a" /* default */],
-    repository_providers: __WEBPACK_IMPORTED_MODULE_7__repository_providers__["a" /* default */],
+    subscriptions: __WEBPACK_IMPORTED_MODULE_6__subscriptions__["a" /* default */],
+    server_providers: __WEBPACK_IMPORTED_MODULE_7__server_providers__["a" /* default */],
+    repository_providers: __WEBPACK_IMPORTED_MODULE_8__repository_providers__["a" /* default */],
+    notification_settings: __WEBPACK_IMPORTED_MODULE_9__notification_settings__["a" /* default */],
+    notification_providers: __WEBPACK_IMPORTED_MODULE_10__notification_providers__["a" /* default */],
 
-    user: __WEBPACK_IMPORTED_MODULE_8__user_user__["a" /* default */],
-    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_9__user_ssh_keys__["a" /* default */],
-    user_subscriptions: __WEBPACK_IMPORTED_MODULE_10__user_subscription__["a" /* default */],
-    user_notifications: __WEBPACK_IMPORTED_MODULE_11__user_notifications__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_11__user_user__["a" /* default */],
+    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_12__user_ssh_keys__["a" /* default */],
+    user_subscription: __WEBPACK_IMPORTED_MODULE_13__user_subscription__["a" /* default */],
+    user_notification_settings: __WEBPACK_IMPORTED_MODULE_14__user_notification_settings__["a" /* default */],
+    user_notification_providers: __WEBPACK_IMPORTED_MODULE_15__user_notification_providers__["a" /* default */],
 
-    user_teams: __WEBPACK_IMPORTED_MODULE_12__user_teams__["a" /* default */],
-    user_team_members: __WEBPACK_IMPORTED_MODULE_13__user_teams_members__["a" /* default */],
+    user_teams: __WEBPACK_IMPORTED_MODULE_16__user_teams__["a" /* default */],
+    user_team_members: __WEBPACK_IMPORTED_MODULE_17__user_teams_members__["a" /* default */],
 
-    user_piles: __WEBPACK_IMPORTED_MODULE_14__user_piles__["a" /* default */],
-    user_sites: __WEBPACK_IMPORTED_MODULE_15__user_sites_sites__["a" /* default */],
-    user_commands: __WEBPACK_IMPORTED_MODULE_16__user_commands__["a" /* default */],
-    user_site_files: __WEBPACK_IMPORTED_MODULE_17__user_sites_files__["a" /* default */],
-    user_site_servers: __WEBPACK_IMPORTED_MODULE_18__user_sites_servers__["a" /* default */],
-    user_site_workers: __WEBPACK_IMPORTED_MODULE_19__user_sites_workers__["a" /* default */],
-    user_site_schemas: __WEBPACK_IMPORTED_MODULE_20__user_sites_schemas__["a" /* default */],
-    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_21__user_sites_ssh_keys__["a" /* default */],
-    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_22__user_sites_cron_jobs__["a" /* default */],
-    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_23__user_sites_firewalls__["a" /* default */],
-    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_24__user_sites_deployments__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_25__user_repository_providers__["a" /* default */],
-    user_site_server_features: __WEBPACK_IMPORTED_MODULE_26__user_sites_server_features__["a" /* default */],
-    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_27__user_sites_ssl_certificates__["a" /* default */],
-    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_28__user_sites_language_settings__["a" /* default */],
-    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_29__user_sites_environment_varaibles__["a" /* default */],
+    user_piles: __WEBPACK_IMPORTED_MODULE_18__user_piles__["a" /* default */],
+    user_sites: __WEBPACK_IMPORTED_MODULE_19__user_sites_sites__["a" /* default */],
+    user_commands: __WEBPACK_IMPORTED_MODULE_20__user_commands__["a" /* default */],
+    user_site_files: __WEBPACK_IMPORTED_MODULE_21__user_sites_files__["a" /* default */],
+    user_site_servers: __WEBPACK_IMPORTED_MODULE_22__user_sites_servers__["a" /* default */],
+    user_site_workers: __WEBPACK_IMPORTED_MODULE_23__user_sites_workers__["a" /* default */],
+    user_site_schemas: __WEBPACK_IMPORTED_MODULE_24__user_sites_schemas__["a" /* default */],
+    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_25__user_sites_ssh_keys__["a" /* default */],
+    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_26__user_sites_cron_jobs__["a" /* default */],
+    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_27__user_sites_firewalls__["a" /* default */],
+    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_28__user_sites_deployments__["a" /* default */],
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_29__user_repository_providers__["a" /* default */],
+    user_site_server_features: __WEBPACK_IMPORTED_MODULE_30__user_sites_server_features__["a" /* default */],
+    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_31__user_sites_ssl_certificates__["a" /* default */],
+    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_32__user_sites_language_settings__["a" /* default */],
+    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_33__user_sites_environment_varaibles__["a" /* default */],
 
-    user_servers: __WEBPACK_IMPORTED_MODULE_30__user_servers_servers__["a" /* default */],
-    user_server_buoys: __WEBPACK_IMPORTED_MODULE_31__user_servers_buoys__["a" /* default */],
-    user_server_files: __WEBPACK_IMPORTED_MODULE_32__user_servers_files__["a" /* default */],
-    user_server_schemas: __WEBPACK_IMPORTED_MODULE_33__user_servers_schemas__["a" /* default */],
-    user_server_workers: __WEBPACK_IMPORTED_MODULE_34__user_servers_workers__["a" /* default */],
-    user_server_services: __WEBPACK_IMPORTED_MODULE_35__user_servers_services__["a" /* default */],
-    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_36__user_servers_ssh_keys__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_37__user_server_providers__["a" /* default */],
-    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_38__user_servers_cron_jobs__["a" /* default */],
-    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_39__user_servers_firewalls__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_40__user_servers_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_41__user_servers_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_42__user_servers_environment_varaibles__["a" /* default */]
+    user_servers: __WEBPACK_IMPORTED_MODULE_34__user_servers_servers__["a" /* default */],
+    user_server_buoys: __WEBPACK_IMPORTED_MODULE_35__user_servers_buoys__["a" /* default */],
+    user_server_files: __WEBPACK_IMPORTED_MODULE_36__user_servers_files__["a" /* default */],
+    user_server_schemas: __WEBPACK_IMPORTED_MODULE_37__user_servers_schemas__["a" /* default */],
+    user_server_workers: __WEBPACK_IMPORTED_MODULE_38__user_servers_workers__["a" /* default */],
+    user_server_services: __WEBPACK_IMPORTED_MODULE_39__user_servers_services__["a" /* default */],
+    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_40__user_servers_ssh_keys__["a" /* default */],
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_41__user_server_providers__["a" /* default */],
+    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_42__user_servers_cron_jobs__["a" /* default */],
+    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_43__user_servers_firewalls__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_44__user_servers_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_45__user_servers_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_46__user_servers_environment_varaibles__["a" /* default */]
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-providers/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('Auth\Providers\NotificationProvidersController@index'), 'notification_providers/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-providers/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-providers/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-providers/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-settings/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('NotificationSettingsController@index'), 'notification_settings/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-settings/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-settings/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.settings = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/notification-settings/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    settings: []
 });
 
 /***/ }),
@@ -54441,18 +54572,23 @@ var clear = function clear(state) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var add = function add(_ref, notification) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
+};
+
+var add = function add(_ref2, notification) {
+    _objectDestructuringEmpty(_ref2);
 
     commit('notifications/add', notification);
 };
 
-var remove = function remove(_ref2, notification) {
-    _objectDestructuringEmpty(_ref2);
+var remove = function remove(_ref3, notification) {
+    _objectDestructuringEmpty(_ref3);
 
     commit('notifications/remove', notification);
 };
@@ -54623,6 +54759,66 @@ var setAll = function setAll(state, _ref) {
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     providers: []
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/subscriptions/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plans", function() { return plans; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var plans = function plans(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('SubscriptionController@index'), 'subscriptions/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/subscriptions/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/subscriptions/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.plans = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/subscriptions/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    plans: []
 });
 
 /***/ }),
@@ -54861,135 +55057,146 @@ var remove = function remove(state, _ref5) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/notifications/actions.js":
+/***/ "./resources/assets/js/store/modules/user/notification-providers/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, user) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('UserProvidersUserNotificationProviderController@index', { user: user }), 'user_notification_providers/setAll');
 };
 
-var show = function show(_ref2, data) {
+var destroy = function destroy(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
-};
-
-var store = function store(_ref3, data) {
-    _objectDestructuringEmpty(_ref3);
-
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
+    return Vue.request(data).delete(Vue.action('UserProvidersUserNotificationProviderController@destroy', {
+        user: data.user,
+        notification_provider: data.notification_provider
+    }), 'user_notification_providers/destroy');
 };
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/notifications/getters.js":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/notifications/index.js":
+/***/ "./resources/assets/js/store/modules/user/notification-providers/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/notifications/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/notifications/mutations.js":
+/***/ "./resources/assets/js/store/modules/user/notification-providers/mutations.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-    var response = _ref.response,
-        requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-    var response = _ref2.response,
-        requestData = _ref2.requestData;
-};
+var remove = function remove(state, _ref2) {
+    var requestData = _ref2.requestData;
 
-var add = function add(state, _ref3) {
-    var response = _ref3.response,
-        requestData = _ref3.requestData;
-};
-
-var update = function update(state, command) {
-
-    var commandKey = _.findKey(state.running_commands[command.commandable_type], { id: parseInt(command.id) });
-
-    if (commandKey) {
-        Vue.set(state.running_commands[command.commandable_type], parseInt(commandKey), command);
-    } else {
-
-        if (!state.running_commands[command.commandable_type]) {
-            Vue.set(state.running_commands, command.commandable_type, []);
-        }
-
-        state.running_commands[command.commandable_type].push(command);
-    }
-};
-
-var remove = function remove(state, _ref4) {
-    var response = _ref4.response,
-        requestData = _ref4.requestData;
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.notification_provider }));
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/notifications/state.js":
+/***/ "./resources/assets/js/store/modules/user/notification-providers/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/notification-settings/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('UserUserNotificationSettingsController@index'), 'user_notification_settings/setAll');
+};
+
+var update = function update(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).post(Vue.action('UserUserNotificationSettingsController@store'), 'user_notification_settings/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/notification-settings/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/notification-settings/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.settings = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/notification-settings/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    settings: []
+});
 
 /***/ }),
 
@@ -55006,12 +55213,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sites", function() { return sites; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
     // TODO - why not get all the piles?
     // Vue.action('Pile\PileController@allPiles', 'setAll')
-    return Vue.request(data).get(Vue.action('Pile\PileController@index'), 'user_piles/setAll');
+    return Vue.request().get(Vue.action('Pile\PileController@index'), 'user_piles/setAll');
 };
 
 var store = function store(_ref2, data) {
@@ -58475,48 +58682,43 @@ var remove = function remove(state, _ref3) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cancel", function() { return cancel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getInvoices", function() { return getInvoices; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUpcomingSubscription", function() { return getUpcomingSubscription; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('UserSubscriptionUserSubscriptionController@index'), 'user_subscription/set');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('UserSubscriptionUserSubscriptionController@store'), 'user_subscription/set');
 };
 
-var store = function store(_ref3, data) {
+var cancel = function cancel(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('UserSubscriptionUserSubscriptionController@destroy', {
+        subscription: subscription
+    }), 'tAll/remove');
 };
 
-var update = function update(_ref4, data) {
+var getInvoices = function getInvoices(_ref4) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(data).patch('');
+    return Vue.request().get(Vue.action('UserSubscriptionUserSubscriptionInvoiceController@index'), 'user_subscription/setUpcoming');
 };
 
-var destroy = function destroy(_ref5, data) {
+var getUpcomingSubscription = function getUpcomingSubscription(_ref5) {
     _objectDestructuringEmpty(_ref5);
 
-    return Vue.request(data).delete('');
+    return Vue.request().get(Vue.action('UserSubscriptionUserSubscriptionUpcomingInvoiceController@index'), 'user_subscription/setUpcoming');
 };
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/subscription/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -58525,20 +58727,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -58550,33 +58748,30 @@ var destroy = function destroy(_ref5, data) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setInvoices", function() { return setInvoices; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUpcoming", function() { return setUpcoming; });
 var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+    var response = _ref.response,
+        requestData = _ref.requestData;
+
+    state.subscription = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var remove = function remove(state) {
+    state.subscription = null;
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+var setInvoices = function setInvoices(state, _ref2) {
+    var response = _ref2.response;
+
+    state.invoices = response;
 };
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
-};
+var setUpcoming = function setUpcoming(state, _ref3) {
+    var response = _ref3.response;
 
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+    state.upcoming_subscription = response;
 };
 
 /***/ }),
@@ -58585,7 +58780,12 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    invoices: [],
+    subscription: null,
+    valid_subscription: false,
+    upcoming_subscription: null
+});
 
 /***/ }),
 
@@ -58830,10 +59030,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get(Vue.action('UserUserController@index'), 'user/set');
+    return Vue.request().get(Vue.action('UserUserController@index'), 'user/set');
 };
 
 var update = function update(_ref2, data) {

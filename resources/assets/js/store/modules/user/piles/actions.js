@@ -1,7 +1,7 @@
-export const get = ({}, data) => {
+export const get = ({}) => {
     // TODO - why not get all the piles?
   // Vue.action('Pile\PileController@allPiles', 'setAll')
-    return Vue.request(data).get(
+    return Vue.request().get(
         Vue.action('Pile\PileController@index'),
         'user_piles/setAll'
     )

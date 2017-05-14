@@ -108,7 +108,7 @@
                 return this.$store.state.user.user;
             },
             plans() {
-                let plans = this.$store.state.userSubscriptionsStore.plans;
+                let plans = this.$store.state.subscriptions.plans;
 
                 if(this.validSubscription) {
                     let plan = _.find(plans, { id : this.user_subscription.stripe_plan});
@@ -120,16 +120,16 @@
                 return plans;
             },
             invoices() {
-                return this.$store.state.userSubscriptionsStore.user_invoices;
+                return this.$store.state.user_subscription.invoices;
             },
             user_subscription() {
-                return this.$store.state.userSubscriptionsStore.user_subscription;
+                return this.$store.state.user_subscription.subscription
             },
             validSubscription() {
-                return this.$store.state.userSubscriptionsStore.valid_subscription;
+                return this.$store.state.user_subscription.valid_subscription;
             },
             upcomingSubscription() {
-                return this.$store.state.userSubscriptionsStore.user_upcoming_subscription;
+                return this.$store.state.user_subscription.upcoming_subscription;
             },
             isCanceled() {
                 return this.user_subscription.ends_at != null;
@@ -137,21 +137,19 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getPlans');
-                this.$store.dispatch('getUserInvoices');
-                this.$store.dispatch('getUserSubscription');
-                this.$store.dispatch('getUpcomingSubscription');
+                this.$store.dispatch('subscriptions/plans');
+                this.$store.dispatch('user_subscription/get');
+                this.$store.dispatch('user_subscription/getInvoices');
+                this.$store.dispatch('user_subscription/getUpcomingSubscription');
             },
             createSubscription() {
-                this.$store.dispatch('createUserSubscription', this.form).then(() => {
-                    this.form = this.$options.data().form;
-                });
+                this.$store.dispatch('user_subscription/store', this.form)
             },
             cancelSubscription() {
                 this.$store.dispatch('cancelSubscription', this.user_subscription.id);
             },
-            downloadLink: function (invoice_id) {
-                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', {invoice: invoice_id});
+            downloadLink: function (invoice) {
+                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', { invoice: invoice });
             }
         }
     }

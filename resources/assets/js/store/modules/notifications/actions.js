@@ -1,3 +1,7 @@
+export const get = ({}) => {
+
+}
+
 export const add = ({}, notification) => {
     commit('notifications/add', notification)
 }

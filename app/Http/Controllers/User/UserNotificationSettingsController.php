@@ -27,6 +27,7 @@ class UserNotificationSettingsController extends Controller
     public function store(Request $request)
     {
         foreach ($request->get('notification_setting') as $notificationSettingId => $services) {
+
             $userNotification = UserNotificationSetting::firstOrNew([
                 'user_id' => \Auth::user()->id,
                 'notification_setting_id' => $notificationSettingId,
@@ -39,7 +40,7 @@ class UserNotificationSettingsController extends Controller
             ]);
         }
 
-        return response()->json('OK');
+        return response()->json(\Auth::user()->notificationSettings);
     }
 
     /**

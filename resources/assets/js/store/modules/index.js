@@ -4,13 +4,17 @@ import events from './events'
 import system from './system'
 import categories from './admin/categories'
 import notifications from './notifications'
+import subscriptions from './subscriptions'
 import server_providers from './server-providers'
 import repository_providers from './repository-providers'
+import notification_settings from './notification-settings'
+import notification_providers from './notification-providers'
 
 import user from './user/user'
 import user_ssh_keys from './user/ssh-keys'
-import user_subscriptions from './user/subscription'
-import user_notifications from './user/notifications'
+import user_subscription from './user/subscription'
+import user_notification_settings from './user/notification-settings'
+import user_notification_providers from './user/notification-providers'
 
 import user_teams from './user/teams'
 import user_team_members from './user/teams/members'
@@ -53,13 +57,17 @@ export default {
     system,
     categories,
     notifications,
+    subscriptions,
     server_providers,
     repository_providers,
+    notification_settings,
+    notification_providers,
 
     user,
     user_ssh_keys,
-    user_subscriptions,
-    user_notifications,
+    user_subscription,
+    user_notification_settings,
+    user_notification_providers,
 
     user_teams,
     user_team_members,

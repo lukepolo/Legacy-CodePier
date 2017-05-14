@@ -1,19 +1,15 @@
 export const set = (state, {response, requestData}) => {
-
+    state.subscription = response
 }
 
-export const setAll = (state, {response, requestData}) => {
-
+export const remove = (state) => {
+    state.subscription = null
 }
 
-export const add = (state, {response, requestData}) => {
-
+export const setInvoices = (state, {response}) => {
+    state.invoices = response
 }
 
-export const update = (state, {response, requestData}) => {
-
-}
-
-export const remove = (state, {response, requestData}) => {
-
+export const setUpcoming = (state, {response}) => {
+    state.upcoming_subscription = response
 }
