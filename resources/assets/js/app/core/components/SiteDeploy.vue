@@ -24,14 +24,14 @@
         },
         computed : {
             hasDeployableServers() {
-                let deployableServers = this.$store.state.sitesStore.site_servers[this.site.id]
+                let deployableServers = this.$store.state.user_site_servers.servers[this.site.id]
                 if(deployableServers && _.keys(deployableServers).length) {
                     return true
                 }
                 return false
             },
             isDeploying() {
-                return _.find(this.$store.state.sitesStore.running_deployments[this.site.id], function(deployment) {
+                return _.find(this.$store.state.user_site_deployments.deployments[this.site.id], function(deployment) {
                     return deployment.status != 'Completed' && deployment.status != 'Failed'
                 });
 
@@ -39,7 +39,7 @@
             }
         },
         created() {
-            this.$store.dispatch('getSiteServers', this.site.id);
+            this.$store.dispatch('user_site_servers/get', this.site.id);
         }
     }
 </script>

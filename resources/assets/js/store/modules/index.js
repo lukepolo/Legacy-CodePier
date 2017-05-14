@@ -18,6 +18,7 @@ import user_piles from './user/piles'
 import user_sites from './user/sites/sites'
 import user_commands from './user/commands'
 import user_site_files from './user/sites/files'
+import user_site_servers from './user/sites/servers'
 import user_site_workers from './user/sites/workers'
 import user_site_schemas from './user/sites/schemas'
 import user_site_ssh_keys from './user/sites/ssh-keys'
@@ -65,6 +66,7 @@ export default {
     user_sites,
     user_commands,
     user_site_files,
+    user_site_servers,
     user_site_workers,
     user_site_schemas,
     user_site_ssh_keys,

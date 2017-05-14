@@ -153,7 +153,7 @@ class Request {
 
 
                     // TODO - handle errors here
-                    // app.handleApiError(errors)
+                    app.handleApiError(errors)
                     if(error.response) {
                         this.onFail(error.response.data)
                         reject(error.response.data)

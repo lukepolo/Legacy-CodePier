@@ -21,10 +21,12 @@ export const update = ({}, data) => {
     )
 }
 
-export const destroy = ({}, data) => {
-    return Vue.request(data).delete(
-        Vue.action('Pile\PileController@destroy', { pile: data.pile }),
-        'user_piles/destroy'
+export const destroy = ({}, pile) => {
+    return Vue.request({
+        pile : pile
+    }).delete(
+        Vue.action('Pile\PileController@destroy', { pile: pile }),
+        'user_piles/remove'
     )
 }
 
