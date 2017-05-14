@@ -4,6 +4,7 @@ import events from './events'
 import system from './system'
 import categories from './admin/categories'
 import notifications from './notifications'
+import server_providers from './server-providers'
 import repository_providers from './repository-providers'
 
 import user from './user/user'
@@ -38,9 +39,9 @@ import user_server_schemas from './user/servers/schemas'
 import user_server_workers from './user/servers/workers'
 import user_server_services from './user/servers/services'
 import user_server_ssh_keys from './user/servers/ssh-keys'
+import user_server_providers from './user/server-providers'
 import user_server_cron_jobs from './user/servers/cron-jobs'
 import user_server_firewalls from './user/servers/firewalls'
-import user_server_providers from './user/servers/providers'
 import user_server_ssl_certificates from './user/servers/ssl-certificates'
 import user_server_language_settings from './user/servers/language-settings'
 import user_server_environment_variables from './user/servers/environment-varaibles'
@@ -52,6 +53,7 @@ export default {
     system,
     categories,
     notifications,
+    server_providers,
     repository_providers,
 
     user,
@@ -86,9 +88,9 @@ export default {
     user_server_workers,
     user_server_services,
     user_server_ssh_keys,
+    user_server_providers,
     user_server_cron_jobs,
     user_server_firewalls,
-    user_server_providers,
     user_server_ssl_certificates,
     user_server_language_settings,
     user_server_environment_variables

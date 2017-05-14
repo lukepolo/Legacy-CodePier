@@ -19,7 +19,7 @@ export const update = (state, {response}) => {
 
 export const remove = (state, {requestData}) => {
     Vue.set(state, 'piles', _.reject(state.piles, {
-        id: requestData.pile
+        id: requestData.value
     }))
 }
 

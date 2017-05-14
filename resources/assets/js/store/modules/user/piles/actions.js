@@ -22,9 +22,7 @@ export const update = ({}, data) => {
 }
 
 export const destroy = ({}, pile) => {
-    return Vue.request({
-        pile : pile
-    }).delete(
+    return Vue.request(pile).delete(
         Vue.action('Pile\PileController@destroy', { pile: pile }),
         'user_piles/remove'
     )

@@ -17,10 +17,10 @@
     export default {
         computed: {
             repository_providers() {
-                return this.$store.state.user.repository_providers;
+                return this.$store.state.repository_providers.providers;
             },
             user_repository_providers() {
-                return this.$store.state.user.user_repository_providers;
+                return this.$store.state.user_repository_providers.providers;
             }
         },
         methods: {
@@ -28,13 +28,13 @@
                 return _.find(this.user_repository_providers, {'repository_provider_id': repository_provider_id});
             },
             disconnectProvider: function (repository_provider_id) {
-                let user_repository_provider_id = _.find(this.user_repository_providers, function (repository_provider) {
-                    return repository_provider.repository_provider_id == repository_provider_id;
+                let repository_provider = _.find(this.user_repository_providers, function (repository_provider) {
+                    return repository_provider.repository_provider_id === repository_provider_id;
                 }).id;
 
-                this.$store.dispatch('deleteUserRepositoryProvider', {
-                    user_id: this.$store.state.user.user.id,
-                    user_repository_provider_id: user_repository_provider_id
+                this.$store.dispatch('user_repository_providers/destroy', {
+                    user: this.$store.state.user.user.id,
+                    repository_provider: repository_provider
                 });
             }
         },
