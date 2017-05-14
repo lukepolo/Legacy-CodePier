@@ -4,7 +4,6 @@ export const get = ({dispatch}) => {
         'user_sites/setAll'
     ).then((sites) => {
         _.each(sites, function (site) {
-            console.info(site)
             dispatch('listen', site)
         })
     })
@@ -30,45 +29,44 @@ export const destroy = ({}, data) => {
 }
 
 export const listen = ({ commit, state, dispatch }, site) => {
-    console.info('listen to ' + site.id)
-    // if (_.indexOf(state.sites_listening_to, site.id) === -1) {
-    //     commit('SET_SITES_LISTENING_TO', site)
-    //     Echo.private('App.Models.Site.Site.' + site.id)
-    //         .listen('Site\\DeploymentStepStarted', (data) => {
-    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
-    //         })
-    //         .listen('Site\\DeploymentStepCompleted', (data) => {
-    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-    //         })
-    //         .listen('Site\\DeploymentStepFailed', (data) => {
-    //             commit('UPDATE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
-    //         })
-    //         .listen('Site\\DeploymentCompleted', (data) => {
-    //             commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-    //             commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-    //             commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
-    //         })
-    //         .notification((notification) => {
-    //             if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
-    //                 dispatch('getDeployment', {
-    //                     site :  notification.siteDeployment.site_id,
-    //                     deployment : notification.siteDeployment.id,
-    //                 })
-    //             }
-    //         })
-    // }
+    if (_.indexOf(state.listening_to, site.id) === -1) {
+        commit('listenTo', site)
+        Echo.private('App.Models.Site.Site.' + site.id)
+            .listen('Site\\DeploymentStepStarted', (data) => {
+                // commit('UPDATE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+            })
+            .listen('Site\\DeploymentStepCompleted', (data) => {
+                // commit('UPDATE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+            })
+            .listen('Site\\DeploymentStepFailed', (data) => {
+                // commit('UPDATE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+            })
+            .listen('Site\\DeploymentCompleted', (data) => {
+                // commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
+                // commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+                // commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+            })
+            .notification((notification) => {
+                if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
+                    // dispatch('getDeployment', {
+                    //     site :  notification.siteDeployment.site_id,
+                    //     deployment : notification.siteDeployment.id,
+                    // })
+                }
+            })
+    }
 }
 //     createSite: ({ commit, dispatch, rootState }, data) => {
 //     return Vue.http.post(Vue.action('Site\SiteController@store'), {

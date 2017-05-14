@@ -40,8 +40,15 @@
         </template>
 
         <div class="btn-footer text-center">
-            <button @click="deletePile()" class="btn">Delete</button>
-            <button class="btn">Create Site</button>
+            <button @click="deletePile()" class="btn">
+                <template v-if="pile.id">
+                    Delete
+                </template>
+                <template v-else>
+                    Cancel
+                </template>
+            </button>
+            <button class="btn" v-if="pile.id">TODO - doesn't do anything yet! --- Create Site</button>
         </div>
     </div>
 </template>
@@ -52,6 +59,7 @@
         data() {
             return {
                 form: {
+                    pile : this.pile.id,
                     name: this.pile.name
                 },
                 editing: this.pile.editing
@@ -69,7 +77,7 @@
         methods: {
             cancel() {
                 if (!this.pile.id) {
-                    this.$store.state.user_piles.piles.splice(this.index, 1)
+                    this.$store.commit('user_piles/removeTemp', this.index)
                 }
 
                 this.editing = false
@@ -78,20 +86,19 @@
                 this.editing = true
             },
             deletePile() {
-                this.$store.dispatch('deletePile', this.pile.id)
+
+                if(this.pile.id) {
+                    return this.$store.dispatch('user_piles/destroy', this.pile.id)
+                }
+
+                this.cancel()
             },
             savePile() {
                 if (this.pile.id) {
-
-                    this.form['pile'] = this.pile
-
-                    this.$store.dispatch('updatePile', this.form)
-
+                    this.$store.dispatch('user_piles/update', this.form)
                 } else {
-                    this.$store.dispatch('createPile', this.form).then((pile) => {
-                        if(pile.id) {
-                            this.$emit('deletePile', this.index)
-                        }
+                    this.$store.dispatch('user_piles/store', this.form).then(() => {
+                        this.cancel()
                     })
                 }
 
