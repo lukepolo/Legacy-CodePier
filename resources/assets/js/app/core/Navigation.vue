@@ -144,12 +144,7 @@
                 this.$refs.search.focus();
             },
             logout() {
-                Vue.http.post(this.action('Auth\LoginController@logout')).then((response) => {
-                    window.location = '/';
-                }, (errors) => {
-                    window.location = '/';
-                });
-
+                this.$store.dispatch('auth/logout')
             },
             changeTeam: function (teamID) {
                 this.$store.dispatch('changeTeams', teamID);

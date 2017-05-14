@@ -1,3 +1,4 @@
+import auth from './auth'
 import bitts from './bitts'
 import buoys from './buoys'
 import events from './events'
@@ -51,6 +52,7 @@ import user_server_language_settings from './user/servers/language-settings'
 import user_server_environment_variables from './user/servers/environment-varaibles'
 
 export default {
+    auth,
     bitts,
     buoys,
     events,

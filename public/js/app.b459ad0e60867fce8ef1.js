@@ -2934,11 +2934,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.search.focus();
         },
         logout: function logout() {
-            Vue.http.post(this.action('Auth\LoginController@logout')).then(function (response) {
-                window.location = '/';
-            }, function (errors) {
-                window.location = '/';
-            });
+            this.$store.dispatch('auth/logout');
         },
 
         changeTeam: function changeTeam(teamID) {
@@ -53887,6 +53883,93 @@ var remove = function remove(state, _ref5) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/modules/auth/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var logout = function logout(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).post(Vue.action('Auth\LoginController@logout')).then(function () {
+        console.info('no error');
+        window.location = '/';
+    }, function (errors) {
+        console.info('errors');
+        window.location = '/';
+    });
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/auth/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/auth/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/auth/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/auth/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/auth/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var set = function set(state, _ref) {
+  var response = _ref.response,
+      requestData = _ref.requestData;
+};
+
+var setAll = function setAll(state, _ref2) {
+  var response = _ref2.response,
+      requestData = _ref2.requestData;
+};
+
+var add = function add(state, _ref3) {
+  var response = _ref3.response,
+      requestData = _ref3.requestData;
+};
+
+var update = function update(state, _ref4) {
+  var response = _ref4.response,
+      requestData = _ref4.requestData;
+};
+
+var remove = function remove(state, _ref5) {
+  var response = _ref5.response,
+      requestData = _ref5.requestData;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/auth/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({});
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/modules/bitts/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -54292,53 +54375,55 @@ var clear = function clear(state) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bitts__ = __webpack_require__("./resources/assets/js/store/modules/bitts/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__buoys__ = __webpack_require__("./resources/assets/js/store/modules/buoys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__events__ = __webpack_require__("./resources/assets/js/store/modules/events/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__system__ = __webpack_require__("./resources/assets/js/store/modules/system/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__admin_categories__ = __webpack_require__("./resources/assets/js/store/modules/admin/categories/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__notifications__ = __webpack_require__("./resources/assets/js/store/modules/notifications/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__subscriptions__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__server_providers__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth__ = __webpack_require__("./resources/assets/js/store/modules/auth/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bitts__ = __webpack_require__("./resources/assets/js/store/modules/bitts/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__buoys__ = __webpack_require__("./resources/assets/js/store/modules/buoys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events__ = __webpack_require__("./resources/assets/js/store/modules/events/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__system__ = __webpack_require__("./resources/assets/js/store/modules/system/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__admin_categories__ = __webpack_require__("./resources/assets/js/store/modules/admin/categories/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__notifications__ = __webpack_require__("./resources/assets/js/store/modules/notifications/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__subscriptions__ = __webpack_require__("./resources/assets/js/store/modules/subscriptions/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__server_providers__ = __webpack_require__("./resources/assets/js/store/modules/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_sites_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/sites/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites_files__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_sites_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_sites_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_sites_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_sites_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_sites_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_sites_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_sites_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/server-features/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_sites_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_sites_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_sites_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_servers_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_servers_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/buoys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_servers_files__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_servers_services__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/services/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_servers_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_servers_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_servers_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/firewalls/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_servers_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_servers_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_servers_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/environment-varaibles/index.js");
+
 
 
 
@@ -54392,57 +54477,58 @@ var clear = function clear(state) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    bitts: __WEBPACK_IMPORTED_MODULE_0__bitts__["a" /* default */],
-    buoys: __WEBPACK_IMPORTED_MODULE_1__buoys__["a" /* default */],
-    events: __WEBPACK_IMPORTED_MODULE_2__events__["a" /* default */],
-    system: __WEBPACK_IMPORTED_MODULE_3__system__["a" /* default */],
-    categories: __WEBPACK_IMPORTED_MODULE_4__admin_categories__["a" /* default */],
-    notifications: __WEBPACK_IMPORTED_MODULE_5__notifications__["a" /* default */],
-    subscriptions: __WEBPACK_IMPORTED_MODULE_6__subscriptions__["a" /* default */],
-    server_providers: __WEBPACK_IMPORTED_MODULE_7__server_providers__["a" /* default */],
-    repository_providers: __WEBPACK_IMPORTED_MODULE_8__repository_providers__["a" /* default */],
-    notification_settings: __WEBPACK_IMPORTED_MODULE_9__notification_settings__["a" /* default */],
-    notification_providers: __WEBPACK_IMPORTED_MODULE_10__notification_providers__["a" /* default */],
+    auth: __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */],
+    bitts: __WEBPACK_IMPORTED_MODULE_1__bitts__["a" /* default */],
+    buoys: __WEBPACK_IMPORTED_MODULE_2__buoys__["a" /* default */],
+    events: __WEBPACK_IMPORTED_MODULE_3__events__["a" /* default */],
+    system: __WEBPACK_IMPORTED_MODULE_4__system__["a" /* default */],
+    categories: __WEBPACK_IMPORTED_MODULE_5__admin_categories__["a" /* default */],
+    notifications: __WEBPACK_IMPORTED_MODULE_6__notifications__["a" /* default */],
+    subscriptions: __WEBPACK_IMPORTED_MODULE_7__subscriptions__["a" /* default */],
+    server_providers: __WEBPACK_IMPORTED_MODULE_8__server_providers__["a" /* default */],
+    repository_providers: __WEBPACK_IMPORTED_MODULE_9__repository_providers__["a" /* default */],
+    notification_settings: __WEBPACK_IMPORTED_MODULE_10__notification_settings__["a" /* default */],
+    notification_providers: __WEBPACK_IMPORTED_MODULE_11__notification_providers__["a" /* default */],
 
-    user: __WEBPACK_IMPORTED_MODULE_11__user_user__["a" /* default */],
-    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_12__user_ssh_keys__["a" /* default */],
-    user_subscription: __WEBPACK_IMPORTED_MODULE_13__user_subscription__["a" /* default */],
-    user_notification_settings: __WEBPACK_IMPORTED_MODULE_14__user_notification_settings__["a" /* default */],
-    user_notification_providers: __WEBPACK_IMPORTED_MODULE_15__user_notification_providers__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_12__user_user__["a" /* default */],
+    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_13__user_ssh_keys__["a" /* default */],
+    user_subscription: __WEBPACK_IMPORTED_MODULE_14__user_subscription__["a" /* default */],
+    user_notification_settings: __WEBPACK_IMPORTED_MODULE_15__user_notification_settings__["a" /* default */],
+    user_notification_providers: __WEBPACK_IMPORTED_MODULE_16__user_notification_providers__["a" /* default */],
 
-    user_teams: __WEBPACK_IMPORTED_MODULE_16__user_teams__["a" /* default */],
-    user_team_members: __WEBPACK_IMPORTED_MODULE_17__user_teams_members__["a" /* default */],
+    user_teams: __WEBPACK_IMPORTED_MODULE_17__user_teams__["a" /* default */],
+    user_team_members: __WEBPACK_IMPORTED_MODULE_18__user_teams_members__["a" /* default */],
 
-    user_piles: __WEBPACK_IMPORTED_MODULE_18__user_piles__["a" /* default */],
-    user_sites: __WEBPACK_IMPORTED_MODULE_19__user_sites_sites__["a" /* default */],
-    user_commands: __WEBPACK_IMPORTED_MODULE_20__user_commands__["a" /* default */],
-    user_site_files: __WEBPACK_IMPORTED_MODULE_21__user_sites_files__["a" /* default */],
-    user_site_servers: __WEBPACK_IMPORTED_MODULE_22__user_sites_servers__["a" /* default */],
-    user_site_workers: __WEBPACK_IMPORTED_MODULE_23__user_sites_workers__["a" /* default */],
-    user_site_schemas: __WEBPACK_IMPORTED_MODULE_24__user_sites_schemas__["a" /* default */],
-    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_25__user_sites_ssh_keys__["a" /* default */],
-    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_26__user_sites_cron_jobs__["a" /* default */],
-    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_27__user_sites_firewalls__["a" /* default */],
-    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_28__user_sites_deployments__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_29__user_repository_providers__["a" /* default */],
-    user_site_server_features: __WEBPACK_IMPORTED_MODULE_30__user_sites_server_features__["a" /* default */],
-    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_31__user_sites_ssl_certificates__["a" /* default */],
-    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_32__user_sites_language_settings__["a" /* default */],
-    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_33__user_sites_environment_varaibles__["a" /* default */],
+    user_piles: __WEBPACK_IMPORTED_MODULE_19__user_piles__["a" /* default */],
+    user_sites: __WEBPACK_IMPORTED_MODULE_20__user_sites_sites__["a" /* default */],
+    user_commands: __WEBPACK_IMPORTED_MODULE_21__user_commands__["a" /* default */],
+    user_site_files: __WEBPACK_IMPORTED_MODULE_22__user_sites_files__["a" /* default */],
+    user_site_servers: __WEBPACK_IMPORTED_MODULE_23__user_sites_servers__["a" /* default */],
+    user_site_workers: __WEBPACK_IMPORTED_MODULE_24__user_sites_workers__["a" /* default */],
+    user_site_schemas: __WEBPACK_IMPORTED_MODULE_25__user_sites_schemas__["a" /* default */],
+    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_26__user_sites_ssh_keys__["a" /* default */],
+    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_27__user_sites_cron_jobs__["a" /* default */],
+    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_28__user_sites_firewalls__["a" /* default */],
+    user_sites_deployments: __WEBPACK_IMPORTED_MODULE_29__user_sites_deployments__["a" /* default */],
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_30__user_repository_providers__["a" /* default */],
+    user_site_server_features: __WEBPACK_IMPORTED_MODULE_31__user_sites_server_features__["a" /* default */],
+    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_32__user_sites_ssl_certificates__["a" /* default */],
+    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_33__user_sites_language_settings__["a" /* default */],
+    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_34__user_sites_environment_varaibles__["a" /* default */],
 
-    user_servers: __WEBPACK_IMPORTED_MODULE_34__user_servers_servers__["a" /* default */],
-    user_server_buoys: __WEBPACK_IMPORTED_MODULE_35__user_servers_buoys__["a" /* default */],
-    user_server_files: __WEBPACK_IMPORTED_MODULE_36__user_servers_files__["a" /* default */],
-    user_server_schemas: __WEBPACK_IMPORTED_MODULE_37__user_servers_schemas__["a" /* default */],
-    user_server_workers: __WEBPACK_IMPORTED_MODULE_38__user_servers_workers__["a" /* default */],
-    user_server_services: __WEBPACK_IMPORTED_MODULE_39__user_servers_services__["a" /* default */],
-    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_40__user_servers_ssh_keys__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_41__user_server_providers__["a" /* default */],
-    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_42__user_servers_cron_jobs__["a" /* default */],
-    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_43__user_servers_firewalls__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_44__user_servers_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_45__user_servers_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_46__user_servers_environment_varaibles__["a" /* default */]
+    user_servers: __WEBPACK_IMPORTED_MODULE_35__user_servers_servers__["a" /* default */],
+    user_server_buoys: __WEBPACK_IMPORTED_MODULE_36__user_servers_buoys__["a" /* default */],
+    user_server_files: __WEBPACK_IMPORTED_MODULE_37__user_servers_files__["a" /* default */],
+    user_server_schemas: __WEBPACK_IMPORTED_MODULE_38__user_servers_schemas__["a" /* default */],
+    user_server_workers: __WEBPACK_IMPORTED_MODULE_39__user_servers_workers__["a" /* default */],
+    user_server_services: __WEBPACK_IMPORTED_MODULE_40__user_servers_services__["a" /* default */],
+    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_41__user_servers_ssh_keys__["a" /* default */],
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_42__user_server_providers__["a" /* default */],
+    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_43__user_servers_cron_jobs__["a" /* default */],
+    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_44__user_servers_firewalls__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_45__user_servers_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_46__user_servers_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_47__user_servers_environment_varaibles__["a" /* default */]
 });
 
 /***/ }),
@@ -59096,7 +59182,7 @@ var set = function set(state, _ref) {
 
 /***/ }),
 
-/***/ "./resources/assets/sass/site.scss":
+/***/ "./resources/assets/sass/public.scss":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -59115,7 +59201,7 @@ var set = function set(state, _ref) {
 
 __webpack_require__("./resources/assets/js/app.js");
 __webpack_require__("./resources/assets/sass/app.scss");
-module.exports = __webpack_require__("./resources/assets/sass/site.scss");
+module.exports = __webpack_require__("./resources/assets/sass/public.scss");
 
 
 /***/ })
