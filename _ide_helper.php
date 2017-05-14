@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.22 on 2017-05-09.
+ * Generated for Laravel 5.4.23 on 2017-05-14.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -4798,6 +4798,17 @@ namespace Illuminate\Support\Facades {
         public static function forUser($user)
         {
             return \Illuminate\Auth\Access\Gate::forUser($user);
+        }
+        
+        /**
+         * Get all of the defined abilities.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function abilities()
+        {
+            return \Illuminate\Auth\Access\Gate::abilities();
         }
         
     }         
@@ -10065,7 +10076,7 @@ namespace Illuminate\Support\Facades {
          * Store the uploaded file on the disk.
          *
          * @param string $path
-         * @param \Illuminate\Http\UploadedFile $file
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
          * @param array $options
          * @return string|false 
          * @static 
@@ -13802,7 +13813,7 @@ if (! function_exists('create_redis_hash')) {
         /**
          * Add a basic where clause to the query.
          *
-         * @param string|\Closure $column
+         * @param string|array|\Closure $column
          * @param string $operator
          * @param mixed $value
          * @param string $boolean

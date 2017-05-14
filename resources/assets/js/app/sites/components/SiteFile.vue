@@ -61,9 +61,9 @@
         },
         methods: {
             saveFile() {
-                this.$store.dispatch('updateSiteFile', {
-                    file: this.file,
+                this.$store.dispatch('user_site_files/update', {
                     site: this.site.id,
+                    file_path: this.file,
                     content: this.getContent(),
                     file_id: this.file_model.id,
                 });
@@ -118,7 +118,7 @@
               return this.file;
             },
             siteFiles() {
-                return this.$store.state.siteFilesStore.site_files;
+                return this.$store.state.user_site_files.files;
             }
         }
     }

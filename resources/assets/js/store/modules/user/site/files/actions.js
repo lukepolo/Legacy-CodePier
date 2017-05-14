@@ -13,20 +13,30 @@ export const store = ({}, data) => {
 }
 
 export const update = ({}, data) => {
-    return Vue.request(data).patch('')
+    return Vue.request(data).patch(
+        Vue.action('Site\SiteFileController@update', {
+            site: data.site,
+            file: data.file_id
+        }),
+        'user_site_files/update'
+    ).then(() => {
+        app.showSuccess('You have updated the file')
+    })
 }
 
 export const destroy = ({}, data) => {
     return Vue.request(data).delete('')
 }
-//
-// getSiteFiles: ({ commit }, site) => {
-//     Vue.http.get().then((response) => {
-//         commit('SET_SITE_FILES', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
+
+export const getEditableFrameworkFiles = ({}, site) => {
+    return Vue.request().get(
+        Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site }),
+        'user_site_files/setEditableFrameworkFiles'
+    )
+}
+
+
+
 //     addCustomFile: ({ commit }, site) => {
 //     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
 //         commit('ADD_SITE_FILE', response.data)
@@ -54,19 +64,6 @@ export const destroy = ({}, data) => {
 //         app.showError(errors)
 //     })
 // },
-//     updateSiteFile: ({ commit }, data) => {
-//     Vue.http.put(Vue.action('Site\SiteFileController@update', {
-//         site: data.site,
-//         file: data.file_id
-//     }), {
-//         file_path: data.file,
-//         content: data.content
-//     }).then((response) => {
-//         app.showSuccess('You have updated the file')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
 //     reloadSiteFile: ({ commit }, data) => {
 //     Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
 //         site: data.site,
@@ -79,10 +76,4 @@ export const destroy = ({}, data) => {
 //         app.handleApiError(errors)
 //     })
 // },
-//     getEditableFrameworkFiles: ({ commit }, site) => {
-//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site })).then((response) => {
-//         commit('SET_EDITABLE_FRAMEWORK_FILES', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// }
+//

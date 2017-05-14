@@ -1589,16 +1589,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "4d4a62820d0274c477c1765303f74254cc278097"
+                "reference": "eba0b92a4e23dd37abd75f99323a1b463b205d77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/4d4a62820d0274c477c1765303f74254cc278097",
-                "reference": "4d4a62820d0274c477c1765303f74254cc278097",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/eba0b92a4e23dd37abd75f99323a1b463b205d77",
+                "reference": "eba0b92a4e23dd37abd75f99323a1b463b205d77",
                 "shasum": ""
             },
             "require": {
@@ -1622,7 +1622,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3.x-dev"
+                    "dev-master": "2.4.x-dev"
                 }
             },
             "autoload": {
@@ -1653,7 +1653,7 @@
                 "gist",
                 "github"
             ],
-            "time": "2017-04-18T18:51:11+00:00"
+            "time": "2017-05-10T13:37:39+00:00"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -1765,16 +1765,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.22",
+            "version": "v5.4.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "fc5c7a18644f231bcb8d02f4ec2f3a2517f5015d"
+                "reference": "ad82327705658dbf5f0ce72805caa950dfbe150d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/fc5c7a18644f231bcb8d02f4ec2f3a2517f5015d",
-                "reference": "fc5c7a18644f231bcb8d02f4ec2f3a2517f5015d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ad82327705658dbf5f0ce72805caa950dfbe150d",
+                "reference": "ad82327705658dbf5f0ce72805caa950dfbe150d",
                 "shasum": ""
             },
             "require": {
@@ -1890,7 +1890,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-05-08T21:45:45+00:00"
+            "time": "2017-05-11T20:10:35+00:00"
         },
         {
             "name": "laravel/passport",
@@ -3702,16 +3702,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.3",
+            "version": "v0.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e"
+                "reference": "17cf432bb80d9198df239b80d00a29155bd74d82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e",
-                "reference": "1dd4bbbc64d71e7ec075ffe82b42d9e096dc8d5e",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/17cf432bb80d9198df239b80d00a29155bd74d82",
+                "reference": "17cf432bb80d9198df239b80d00a29155bd74d82",
                 "shasum": ""
             },
             "require": {
@@ -3771,7 +3771,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-03-19T21:40:44+00:00"
+            "time": "2017-05-12T15:41:55+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -4257,16 +4257,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v4.9.0",
+            "version": "v4.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "0757eb4911b3c541cf5c54bc4fc9c0c0c0ae26fc"
+                "reference": "1ce201a9fb8bda96e87789f4cd952518f37b88e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/0757eb4911b3c541cf5c54bc4fc9c0c0c0ae26fc",
-                "reference": "0757eb4911b3c541cf5c54bc4fc9c0c0c0ae26fc",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1ce201a9fb8bda96e87789f4cd952518f37b88e0",
+                "reference": "1ce201a9fb8bda96e87789f4cd952518f37b88e0",
                 "shasum": ""
             },
             "require": {
@@ -4308,7 +4308,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-04-28T16:44:39+00:00"
+            "time": "2017-05-10T18:53:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5701,12 +5701,12 @@
             "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mockery/mockery.git",
+                "url": "https://github.com/padraic/mockery.git",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
                 "shasum": ""
             },

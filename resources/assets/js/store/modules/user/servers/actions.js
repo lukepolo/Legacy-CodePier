@@ -65,7 +65,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
         commit('listenTo', server)
 
         if (server.progress < 100) {
-            // dispatch('getServersCurrentProvisioningStep', server.id)
+            dispatch('user_server_provisioning/getCurrentStep', server.id, { root: true })
         }
 
         Echo.private('App.Models.Server.Server.' + server.id)

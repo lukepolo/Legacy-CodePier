@@ -50,6 +50,7 @@ import user_server_ssh_keys from './user/server/ssh-keys'
 import user_server_providers from './user/server-providers'
 import user_server_cron_jobs from './user/server/cron-jobs'
 import user_server_firewalls from './user/server/firewalls'
+import user_server_provisioning from './user/server/provisioning'
 import user_server_ssl_certificates from './user/server/ssl-certificates'
 import user_server_language_settings from './user/server/language-settings'
 import user_server_environment_variables from './user/server/environment-varaibles'
@@ -107,6 +108,7 @@ export default {
     user_server_providers,
     user_server_cron_jobs,
     user_server_firewalls,
+    user_server_provisioning,
     user_server_ssl_certificates,
     user_server_language_settings,
     user_server_environment_variables

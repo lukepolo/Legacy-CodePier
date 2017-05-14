@@ -20,8 +20,7 @@
         },
         methods: {
             fetchData() {
-                this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
-                this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+                this.$store.dispatch('user_site_files/getEditableFrameworkFiles', this.$route.params.site_id);
             },
             isRunningCommandFor(file) {
                 if(this.siteFiles) {
@@ -35,17 +34,14 @@
             }
         },
         computed: {
-            runningCommands() {
-                return this.$store.state.serversStore.running_commands;
-            },
             site() {
                 return this.$store.state.user_sites.site;
             },
             possibleFiles() {
-                return this.$store.state.siteFilesStore.editable_framework_files;
+                return this.$store.state.user_site_files.editable_framework_files;
             },
             siteFiles() {
-                return this.$store.state.siteFilesStore.site_files;
+                return this.$store.state.user_site_files.files;
             }
         },
     }

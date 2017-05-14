@@ -7783,8 +7783,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         fetchData: function fetchData() {
-            this.$store.commit('SET_EDITABLE_FRAMEWORK_FILES', []);
-            this.$store.dispatch('getEditableFrameworkFiles', this.$route.params.site_id);
+            this.$store.dispatch('user_site_files/getEditableFrameworkFiles', this.$route.params.site_id);
         },
         isRunningCommandFor: function isRunningCommandFor(file) {
             if (this.siteFiles) {
@@ -7798,17 +7797,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     computed: {
-        runningCommands: function runningCommands() {
-            return this.$store.state.serversStore.running_commands;
-        },
         site: function site() {
             return this.$store.state.user_sites.site;
         },
         possibleFiles: function possibleFiles() {
-            return this.$store.state.siteFilesStore.editable_framework_files;
+            return this.$store.state.user_site_files.editable_framework_files;
         },
         siteFiles: function siteFiles() {
-            return this.$store.state.siteFilesStore.site_files;
+            return this.$store.state.user_site_files.files;
         }
     }
 });
@@ -8073,7 +8069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.showInfo;
         },
         currentProvisioningStep: function currentProvisioningStep() {
-            var provisioningSteps = this.$store.state.serversStore.servers_current_provisioning_step;
+            var provisioningSteps = this.$store.state.user_server_provisioning.current_step;
 
             if (_.has(provisioningSteps, this.server.id)) {
                 return _.get(provisioningSteps, this.server.id);
@@ -8543,9 +8539,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         saveFile: function saveFile() {
-            this.$store.dispatch('updateSiteFile', {
-                file: this.file,
+            this.$store.dispatch('user_site_files/update', {
                 site: this.site.id,
+                file_path: this.file,
                 content: this.getContent(),
                 file_id: this.file_model.id
             });
@@ -8601,7 +8597,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.file;
         },
         siteFiles: function siteFiles() {
-            return this.$store.state.siteFilesStore.site_files;
+            return this.$store.state.user_site_files.files;
         }
     }
 });
@@ -9239,7 +9235,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         site: function site() {
-            return this.$store.state.user_site_files.files;
+            return this.$store.state.user_sites.site;
         }
     }
 });
@@ -53641,7 +53637,7 @@ var action = function action(_action, parameters) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isCommandRunning; });
 var isCommandRunning = function isCommandRunning(type, modelId) {
-    var commands = _.filter(this.$store.state.serversStore.running_commands[type], function (command) {
+    var commands = _.filter(this.$store.state.user_commands.running_commands[type], function (command) {
         return command.commandable_id === modelId && command.status !== 'Completed' && command.status !== 'Failed';
     });
 
@@ -54412,9 +54408,11 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
+
 
 
 
@@ -54524,9 +54522,10 @@ var clear = function clear(state) {
     user_server_providers: __WEBPACK_IMPORTED_MODULE_44__user_server_providers__["a" /* default */],
     user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__["a" /* default */],
     user_server_firewalls: __WEBPACK_IMPORTED_MODULE_46__user_server_firewalls__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_47__user_server_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_48__user_server_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_49__user_server_environment_varaibles__["a" /* default */]
+    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__["a" /* default */]
 });
 
 /***/ }),
@@ -55226,28 +55225,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+    var response = _ref.response,
+        requestData = _ref.requestData;
 };
 
 var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+    var response = _ref2.response;
+
+    state.running_commands = response;
 };
 
 var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+    var response = _ref3.response,
+        requestData = _ref3.requestData;
 };
 
 var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    var response = _ref4.response,
+        requestData = _ref4.requestData;
 };
 
 var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+    var response = _ref5.response,
+        requestData = _ref5.requestData;
 };
 
 /***/ }),
@@ -56437,6 +56437,151 @@ var remove = function remove(state, _ref5) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/modules/user/server/provisioning/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentStep", function() { return getCurrentStep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setVersion", function() { return setVersion; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var getCurrentStep = function getCurrentStep(_ref, server) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('Server\ServerProvisionStepsController@index', { server: server }), 'user_server_provisioning/setCurrentStep');
+};
+
+var show = function show(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).get('');
+};
+
+var store = function store(_ref3, data) {
+    _objectDestructuringEmpty(_ref3);
+
+    return Vue.request(data).post('');
+};
+
+var update = function update(_ref4, data) {
+    _objectDestructuringEmpty(_ref4);
+
+    return Vue.request(data).patch('');
+};
+
+var destroy = function destroy(_ref5, data) {
+    _objectDestructuringEmpty(_ref5);
+
+    return Vue.request(data).delete('');
+};
+
+var setVersion = function setVersion(_ref6, data) {
+    var commit = _ref6.commit;
+
+    commit('system/setVersion', data.version);
+};
+
+//     retryProvisioning: ({ commit }, server) => {
+//     Vue.http.post(Vue.action('Server\ServerProvisionStepsController@store', { server: server })).then((response) => {
+//         commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server, response.data])
+//         app.showSuccess('Retrying to provision the server')
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     getCustomServerLink: ({}, data) => {
+//     return Vue.http.get(Vue.action('Server\ServerController@getCustomServerScriptUrl', {
+//         server: data.server,
+//         site: data.site
+//     })).then((response) => {
+//         return response.data
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// }
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/provisioning/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/provisioning/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentStep", function() { return setCurrentStep; });
+var set = function set(state, _ref) {
+    var response = _ref.response,
+        requestData = _ref.requestData;
+};
+
+var setAll = function setAll(state, _ref2) {
+    var response = _ref2.response,
+        requestData = _ref2.requestData;
+};
+
+var add = function add(state, _ref3) {
+    var response = _ref3.response,
+        requestData = _ref3.requestData;
+};
+
+var update = function update(state, _ref4) {
+    var response = _ref4.response,
+        requestData = _ref4.requestData;
+};
+
+var remove = function remove(state, _ref5) {
+    var response = _ref5.response,
+        requestData = _ref5.requestData;
+};
+
+var setCurrentStep = function setCurrentStep(state, _ref6) {
+    var response = _ref6.response,
+        requestData = _ref6.requestData;
+
+    Vue.set(state.current_step, requestData.server, response);
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/provisioning/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    current_step: {}
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/modules/user/server/schemas/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -57114,7 +57259,7 @@ var listenTo = function listenTo(_ref7, server) {
         commit('listenTo', server);
 
         if (server.progress < 100) {
-            // dispatch('getServersCurrentProvisioningStep', server.id)
+            dispatch('user_server_provisioning/getCurrentStep', server.id, { root: true });
         }
 
         Echo.private('App.Models.Server.Server.' + server.id).listen('Server\\ServerProvisionStatusChanged', function (data) {
@@ -57633,6 +57778,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEditableFrameworkFiles", function() { return getEditableFrameworkFiles; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref, site) {
@@ -57654,7 +57800,12 @@ var store = function store(_ref3, data) {
 var update = function update(_ref4, data) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(data).patch('');
+    return Vue.request(data).patch(Vue.action('Site\SiteFileController@update', {
+        site: data.site,
+        file: data.file_id
+    }), 'user_site_files/update').then(function () {
+        app.showSuccess('You have updated the file');
+    });
 };
 
 var destroy = function destroy(_ref5, data) {
@@ -57662,14 +57813,13 @@ var destroy = function destroy(_ref5, data) {
 
     return Vue.request(data).delete('');
 };
-//
-// getSiteFiles: ({ commit }, site) => {
-//     Vue.http.get().then((response) => {
-//         commit('SET_SITE_FILES', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
+
+var getEditableFrameworkFiles = function getEditableFrameworkFiles(_ref6, site) {
+    _objectDestructuringEmpty(_ref6);
+
+    return Vue.request().get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site }), 'user_site_files/setEditableFrameworkFiles');
+};
+
 //     addCustomFile: ({ commit }, site) => {
 //     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
 //         commit('ADD_SITE_FILE', response.data)
@@ -57697,19 +57847,6 @@ var destroy = function destroy(_ref5, data) {
 //         app.showError(errors)
 //     })
 // },
-//     updateSiteFile: ({ commit }, data) => {
-//     Vue.http.put(Vue.action('Site\SiteFileController@update', {
-//         site: data.site,
-//         file: data.file_id
-//     }), {
-//         file_path: data.file,
-//         content: data.content
-//     }).then((response) => {
-//         app.showSuccess('You have updated the file')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
 //     reloadSiteFile: ({ commit }, data) => {
 //     Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
 //         site: data.site,
@@ -57722,13 +57859,7 @@ var destroy = function destroy(_ref5, data) {
 //         app.handleApiError(errors)
 //     })
 // },
-//     getEditableFrameworkFiles: ({ commit }, site) => {
-//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site })).then((response) => {
-//         commit('SET_EDITABLE_FRAMEWORK_FILES', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// }
+//
 
 /***/ }),
 
@@ -57762,6 +57893,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setEditableFrameworkFiles", function() { return setEditableFrameworkFiles; });
 var set = function set(state, _ref) {
     var response = _ref.response,
         requestData = _ref.requestData;
@@ -57788,6 +57920,11 @@ var remove = function remove(state, _ref5) {
         requestData = _ref5.requestData;
 };
 
+var setEditableFrameworkFiles = function setEditableFrameworkFiles(state, _ref6) {
+    var response = _ref6.response;
+
+    state.editable_framework_files = response;
+};
 // UPDATE_SITE_FILE: (state, file) => {
 //     Vue.set(state.site_files[_.findKey(state.site_files, { id: file.id })], 'unencrypted_content', file.unencrypted_content)
 // },

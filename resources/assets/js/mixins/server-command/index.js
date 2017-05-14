@@ -1,5 +1,5 @@
 export const isCommandRunning = function(type, modelId) {
-    const commands = _.filter(this.$store.state.serversStore.running_commands[type], (command) => {
+    const commands = _.filter(this.$store.state.user_commands.running_commands[type], (command) => {
         return command.commandable_id === modelId && command.status !== 'Completed' && command.status !== 'Failed'
     })
 
