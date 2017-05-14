@@ -1,5 +1,5 @@
-export const get = ({}, data) => {
-    return Vue.request(data).get(
+export const get = ({}) => {
+    return Vue.request().get(
         Vue.action('User\UserController@index'),
         'user/set'
     )

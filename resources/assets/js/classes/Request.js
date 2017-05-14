@@ -5,7 +5,7 @@ class Request {
     /**
      * Create a new Form instance.
      *
-     * @param {object} data
+     * @param {object, FormData} data
      * @param {boolean} reset
      */
     constructor(data, reset) {
@@ -18,8 +18,12 @@ class Request {
             this.originalData = data
         }
 
-        for (let field in data) {
-            this[field] = data[field]
+        if(data instanceof FormData) {
+            this.formData = data
+        } else {
+            for (let field in data) {
+                this[field] = data[field]
+            }
         }
 
         this.errors = new Errors()
@@ -29,6 +33,11 @@ class Request {
      * Fetch all relevant data for the form.
      */
     data() {
+
+        if(this.formData) {
+            return this.formData
+        }
+
         let data = Object.assign({}, this)
 
         delete data.errors
@@ -46,7 +55,6 @@ class Request {
      * @param {array} config
      */
     get(url, mutations, config) {
-
         for (let value in config) {
             this[value] = config[value]
         }
