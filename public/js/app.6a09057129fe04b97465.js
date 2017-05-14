@@ -3927,13 +3927,13 @@ Vue.directive('watch-scroll', {
             return _.join(events, ', ');
         },
         piles: function piles() {
-            return this.$store.state.user_piles.all_user_piles;
+            return this.$store.state.user_piles.piles;
         },
         sites: function sites() {
-            return this.$store.state.user_sites.all_sites;
+            return this.$store.state.user_sites.sites;
         },
         servers: function servers() {
-            return this.$store.state.user_servers.all_servers;
+            return this.$store.state.user_servers.servers;
         },
         events: function events() {
             return this.$store.state.events.events;
@@ -53664,7 +53664,7 @@ var isCommandRunning = function isCommandRunning(type, modelId) {
 /* WEBPACK VAR INJECTION */(function(_) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return serverHasFeature; });
 var getServer = function getServer(serverId, attribute) {
-    var server = _.find(this.$store.state.serversStore.all_servers, { id: parseInt(serverId) });
+    var server = _.find(this.$store.state.user_servers.servers, { id: parseInt(serverId) });
     if (server) {
         if (attribute) {
             return server[attribute];
@@ -53687,7 +53687,7 @@ var serverHasFeature = function serverHasFeature(server, feature) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getSite; });
 var getSite = function getSite(siteId, attribute) {
-    var site = _.find(this.$store.state.sitesStore.all_sites, { id: parseInt(siteId) });
+    var site = _.find(this.$store.state.user_sites.sites, { id: parseInt(siteId) });
     if (site) {
         if (attribute) {
             return site[attribute];
@@ -54228,11 +54228,7 @@ var get = function get(_ref, data) {
         servers: filters ? filters.servers : null
     }, _.isEmpty));
 
-    console.warn('events endpoint not working correctly');
-    // return Vue.request(filters).get(
-    //     Vue.action('EventController@store'),
-    //     'events/setAll'
-    // )
+    return Vue.request(filters).post(Vue.action('EventController@store'), 'events/setAll');
 };
 
 //
