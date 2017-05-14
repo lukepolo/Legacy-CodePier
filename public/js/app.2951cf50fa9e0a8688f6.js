@@ -9234,12 +9234,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         fetchData: function fetchData() {
-            this.$store.dispatch('getSiteFiles', this.$route.params.site_id);
+            this.$store.dispatch('user_site_files/get', this.$route.params.site_id);
         }
     },
     computed: {
         site: function site() {
-            return this.$store.state.user_sites.site;
+            return this.$store.state.user_site_files.files;
         }
     }
 });
@@ -57635,16 +57635,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteFileController@index', { site: site }), 'user_site_files/setAll');
 };
 
 var show = function show(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
-
-    return Vue.request(data).get('');
 };
 
 var store = function store(_ref3, data) {
@@ -57664,13 +57662,73 @@ var destroy = function destroy(_ref5, data) {
 
     return Vue.request(data).delete('');
 };
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/files/getters.js":
-/***/ (function(module, exports) {
-
-
+//
+// getSiteFiles: ({ commit }, site) => {
+//     Vue.http.get().then((response) => {
+//         commit('SET_SITE_FILES', response.data)
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     addCustomFile: ({ commit }, site) => {
+//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
+//         commit('ADD_SITE_FILE', response.data)
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     getEditableFiles: ({ commit }, site) => {
+//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
+//         commit('SET_EDITABLE_SITE_FILES', response.data)
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     findSiteFile: ({ commit }, data) => {
+//     return Vue.http.post(Vue.action('Site\SiteFileController@find', {
+//         site: data.site
+//     }), {
+//         file: data.file,
+//         custom: data.custom ? data.custom : false
+//     }).then((response) => {
+//         commit('ADD_SITE_FILE', response.data)
+//         return response.data
+//     }, (errors) => {
+//         app.showError(errors)
+//     })
+// },
+//     updateSiteFile: ({ commit }, data) => {
+//     Vue.http.put(Vue.action('Site\SiteFileController@update', {
+//         site: data.site,
+//         file: data.file_id
+//     }), {
+//         file_path: data.file,
+//         content: data.content
+//     }).then((response) => {
+//         app.showSuccess('You have updated the file')
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     reloadSiteFile: ({ commit }, data) => {
+//     Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
+//         site: data.site,
+//         file: data.file,
+//         server: data.server
+//     })).then((response) => {
+//         commit('UPDATE_SITE_FILE', response.data)
+//         app.showSuccess('You have reloaded the file')
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// },
+//     getEditableFrameworkFiles: ({ commit }, site) => {
+//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site })).then((response) => {
+//         commit('SET_EDITABLE_FRAMEWORK_FILES', response.data)
+//     }, (errors) => {
+//         app.handleApiError(errors)
+//     })
+// }
 
 /***/ }),
 
@@ -57679,20 +57737,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -57709,29 +57763,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+    var response = _ref.response,
+        requestData = _ref.requestData;
 };
 
 var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+    var response = _ref2.response;
+
+    state.files = response;
 };
 
 var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+    var response = _ref3.response,
+        requestData = _ref3.requestData;
 };
 
 var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    var response = _ref4.response,
+        requestData = _ref4.requestData;
 };
 
 var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+    var response = _ref5.response,
+        requestData = _ref5.requestData;
 };
+
+// UPDATE_SITE_FILE: (state, file) => {
+//     Vue.set(state.site_files[_.findKey(state.site_files, { id: file.id })], 'unencrypted_content', file.unencrypted_content)
+// },
 
 /***/ }),
 
@@ -57739,7 +57798,11 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    files: [],
+    editable_files: [],
+    editable_framework_files: []
+});
 
 /***/ }),
 
