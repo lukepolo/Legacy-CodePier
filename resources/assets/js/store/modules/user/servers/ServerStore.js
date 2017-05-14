@@ -14,13 +14,7 @@ export default {
         servers_current_provisioning_step: {}
     },
     actions: {
-        getServer: ({ commit }, server) => {
-            Vue.http.get(Vue.action('Server\ServerController@show', { server: server })).then((response) => {
-                commit('SET_SERVER', response.data)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
+
         getServersCurrentProvisioningStep: ({ commit }, server) => {
             Vue.http.get(Vue.action('Server\ServerProvisionStepsController@index', { server: server })).then((response) => {
                 commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [server, response.data])
@@ -36,108 +30,7 @@ export default {
                 app.handleApiError(errors)
             })
         },
-        getServers: ({ commit, rootState }) => {
-            Vue.http.get(Vue.action('Server\ServerController@index', { pile_id: rootState.userStore.user.current_pile_id })).then((response) => {
-                commit('SET_SERVERS', response.data)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        getAllServers: ({ commit, dispatch }) => {
-            return Vue.http.get(Vue.action('Server\ServerController@index')).then((response) => {
-                commit('SET_ALL_SERVERS', response.data)
 
-                _.each(response.data, function (server) {
-                    dispatch('listenToServer', server)
-                })
-                return response.data
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        getTrashedServers: ({ commit }) => {
-            return Vue.http.get(Vue.action('Server\ServerController@index', { trashed: true })).then((response) => {
-                commit('SET_TRASHED_SERVERS', response.data)
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        listenToServer: ({ commit, state, dispatch }, server) => {
-            if (_.indexOf(state.servers_listening_to, server.id) === -1) {
-                commit('SET_SERVERS_LISTENING_TO', server)
-
-                if (server.progress < 100) {
-                    dispatch('getServersCurrentProvisioningStep', server.id)
-                }
-
-                Echo.private('App.Models.Server.Server.' + server.id)
-                    .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                        commit('UPDATE_SERVER', data.server)
-                        commit('UPDATE_SITE_SERVER', data.server)
-                        commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [data.server.id, data.serverCurrentProvisioningStep])
-                    })
-                    .listen('Server\\ServerSshConnectionFailed', (data) => {
-                        commit('UPDATE_SERVER', data.server)
-                        commit('UPDATE_SITE_SERVER', data.server)
-                    })
-                    .listen('Server\\ServerSshConnectionFailed', (data) => {
-
-                    })
-                    .listen('Server\\ServerCommandUpdated', (data) => {
-                        commit('UPDATE_COMMAND', data.command)
-                        commit('UPDATE_EVENT_COMMAND', data.command)
-                    })
-                    .notification((notification) => {
-                        switch (notification.type) {
-                        case 'App\\Notifications\\Server\\ServerMemory':
-                        case 'App\\Notifications\\Server\\ServerDiskUsage':
-                        case 'App\\Notifications\\Server\\ServerLoad':
-
-                            commit('SET_SERVER_STATS', {
-                                server: server.id,
-                                stats: notification.stats
-                            })
-                            break
-                        }
-                    })
-            }
-        },
-        createServer: ({ commit, dispatch }, form) => {
-            return Vue.http.post(Vue.action('Server\ServerController@store'), form).then((response) => {
-                commit('ADD_SERVER', response.data)
-                dispatch('listenToServer', response.data)
-                app.showSuccess('Your server is in queue to be provisioned')
-
-                return response.data
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        archiveServer: ({ commit }, server) => {
-            Vue.http.delete(Vue.action('Server\ServerController@destroy', { server: server })).then(() => {
-                if (app.$router.currentRoute.params.server) {
-                    app.$router.push('/')
-                }
-
-                commit('REMOVE_SERVER', server)
-                commit('REMOVE_SERVER_FROM_SITE_SERVERS', server)
-
-                app.showSuccess('You have archived the server')
-
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
-        restoreServer: ({ commit, dispatch }, server) => {
-            Vue.http.post(Vue.action('Server\ServerController@restore', { server: server })).then((response) => {
-                commit('ADD_SERVER', response.data)
-                dispatch('listenToServer', response.data)
-                commit('REMOVE_TRASHED_SERVER', response.data)
-                app.showSuccess('You have restored the server')
-            }, (errors) => {
-                app.handleApiError(errors)
-            })
-        },
         getServerSites: ({ commit }, server) => {
             return Vue.http.get(Vue.action('Server\ServerSiteController@index', { server: server })).then((response) => {
                 commit('SET_SERVER_SITES', response.data)

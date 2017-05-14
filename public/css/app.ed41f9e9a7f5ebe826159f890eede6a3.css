@@ -1646,10 +1646,6 @@ tbody.collapse.in {
   content: "";
 }
 
-.fa-apple:before {
-  content: "";
-}
-
 .fa-archive:before {
   content: "";
 }
@@ -1820,10 +1816,6 @@ tbody.collapse.in {
 
 .fa-trademark:before {
   content: "";
-}
-
-.fa-safari:before {
-  content: "";
 }
 
 .fa-500px:before {

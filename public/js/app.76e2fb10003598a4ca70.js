@@ -3101,7 +3101,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.confirm = true;
         },
         close: function close() {
-            $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle');
+            $(this.$el).closest('.dropdown').removeClass('open');
             this.confirm = false;
         },
         confirmMethod: function confirmMethod() {
@@ -3200,7 +3200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.confirm = true;
         },
         close: function close() {
-            $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle');
+            $(this.$el).closest('.dropdown').removeClass('open');
             this.confirm = false;
         },
         confirmMethod: function confirmMethod() {
@@ -3309,7 +3309,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.confirm = true;
         },
         close: function close() {
-            $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle');
+            $(this.$el).closest('.dropdown').removeClass('open');
             this.confirm = false;
         },
         confirmMethod: function confirmMethod() {
@@ -7545,6 +7545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7555,13 +7556,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         '$route': 'fetchData'
     },
+    data: function data() {
+        return {
+            showArchive: false
+        };
+    },
+
     methods: {
         fetchData: function fetchData() {
-            if (!this.showArchived) {
-                this.$store.dispatch('getServers');
-            } else {
-                this.$store.dispatch('getTrashedServers');
-            }
+            this.$store.dispatch('user_servers/getTrashed');
         }
     },
     computed: {
@@ -7569,11 +7572,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$route.name != 'servers';
         },
         servers: function servers() {
-            if (!this.showArchived) {
-                return this.$store.state.serversStore.servers;
+            if (!this.showArchive) {
+                return this.$store.state.user_servers.servers;
             }
-
-            return this.$store.state.serversStore.trashed_servers;
+            return this.$store.state.user_servers.trashed;
         }
     }
 });
@@ -40060,19 +40062,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "jcf-form-wrap"
   }, [_c('div', {
     staticClass: "container"
-  }, [(!_vm.showArchived) ? [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'archived_servers'
+  }, [_c('div', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": function($event) {
+        _vm.showArchive = !_vm.showArchive
       }
     }
-  }, [_vm._v("Archived Servers")])] : [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'servers'
-      }
-    }
-  }, [_vm._v("Servers")])], _vm._v(" "), _c('table', {
+  }, [_vm._v("\n                        Show\n                        "), (!_vm.showArchive) ? [_vm._v("\n                            Archived\n                        ")] : [_vm._v("\n                            Unarchived\n                        ")]], 2), _vm._v(" "), _c('table', {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.servers), function(server) {
     return _c('tr', [_c('td', [(server.status == 'Provisioned') ? [_c('router-link', {
@@ -40086,7 +40083,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                                            " + _vm._s(server.name) + "\n                                        ")])] : [_vm._v("\n                                        " + _vm._s(server.name) + "\n                                    ")]], 2), _vm._v(" "), _c('td', [_vm._v(_vm._s(server.ip))]), _vm._v(" "), _c('td', [(server.deleted_at) ? [_c('confirm', {
       attrs: {
-        "dispatch": "restoreServer",
+        "dispatch": "user_servers/restore",
         "params": server.id
       }
     }, [_vm._v("\n                                            Restore\n                                        ")])] : [(server.status != 'Provisioned' && server.custom_server_url) ? [_c('textarea', {
@@ -40100,11 +40097,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })] : [_vm._v("\n                                            " + _vm._s(server.status) + "\n                                        ")], _vm._v(" "), _c('confirm', {
       attrs: {
-        "dispatch": "archiveServer",
+        "dispatch": "user_servers/archive",
         "params": server.id
       }
     }, [_vm._v("\n                                            Archive Server\n                                        ")])]], 2)])
-  }))])], 2), _vm._v(" "), _c('div', {
+  }))])]), _vm._v(" "), _c('div', {
     staticClass: "btn-footer"
   }, [_c('router-link', {
     attrs: {
@@ -52935,7 +52932,7 @@ var Request = function () {
             for (var value in config) {
                 this[value] = config[value];
             }
-            return this.submit('get', url, mutations);
+            return this.submit('get', url, mutations, config);
         }
 
         /**
@@ -53052,9 +53049,8 @@ var Request = function () {
 
                     resolve(response.data);
                 }).catch(function (error) {
-
                     // TODO - handle errors here
-                    app.handleApiError(errors);
+                    // app.handleApiError(error)
                     if (error.response) {
                         _this.onFail(error.response.data);
                         reject(error.response.data);
@@ -53524,7 +53520,7 @@ var showError = function showError(message, title, timeout) {
         timeout = 5000;
     }
 
-    this.$store.dispatch('addNotification', {
+    this.$store.dispatch('notifications/add', {
         title: !_.isEmpty(title) ? title : 'Error!!',
         text: message,
         class: 'error',
@@ -53536,7 +53532,7 @@ var showSuccess = function showSuccess(message, title, timeout) {
         timeout = 5000;
     }
 
-    this.$store.dispatch('addNotification', {
+    this.$store.dispatch('notifications/add', {
         title: !_.isEmpty(title) ? title : 'Success!!',
         text: message,
         class: 'success',
@@ -54668,15 +54664,15 @@ var get = function get(_ref) {
 };
 
 var add = function add(_ref2, notification) {
-    _objectDestructuringEmpty(_ref2);
+    var commit = _ref2.commit;
 
-    commit('notifications/add', notification);
+    commit('add', notification);
 };
 
 var remove = function remove(_ref3, notification) {
-    _objectDestructuringEmpty(_ref3);
+    var commit = _ref3.commit;
 
-    commit('notifications/remove', notification);
+    commit('remove', notification);
 };
 
 /***/ }),
@@ -56442,50 +56438,108 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "archive", function() { return archive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTrashed", function() { return getTrashed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restore", function() { return restore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listenTo", function() { return listenTo; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
-    _objectDestructuringEmpty(_ref);
+var get = function get(_ref) {
+    var dispatch = _ref.dispatch;
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerController@index'), 'user_servers/setAll').then(function (servers) {
+        _.each(servers, function (server) {
+            dispatch('listenTo', server);
+        });
+    });
 };
 
-var show = function show(_ref2, data) {
+var show = function show(_ref2, server) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerController@show', { server: server }), 'user_servers/set');
 };
 
 var store = function store(_ref3, data) {
-    _objectDestructuringEmpty(_ref3);
+    var dispatch = _ref3.dispatch;
 
-    return Vue.request(data).post('');
+    return Vue.request(data).post(Vue.action('Server\ServerController@store'), 'user_servers/add').then(function (server) {
+        dispatch('listenTo', server);
+        app.showSuccess('Your server is in queue to be provisioned');
+    });
 };
 
-var update = function update(_ref4, data) {
+var archive = function archive(_ref4, server) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(data).patch('');
+    return Vue.request(server).delete(Vue.action('Server\ServerController@destroy', { server: server }), 'user_servers/remove').then(function () {
+        if (app.$router.currentRoute.params.server) {
+            app.$router.push('/');
+        }
+        app.showSuccess('You have archived the server');
+    });
+
+    // commit('REMOVE_SERVER_FROM_SITE_SERVERS', server)
 };
 
-var destroy = function destroy(_ref5, data) {
+var getTrashed = function getTrashed(_ref5) {
     _objectDestructuringEmpty(_ref5);
 
-    return Vue.request(data).delete('');
+    return Vue.request().get(Vue.action('Server\ServerController@index', { trashed: true }), 'user_servers/setTrashed');
 };
 
-/***/ }),
+var restore = function restore(_ref6, server) {
+    _objectDestructuringEmpty(_ref6);
 
-/***/ "./resources/assets/js/store/modules/user/servers/servers/getters.js":
-/***/ (function(module, exports) {
+    return Vue.request(server).post(Vue.action('Server\ServerController@restore', { server: server }), ['user_servers/add', 'user_servers/removeFromTrash']).then(function () {
+        //         dispatch('listenToServer', response.data)
+    });
+};
+
+var listenTo = function listenTo(_ref7, server) {
+    var commit = _ref7.commit,
+        state = _ref7.state,
+        dispatch = _ref7.dispatch;
 
 
+    if (_.indexOf(state.listening_to, server.id) === -1) {
+
+        commit('listenTo', server);
+
+        if (server.progress < 100) {
+            // dispatch('getServersCurrentProvisioningStep', server.id)
+        }
+
+        Echo.private('App.Models.Server.Server.' + server.id).listen('Server\\ServerProvisionStatusChanged', function (data) {
+            // commit('UPDATE_SERVER', data.server)
+            // commit('UPDATE_SITE_SERVER', data.server)
+            // commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [data.server.id, data.serverCurrentProvisioningStep])
+        }).listen('Server\\ServerSshConnectionFailed', function (data) {
+            // commit('UPDATE_SERVER', data.server)
+            // commit('UPDATE_SITE_SERVER', data.server)
+        }).listen('Server\\ServerSshConnectionFailed', function (data) {}).listen('Server\\ServerCommandUpdated', function (data) {
+            // commit('UPDATE_COMMAND', data.command)
+            // commit('UPDATE_EVENT_COMMAND', data.command)
+        }).notification(function (notification) {
+            switch (notification.type) {
+                case 'App\\Notifications\\Server\\ServerMemory':
+                case 'App\\Notifications\\Server\\ServerDiskUsage':
+                case 'App\\Notifications\\Server\\ServerLoad':
+
+                    // commit('SET_SERVER_STATS', {
+                    //     server: server.id,
+                    //     stats: notification.stats
+                    // })
+                    break;
+            }
+        });
+    }
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56494,20 +56548,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/servers/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -56517,36 +56567,66 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTrashed", function() { return setTrashed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFromTrash", function() { return removeFromTrash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listenTo", function() { return listenTo; });
 var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+    var response = _ref.response;
+
+    state.server = response;
 };
 
 var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+    var response = _ref2.response;
+
+    state.servers = response;
 };
 
 var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
+    var response = _ref3.response;
+
+    console.info(state.servers);
+    console.info(response);
+    state.servers.push(response);
 };
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+var remove = function remove(state, _ref4) {
+    var requestData = _ref4.requestData;
+
+
+    state.trashed.push(_.find(state.servers, {
+        id: requestData.server }));
+
+    Vue.set(state, 'servers', _.reject(state.servers, {
+        id: requestData.value
+    }));
 };
 
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
+var setTrashed = function setTrashed(state, _ref5) {
+    var response = _ref5.response;
+
+    state.trashed = response;
 };
+
+var removeFromTrash = function removeFromTrash(state, _ref6) {
+    var requestData = _ref6.requestData;
+
+
+    console.info(requestData);
+
+    Vue.set(state, 'trashed', _.reject(state.trashed, {
+        id: requestData.value
+    }));
+};
+var listenTo = function listenTo(state, server) {
+    state.listening_to.push(server);
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56554,7 +56634,12 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    server: [],
+    servers: [],
+    trashed: [],
+    listening_to: []
+});
 
 /***/ }),
 

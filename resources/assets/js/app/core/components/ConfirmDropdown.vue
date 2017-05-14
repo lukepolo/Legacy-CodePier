@@ -73,7 +73,7 @@
                 this.confirm = true
             },
             close() {
-                $(this.$el).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle')
+                $(this.$el).closest('.dropdown').removeClass('open')
                 this.confirm = false
             },
             confirmMethod() {
