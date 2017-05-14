@@ -113,7 +113,7 @@
             fetchData() {
                 this.connectServers = false
                 this.form.connected_servers = []
-                this.$store.dispatch('getServers');
+                this.$store.dispatch('user_servers/get');
             },
             linkServers() {
                 this.form.site = this.$route.params.site_id
@@ -128,18 +128,17 @@
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.user_sites.site;
             },
             siteServers() {
-                let siteServers = this.$store.state.sitesStore.site_servers[this.$route.params.site_id];
+                let siteServers = this.$store.state.user_site_servers.servers[this.$route.params.site_id];
                 if(siteServers && _.keys(siteServers).length) {
                     this.form.connected_servers = _.map(siteServers, 'id')
                     return siteServers;
                 }
-
             },
             availableServers() {
-                return _.filter(this.$store.state.serversStore.servers, function(server){
+                return _.filter(this.$store.state.user_servers.servers, function(server){
                     if(server.progress >= 100) {
                         return true
                     }

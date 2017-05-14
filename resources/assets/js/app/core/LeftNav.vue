@@ -100,13 +100,14 @@
                 adding_site: false,
                 form: {
                     domain: null,
-                    domainless: false
+                    domainless: false,
+                    pile_id : this.$store.state.user.user.current_pile_id,
                 }
             }
         },
         methods: {
             saveSite() {
-                this.$store.dispatch('createSite', this.form).then((site) => {
+                this.$store.dispatch('user_sites/store', this.form).then((site) => {
                     if(site) {
                         this.adding_site = false
                     }

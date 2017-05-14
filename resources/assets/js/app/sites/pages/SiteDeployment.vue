@@ -95,15 +95,15 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getDeploymentSteps', this.$route.params.site_id).then(() => {
-                    this.$store.dispatch('getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
+                this.$store.dispatch('user_site_deployments/getDeploymentSteps', this.$route.params.site_id).then(() => {
+                    this.$store.dispatch('user_site_deployments/getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
                         this.clearChanges()
                     });
                 });
 
             },
             updateSiteDeployment() {
-                this.$store.dispatch('updateSiteDeployment', {
+                this.$store.dispatch('user_site_deployments/updateSiteDeployment', {
                     site : this.$route.params.site_id,
                     deployment_steps : this.active
                 })
@@ -175,13 +175,13 @@
         },
         computed: {
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.user_sites.site;
             },
             deploymentSteps() {
-                return this.$store.state.sitesStore.deployment_steps;
+                return this.$store.state.user_site_deployments.deployment_steps;
             },
             currentSiteDeploymentSteps() {
-                return this.$store.state.sitesStore.site_deployment_steps;
+                return this.$store.state.user_site_deployments.site_deployment_steps;
             },
             showZeroTimeDeploymentOptions() {
                 return this.site.zerotime_deployment

@@ -61,7 +61,7 @@
                 return this.$store.state.serversStore.running_commands;
             },
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.user_sites.site;
             },
             customSiteFiles() {
                 return _.filter(this.$store.state.siteFilesStore.site_files, function(file) {

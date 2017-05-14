@@ -16,19 +16,40 @@ export const show = ({}, site) => {
     )
 }
 
-export const store = ({}, data) => {
-    return Vue.request(data).post('')
+export const store = ({dispatch}, data) => {
+    return Vue.request(data).post(
+        Vue.action('Site\SiteController@store'),
+        'user_sites/add'
+    ).then((site) => {
+        dispatch('listen', site)
+        app.$router.push({ name: 'site_repository', params: { site_id: site.id }})
+    })
 }
 
 export const update = ({}, data) => {
-    return Vue.request(data).patch('')
+    return Vue.request(data).patch(
+        Vue.action('Site\SiteController@update', { site: data.site }), [
+            'user_sites/set',
+            'user_sites/update'
+        ]
+    ).then(() => {
+        app.showSuccess('You have updated the site')
+    })
 }
 
-export const destroy = ({}, data) => {
-    return Vue.request(data).delete('')
+export const destroy = ({}, site) => {
+    return Vue.request(site).delete(
+        Vue.action('Site\SiteController@destroy', { site: site }), [
+            'user_sites/remove',
+            // 'remove_site_from_pile'
+        ]
+    ).then(() => {
+        app.$router.push('/')
+        app.showSuccess('You have deleted the site')
+    })
 }
 
-export const listen = ({ commit, state, dispatch }, site) => {
+export const listen = ({ commit, state }, site) => {
     if (_.indexOf(state.listening_to, site.id) === -1) {
         commit('listenTo', site)
         Echo.private('App.Models.Site.Site.' + site.id)
@@ -68,38 +89,3 @@ export const listen = ({ commit, state, dispatch }, site) => {
             })
     }
 }
-//     createSite: ({ commit, dispatch, rootState }, data) => {
-//     return Vue.http.post(Vue.action('Site\SiteController@store'), {
-//         domain: data.domain,
-//         domainless: data.domainless,
-//         pile_id: rootState.userStore.user.current_pile_id
-//     }).then((response) => {
-//         commit('ADD_SITE', response.data)
-//         dispatch('listenToSite', response.data)
-//         app.$router.push({ name: 'site_repository', params: { site_id: response.data.id }})
-//         return response.data
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//     updateSite: ({ commit }, data) => {
-//     Vue.http.put(Vue.action('Site\SiteController@update', { site: data.site_id }), data.data).then((response) => {
-//         commit('SET_SITE', response.data)
-//         app.showSuccess('You have updated the site')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//     deleteSite: ({ commit, rootState }, siteId) => {
-//     Vue.http.delete(Vue.action('Site\SiteController@destroy', { site: siteId })).then(() => {
-//         commit('DELETE_SITE', siteId)
-//         commit('REMOVE_SITE_FROM_PILE', {
-//             site: siteId,
-//             pile: rootState.userStore.user.current_pile_id
-//         })
-//         app.$router.push('/')
-//         app.showSuccess('You have deleted the site')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },

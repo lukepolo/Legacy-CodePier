@@ -39,7 +39,7 @@
                 return this.$store.state.serversStore.running_commands;
             },
             site() {
-                return this.$store.state.sitesStore.site;
+                return this.$store.state.user_sites.site;
             },
             possibleFiles() {
                 return this.$store.state.siteFilesStore.editable_framework_files;

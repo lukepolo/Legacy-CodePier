@@ -2,7 +2,6 @@ import auth from './auth'
 import bitts from './bitts'
 import buoys from './buoys'
 import events from './events'
-import system from './system'
 import categories from './admin/categories'
 import notifications from './notifications'
 import subscriptions from './subscriptions'
@@ -10,6 +9,10 @@ import server_providers from './server-providers'
 import repository_providers from './repository-providers'
 import notification_settings from './notification-settings'
 import notification_providers from './notification-providers'
+
+import system from './system'
+import system_languages from  './system/languages'
+import system_frameworks from  './system/frameworks'
 
 import user from './user/user'
 import user_ssh_keys from './user/ssh-keys'
@@ -21,42 +24,41 @@ import user_teams from './user/teams'
 import user_team_members from './user/teams/members'
 
 import user_piles from './user/piles'
-import user_sites from './user/sites/sites'
+import user_sites from './user/sites'
 import user_commands from './user/commands'
-import user_site_files from './user/sites/files'
-import user_site_servers from './user/sites/servers'
-import user_site_workers from './user/sites/workers'
-import user_site_schemas from './user/sites/schemas'
-import user_site_ssh_keys from './user/sites/ssh-keys'
-import user_site_cron_jobs from './user/sites/cron-jobs'
-import user_site_firewalls from './user/sites/firewalls'
-import user_sites_deployments from './user/sites/deployments'
+import user_site_files from './user/site/files'
+import user_site_servers from './user/site/servers'
+import user_site_workers from './user/site/workers'
+import user_site_schemas from './user/site/schemas'
+import user_site_ssh_keys from './user/site/ssh-keys'
+import user_site_cron_jobs from './user/site/cron-jobs'
+import user_site_firewalls from './user/site/firewalls'
+import user_site_deployments from './user/site/deployments'
 import user_repository_providers from './user/repository-providers'
-import user_site_server_features from './user/sites/server-features'
-import user_site_ssl_certificates from './user/sites/ssl-certificates'
-import user_site_language_settings from './user/sites/language-settings'
-import user_site_environment_variables from './user/sites/environment-varaibles'
+import user_site_server_features from './user/site/server-features'
+import user_site_ssl_certificates from './user/site/ssl-certificates'
+import user_site_language_settings from './user/site/language-settings'
+import user_site_environment_variables from './user/site/environment-varaibles'
 
-import user_servers from './user/servers/servers'
-import user_server_buoys from './user/servers/buoys'
-import user_server_files from './user/servers/files'
-import user_server_schemas from './user/servers/schemas'
-import user_server_workers from './user/servers/workers'
-import user_server_services from './user/servers/services'
-import user_server_ssh_keys from './user/servers/ssh-keys'
+import user_servers from './user/servers'
+import user_server_buoys from './user/server/buoys'
+import user_server_files from './user/server/files'
+import user_server_schemas from './user/server/schemas'
+import user_server_workers from './user/server/workers'
+import user_server_services from './user/server/services'
+import user_server_ssh_keys from './user/server/ssh-keys'
 import user_server_providers from './user/server-providers'
-import user_server_cron_jobs from './user/servers/cron-jobs'
-import user_server_firewalls from './user/servers/firewalls'
-import user_server_ssl_certificates from './user/servers/ssl-certificates'
-import user_server_language_settings from './user/servers/language-settings'
-import user_server_environment_variables from './user/servers/environment-varaibles'
+import user_server_cron_jobs from './user/server/cron-jobs'
+import user_server_firewalls from './user/server/firewalls'
+import user_server_ssl_certificates from './user/server/ssl-certificates'
+import user_server_language_settings from './user/server/language-settings'
+import user_server_environment_variables from './user/server/environment-varaibles'
 
 export default {
     auth,
     bitts,
     buoys,
     events,
-    system,
     categories,
     notifications,
     subscriptions,
@@ -64,6 +66,10 @@ export default {
     repository_providers,
     notification_settings,
     notification_providers,
+
+    system,
+    system_languages,
+    system_frameworks,
 
     user,
     user_ssh_keys,
@@ -84,7 +90,7 @@ export default {
     user_site_ssh_keys,
     user_site_cron_jobs,
     user_site_firewalls,
-    user_sites_deployments,
+    user_site_deployments,
     user_repository_providers,
     user_site_server_features,
     user_site_ssl_certificates,
