@@ -39,8 +39,16 @@ class RepositoryService implements RepositoryServiceContract
 
             try {
                 $providerService->importSshKey($site);
-            } catch (DeployKeyAlreadyUsed $e) {
-                $this->importSshKey($site);
+            } catch (\Exception $e) {
+                if ($e instanceof DeployKeyAlreadyUsed) {
+                    $this->importSshKey($site);
+                } else {
+                    $site->update([
+                        'public_ssh_key' => null,
+                    ]);
+
+                    throw $e;
+                }
             }
 
             foreach ($site->provisionedServers as $server) {

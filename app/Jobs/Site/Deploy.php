@@ -82,7 +82,7 @@ class Deploy implements ShouldQueue
             }
 
             if (! $event->failed) {
-                event(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, [$message]));
+                event(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message));
             }
 
             $this->site->notify(new SiteDeploymentFailed($this->serverDeployment, $message));
