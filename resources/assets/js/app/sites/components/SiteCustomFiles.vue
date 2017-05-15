@@ -47,7 +47,7 @@
                 return false;
             },
             addCustomFile() {
-                this.$store.dispatch('findSiteFile', {
+                this.$store.dispatch('user_site_files/findFile', {
                     custom : true,
                     file : this.form.file,
                     site : this.$route.params.site_id

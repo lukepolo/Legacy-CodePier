@@ -11,6 +11,7 @@ import notification_settings from './notification-settings'
 import notification_providers from './notification-providers'
 
 import system from './system'
+import system_features from './system/features'
 import system_languages from  './system/languages'
 import system_frameworks from  './system/frameworks'
 
@@ -69,6 +70,7 @@ export default {
     notification_providers,
 
     system,
+    system_features,
     system_languages,
     system_frameworks,
 

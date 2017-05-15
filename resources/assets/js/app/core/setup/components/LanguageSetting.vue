@@ -54,7 +54,7 @@
         methods : {
             runSetting() {
                 if(this.siteId) {
-                    this.$store.dispatch('runSiteLanguageSetting', {
+                    this.$store.dispatch('user_site_language_settings/run', {
                         site : this.siteId,
                         params : this.form.params,
                         setting : this.setting.name,

@@ -78,7 +78,7 @@
                     });
 
                     if(!this.file_model) {
-                        this.$store.dispatch('findSiteFile', {
+                        this.$store.dispatch('user_site_files/findFile', {
                             custom : false,
                             file : this.file,
                             site : this.$route.params.site_id

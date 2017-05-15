@@ -24,8 +24,7 @@
         },
         methods: {
             fetchData() {
-                this.$store.commit('SET_EDITABLE_SITE_FILES', []);
-                this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
+                this.$store.dispatch('user_site_files/getEditableFiles', this.$route.params.site_id);
             },
             isRunningCommandFor(file) {
                 if(this.siteFiles) {
@@ -40,16 +39,16 @@
         },
         computed: {
             runningCommands() {
-                return this.$store.state.serversStore.running_commands;
+                return this.$store.state.commands.running_commands;
             },
             site() {
                 return this.$store.state.user_sites.site;
             },
             possibleFiles() {
-                return this.$store.state.siteFilesStore.site_editable_files;
+                return this.$store.state.user_site_files.editable_files;
             },
             siteFiles() {
-                return this.$store.state.siteFilesStore.site_files;
+                return this.$store.state.user_site_files.site_files;
             }
         },
     }

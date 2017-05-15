@@ -81,16 +81,16 @@
             fetchData() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteServerFeatures', this.siteId);
+                    this.$store.dispatch('user_site_server_features/get', this.siteId);
                 }
 
                 if(this.serverId) {
                     this.$store.dispatch('getServerFeatures', this.serverId);
                 }
 
-                this.$store.dispatch('getServerAvailableFeatures');
-                this.$store.dispatch('getServerAvailableLanguages');
-                this.$store.dispatch('getServerAvailableFrameworks');
+                this.$store.dispatch('system_features/get');
+                this.$store.dispatch('system_languages/get');
+                this.$store.dispatch('system_frameworks/get');
             },
             getSectionTitle: function (area) {
                 let areaName = area;
@@ -126,7 +126,7 @@
             serverFeatures() {
                 let serverFeatures = null
                 if(this.siteId) {
-                    serverFeatures = this.$store.state.siteServersFeaturesStore.site_server_features;
+                    serverFeatures = this.$store.state.user_site_server_features.features;
                 }
                 if(this.serverId) {
                     return this.$store.state.serversStore.server_installed_features;
@@ -137,17 +137,17 @@
                 return serverFeatures
             },
             availableServerFeatures() {
-                let serverFeatures = this.$store.state.serversStore.available_server_features
+                let serverFeatures = this.$store.state.system_features.features
 
                 this.section = _.keys(serverFeatures)[0]
 
                 return serverFeatures
             },
             availableServerLanguages() {
-                return this.$store.state.serversStore.available_server_languages;
+                return this.$store.state.system_languages.languages
             },
             availableServerFrameworks() {
-                return this.$store.state.serversStore.available_server_frameworks;
+                return this.$store.state.system_frameworks.frameworks
             }
         }
     }

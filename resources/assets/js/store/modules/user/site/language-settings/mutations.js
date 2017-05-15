@@ -1,19 +1,11 @@
-export const set = (state, {response, requestData}) => {
-
+export const setAll = (state, {response}) => {
+    state.language_settings = response
 }
 
-export const setAll = (state, {response, requestData}) => {
-
+export const setAvailableLanguageSettings = (state, {response}) => {
+    state.available_language_settings = response
 }
 
-export const add = (state, {response, requestData}) => {
-
-}
-
-export const update = (state, {response, requestData}) => {
-
-}
-
-export const remove = (state, {response, requestData}) => {
-
+export const remove = (state, {requestData}) => {
+    Vue.set(state, 'cron_jobs', _.reject(state.cron_jobs, { id: requestData.cron_job }))
 }
