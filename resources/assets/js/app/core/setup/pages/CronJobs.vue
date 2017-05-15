@@ -99,7 +99,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerCronJobs', this.serverId)
+                    this.$store.dispatch('user_server_cron_jobs/get', this.serverId)
                 }
             },
             createCronJob() {
@@ -121,7 +121,7 @@
                     }
 
                     if(this.serverId) {
-                        this.$store.dispatch('createServerCronJob', {
+                        this.$store.dispatch('user_server_cron_jobs/store', {
                             job: job,
                             user: this.form.user,
                             server: this.serverId,
@@ -149,7 +149,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerCronJob', {
+                    this.$store.dispatch('user_server_cron_jobs/destroy', {
                         cron_job : cronJobId,
                         server : this.serverId
                     });
@@ -190,7 +190,7 @@
                 }
 
                 if(this.serverId) {
-                    return this.$store.state.serverCronJobsStore.server_cron_jobs
+                    return this.$store.state.user_server_cron_jobs.cron_jobs
                 }
             }
         }

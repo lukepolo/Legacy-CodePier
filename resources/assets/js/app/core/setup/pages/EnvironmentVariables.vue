@@ -81,7 +81,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerEnvironmentVariables', this.serverId)
+                    this.$store.dispatch('user_server_environment_variables/get', this.serverId)
                 }
             },
             createEnvironmentVariable() {
@@ -99,7 +99,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('createServerEnvironmentVariable', {
+                    this.$store.dispatch('user_server_environment_variables/store', {
                         server: this.serverId,
                         value : this.form.value,
                         variable: this.form.variable,
@@ -121,7 +121,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerEnvironmentVariable', {
+                    this.$store.dispatch('user_server_environment_variables/destroy', {
                         server : this.serverId,
                         environment_variable : environmentVariableId
                     });
@@ -152,7 +152,7 @@
                 }
 
                 if (this.serverId) {
-                    return this.$store.state.serverEnvironmentVariablesStore.server_environment_variables
+                    return this.$store.state.user_server_environment_variables.environment_variables
                 }
             }
         }
