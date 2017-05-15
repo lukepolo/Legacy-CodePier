@@ -61,10 +61,10 @@
                 return this.$store.state.user_servers.server;
             },
             serverFiles() {
-                return this.$store.state.serverFilesStore.server_files;
+                return this.$store.state.user_server_files.files;
             },
             runningCommands() {
-                return this.$store.state.serversStore.running_commands;
+                return this.$store.state.commands.running_commands;
             },
             customServerFiles() {
                 return _.filter(this.serverFiles, function(file) {

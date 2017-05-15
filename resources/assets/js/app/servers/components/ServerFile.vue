@@ -88,7 +88,7 @@
               return this.file;
             },
             serverFiles() {
-                return this.$store.state.serverFilesStore.server_files;
+                return this.$store.state.user_server_files.files;
             }
         }
     }
