@@ -23,8 +23,8 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServerFiles', this.$route.params.server_id)
-                this.$store.dispatch('getEditableServerFiles', this.$route.params.server_id)
+                this.$store.dispatch('user_server_files/get', this.$route.params.server_id)
+                this.$store.dispatch('user_server_files/getEditableFiles', this.$route.params.server_id)
             },
             isRunningCommandFor(file) {
                 if(this.serverFiles) {
@@ -41,13 +41,13 @@
                 return this.$store.state.user_servers.server
             },
             serverFiles() {
-                return this.$store.state.serverFilesStore.server_files
+                return this.$store.state.user_server_files.files
             },
             runningCommands() {
-                return this.$store.state.serverFilesStore.running_commands
+                return this.$store.state.commands.running_commands
             },
             possibleFiles() {
-                return this.$store.state.serverFilesStore.server_editable_files
+                return this.$store.state.user_server_files.editable_files
             }
         },
     }
