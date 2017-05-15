@@ -121,7 +121,7 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSslCertificates', this.siteId);
+                    this.$store.dispatch('user_site_ssl_certificates/get', this.siteId);
                 }
 
                 if(this.serverId) {
@@ -131,7 +131,7 @@
             },
             installCertificate() {
                 if(this.siteId) {
-                    this.$store.dispatch('installSslCertificate', {
+                    this.$store.dispatch('user_site_ssl_certificates/store', {
                         site_id: this.siteId,
                         type : this.form.type,
                         domains: this.form.domains,
@@ -161,7 +161,7 @@
             },
             activateSslCertificate : function(ssl_certificate_id) {
                 if(this.siteId) {
-                    this.$store.dispatch('updateSslCertificate', {
+                    this.$store.dispatch('user_site_ssl_certificates/update', {
                         active : true,
                         site : this.siteId,
                         ssl_certificate : ssl_certificate_id
@@ -170,7 +170,7 @@
             },
             deactivateSslCertificate : function(ssl_certificate_id) {
                 if(this.siteId) {
-                    this.$store.dispatch('updateSslCertificate', {
+                    this.$store.dispatch('user_site_ssl_certificates/update', {
                         active : false,
                         site : this.siteId,
                         ssl_certificate : ssl_certificate_id
@@ -180,7 +180,7 @@
             deleteSslCertificate: function (ssl_certificate_id) {
 
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSslCertificate', {
+                    this.$store.dispatch('user_site_ssl_certificates/destroy', {
                         site : this.siteId,
                         ssl_certificate : ssl_certificate_id
                     })
@@ -200,7 +200,7 @@
             retryInstall(domains) {
 
                 if(this.siteId) {
-                    this.$store.dispatch('installSslCertificate', {
+                    this.$store.dispatch('user_site_ssl_certificates/store', {
                         site_id: this.siteId,
                         domains: domains,
                         type : 'Let\'s Encrypt'
@@ -253,7 +253,7 @@
                 return serverId
             },
             ssl_certificates() {
-                return this.$store.state.siteSslCertificatesStore.ssl_certificates;
+                return this.$store.state.user_site_ssl_certificates.ssl_certificates;
             }
         }
     }
