@@ -122,9 +122,9 @@ class SiteObserver
 
 //        if ($site->isDirty('type') || $site->isDirty('framework')) {
             $site->deploymentSteps()->delete();
-            $this->siteDeploymentStepsService->saveDefaultSteps($site);
-            $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
-            $this->siteFeatureService->saveSuggestedCronJobs($site);
+        $this->siteDeploymentStepsService->saveDefaultSteps($site);
+        $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
+        $this->siteFeatureService->saveSuggestedCronJobs($site);
 //        }
     }
 
