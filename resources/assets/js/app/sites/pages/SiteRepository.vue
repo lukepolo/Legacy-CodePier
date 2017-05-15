@@ -74,6 +74,7 @@
                     <div class="input-question">Select Language</div>
                     <div class="select-wrap">
                         <select v-model="form.type" name="type">
+                            <option value=""></option>
                             <option :value="language" v-for="(features, language) in availableLanguages">
                                 {{ language }}
                             </option>
@@ -96,8 +97,7 @@
             </form>
 
             <div class="btn-footer">
-
-                <confirm dispatch="deleteSite" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
+                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
                 <button @click="updateSite" class="btn btn-primary" type="submit">Update Repository</button>
             </div>
         </div>
@@ -118,11 +118,11 @@
             return {
                 form: {
                     type : null,
-                    branch: null,
+                    branch: 'master',
                     framework: null,
                     repository: null,
-                    web_directory: null,
-                    keep_releases : null,
+                    web_directory: 'public',
+                    keep_releases : 10,
                     wildcard_domain : false,
                     zerotime_deployment: true,
                     user_repository_provider_id: null
@@ -172,7 +172,7 @@
             site() {
                 let site = this.$store.state.user_sites.site;
 
-                if (site) {
+                if (site && site.repository) {
                     this.form.type = site.type
                     this.form.branch = site.branch
                     this.form.framework = site.framework

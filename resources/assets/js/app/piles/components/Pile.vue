@@ -48,7 +48,7 @@
                     Cancel
                 </template>
             </button>
-            <button class="btn" v-if="pile.id">TODO - doesn't do anything yet! --- Create Site</button>
+            <!--<button class="btn" v-if="pile.id">TODO - doesn't do anything yet! -&#45;&#45; Create Site</button>-->
         </div>
     </div>
 </template>

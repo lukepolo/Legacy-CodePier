@@ -2984,7 +2984,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         removeNotification: function removeNotification(notification) {
-            this.$store.dispatch('removeNotification', notification);
+            this.$store.dispatch('notifications/remove', notification);
         }
     }
 });
@@ -3430,7 +3430,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         close: function close(notification) {
             clearTimeout(this.timer);
-            this.$store.dispatch('removeNotification', notification);
+            this.$store.dispatch('notifications/remove', notification);
         }
     }
 });
@@ -9367,11 +9367,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             form: {
                 type: null,
-                branch: null,
+                branch: 'master',
                 framework: null,
                 repository: null,
-                web_directory: null,
-                keep_releases: null,
+                web_directory: 'public',
+                keep_releases: 10,
                 wildcard_domain: false,
                 zerotime_deployment: true,
                 user_repository_provider_id: null
@@ -9421,7 +9421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         site: function site() {
             var site = this.$store.state.user_sites.site;
 
-            if (site) {
+            if (site && site.repository) {
                 this.form.type = site.type;
                 this.form.branch = site.branch;
                 this.form.framework = site.framework;
@@ -37565,13 +37565,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
-  }, _vm._l((_vm.availableLanguages), function(features, language) {
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.availableLanguages), function(features, language) {
     return _c('option', {
       domProps: {
         "value": language
       }
     }, [_vm._v("\n                            " + _vm._s(language) + "\n                        ")])
-  }))])]), _vm._v(" "), (_vm.form.type) ? _c('div', {
+  })], 2)])]), _vm._v(" "), (_vm.form.type) ? _c('div', {
     staticClass: "jcf-input-group"
   }, [_c('tooltip', {
     attrs: {
@@ -37619,7 +37623,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn-footer"
   }, [_c('confirm', {
     attrs: {
-      "dispatch": "deleteSite",
+      "dispatch": "user_sites/destroy",
       "params": _vm.site.id,
       "confirm_with_text": _vm.site.name
     }
@@ -40429,9 +40433,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.deletePile()
       }
     }
-  }, [(_vm.pile.id) ? [_vm._v("\n                Delete\n            ")] : [_vm._v("\n                Cancel\n            ")]], 2), _vm._v(" "), (_vm.pile.id) ? _c('button', {
-    staticClass: "btn"
-  }, [_vm._v("TODO - doesn't do anything yet! --- Create Site")]) : _vm._e()])], 2)
+  }, [(_vm.pile.id) ? [_vm._v("\n                Delete\n            ")] : [_vm._v("\n                Cancel\n            ")]], 2)])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
