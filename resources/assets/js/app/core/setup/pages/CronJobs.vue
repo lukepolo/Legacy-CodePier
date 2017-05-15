@@ -95,7 +95,7 @@
             fetchData() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteCronJobs', this.siteId)
+                    this.$store.dispatch('user_site_cron_jobs/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -109,7 +109,7 @@
                     let job = this.getCronTimings() + ' ' + this.form.cron
 
                     if(this.siteId) {
-                        this.$store.dispatch('createSiteCronJob', {
+                        this.$store.dispatch('user_site_cron_jobs/store', {
                             job: job,
                             site: this.siteId,
                             user: this.form.user
@@ -141,7 +141,7 @@
             },
             deleteCronJob(cronJobId) {
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSiteCronJob', {
+                    this.$store.dispatch('user_site_cron_jobs/destroy', {
                         site : this.siteId,
                         cron_job : cronJobId
 
@@ -186,7 +186,7 @@
             },
             cronJobs() {
                 if(this.siteId) {
-                    return this.$store.state.siteCronJobsStore.site_cron_jobs
+                    return this.$store.state.user_site_cron_jobs.cron_jobs
                 }
 
                 if(this.serverId) {

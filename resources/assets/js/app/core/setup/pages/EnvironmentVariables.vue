@@ -77,7 +77,7 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteEnvironmentVariables', this.siteId)
+                    this.$store.dispatch('user_site_environment_variables/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -87,7 +87,7 @@
             createEnvironmentVariable() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('createSiteEnvironmentVariable', {
+                    this.$store.dispatch('user_site_environment_variables/store', {
                         site: this.siteId,
                         value : this.form.value,
                         variable: this.form.variable,
@@ -114,7 +114,7 @@
             deleteEnvironmentVariable(environmentVariableId) {
 
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSiteEnvironmentVariable', {
+                    this.$store.dispatch('user_site_environment_variables/destroy', {
                         site : this.siteId,
                         environment_variable : environmentVariableId
                     });
@@ -148,7 +148,7 @@
             },
             environmentVariables() {
                 if (this.siteId) {
-                    return this.$store.state.siteEnvironmentVariablesStore.site_environment_variables
+                    return this.$store.state.user_site_environment_variables.environment_variables
                 }
 
                 if (this.serverId) {

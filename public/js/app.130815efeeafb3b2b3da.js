@@ -4917,7 +4917,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
 
             if (this.siteId) {
-                this.$store.dispatch('getSiteCronJobs', this.siteId);
+                this.$store.dispatch('user_site_cron_jobs/get', this.siteId);
             }
 
             if (this.serverId) {
@@ -4932,7 +4932,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var job = this.getCronTimings() + ' ' + this.form.cron;
 
                 if (this.siteId) {
-                    this.$store.dispatch('createSiteCronJob', {
+                    this.$store.dispatch('user_site_cron_jobs/store', {
                         job: job,
                         site: this.siteId,
                         user: this.form.user
@@ -4963,7 +4963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         deleteCronJob: function deleteCronJob(cronJobId) {
             if (this.siteId) {
-                this.$store.dispatch('deleteSiteCronJob', {
+                this.$store.dispatch('user_site_cron_jobs/destroy', {
                     site: this.siteId,
                     cron_job: cronJobId
 
@@ -5007,7 +5007,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cronJobs: function cronJobs() {
             if (this.siteId) {
-                return this.$store.state.siteCronJobsStore.site_cron_jobs;
+                return this.$store.state.user_site_cron_jobs.cron_jobs;
             }
 
             if (this.serverId) {
@@ -5177,7 +5177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         fetchData: function fetchData() {
             if (this.siteId) {
-                this.$store.dispatch('getSiteEnvironmentVariables', this.siteId);
+                this.$store.dispatch('user_site_environment_variables/get', this.siteId);
             }
 
             if (this.serverId) {
@@ -5188,7 +5188,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             if (this.siteId) {
-                this.$store.dispatch('createSiteEnvironmentVariable', {
+                this.$store.dispatch('user_site_environment_variables/store', {
                     site: this.siteId,
                     value: this.form.value,
                     variable: this.form.variable
@@ -5214,7 +5214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteEnvironmentVariable: function deleteEnvironmentVariable(environmentVariableId) {
 
             if (this.siteId) {
-                this.$store.dispatch('deleteSiteEnvironmentVariable', {
+                this.$store.dispatch('user_site_environment_variables/destroy', {
                     site: this.siteId,
                     environment_variable: environmentVariableId
                 });
@@ -5247,7 +5247,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         environmentVariables: function environmentVariables() {
             if (this.siteId) {
-                return this.$store.state.siteEnvironmentVariablesStore.site_environment_variables;
+                return this.$store.state.user_site_environment_variables.environment_variables;
             }
 
             if (this.serverId) {
@@ -6118,7 +6118,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         fetchData: function fetchData() {
             if (this.siteId) {
-                this.$store.dispatch('getWorkers', this.siteId);
+                this.$store.dispatch('user_site_workers/get', this.siteId);
             }
 
             if (this.serverId) {
@@ -6130,7 +6130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.siteId) {
                 this.form.site = this.siteId;
-                this.$store.dispatch('installWorker', this.form).then(function (worker) {
+                this.$store.dispatch('user_site_workers/store', this.form).then(function (worker) {
                     if (worker.id) {
                         _this.resetForm();
                     }
@@ -6149,7 +6149,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         deleteWorker: function deleteWorker(worker_id) {
             if (this.siteId) {
-                this.$store.dispatch('deleteWorker', {
+                this.$store.dispatch('user_site_workers/destroy', {
                     worker: worker_id,
                     site: this.siteId
                 });
@@ -6190,7 +6190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         workers: function workers() {
             if (this.siteId) {
-                return this.$store.state.siteWorkersStore.workers;
+                return this.$store.state.user_site_workers.workers;
             }
 
             if (this.serverId) {
@@ -54410,7 +54410,6 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
 
@@ -54505,8 +54504,8 @@ var clear = function clear(state) {
     user_site_schemas: __WEBPACK_IMPORTED_MODULE_27__user_site_schemas__["a" /* default */],
     user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_28__user_site_ssh_keys__["a" /* default */],
     user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_29__user_site_cron_jobs__["a" /* default */],
-    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__["a" /* default */],
     user_site_deployments: __WEBPACK_IMPORTED_MODULE_30__user_site_deployments__["a" /* default */],
+    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__["a" /* default */],
     user_repository_providers: __WEBPACK_IMPORTED_MODULE_32__user_repository_providers__["a" /* default */],
     user_site_server_features: __WEBPACK_IMPORTED_MODULE_33__user_site_server_features__["a" /* default */],
     user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_34__user_site_ssl_certificates__["a" /* default */],
@@ -54522,9 +54521,9 @@ var clear = function clear(state) {
     user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_43__user_server_ssh_keys__["a" /* default */],
     user_server_providers: __WEBPACK_IMPORTED_MODULE_44__user_server_providers__["a" /* default */],
     user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__["a" /* default */],
-    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__["a" /* default */],
     user_server_provisioning: __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__["default"],
+    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__["a" /* default */],
     user_server_language_settings: __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__["a" /* default */],
     user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__["a" /* default */]
 });
@@ -55844,48 +55843,30 @@ var remove = function remove(state, _ref5) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerCronJobController@index', { server: server }), 'user_server_cron_jobs/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Server\ServerCronJobController@store', { server: data.server }), 'user_server_cron_jobs/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Server\ServerCronJobController@destroy', {
+        server: data.server,
+        cron_job: data.cron_job
+    }), 'user_server_cron_jobs/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/cron-jobs/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -55894,20 +55875,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -55917,36 +55894,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.cron_jobs = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.cron_jobs.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'cron_jobs', _.reject(state.cron_jobs, { id: requestData.cron_job }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -55954,7 +55923,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    cron_jobs: []
+});
 
 /***/ }),
 
@@ -55964,48 +55935,30 @@ var remove = function remove(state, _ref5) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerEnvironmentVariablesController@index', { server: server }), 'user_server_environment_variables/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Server\ServerEnvironmentVariablesController@store', { server: data.server }), 'user_server_environment_variables/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Server\ServerEnvironmentVariablesController@destroy', {
+        server: data.server,
+        environment_variable: data.environment_variable
+    }), 'user_server_environment_variables/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/environment-varaibles/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -56014,20 +55967,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -56037,36 +55986,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.environment_variables = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.environment_variables.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'environment_variables', _.reject(state.environment_variables, { id: requestData.environment_variable }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56074,7 +56015,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    environment_variables: []
+});
 
 /***/ }),
 
@@ -56859,10 +56802,106 @@ var remove = function remove(state, _ref3) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/server/ssl-certificates/index.js":
-/***/ (function(module, exports) {
+/***/ "./resources/assets/js/store/modules/user/server/ssl-certificates/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/store/modules/user/server/ssl-certificates/index.js'\n    at Error (native)");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, server) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('Server\ServerSslController@index', { server: server }), 'user_server_ssl_certificates/setAll');
+};
+
+var store = function store(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).post(Vue.action('Server\ServerSslController@store', { server: data.server_id }), 'user_server_ssl_certificates/add');
+};
+
+var update = function update(_ref3, data) {
+    _objectDestructuringEmpty(_ref3);
+
+    return Vue.request(data).patch(Vue.action('Server\ServerSslController@update', { server: data.server, ssl_certificate: data.ssl_certificate }), 'user_server_ssl_certificates/update');
+};
+
+var destroy = function destroy(_ref4, data) {
+    _objectDestructuringEmpty(_ref4);
+
+    return Vue.request(data).delete(Vue.action('Server\ServerSslController@destroy', { server: data.server, ssl_certificate: data.ssl_certificate }), 'user_server_ssl_certificates/remove');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/ssl-certificates/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/ssl-certificates/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.ssl_certificates = response;
+};
+
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.ssl_certificates.push(response);
+};
+
+var update = function update(state, _ref3) {
+    var response = _ref3.response;
+
+    Vue.set(state.ssl_certificates, parseInt(_.findKey(state.ssl_certificates, { id: response.id })), response);
+};
+
+var remove = function remove(state, _ref4) {
+    var requestData = _ref4.requestData;
+
+    Vue.set(state, 'ssl_certificates', _.reject(state.ssl_certificates, { id: requestData.ssl_certificate }));
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/user/server/ssl-certificates/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    ssl_certificates: []
+});
 
 /***/ }),
 
@@ -56872,48 +56911,30 @@ throw new Error("Module build failed: Error: ENOENT: no such file or directory, 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerWorkerController@index', { server: server }), 'user_server_workers/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Server\ServerWorkerController@store', { server: data.server }), 'user_server_workers/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Server\ServerWorkerController@destroy', {
+        server: data.server,
+        worker: data.worker
+    }), 'user_server_workers/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/workers/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -56922,20 +56943,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -56945,36 +56962,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.workers = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.workers.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'workers', _.reject(state.workers, { id: requestData.worker }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56982,7 +56991,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    workers: []
+});
 
 /***/ }),
 
@@ -57201,48 +57212,30 @@ var listenTo = function listenTo(state, server) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteCronJobController@index', { site: site }), 'user_site_cron_jobs/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Site\SiteCronJobController@store', { site: data.site }), 'user_site_cron_jobs/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Site\SiteCronJobController@destroy', {
+        site: data.site,
+        cron_job: data.cron_job
+    }), 'user_site_cron_jobs/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/cron-jobs/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -57251,20 +57244,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -57274,36 +57263,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.cron_jobs = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.cron_jobs.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'cron_jobs', _.reject(state.cron_jobs, { id: requestData.cron_job }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -57311,7 +57292,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    cron_jobs: []
+});
 
 /***/ }),
 
@@ -57458,48 +57441,30 @@ var setSiteDeploymentSteps = function setSiteDeploymentSteps(state, _ref3) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteEnvironmentVariablesController@index', { site: site }), 'user_site_environment_variables/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Site\SiteEnvironmentVariablesController@store', { site: data.site }), 'user_site_environment_variables/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Site\SiteEnvironmentVariablesController@destroy', {
+        site: data.site,
+        environment_variable: data.environment_variable
+    }), 'user_site_environment_variables/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/environment-varaibles/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -57508,20 +57473,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -57531,36 +57492,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.environment_variables = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.environment_variables.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'environment_variables', _.reject(state.environment_variables, { id: requestData.environment_variable }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -57568,7 +57521,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    environment_variables: []
+});
 
 /***/ }),
 
@@ -58433,48 +58388,30 @@ var remove = function remove(state, _ref4) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteWorkerController@index', { site: site }), 'user_site_workers/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Site\SiteWorkerController@store', { site: data.site }), 'user_site_workers/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Site\SiteWorkerController@destroy', {
+        site: data.site,
+        worker: data.worker
+    }), 'user_site_workers/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/workers/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -58483,20 +58420,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -58506,36 +58439,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.workers = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.workers.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'workers', _.reject(state.workers, { id: requestData.worker }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -58543,7 +58468,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    workers: []
+});
 
 /***/ }),
 

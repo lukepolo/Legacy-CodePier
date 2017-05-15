@@ -109,7 +109,7 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getWorkers', this.siteId)
+                    this.$store.dispatch('user_site_workers/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -120,7 +120,7 @@
             installWorker() {
                 if(this.siteId) {
                     this.form.site = this.siteId
-                    this.$store.dispatch('installWorker', this.form).then((worker) => {
+                    this.$store.dispatch('user_site_workers/store', this.form).then((worker) => {
                         if(worker.id) {
                             this.resetForm()
                         }
@@ -139,7 +139,7 @@
             },
             deleteWorker: function (worker_id) {
                 if(this.siteId) {
-                    this.$store.dispatch('deleteWorker', {
+                    this.$store.dispatch('user_site_workers/destroy', {
                         worker: worker_id,
                         site: this.siteId,
                     });
@@ -180,7 +180,7 @@
             },
             workers() {
                 if(this.siteId) {
-                    return this.$store.state.siteWorkersStore.workers
+                    return this.$store.state.user_site_workers.workers
                 }
 
                 if(this.serverId) {
