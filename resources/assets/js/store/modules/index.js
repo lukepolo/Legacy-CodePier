@@ -44,8 +44,10 @@ import user_site_environment_variables from './user/site/environment-varaibles'
 import user_servers from './user/servers'
 import user_server_buoys from './user/server/buoys'
 import user_server_files from './user/server/files'
+import user_server_sites from './user/server/sites'
 import user_server_schemas from './user/server/schemas'
 import user_server_workers from './user/server/workers'
+import user_server_features from './user/server/features'
 import user_server_services from './user/server/services'
 import user_server_ssh_keys from './user/server/ssh-keys'
 import user_server_providers from './user/server-providers'
@@ -103,8 +105,10 @@ export default {
     user_servers,
     user_server_buoys,
     user_server_files,
+    user_server_sites,
     user_server_schemas,
     user_server_workers,
+    user_server_features,
     user_server_services,
     user_server_ssh_keys,
     user_server_providers,

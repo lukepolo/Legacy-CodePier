@@ -38,7 +38,7 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStore.server
+                return this.$store.state.user_servers.server
             },
             serverFiles() {
                 return this.$store.state.serverFilesStore.server_files

@@ -23,7 +23,7 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStore.server;
+                return this.$store.state.user_servers.server;
             }
         }
     }

@@ -83,7 +83,7 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServer', this.$route.params.server_id);
+                this.$store.dispatch('user_servers/show', this.$route.params.server_id);
             },
         }
     }

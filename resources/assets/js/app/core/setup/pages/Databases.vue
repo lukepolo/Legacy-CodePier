@@ -24,8 +24,8 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerSchemas', this.serverId)
-                    this.$store.dispatch('getServerFeatures', this.serverId)
+                    this.$store.dispatch('user_server_schemas/get', this.serverId)
+                    this.$store.dispatch('user_server_features/get', this.serverId)
                 }
             }
         },
@@ -45,7 +45,7 @@
                 }
 
                 if(this.serverId) {
-                    serverFeatures = this.$store.state.serversStore.server_installed_features
+                    serverFeatures = this.$store.state.user_server_features.features
                 }
 
                 if(_.has(serverFeatures, 'DatabaseService')) {

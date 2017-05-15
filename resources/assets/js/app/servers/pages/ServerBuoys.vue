@@ -16,10 +16,10 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServerBuoys', this.$route.params.server_id)
+                this.$store.dispatch('user_server_buoys/get', this.$route.params.server_id)
             },
             removeBuoy(buoyId) {
-                this.$store.dispatch('deleteServerBuoy', {
+                this.$store.dispatch('user_server_buoys/destroy', {
                     buoy : buoyId,
                     server : this.$route.params.server_id
                 });
@@ -27,10 +27,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStore.server
+                return this.$store.state.user_servers.server
             },
             serverBuoys() {
-                return this.$store.state.serverBuoysStore.server_buoys
+                return this.$store.state.user_server_buoys.buoys
             },
         },
     }

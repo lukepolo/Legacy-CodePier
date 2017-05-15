@@ -1,19 +1,7 @@
-export const set = (state, {response, requestData}) => {
-
+export const setAll = (state, {response}) => {
+    state.buoys = response
 }
 
-export const setAll = (state, {response, requestData}) => {
-
-}
-
-export const add = (state, {response, requestData}) => {
-
-}
-
-export const update = (state, {response, requestData}) => {
-
-}
-
-export const remove = (state, {response, requestData}) => {
-
+export const remove = (state, {requestData}) => {
+    Vue.set(state, 'buoys', _.reject(state.buoys, { id: requestData.buoy }))
 }

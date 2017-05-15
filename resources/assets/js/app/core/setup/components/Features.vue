@@ -117,7 +117,7 @@
             },
             server() {
                 if(this.serverId) {
-                    return this.$store.state.serversStore.server;
+                    return this.$store.state.user_servers.server;
                 }
             },
             serverId() {
@@ -129,7 +129,7 @@
                     serverFeatures = this.$store.state.user_site_server_features.features;
                 }
                 if(this.serverId) {
-                    return this.$store.state.serversStore.server_installed_features;
+                    return this.$store.state.user_servers.server_installed_features;
                 }
 
                 this.currentSelectedFeatures = serverFeatures

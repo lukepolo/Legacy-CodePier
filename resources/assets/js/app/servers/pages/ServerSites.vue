@@ -53,7 +53,7 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServerSites', this.$route.params.server_id);
+                this.$store.dispatch('user_server_sites/get', this.$route.params.server_id);
             },
             isZerotimeDeployment(site) {
                 if (site.zerotime_deployment) {
@@ -70,10 +70,10 @@
         },
         computed: {
             server() {
-                return this.$store.state.serversStore.server;
+                return this.$store.state.user_servers.server;
             },
             sites() {
-                return this.$store.state.serversStore.server_sites;
+                return this.$store.state.user_server_sites.sites;
             }
         }
     }
