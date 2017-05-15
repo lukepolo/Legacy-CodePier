@@ -85,7 +85,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerFeatures', this.serverId);
+                    this.$store.dispatch('user_server_features/get', this.serverId);
                 }
 
                 this.$store.dispatch('system_features/get');
@@ -129,7 +129,7 @@
                     serverFeatures = this.$store.state.user_site_server_features.features;
                 }
                 if(this.serverId) {
-                    return this.$store.state.user_servers.server_installed_features;
+                    return this.$store.state.user_server_features.features;
                 }
 
                 this.currentSelectedFeatures = serverFeatures

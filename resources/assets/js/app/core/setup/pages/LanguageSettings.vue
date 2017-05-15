@@ -38,8 +38,8 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerLanguageSettings', this.serverId)
-                    this.$store.dispatch('getServerAvailableLanguageSettings', this.serverId)
+                    this.$store.dispatch('user_server_language_settings/get', this.serverId)
+                    this.$store.dispatch('user_server_language_settings/getAvailable', this.serverId)
                 }
             },
             isRunningCommandFor(id) {
@@ -62,7 +62,7 @@
                 }
 
                 if (this.serverId) {
-                    return this.$store.state.serverLanguageSettingsStore.server_language_settings
+                    return this.$store.state.user_server_language_settings.language_settings
                 }
             },
             availableLanguageSettings() {
@@ -71,7 +71,7 @@
                 }
 
                 if (this.serverId) {
-                    return this.$store.state.serverLanguageSettingsStore.available_language_settings
+                    return this.$store.state.user_server_language_settings.available_language_settings
                 }
             },
             hasLanguageItems() {

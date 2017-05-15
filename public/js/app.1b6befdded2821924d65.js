@@ -4633,7 +4633,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerFeatures', this.serverId);
+                this.$store.dispatch('user_server_features/get', this.serverId);
             }
 
             this.$store.dispatch('system_features/get');
@@ -4678,7 +4678,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 serverFeatures = this.$store.state.user_site_server_features.features;
             }
             if (this.serverId) {
-                return this.$store.state.user_servers.server_installed_features;
+                return this.$store.state.user_server_features.features;
             }
 
             this.currentSelectedFeatures = serverFeatures;
@@ -5477,8 +5477,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerLanguageSettings', this.serverId);
-                this.$store.dispatch('getServerAvailableLanguageSettings', this.serverId);
+                this.$store.dispatch('user_server_language_settings/get', this.serverId);
+                this.$store.dispatch('user_server_language_settings/getAvailable', this.serverId);
             }
         },
         isRunningCommandFor: function isRunningCommandFor(id) {
@@ -5501,7 +5501,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverLanguageSettingsStore.server_language_settings;
+                return this.$store.state.user_server_language_settings.language_settings;
             }
         },
         availableLanguageSettings: function availableLanguageSettings() {
@@ -5510,7 +5510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverLanguageSettingsStore.available_language_settings;
+                return this.$store.state.user_server_language_settings.available_language_settings;
             }
         },
         hasLanguageItems: function hasLanguageItems() {
