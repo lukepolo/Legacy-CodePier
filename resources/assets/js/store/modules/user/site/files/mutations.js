@@ -6,16 +6,16 @@ export const setAll = (state, {response}) => {
     state.files = response
 }
 
-export const add = (state, {response, requestData}) => {
+export const add = (state, {response}) => {
+    state.files.push(response)
+}
+
+export const update = (state, {response}) => {
 
 }
 
-export const update = (state, {response, requestData}) => {
-
-}
-
-export const remove = (state, {response, requestData}) => {
-
+export const setEditableFiles = (state, {response}) => {
+    state.editable_files = response
 }
 
 export const setEditableFrameworkFiles = (state, {response}) => {

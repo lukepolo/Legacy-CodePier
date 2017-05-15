@@ -49,7 +49,7 @@
             },
             server() {
                 if(this.serverId) {
-                    return this.$store.state.serversStore.server
+                    return this.$store.state.user_servers.server
                 }
             },
             serverId() {

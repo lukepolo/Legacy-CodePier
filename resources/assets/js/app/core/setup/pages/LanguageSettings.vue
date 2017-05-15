@@ -33,8 +33,8 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteLanguageSettings', this.siteId)
-                    this.$store.dispatch('getSiteAvailableLanguageSettings', this.siteId)
+                    this.$store.dispatch('user_site_language_settings/get', this.siteId)
+                    this.$store.dispatch('user_site_language_settings/getAvailable', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -58,7 +58,7 @@
             },
             languageSettings() {
                 if (this.siteId) {
-                    return this.$store.state.siteLanguageSettingsStore.site_language_settings
+                    return this.$store.state.user_site_language_settings.language_settings
                 }
 
                 if (this.serverId) {
@@ -67,7 +67,7 @@
             },
             availableLanguageSettings() {
                 if (this.siteId) {
-                    return this.$store.state.siteLanguageSettingsStore.available_language_settings
+                    return this.$store.state.user_site_language_settings.available_language_settings
                 }
 
                 if (this.serverId) {

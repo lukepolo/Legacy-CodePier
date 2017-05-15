@@ -4529,7 +4529,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         availableServerFrameworks: function availableServerFrameworks() {
-            return this.$store.state.serversStore.available_server_frameworks;
+            return this.$store.state.system_frameworks.frameworks;
         }
     }
 });
@@ -4629,16 +4629,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
 
             if (this.siteId) {
-                this.$store.dispatch('getSiteServerFeatures', this.siteId);
+                this.$store.dispatch('user_site_server_features/get', this.siteId);
             }
 
             if (this.serverId) {
                 this.$store.dispatch('getServerFeatures', this.serverId);
             }
 
-            this.$store.dispatch('getServerAvailableFeatures');
-            this.$store.dispatch('getServerAvailableLanguages');
-            this.$store.dispatch('getServerAvailableFrameworks');
+            this.$store.dispatch('system_features/get');
+            this.$store.dispatch('system_languages/get');
+            this.$store.dispatch('system_frameworks/get');
         },
 
         getSectionTitle: function getSectionTitle(area) {
@@ -4675,7 +4675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         serverFeatures: function serverFeatures() {
             var serverFeatures = null;
             if (this.siteId) {
-                serverFeatures = this.$store.state.siteServersFeaturesStore.site_server_features;
+                serverFeatures = this.$store.state.user_site_server_features.features;
             }
             if (this.serverId) {
                 return this.$store.state.serversStore.server_installed_features;
@@ -4686,17 +4686,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return serverFeatures;
         },
         availableServerFeatures: function availableServerFeatures() {
-            var serverFeatures = this.$store.state.serversStore.available_server_features;
+            var serverFeatures = this.$store.state.system_features.features;
 
             this.section = _.keys(serverFeatures)[0];
 
             return serverFeatures;
         },
         availableServerLanguages: function availableServerLanguages() {
-            return this.$store.state.serversStore.available_server_languages;
+            return this.$store.state.system_languages.languages;
         },
         availableServerFrameworks: function availableServerFrameworks() {
-            return this.$store.state.serversStore.available_server_frameworks;
+            return this.$store.state.system_frameworks.frameworks;
         }
     }
 });
@@ -4768,7 +4768,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         runSetting: function runSetting() {
             if (this.siteId) {
-                this.$store.dispatch('runSiteLanguageSetting', {
+                this.$store.dispatch('user_site_language_settings/run', {
                     site: this.siteId,
                     params: this.form.params,
                     setting: this.setting.name,
@@ -5472,8 +5472,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         fetchData: function fetchData() {
             if (this.siteId) {
-                this.$store.dispatch('getSiteLanguageSettings', this.siteId);
-                this.$store.dispatch('getSiteAvailableLanguageSettings', this.siteId);
+                this.$store.dispatch('user_site_language_settings/get', this.siteId);
+                this.$store.dispatch('user_site_language_settings/getAvailable', this.siteId);
             }
 
             if (this.serverId) {
@@ -5497,7 +5497,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         languageSettings: function languageSettings() {
             if (this.siteId) {
-                return this.$store.state.siteLanguageSettingsStore.site_language_settings;
+                return this.$store.state.user_site_language_settings.language_settings;
             }
 
             if (this.serverId) {
@@ -5506,7 +5506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         availableLanguageSettings: function availableLanguageSettings() {
             if (this.siteId) {
-                return this.$store.state.siteLanguageSettingsStore.available_language_settings;
+                return this.$store.state.user_site_language_settings.available_language_settings;
             }
 
             if (this.serverId) {
@@ -5578,7 +5578,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         server: function server() {
             if (this.serverId) {
-                return this.$store.state.serversStore.server;
+                return this.$store.state.user_servers.server;
             }
         },
         serverId: function serverId() {
@@ -8442,7 +8442,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addCustomFile: function addCustomFile() {
             var _this = this;
 
-            this.$store.dispatch('findSiteFile', {
+            this.$store.dispatch('user_site_files/findFile', {
                 custom: true,
                 file: this.form.file,
                 site: this.$route.params.site_id
@@ -8557,7 +8557,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
 
                 if (!this.file_model) {
-                    this.$store.dispatch('findSiteFile', {
+                    this.$store.dispatch('user_site_files/findFile', {
                         custom: false,
                         file: this.file,
                         site: this.$route.params.site_id
@@ -9484,8 +9484,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         fetchData: function fetchData() {
-            this.$store.commit('SET_EDITABLE_SITE_FILES', []);
-            this.$store.dispatch('getEditableFiles', this.$route.params.site_id);
+            this.$store.dispatch('user_site_files/getEditableFiles', this.$route.params.site_id);
         },
         isRunningCommandFor: function isRunningCommandFor(file) {
             if (this.siteFiles) {
@@ -9500,16 +9499,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         runningCommands: function runningCommands() {
-            return this.$store.state.serversStore.running_commands;
+            return this.$store.state.commands.running_commands;
         },
         site: function site() {
             return this.$store.state.user_sites.site;
         },
         possibleFiles: function possibleFiles() {
-            return this.$store.state.siteFilesStore.site_editable_files;
+            return this.$store.state.user_site_files.editable_files;
         },
         siteFiles: function siteFiles() {
-            return this.$store.state.siteFilesStore.site_files;
+            return this.$store.state.user_site_files.site_files;
         }
     }
 });
@@ -54373,45 +54372,47 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/notification-settings/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/notification-providers/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__system__ = __webpack_require__("./resources/assets/js/store/modules/system/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__system_languages__ = __webpack_require__("./resources/assets/js/store/modules/system/languages/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__system_frameworks__ = __webpack_require__("./resources/assets/js/store/modules/system/frameworks/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_site_files__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_site_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/site/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_site_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/site/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_site_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/site/deployments/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_site_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/site/server-features/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_site_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_server_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/server/buoys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_server_files__ = __webpack_require__("./resources/assets/js/store/modules/user/server/files/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_server_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/server/schemas/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_server_services__ = __webpack_require__("./resources/assets/js/store/modules/user/server/services/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_server_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__system_features__ = __webpack_require__("./resources/assets/js/store/modules/system/features/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__system_languages__ = __webpack_require__("./resources/assets/js/store/modules/system/languages/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__system_frameworks__ = __webpack_require__("./resources/assets/js/store/modules/system/frameworks/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_user__ = __webpack_require__("./resources/assets/js/store/modules/user/user/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_subscription__ = __webpack_require__("./resources/assets/js/store/modules/user/subscription/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_notification_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_notification_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/notification-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_teams__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_teams_members__ = __webpack_require__("./resources/assets/js/store/modules/user/teams/members/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_piles__ = __webpack_require__("./resources/assets/js/store/modules/user/piles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites__ = __webpack_require__("./resources/assets/js/store/modules/user/sites/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_commands__ = __webpack_require__("./resources/assets/js/store/modules/user/commands/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_site_files__ = __webpack_require__("./resources/assets/js/store/modules/user/site/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_site_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/site/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/site/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_site_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/site/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/site/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_site_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_site_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/site/server-features/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_site_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/site/environment-varaibles/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers__ = __webpack_require__("./resources/assets/js/store/modules/user/servers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_server_buoys__ = __webpack_require__("./resources/assets/js/store/modules/user/server/buoys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_server_files__ = __webpack_require__("./resources/assets/js/store/modules/user/server/files/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/server/schemas/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_server_workers__ = __webpack_require__("./resources/assets/js/store/modules/user/server/workers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_server_services__ = __webpack_require__("./resources/assets/js/store/modules/user/server/services/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
+
 
 
 
@@ -54483,49 +54484,50 @@ var clear = function clear(state) {
     notification_providers: __WEBPACK_IMPORTED_MODULE_10__notification_providers__["a" /* default */],
 
     system: __WEBPACK_IMPORTED_MODULE_11__system__["a" /* default */],
-    system_languages: __WEBPACK_IMPORTED_MODULE_12__system_languages__["a" /* default */],
-    system_frameworks: __WEBPACK_IMPORTED_MODULE_13__system_frameworks__["a" /* default */],
+    system_features: __WEBPACK_IMPORTED_MODULE_12__system_features__["a" /* default */],
+    system_languages: __WEBPACK_IMPORTED_MODULE_13__system_languages__["a" /* default */],
+    system_frameworks: __WEBPACK_IMPORTED_MODULE_14__system_frameworks__["a" /* default */],
 
-    user: __WEBPACK_IMPORTED_MODULE_14__user_user__["a" /* default */],
-    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_15__user_ssh_keys__["a" /* default */],
-    user_subscription: __WEBPACK_IMPORTED_MODULE_16__user_subscription__["a" /* default */],
-    user_notification_settings: __WEBPACK_IMPORTED_MODULE_17__user_notification_settings__["a" /* default */],
-    user_notification_providers: __WEBPACK_IMPORTED_MODULE_18__user_notification_providers__["a" /* default */],
+    user: __WEBPACK_IMPORTED_MODULE_15__user_user__["a" /* default */],
+    user_ssh_keys: __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__["a" /* default */],
+    user_subscription: __WEBPACK_IMPORTED_MODULE_17__user_subscription__["a" /* default */],
+    user_notification_settings: __WEBPACK_IMPORTED_MODULE_18__user_notification_settings__["a" /* default */],
+    user_notification_providers: __WEBPACK_IMPORTED_MODULE_19__user_notification_providers__["a" /* default */],
 
-    user_teams: __WEBPACK_IMPORTED_MODULE_19__user_teams__["a" /* default */],
-    user_team_members: __WEBPACK_IMPORTED_MODULE_20__user_teams_members__["a" /* default */],
+    user_teams: __WEBPACK_IMPORTED_MODULE_20__user_teams__["a" /* default */],
+    user_team_members: __WEBPACK_IMPORTED_MODULE_21__user_teams_members__["a" /* default */],
 
-    user_piles: __WEBPACK_IMPORTED_MODULE_21__user_piles__["a" /* default */],
-    user_sites: __WEBPACK_IMPORTED_MODULE_22__user_sites__["a" /* default */],
-    user_commands: __WEBPACK_IMPORTED_MODULE_23__user_commands__["a" /* default */],
-    user_site_files: __WEBPACK_IMPORTED_MODULE_24__user_site_files__["a" /* default */],
-    user_site_servers: __WEBPACK_IMPORTED_MODULE_25__user_site_servers__["a" /* default */],
-    user_site_workers: __WEBPACK_IMPORTED_MODULE_26__user_site_workers__["a" /* default */],
-    user_site_schemas: __WEBPACK_IMPORTED_MODULE_27__user_site_schemas__["a" /* default */],
-    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_28__user_site_ssh_keys__["a" /* default */],
-    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_29__user_site_cron_jobs__["a" /* default */],
-    user_site_deployments: __WEBPACK_IMPORTED_MODULE_30__user_site_deployments__["a" /* default */],
-    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_32__user_repository_providers__["a" /* default */],
-    user_site_server_features: __WEBPACK_IMPORTED_MODULE_33__user_site_server_features__["a" /* default */],
-    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_34__user_site_ssl_certificates__["a" /* default */],
-    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_35__user_site_language_settings__["a" /* default */],
-    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_36__user_site_environment_varaibles__["a" /* default */],
+    user_piles: __WEBPACK_IMPORTED_MODULE_22__user_piles__["a" /* default */],
+    user_sites: __WEBPACK_IMPORTED_MODULE_23__user_sites__["a" /* default */],
+    user_commands: __WEBPACK_IMPORTED_MODULE_24__user_commands__["a" /* default */],
+    user_site_files: __WEBPACK_IMPORTED_MODULE_25__user_site_files__["a" /* default */],
+    user_site_servers: __WEBPACK_IMPORTED_MODULE_26__user_site_servers__["a" /* default */],
+    user_site_workers: __WEBPACK_IMPORTED_MODULE_27__user_site_workers__["a" /* default */],
+    user_site_schemas: __WEBPACK_IMPORTED_MODULE_28__user_site_schemas__["a" /* default */],
+    user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__["a" /* default */],
+    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_30__user_site_cron_jobs__["a" /* default */],
+    user_site_deployments: __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__["a" /* default */],
+    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_32__user_site_firewall_rules__["a" /* default */],
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_33__user_repository_providers__["a" /* default */],
+    user_site_server_features: __WEBPACK_IMPORTED_MODULE_34__user_site_server_features__["a" /* default */],
+    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__["a" /* default */],
+    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_36__user_site_language_settings__["a" /* default */],
+    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_37__user_site_environment_varaibles__["a" /* default */],
 
-    user_servers: __WEBPACK_IMPORTED_MODULE_37__user_servers__["a" /* default */],
-    user_server_buoys: __WEBPACK_IMPORTED_MODULE_38__user_server_buoys__["a" /* default */],
-    user_server_files: __WEBPACK_IMPORTED_MODULE_39__user_server_files__["a" /* default */],
-    user_server_schemas: __WEBPACK_IMPORTED_MODULE_40__user_server_schemas__["a" /* default */],
-    user_server_workers: __WEBPACK_IMPORTED_MODULE_41__user_server_workers__["a" /* default */],
-    user_server_services: __WEBPACK_IMPORTED_MODULE_42__user_server_services__["a" /* default */],
-    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_43__user_server_ssh_keys__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_44__user_server_providers__["a" /* default */],
-    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__["a" /* default */],
-    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__["a" /* default */],
-    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__["a" /* default */]
+    user_servers: __WEBPACK_IMPORTED_MODULE_38__user_servers__["a" /* default */],
+    user_server_buoys: __WEBPACK_IMPORTED_MODULE_39__user_server_buoys__["a" /* default */],
+    user_server_files: __WEBPACK_IMPORTED_MODULE_40__user_server_files__["a" /* default */],
+    user_server_schemas: __WEBPACK_IMPORTED_MODULE_41__user_server_schemas__["a" /* default */],
+    user_server_workers: __WEBPACK_IMPORTED_MODULE_42__user_server_workers__["a" /* default */],
+    user_server_services: __WEBPACK_IMPORTED_MODULE_43__user_server_services__["a" /* default */],
+    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_44__user_server_ssh_keys__["a" /* default */],
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_45__user_server_providers__["a" /* default */],
+    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_46__user_server_cron_jobs__["a" /* default */],
+    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__["a" /* default */],
+    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_48__user_server_firewall_rules__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_49__user_server_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_50__user_server_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_51__user_server_environment_varaibles__["a" /* default */]
 });
 
 /***/ }),
@@ -54957,17 +54959,69 @@ var setVersion = function setVersion(_ref6, data) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/modules/system/features/actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+var get = function get() {
+    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFeatures'), 'system_frameworks/setAll');
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/system/features/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/system/features/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/system/features/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/system/features/mutations.js");
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/system/features/mutations.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.features = response;
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/modules/system/features/state.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    features: []
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/modules/system/frameworks/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
-var get = function get(_ref) {
-    _objectDestructuringEmpty(_ref);
-
+var get = function get() {
     return Vue.request().get(Vue.action('Server\ServerFeatureController@getFrameworks'), 'system_frameworks/setAll');
 };
 
@@ -55044,11 +55098,7 @@ var setAll = function setAll(state, _ref) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
-var get = function get(_ref) {
-    _objectDestructuringEmpty(_ref);
-
+var get = function get() {
     return Vue.request().get(Vue.action('Server\ServerFeatureController@getLanguages'), 'system_languages/setAll');
 };
 
@@ -56239,48 +56289,31 @@ var remove = function remove(state, _ref3) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAvailable", function() { return getAvailable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return run; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerLanguageSettingsController@index', { server: server }), 'user_server_language_settings/setAll');
 };
 
-var show = function show(_ref2, data) {
+var getAvailable = function getAvailable(_ref2, server) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    Vue.request().get(Vue.action('Server\ServerLanguageSettingsController@getLanguageSettings', { server: server }), 'user_server_language_settings/setAvailableLanguageSettings');
 };
 
-var store = function store(_ref3, data) {
+var run = function run(_ref3) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    Vue.request(data).post(Vue.action('Server\ServerLanguageSettingsController@store', {
+        server: data.server
+    })).then(function () {
+        app.showSuccess('You have updated the settings');
+    });
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/language-settings/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -56289,20 +56322,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -56312,36 +56341,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAvailableLanguageSettings", function() { return setAvailableLanguageSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.language_settings = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var setAvailableLanguageSettings = function setAvailableLanguageSettings(state, _ref2) {
+    var response = _ref2.response;
+
+    state.available_language_settings = response;
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'cron_jobs', _.reject(state.cron_jobs, { id: requestData.cron_job }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56349,7 +56370,10 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    language_settings: [],
+    available_language_settings: []
+});
 
 /***/ }),
 
@@ -57533,11 +57557,11 @@ var remove = function remove(state, _ref3) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEditableFiles", function() { return getEditableFiles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEditableFrameworkFiles", function() { return getEditableFrameworkFiles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findFile", function() { return findFile; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref, site) {
@@ -57546,18 +57570,8 @@ var get = function get(_ref, site) {
     return Vue.request().get(Vue.action('Site\SiteFileController@index', { site: site }), 'user_site_files/setAll');
 };
 
-var show = function show(_ref2, data) {
+var update = function update(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
-};
-
-var store = function store(_ref3, data) {
-    _objectDestructuringEmpty(_ref3);
-
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
 
     return Vue.request(data).patch(Vue.action('Site\SiteFileController@update', {
         site: data.site,
@@ -57567,45 +57581,40 @@ var update = function update(_ref4, data) {
     });
 };
 
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
+var destroy = function destroy(_ref3, data) {
+    _objectDestructuringEmpty(_ref3);
 
     return Vue.request(data).delete('');
 };
 
-var getEditableFrameworkFiles = function getEditableFrameworkFiles(_ref6, site) {
-    _objectDestructuringEmpty(_ref6);
+var getEditableFiles = function getEditableFiles(_ref4, site) {
+    _objectDestructuringEmpty(_ref4);
+
+    Vue.request().get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site }), 'user_site_files/setEditableFiles');
+};
+
+var getEditableFrameworkFiles = function getEditableFrameworkFiles(_ref5, site) {
+    _objectDestructuringEmpty(_ref5);
 
     return Vue.request().get(Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site }), 'user_site_files/setEditableFrameworkFiles');
 };
 
+var findFile = function findFile(_ref6, data) {
+    _objectDestructuringEmpty(_ref6);
+
+    return Vue.request(data).post(Vue.action('Site\SiteFileController@find', {
+        site: data.site
+    }), 'user_site_files/add');
+};
+
 //     addCustomFile: ({ commit }, site) => {
-//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
+//     Vue.http.get().then((response) => {
 //         commit('ADD_SITE_FILE', response.data)
 //     }, (errors) => {
 //         app.handleApiError(errors)
 //     })
 // },
-//     getEditableFiles: ({ commit }, site) => {
-//     Vue.http.get(Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site })).then((response) => {
-//         commit('SET_EDITABLE_SITE_FILES', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//     findSiteFile: ({ commit }, data) => {
-//     return Vue.http.post(Vue.action('Site\SiteFileController@find', {
-//         site: data.site
-//     }), {
-//         file: data.file,
-//         custom: data.custom ? data.custom : false
-//     }).then((response) => {
-//         commit('ADD_SITE_FILE', response.data)
-//         return response.data
-//     }, (errors) => {
-//         app.showError(errors)
-//     })
-// },
+//
 //     reloadSiteFile: ({ commit }, data) => {
 //     Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
 //         site: data.site,
@@ -57651,7 +57660,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setEditableFiles", function() { return setEditableFiles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setEditableFrameworkFiles", function() { return setEditableFrameworkFiles; });
 var set = function set(state, _ref) {
     var response = _ref.response,
@@ -57665,18 +57674,19 @@ var setAll = function setAll(state, _ref2) {
 };
 
 var add = function add(state, _ref3) {
-    var response = _ref3.response,
-        requestData = _ref3.requestData;
+    var response = _ref3.response;
+
+    state.files.push(response);
 };
 
 var update = function update(state, _ref4) {
-    var response = _ref4.response,
-        requestData = _ref4.requestData;
+    var response = _ref4.response;
 };
 
-var remove = function remove(state, _ref5) {
-    var response = _ref5.response,
-        requestData = _ref5.requestData;
+var setEditableFiles = function setEditableFiles(state, _ref5) {
+    var response = _ref5.response;
+
+    state.editable_files = response;
 };
 
 var setEditableFrameworkFiles = function setEditableFrameworkFiles(state, _ref6) {
@@ -57800,48 +57810,31 @@ var remove = function remove(state, _ref3) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAvailable", function() { return getAvailable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "run", function() { return run; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteLanguageSettingsController@index', { site: site }), 'user_site_language_settings/setAll');
 };
 
-var show = function show(_ref2, data) {
+var getAvailable = function getAvailable(_ref2, site) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    Vue.request().get(Vue.action('Site\SiteLanguageSettingsController@getLanguageSettings', { site: site }), 'user_site_language_settings/setAvailableLanguageSettings');
 };
 
-var store = function store(_ref3, data) {
+var run = function run(_ref3) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    Vue.request(data).post(Vue.action('Site\SiteLanguageSettingsController@store', {
+        site: data.site
+    })).then(function () {
+        app.showSuccess('You have updated the settings');
+    });
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/language-settings/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -57850,20 +57843,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/language-settings/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -57873,36 +57862,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAvailableLanguageSettings", function() { return setAvailableLanguageSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.language_settings = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var setAvailableLanguageSettings = function setAvailableLanguageSettings(state, _ref2) {
+    var response = _ref2.response;
+
+    state.available_language_settings = response;
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'cron_jobs', _.reject(state.cron_jobs, { id: requestData.cron_job }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -57910,7 +57891,10 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    language_settings: [],
+    available_language_settings: []
+});
 
 /***/ }),
 
