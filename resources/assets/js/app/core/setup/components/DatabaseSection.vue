@@ -67,7 +67,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('createServerSchema', {
+                    this.$store.dispatch('user_server_schemas/store', {
                         server : this.serverId,
                         database : this.database,
                         name : this.schemaForm.name,
@@ -90,7 +90,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerSchema', {
+                    this.$store.dispatch('user_server_schemas/destroy', {
                         schema: database,
                         server: this.serverId
                     })
@@ -112,7 +112,7 @@
                 }
 
                 if(this.serverId) {
-                    return _.filter(this.$store.state.serverSchemasStore.server_schemas, (schema) => {
+                    return _.filter(this.$store.state.user_server_schemas.schemas, (schema) => {
                         return schema.database == this.database
                     })
                 }
