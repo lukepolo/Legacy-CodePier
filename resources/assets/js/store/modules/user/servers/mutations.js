@@ -7,8 +7,6 @@ export const setAll = (state, {response}) => {
 }
 
 export const add = (state, {response}) => {
-    console.info(state.servers)
-    console.info(response)
     state.servers.push(response)
 }
 
@@ -28,9 +26,6 @@ export const setTrashed = (state, {response}) => {
 }
 
 export const removeFromTrash = (state, {requestData}) => {
-
-    console.info(requestData)
-
     Vue.set(state, 'trashed', _.reject(state.trashed, {
         id: requestData.value
     }))
