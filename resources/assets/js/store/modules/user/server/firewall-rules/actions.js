@@ -1,23 +1,23 @@
-export const get = ({}, site) => {
+export const get = ({}, server) => {
     return Vue.request().get(
-        Vue.action('Site\SiteFirewallRuleController@index', { site: site }),
-        'user_site_firewall_rules/setAll'
+        Vue.action('Server\ServerFirewallRuleController@index', { server: server }),
+        'user_server_firewall_rules/setAll'
     )
 }
 
 export const store = ({}, data) => {
     return Vue.request(data).post(
-        Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }),
-        'user_site_firewall_rules/add'
+        Vue.action('Server\ServerFirewallRuleController@store', { server: data.server }),
+        'user_server_firewall_rules/add'
     )
 }
 
 export const destroy = ({}, data) => {
     return Vue.request(data).delete(
-        Vue.action('Site\SiteFirewallRuleController@destroy', {
-            site: data.site,
+        Vue.action('Server\ServerFirewallRuleController@destroy', {
+            server: data.server,
             firewall_rule: data.firewall_rule
         }),
-        'user_site_firewall_rules/remove'
+        'user_server_firewall_rules/remove'
     )
 }

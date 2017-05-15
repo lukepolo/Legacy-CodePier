@@ -67,7 +67,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerSshKeys', this.serverId)
+                    this.$store.dispatch('user_server_ssh_keys/get', this.serverId)
                 }
             },
             createKey() {
@@ -83,7 +83,7 @@
 
                 if(this.serverId) {
                     this.form.server = this.serverId
-                    this.$store.dispatch('createServerSshKey', this.form).then((sshKey) => {
+                    this.$store.dispatch('user_server_ssh_keys/store', this.form).then((sshKey) => {
                         if(sshKey.id) {
                             this.resetForm()
                         }
@@ -100,7 +100,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerSshKey', {
+                    this.$store.dispatch('user_server_ssh_keys/destroy', {
                         ssh_key: sshKeyId,
                         server: this.serverId
                     });
@@ -126,7 +126,7 @@
                 }
 
                 if(this.serverId) {
-                    return this.$store.state.serverSshKeysStore.server_ssh_keys;
+                    return this.$store.state.user_server_ssh_keys.ssh_keys;
                 }
             }
         }
