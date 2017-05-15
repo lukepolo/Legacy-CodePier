@@ -55,7 +55,7 @@
         methods : {
             createSchema() {
                 if(this.siteId) {
-                    this.$store.dispatch('createSiteSchema', {
+                    this.$store.dispatch('user_site_schemas/store', {
                         site : this.siteId,
                         database : this.database,
                         name : this.schemaForm.name
@@ -82,7 +82,7 @@
             deleteSchema(database) {
 
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSiteSchema', {
+                    this.$store.dispatch('user_site_schemas/destroy', {
                         schema: database,
                         site: this.siteId
 
@@ -106,7 +106,7 @@
             },
             schemas() {
                 if(this.siteId) {
-                    return _.filter(this.$store.state.siteSchemasStore.site_schemas, (schema) => {
+                    return _.filter(this.$store.state.user_site_schemas.schemas, (schema) => {
                         return schema.database == this.database
                     })
                 }

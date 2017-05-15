@@ -19,8 +19,8 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteSchemas', this.siteId)
-                    this.$store.dispatch('getSiteServerFeatures', this.siteId)
+                    this.$store.dispatch('user_site_schemas/get', this.siteId)
+                    this.$store.dispatch('user_site_server_features/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -41,7 +41,7 @@
                 let serverFeatures = {}
 
                 if(this.siteId) {
-                    serverFeatures = this.$store.state.siteServersFeaturesStore.site_server_features
+                    serverFeatures = this.$store.state.user_site_server_features.features
                 }
 
                 if(this.serverId) {
