@@ -5567,8 +5567,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         dispatchMethod: function dispatchMethod() {
-            this.$store.dispatch('updateSiteServerFeatures', _.merge(this.$route.params, {
-                form: this.getFormData(this.$el)
+            this.$store.dispatch('user_site_server_features/update', _.merge(this.$route.params, {
+                formData: this.getFormData(this.$el)
             }));
         }
     },
@@ -53425,8 +53425,6 @@ var getBytesFromString = function getBytesFromString(string) {
 // NOTE - this will not work with PUT!!!
 // https://github.com/symfony/symfony/issues/9226
 var getFormData = function getFormData(form) {
-
-    console.info(form);
     if (!$(form).is('form')) {
         form = $(form).find('form')[0];
     }
@@ -54966,7 +54964,7 @@ var setVersion = function setVersion(_ref6, data) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 var get = function get() {
-    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFeatures'), 'system_frameworks/setAll');
+    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFeatures'), 'system_features/setAll');
 };
 
 /***/ }),
@@ -57177,8 +57175,6 @@ var setAll = function setAll(state, _ref2) {
 var add = function add(state, _ref3) {
     var response = _ref3.response;
 
-    console.info(state.servers);
-    console.info(response);
     state.servers.push(response);
 };
 
@@ -57202,9 +57198,6 @@ var setTrashed = function setTrashed(state, _ref5) {
 
 var removeFromTrash = function removeFromTrash(state, _ref6) {
     var requestData = _ref6.requestData;
-
-
-    console.info(requestData);
 
     Vue.set(state, 'trashed', _.reject(state.trashed, {
         id: requestData.value
@@ -58008,7 +58001,7 @@ var get = function get(_ref, site) {
 var update = function update(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).patch(Vue.action('Site\SiteServerFeaturesController@update', { site: data.site_id }), 'user_site_server_features/setAll').then(function () {
+    return Vue.request(data).post(Vue.action('Site\SiteServerFeaturesController@store', { site: data.site_id }), 'user_site_server_features/setAll').then(function () {
         app.showSuccess('Updated your site\'s server features');
     });
 };

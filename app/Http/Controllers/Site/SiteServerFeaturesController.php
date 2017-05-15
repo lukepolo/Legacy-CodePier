@@ -32,10 +32,12 @@ class SiteServerFeaturesController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
+        $site->update([
+            'server_features' => $request->get('services'),
+        ]);
+
         return response()->json(
-            $site->update([
-                'server_features' => $request->get('services'),
-            ])
+           $site->server_features
         );
     }
 }

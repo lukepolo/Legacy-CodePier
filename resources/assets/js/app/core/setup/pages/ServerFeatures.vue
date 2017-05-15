@@ -36,9 +36,9 @@
         },
         methods : {
             dispatchMethod() {
-                this.$store.dispatch('updateSiteServerFeatures', _.merge(
+                this.$store.dispatch('user_site_server_features/update', _.merge(
                     this.$route.params, {
-                        form: this.getFormData(this.$el)
+                        formData : this.getFormData(this.$el)
                     })
                 );
             }
