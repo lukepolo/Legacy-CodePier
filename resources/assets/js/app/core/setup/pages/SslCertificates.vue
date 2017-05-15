@@ -125,7 +125,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerSslCertificates', this.serverId);
+                    this.$store.dispatch('user_server_ssl_certificates/get', this.serverId);
                 }
 
             },
@@ -145,7 +145,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('installServerSslCertificate', {
+                    this.$store.dispatch('user_server_ssl_certificates/store', {
                         type : this.form.type,
                         server_id: this.serverId,
                         domains: this.form.domains,
@@ -187,7 +187,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerSslCertificate', {
+                    this.$store.dispatch('user_server_ssl_certificates/destroy', {
                         server : this.serverId,
                         ssl_certificate : ssl_certificate_id
                     })
@@ -210,7 +210,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('installServerSslCertificate', {
+                    this.$store.dispatch('user_server_ssl_certificates/store', {
                         domains: domains,
                         type : 'Let\'s Encrypt',
                         server_id: this.serverId,

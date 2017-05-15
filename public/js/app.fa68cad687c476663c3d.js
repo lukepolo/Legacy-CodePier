@@ -5361,7 +5361,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerFirewallRules', this.serverId);
+                this.$store.dispatch('user_server_firewall_rules/get', this.serverId);
             }
         },
         createFirewallRule: function createFirewallRule() {
@@ -5378,7 +5378,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.serverId) {
                 this.form.server = this.serverId;
-                this.$store.dispatch('createServerFirewallRule', this.form).then(function (firewallRule) {
+                this.$store.dispatch('user_server_firewall_rules/store', this.form).then(function (firewallRule) {
                     if (firewallRule.id) {
                         _this.resetForm();
                     }
@@ -5395,7 +5395,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerFirewallRule', {
+                this.$store.dispatch('user_server_firewall_rules/destroy', {
                     server: this.serverId,
                     firewall: firewallRuleId
                 });
@@ -5421,7 +5421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverFirewallStore.server_firewall_rules;
+                return this.$store.state.user_server_firewall_rules.firewall_rules;
             }
         }
     }
@@ -5666,7 +5666,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerSshKeys', this.serverId);
+                this.$store.dispatch('user_server_ssh_keys/get', this.serverId);
             }
         },
         createKey: function createKey() {
@@ -5683,7 +5683,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.serverId) {
                 this.form.server = this.serverId;
-                this.$store.dispatch('createServerSshKey', this.form).then(function (sshKey) {
+                this.$store.dispatch('user_server_ssh_keys/store', this.form).then(function (sshKey) {
                     if (sshKey.id) {
                         _this.resetForm();
                     }
@@ -5699,7 +5699,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerSshKey', {
+                this.$store.dispatch('user_server_ssh_keys/destroy', {
                     ssh_key: sshKeyId,
                     server: this.serverId
                 });
@@ -5725,7 +5725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverSshKeysStore.server_ssh_keys;
+                return this.$store.state.user_server_ssh_keys.ssh_keys;
             }
         }
     }
@@ -5866,7 +5866,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerSslCertificates', this.serverId);
+                this.$store.dispatch('user_server_ssl_certificates/get', this.serverId);
             }
         },
         installCertificate: function installCertificate() {
@@ -5887,7 +5887,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('installServerSslCertificate', {
+                this.$store.dispatch('user_server_ssl_certificates/store', {
                     type: this.form.type,
                     server_id: this.serverId,
                     domains: this.form.domains,
@@ -5929,7 +5929,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerSslCertificate', {
+                this.$store.dispatch('user_server_ssl_certificates/destroy', {
                     server: this.serverId,
                     ssl_certificate: ssl_certificate_id
                 });
@@ -5952,7 +5952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('installServerSslCertificate', {
+                this.$store.dispatch('user_server_ssl_certificates/store', {
                     domains: domains,
                     type: 'Let\'s Encrypt',
                     server_id: this.serverId
@@ -56230,25 +56230,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, site) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request().get(Vue.action('Site\SiteFirewallRuleController@index', { site: site }), 'user_site_firewall_rules/setAll');
+    return Vue.request().get(Vue.action('Server\ServerFirewallRuleController@index', { server: server }), 'user_server_firewall_rules/setAll');
 };
 
 var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).post(Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }), 'user_site_firewall_rules/add');
+    return Vue.request(data).post(Vue.action('Server\ServerFirewallRuleController@store', { server: data.server }), 'user_server_firewall_rules/add');
 };
 
 var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).delete(Vue.action('Site\SiteFirewallRuleController@destroy', {
-        site: data.site,
+    return Vue.request(data).delete(Vue.action('Server\ServerFirewallRuleController@destroy', {
+        server: data.server,
         firewall_rule: data.firewall_rule
-    }), 'user_site_firewall_rules/remove');
+    }), 'user_server_firewall_rules/remove');
 };
 
 /***/ }),

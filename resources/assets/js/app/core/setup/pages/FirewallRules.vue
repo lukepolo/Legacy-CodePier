@@ -94,7 +94,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerFirewallRules', this.serverId)
+                    this.$store.dispatch('user_server_firewall_rules/get', this.serverId)
                 }
 
             },
@@ -111,7 +111,7 @@
 
                 if(this.serverId) {
                     this.form.server = this.serverId
-                    this.$store.dispatch('createServerFirewallRule', this.form).then((firewallRule) => {
+                    this.$store.dispatch('user_server_firewall_rules/store', this.form).then((firewallRule) => {
                         if (firewallRule.id) {
                             this.resetForm()
                         }
@@ -128,7 +128,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerFirewallRule', {
+                    this.$store.dispatch('user_server_firewall_rules/destroy', {
                         server: this.serverId,
                         firewall: firewallRuleId
                     })
@@ -154,7 +154,7 @@
                 }
 
                 if(this.serverId) {
-                    return this.$store.state.serverFirewallStore.server_firewall_rules;
+                    return this.$store.state.user_server_firewall_rules.firewall_rules;
                 }
             }
         }
