@@ -90,7 +90,7 @@
             fetchData() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteFirewallRules', this.siteId)
+                    this.$store.dispatch('user_site_firewall_rules/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -102,7 +102,7 @@
 
                 if(this.siteId) {
                     this.form.site = this.siteId
-                    this.$store.dispatch('createSiteFirewallRule', this.form).then((firewallRule) => {
+                    this.$store.dispatch('user_site_firewall_rules/store', this.form).then((firewallRule) => {
                         if (firewallRule.id) {
                             this.resetForm()
                         }
@@ -121,7 +121,7 @@
             deleteFirewallRule(firewallRuleId) {
 
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSiteFirewallRule', {
+                    this.$store.dispatch('user_site_firewall_rules/destroy', {
                         site: this.siteId,
                         firewall_rule: firewallRuleId
                     })
@@ -150,7 +150,7 @@
             },
             firewallRules() {
                 if(this.siteId) {
-                    return this.$store.state.siteFirewallRulesStore.site_firewall_rules
+                    return this.$store.state.user_site_firewall_rules.firewall_rules
                 }
 
                 if(this.serverId) {
