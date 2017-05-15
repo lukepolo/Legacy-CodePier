@@ -63,7 +63,7 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('getSiteSshKeys', this.siteId)
+                    this.$store.dispatch('user_site_ssh_keys/get', this.siteId)
                 }
 
                 if(this.serverId) {
@@ -74,7 +74,7 @@
 
                 if(this.siteId) {
                     this.form.site = this.siteId
-                    this.$store.dispatch('createSiteSshKey', this.form).then((sshKey) => {
+                    this.$store.dispatch('user_site_ssh_keys/store', this.form).then((sshKey) => {
                         if(sshKey.id) {
                             this.resetForm()
                         }
@@ -93,7 +93,7 @@
             },
             deleteKey(sshKeyId) {
                 if(this.siteId) {
-                    this.$store.dispatch('deleteSiteSshKey', {
+                    this.$store.dispatch('user_site_ssh_keys/destroy', {
                         ssh_key: sshKeyId,
                         site: this.siteId
                     });
@@ -122,7 +122,7 @@
             },
             sshKeys() {
                 if(this.siteId) {
-                    return this.$store.state.siteSshKeysStore.site_ssh_keys
+                    return this.$store.state.user_site_ssh_keys.ssh_keys
                 }
 
                 if(this.serverId) {
