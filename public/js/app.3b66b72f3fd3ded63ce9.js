@@ -5357,7 +5357,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
 
             if (this.siteId) {
-                this.$store.dispatch('getSiteFirewallRules', this.siteId);
+                this.$store.dispatch('user_site_firewall_rules/get', this.siteId);
             }
 
             if (this.serverId) {
@@ -5369,7 +5369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.siteId) {
                 this.form.site = this.siteId;
-                this.$store.dispatch('createSiteFirewallRule', this.form).then(function (firewallRule) {
+                this.$store.dispatch('user_site_firewall_rules/store', this.form).then(function (firewallRule) {
                     if (firewallRule.id) {
                         _this.resetForm();
                     }
@@ -5388,7 +5388,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteFirewallRule: function deleteFirewallRule(firewallRuleId) {
 
             if (this.siteId) {
-                this.$store.dispatch('deleteSiteFirewallRule', {
+                this.$store.dispatch('user_site_firewall_rules/destroy', {
                     site: this.siteId,
                     firewall_rule: firewallRuleId
                 });
@@ -5417,7 +5417,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         firewallRules: function firewallRules() {
             if (this.siteId) {
-                return this.$store.state.siteFirewallRulesStore.site_firewall_rules;
+                return this.$store.state.user_site_firewall_rules.firewall_rules;
             }
 
             if (this.serverId) {
@@ -54391,8 +54391,8 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_schemas__ = __webpack_require__("./resources/assets/js/store/modules/user/site/schemas/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_site_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssh-keys/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/site/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/site/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_deployments__ = __webpack_require__("./resources/assets/js/store/modules/user/site/deployments/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_repository_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/repository-providers/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_site_server_features__ = __webpack_require__("./resources/assets/js/store/modules/user/site/server-features/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_site_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/site/ssl-certificates/index.js");
@@ -54407,8 +54407,8 @@ var clear = function clear(state) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_server_ssh_keys__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_providers__ = __webpack_require__("./resources/assets/js/store/modules/user/server-providers/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__ = __webpack_require__("./resources/assets/js/store/modules/user/server/cron-jobs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_firewalls__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__ = __webpack_require__("./resources/assets/js/store/modules/user/server/provisioning/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssl-certificates/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__ = __webpack_require__("./resources/assets/js/store/modules/user/server/language-settings/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__ = __webpack_require__("./resources/assets/js/store/modules/user/server/environment-varaibles/index.js");
@@ -54504,8 +54504,8 @@ var clear = function clear(state) {
     user_site_schemas: __WEBPACK_IMPORTED_MODULE_27__user_site_schemas__["a" /* default */],
     user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_28__user_site_ssh_keys__["a" /* default */],
     user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_29__user_site_cron_jobs__["a" /* default */],
-    user_site_firewalls: __WEBPACK_IMPORTED_MODULE_30__user_site_firewalls__["a" /* default */],
-    user_site_deployments: __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__["a" /* default */],
+    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_31__user_site_firewall_rules__["a" /* default */],
+    user_site_deployments: __WEBPACK_IMPORTED_MODULE_30__user_site_deployments__["a" /* default */],
     user_repository_providers: __WEBPACK_IMPORTED_MODULE_32__user_repository_providers__["a" /* default */],
     user_site_server_features: __WEBPACK_IMPORTED_MODULE_33__user_site_server_features__["a" /* default */],
     user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_34__user_site_ssl_certificates__["a" /* default */],
@@ -54521,8 +54521,8 @@ var clear = function clear(state) {
     user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_43__user_server_ssh_keys__["a" /* default */],
     user_server_providers: __WEBPACK_IMPORTED_MODULE_44__user_server_providers__["a" /* default */],
     user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_45__user_server_cron_jobs__["a" /* default */],
-    user_server_firewalls: __WEBPACK_IMPORTED_MODULE_46__user_server_firewalls__["a" /* default */],
-    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_47__user_server_provisioning__["a" /* default */],
+    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_47__user_server_firewall_rules__["a" /* default */],
+    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_46__user_server_provisioning__["a" /* default */],
     user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_48__user_server_ssl_certificates__["a" /* default */],
     user_server_language_settings: __WEBPACK_IMPORTED_MODULE_49__user_server_language_settings__["a" /* default */],
     user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_50__user_server_environment_varaibles__["a" /* default */]
@@ -56197,123 +56197,95 @@ var remove = function remove(state, _ref5) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/server/firewalls/actions.js":
+/***/ "./resources/assets/js/store/modules/user/server/firewall-rules/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteFirewallRuleController@index', { site: site }), 'user_site_firewall_rules/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }), 'user_site_firewall_rules/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
+    return Vue.request(data).delete(Vue.action('Site\SiteFirewallRuleController@destroy', {
+        site: data.site,
+        firewall_rule: data.firewall_rule
+    }), 'user_site_firewall_rules/remove');
 };
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/server/firewalls/getters.js":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/firewalls/index.js":
+/***/ "./resources/assets/js/store/modules/user/server/firewall-rules/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewalls/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/firewall-rules/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/server/firewalls/mutations.js":
+/***/ "./resources/assets/js/store/modules/user/server/firewall-rules/mutations.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.firewall_rules = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.firewall_rules.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'firewall_rules', _.reject(state.firewall_rules, { id: requestData.firewall_rule }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/server/firewalls/state.js":
+/***/ "./resources/assets/js/store/modules/user/server/firewall-rules/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    firewall_rules: []
+});
 
 /***/ }),
 
@@ -56800,48 +56772,30 @@ var remove = function remove(state, _ref5) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Server\ServerSshKeyController@index', { server: server }), 'user_server_ssh_keys/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Server\ServerSshKeyController@store', { server: data.server }), 'user_server_ssh_keys/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    return Vue.request(data).delete(Vue.action('Server\ServerSshKeyController@destroy', {
+        server: data.server,
+        ssh_key: data.ssh_key
+    }), 'user_server_ssh_keys/remove');
 };
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
-};
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/server/ssh-keys/getters.js":
-/***/ (function(module, exports) {
-
-
 
 /***/ }),
 
@@ -56850,20 +56804,16 @@ var destroy = function destroy(_ref5, data) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/server/ssh-keys/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
@@ -56873,36 +56823,28 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.ssh_keys = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.ssh_keys.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'ssh_keys', _.reject(state.ssh_keys, { id: requestData.ssh_key }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
@@ -56910,7 +56852,9 @@ var remove = function remove(state, _ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    ssh_keys: []
+});
 
 /***/ }),
 
@@ -57915,123 +57859,95 @@ var setEditableFrameworkFiles = function setEditableFrameworkFiles(state, _ref6)
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/site/firewalls/actions.js":
+/***/ "./resources/assets/js/store/modules/user/site/firewall-rules/actions.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    return Vue.request().get(Vue.action('Site\SiteFirewallRuleController@index', { site: site }), 'user_site_firewall_rules/setAll');
 };
 
-var show = function show(_ref2, data) {
+var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    return Vue.request(data).post(Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }), 'user_site_firewall_rules/add');
 };
 
-var store = function store(_ref3, data) {
+var destroy = function destroy(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
-};
-
-var update = function update(_ref4, data) {
-    _objectDestructuringEmpty(_ref4);
-
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
+    return Vue.request(data).delete(Vue.action('Site\SiteFirewallRuleController@destroy', {
+        site: data.site,
+        firewall_rule: data.firewall_rule
+    }), 'user_site_firewall_rules/remove');
 };
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/site/firewalls/getters.js":
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/modules/user/site/firewalls/index.js":
+/***/ "./resources/assets/js/store/modules/user/site/firewall-rules/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewalls/state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewalls/getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewalls/actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewalls/mutations.js");
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/state.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__("./resources/assets/js/store/modules/user/site/firewall-rules/mutations.js");
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/site/firewalls/mutations.js":
+/***/ "./resources/assets/js/store/modules/user/site/firewall-rules/mutations.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.firewall_rules = response;
 };
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.firewall_rules.push(response);
 };
 
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
+var remove = function remove(state, _ref3) {
+    var requestData = _ref3.requestData;
 
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
+    Vue.set(state, 'firewall_rules', _.reject(state.firewall_rules, { id: requestData.firewall_rule }));
 };
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/lodash/lodash.js")))
 
 /***/ }),
 
-/***/ "./resources/assets/js/store/modules/user/site/firewalls/state.js":
+/***/ "./resources/assets/js/store/modules/user/site/firewall-rules/state.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+    firewall_rules: []
+});
 
 /***/ }),
 

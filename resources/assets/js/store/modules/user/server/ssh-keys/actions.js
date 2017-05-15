@@ -1,19 +1,23 @@
-export const get = ({}, data) => {
-    return Vue.request(data).get('')
-}
-
-export const show = ({}, data) => {
-    return Vue.request(data).get('')
+export const get = ({}, server) => {
+    return Vue.request().get(
+        Vue.action('Server\ServerSshKeyController@index', { server: server }),
+        'user_server_ssh_keys/setAll'
+    )
 }
 
 export const store = ({}, data) => {
-    return Vue.request(data).post('')
-}
-
-export const update = ({}, data) => {
-    return Vue.request(data).patch('')
+    return Vue.request(data).post(
+        Vue.action('Server\ServerSshKeyController@store', { server: data.server }),
+        'user_server_ssh_keys/add'
+    )
 }
 
 export const destroy = ({}, data) => {
-    return Vue.request(data).delete('')
+    return Vue.request(data).delete(
+        Vue.action('Server\ServerSshKeyController@destroy', {
+            server: data.server,
+            ssh_key: data.ssh_key
+        }),
+        'user_server_ssh_keys/remove'
+    )
 }
