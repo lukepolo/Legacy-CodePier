@@ -2,12 +2,12 @@
 
 namespace App\Services\Site;
 
-use App\Services\DeploymentServices\DeployTrait;
 use ReflectionClass;
 use App\Models\Site\Site;
 use App\Traits\SystemFiles;
 use Illuminate\Support\Collection;
 use App\Models\Site\Deployment\DeploymentStep;
+use App\Services\DeploymentServices\DeployTrait;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract;
 
 class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
@@ -54,7 +54,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     {
         return $this->saveNewSteps(
             $site,
-            $this->buildDeploymentOptions($this->getDeploymentClass($site), $this->getFrameworkClass($site))->filter(function($step) {
+            $this->buildDeploymentOptions($this->getDeploymentClass($site), $this->getFrameworkClass($site))->filter(function ($step) {
                 return $step['enabled'] == true;
             })
         );
@@ -101,7 +101,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
         $traitMethods = collect();
 
         foreach ($reflection->getTraits() as $reflectionTraitClass) {
-            if($reflectionTraitClass->name != $frameworkClass && $reflectionTraitClass->name != DeployTrait::class) {
+            if ($reflectionTraitClass->name != $frameworkClass && $reflectionTraitClass->name != DeployTrait::class) {
                 foreach ($reflectionTraitClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     $traitMethods->push($method->name);
                 }
@@ -109,7 +109,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
         }
 
         foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->name != '__construct' && !$traitMethods->contains($method->name)) {
+            if ($method->name != '__construct' && ! $traitMethods->contains($method->name)) {
                 $order = $this->getFirstDocParam($method, 'order');
 
                 if (! empty($order)) {
@@ -121,7 +121,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                         'description' => $description,
                         'internal_deployment_function' => $method->name,
                         'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
-                        'enabled' => $this->getFirstDocParam($method, 'not_default') ? false : true
+                        'enabled' => $this->getFirstDocParam($method, 'not_default') ? false : true,
                     ];
                 }
             }
