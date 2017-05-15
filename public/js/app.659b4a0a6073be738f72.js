@@ -4921,7 +4921,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerCronJobs', this.serverId);
+                this.$store.dispatch('user_server_cron_jobs/get', this.serverId);
             }
         },
         createCronJob: function createCronJob() {
@@ -4944,7 +4944,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
 
                 if (this.serverId) {
-                    this.$store.dispatch('createServerCronJob', {
+                    this.$store.dispatch('user_server_cron_jobs/store', {
                         job: job,
                         user: this.form.user,
                         server: this.serverId
@@ -4971,7 +4971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerCronJob', {
+                this.$store.dispatch('user_server_cron_jobs/destroy', {
                     cron_job: cronJobId,
                     server: this.serverId
                 });
@@ -5011,7 +5011,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverCronJobsStore.server_cron_jobs;
+                return this.$store.state.user_server_cron_jobs.cron_jobs;
             }
         }
     }
@@ -5181,7 +5181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerEnvironmentVariables', this.serverId);
+                this.$store.dispatch('user_server_environment_variables/get', this.serverId);
             }
         },
         createEnvironmentVariable: function createEnvironmentVariable() {
@@ -5200,7 +5200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('createServerEnvironmentVariable', {
+                this.$store.dispatch('user_server_environment_variables/store', {
                     server: this.serverId,
                     value: this.form.value,
                     variable: this.form.variable
@@ -5221,7 +5221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerEnvironmentVariable', {
+                this.$store.dispatch('user_server_environment_variables/destroy', {
                     server: this.serverId,
                     environment_variable: environmentVariableId
                 });
@@ -5251,7 +5251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverEnvironmentVariablesStore.server_environment_variables;
+                return this.$store.state.user_server_environment_variables.environment_variables;
             }
         }
     }
@@ -6122,7 +6122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('getServerWorkers', this.serverId);
+                this.$store.dispatch('user_server_workers/get', this.serverId);
             }
         },
         installWorker: function installWorker() {
@@ -6139,7 +6139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.serverId) {
                 this.form.server = this.serverId;
-                this.$store.dispatch('createServerWorker', this.form).then(function (worker) {
+                this.$store.dispatch('user_server_workers/store', this.form).then(function (worker) {
                     if (worker.id) {
                         _this.resetForm();
                     }
@@ -6156,7 +6156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('deleteServerWorker', {
+                this.$store.dispatch('user_server_workers/destroy', {
                     worker: worker_id,
                     server: this.serverId
                 });
@@ -6194,7 +6194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                return this.$store.state.serverWorkersStore.server_workers;
+                return this.$store.state.user_server_workers.workers;
             }
         }
     }

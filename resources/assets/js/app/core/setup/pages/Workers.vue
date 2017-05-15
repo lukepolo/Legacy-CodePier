@@ -113,7 +113,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('getServerWorkers', this.serverId)
+                    this.$store.dispatch('user_server_workers/get', this.serverId)
                 }
 
             },
@@ -129,7 +129,7 @@
 
                 if(this.serverId) {
                     this.form.server = this.serverId
-                    this.$store.dispatch('createServerWorker', this.form).then((worker) => {
+                    this.$store.dispatch('user_server_workers/store', this.form).then((worker) => {
                         if(worker.id) {
                             this.resetForm()
                         }
@@ -146,7 +146,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('deleteServerWorker', {
+                    this.$store.dispatch('user_server_workers/destroy', {
                         worker: worker_id,
                         server: this.serverId
                     });
@@ -184,7 +184,7 @@
                 }
 
                 if(this.serverId) {
-                    return this.$store.state.serverWorkersStore.server_workers
+                    return this.$store.state.user_server_workers.workers
                 }
 
             }
