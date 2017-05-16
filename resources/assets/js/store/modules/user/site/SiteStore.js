@@ -14,8 +14,8 @@ export default {
         getSiteServers: ({ commit }, siteId) => {
             Vue.http.get().then((response) => {
                 commit('SET_SITE_SERVERS', {
-                    site : siteId,
-                    servers : response.data
+                    site: siteId,
+                    servers: response.data
                 })
             }, (errors) => {
                 app.handleApiError(errors)
@@ -111,7 +111,7 @@ export default {
         SET_SITE: (state, site) => {
             state.site = site
         },
-        SET_SITE_SERVERS: (state, {site, servers}) => {
+        SET_SITE_SERVERS: (state, { site, servers }) => {
             Vue.set(state.site_servers, site, servers)
         },
         SET_SERVER_STATS: (state, data) => {
@@ -119,6 +119,6 @@ export default {
             if (server) {
                 Vue.set(server, 'stats', data.stats)
             }
-        },
+        }
     }
 }

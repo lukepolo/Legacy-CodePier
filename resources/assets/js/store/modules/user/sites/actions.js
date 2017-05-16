@@ -1,4 +1,4 @@
-export const get = ({dispatch}) => {
+export const get = ({ dispatch }) => {
     return Vue.request().get(
         Vue.action('Site\SiteController@index'),
         'user_sites/setAll'
@@ -16,7 +16,7 @@ export const show = ({}, site) => {
     )
 }
 
-export const store = ({dispatch}, data) => {
+export const store = ({ dispatch }, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteController@store'),
         'user_sites/add'
@@ -40,7 +40,7 @@ export const update = ({}, data) => {
 export const destroy = ({}, site) => {
     return Vue.request(site).delete(
         Vue.action('Site\SiteController@destroy', { site: site }), [
-            'user_sites/remove',
+            'user_sites/remove'
             // 'remove_site_from_pile'
         ]
     ).then(() => {

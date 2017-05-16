@@ -9,7 +9,7 @@ export const update = ({}, data) => {
     return Vue.request(data).patch(
         Vue.action('Server\ServerFileController@update', {
             file: data.file_id,
-            server: data.server,
+            server: data.server
         }),
         'user_site_files/update'
     ).then(() => {
@@ -29,7 +29,6 @@ export const getEditableFiles = ({}, server) => {
         app.showSuccess('You have updated the server file.')
     })
 }
-
 
 export const findFile = ({}, data) => {
     return Vue.request(data).post(

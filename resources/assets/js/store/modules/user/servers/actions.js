@@ -1,4 +1,4 @@
-export const get = ({dispatch}) => {
+export const get = ({ dispatch }) => {
     return Vue.request().get(
         Vue.action('Server\ServerController@index'),
         'user_servers/setAll'
@@ -16,7 +16,7 @@ export const show = ({}, server) => {
     )
 }
 
-export const store = ({dispatch}, data) => {
+export const store = ({ dispatch }, data) => {
     return Vue.request(data).post(
         Vue.action('Server\ServerController@store'),
         'user_servers/add'
@@ -51,7 +51,7 @@ export const restore = ({}, server) => {
     return Vue.request(server).post(
         Vue.action('Server\ServerController@restore', { server: server }), [
             'user_servers/add',
-            'user_servers/removeFromTrash',
+            'user_servers/removeFromTrash'
         ]
     ).then(() => {
         //         dispatch('listenToServer', response.data)
@@ -59,9 +59,7 @@ export const restore = ({}, server) => {
 }
 
 export const listenTo = ({ commit, state, dispatch }, server) => {
-
     if (_.indexOf(state.listening_to, server.id) === -1) {
-
         commit('listenTo', server)
 
         if (server.progress < 100) {
@@ -87,15 +85,15 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
             })
             .notification((notification) => {
                 switch (notification.type) {
-                    case 'App\\Notifications\\Server\\ServerMemory':
-                    case 'App\\Notifications\\Server\\ServerDiskUsage':
-                    case 'App\\Notifications\\Server\\ServerLoad':
+                case 'App\\Notifications\\Server\\ServerMemory':
+                case 'App\\Notifications\\Server\\ServerDiskUsage':
+                case 'App\\Notifications\\Server\\ServerLoad':
 
                         // commit('SET_SERVER_STATS', {
                         //     server: server.id,
                         //     stats: notification.stats
                         // })
-                        break
+                    break
                 }
             })
     }

@@ -1,15 +1,14 @@
-export const setDeployments = (state, {response}) => {
+export const setDeployments = (state, { response }) => {
     state.deployments = response
 }
 
-export const setDeploymentSteps = (state, {response}) => {
+export const setDeploymentSteps = (state, { response }) => {
     state.deployment_steps = response
 }
 
-export const setSiteDeploymentSteps = (state, {response}) => {
+export const setSiteDeploymentSteps = (state, { response }) => {
     state.site_deployment_steps = response
 }
-
 
 // UPDATE_RUNNING_SITE_DEPLOYMENT: (state, event) => {
 //     if (!state.running_deployments[event.site_deployment.site_id]) {

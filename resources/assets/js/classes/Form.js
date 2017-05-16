@@ -5,9 +5,8 @@ class Form extends Request {
     /**
      * Reset the form fields.
      */
-    reset() {
-
-        for (let field in this.originalData) {
+    reset () {
+        for (const field in this.originalData) {
             this[field] = this.originalData[field]
         }
 
@@ -19,18 +18,18 @@ class Form extends Request {
      *
      * @param {object} data
      */
-    onSuccess(data) {
-        if(this.resetData) {
+    onSuccess (data) {
+        if (this.resetData) {
             this.reset()
         }
         this.errors.clear()
     }
 
-    diff() {
+    diff () {
         return _.reduce(this.data(), (result, value, key) => {
-            return _.isEqual(value, this.originalData[key]) ?
-                result : result.concat(key);
-        }, []);
+            return _.isEqual(value, this.originalData[key])
+                ? result : result.concat(key)
+        }, [])
     }
 }
 

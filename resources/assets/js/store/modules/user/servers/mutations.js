@@ -1,19 +1,18 @@
-export const set = (state, {response}) => {
+export const set = (state, { response }) => {
     state.server = response
 }
 
-export const setAll = (state, {response}) => {
+export const setAll = (state, { response }) => {
     state.servers = response
 }
 
-export const add = (state, {response}) => {
+export const add = (state, { response }) => {
     state.servers.push(response)
 }
 
-export const remove = (state, {requestData}) => {
-
+export const remove = (state, { requestData }) => {
     state.trashed.push(_.find(state.servers, {
-        id : requestData.server }
+        id: requestData.server }
     ))
 
     Vue.set(state, 'servers', _.reject(state.servers, {
@@ -21,11 +20,11 @@ export const remove = (state, {requestData}) => {
     }))
 }
 
-export const setTrashed = (state, {response}) => {
+export const setTrashed = (state, { response }) => {
     state.trashed = response
 }
 
-export const removeFromTrash = (state, {requestData}) => {
+export const removeFromTrash = (state, { requestData }) => {
     Vue.set(state, 'trashed', _.reject(state.trashed, {
         id: requestData.value
     }))

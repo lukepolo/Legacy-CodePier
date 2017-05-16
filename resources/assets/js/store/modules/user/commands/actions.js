@@ -21,4 +21,3 @@ export const destroy = ({}, data) => {
     return Vue.request(data).delete('')
 }
 
-

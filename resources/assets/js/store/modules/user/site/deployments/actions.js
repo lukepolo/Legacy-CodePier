@@ -7,7 +7,7 @@ export const getDeployments = ({}) => {
 
 export const getDeploymentSteps = ({}, site) => {
     return Vue.request().get(
-        Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site : site }),
+        Vue.action('Site\SiteDeploymentStepsController@getDeploymentSteps', { site: site }),
         'user_site_deployments/setDeploymentSteps'
     )
 }

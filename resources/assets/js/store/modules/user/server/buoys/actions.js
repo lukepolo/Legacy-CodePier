@@ -9,7 +9,7 @@ export const destroy = ({}, data) => {
     return Vue.request(data).delete(
         Vue.action('Server\ServerBuoyController@destroy', {
             buoy: data.buoy,
-            server: data.server,
+            server: data.server
         }),
         'user_server_buoys/remove'
     )

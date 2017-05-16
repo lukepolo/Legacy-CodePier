@@ -2,7 +2,7 @@ import {
     SiteRepository,
     SiteDeployment,
     SiteFiles,
-    SiteServerFiles,
+    SiteServerFiles
 
 } from '../pages'
 
@@ -11,7 +11,7 @@ import {
     SiteArea,
     SecurityNav,
     SiteSetupNav,
-    ServerSetupNav,
+    ServerSetupNav
 } from '../components'
 
 import {
@@ -23,7 +23,7 @@ import {
     ServerFeatures,
     SslCertificates,
     LanguageSettings,
-    EnvironmentVariables,
+    EnvironmentVariables
 } from '../../core/setup/pages'
 
 export default [
@@ -149,5 +149,5 @@ export default [
                 }
             }
         ]
-    },
+    }
 ]

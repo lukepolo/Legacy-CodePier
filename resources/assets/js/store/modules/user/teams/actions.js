@@ -28,7 +28,7 @@ export const update = ({}, data) => {
 
 export const destroy = ({}, data) => {
     return Vue.request(data).delete(
-        Vue.action('User\Team\UserTeamController@destroy', {team: data.team}),
+        Vue.action('User\Team\UserTeamController@destroy', { team: data.team }),
         'user_teams/remove'
     )
 }

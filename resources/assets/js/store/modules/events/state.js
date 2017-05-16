@@ -1,4 +1,4 @@
 export default {
-    events : [],
-    events_pagination : null,
+    events: [],
+    events_pagination: null
 }

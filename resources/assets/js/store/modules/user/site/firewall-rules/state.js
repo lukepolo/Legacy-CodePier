@@ -1,3 +1,3 @@
 export default {
-    firewall_rules : []
+    firewall_rules: []
 }

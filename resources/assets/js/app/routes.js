@@ -7,7 +7,7 @@ import sites from './sites/routes'
 import teams from './teams/routes'
 import servers from './servers/routes'
 
-import {Piles} from './piles/pages'
+import { Piles } from './piles/pages'
 import PageNotFound from './core/PageNotFound.vue'
 
 export default [

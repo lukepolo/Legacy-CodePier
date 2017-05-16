@@ -20,7 +20,7 @@ export const parseDate = (date, timezone) => {
     return moment(date)
 }
 
-export const dateHumanize  = (date, timezone) => {
+export const dateHumanize = (date, timezone) => {
     return moment(date).tz(timezone).fromNow()
 }
 

@@ -1,6 +1,6 @@
 export default {
-    server : [],
-    servers : [],
-    trashed : [],
-    listening_to : [],
+    server: [],
+    servers: [],
+    trashed: [],
+    listening_to: []
 }

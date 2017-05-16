@@ -1,3 +1,3 @@
-export const setAll = (state, {response, requestData}) => {
+export const setAll = (state, { response, requestData }) => {
     state.frameworks = response
 }

@@ -28,11 +28,10 @@ export const destroy = ({}, pile) => {
     )
 }
 
-export const changePile = ({dispatch}, pile) => {
+export const changePile = ({ dispatch }, pile) => {
     Vue.request({
-        pile : pile
+        pile: pile
     }).post('Pile\PileController@changePile', 'SET_USER').then(() => {
-
         dispatch('user_sites/get')
         dispatch('servers/get')
 

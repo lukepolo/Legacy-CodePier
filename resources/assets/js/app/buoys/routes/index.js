@@ -1,10 +1,10 @@
 import {
-    BuoyMarketPlace,
+    BuoyMarketPlace
 } from '../pages'
 
 import {
     BuoyArea,
-    BuoyInstall,
+    BuoyInstall
 } from '../components'
 
 export default [
@@ -20,5 +20,5 @@ export default [
                 }
             }
         ]
-    },
+    }
 ]
