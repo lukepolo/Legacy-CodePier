@@ -1,5 +1,5 @@
 <template>
-    <li class="dropdown" :class="{ open : open }" @click="show">
+    <li class="dropdown" :class="{ open : open }" @click.stop="show">
 
         <a href="#" class="dropdown-toggle" @click.stop="show">
             <span :class="icon"></span>

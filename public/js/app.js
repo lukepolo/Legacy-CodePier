@@ -777,9 +777,8 @@ var Request = function () {
 
                     resolve(response.data);
                 }).catch(function (error) {
-                    // TODO - handle errors here
-                    // app.handleApiError(error)
                     if (error.response) {
+                        app.handleApiError(error.response);
                         _this.onFail(error.response.data);
                         reject(error.response.data);
                     } else {
@@ -2523,10 +2522,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DropDown_vue__ = __webpack_require__(592);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DropDown_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_DropDown_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NotificationArea_vue__ = __webpack_require__(585);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NotificationArea_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NotificationArea_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue__ = __webpack_require__(585);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue__);
 //
 //
 //
@@ -2621,15 +2618,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        DropDown: __WEBPACK_IMPORTED_MODULE_0__components_DropDown_vue___default.a,
-        NotificationArea: __WEBPACK_IMPORTED_MODULE_1__NotificationArea_vue___default.a
+        NotificationArea: __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue___default.a
     },
     data: function data() {
         return {
@@ -7881,6 +7876,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11670,6 +11671,7 @@ Vue.component('ConfirmDropdown', __webpack_require__(590));
 Vue.component('ConfirmSidebar', __webpack_require__(591));
 Vue.component('Navigation', __webpack_require__(584));
 Vue.component('EventsBar', __webpack_require__(596));
+Vue.component('DropDown', __webpack_require__(592));
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
@@ -17009,7 +17011,7 @@ var getAvailable = function getAvailable(_ref2, site) {
     Vue.request().get(Vue.action('Site\SiteLanguageSettingsController@getLanguageSettings', { site: site }), 'user_site_language_settings/setAvailableLanguageSettings');
 };
 
-var run = function run(_ref3) {
+var run = function run(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
     Vue.request(data).post(Vue.action('Site\SiteLanguageSettingsController@store', {
@@ -25633,7 +25635,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       open: _vm.open
     },
     on: {
-      "click": _vm.show
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.show($event)
+      }
     }
   }, [_c('a', {
     staticClass: "dropdown-toggle",
@@ -28529,7 +28534,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "subNav"
     }
-  }, [_c('router-view')], 1)], 1)] : [_c('h3', [_vm._v("Repository Informationsit")]), _vm._v(" "), _c('router-view')]], 2)])], 1), _vm._v(" "), _c('servers')], 1)
+  }, [_c('router-view')], 1)], 1)] : [_c('h3', [_vm._v("Repository Information")]), _vm._v(" "), _c('router-view')]], 2)])], 1), _vm._v(" "), _c('servers')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -29802,7 +29807,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.site && _vm.site.repository) ? _c('section', {
+  return (_vm.site) ? _c('section', {
     staticClass: "section-column",
     attrs: {
       "id": "right"
@@ -29811,10 +29816,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "section-header"
   }, [_vm._v("\n        Servers\n\n        "), _c('div', {
     staticClass: "section-header--btn-right"
-  }, [_c('div', {
-    staticClass: "dropdown"
-  }, [_vm._m(0), _vm._v(" "), _c('ul', {
-    staticClass: "dropdown-menu nowrap"
+  }, [_c('drop-down', {
+    staticClass: "btn btn-default btn-xs",
+    attrs: {
+      "icon": "fa fa-plus"
+    }
   }, [_c('server-create-list'), _vm._v(" "), (_vm.availableServers.length) ? [_c('li', [_c('a', {
     attrs: {
       "href": "#"
@@ -29827,7 +29833,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "icon-server"
-  }), _vm._v(" Attached Servers\n                            ")])])] : _vm._e()], 2)])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Attached Servers\n                        ")])])] : _vm._e()], 2)], 1)]), _vm._v(" "), _c('div', {
     staticClass: "section-content"
   }, [(!_vm.connectServers && _vm.siteServers) ? [_vm._l((_vm.siteServers), function(server) {
     return [_c('server-info', {
@@ -29836,7 +29842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "showInfo": _vm.siteServers.length == 1 ? true : false
       }
     })]
-  })] : [(_vm.availableServers.length) ? [_c('h3', {
+  })] : [(_vm.site.repository) ? [(_vm.availableServers.length) ? [_c('h3', {
     staticClass: "section-header--secondary"
   }, [_vm._v("Available Servers")]), _vm._v(" "), _c('form', {
     on: {
@@ -29851,7 +29857,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "jcf-input-group"
   }, [_c('div', {
     staticClass: "small"
-  }, [_vm._v("\n                               Select the servers you want to attach your site to.\n                           ")])]), _vm._v(" "), _vm._l((_vm.availableServers), function(server) {
+  }, [_vm._v("\n                                   Select the servers you want to attach your site to.\n                               ")])]), _vm._v(" "), _vm._l((_vm.availableServers), function(server) {
     return [_c('form', {
       staticClass: "floating-labels"
     }, [_c('div', {
@@ -29890,7 +29896,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(" "), _c('span', {
       staticClass: "icon"
-    }), _vm._v("\n                                       " + _vm._s(server.name) + " (" + _vm._s(server.ip) + ")\n                                   ")])])])]
+    }), _vm._v("\n                                           " + _vm._s(server.name) + " (" + _vm._s(server.ip) + ")\n                                       ")])])])]
   }), _vm._v(" "), _c('div', {
     staticClass: "btn-footer"
   }, [(_vm.siteServers) ? [_c('button', {
@@ -29917,18 +29923,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "classes": "btn"
     }
-  })], 1)]]], 2)]) : _vm._e()
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default btn-xs dropdown-toggle",
-    attrs: {
-      "type": "button",
-      "data-toggle": "dropdown"
-    }
-  }, [_c('span', {
-    staticClass: "fa fa-plus"
-  })])
-}]}
+  })], 1)]] : [_c('div', {
+    staticClass: "jcf-form-wrap"
+  }, [_c('div', {
+    staticClass: "jcf-input-group"
+  }, [_c('h5', {
+    staticClass: "section-header--secondary"
+  }, [_vm._v("\n                           Please fill out your "), _c('br'), _vm._v("repository information before creating a server\n                       ")])])])]]], 2)]) : _vm._e()
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

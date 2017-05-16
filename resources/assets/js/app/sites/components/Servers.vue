@@ -1,26 +1,20 @@
 <template>
-    <section id="right" v-if="site && site.repository" class="section-column">
+    <section id="right" v-if="site" class="section-column">
 
         <h3 class="section-header">
             Servers
 
             <div class="section-header--btn-right">
-                <div class="dropdown">
-
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="fa fa-plus"></span>
-                    </button>
-                    <ul class="dropdown-menu nowrap">
-                        <server-create-list></server-create-list>
-                        <template v-if="availableServers.length">
-                            <li>
-                                <a href="#" @click.prevent="connectServers = !connectServers">
-                                    <span class="icon-server"></span> Attached Servers
-                                </a>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
+                <drop-down icon="fa fa-plus" class="btn btn-default btn-xs">
+                    <server-create-list></server-create-list>
+                    <template v-if="availableServers.length">
+                        <li>
+                            <a href="#" @click.prevent="connectServers = !connectServers">
+                                <span class="icon-server"></span> Attached Servers
+                            </a>
+                        </li>
+                    </template>
+                </drop-down>
             </div>
         </h3>
 
@@ -33,53 +27,65 @@
             </template>
            <template v-else>
 
-               <template v-if="availableServers.length">
+               <template v-if="site.repository">
+                   <template v-if="availableServers.length">
 
-                   <h3 class="section-header--secondary">Available Servers</h3>
+                       <h3 class="section-header--secondary">Available Servers</h3>
 
-                   <form @submit.prevent="linkServers">
+                       <form @submit.prevent="linkServers">
 
-                       <div class="jcf-form-wrap">
-                           <div class="jcf-input-group">
-                               <div class="small">
-                                   Select the servers you want to attach your site to.
-                               </div>
-                           </div>
-
-                           <template v-for="server in availableServers">
-                               <form class="floating-labels">
-                                   <div class="jcf-input-group input-checkbox">
-                                       <label>
-                                           <input
-                                                   type="checkbox"
-                                                   :value="server.id"
-                                                   v-model="form.connected_servers"
-                                           >
-                                           <span class="icon"></span>
-                                           {{ server.name }} ({{ server.ip }})
-                                       </label>
+                           <div class="jcf-form-wrap">
+                               <div class="jcf-input-group">
+                                   <div class="small">
+                                       Select the servers you want to attach your site to.
                                    </div>
-                               </form>
-                           </template>
+                               </div>
 
-                           <div class="btn-footer">
-                               <template v-if="siteServers">
-                                   <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
+                               <template v-for="server in availableServers">
+                                   <form class="floating-labels">
+                                       <div class="jcf-input-group input-checkbox">
+                                           <label>
+                                               <input
+                                                       type="checkbox"
+                                                       :value="server.id"
+                                                       v-model="form.connected_servers"
+                                               >
+                                               <span class="icon"></span>
+                                               {{ server.name }} ({{ server.ip }})
+                                           </label>
+                                       </div>
+                                   </form>
                                </template>
-                               <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
+
+                               <div class="btn-footer">
+                                   <template v-if="siteServers">
+                                       <button class="btn danger" @click.prevent="resetAttachedServers">Cancel</button>
+                                   </template>
+                                   <button class="btn btn-primary" type="submit">{{ attachServersText }}</button>
+                               </div>
+
                            </div>
 
-                       </div>
+                       </form>
 
-                   </form>
+                   </template>
 
+                   <template v-else>
+                       <h3 class="section-header--secondary">Lets create your first Server</h3>
+                       <ul style="list-style: none; padding-left: 2em;">
+                           <server-create-list classes="btn"></server-create-list>
+                       </ul>
+                   </template>
                </template>
 
                <template v-else>
-                   <h3 class="section-header--secondary">Lets create your first Server</h3>
-                   <ul style="list-style: none; padding-left: 2em;">
-                       <server-create-list classes="btn"></server-create-list>
-                   </ul>
+                   <div class="jcf-form-wrap">
+                       <div class="jcf-input-group">
+                           <h5 class="section-header--secondary">
+                               Please fill out your <br>repository information before creating a server
+                           </h5>
+                       </div>
+                   </div>
                </template>
 
            </template>
