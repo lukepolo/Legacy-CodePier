@@ -12,7 +12,7 @@ export const getAvailable = ({}, site) => {
     )
 }
 
-export const run = ({}) => {
+export const run = ({}, data) => {
     Vue.request(data).post(
             Vue.action('Site\SiteLanguageSettingsController@store', {
                 site: data.site

@@ -52,7 +52,7 @@
                         </transition>
                     </template>
                     <template v-else>
-                        <h3>Repository Informationsit</h3>
+                        <h3>Repository Information</h3>
                         <router-view></router-view>
                     </template>
                 </div>

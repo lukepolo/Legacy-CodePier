@@ -94,12 +94,10 @@
 
 <script>
 
-    import DropDown from './components/DropDown.vue'
     import NotificationArea from './NotificationArea.vue';
 
     export default {
         components: {
-            DropDown,
             NotificationArea
         },
         data() {
