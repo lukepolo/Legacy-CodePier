@@ -5,12 +5,12 @@ import {
     UserSubscription,
     UserServerProviders,
     UserRepositoryProviders,
-    UserNotificationProviders,
+    UserNotificationProviders
 } from '../pages'
 
 import {
     UserNav,
-    UserArea,
+    UserArea
 } from '../components'
 
 export default [
@@ -74,5 +74,5 @@ export default [
                 }
             }
         ]
-    },
+    }
 ]

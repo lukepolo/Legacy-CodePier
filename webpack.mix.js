@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+const { mix } = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -17,32 +17,38 @@ mix
     .sass('resources/assets/sass/public.scss', 'public/css')
     .extract([
         'vue',
+        'vuex',
         'brace',
+        'axios',
         'jquery',
         'lodash',
-        'progress',
+        'hint.css',
+        'nprogress',
         'jcf-forms',
         'pusher-js',
         'clipboard',
         'vue-router',
+        'vuedraggable',
         'laravel-echo',
+        'moment-timezone',
         'filesize-parser',
-        'lodash-inflection',
+        'lodash-inflection'
     ])
     .autoload({
-        jquery: ['$', 'jQuery'],
-        lodash : '_',
-        clipboard : 'Clipboard',
-        moment : 'moment',
-        'pusher-js' : 'Pusher',
+        vue: 'Vue',
+        lodash: '_',
+        ace: 'brace',
+        'pusher-js': 'Pusher',
+        clipboard: 'Clipboard',
+        jquery: ['$', 'jQuery']
     })
 
 if (mix.config.inProduction) {
     mix.version()
 } else {
     mix.browserSync({
-        proxy : 'codepier.dev',
+        open: 'external',
         host: 'codepier.dev',
-        open: 'external'
+        proxy: 'codepier.dev'
     })
 }

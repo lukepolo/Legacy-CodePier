@@ -12,8 +12,8 @@ import notification_providers from './notification-providers'
 
 import system from './system'
 import system_features from './system/features'
-import system_languages from  './system/languages'
-import system_frameworks from  './system/frameworks'
+import system_languages from './system/languages'
+import system_frameworks from './system/frameworks'
 
 import user from './user/user'
 import user_ssh_keys from './user/ssh-keys'

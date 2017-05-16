@@ -1,28 +1,28 @@
-export const set = (state, {response}) => {
+export const set = (state, { response }) => {
     state.team = response
 }
 
-export const setAll = (state, {response}) => {
+export const setAll = (state, { response }) => {
     state.teams = response
 }
 
-export const add = (state, {response}) => {
+export const add = (state, { response }) => {
     state.teams.push(response)
 }
 
-export const update = (state, {response}) => {
+export const update = (state, { response }) => {
     Vue.set(state.teams,
         parseInt(
             _.findKey(state.teams, {
-                id : response.id
+                id: response.id
             })
         ),
         response
     )
 }
 
-export const remove = (state, {requestData}) => {
+export const remove = (state, { requestData }) => {
     Vue.set(state, 'teams', _.reject(state.teams, {
-        id : requestData.team
+        id: requestData.team
     }))
 }

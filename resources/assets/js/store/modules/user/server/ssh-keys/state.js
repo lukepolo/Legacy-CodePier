@@ -1,3 +1,3 @@
 export default {
-    ssh_keys : []
+    ssh_keys: []
 }

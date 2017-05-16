@@ -7,7 +7,7 @@ export const get = ({}) => {
 
 export const update = ({}, data) => {
     return Vue.request(data).patch(
-        Vue.action('User\UserController@update', { user : data.user }),
+        Vue.action('User\UserController@update', { user: data.user }),
         'user/set'
     )
 }

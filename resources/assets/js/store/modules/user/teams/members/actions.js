@@ -9,7 +9,7 @@ export const destroy = ({}, data) => {
     return Vue.request(data).delete(
         Vue.action('User\Team\UserTeamMemberController@destroy', {
             team: data.team,
-            member: data.member,
+            member: data.member
         }),
         'user_team_members/remove'
     )

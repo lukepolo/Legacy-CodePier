@@ -6,5 +6,5 @@ export default {
     state,
     actions,
     mutations,
-    namespaced : true
+    namespaced: true
 }

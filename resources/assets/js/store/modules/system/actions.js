@@ -18,6 +18,6 @@ export const destroy = ({}, data) => {
     return Vue.request(data).delete('')
 }
 
-export const setVersion = ({commit}, data) => {
+export const setVersion = ({ commit }, data) => {
     commit('system/setVersion', data.version)
 }

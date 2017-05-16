@@ -1,4 +1,4 @@
-export const showError = function(message, title, timeout) {
+export const showError = function (message, title, timeout) {
     if (timeout === undefined) {
         timeout = 5000
     }
@@ -10,11 +10,11 @@ export const showError = function(message, title, timeout) {
         timeout: timeout
     })
 }
-export const showSuccess = function(message, title, timeout) {
+export const showSuccess = function (message, title, timeout) {
     if (timeout === undefined) {
         timeout = 5000
     }
-    
+
     this.$store.dispatch('notifications/add', {
         title: !_.isEmpty(title) ? title : 'Success!!',
         text: message,
@@ -23,7 +23,7 @@ export const showSuccess = function(message, title, timeout) {
     })
 }
 
-export const handleApiError = function(response) {
+export const handleApiError = function (response) {
     let message = response
 
     if (_.isObject(response)) {

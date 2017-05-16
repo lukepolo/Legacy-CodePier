@@ -1,4 +1,4 @@
-export const setAll = (state, {response}) => {
+export const setAll = (state, { response }) => {
     _.forEach(response.data, function (event) {
         state.events.push(event)
     })

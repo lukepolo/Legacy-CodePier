@@ -12,19 +12,19 @@ import {
 
 import {
     back,
-    action,
+    action
 } from './routes'
 
 import {
     getServer,
-    serverHasFeature,
+    serverHasFeature
 } from './server'
 
 import {
     now,
     timeAgo,
     parseDate,
-    dateHumanize,
+    dateHumanize
 } from './date-time'
 
 import {
@@ -43,7 +43,7 @@ import {
 import {
     showError,
     showSuccess,
-    handleApiError,
+    handleApiError
 } from './notifications'
 
 import {

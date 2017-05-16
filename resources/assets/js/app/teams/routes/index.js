@@ -1,6 +1,6 @@
 import {
     Teams,
-    TeamMembers,
+    TeamMembers
 } from '../pages'
 
 import {
@@ -8,5 +8,5 @@ import {
 
 export default [
     { path: '/my/teams', name: 'teams', component: Teams },
-    { path: '/my/team/:team_id/members', name: 'team_members', component: TeamMembers },
+    { path: '/my/team/:team_id/members', name: 'team_members', component: TeamMembers }
 ]

@@ -1,10 +1,9 @@
 export const get = ({}, data) => {
-
     let filters = (data && data.filters) ? data.filters : null
 
     filters = _.merge({
-            page: data ? data.page : 1
-        },
+        page: data ? data.page : 1
+    },
         _.omitBy({
             types: filters ? _.omitBy(filters.types, _.isEmpty) : null,
             piles: filters ? filters.piles : null,

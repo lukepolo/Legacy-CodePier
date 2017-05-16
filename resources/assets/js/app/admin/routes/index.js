@@ -1,7 +1,7 @@
 import {
     BuoyForm,
     Categories,
-    CategoryForm,
+    CategoryForm
 } from '../pages'
 
 import {
@@ -41,5 +41,5 @@ export default [
                 }
             }
         ]
-    },
+    }
 ]

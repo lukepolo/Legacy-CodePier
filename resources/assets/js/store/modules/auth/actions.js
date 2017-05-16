@@ -3,10 +3,9 @@ export const logout = ({}, data) => {
         Vue.action('Auth\LoginController@logout')
     ).then(() => {
         console.info('no error')
-        window.location = '/';
+        window.location = '/'
     }, (errors) => {
         console.info('errors')
-        window.location = '/';
-    });
-
+        window.location = '/'
+    })
 }

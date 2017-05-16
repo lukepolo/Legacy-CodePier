@@ -15,7 +15,6 @@ export default {
     },
     actions: {
 
-
     },
     mutations: {
         ADD_SERVER: (state, server) => {

@@ -1,4 +1,4 @@
-export const isAdmin = function() {
+export const isAdmin = function () {
     return this.$store.state.user.user.role === 'admin'
 }
 

@@ -9,11 +9,11 @@ export default {
             }, (errors) => {
                 app.handleApiError(errors)
             })
-        },
+        }
     },
     mutations: {
         SET_SYSTEMS: (state, systems) => {
             state.systems = systems
-        },
+        }
     }
 }

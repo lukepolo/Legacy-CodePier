@@ -4,7 +4,7 @@ import {
     ServerSites,
     ServerFiles,
     ServerBuoys,
-    ServerMonitoring,
+    ServerMonitoring
 } from '../pages'
 
 import {
@@ -12,7 +12,7 @@ import {
     ServerArea,
     SecurityNav,
     ServerSetupNav,
-    ServerInformationNav,
+    ServerInformationNav
 } from '../components'
 
 import {
@@ -24,7 +24,7 @@ import {
     ServerFeatures,
     SslCertificates,
     LanguageSettings,
-    EnvironmentVariables,
+    EnvironmentVariables
 } from '../../core/setup/pages'
 
 export default [
@@ -154,5 +154,5 @@ export default [
                 }
             }
         ]
-    },
+    }
 ]
