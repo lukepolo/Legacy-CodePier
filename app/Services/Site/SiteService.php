@@ -4,7 +4,7 @@ namespace App\Services\Site;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
+use App\Exceptions\FailedCommandException;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
 use App\Services\Systems\SystemService;
@@ -143,7 +143,7 @@ class SiteService implements SiteServiceContract
                 }
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
-            } catch (FailedCommand $e) {
+            } catch (FailedCommandException $e) {
                 event(new DeploymentStepFailed($site, $server, $event, $event->step, $e->getMessage()));
                 throw new DeploymentFailed($e->getMessage());
             }

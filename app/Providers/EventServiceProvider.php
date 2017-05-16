@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\SshLoginAttempted;
+use App\Listeners\SaveSshLoginStatus;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\GitLab\GitLabExtendSocialite;
 use SocialiteProviders\DigitalOcean\DigitalOceanExtendSocialite;
@@ -20,6 +22,10 @@ class EventServiceProvider extends ServiceProvider
             GitLabExtendSocialite::class.'@handle',
             DigitalOceanExtendSocialite::class.'@handle',
         ],
+        SshLoginAttempted::class => [
+            SaveSshLoginStatus::class . '@handle',
+
+        ]
     ];
 
     /**
