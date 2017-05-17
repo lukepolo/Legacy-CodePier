@@ -6,8 +6,20 @@
         <a :class="{ collapsed : !show }" :href="'#' + eventName" v-if="showDropDown" @click="toggle">
             <span class="icon-play"></span>
         </a>
-        {{ title }}
-        <transition name="collapse">
+
+        {{ title }} -- {{ show }} --
+        <transition name="collapse"
+
+            v-on:before-enter="setup"
+            v-on:enter="enter"
+            v-on:after-enter="done"
+
+            v-on:before-leave="setup"
+            v-on:leave="leave"
+            v-on:after-leave="done"
+
+            v-bind:css="false"
+        >
             <div class="events--item-details" :id="eventName" v-show="show">
                 <slot></slot>
             </div>
@@ -21,12 +33,50 @@
         data() {
           return {
               show : false,
-              collapsing : false
+              collapsing : false,
+              height : null,
+              transitionMs : '10'
           }
         },
         methods: {
             toggle() {
                 this.show = !this.show
+            },
+            setup(el) {
+                el.style.overflow = "hidden"
+                el.style.position = "initial"
+                el.style.transition = "all "+this.transitionMs+"s ease"
+            },
+            enter(el, done) {
+                this.height =  el.offsetHeight
+                el.style.height = 0
+
+                setTimeout(() => {
+                    el.style.height = this.height+'px'
+                }, .00000001)
+
+                setTimeout(function() {
+                    done()
+                }, this.transitionMs * 1000)
+            },
+            leave(el, done) {
+
+                el.style.height = this.height+'px'
+
+                setTimeout(() => {
+                    el.style.height = 0
+                }, .00000001)
+
+                setTimeout(function() {
+                    done()
+                }, this.transitionMs * 1000)
+
+            },
+            done(el) {
+                el.style.height = null
+                el.style.overflow = null
+                el.style.position = null
+                el.style.transition = null
             }
         },
         computed : {

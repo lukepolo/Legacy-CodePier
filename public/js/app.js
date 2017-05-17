@@ -81,7 +81,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(751)
+var listToStyles = __webpack_require__(752)
 
 /*
 type StyleObject = {
@@ -304,18 +304,18 @@ function applyToTag (styleElement, obj) {
 var Servers = __webpack_require__(158);
 var SiteNav = __webpack_require__(160);
 var SiteFile = __webpack_require__(15);
-var SiteArea = __webpack_require__(629);
-var CpuLoads = __webpack_require__(626);
+var SiteArea = __webpack_require__(630);
+var CpuLoads = __webpack_require__(627);
 var ServerInfo = __webpack_require__(157);
 var SiteHeader = __webpack_require__(159);
-var FrameworkFiles = __webpack_require__(628);
-var SiteCustomFiles = __webpack_require__(630);
+var FrameworkFiles = __webpack_require__(629);
+var SiteCustomFiles = __webpack_require__(631);
 var ServerCreateList = __webpack_require__(156);
-var DeploymentStepCard = __webpack_require__(627);
+var DeploymentStepCard = __webpack_require__(628);
 
-var SecurityNav = __webpack_require__(631);
-var SiteSetupNav = __webpack_require__(633);
-var ServerSetupNav = __webpack_require__(632);
+var SecurityNav = __webpack_require__(632);
+var SiteSetupNav = __webpack_require__(634);
+var ServerSetupNav = __webpack_require__(633);
 
 /***/ }),
 /* 9 */
@@ -325,13 +325,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(198),
   /* template */
-  __webpack_require__(654),
+  __webpack_require__(655),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/LeftNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/LeftNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LeftNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -368,15 +368,15 @@ module.exports = Component.exports
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return SslCertificates; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return LanguageSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EnvironmentVariables; });
-var SshKeys = __webpack_require__(610);
-var Workers = __webpack_require__(612);
-var CronJobs = __webpack_require__(604);
-var Databases = __webpack_require__(605);
-var FirewallRules = __webpack_require__(607);
-var ServerFeatures = __webpack_require__(609);
-var SslCertificates = __webpack_require__(611);
-var LanguageSettings = __webpack_require__(608);
-var EnvironmentVariables = __webpack_require__(606);
+var SshKeys = __webpack_require__(611);
+var Workers = __webpack_require__(613);
+var CronJobs = __webpack_require__(605);
+var Databases = __webpack_require__(606);
+var FirewallRules = __webpack_require__(608);
+var ServerFeatures = __webpack_require__(610);
+var SslCertificates = __webpack_require__(612);
+var LanguageSettings = __webpack_require__(609);
+var EnvironmentVariables = __webpack_require__(607);
 
 /***/ }),
 /* 14 */
@@ -386,13 +386,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(230),
   /* template */
-  __webpack_require__(724),
+  __webpack_require__(725),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerFile.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerFile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -420,13 +420,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(250),
   /* template */
-  __webpack_require__(653),
+  __webpack_require__(654),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteFile.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteFile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteFile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -470,9 +470,9 @@ module.exports = Component.exports
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Bitt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BittsArea; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return BittInstall; });
-var Bitt = __webpack_require__(576);
-var BittsArea = __webpack_require__(577);
-var BittInstall = __webpack_require__(578);
+var Bitt = __webpack_require__(577);
+var BittsArea = __webpack_require__(578);
+var BittInstall = __webpack_require__(579);
 
 /***/ }),
 /* 33 */
@@ -482,9 +482,9 @@ var BittInstall = __webpack_require__(578);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return BuoyApp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BuoyArea; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return BuoyInstall; });
-var BuoyApp = __webpack_require__(581);
-var BuoyArea = __webpack_require__(582);
-var BuoyInstall = __webpack_require__(583);
+var BuoyApp = __webpack_require__(582);
+var BuoyArea = __webpack_require__(583);
+var BuoyInstall = __webpack_require__(584);
 
 /***/ }),
 /* 34 */
@@ -492,7 +492,7 @@ var BuoyInstall = __webpack_require__(583);
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Piles; });
-var Piles = __webpack_require__(614);
+var Piles = __webpack_require__(615);
 
 /***/ }),
 /* 35 */
@@ -968,13 +968,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(212),
   /* template */
-  __webpack_require__(685),
+  __webpack_require__(686),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/DropDownEvent.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/DropDownEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DropDownEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1002,13 +1002,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(229),
   /* template */
-  __webpack_require__(656),
+  __webpack_require__(657),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerCustomFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerCustomFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerCustomFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1036,13 +1036,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(231),
   /* template */
-  __webpack_require__(732),
+  __webpack_require__(733),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerHeader.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1070,13 +1070,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(245),
   /* template */
-  __webpack_require__(690),
+  __webpack_require__(691),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/ServerCreateList.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/ServerCreateList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerCreateList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1104,13 +1104,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(246),
   /* template */
-  __webpack_require__(709),
+  __webpack_require__(710),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/ServerInfo.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/ServerInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1138,13 +1138,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(247),
   /* template */
-  __webpack_require__(730),
+  __webpack_require__(731),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/Servers.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/Servers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Servers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1172,13 +1172,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(251),
   /* template */
-  __webpack_require__(673),
+  __webpack_require__(674),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteHeader.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1206,13 +1206,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(252),
   /* template */
-  __webpack_require__(672),
+  __webpack_require__(673),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2353,7 +2353,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue__ = __webpack_require__(595);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue__ = __webpack_require__(596);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue__);
 //
 //
@@ -2527,7 +2527,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue__ = __webpack_require__(586);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue__ = __webpack_require__(587);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NotificationArea_vue__);
 //
 //
@@ -2696,7 +2696,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Notification_vue__ = __webpack_require__(594);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Notification_vue__ = __webpack_require__(595);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Notification_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Notification_vue__);
 //
 //
@@ -3276,9 +3276,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue, $, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CommandEvent_vue__ = __webpack_require__(598);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CommandEvent_vue__ = __webpack_require__(599);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CommandEvent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_CommandEvent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DeploymentEvent_vue__ = __webpack_require__(599);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DeploymentEvent_vue__ = __webpack_require__(600);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DeploymentEvent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_DeploymentEvent_vue__);
 //
 //
@@ -3895,19 +3895,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['title', 'event', 'type', 'prefix', 'status', 'dropdown'],
     data: function data() {
         return {
             show: false,
-            collapsing: false
+            collapsing: false,
+            height: null,
+            transitionMs: '10'
         };
     },
 
     methods: {
         toggle: function toggle() {
             this.show = !this.show;
+        },
+        setup: function setup(el) {
+            el.style.overflow = "hidden";
+            el.style.position = "initial";
+            el.style.transition = "all " + this.transitionMs + "s ease";
+        },
+        enter: function enter(el, done) {
+            var _this = this;
+
+            this.height = el.offsetHeight;
+            el.style.height = 0;
+
+            setTimeout(function () {
+                el.style.height = _this.height + 'px';
+            }, .00000001);
+
+            setTimeout(function () {
+                done();
+            }, this.transitionMs * 1000);
+        },
+        leave: function leave(el, done) {
+
+            el.style.height = this.height + 'px';
+
+            setTimeout(function () {
+                el.style.height = 0;
+            }, .00000001);
+
+            setTimeout(function () {
+                done();
+            }, this.transitionMs * 1000);
+        },
+        done: function done(el) {
+            el.style.height = null;
+            el.style.overflow = null;
+            el.style.position = null;
+            el.style.transition = null;
         }
     },
     computed: {
@@ -4286,7 +4337,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FeatureArea_vue__ = __webpack_require__(601);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FeatureArea_vue__ = __webpack_require__(602);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FeatureArea_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FeatureArea_vue__);
 //
 //
@@ -4766,7 +4817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DatabaseSection_vue__ = __webpack_require__(600);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DatabaseSection_vue__ = __webpack_require__(601);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DatabaseSection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_DatabaseSection_vue__);
 //
 //
@@ -5172,7 +5223,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_LanguageSetting_vue__ = __webpack_require__(603);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_LanguageSetting_vue__ = __webpack_require__(604);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_LanguageSetting_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_LanguageSetting_vue__);
 //
 //
@@ -5264,7 +5315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Features_vue__ = __webpack_require__(602);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Features_vue__ = __webpack_require__(603);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Features_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Features_vue__);
 //
 //
@@ -11575,7 +11626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminArea; });
-var AdminArea = __webpack_require__(572);
+var AdminArea = __webpack_require__(573);
 
 /***/ }),
 /* 276 */
@@ -11585,9 +11636,9 @@ var AdminArea = __webpack_require__(572);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return BuoyForm; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Categories; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CategoryForm; });
-var BuoyForm = __webpack_require__(573);
-var Categories = __webpack_require__(575);
-var CategoryForm = __webpack_require__(574);
+var BuoyForm = __webpack_require__(574);
+var Categories = __webpack_require__(576);
+var CategoryForm = __webpack_require__(575);
 
 /***/ }),
 /* 277 */
@@ -11636,8 +11687,8 @@ var CategoryForm = __webpack_require__(574);
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return BittsForm; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BittsMarketPlace; });
-var BittsForm = __webpack_require__(580);
-var BittsMarketPlace = __webpack_require__(579);
+var BittsForm = __webpack_require__(581);
+var BittsMarketPlace = __webpack_require__(580);
 
 /***/ }),
 /* 279 */
@@ -11680,7 +11731,7 @@ var BittsMarketPlace = __webpack_require__(579);
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BuoyMarketPlace; });
-var BuoyMarketPlace = __webpack_require__(584);
+var BuoyMarketPlace = __webpack_require__(585);
 
 /***/ }),
 /* 281 */
@@ -11709,15 +11760,15 @@ var BuoyMarketPlace = __webpack_require__(584);
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Vue) {Vue.component('Back', __webpack_require__(588));
-Vue.component('Tooltip', __webpack_require__(596));
-Vue.component('Clipboard', __webpack_require__(589));
-Vue.component('Confirm', __webpack_require__(590));
-Vue.component('ConfirmDropdown', __webpack_require__(591));
-Vue.component('ConfirmSidebar', __webpack_require__(592));
-Vue.component('Navigation', __webpack_require__(585));
-Vue.component('EventsBar', __webpack_require__(597));
-Vue.component('DropDown', __webpack_require__(593));
+/* WEBPACK VAR INJECTION */(function(Vue) {Vue.component('Back', __webpack_require__(589));
+Vue.component('Tooltip', __webpack_require__(597));
+Vue.component('Clipboard', __webpack_require__(590));
+Vue.component('Confirm', __webpack_require__(591));
+Vue.component('ConfirmDropdown', __webpack_require__(592));
+Vue.component('ConfirmSidebar', __webpack_require__(593));
+Vue.component('Navigation', __webpack_require__(586));
+Vue.component('EventsBar', __webpack_require__(598));
+Vue.component('DropDown', __webpack_require__(594));
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
@@ -11726,7 +11777,7 @@ Vue.component('DropDown', __webpack_require__(593));
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Pile; });
-var Pile = __webpack_require__(613);
+var Pile = __webpack_require__(614);
 
 /***/ }),
 /* 284 */
@@ -11756,7 +11807,7 @@ var Pile = __webpack_require__(613);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__teams_routes__ = __webpack_require__(293);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__servers_routes__ = __webpack_require__(288);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__piles_pages__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core_PageNotFound_vue__ = __webpack_require__(587);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core_PageNotFound_vue__ = __webpack_require__(588);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core_PageNotFound_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__core_PageNotFound_vue__);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -11787,15 +11838,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return SecurityNav; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ServerSetupNav; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ServerInformationNav; });
-var ServerNav = __webpack_require__(616);
-var ServerArea = __webpack_require__(615);
+var ServerNav = __webpack_require__(617);
+var ServerArea = __webpack_require__(616);
 var ServerFile = __webpack_require__(14);
 var ServerHeader = __webpack_require__(155);
 var ServerCustomFiles = __webpack_require__(154);
 
-var SecurityNav = __webpack_require__(617);
-var ServerSetupNav = __webpack_require__(619);
-var ServerInformationNav = __webpack_require__(618);
+var SecurityNav = __webpack_require__(618);
+var ServerSetupNav = __webpack_require__(620);
+var ServerInformationNav = __webpack_require__(619);
 
 /***/ }),
 /* 287 */
@@ -11808,12 +11859,12 @@ var ServerInformationNav = __webpack_require__(618);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ServerFiles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ServerSites; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ServerMonitoring; });
-var Servers = __webpack_require__(625);
-var ServerForm = __webpack_require__(622);
-var ServerBuoys = __webpack_require__(620);
-var ServerFiles = __webpack_require__(621);
-var ServerSites = __webpack_require__(624);
-var ServerMonitoring = __webpack_require__(623);
+var Servers = __webpack_require__(626);
+var ServerForm = __webpack_require__(623);
+var ServerBuoys = __webpack_require__(621);
+var ServerFiles = __webpack_require__(622);
+var ServerSites = __webpack_require__(625);
+var ServerMonitoring = __webpack_require__(624);
 
 /***/ }),
 /* 288 */
@@ -11948,10 +11999,10 @@ var ServerMonitoring = __webpack_require__(623);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SiteDeployment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SiteRepository; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return SiteServerFiles; });
-var SiteFiles = __webpack_require__(635);
-var SiteDeployment = __webpack_require__(634);
-var SiteRepository = __webpack_require__(636);
-var SiteServerFiles = __webpack_require__(637);
+var SiteFiles = __webpack_require__(636);
+var SiteDeployment = __webpack_require__(635);
+var SiteRepository = __webpack_require__(637);
+var SiteServerFiles = __webpack_require__(638);
 
 /***/ }),
 /* 290 */
@@ -12090,8 +12141,8 @@ var SiteServerFiles = __webpack_require__(637);
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Teams; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TeamMembers; });
-var Teams = __webpack_require__(639);
-var TeamMembers = __webpack_require__(638);
+var Teams = __webpack_require__(640);
+var TeamMembers = __webpack_require__(639);
 
 /***/ }),
 /* 293 */
@@ -12114,8 +12165,8 @@ var TeamMembers = __webpack_require__(638);
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return UserNav; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserArea; });
-var UserNav = __webpack_require__(641);
-var UserArea = __webpack_require__(640);
+var UserNav = __webpack_require__(642);
+var UserArea = __webpack_require__(641);
 
 /***/ }),
 /* 295 */
@@ -12125,9 +12176,9 @@ var UserArea = __webpack_require__(640);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Clients; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return AuthorizedClients; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PersonalAccessTokens; });
-var Clients = __webpack_require__(643);
-var AuthorizedClients = __webpack_require__(642);
-var PersonalAccessTokens = __webpack_require__(644);
+var Clients = __webpack_require__(644);
+var AuthorizedClients = __webpack_require__(643);
+var PersonalAccessTokens = __webpack_require__(645);
 
 /***/ }),
 /* 296 */
@@ -12141,13 +12192,13 @@ var PersonalAccessTokens = __webpack_require__(644);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return UserServerProviders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return UserRepositoryProviders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return UserNotificationProviders; });
-var UserInfo = __webpack_require__(645);
-var UserOauth = __webpack_require__(647);
-var UserSshKeys = __webpack_require__(650);
-var UserSubscription = __webpack_require__(651);
-var UserServerProviders = __webpack_require__(649);
-var UserRepositoryProviders = __webpack_require__(648);
-var UserNotificationProviders = __webpack_require__(646);
+var UserInfo = __webpack_require__(646);
+var UserOauth = __webpack_require__(648);
+var UserSshKeys = __webpack_require__(651);
+var UserSubscription = __webpack_require__(652);
+var UserServerProviders = __webpack_require__(650);
+var UserRepositoryProviders = __webpack_require__(649);
+var UserNotificationProviders = __webpack_require__(647);
 
 /***/ }),
 /* 297 */
@@ -12253,9 +12304,9 @@ __webpack_require__(274);
  */
 
 __webpack_require__(17);
-__webpack_require__(546);
-__webpack_require__(545);
 __webpack_require__(547);
+__webpack_require__(546);
+__webpack_require__(548);
 
 /*
  |--------------------------------------------------------------------------
@@ -12988,7 +13039,7 @@ var getSite = function getSite(siteId, attribute) {
 
 
 
-window.VueRouter = __webpack_require__(743);
+window.VueRouter = __webpack_require__(744);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(VueRouter);
 
@@ -13653,27 +13704,27 @@ var update = function update(state, command) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__system_features__ = __webpack_require__(372);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__system_languages__ = __webpack_require__(381);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__system_frameworks__ = __webpack_require__(376);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_user__ = __webpack_require__(541);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__ = __webpack_require__(525);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_subscription__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_user__ = __webpack_require__(542);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__ = __webpack_require__(526);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_subscription__ = __webpack_require__(530);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_notification_settings__ = __webpack_require__(395);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_notification_providers__ = __webpack_require__(391);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_teams__ = __webpack_require__(533);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_teams_members__ = __webpack_require__(535);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_teams__ = __webpack_require__(534);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_teams_members__ = __webpack_require__(536);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_piles__ = __webpack_require__(399);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites__ = __webpack_require__(520);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__user_sites__ = __webpack_require__(521);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__user_commands__ = __webpack_require__(387);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__user_site_files__ = __webpack_require__(484);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_site_servers__ = __webpack_require__(504);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_workers__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__user_site_servers__ = __webpack_require__(505);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_workers__ = __webpack_require__(517);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_site_schemas__ = __webpack_require__(496);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_cron_jobs__ = __webpack_require__(472);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__ = __webpack_require__(476);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_site_firewall_rules__ = __webpack_require__(488);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_repository_providers__ = __webpack_require__(403);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_site_server_features__ = __webpack_require__(500);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__ = __webpack_require__(513);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_language_settings__ = __webpack_require__(492);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_site_environment_varaibles__ = __webpack_require__(480);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers__ = __webpack_require__(468);
@@ -17463,10 +17514,31 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(506);
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getServers", function() { return getServers; });
+var getServers = function getServers(state, getters, rootState) {
+    return function (siteId) {
+
+        var siteServerIds = state.servers[siteId];
+
+        if (siteServerIds && _.keys(siteServerIds).length) {
+            return _.filter(rootState.user_servers.servers, function (server) {
+                return _.indexOf(siteServerIds, server.id) > -1;
+            });
+        }
+    };
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+
+/***/ }),
+/* 505 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(507);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(503);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__getters__ = __webpack_require__(766);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(505);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__getters__ = __webpack_require__(504);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(506);
 
 
 
@@ -17481,7 +17553,7 @@ var destroy = function destroy(_ref5, data) {
 });
 
 /***/ }),
-/* 505 */
+/* 506 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17514,7 +17586,7 @@ var remove = function remove(state, _ref4) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 506 */
+/* 507 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17523,7 +17595,7 @@ var remove = function remove(state, _ref4) {
 });
 
 /***/ }),
-/* 507 */
+/* 508 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17565,13 +17637,13 @@ var refreshPublicKey = function refreshPublicKey(_ref4, site) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 508 */
+/* 509 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(510);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(507);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(511);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(510);
 
 
 
@@ -17584,7 +17656,7 @@ var refreshPublicKey = function refreshPublicKey(_ref4, site) {
 });
 
 /***/ }),
-/* 509 */
+/* 510 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17612,7 +17684,7 @@ var remove = function remove(state, _ref3) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 510 */
+/* 511 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17621,7 +17693,7 @@ var remove = function remove(state, _ref3) {
 });
 
 /***/ }),
-/* 511 */
+/* 512 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17658,13 +17730,13 @@ var destroy = function destroy(_ref4, data) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 512 */
+/* 513 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(514);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(511);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(515);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(514);
 
 
 
@@ -17677,7 +17749,7 @@ var destroy = function destroy(_ref4, data) {
 });
 
 /***/ }),
-/* 513 */
+/* 514 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17712,7 +17784,7 @@ var remove = function remove(state, _ref4) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 514 */
+/* 515 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17721,7 +17793,7 @@ var remove = function remove(state, _ref4) {
 });
 
 /***/ }),
-/* 515 */
+/* 516 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17754,13 +17826,13 @@ var destroy = function destroy(_ref3, data) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 516 */
+/* 517 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(518);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(515);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(517);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(519);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(518);
 
 
 
@@ -17773,7 +17845,7 @@ var destroy = function destroy(_ref3, data) {
 });
 
 /***/ }),
-/* 517 */
+/* 518 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17801,7 +17873,7 @@ var remove = function remove(state, _ref3) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 518 */
+/* 519 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17810,7 +17882,7 @@ var remove = function remove(state, _ref3) {
 });
 
 /***/ }),
-/* 519 */
+/* 520 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17906,13 +17978,13 @@ var listen = function listen(_ref6, site) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 520 */
+/* 521 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(522);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(519);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(521);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(523);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(520);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(522);
 
 
 
@@ -17925,7 +17997,7 @@ var listen = function listen(_ref6, site) {
 });
 
 /***/ }),
-/* 521 */
+/* 522 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17972,7 +18044,7 @@ var listenTo = function listenTo(state, site) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 522 */
+/* 523 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17983,7 +18055,7 @@ var listenTo = function listenTo(state, site) {
 });
 
 /***/ }),
-/* 523 */
+/* 524 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18013,21 +18085,21 @@ var destroy = function destroy(_ref3, ssh_key) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 524 */
+/* 525 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 525 */
+/* 526 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(527);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__(524);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(528);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__(525);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(523);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(526);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(524);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(527);
 
 
 
@@ -18042,7 +18114,7 @@ var destroy = function destroy(_ref3, ssh_key) {
 });
 
 /***/ }),
-/* 526 */
+/* 527 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18072,7 +18144,7 @@ var remove = function remove(state, _ref3) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 527 */
+/* 528 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18081,7 +18153,7 @@ var remove = function remove(state, _ref3) {
 });
 
 /***/ }),
-/* 528 */
+/* 529 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18127,13 +18199,13 @@ var getUpcomingSubscription = function getUpcomingSubscription(_ref5) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 529 */
+/* 530 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(531);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(528);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(530);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(531);
 
 
 
@@ -18146,7 +18218,7 @@ var getUpcomingSubscription = function getUpcomingSubscription(_ref5) {
 });
 
 /***/ }),
-/* 530 */
+/* 531 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18179,7 +18251,7 @@ var setUpcoming = function setUpcoming(state, _ref3) {
 };
 
 /***/ }),
-/* 531 */
+/* 532 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18191,7 +18263,7 @@ var setUpcoming = function setUpcoming(state, _ref3) {
 });
 
 /***/ }),
-/* 532 */
+/* 533 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18245,13 +18317,13 @@ var changeTeams = function changeTeams(_ref6, team) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 533 */
+/* 534 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(539);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(532);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(538);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(540);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(533);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(539);
 
 
 
@@ -18264,7 +18336,7 @@ var changeTeams = function changeTeams(_ref6, team) {
 });
 
 /***/ }),
-/* 534 */
+/* 535 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18304,13 +18376,13 @@ var resendInvite = function resendInvite(_ref4, data) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 535 */
+/* 536 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(537);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(534);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(538);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(535);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(537);
 
 
 
@@ -18323,7 +18395,7 @@ var resendInvite = function resendInvite(_ref4, data) {
 });
 
 /***/ }),
-/* 536 */
+/* 537 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18353,14 +18425,14 @@ var remove = function remove(state, _ref3) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 537 */
+/* 538 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({});
 
 /***/ }),
-/* 538 */
+/* 539 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18406,7 +18478,7 @@ var remove = function remove(state, _ref5) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
-/* 539 */
+/* 540 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18417,7 +18489,7 @@ var remove = function remove(state, _ref5) {
 });
 
 /***/ }),
-/* 540 */
+/* 541 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18440,13 +18512,13 @@ var update = function update(_ref2, data) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 541 */
+/* 542 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(543);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(540);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(542);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(544);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(541);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(543);
 
 
 
@@ -18459,7 +18531,7 @@ var update = function update(_ref2, data) {
 });
 
 /***/ }),
-/* 542 */
+/* 543 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18472,7 +18544,7 @@ var set = function set(state, _ref) {
 };
 
 /***/ }),
-/* 543 */
+/* 544 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18481,8 +18553,8 @@ var set = function set(state, _ref) {
 });
 
 /***/ }),
-/* 544 */,
-/* 545 */
+/* 545 */,
+/* 546 */
 /***/ (function(module, exports) {
 
 ace.define("ace/ext/searchbox",["require","exports","module","ace/lib/dom","ace/lib/lang","ace/lib/event","ace/keyboard/hash_handler","ace/lib/keys"], function(acequire, exports, module) {
@@ -18904,7 +18976,7 @@ exports.Search = function(editor, isReplace) {
             
 
 /***/ }),
-/* 546 */
+/* 547 */
 /***/ (function(module, exports) {
 
 ace.define("ace/mode/sh_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
@@ -19351,7 +19423,7 @@ exports.Mode = Mode;
 
 
 /***/ }),
-/* 547 */
+/* 548 */
 /***/ (function(module, exports) {
 
 ace.define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], function(acequire, exports, module) {
@@ -19462,60 +19534,59 @@ dom.importCssString(exports.cssText, exports.cssClass);
 
 
 /***/ }),
-/* 548 */,
 /* 549 */,
 /* 550 */,
 /* 551 */,
-/* 552 */
+/* 552 */,
+/* 553 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
 exports.push([module.i, "\n.action-link[data-v-68035830] {\n    cursor: pointer;\n}\n.m-b-none[data-v-68035830] {\n    margin-bottom: 0;\n}\n", ""]);
 
 /***/ }),
-/* 553 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce-in .5s;\n            animation: bounce-in .5s;\n}\n.bounce-leave-active {\n    -webkit-animation: bounce-out .5s;\n            animation: bounce-out .5s;\n}\n@-webkit-keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@-webkit-keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n@keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n", ""]);
-
-/***/ }),
 /* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n.dragArea {\n    min-height: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce-in .5s;\n            animation: bounce-in .5s;\n}\n.bounce-leave-active {\n    -webkit-animation: bounce-out .5s;\n            animation: bounce-out .5s;\n}\n@-webkit-keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@-webkit-keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n@keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n", ""]);
 
 /***/ }),
 /* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce-in .5s;\n            animation: bounce-in .5s;\n}\n.bounce-leave-active {\n    -webkit-animation: bounce-out .5s;\n            animation: bounce-out .5s;\n}\n@-webkit-keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@-webkit-keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n@keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n", ""]);
+exports.push([module.i, "\n.dragArea {\n    min-height: 20px;\n}\n", ""]);
 
 /***/ }),
 /* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n.action-link[data-v-a26e5ef4] {\n    cursor: pointer;\n}\n.m-b-none[data-v-a26e5ef4] {\n    margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce-in .5s;\n            animation: bounce-in .5s;\n}\n.bounce-leave-active {\n    -webkit-animation: bounce-out .5s;\n            animation: bounce-out .5s;\n}\n@-webkit-keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@-webkit-keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n@keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n", ""]);
 
 /***/ }),
 /* 557 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n.action-link[data-v-d98e50d6] {\n    cursor: pointer;\n}\n.m-b-none[data-v-d98e50d6] {\n    margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.action-link[data-v-a26e5ef4] {\n    cursor: pointer;\n}\n.m-b-none[data-v-a26e5ef4] {\n    margin-bottom: 0;\n}\n", ""]);
 
 /***/ }),
 /* 558 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
+exports.push([module.i, "\n.action-link[data-v-d98e50d6] {\n    cursor: pointer;\n}\n.m-b-none[data-v-d98e50d6] {\n    margin-bottom: 0;\n}\n", ""]);
+
+/***/ }),
+/* 559 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
 exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce-in .5s;\n            animation: bounce-in .5s;\n}\n.bounce-leave-active {\n    -webkit-animation: bounce-out .5s;\n            animation: bounce-out .5s;\n}\n@-webkit-keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@keyframes bounce-in {\n0% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n}\n@-webkit-keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n@keyframes bounce-out {\n0% {\n        -webkit-transform: scale(1);\n                transform: scale(1);\n}\n50% {\n        -webkit-transform: scale(1.5);\n                transform: scale(1.5);\n}\n100% {\n        -webkit-transform: scale(0);\n                transform: scale(0);\n}\n}\n", ""]);
 
 /***/ }),
-/* 559 */,
 /* 560 */,
 /* 561 */,
 /* 562 */,
@@ -19528,20 +19599,21 @@ exports.push([module.i, "\n.bounce-enter-active {\n    -webkit-animation: bounce
 /* 569 */,
 /* 570 */,
 /* 571 */,
-/* 572 */
+/* 572 */,
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(185),
   /* template */
-  __webpack_require__(682),
+  __webpack_require__(683),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/components/AdminArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/components/AdminArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AdminArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19562,20 +19634,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 573 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(186),
   /* template */
-  __webpack_require__(697),
+  __webpack_require__(698),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/buoy/Form.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/buoy/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19596,20 +19668,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 574 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(187),
   /* template */
-  __webpack_require__(720),
+  __webpack_require__(721),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/categories/Form.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/categories/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19630,20 +19702,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 575 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(188),
   /* template */
-  __webpack_require__(725),
+  __webpack_require__(726),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/categories/Index.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/categories/Index.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Index.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19664,20 +19736,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 576 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(189),
   /* template */
-  __webpack_require__(711),
+  __webpack_require__(712),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/Bitt.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/Bitt.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Bitt.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19698,20 +19770,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 577 */
+/* 578 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(190),
   /* template */
-  __webpack_require__(734),
+  __webpack_require__(735),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/BittsArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/BittsArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BittsArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19732,20 +19804,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 578 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(191),
   /* template */
-  __webpack_require__(670),
+  __webpack_require__(671),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/Install.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/Install.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Install.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19766,20 +19838,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 579 */
+/* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(192),
   /* template */
-  __webpack_require__(657),
+  __webpack_require__(658),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/pages/BittsMarketPlace.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/pages/BittsMarketPlace.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BittsMarketPlace.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19800,20 +19872,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 580 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(193),
   /* template */
-  __webpack_require__(707),
+  __webpack_require__(708),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/pages/Form.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/pages/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19834,20 +19906,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 581 */
+/* 582 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(194),
   /* template */
-  __webpack_require__(663),
+  __webpack_require__(664),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/BuoyApp.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/BuoyApp.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BuoyApp.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19868,20 +19940,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 582 */
+/* 583 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(195),
   /* template */
-  __webpack_require__(736),
+  __webpack_require__(737),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/BuoyArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/BuoyArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BuoyArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19902,20 +19974,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 583 */
+/* 584 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(196),
   /* template */
-  __webpack_require__(708),
+  __webpack_require__(709),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/Install.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/Install.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Install.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19936,20 +20008,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 584 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(197),
   /* template */
-  __webpack_require__(684),
+  __webpack_require__(685),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/pages/MarketPlace.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/pages/MarketPlace.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MarketPlace.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19970,20 +20042,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 585 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(199),
   /* template */
-  __webpack_require__(688),
+  __webpack_require__(689),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/Navigation.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/Navigation.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navigation.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20004,20 +20076,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 586 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(200),
   /* template */
-  __webpack_require__(671),
+  __webpack_require__(672),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/NotificationArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/NotificationArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] NotificationArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20038,20 +20110,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 587 */
+/* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   null,
   /* template */
-  __webpack_require__(667),
+  __webpack_require__(668),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/PageNotFound.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/PageNotFound.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PageNotFound.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20072,20 +20144,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 588 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   null,
   /* template */
-  __webpack_require__(738),
+  __webpack_require__(739),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Back.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Back.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Back.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20106,20 +20178,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 589 */
+/* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(201),
   /* template */
-  __webpack_require__(687),
+  __webpack_require__(688),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Clipboard.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Clipboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clipboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20140,20 +20212,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 590 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(202),
   /* template */
-  __webpack_require__(683),
+  __webpack_require__(684),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Confirm.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Confirm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Confirm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20174,20 +20246,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 591 */
+/* 592 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(203),
   /* template */
-  __webpack_require__(705),
+  __webpack_require__(706),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ConfirmDropdown.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ConfirmDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ConfirmDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20208,20 +20280,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 592 */
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(204),
   /* template */
-  __webpack_require__(740),
+  __webpack_require__(741),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ConfirmSidebar.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ConfirmSidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ConfirmSidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20242,20 +20314,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 593 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(205),
   /* template */
-  __webpack_require__(694),
+  __webpack_require__(695),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/DropDown.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/DropDown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DropDown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20276,20 +20348,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 594 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(206),
   /* template */
-  __webpack_require__(686),
+  __webpack_require__(687),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Notification.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Notification.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Notification.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20310,20 +20382,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 595 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(207),
   /* template */
-  __webpack_require__(669),
+  __webpack_require__(670),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/SiteDeploy.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/SiteDeploy.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteDeploy.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20344,20 +20416,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 596 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(208),
   /* template */
-  __webpack_require__(712),
+  __webpack_require__(713),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ToolTip.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ToolTip.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ToolTip.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20378,20 +20450,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 597 */
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(209),
   /* template */
-  __webpack_require__(665),
+  __webpack_require__(666),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/EventsBar.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/EventsBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] EventsBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20412,20 +20484,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 598 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(210),
   /* template */
-  __webpack_require__(652),
+  __webpack_require__(653),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/CommandEvent.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/CommandEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CommandEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20446,20 +20518,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 599 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(211),
   /* template */
-  __webpack_require__(704),
+  __webpack_require__(705),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/DeploymentEvent.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/DeploymentEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DeploymentEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20480,20 +20552,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 600 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(213),
   /* template */
-  __webpack_require__(723),
+  __webpack_require__(724),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/DatabaseSection.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/DatabaseSection.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DatabaseSection.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20514,20 +20586,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 601 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(214),
   /* template */
-  __webpack_require__(742),
+  __webpack_require__(743),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/FeatureArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/FeatureArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FeatureArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20548,20 +20620,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 602 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(215),
   /* template */
-  __webpack_require__(659),
+  __webpack_require__(660),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/Features.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/Features.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Features.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20582,20 +20654,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 603 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(216),
   /* template */
-  __webpack_require__(676),
+  __webpack_require__(677),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/LanguageSetting.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/LanguageSetting.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LanguageSetting.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20616,20 +20688,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 604 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(217),
   /* template */
-  __webpack_require__(718),
+  __webpack_require__(719),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/CronJobs.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/CronJobs.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CronJobs.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20650,20 +20722,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 605 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(218),
   /* template */
-  __webpack_require__(731),
+  __webpack_require__(732),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/Databases.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/Databases.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Databases.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20684,20 +20756,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 606 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(219),
   /* template */
-  __webpack_require__(681),
+  __webpack_require__(682),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/EnvironmentVariables.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/EnvironmentVariables.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] EnvironmentVariables.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20718,20 +20790,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 607 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(220),
   /* template */
-  __webpack_require__(706),
+  __webpack_require__(707),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/FirewallRules.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/FirewallRules.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FirewallRules.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20752,20 +20824,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 608 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(221),
   /* template */
-  __webpack_require__(678),
+  __webpack_require__(679),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/LanguageSettings.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/LanguageSettings.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LanguageSettings.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20786,20 +20858,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 609 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(222),
   /* template */
-  __webpack_require__(710),
+  __webpack_require__(711),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/ServerFeatures.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/ServerFeatures.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFeatures.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20820,20 +20892,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 610 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(223),
   /* template */
-  __webpack_require__(726),
+  __webpack_require__(727),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/SshKeys.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/SshKeys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SshKeys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20854,20 +20926,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 611 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(224),
   /* template */
-  __webpack_require__(674),
+  __webpack_require__(675),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/SslCertificates.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/SslCertificates.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SslCertificates.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20888,20 +20960,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 612 */
+/* 613 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(225),
   /* template */
-  __webpack_require__(658),
+  __webpack_require__(659),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/Workers.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/Workers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Workers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20922,20 +20994,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 613 */
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(226),
   /* template */
-  __webpack_require__(719),
+  __webpack_require__(720),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/piles/components/Pile.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/piles/components/Pile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Pile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20956,20 +21028,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 614 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(227),
   /* template */
-  __webpack_require__(666),
+  __webpack_require__(667),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/piles/pages/Piles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/piles/pages/Piles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Piles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20990,24 +21062,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 615 */
+/* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(750)
+__webpack_require__(751)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(228),
   /* template */
-  __webpack_require__(741),
+  __webpack_require__(742),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21028,20 +21100,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 616 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(232),
   /* template */
-  __webpack_require__(739),
+  __webpack_require__(740),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21062,20 +21134,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 617 */
+/* 618 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(233),
   /* template */
-  __webpack_require__(701),
+  __webpack_require__(702),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/SecurityNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/SecurityNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SecurityNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21096,20 +21168,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 618 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(234),
   /* template */
-  __webpack_require__(660),
+  __webpack_require__(661),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerInformationNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerInformationNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerInformationNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21130,20 +21202,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 619 */
+/* 620 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(235),
   /* template */
-  __webpack_require__(699),
+  __webpack_require__(700),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerSetupNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21164,20 +21236,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 620 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(236),
   /* template */
-  __webpack_require__(679),
+  __webpack_require__(680),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerBuoys.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerBuoys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerBuoys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21198,20 +21270,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 621 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(237),
   /* template */
-  __webpack_require__(677),
+  __webpack_require__(678),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21232,20 +21304,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 622 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(238),
   /* template */
-  __webpack_require__(675),
+  __webpack_require__(676),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerForm.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerForm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerForm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21266,20 +21338,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 623 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(239),
   /* template */
-  __webpack_require__(713),
+  __webpack_require__(714),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerMonitoring.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerMonitoring.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerMonitoring.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21300,20 +21372,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 624 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(240),
   /* template */
-  __webpack_require__(662),
+  __webpack_require__(663),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerSites.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerSites.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSites.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21334,20 +21406,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 625 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(241),
   /* template */
-  __webpack_require__(715),
+  __webpack_require__(716),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/Servers.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/Servers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Servers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21368,20 +21440,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(242),
   /* template */
-  __webpack_require__(698),
+  __webpack_require__(699),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/CpuLoadsVue.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/CpuLoadsVue.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CpuLoadsVue.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21402,20 +21474,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 627 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(243),
   /* template */
-  __webpack_require__(729),
+  __webpack_require__(730),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/DeploymentStepCard.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/DeploymentStepCard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DeploymentStepCard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21436,20 +21508,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 628 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(244),
   /* template */
-  __webpack_require__(680),
+  __webpack_require__(681),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/FrameworkFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/FrameworkFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FrameworkFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21470,24 +21542,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 629 */
+/* 630 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(745)
+__webpack_require__(746)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(248),
   /* template */
-  __webpack_require__(717),
+  __webpack_require__(718),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21508,20 +21580,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 630 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(249),
   /* template */
-  __webpack_require__(700),
+  __webpack_require__(701),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteCustomFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteCustomFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteCustomFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21542,20 +21614,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 631 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(253),
   /* template */
-  __webpack_require__(696),
+  __webpack_require__(697),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/SecurityNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/SecurityNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SecurityNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21576,20 +21648,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 632 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(254),
   /* template */
-  __webpack_require__(661),
+  __webpack_require__(662),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/ServerSetupNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/ServerSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21610,20 +21682,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 633 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(255),
   /* template */
-  __webpack_require__(721),
+  __webpack_require__(722),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/SiteSetupNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/SiteSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21644,24 +21716,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 634 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(746)
+__webpack_require__(747)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(256),
   /* template */
-  __webpack_require__(727),
+  __webpack_require__(728),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteDeployment.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteDeployment.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteDeployment.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21682,20 +21754,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 635 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(257),
   /* template */
-  __webpack_require__(655),
+  __webpack_require__(656),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21716,20 +21788,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 636 */
+/* 637 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(258),
   /* template */
-  __webpack_require__(695),
+  __webpack_require__(696),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteRepository.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteRepository.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteRepository.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21750,20 +21822,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 637 */
+/* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(259),
   /* template */
-  __webpack_require__(668),
+  __webpack_require__(669),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteServerFiles.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteServerFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteServerFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21784,20 +21856,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 638 */
+/* 639 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(260),
   /* template */
-  __webpack_require__(702),
+  __webpack_require__(703),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/teams/pages/TeamMembers.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/teams/pages/TeamMembers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TeamMembers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21818,20 +21890,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 639 */
+/* 640 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(261),
   /* template */
-  __webpack_require__(722),
+  __webpack_require__(723),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/teams/pages/Teams.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/teams/pages/Teams.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Teams.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21852,24 +21924,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 640 */
+/* 641 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(747)
+__webpack_require__(748)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(262),
   /* template */
-  __webpack_require__(728),
+  __webpack_require__(729),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/UserArea.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/UserArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21890,20 +21962,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 641 */
+/* 642 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(263),
   /* template */
-  __webpack_require__(689),
+  __webpack_require__(690),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/UserNav.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/UserNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21924,24 +21996,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 642 */
+/* 643 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(749)
+__webpack_require__(750)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(264),
   /* template */
-  __webpack_require__(737),
+  __webpack_require__(738),
   /* scopeId */
   "data-v-d98e50d6",
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/AuthorizedClients.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21962,24 +22034,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 643 */
+/* 644 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(744)
+__webpack_require__(745)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(265),
   /* template */
-  __webpack_require__(714),
+  __webpack_require__(715),
   /* scopeId */
   "data-v-68035830",
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/Clients.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22000,24 +22072,24 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 644 */
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(748)
+__webpack_require__(749)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(266),
   /* template */
-  __webpack_require__(733),
+  __webpack_require__(734),
   /* scopeId */
   "data-v-a26e5ef4",
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/PersonalAccessTokens.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22038,20 +22110,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 645 */
+/* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(267),
   /* template */
-  __webpack_require__(691),
+  __webpack_require__(692),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserInfo.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22072,20 +22144,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 646 */
+/* 647 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(268),
   /* template */
-  __webpack_require__(735),
+  __webpack_require__(736),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserNotificationProviders.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserNotificationProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserNotificationProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22106,20 +22178,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 647 */
+/* 648 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(269),
   /* template */
-  __webpack_require__(664),
+  __webpack_require__(665),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserOauth.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserOauth.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserOauth.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22140,20 +22212,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 648 */
+/* 649 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(270),
   /* template */
-  __webpack_require__(716),
+  __webpack_require__(717),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserRepositoryProviders.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserRepositoryProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserRepositoryProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22174,20 +22246,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 649 */
+/* 650 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(271),
   /* template */
-  __webpack_require__(692),
+  __webpack_require__(693),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserServerProviders.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserServerProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserServerProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22208,20 +22280,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 650 */
+/* 651 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(272),
   /* template */
-  __webpack_require__(693),
+  __webpack_require__(694),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserSshKeys.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserSshKeys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSshKeys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22242,20 +22314,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 651 */
+/* 652 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(273),
   /* template */
-  __webpack_require__(703),
+  __webpack_require__(704),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserSubscription.vue"
+Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserSubscription.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSubscription.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22276,7 +22348,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 652 */
+/* 653 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22343,7 +22415,7 @@ if (false) {
 }
 
 /***/ }),
-/* 653 */
+/* 654 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22428,7 +22500,7 @@ if (false) {
 }
 
 /***/ }),
-/* 654 */
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22599,7 +22671,7 @@ if (false) {
 }
 
 /***/ }),
-/* 655 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22614,7 +22686,7 @@ if (false) {
 }
 
 /***/ }),
-/* 656 */
+/* 657 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22687,7 +22759,7 @@ if (false) {
 }
 
 /***/ }),
-/* 657 */
+/* 658 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22717,7 +22789,7 @@ if (false) {
 }
 
 /***/ }),
-/* 658 */
+/* 659 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -22940,7 +23012,7 @@ if (false) {
 }
 
 /***/ }),
-/* 659 */
+/* 660 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23031,7 +23103,7 @@ if (false) {
 }
 
 /***/ }),
-/* 660 */
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23109,7 +23181,7 @@ if (false) {
 }
 
 /***/ }),
-/* 661 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23224,7 +23296,7 @@ if (false) {
 }
 
 /***/ }),
-/* 662 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23262,7 +23334,7 @@ if (false) {
 }
 
 /***/ }),
-/* 663 */
+/* 664 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23319,7 +23391,7 @@ if (false) {
 }
 
 /***/ }),
-/* 664 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23334,7 +23406,7 @@ if (false) {
 }
 
 /***/ }),
-/* 665 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23792,7 +23864,7 @@ if (false) {
 }
 
 /***/ }),
-/* 666 */
+/* 667 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23856,7 +23928,7 @@ if (false) {
 }
 
 /***/ }),
-/* 667 */
+/* 668 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23871,7 +23943,7 @@ if (false) {
 }
 
 /***/ }),
-/* 668 */
+/* 669 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23895,7 +23967,7 @@ if (false) {
 }
 
 /***/ }),
-/* 669 */
+/* 670 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23934,7 +24006,7 @@ if (false) {
 }
 
 /***/ }),
-/* 670 */
+/* 671 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23999,7 +24071,7 @@ if (false) {
 }
 
 /***/ }),
-/* 671 */
+/* 672 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24023,7 +24095,7 @@ if (false) {
 }
 
 /***/ }),
-/* 672 */
+/* 673 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24073,7 +24145,7 @@ if (false) {
 }
 
 /***/ }),
-/* 673 */
+/* 674 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24276,7 +24348,7 @@ if (false) {
 }
 
 /***/ }),
-/* 674 */
+/* 675 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24507,7 +24579,7 @@ if (false) {
 }
 
 /***/ }),
-/* 675 */
+/* 676 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24739,7 +24811,7 @@ if (false) {
 }
 
 /***/ }),
-/* 676 */
+/* 677 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24791,7 +24863,7 @@ if (false) {
 }
 
 /***/ }),
-/* 677 */
+/* 678 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24815,7 +24887,7 @@ if (false) {
 }
 
 /***/ }),
-/* 678 */
+/* 679 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24843,7 +24915,7 @@ if (false) {
 }
 
 /***/ }),
-/* 679 */
+/* 680 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24870,7 +24942,7 @@ if (false) {
 }
 
 /***/ }),
-/* 680 */
+/* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24894,7 +24966,7 @@ if (false) {
 }
 
 /***/ }),
-/* 681 */
+/* 682 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25008,7 +25080,7 @@ if (false) {
 }
 
 /***/ }),
-/* 682 */
+/* 683 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25038,7 +25110,7 @@ if (false) {
 }
 
 /***/ }),
-/* 683 */
+/* 684 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25148,7 +25220,7 @@ if (false) {
 }
 
 /***/ }),
-/* 684 */
+/* 685 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25172,7 +25244,7 @@ if (false) {
 }
 
 /***/ }),
-/* 685 */
+/* 686 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25191,9 +25263,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "icon-play"
-  })]) : _vm._e(), _vm._v("\n    " + _vm._s(_vm.title) + "\n    "), _c('transition', {
+  })]) : _vm._e(), _vm._v("\n\n    " + _vm._s(_vm.title) + " -- " + _vm._s(_vm.show) + " --\n    "), _c('transition', {
     attrs: {
-      "name": "collapse"
+      "name": "collapse",
+      "css": false
+    },
+    on: {
+      "before-enter": _vm.setup,
+      "enter": _vm.enter,
+      "after-enter": _vm.done,
+      "before-leave": _vm.setup,
+      "leave": _vm.leave,
+      "after-leave": _vm.done
     }
   }, [_c('div', {
     directives: [{
@@ -25217,7 +25298,7 @@ if (false) {
 }
 
 /***/ }),
-/* 686 */
+/* 687 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25256,7 +25337,7 @@ if (false) {
 }
 
 /***/ }),
-/* 687 */
+/* 688 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25278,7 +25359,7 @@ if (false) {
 }
 
 /***/ }),
-/* 688 */
+/* 689 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25475,7 +25556,7 @@ if (false) {
 }
 
 /***/ }),
-/* 689 */
+/* 690 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25553,7 +25634,7 @@ if (false) {
 }
 
 /***/ }),
-/* 690 */
+/* 691 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25581,7 +25662,7 @@ if (false) {
 }
 
 /***/ }),
-/* 691 */
+/* 692 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25705,7 +25786,7 @@ if (false) {
 }
 
 /***/ }),
-/* 692 */
+/* 693 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25736,7 +25817,7 @@ if (false) {
 }
 
 /***/ }),
-/* 693 */
+/* 694 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25835,7 +25916,7 @@ if (false) {
 }
 
 /***/ }),
-/* 694 */
+/* 695 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -25872,7 +25953,7 @@ if (false) {
 }
 
 /***/ }),
-/* 695 */
+/* 696 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26251,7 +26332,7 @@ if (false) {
 }
 
 /***/ }),
-/* 696 */
+/* 697 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26316,7 +26397,7 @@ if (false) {
 }
 
 /***/ }),
-/* 697 */
+/* 698 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26556,7 +26637,7 @@ if (false) {
 }
 
 /***/ }),
-/* 698 */
+/* 699 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26596,7 +26677,7 @@ if (false) {
 }
 
 /***/ }),
-/* 699 */
+/* 700 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26696,7 +26777,7 @@ if (false) {
 }
 
 /***/ }),
-/* 700 */
+/* 701 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26769,7 +26850,7 @@ if (false) {
 }
 
 /***/ }),
-/* 701 */
+/* 702 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26834,7 +26915,7 @@ if (false) {
 }
 
 /***/ }),
-/* 702 */
+/* 703 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -26950,7 +27031,7 @@ if (false) {
 }
 
 /***/ }),
-/* 703 */
+/* 704 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27156,7 +27237,7 @@ if (false) {
 }
 
 /***/ }),
-/* 704 */
+/* 705 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27243,7 +27324,7 @@ if (false) {
 }
 
 /***/ }),
-/* 705 */
+/* 706 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27351,7 +27432,7 @@ if (false) {
 }
 
 /***/ }),
-/* 706 */
+/* 707 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27516,7 +27597,7 @@ if (false) {
 }
 
 /***/ }),
-/* 707 */
+/* 708 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27766,7 +27847,7 @@ if (false) {
 }
 
 /***/ }),
-/* 708 */
+/* 709 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -27897,7 +27978,7 @@ if (false) {
 }
 
 /***/ }),
-/* 709 */
+/* 710 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28159,7 +28240,7 @@ if (false) {
 }
 
 /***/ }),
-/* 710 */
+/* 711 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28196,7 +28277,7 @@ if (false) {
 }
 
 /***/ }),
-/* 711 */
+/* 712 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28242,7 +28323,7 @@ if (false) {
 }
 
 /***/ }),
-/* 712 */
+/* 713 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28271,7 +28352,7 @@ if (false) {
 }
 
 /***/ }),
-/* 713 */
+/* 714 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28291,7 +28372,7 @@ if (false) {
 }
 
 /***/ }),
-/* 714 */
+/* 715 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28603,7 +28684,7 @@ if (false) {
 }
 
 /***/ }),
-/* 715 */
+/* 716 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28682,7 +28763,7 @@ if (false) {
 }
 
 /***/ }),
-/* 716 */
+/* 717 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28713,7 +28794,7 @@ if (false) {
 }
 
 /***/ }),
-/* 717 */
+/* 718 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28747,7 +28828,7 @@ if (false) {
 }
 
 /***/ }),
-/* 718 */
+/* 719 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28906,7 +28987,7 @@ if (false) {
 }
 
 /***/ }),
-/* 719 */
+/* 720 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29001,7 +29082,7 @@ if (false) {
 }
 
 /***/ }),
-/* 720 */
+/* 721 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29062,7 +29143,7 @@ if (false) {
 }
 
 /***/ }),
-/* 721 */
+/* 722 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29137,7 +29218,7 @@ if (false) {
 }
 
 /***/ }),
-/* 722 */
+/* 723 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29411,7 +29492,7 @@ if (false) {
 }
 
 /***/ }),
-/* 723 */
+/* 724 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29500,7 +29581,7 @@ if (false) {
 }
 
 /***/ }),
-/* 724 */
+/* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29542,7 +29623,7 @@ if (false) {
 }
 
 /***/ }),
-/* 725 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29590,7 +29671,7 @@ if (false) {
 }
 
 /***/ }),
-/* 726 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29693,7 +29774,7 @@ if (false) {
 }
 
 /***/ }),
-/* 727 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29821,7 +29902,7 @@ if (false) {
 }
 
 /***/ }),
-/* 728 */
+/* 729 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29864,7 +29945,7 @@ if (false) {
 }
 
 /***/ }),
-/* 729 */
+/* 730 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30005,7 +30086,7 @@ if (false) {
 }
 
 /***/ }),
-/* 730 */
+/* 731 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30142,7 +30223,7 @@ if (false) {
 }
 
 /***/ }),
-/* 731 */
+/* 732 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30164,7 +30245,7 @@ if (false) {
 }
 
 /***/ }),
-/* 732 */
+/* 733 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30269,7 +30350,7 @@ if (false) {
 }
 
 /***/ }),
-/* 733 */
+/* 734 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30469,7 +30550,7 @@ if (false) {
 }
 
 /***/ }),
-/* 734 */
+/* 735 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30508,7 +30589,7 @@ if (false) {
 }
 
 /***/ }),
-/* 735 */
+/* 736 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30570,7 +30651,7 @@ if (false) {
 }
 
 /***/ }),
-/* 736 */
+/* 737 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30609,7 +30690,7 @@ if (false) {
 }
 
 /***/ }),
-/* 737 */
+/* 738 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30655,7 +30736,7 @@ if (false) {
 }
 
 /***/ }),
-/* 738 */
+/* 739 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30679,7 +30760,7 @@ if (false) {
 }
 
 /***/ }),
-/* 739 */
+/* 740 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30729,7 +30810,7 @@ if (false) {
 }
 
 /***/ }),
-/* 740 */
+/* 741 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30839,7 +30920,7 @@ if (false) {
 }
 
 /***/ }),
-/* 741 */
+/* 742 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30873,7 +30954,7 @@ if (false) {
 }
 
 /***/ }),
-/* 742 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30970,7 +31051,7 @@ if (false) {
 }
 
 /***/ }),
-/* 743 */
+/* 744 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33443,13 +33524,13 @@ module.exports = VueRouter;
 
 
 /***/ }),
-/* 744 */
+/* 745 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(552);
+var content = __webpack_require__(553);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33469,13 +33550,13 @@ if(false) {
 }
 
 /***/ }),
-/* 745 */
+/* 746 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(553);
+var content = __webpack_require__(554);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33495,13 +33576,13 @@ if(false) {
 }
 
 /***/ }),
-/* 746 */
+/* 747 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(554);
+var content = __webpack_require__(555);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33521,13 +33602,13 @@ if(false) {
 }
 
 /***/ }),
-/* 747 */
+/* 748 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(555);
+var content = __webpack_require__(556);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33547,13 +33628,13 @@ if(false) {
 }
 
 /***/ }),
-/* 748 */
+/* 749 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(556);
+var content = __webpack_require__(557);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33573,13 +33654,13 @@ if(false) {
 }
 
 /***/ }),
-/* 749 */
+/* 750 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(557);
+var content = __webpack_require__(558);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33599,13 +33680,13 @@ if(false) {
 }
 
 /***/ }),
-/* 750 */
+/* 751 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(558);
+var content = __webpack_require__(559);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -33625,7 +33706,7 @@ if(false) {
 }
 
 /***/ }),
-/* 751 */
+/* 752 */
 /***/ (function(module, exports) {
 
 /**
@@ -33658,8 +33739,8 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 752 */,
-/* 753 */
+/* 753 */,
+/* 754 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(163);
@@ -33667,38 +33748,5 @@ __webpack_require__(164);
 module.exports = __webpack_require__(165);
 
 
-/***/ }),
-/* 754 */,
-/* 755 */,
-/* 756 */,
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */,
-/* 764 */,
-/* 765 */,
-/* 766 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getServers", function() { return getServers; });
-var getServers = function getServers(state, getters, rootState) {
-    return function (siteId) {
-
-        var siteServerIds = state.servers[siteId];
-
-        if (siteServerIds && _.keys(siteServerIds).length) {
-            return _.filter(rootState.user_servers.servers, function (server) {
-                return _.indexOf(siteServerIds, server.id) > -1;
-            });
-        }
-    };
-};
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
-
 /***/ })
-],[753]);
+],[754]);

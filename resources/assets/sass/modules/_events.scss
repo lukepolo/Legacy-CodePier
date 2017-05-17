@@ -208,21 +208,3 @@
     }
   }
 }
-
-.collapse-enter-active, .collapse-leave-active {
-  transition: max-height 1s;
-  position: relative;
-  overflow: hidden;
-}
-
-.collapse-enter-active {
-  max-height: 660px;
-}
-.collapse-enter,
-.collapse-leave-active {
-  max-height: 0;
-}
-
-.collapse-leave {
-  height: 660px;
-}
