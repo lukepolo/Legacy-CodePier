@@ -32,7 +32,7 @@ export const archive = ({}, server) => {
         Vue.action('Server\ServerController@destroy', { server: server }),
         [
             'user_servers/remove',
-            'user_site_servers/remove'
+            'user_site_servers/remove',
         ]
     ).then(() => {
         if (app.$router.currentRoute.params.server) {
@@ -40,8 +40,6 @@ export const archive = ({}, server) => {
         }
         app.showSuccess('You have archived the server')
     })
-
-    // commit('REMOVE_SERVER_FROM_SITE_SERVERS', server)
 }
 
 export const getTrashed = ({}) => {
@@ -51,14 +49,14 @@ export const getTrashed = ({}) => {
     )
 }
 
-export const restore = ({}, server) => {
+export const restore = ({ dispatch }, server) => {
     return Vue.request(server).post(
         Vue.action('Server\ServerController@restore', { server: server }), [
             'user_servers/add',
             'user_servers/removeFromTrash'
         ]
     ).then(() => {
-        //         dispatch('listenToServer', response.data)
+        dispatch('listenTo', server)
     })
 }
 
@@ -72,31 +70,34 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
 
         Echo.private('App.Models.Server.Server.' + server.id)
             .listen('Server\\ServerProvisionStatusChanged', (data) => {
-                // commit('UPDATE_SERVER', data.server)
-                // commit('UPDATE_SITE_SERVER', data.server)
-                // commit('SET_SERVERS_CURRENT_PROVISIONING_STEP', [data.server.id, data.serverCurrentProvisioningStep])
+                commit('user_servers/update', {
+                    response : data.server
+                }, { root : true })
+                commit('user_server_provisioning/setCurrentStep', data.serverCurrentProvisioningStep, { root : true })
             })
             .listen('Server\\ServerSshConnectionFailed', (data) => {
-                // commit('UPDATE_SERVER', data.server)
-                // commit('UPDATE_SITE_SERVER', data.server)
+                commit('user_servers/update', {
+                    response : data.server
+                }, { root : true })
             })
-            .listen('Server\\ServerSshConnectionFailed', (data) => {
-
+            .listen('Server\\ServerFailedToCreate', (data) => {
+                commit('user_servers/update', {
+                    response : data.server
+                }, { root : true })
             })
             .listen('Server\\ServerCommandUpdated', (data) => {
-                // commit('UPDATE_COMMAND', data.command)
-                // commit('UPDATE_EVENT_COMMAND', data.command)
+                commit('user_commands/update', data.command, { root : true})
+                commit('events/update', data.command, { root : true })
             })
             .notification((notification) => {
                 switch (notification.type) {
                 case 'App\\Notifications\\Server\\ServerMemory':
                 case 'App\\Notifications\\Server\\ServerDiskUsage':
                 case 'App\\Notifications\\Server\\ServerLoad':
-
-                        // commit('SET_SERVER_STATS', {
-                        //     server: server.id,
-                        //     stats: notification.stats
-                        // })
+                        commit('SET_SERVER_STATS', {
+                            server: server.id,
+                            stats: notification.stats
+                        })
                     break
                 }
             })

@@ -1,16 +1,6 @@
 export default {
     state: {
-        servers: [],
-        server: null,
-        all_servers: [],
-        server_sites: [],
-        trashed_servers: [],
         provisioned_servers: [],
-        servers_listening_to: [],
-        available_server_features: [],
-        server_installed_features: [],
-        available_server_languages: [],
-        available_server_frameworks: [],
         servers_current_provisioning_step: {}
     },
     actions: {

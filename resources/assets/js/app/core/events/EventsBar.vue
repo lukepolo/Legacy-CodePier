@@ -300,15 +300,12 @@
             },
             fetchData() {
                 this.$store.dispatch('events/get');
-//                this.$store.dispatch('getAllUserPiles'); // todo - rename
                 this.$store.dispatch('user_sites/get');
                 this.$store.dispatch('user_servers/get');
-
                 this.$store.dispatch('repository_providers/get');
-
             },
             updateFilters() {
-                this.$store.commit('CLEAR_EVENTS');
+                this.$store.commit('events/clear');
                 this.form.page = 1;
 
                 this.prev_filters = _.cloneDeep(this.form.filters);

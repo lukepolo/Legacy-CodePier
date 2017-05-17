@@ -57,7 +57,7 @@ export const removeDeployHook = ({}, data) => {
     })
 }
 
-export const deploySite = ({}, site) => {
+export const deploy = ({}, site) => {
     return Vue.request().post(
         Vue.action('Site\SiteController@deploy', { site: site })
     ).then(() => {

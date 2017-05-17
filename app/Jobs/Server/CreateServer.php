@@ -6,6 +6,7 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Server\ServerFailedToCreate;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Server\Provider\ServerProvider;
 use App\Events\Server\ServerProvisionStatusChanged;
@@ -46,10 +47,17 @@ class CreateServer implements ShouldQueue
         event(new ServerProvisionStatusChanged($this->server, 'Creating Server', 0));
 
         /* @var Server $server */
-        $serverService->create($this->serverProvider, $this->server);
+        try {
+            $serverService->create($this->serverProvider, $this->server);
 
-        dispatch(
-            (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
-        );
+            dispatch(
+                (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
+            );
+
+        } catch(\Exception $e) {
+            event(
+                new ServerFailedToCreate($this->server, $e->getMessage())
+            );
+        }
     }
 }

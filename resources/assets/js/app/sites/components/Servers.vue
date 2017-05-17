@@ -22,7 +22,7 @@
 
             <template v-if="!connectServers && siteServers">
                 <template v-for="server in siteServers">
-                    <server-info :server="server" :showInfo="siteServers.length == 1 ? true : false"></server-info>
+                    <server-info :server="server" :showInfo="showInfo"></server-info>
                 </template>
             </template>
            <template v-else>
@@ -106,7 +106,8 @@
                 connectServers : false,
                 form: {
                     connected_servers: []
-                }
+                },
+                showInfo : false
             }
         },
         created() {
@@ -137,11 +138,15 @@
                 return this.$store.state.user_sites.site;
             },
             siteServers() {
-                let siteServers = this.$store.state.user_site_servers.servers[this.$route.params.site_id];
-                if(siteServers && _.keys(siteServers).length) {
-                    this.form.connected_servers = _.map(siteServers, 'id')
-                    return siteServers;
+                let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+
+                if(servers && servers.length == 1) {
+                    this.showInfo = true
                 }
+
+                this.form.connected_servers = _.map(servers, 'id')
+
+                return servers
             },
             availableServers() {
                 return _.filter(this.$store.state.user_servers.servers, function(server){
