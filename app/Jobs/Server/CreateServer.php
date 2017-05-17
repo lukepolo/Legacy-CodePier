@@ -53,8 +53,7 @@ class CreateServer implements ShouldQueue
             dispatch(
                 (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
             );
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             event(
                 new ServerFailedToCreate($this->server, $e->getMessage())
             );
