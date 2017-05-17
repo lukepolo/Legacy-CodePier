@@ -8,7 +8,7 @@
         </div>
 
         <ul class="nav nav-left nav-piles">
-            <drop-down name="Current pile" icon="icon-layers">
+            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers">
                 <li>
                     <span class="dropdown-heading">Change Pile</span>
                 </li>
@@ -148,7 +148,7 @@
                 this.$store.dispatch('changeTeams', teamID);
             },
             changePile: function (pile_id) {
-                this.$store.dispatch('changePiles', pile_id);
+                this.$store.dispatch('user_piles/change', pile_id);
             }
         },
         created() {

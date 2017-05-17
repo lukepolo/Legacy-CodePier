@@ -2352,7 +2352,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue__ = __webpack_require__(595);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_SiteDeploy_vue__);
 //
@@ -2505,7 +2505,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.state.user.user;
         },
         sites: function sites() {
-            return this.$store.state.user_sites.sites;
+            var _this2 = this;
+
+            return _.filter(this.$store.state.user_sites.sites, function (site) {
+                return site.pile_id == _this2.current_pile_id;
+            });
         },
         current_pile_id: function current_pile_id() {
             return this.$store.state.user.user.current_pile_id;
@@ -2515,6 +2519,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
 /* 199 */
@@ -2676,7 +2681,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$store.dispatch('changeTeams', teamID);
         },
         changePile: function changePile(pile_id) {
-            this.$store.dispatch('changePiles', pile_id);
+            this.$store.dispatch('user_piles/change', pile_id);
         }
     },
     created: function created() {
@@ -14704,15 +14709,13 @@ var setAll = function setAll(state, _ref) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePile", function() { return changePile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "change", function() { return change; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sites", function() { return sites; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
-    // TODO - why not get all the piles?
-    // Vue.action('Pile\PileController@allPiles', 'setAll')
     return Vue.request().get(Vue.action('Pile\PileController@index'), 'user_piles/setAll');
 };
 
@@ -14734,15 +14737,12 @@ var destroy = function destroy(_ref4, pile) {
     return Vue.request(pile).delete(Vue.action('Pile\PileController@destroy', { pile: pile }), 'user_piles/remove');
 };
 
-var changePile = function changePile(_ref5, pile) {
-    var dispatch = _ref5.dispatch;
+var change = function change(_ref5, pile) {
+    _objectDestructuringEmpty(_ref5);
 
     Vue.request({
         pile: pile
-    }).post('Pile\PileController@changePile', 'SET_USER').then(function () {
-        dispatch('user_sites/get');
-        dispatch('servers/get');
-
+    }).post(Vue.action('Pile\PileController@changePile'), 'user/set').then(function () {
         if (app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
             app.$router.push('/');
         }
@@ -18438,10 +18438,9 @@ var update = function update(_ref2, data) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
 var set = function set(state, _ref) {
-    var response = _ref.response,
-        requestData = _ref.requestData;
+    var response = _ref.response;
 
-    state.user = user;
+    state.user = response;
 };
 
 /***/ }),
@@ -25255,7 +25254,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "nav nav-left nav-piles"
   }, [_c('drop-down', {
     attrs: {
-      "name": "Current pile",
+      "name": _vm.currentPile ? _vm.currentPile.name : '-',
       "icon": "icon-layers"
     }
   }, [_c('li', [_c('span', {
