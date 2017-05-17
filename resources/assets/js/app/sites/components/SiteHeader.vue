@@ -23,12 +23,13 @@
                 </span>
             </template>
 
-            <span class="dropdown">
-                <tooltip message="Site SSH Key" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <drop-down tag="span">
+
+                <tooltip slot="header" message="Site SSH Key" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="icon-web"></span>
                 </tooltip>
 
-                <div class="dropdown-menu nowrap">
+                <div slot="content" class="dropdown-menu dropdown-content nowrap">
                     <div class="jcf-form-wrap">
                         <div class="jcf-input-group">
                             <div class="input-question">
@@ -41,7 +42,8 @@
                         </div>
                     </div>
                 </div>
-            </span>
+
+            </drop-down>
 
             <span class="dropdown">
                 <tooltip message="Deploy Hook URL" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

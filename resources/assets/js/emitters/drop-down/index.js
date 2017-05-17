@@ -1,5 +1,12 @@
 document.onclick = (event) => {
-    if ((' ' + event.target.className + ' ').indexOf(' dropdown-toggle ') == -1) {
+    if (!app.hasClass(event.target, [
+            'fa',
+            'btn',
+            'icon-*',
+            'dropdown-toggle',
+            'dropdown-content'
+        ])
+    ) {
         app.$emit('close-dropdowns')
     }
 }

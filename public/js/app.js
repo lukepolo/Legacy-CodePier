@@ -3082,9 +3082,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
+        'tag': {
+            default: 'li'
+        },
         'name': {
             default: null
         },
@@ -3102,8 +3108,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        show: function show() {
-            if (this.open) {
+        show: function show(target) {
+            if (this.open && !app.isTag(target, 'textarea') && !app.isTag(target, 'input') && !app.isTag(target, 'select') && !app.isTag(target, 'option')) {
                 return this.open = false;
             }
 
@@ -3117,6 +3123,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         app.$on('close-dropdowns', function () {
             _this.open = false;
         });
+    },
+    slots: function slots() {
+        return this.$slots;
     }
 });
 
@@ -8387,6 +8396,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -12378,7 +12389,7 @@ __webpack_require__(301);
 /***/ (function(module, exports) {
 
 document.onclick = function (event) {
-    if ((' ' + event.target.className + ' ').indexOf(' dropdown-toggle ') == -1) {
+    if (!app.hasClass(event.target, ['fa', 'btn', 'icon-*', 'dropdown-toggle', 'dropdown-content'])) {
         app.$emit('close-dropdowns');
     }
 };
@@ -12668,13 +12679,16 @@ var getFormData = function getFormData(form) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__site__ = __webpack_require__(317);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__routes__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__server__ = __webpack_require__(316);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__date_time__ = __webpack_require__(306);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__file_size__ = __webpack_require__(308);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__environment__ = __webpack_require__(307);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__permissions__ = __webpack_require__(312);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__notifications__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__server_command__ = __webpack_require__(315);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__repository_provider__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__elements__ = __webpack_require__(765);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__date_time__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__file_size__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__environment__ = __webpack_require__(307);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__permissions__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notifications__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__server_command__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__repository_provider__ = __webpack_require__(314);
+
+
 
 
 
@@ -12700,26 +12714,28 @@ var getFormData = function getFormData(form) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    now: __WEBPACK_IMPORTED_MODULE_5__date_time__["a" /* now */],
+    now: __WEBPACK_IMPORTED_MODULE_6__date_time__["a" /* now */],
     back: __WEBPACK_IMPORTED_MODULE_3__routes__["b" /* back */],
-    local: __WEBPACK_IMPORTED_MODULE_7__environment__["a" /* local */],
+    local: __WEBPACK_IMPORTED_MODULE_8__environment__["a" /* local */],
+    isTag: __WEBPACK_IMPORTED_MODULE_5__elements__["a" /* isTag */],
     action: __WEBPACK_IMPORTED_MODULE_3__routes__["a" /* action */],
     getPile: __WEBPACK_IMPORTED_MODULE_1__pile__["a" /* getPile */],
     getSite: __WEBPACK_IMPORTED_MODULE_2__site__["a" /* getSite */],
-    timeAgo: __WEBPACK_IMPORTED_MODULE_5__date_time__["b" /* timeAgo */],
-    isAdmin: __WEBPACK_IMPORTED_MODULE_8__permissions__["a" /* isAdmin */],
+    timeAgo: __WEBPACK_IMPORTED_MODULE_6__date_time__["b" /* timeAgo */],
+    isAdmin: __WEBPACK_IMPORTED_MODULE_9__permissions__["a" /* isAdmin */],
+    hasClass: __WEBPACK_IMPORTED_MODULE_5__elements__["b" /* hasClass */],
     getServer: __WEBPACK_IMPORTED_MODULE_4__server__["a" /* getServer */],
-    showError: __WEBPACK_IMPORTED_MODULE_9__notifications__["a" /* showError */],
-    parseDate: __WEBPACK_IMPORTED_MODULE_5__date_time__["c" /* parseDate */],
-    showSuccess: __WEBPACK_IMPORTED_MODULE_9__notifications__["b" /* showSuccess */],
+    showError: __WEBPACK_IMPORTED_MODULE_10__notifications__["a" /* showError */],
+    parseDate: __WEBPACK_IMPORTED_MODULE_6__date_time__["c" /* parseDate */],
+    showSuccess: __WEBPACK_IMPORTED_MODULE_10__notifications__["b" /* showSuccess */],
     getFormData: __WEBPACK_IMPORTED_MODULE_0__form__["a" /* getFormData */],
-    dateHumanize: __WEBPACK_IMPORTED_MODULE_5__date_time__["d" /* dateHumanize */],
-    teamsEnabled: __WEBPACK_IMPORTED_MODULE_8__permissions__["b" /* teamsEnabled */],
-    handleApiError: __WEBPACK_IMPORTED_MODULE_9__notifications__["c" /* handleApiError */],
-    isCommandRunning: __WEBPACK_IMPORTED_MODULE_10__server_command__["a" /* isCommandRunning */],
+    dateHumanize: __WEBPACK_IMPORTED_MODULE_6__date_time__["d" /* dateHumanize */],
+    teamsEnabled: __WEBPACK_IMPORTED_MODULE_9__permissions__["b" /* teamsEnabled */],
+    handleApiError: __WEBPACK_IMPORTED_MODULE_10__notifications__["c" /* handleApiError */],
+    isCommandRunning: __WEBPACK_IMPORTED_MODULE_11__server_command__["a" /* isCommandRunning */],
     serverHasFeature: __WEBPACK_IMPORTED_MODULE_4__server__["b" /* serverHasFeature */],
-    getBytesFromString: __WEBPACK_IMPORTED_MODULE_6__file_size__["a" /* getBytesFromString */],
-    getRepositoryProvider: __WEBPACK_IMPORTED_MODULE_11__repository_provider__["a" /* getRepositoryProvider */]
+    getBytesFromString: __WEBPACK_IMPORTED_MODULE_7__file_size__["a" /* getBytesFromString */],
+    getRepositoryProvider: __WEBPACK_IMPORTED_MODULE_12__repository_provider__["a" /* getRepositoryProvider */]
 });
 
 /***/ }),
@@ -23975,19 +23991,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "icon-cloud-auto-deploy active"
-  })])], 1)], _vm._v(" "), _c('span', {
-    staticClass: "dropdown"
+  })])], 1)], _vm._v(" "), _c('drop-down', {
+    attrs: {
+      "tag": "span"
+    }
   }, [_c('tooltip', {
     staticClass: "btn btn-default dropdown-toggle",
     attrs: {
       "message": "Site SSH Key",
       "placement": "bottom-left",
       "data-toggle": "dropdown"
-    }
+    },
+    slot: "header"
   }, [_c('span', {
     staticClass: "icon-web"
   })]), _vm._v(" "), _c('div', {
-    staticClass: "dropdown-menu nowrap"
+    staticClass: "dropdown-menu dropdown-content nowrap",
+    slot: "content"
   }, [_c('div', {
     staticClass: "jcf-form-wrap"
   }, [_c('div', {
@@ -25676,35 +25696,29 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
+  return _c(_vm.tag, {
+    tag: "span",
     staticClass: "dropdown",
     class: {
       open: _vm.open
     },
     on: {
       "click": function($event) {
-        $event.stopPropagation();
-        _vm.show($event)
+        _vm.show($event.target)
       }
     }
-  }, [_c('a', {
+  }, [_vm._t("header", [_c('a', {
     staticClass: "dropdown-toggle",
     attrs: {
       "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.stopPropagation();
-        _vm.show($event)
-      }
     }
   }, [_c('span', {
     class: _vm.icon
   }), _vm._v(" "), (_vm.muted) ? _c('span', {
     staticClass: "muted"
-  }, [_vm._v(_vm._s(_vm.muted) + " :")]) : _vm._e(), _vm._v("\n        " + _vm._s(_vm.name) + "\n    ")]), _vm._v(" "), _c('ul', {
+  }, [_vm._v(_vm._s(_vm.muted) + " :")]) : _vm._e(), _vm._v("\n            " + _vm._s(_vm.name) + "\n        ")])]), _vm._v(" "), _vm._t("content", [_c('ul', {
     staticClass: "dropdown-menu"
-  }, [_vm._t("default")], 2)])
+  }, [_vm._t("default")], 2)])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -33511,6 +33525,49 @@ __webpack_require__(163);
 __webpack_require__(164);
 module.exports = __webpack_require__(165);
 
+
+/***/ }),
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(_) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return hasClass; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isTag; });
+var hasClass = function hasClass(target, classes) {
+
+    var matchFound = false;
+    _.filter(classes, function (className) {
+        if (className.indexOf('*') !== -1) {
+            if (target.className.indexOf(className.replace('*', '')) !== -1) {
+                matchFound = true;
+                return false;
+            }
+        }
+    });
+
+    if (matchFound) {
+        return true;
+    }
+
+    return _.intersection(target.className.split(' '), classes).length > 0 ? true : false;
+};
+
+var isTag = function isTag(target, tag) {
+    return target.tagName.toLowerCase() === tag.toLowerCase();
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ })
 ],[752]);
