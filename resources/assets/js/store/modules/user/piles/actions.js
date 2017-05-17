@@ -1,6 +1,4 @@
 export const get = ({}) => {
-    // TODO - why not get all the piles?
-  // Vue.action('Pile\PileController@allPiles', 'setAll')
     return Vue.request().get(
         Vue.action('Pile\PileController@index'),
         'user_piles/setAll'
@@ -28,13 +26,13 @@ export const destroy = ({}, pile) => {
     )
 }
 
-export const changePile = ({ dispatch }, pile) => {
+export const change = ({}, pile) => {
     Vue.request({
         pile: pile
-    }).post('Pile\PileController@changePile', 'SET_USER').then(() => {
-        dispatch('user_sites/get')
-        dispatch('servers/get')
-
+    }).post(
+        Vue.action('Pile\PileController@changePile'),
+        'user/set',
+    ).then(() => {
         if (app.$router.currentRoute.params.server_id || app.$router.currentRoute.params.site_id) {
             app.$router.push('/')
         }

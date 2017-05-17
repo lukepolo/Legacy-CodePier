@@ -1,3 +1,3 @@
-export const set = (state, { response, requestData }) => {
-    state.user = user
+export const set = (state, { response }) => {
+    state.user = response
 }

@@ -145,7 +145,9 @@
                 return this.$store.state.user.user
             },
             sites() {
-                return this.$store.state.user_sites.sites
+                return _.filter(this.$store.state.user_sites.sites, (site) => {
+                    return site.pile_id == this.current_pile_id
+                })
             },
             current_pile_id() {
                 return this.$store.state.user.user.current_pile_id
