@@ -1,22 +1,28 @@
 <template>
-    <li class="dropdown" :class="{ open : open }" @click.stop="show">
+    <span :is="tag" class="dropdown" :class="{ open : open }" @click="show($event.target)">
 
-        <a href="#" class="dropdown-toggle" @click.stop="show">
-            <span :class="icon"></span>
-            <span class="muted" v-if="muted">{{ muted }} :</span>
-            {{ name }}
-        </a>
+        <slot name="header">
+            <a href="#" class="dropdown-toggle">
+                <span :class="icon"></span>
+                <span class="muted" v-if="muted">{{ muted }} :</span>
+                {{ name }}
+            </a>
+        </slot>
 
-        <ul class="dropdown-menu">
-            <slot></slot>
-        </ul>
-
-    </li>
+        <slot name="content" @click.stop="done">
+            <ul class="dropdown-menu">
+                <slot></slot>
+            </ul>
+        </slot>
+    </span>
 </template>
 
 <script>
     export default {
         props : {
+            'tag' : {
+                default : 'li'
+            },
             'name': {
                 default : null
             },
@@ -33,8 +39,14 @@
             }
         },
         methods: {
-            show() {
-                if(this.open) {
+            show(target) {
+                if(
+                    this.open &&
+                    !app.isTag(target, 'textarea') &&
+                    !app.isTag(target, 'input') &&
+                    !app.isTag(target, 'select') &&
+                    !app.isTag(target, 'option')
+                ) {
                     return this.open = false
                 }
 
@@ -46,6 +58,9 @@
             app.$on('close-dropdowns', () => {
                 this.open = false
             })
-        }
+        },
+        slots() {
+            return this.$slots
+        },
     }
 </script>

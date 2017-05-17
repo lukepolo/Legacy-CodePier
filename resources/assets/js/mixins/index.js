@@ -21,6 +21,11 @@ import {
 } from './server'
 
 import {
+    isTag,
+    hasClass
+} from './elements'
+
+import {
     now,
     timeAgo,
     parseDate,
@@ -58,11 +63,13 @@ export default {
     now,
     back,
     local,
+    isTag,
     action,
     getPile,
     getSite,
     timeAgo,
     isAdmin,
+    hasClass,
     getServer,
     showError,
     parseDate,
