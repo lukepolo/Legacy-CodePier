@@ -135,7 +135,7 @@ class GitHub implements RepositoryContract
                 $this->getRepositorySlug($site->repository),
                 $site->automatic_deployment_id
             );
-        } catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             throw $e;
         }
 
