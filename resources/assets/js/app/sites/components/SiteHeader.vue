@@ -9,15 +9,15 @@
         <div class="section-header--btn-right">
 
             <template v-if="site && !site.automatic_deployment_id">
-                <span @click="createDeployHook" class="dropdown">
+                <span class="dropdown" @click="createDeployHook">
                     <tooltip message="Enable Auto Deploy" placement="bottom-left" class="btn btn-default">
                         <span class="icon-cloud-auto-deploy"></span>
                     </tooltip>
                 </span>
             </template>
             <template v-else>
-                <span class="dropdown">
-                    <tooltip @click="removeDeployHook" message="Remove Auto Deploy" placement="bottom-left" class="btn btn-default">
+                <span class="dropdown" @click="removeDeployHook">
+                    <tooltip message="Remove Auto Deploy" placement="bottom-left" class="btn btn-default">
                         <span class="icon-cloud-auto-deploy active"></span>
                     </tooltip>
                 </span>
@@ -33,7 +33,7 @@
                     <div class="jcf-form-wrap">
                         <div class="jcf-input-group">
                             <div class="input-question">
-                                <confirm-dropdown dispatch="refreshSshKeys" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                                <confirm-dropdown dispatch="user_site_ssh_keys/refreshPublicKey" :params="site.id">Public SSH Key &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
                             </div>
                             <textarea rows="10" readonly>{{ site.public_ssh_key }}</textarea>
                             <div class="text-right">
@@ -55,7 +55,7 @@
                     <div class="jcf-form-wrap">
                         <div class="jcf-input-group">
                             <div class="input-question">
-                                <confirm-dropdown dispatch="refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
+                                <confirm-dropdown dispatch="user_site_deployments/refreshDeployKey" :params="site.id">Deploy Hook URL &nbsp;<a href="#"><span class="fa fa-refresh"></span></a></confirm-dropdown>
                             </div>
                             <textarea  rows="3" readonly :value="deployHook"></textarea>
                             <div class="text-right">
@@ -102,10 +102,10 @@
         },
         methods: {
             createDeployHook() {
-                return this.$store.dispatch('createDeployHook', this.$route.params.site_id)
+                return this.$store.dispatch('user_site_deployments/createDeployHook', this.$route.params.site_id)
             },
             removeDeployHook() {
-                this.$store.dispatch('removeDeployHook', {
+                this.$store.dispatch('user_site_deployments/removeDeployHook', {
                     site : this.$route.params.site_id,
                     hook : this.site.automatic_deployment_id
                 });

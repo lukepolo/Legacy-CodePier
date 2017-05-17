@@ -239,7 +239,7 @@ class SiteController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refreshSshKeys($siteId)
+    public function refreshPublicKey($siteId)
     {
         $site = Site::findOrFail($siteId);
 
