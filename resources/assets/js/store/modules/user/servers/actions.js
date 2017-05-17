@@ -23,13 +23,17 @@ export const store = ({ dispatch }, data) => {
     ).then((server) => {
         dispatch('listenTo', server)
         app.showSuccess('Your server is in queue to be provisioned')
+        return server
     })
 }
 
 export const archive = ({}, server) => {
     return Vue.request(server).delete(
         Vue.action('Server\ServerController@destroy', { server: server }),
-        'user_servers/remove'
+        [
+            'user_servers/remove',
+            'user_site_servers/remove'
+        ]
     ).then(() => {
         if (app.$router.currentRoute.params.server) {
             app.$router.push('/')

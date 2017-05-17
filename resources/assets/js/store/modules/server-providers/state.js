@@ -1,3 +1,6 @@
 export default {
-    providers: []
+    providers: [],
+    features: [],
+    options: [],
+    regions: []
 }

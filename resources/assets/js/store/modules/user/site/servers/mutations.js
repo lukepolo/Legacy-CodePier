@@ -14,6 +14,8 @@ export const update = (state, { response, requestData }) => {
 
 }
 
-export const remove = (state, { response, requestData }) => {
+export const remove = (state, { requestData }) => {
+    console.info(requestData)
+    Vue.set(state, 'servers', _.reject(state.servers, { id: requestData.value }))
 
 }
