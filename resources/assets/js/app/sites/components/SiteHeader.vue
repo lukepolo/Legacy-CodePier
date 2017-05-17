@@ -45,12 +45,13 @@
 
             </drop-down>
 
-            <span class="dropdown">
-                <tooltip message="Deploy Hook URL" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <drop-down tag="span">
+
+                <tooltip slot="header" message="Deploy Hook URL" placement="bottom-left" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="icon-webhooks"></span>
                 </tooltip>
 
-                <div class="dropdown-menu nowrap">
+                <div slot="content" class="dropdown-menu nowrap">
                     <div class="jcf-form-wrap">
                         <div class="jcf-input-group">
                             <div class="input-question">
@@ -63,14 +64,15 @@
                         </div>
                     </div>
                 </div>
-            </span>
+            </drop-down>
 
-            <template v-if="siteServers">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <drop-down tag="span" v-if="siteServers">
+
+                <button slot="header" class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     <span class="icon-server"></span>
                 </button>
 
-                <ul class="dropdown-menu nowrap dropdown-list">
+                <ul slot="content" class="dropdown-menu nowrap dropdown-list">
                     <li>
                         <confirm-dropdown dispatch="restartSiteWebServices" :params="site.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
@@ -84,7 +86,8 @@
                         <confirm-dropdown dispatch="restartSiteWorkers" :params="site.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
                     </li>
                 </ul>
-            </template>
+
+            </drop-down>
         </div>
     </h3>
 </template>
