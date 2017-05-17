@@ -3,19 +3,32 @@
 
         <div class="events--item-status" :class="statusClass" v-if="statusClass"></div>
 
-        <a class="collapsed" data-toggle="collapse" :href="'#' + eventName" v-if="showDropDown">
+        <a :class="{ collapsed : !show }" :href="'#' + eventName" v-if="showDropDown" @click="toggle">
             <span class="icon-play"></span>
         </a>
         {{ title }}
-        <div class="events--item-details collapse" :id="eventName">
-            <slot></slot>
-        </div>
+        <transition name="collapse">
+            <div class="events--item-details" :id="eventName" v-show="show">
+                <slot></slot>
+            </div>
+        </transition>
     </section>
 </template>
 
 <script>
     export default {
         props : ['title', 'event', 'type', 'prefix', 'status', 'dropdown'],
+        data() {
+          return {
+              show : false,
+              collapsing : false
+          }
+        },
+        methods: {
+            toggle() {
+                this.show = !this.show
+            }
+        },
         computed : {
             eventName : function() {
                 return (this.prefix ? this.prefix : 'event') + '_' + this.event.id + '_' + this.type.replace(/\\/g, '_');

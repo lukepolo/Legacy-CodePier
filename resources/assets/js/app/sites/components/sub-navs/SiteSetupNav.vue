@@ -47,9 +47,6 @@
             site() {
                 return this.$store.state.user_sites.site;
             },
-            serverFeatures() {
-                return this.$store.state.siteServersFeaturesStore.site_server_features
-            }
         },
         watch: {
             '$route': function() {

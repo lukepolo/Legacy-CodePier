@@ -10,3 +10,17 @@ export const clear = (state) => {
     state.events = []
     state.events_pagination = null
 }
+
+export const update = (state, command) => {
+    const commandKey = _.findKey(state.events, {
+        id: command.id,
+        event_type: command.event_type
+    })
+
+    if (!commandKey) {
+        state.events.unshift(command)
+        return
+    }
+
+    Vue.set(state.events, parseInt(commandKey), command)
+}

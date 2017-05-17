@@ -1,3 +1,3 @@
 export default {
-    current_step: {}
+    current_step : {}
 }

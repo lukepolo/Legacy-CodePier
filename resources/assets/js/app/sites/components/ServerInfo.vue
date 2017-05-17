@@ -2,7 +2,7 @@
     <div class="server">
         <div class="server-header">
             <div class="server-name">
-                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="showInfo = !showInfo"></span>
+                <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                     {{ server.name }}
@@ -194,19 +194,29 @@
             'server' : {},
             'showInfo' : {
                 default : false
-            }
+            },
         },
         components : {
           CpuLoads
+        },
+        mounted() {
+          this.showing = this.showInfo
+        },
+        data() {
+            return {
+                showing : null
+            }
         },
         computed : {
             showServerInfo() {
                 if(this.server.progress < 100) {
                     return true
                 }
-                return this.showInfo
+                return this.showing
             },
             currentProvisioningStep() {
+
+                // TODO - we gotta do this differently
                 let provisioningSteps = this.$store.state.user_server_provisioning.current_step;
 
                 if(_.has(provisioningSteps, this.server.id)) {
@@ -217,6 +227,9 @@
             }
         },
         methods : {
+            toggle() {
+                this.showing = !this.showing
+            },
             retryProvision() {
                 this.$store.dispatch('retryProvisioning', this.server.id);
             },

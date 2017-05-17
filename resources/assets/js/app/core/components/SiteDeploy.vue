@@ -18,7 +18,7 @@
         methods: {
             deploySite: function () {
                 if(!this.isDeploying) {
-                    this.$store.dispatch('deploySite', this.site.id)
+                    this.$store.dispatch('user_site_deployments/deploy', this.site.id)
                 }
             },
         },
