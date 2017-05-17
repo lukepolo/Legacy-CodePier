@@ -6953,7 +6953,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -6979,22 +6978,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         fetchData: function fetchData() {
-            this.$store.dispatch('getServerProviders');
-            this.$store.dispatch('getUserServerProviders');
+            this.$store.dispatch('server_providers/get');
+            this.$store.dispatch('user_server_providers/get');
         },
         getProviderData: function getProviderData(server_provider_id) {
             this.is_custom = false;
             var provider = _.find(this.server_providers, { id: server_provider_id }).provider_name;
             if (provider) {
-                this.$store.dispatch('getServerProviderOptions', provider);
-                this.$store.dispatch('getServerProviderRegions', provider);
-                this.$store.dispatch('getServerProviderFeatures', provider);
+                this.$store.dispatch('server_providers/getFeatures', provider);
+                this.$store.dispatch('server_providers/getOptions', provider);
+                this.$store.dispatch('server_providers/getRegions', provider);
             }
         },
         createServer: function createServer() {
             var _this = this;
 
-            this.$store.dispatch('createServer', this.getFormData(this.$el)).then(function (server) {
+            this.$store.dispatch('user_servers/store', this.getFormData(this.$el)).then(function (server) {
                 if (server.id) {
                     if (_this.siteId) {
                         app.$router.push({ name: 'site_repository', params: { site_id: _this.siteId } });
@@ -7021,19 +7020,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$route.params.site_id;
         },
         server_options: function server_options() {
-            return this.$store.state.serverProvidersStore.server_provider_options;
+            return this.$store.state.server_providers.options;
         },
         server_regions: function server_regions() {
-            return _.sortBy(this.$store.state.serverProvidersStore.server_provider_regions, 'name');
+            return _.sortBy(this.$store.state.server_providers.regions, 'name');
         },
         server_providers: function server_providers() {
-            return this.$store.state.serverProvidersStore.server_providers;
+            return this.$store.state.server_providers.providers;
         },
         user_server_providers: function user_server_providers() {
-            return this.$store.state.user.user_server_providers;
+            return this.$store.state.user_server_providers.providers;
         },
         server_provider_features: function server_provider_features() {
-            return this.$store.state.serverProvidersStore.server_provider_features;
+            return this.$store.state.server_providers.features;
         }
     }
 });
@@ -13964,12 +13963,33 @@ var setAll = function setAll(state, _ref) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFeatures", function() { return getFeatures; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOptions", function() { return getOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRegions", function() { return getRegions; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var get = function get(_ref) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get(Vue.action('Auth\Providers\ServerProvidersController@index'), 'server_providers/setAll');
+    return Vue.request().get(Vue.action('Auth\Providers\ServerProvidersController@index'), 'server_providers/setAll');
+};
+
+var getFeatures = function getFeatures(_ref2, provider) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/features', 'server_providers/setFeatures');
+};
+
+var getOptions = function getOptions(_ref3, provider) {
+    _objectDestructuringEmpty(_ref3);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/options', 'server_providers/setOptions');
+};
+
+var getRegions = function getRegions(_ref4, provider) {
+    _objectDestructuringEmpty(_ref4);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/regions', 'server_providers/setRegions');
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
@@ -13999,10 +14019,31 @@ var get = function get(_ref, data) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFeatures", function() { return setFeatures; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setOptions", function() { return setOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setRegions", function() { return setRegions; });
 var setAll = function setAll(state, _ref) {
     var response = _ref.response;
 
     state.providers = response;
+};
+
+var setFeatures = function setFeatures(state, _ref2) {
+    var response = _ref2.response;
+
+    state.features = response;
+};
+
+var setOptions = function setOptions(state, _ref3) {
+    var response = _ref3.response;
+
+    state.options = response;
+};
+
+var setRegions = function setRegions(state, _ref4) {
+    var response = _ref4.response;
+
+    state.regions = response;
 };
 
 /***/ }),
@@ -14011,7 +14052,10 @@ var setAll = function setAll(state, _ref) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    providers: []
+    providers: [],
+    features: [],
+    options: [],
+    regions: []
 });
 
 /***/ }),
@@ -16269,13 +16313,14 @@ var store = function store(_ref3, data) {
     return Vue.request(data).post(Vue.action('Server\ServerController@store'), 'user_servers/add').then(function (server) {
         dispatch('listenTo', server);
         app.showSuccess('Your server is in queue to be provisioned');
+        return server;
     });
 };
 
 var archive = function archive(_ref4, server) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(server).delete(Vue.action('Server\ServerController@destroy', { server: server }), 'user_servers/remove').then(function () {
+    return Vue.request(server).delete(Vue.action('Server\ServerController@destroy', { server: server }), ['user_servers/remove', 'user_site_servers/remove']).then(function () {
         if (app.$router.currentRoute.params.server) {
             app.$router.push('/');
         }
@@ -17302,7 +17347,7 @@ var destroy = function destroy(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
@@ -17330,10 +17375,12 @@ var update = function update(state, _ref4) {
 };
 
 var remove = function remove(state, _ref5) {
-    var response = _ref5.response,
-        requestData = _ref5.requestData;
+    var requestData = _ref5.requestData;
+
+    console.info(requestData);
+    Vue.set(state, 'servers', _.reject(state.servers, { id: requestData.value }));
 };
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
 /* 505 */
@@ -24383,13 +24430,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }), _vm._v(" "), _c('span', {
       staticClass: "icon"
     }), _vm._v("\n                                        " + _vm._s(_vm.getServerProviderName(user_server_provider.server_provider_id)) + "\n                                    ")])]
-  })] : [_vm._v("\n                                Please link a\n                                "), _c('router-link', {
+  })] : [_vm._v("\n                                You can connect other server providers through your\n                                "), _c('router-link', {
     attrs: {
       "to": {
         name: 'user_server_providers'
       }
     }
-  }, [_c('a', [_vm._v(" server provider")])]), _vm._v("\n                                before creating a server.\n                            ")], _vm._v(" "), _c('label', [_c('input', {
+  }, [_vm._v("\n                                    profile\n                                ")])], _vm._v(" "), _c('label', [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -24419,7 +24466,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "custom",
       "value": "true"
     }
-  })] : _vm._e(), _vm._v(" "), _c('small', [_vm._v("\n                                    This must be a clean Ubuntu 16.04 system\n                                ")])], 2)], 2), _vm._v(" "), (_vm.is_custom || _vm.server_provider) ? [_vm._m(0), _vm._v(" "), (_vm.is_custom) ? _c('div', {
+  })] : _vm._e(), _vm._v(" "), _c('small', [_vm._v("\n                                    This must be a fresh Ubuntu 16.04 system\n                                ")])], 2)], 2), _vm._v(" "), (_vm.is_custom || _vm.server_provider) ? [_vm._m(0), _vm._v(" "), (_vm.is_custom) ? _c('div', {
     staticClass: "jcf-input-group"
   }, [_c('input', {
     attrs: {
@@ -27941,7 +27988,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('confirm-sidebar', {
     attrs: {
-      "dispatch": "archiveServer",
+      "dispatch": "user_servers/archive",
       "params": _vm.server.id
     }
   }, [_c('span', {

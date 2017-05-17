@@ -180,7 +180,7 @@
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">
-                    <confirm-sidebar dispatch="archiveServer" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_servers/archive" :params="server.id"><span class="icon-archive"></span></confirm-sidebar>
                 </tooltip>
             </div>
         </div>

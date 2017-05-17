@@ -34,11 +34,10 @@
                                     </template>
                                 </template>
                                 <template v-else>
-                                    Please link a
+                                    You can connect other server providers through your
                                     <router-link :to="{ name : 'user_server_providers' }">
-                                        <a> server provider</a>
+                                        profile
                                     </router-link>
-                                    before creating a server.
                                 </template>
 
                                 <label>
@@ -49,7 +48,7 @@
                                         <input type="hidden" name="custom" value="true">
                                     </template>
                                     <small>
-                                        This must be a clean Ubuntu 16.04 system
+                                        This must be a fresh Ubuntu 16.04 system
                                     </small>
                                 </label>
 
@@ -165,20 +164,20 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('getServerProviders');
-                this.$store.dispatch('getUserServerProviders');
+                this.$store.dispatch('server_providers/get');
+                this.$store.dispatch('user_server_providers/get');
             },
             getProviderData(server_provider_id) {
                 this.is_custom = false
                 let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name;
                 if(provider) {
-                    this.$store.dispatch('getServerProviderOptions', provider);
-                    this.$store.dispatch('getServerProviderRegions', provider);
-                    this.$store.dispatch('getServerProviderFeatures', provider);
+                    this.$store.dispatch('server_providers/getFeatures', provider);
+                    this.$store.dispatch('server_providers/getOptions', provider);
+                    this.$store.dispatch('server_providers/getRegions', provider);
                 }
             },
             createServer() {
-                this.$store.dispatch('createServer', this.getFormData(this.$el)).then((server) => {
+                this.$store.dispatch('user_servers/store', this.getFormData(this.$el)).then((server) => {
                     if(server.id) {
                         if (this.siteId) {
                             app.$router.push({ name : 'site_repository', params : { site_id : this.siteId}})
@@ -205,19 +204,19 @@
                 return this.$route.params.site_id
             },
             server_options() {
-                return this.$store.state.serverProvidersStore.server_provider_options
+                return this.$store.state.server_providers.options
             },
             server_regions() {
-                return _.sortBy(this.$store.state.serverProvidersStore.server_provider_regions, 'name')
+                return _.sortBy(this.$store.state.server_providers.regions, 'name')
             },
             server_providers() {
-                return this.$store.state.serverProvidersStore.server_providers
+                return this.$store.state.server_providers.providers
             },
             user_server_providers() {
-                return this.$store.state.user.user_server_providers
+                return this.$store.state.user_server_providers.providers
             },
             server_provider_features() {
-                return this.$store.state.serverProvidersStore.server_provider_features
+                return this.$store.state.server_providers.features
             }
         }
     }
