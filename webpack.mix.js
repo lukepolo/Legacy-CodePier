@@ -1,5 +1,7 @@
 const { mix } = require('laravel-mix')
 
+console.info(mix.config.Paths)
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -49,6 +51,11 @@ if (mix.config.inProduction) {
     mix.browserSync({
         open: 'external',
         host: 'codepier.dev',
-        proxy: 'codepier.dev'
+        proxy: 'codepier.dev',
+        files: [
+            'resources/views/**/*.php',
+            'public/js/**/*.js',
+            'public/css/**/*.css'
+        ]
     })
 }

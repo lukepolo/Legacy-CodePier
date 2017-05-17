@@ -21,3 +21,13 @@ export const destroy = ({}, data) => {
         'user_site_ssh_keys/remove'
     )
 }
+
+
+export const refreshPublicKey = ({}, site) => {
+    return Vue.request().post(
+        Vue.action('Site\SiteController@refreshPublicKey', { site: site }),
+        'user_sites/set'
+    ).then(() => {
+        app.showSuccess('You refreshed your sites ssh keys.')
+    })
+}
