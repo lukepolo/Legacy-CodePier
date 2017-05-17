@@ -54,7 +54,7 @@ class OauthController extends Controller
 
         switch ($provider) {
             case self::GITHUB:
-                $providerDriver->scopes(['write:public_key write:repo_hook']);
+                $providerDriver->scopes(['write:public_key admin:repo_hook']);
                 break;
             case self::DIGITAL_OCEAN:
                 $providerDriver->scopes(['read write']);

@@ -129,15 +129,11 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        try {
-            GitHubService::api('repo')->hooks()->remove(
-                $this->getRepositoryUser($site->repository),
-                $this->getRepositorySlug($site->repository),
-                $site->automatic_deployment_id
-            );
-        } catch(RuntimeException $e) {
-            throw $e;
-        }
+        GitHubService::api('repo')->hooks()->remove(
+            $this->getRepositoryUser($site->repository),
+            $this->getRepositorySlug($site->repository),
+            $site->automatic_deployment_id
+        );
 
         $site->automatic_deployment_id = null;
         $site->save();
