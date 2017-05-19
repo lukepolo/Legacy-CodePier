@@ -33682,17 +33682,17 @@ module.exports = __webpack_require__(165);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restart", function() { return restart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartServers", function() { return restartServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWebServices", function() { return restartWebServices; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDatabases", function() { return restartDatabases; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWorkers", function() { return restartWorkers; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var restart = function restart(_ref, site) {
+var restartServers = function restartServers(_ref, site) {
     _objectDestructuringEmpty(_ref);
 
-    Vue.request().post(Vue.action('Site\SiteController@restartSite', { site: site })).then(function () {
-        app.showSuccess('You have restarted your site');
+    Vue.request().post(Vue.action('Site\SiteController@restartServer', { site: site })).then(function () {
+        app.showSuccess('You have restarted your sites servers.');
     });
 };
 var restartWebServices = function restartWebServices(_ref2, site) {
