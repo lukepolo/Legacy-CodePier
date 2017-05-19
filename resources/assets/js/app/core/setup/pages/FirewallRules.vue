@@ -130,7 +130,7 @@
                 if(this.serverId) {
                     this.$store.dispatch('user_server_firewall_rules/destroy', {
                         server: this.serverId,
-                        firewall: firewallRuleId
+                        firewall_rule: firewallRuleId
                     })
                 }
             },
