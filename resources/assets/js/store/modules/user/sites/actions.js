@@ -48,41 +48,61 @@ export const destroy = ({}, site) => {
     })
 }
 
-export const listen = ({ commit, state }, site) => {
+export const listen = ({ commit, state, dispatch }, site) => {
     if (_.indexOf(state.listening_to, site.id) === -1) {
-        commit('listenTo', site)
+        commit('listenTo', site.id)
         Echo.private('App.Models.Site.Site.' + site.id)
             .listen('Site\\DeploymentStepStarted', (data) => {
-                commit('UPDATE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+
+                commit('events/updateDeployment', data, { root : true })
+                commit('user_sites/updateLastDeploymentStatus', {
+                    site : data.site_deployment.site_id,
+                    status : data.site_deployment.status,
+                }, {
+                    root : true
+                })
+
             })
             .listen('Site\\DeploymentStepCompleted', (data) => {
-                commit('UPDATE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
+
+                commit('events/updateDeployment', data, { root : true })
+                commit('user_sites/updateLastDeploymentStatus', {
+                    site : data.site_deployment.site_id,
+                    status : data.site_deployment.status,
+                }, {
+                    root : true
+                })
+
             })
             .listen('Site\\DeploymentStepFailed', (data) => {
-                commit('UPDATE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+
+                commit('events/updateDeployment', data, { root : true })
+                commit('user_sites/updateLastDeploymentStatus', {
+                    site : data.site_deployment.site_id,
+                    status : data.site_deployment.status,
+                }, {
+                    root : true
+                })
+
             })
             .listen('Site\\DeploymentCompleted', (data) => {
-                commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_EVENT', data)
-                commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data)
-                commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment)
+
+                commit('events/updateDeployment', data, { root : true })
+                commit('user_sites/updateLastDeploymentStatus', {
+                    site : data.site_deployment.site_id,
+                    status : data.site_deployment.status,
+                }, {
+                    root : true
+                })
+
             })
             .notification((notification) => {
                 if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
-                    dispatch('getDeployment', {
+                    dispatch('user_site_deployments/getDeployment', {
                         site :  notification.siteDeployment.site_id,
                         deployment : notification.siteDeployment.id,
+                    }, {
+                        root : true
                     })
                 }
             })

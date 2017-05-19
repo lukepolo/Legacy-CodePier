@@ -57,10 +57,18 @@ export const removeDeployHook = ({}, data) => {
     })
 }
 
-export const deploy = ({}, site) => {
+export const deploy = ({ commit }, site) => {
     return Vue.request().post(
         Vue.action('Site\SiteController@deploy', { site: site })
     ).then(() => {
+
+        commit('user_sites/updateLastDeploymentStatus', {
+            site : site ,
+            status : 'Queued',
+        }, {
+            root : true
+        })
+
         app.showSuccess('Your site deployment has been queued.')
     })
 }
@@ -73,13 +81,9 @@ export const rollbackSite = ({}, data) => {
     })
 }
 
-// getDeployment : ({commit}, data) => {
-//     return Vue.http.get(Vue.action('Site\SiteDeploymentsController@show', { site :  data.site, deployment: data.deployment })).then((response) => {
-//         commit('ADD_NEW_SITE_DEPLOYMENT', response.data)
-//         commit('UPDATE_SITE_DEPLOYMENT_STATUS', response.data)
-//         return response.data
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//
+export const getDeployment = ({commit}, data) => {
+    return Vue.request(data).get(
+        Vue.action('Site\SiteDeploymentsController@show', { site :  data.site, deployment: data.deployment }),
+        'events/add'
+    )
+}

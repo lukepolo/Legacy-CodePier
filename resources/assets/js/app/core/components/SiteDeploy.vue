@@ -31,11 +31,8 @@
                 return false
             },
             isDeploying() {
-                return _.find(this.$store.state.user_site_deployments.deployments[this.site.id], function(deployment) {
-                    return deployment.status != 'Completed' && deployment.status != 'Failed'
-                });
-
-                return false
+                let status = this.site.last_deployment_status
+                return status === 'Running' || status === 'Queued'
             }
         },
         created() {

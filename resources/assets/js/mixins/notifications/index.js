@@ -42,7 +42,6 @@ export const handleApiError = function (response) {
     if (_.isString(message)) {
         this.showError(message)
     } else {
-        console.info('UNABLE TO PARSE ERROR')
-        console.info(message)
+        console.warn('UNABLE TO PARSE ERROR')
     }
 }

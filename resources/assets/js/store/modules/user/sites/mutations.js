@@ -24,3 +24,10 @@ export const remove = (state, { requestData }) => {
 export const listenTo = (state, site) => {
     state.listening_to.push(site)
 }
+
+export const updateLastDeploymentStatus = (state, { site , status}) => {
+    const siteKey = parseInt(_.findKey(state.sites, { id: site }))
+    if(siteKey !== null) {
+        Vue.set(state.sites[siteKey], 'last_deployment_status', status)
+    }
+}
