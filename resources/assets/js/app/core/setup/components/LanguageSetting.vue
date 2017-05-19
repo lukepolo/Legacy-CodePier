@@ -63,7 +63,7 @@
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('runServerLanguageSetting', {
+                    this.$store.dispatch('user_server_language_settings/run', {
                         server: this.serverId,
                         params: this.form.params,
                         setting: this.setting.name,

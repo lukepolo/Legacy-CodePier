@@ -173,7 +173,7 @@
                     parameters[parameter] = $('#' + parameter).val();
                 });
 
-                this.$store.dispatch('installFeature', {
+                this.$store.dispatch('user_server_features/install', {
                     feature: feature.input_name,
                     parameters: parameters,
                     server: this.server.id,

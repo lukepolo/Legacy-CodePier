@@ -4300,7 +4300,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 parameters[parameter] = $('#' + parameter).val();
             });
 
-            this.$store.dispatch('installFeature', {
+            this.$store.dispatch('user_server_features/install', {
                 feature: feature.input_name,
                 parameters: parameters,
                 server: this.server.id,
@@ -4568,7 +4568,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             if (this.serverId) {
-                this.$store.dispatch('runServerLanguageSetting', {
+                this.$store.dispatch('user_server_language_settings/run', {
                     server: this.serverId,
                     params: this.form.params,
                     setting: this.setting.name,
@@ -15289,6 +15289,7 @@ var remove = function remove(state, _ref3) {
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref, server) {
@@ -15301,6 +15302,18 @@ var store = function store(_ref2, data) {
     _objectDestructuringEmpty(_ref2);
 
     return Vue.request(data).post(Vue.action('Server\ServerFeatureController@store', { server: data.server }), 'user_server_features/setAll');
+};
+
+var install = function install(_ref3, data) {
+    _objectDestructuringEmpty(_ref3);
+
+    return Vue.request(data).post(Vue.action('Server\ServerFeatureController@store', { server: data.server }), {
+        service: data.service,
+        feature: data.feature,
+        parameters: data.parameters
+    }).then(function () {
+        app.showSuccess('You have queued a server feature install');
+    });
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
@@ -15610,7 +15623,7 @@ var getAvailable = function getAvailable(_ref2, server) {
     Vue.request().get(Vue.action('Server\ServerLanguageSettingsController@getLanguageSettings', { server: server }), 'user_server_language_settings/setAvailableLanguageSettings');
 };
 
-var run = function run(_ref3) {
+var run = function run(_ref3, data) {
     _objectDestructuringEmpty(_ref3);
 
     Vue.request(data).post(Vue.action('Server\ServerLanguageSettingsController@store', {
