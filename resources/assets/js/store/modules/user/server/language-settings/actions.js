@@ -12,7 +12,7 @@ export const getAvailable = ({}, server) => {
     )
 }
 
-export const run = ({}) => {
+export const run = ({}, data) => {
     Vue.request(data).post(
             Vue.action('Server\ServerLanguageSettingsController@store', {
                 server: data.server
