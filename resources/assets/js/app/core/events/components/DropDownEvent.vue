@@ -3,11 +3,11 @@
 
         <div class="events--item-status" :class="statusClass" v-if="statusClass"></div>
 
-        <a :class="{ collapsed : !show }" :href="'#' + eventName" v-if="showDropDown" @click="toggle">
+        <a :class="{ collapsed : !show }" v-if="showDropDown" @click="toggle">
             <span class="icon-play"></span>
         </a>
 
-        {{ title }} -- {{ show }} --
+        {{ title }}
         <transition name="collapse"
 
             v-on:before-enter="setup"
@@ -35,7 +35,7 @@
               show : false,
               collapsing : false,
               height : null,
-              transitionMs : '10'
+              transitionSpeed : '.35'
           }
         },
         methods: {
@@ -45,7 +45,7 @@
             setup(el) {
                 el.style.overflow = "hidden"
                 el.style.position = "initial"
-                el.style.transition = "all "+this.transitionMs+"s ease"
+                el.style.transition = "all "+this.transitionSpeed+"s ease"
             },
             enter(el, done) {
                 this.height =  el.offsetHeight
@@ -57,7 +57,7 @@
 
                 setTimeout(function() {
                     done()
-                }, this.transitionMs * 1000)
+                }, this.transitionSpeed * 1000)
             },
             leave(el, done) {
 
@@ -69,7 +69,7 @@
 
                 setTimeout(function() {
                     done()
-                }, this.transitionMs * 1000)
+                }, this.transitionSpeed * 1000)
 
             },
             done(el) {

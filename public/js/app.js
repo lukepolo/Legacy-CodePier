@@ -331,7 +331,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/LeftNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/LeftNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LeftNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -392,7 +392,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerFile.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerFile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -426,7 +426,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteFile.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteFile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteFile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -974,7 +974,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/DropDownEvent.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/DropDownEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DropDownEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1008,7 +1008,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerCustomFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerCustomFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerCustomFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1042,7 +1042,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerHeader.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1076,7 +1076,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/ServerCreateList.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/ServerCreateList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerCreateList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1110,7 +1110,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/ServerInfo.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/ServerInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1144,7 +1144,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/Servers.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/Servers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Servers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1178,7 +1178,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteHeader.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1212,7 +1212,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -3915,7 +3915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             show: false,
             collapsing: false,
             height: null,
-            transitionMs: '10'
+            transitionSpeed: '.35'
         };
     },
 
@@ -3926,7 +3926,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         setup: function setup(el) {
             el.style.overflow = "hidden";
             el.style.position = "initial";
-            el.style.transition = "all " + this.transitionMs + "s ease";
+            el.style.transition = "all " + this.transitionSpeed + "s ease";
         },
         enter: function enter(el, done) {
             var _this = this;
@@ -3940,7 +3940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             setTimeout(function () {
                 done();
-            }, this.transitionMs * 1000);
+            }, this.transitionSpeed * 1000);
         },
         leave: function leave(el, done) {
 
@@ -3952,7 +3952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             setTimeout(function () {
                 done();
-            }, this.transitionMs * 1000);
+            }, this.transitionSpeed * 1000);
         },
         done: function done(el) {
             el.style.height = null;
@@ -19613,7 +19613,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/components/AdminArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/components/AdminArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AdminArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19647,7 +19647,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/buoy/Form.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/buoy/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19681,7 +19681,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/categories/Form.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/categories/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19715,7 +19715,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/admin/pages/categories/Index.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/admin/pages/categories/Index.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Index.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19749,7 +19749,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/Bitt.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/Bitt.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Bitt.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19783,7 +19783,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/BittsArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/BittsArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BittsArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19817,7 +19817,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/components/Install.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/components/Install.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Install.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19851,7 +19851,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/pages/BittsMarketPlace.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/pages/BittsMarketPlace.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BittsMarketPlace.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19885,7 +19885,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/bitts/pages/Form.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/bitts/pages/Form.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Form.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19919,7 +19919,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/BuoyApp.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/BuoyApp.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BuoyApp.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19953,7 +19953,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/BuoyArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/BuoyArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BuoyArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -19987,7 +19987,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/components/Install.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/components/Install.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Install.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20021,7 +20021,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/buoys/pages/MarketPlace.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/buoys/pages/MarketPlace.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MarketPlace.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20055,7 +20055,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/Navigation.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/Navigation.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Navigation.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20089,7 +20089,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/NotificationArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/NotificationArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] NotificationArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20123,7 +20123,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/PageNotFound.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/PageNotFound.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PageNotFound.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20157,7 +20157,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Back.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Back.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Back.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20191,7 +20191,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Clipboard.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Clipboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clipboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20225,7 +20225,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Confirm.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Confirm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Confirm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20259,7 +20259,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ConfirmDropdown.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ConfirmDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ConfirmDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20293,7 +20293,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ConfirmSidebar.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ConfirmSidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ConfirmSidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20327,7 +20327,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/DropDown.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/DropDown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DropDown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20361,7 +20361,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/Notification.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/Notification.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Notification.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20395,7 +20395,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/SiteDeploy.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/SiteDeploy.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteDeploy.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20429,7 +20429,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/components/ToolTip.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/components/ToolTip.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ToolTip.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20463,7 +20463,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/EventsBar.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/EventsBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] EventsBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20497,7 +20497,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/CommandEvent.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/CommandEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CommandEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20531,7 +20531,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/events/components/DeploymentEvent.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/events/components/DeploymentEvent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DeploymentEvent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20565,7 +20565,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/DatabaseSection.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/DatabaseSection.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DatabaseSection.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20599,7 +20599,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/FeatureArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/FeatureArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FeatureArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20633,7 +20633,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/Features.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/Features.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Features.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20667,7 +20667,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/components/LanguageSetting.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/components/LanguageSetting.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LanguageSetting.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20701,7 +20701,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/CronJobs.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/CronJobs.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CronJobs.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20735,7 +20735,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/Databases.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/Databases.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Databases.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20769,7 +20769,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/EnvironmentVariables.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/EnvironmentVariables.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] EnvironmentVariables.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20803,7 +20803,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/FirewallRules.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/FirewallRules.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FirewallRules.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20837,7 +20837,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/LanguageSettings.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/LanguageSettings.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] LanguageSettings.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20871,7 +20871,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/ServerFeatures.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/ServerFeatures.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFeatures.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20905,7 +20905,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/SshKeys.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/SshKeys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SshKeys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20939,7 +20939,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/SslCertificates.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/SslCertificates.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SslCertificates.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20973,7 +20973,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/core/setup/pages/Workers.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/core/setup/pages/Workers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Workers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21007,7 +21007,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/piles/components/Pile.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/piles/components/Pile.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Pile.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21041,7 +21041,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/piles/pages/Piles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/piles/pages/Piles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Piles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21079,7 +21079,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21113,7 +21113,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/ServerNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/ServerNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21147,7 +21147,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/SecurityNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/SecurityNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SecurityNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21181,7 +21181,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerInformationNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerInformationNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerInformationNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21215,7 +21215,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerSetupNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/components/sub-navs/ServerSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21249,7 +21249,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerBuoys.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerBuoys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerBuoys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21283,7 +21283,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21317,7 +21317,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerForm.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerForm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerForm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21351,7 +21351,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerMonitoring.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerMonitoring.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerMonitoring.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21385,7 +21385,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/ServerSites.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/ServerSites.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSites.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21419,7 +21419,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/servers/pages/Servers.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/servers/pages/Servers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Servers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21453,7 +21453,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/CpuLoadsVue.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/CpuLoadsVue.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CpuLoadsVue.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21487,7 +21487,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/DeploymentStepCard.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/DeploymentStepCard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DeploymentStepCard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21521,7 +21521,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/FrameworkFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/FrameworkFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FrameworkFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21559,7 +21559,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21593,7 +21593,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/SiteCustomFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/SiteCustomFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteCustomFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21627,7 +21627,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/SecurityNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/SecurityNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SecurityNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21661,7 +21661,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/ServerSetupNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/ServerSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ServerSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21695,7 +21695,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/components/sub-navs/SiteSetupNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/sub-navs/SiteSetupNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteSetupNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21733,7 +21733,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteDeployment.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteDeployment.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteDeployment.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21767,7 +21767,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21801,7 +21801,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteRepository.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteRepository.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteRepository.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21835,7 +21835,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/sites/pages/SiteServerFiles.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/pages/SiteServerFiles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SiteServerFiles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21869,7 +21869,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/teams/pages/TeamMembers.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/teams/pages/TeamMembers.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TeamMembers.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21903,7 +21903,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/teams/pages/Teams.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/teams/pages/Teams.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Teams.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21941,7 +21941,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/UserArea.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/UserArea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserArea.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -21975,7 +21975,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/UserNav.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/UserNav.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserNav.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22013,7 +22013,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/AuthorizedClients.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/AuthorizedClients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22051,7 +22051,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/Clients.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/Clients.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22089,7 +22089,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/components/passport/PersonalAccessTokens.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/components/passport/PersonalAccessTokens.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22123,7 +22123,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserInfo.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22157,7 +22157,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserNotificationProviders.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserNotificationProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserNotificationProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22191,7 +22191,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserOauth.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserOauth.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserOauth.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22225,7 +22225,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserRepositoryProviders.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserRepositoryProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserRepositoryProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22259,7 +22259,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserServerProviders.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserServerProviders.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserServerProviders.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22293,7 +22293,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserSshKeys.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserSshKeys.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSshKeys.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -22327,7 +22327,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "/Users/jfalotico/Sites/CodePier/resources/assets/js/app/user/pages/UserSubscription.vue"
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/user/pages/UserSubscription.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSubscription.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -25255,15 +25255,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       collapsed: !_vm.show
     },
-    attrs: {
-      "href": '#' + _vm.eventName
-    },
     on: {
       "click": _vm.toggle
     }
   }, [_c('span', {
     staticClass: "icon-play"
-  })]) : _vm._e(), _vm._v("\n\n    " + _vm._s(_vm.title) + " -- " + _vm._s(_vm.show) + " --\n    "), _c('transition', {
+  })]) : _vm._e(), _vm._v("\n\n    " + _vm._s(_vm.title) + "\n    "), _c('transition', {
     attrs: {
       "name": "collapse",
       "css": false
