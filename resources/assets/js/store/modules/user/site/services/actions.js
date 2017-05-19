@@ -1,8 +1,8 @@
-export const restart = ({}, site) => {
+export const restartServers = ({}, site) => {
     Vue.request().post(
-        Vue.action('Site\SiteController@restartSite', { site: site })
+        Vue.action('Site\SiteController@restartServer', { site: site })
     ).then(() => {
-        app.showSuccess('You have restarted your site')
+        app.showSuccess('You have restarted your sites servers.')
     })
 }
 export const restartWebServices = ({}, site) => {
