@@ -13686,30 +13686,32 @@ var updateDeployment = function updateDeployment(state, deployment) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__user_site_workers__ = __webpack_require__(517);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__user_site_schemas__ = __webpack_require__(496);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__ = __webpack_require__(509);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_cron_jobs__ = __webpack_require__(472);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__ = __webpack_require__(476);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_site_firewall_rules__ = __webpack_require__(488);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_repository_providers__ = __webpack_require__(403);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_site_server_features__ = __webpack_require__(500);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__ = __webpack_require__(513);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_language_settings__ = __webpack_require__(492);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_site_environment_varaibles__ = __webpack_require__(480);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_servers__ = __webpack_require__(468);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_server_buoys__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_server_files__ = __webpack_require__(427);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_sites__ = __webpack_require__(452);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_server_schemas__ = __webpack_require__(443);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_server_workers__ = __webpack_require__(464);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_features__ = __webpack_require__(423);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_services__ = __webpack_require__(448);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_ssh_keys__ = __webpack_require__(456);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_providers__ = __webpack_require__(407);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_cron_jobs__ = __webpack_require__(415);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_provisioning__ = __webpack_require__(439);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_firewall_rules__ = __webpack_require__(431);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__user_server_ssl_certificates__ = __webpack_require__(460);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__user_server_language_settings__ = __webpack_require__(435);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__user_server_environment_varaibles__ = __webpack_require__(419);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__user_site_services__ = __webpack_require__(768);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_cron_jobs__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_site_deployments__ = __webpack_require__(476);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_site_firewall_rules__ = __webpack_require__(488);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_repository_providers__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_server_features__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_ssl_certificates__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_site_language_settings__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__user_site_environment_varaibles__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__user_servers__ = __webpack_require__(468);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__user_server_buoys__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__user_server_files__ = __webpack_require__(427);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__user_server_sites__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__user_server_schemas__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__user_server_workers__ = __webpack_require__(464);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_features__ = __webpack_require__(423);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_services__ = __webpack_require__(448);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_ssh_keys__ = __webpack_require__(456);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_providers__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_cron_jobs__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_provisioning__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__user_server_firewall_rules__ = __webpack_require__(431);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__user_server_ssl_certificates__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__user_server_language_settings__ = __webpack_require__(435);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__user_server_environment_varaibles__ = __webpack_require__(419);
+
 
 
 
@@ -13805,31 +13807,32 @@ var updateDeployment = function updateDeployment(state, deployment) {
     user_site_workers: __WEBPACK_IMPORTED_MODULE_27__user_site_workers__["a" /* default */],
     user_site_schemas: __WEBPACK_IMPORTED_MODULE_28__user_site_schemas__["a" /* default */],
     user_site_ssh_keys: __WEBPACK_IMPORTED_MODULE_29__user_site_ssh_keys__["a" /* default */],
-    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_30__user_site_cron_jobs__["a" /* default */],
-    user_site_deployments: __WEBPACK_IMPORTED_MODULE_31__user_site_deployments__["a" /* default */],
-    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_32__user_site_firewall_rules__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_33__user_repository_providers__["a" /* default */],
-    user_site_server_features: __WEBPACK_IMPORTED_MODULE_34__user_site_server_features__["a" /* default */],
-    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_35__user_site_ssl_certificates__["a" /* default */],
-    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_36__user_site_language_settings__["a" /* default */],
-    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_37__user_site_environment_varaibles__["a" /* default */],
+    user_site_services: __WEBPACK_IMPORTED_MODULE_30__user_site_services__["a" /* default */],
+    user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_31__user_site_cron_jobs__["a" /* default */],
+    user_site_deployments: __WEBPACK_IMPORTED_MODULE_32__user_site_deployments__["a" /* default */],
+    user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_33__user_site_firewall_rules__["a" /* default */],
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_34__user_repository_providers__["a" /* default */],
+    user_site_server_features: __WEBPACK_IMPORTED_MODULE_35__user_site_server_features__["a" /* default */],
+    user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_36__user_site_ssl_certificates__["a" /* default */],
+    user_site_language_settings: __WEBPACK_IMPORTED_MODULE_37__user_site_language_settings__["a" /* default */],
+    user_site_environment_variables: __WEBPACK_IMPORTED_MODULE_38__user_site_environment_varaibles__["a" /* default */],
 
-    user_servers: __WEBPACK_IMPORTED_MODULE_38__user_servers__["a" /* default */],
-    user_server_buoys: __WEBPACK_IMPORTED_MODULE_39__user_server_buoys__["a" /* default */],
-    user_server_files: __WEBPACK_IMPORTED_MODULE_40__user_server_files__["a" /* default */],
-    user_server_sites: __WEBPACK_IMPORTED_MODULE_41__user_server_sites__["a" /* default */],
-    user_server_schemas: __WEBPACK_IMPORTED_MODULE_42__user_server_schemas__["a" /* default */],
-    user_server_workers: __WEBPACK_IMPORTED_MODULE_43__user_server_workers__["a" /* default */],
-    user_server_features: __WEBPACK_IMPORTED_MODULE_44__user_server_features__["a" /* default */],
-    user_server_services: __WEBPACK_IMPORTED_MODULE_45__user_server_services__["a" /* default */],
-    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_46__user_server_ssh_keys__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_47__user_server_providers__["a" /* default */],
-    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_48__user_server_cron_jobs__["a" /* default */],
-    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_49__user_server_provisioning__["a" /* default */],
-    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_50__user_server_firewall_rules__["a" /* default */],
-    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_51__user_server_ssl_certificates__["a" /* default */],
-    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_52__user_server_language_settings__["a" /* default */],
-    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_53__user_server_environment_varaibles__["a" /* default */]
+    user_servers: __WEBPACK_IMPORTED_MODULE_39__user_servers__["a" /* default */],
+    user_server_buoys: __WEBPACK_IMPORTED_MODULE_40__user_server_buoys__["a" /* default */],
+    user_server_files: __WEBPACK_IMPORTED_MODULE_41__user_server_files__["a" /* default */],
+    user_server_sites: __WEBPACK_IMPORTED_MODULE_42__user_server_sites__["a" /* default */],
+    user_server_schemas: __WEBPACK_IMPORTED_MODULE_43__user_server_schemas__["a" /* default */],
+    user_server_workers: __WEBPACK_IMPORTED_MODULE_44__user_server_workers__["a" /* default */],
+    user_server_features: __WEBPACK_IMPORTED_MODULE_45__user_server_features__["a" /* default */],
+    user_server_services: __WEBPACK_IMPORTED_MODULE_46__user_server_services__["a" /* default */],
+    user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_47__user_server_ssh_keys__["a" /* default */],
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_48__user_server_providers__["a" /* default */],
+    user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_49__user_server_cron_jobs__["a" /* default */],
+    user_server_provisioning: __WEBPACK_IMPORTED_MODULE_50__user_server_provisioning__["a" /* default */],
+    user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_51__user_server_firewall_rules__["a" /* default */],
+    user_server_ssl_certificates: __WEBPACK_IMPORTED_MODULE_52__user_server_ssl_certificates__["a" /* default */],
+    user_server_language_settings: __WEBPACK_IMPORTED_MODULE_53__user_server_language_settings__["a" /* default */],
+    user_server_environment_variables: __WEBPACK_IMPORTED_MODULE_54__user_server_environment_varaibles__["a" /* default */]
 });
 
 /***/ }),
@@ -15908,108 +15911,70 @@ var remove = function remove(state, _ref3) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "show", function() { return show; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restart", function() { return restart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWebServices", function() { return restartWebServices; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDatabases", function() { return restartDatabases; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWorkers", function() { return restartWorkers; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var get = function get(_ref, data) {
+var restart = function restart(_ref, server) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get('');
+    Vue.request().post(Vue.action('Server\ServerController@restartServer', { server: server })).then(function () {
+        app.showSuccess('You have restarted your server');
+    });
 };
-
-var show = function show(_ref2, data) {
+var restartWebServices = function restartWebServices(_ref2, server) {
     _objectDestructuringEmpty(_ref2);
 
-    return Vue.request(data).get('');
+    Vue.request().post(Vue.action('Server\ServerController@restartWebServices', { server: server })).then(function () {
+        app.showSuccess('You have restarted your web services');
+    });
 };
 
-var store = function store(_ref3, data) {
+var restartDatabases = function restartDatabases(_ref3, server) {
     _objectDestructuringEmpty(_ref3);
 
-    return Vue.request(data).post('');
+    Vue.request().post(Vue.action('Server\ServerController@restartDatabases', { server: server })).then(function () {
+        app.showSuccess('You have restarted your databases');
+    });
 };
 
-var update = function update(_ref4, data) {
+var restartWorkers = function restartWorkers(_ref4, server) {
     _objectDestructuringEmpty(_ref4);
 
-    return Vue.request(data).patch('');
-};
-
-var destroy = function destroy(_ref5, data) {
-    _objectDestructuringEmpty(_ref5);
-
-    return Vue.request(data).delete('');
+    Vue.request().post(Vue.action('Server\ServerController@restartWorkerServices', { server: server })).then(function () {
+        app.showSuccess('You have restarted your workers');
+    });
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 447 */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
+/* 447 */,
 /* 448 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(450);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters__ = __webpack_require__(447);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__getters__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(446);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(449);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(446);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(449);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mutations__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
-    getters: __WEBPACK_IMPORTED_MODULE_1__getters__,
-    actions: __WEBPACK_IMPORTED_MODULE_2__actions__,
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
     namespaced: true
 });
 
 /***/ }),
 /* 449 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-  var response = _ref.response,
-      requestData = _ref.requestData;
-};
 
-var setAll = function setAll(state, _ref2) {
-  var response = _ref2.response,
-      requestData = _ref2.requestData;
-};
-
-var add = function add(state, _ref3) {
-  var response = _ref3.response,
-      requestData = _ref3.requestData;
-};
-
-var update = function update(state, _ref4) {
-  var response = _ref4.response,
-      requestData = _ref4.requestData;
-};
-
-var remove = function remove(state, _ref5) {
-  var response = _ref5.response,
-      requestData = _ref5.requestData;
-};
 
 /***/ }),
 /* 450 */
@@ -24249,7 +24214,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     slot: "content"
   }, [_c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartSiteWebServices",
+      "dispatch": "user_site_services/restartWebServices",
       "params": _vm.site.id
     }
   }, [_c('a', {
@@ -24260,7 +24225,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-web"
   }), _vm._v(" Restart Web Services")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartSiteServers",
+      "dispatch": "user_site_services/restartServers",
       "params": _vm.site.id
     }
   }, [_c('a', {
@@ -24271,7 +24236,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-server"
   }), _vm._v(" Restart Servers")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartSiteDatabases",
+      "dispatch": "user_site_services/restartDatabases",
       "params": _vm.site.id
     }
   }, [_c('a', {
@@ -24282,7 +24247,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-database"
   }), _vm._v(" Restart Databases")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartSiteWorkers",
+      "dispatch": "user_site_services/restartWorkers",
       "params": _vm.site.id
     }
   }, [_c('a', {
@@ -28130,7 +28095,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('confirm-sidebar', {
     attrs: {
-      "dispatch": "restartServerWebServices",
+      "dispatch": "user_server_services/restartWebServices",
       "params": _vm.server.id
     }
   }, [_c('span', {
@@ -28141,7 +28106,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('confirm-sidebar', {
     attrs: {
-      "dispatch": "restartServer",
+      "dispatch": "user_server_services/restart",
       "params": _vm.server.id
     }
   }, [_c('span', {
@@ -28152,7 +28117,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('confirm-sidebar', {
     attrs: {
-      "dispatch": "restartServerDatabases",
+      "dispatch": "user_server_services/restartDatabases",
       "params": _vm.server.id
     }
   }, [_c('span', {
@@ -28163,7 +28128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('confirm-sidebar', {
     attrs: {
-      "dispatch": "restartServerWorkers",
+      "dispatch": "user_server_services/restartWorkers",
       "params": _vm.server.id
     }
   }, [_c('span', {
@@ -30210,7 +30175,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dropdown-menu nowrap dropdown-list"
   }, [_c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartServerWebServices",
+      "dispatch": "user_server_services/restartWebServices",
       "params": _vm.server.id
     }
   }, [_c('a', {
@@ -30221,7 +30186,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-web"
   }), _vm._v(" Restart Web Services")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartServer",
+      "dispatch": "user_server_services/restartServer",
       "params": _vm.server.id
     }
   }, [_c('a', {
@@ -30232,7 +30197,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-server"
   }), _vm._v(" Restart Server")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartServerDatabases",
+      "dispatch": "user_server_services/restartServerDatabases",
       "params": _vm.server.id
     }
   }, [_c('a', {
@@ -30243,7 +30208,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon-database"
   }), _vm._v(" Restart Databases")])])], 1), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "restartServerWorkers",
+      "dispatch": "user_server_services/restartServerWorkers",
       "params": _vm.server.id
     }
   }, [_c('a', {
@@ -33698,6 +33663,95 @@ __webpack_require__(163);
 __webpack_require__(164);
 module.exports = __webpack_require__(165);
 
+
+/***/ }),
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restart", function() { return restart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWebServices", function() { return restartWebServices; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDatabases", function() { return restartDatabases; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartWorkers", function() { return restartWorkers; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var restart = function restart(_ref, site) {
+    _objectDestructuringEmpty(_ref);
+
+    Vue.request().post(Vue.action('Site\SiteController@restartSite', { site: site })).then(function () {
+        app.showSuccess('You have restarted your site');
+    });
+};
+var restartWebServices = function restartWebServices(_ref2, site) {
+    _objectDestructuringEmpty(_ref2);
+
+    Vue.request().post(Vue.action('Site\SiteController@restartWebServices', { site: site })).then(function () {
+        app.showSuccess('You have restarted your web services');
+    });
+};
+
+var restartDatabases = function restartDatabases(_ref3, site) {
+    _objectDestructuringEmpty(_ref3);
+
+    Vue.request().post(Vue.action('Site\SiteController@restartDatabases', { site: site })).then(function () {
+        app.showSuccess('You have restarted your databases');
+    });
+};
+
+var restartWorkers = function restartWorkers(_ref4, site) {
+    _objectDestructuringEmpty(_ref4);
+
+    Vue.request().post(Vue.action('Site\SiteController@restartWorkerServices', { site: site })).then(function () {
+        app.showSuccess('You have restarted your workers');
+    });
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 768 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(770);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(767);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(769);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__mutations__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 769 */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+/* 770 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({});
 
 /***/ })
 ],[754]);
