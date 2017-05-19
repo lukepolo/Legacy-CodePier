@@ -164,19 +164,19 @@
 
             <div class="btn-container">
                 <tooltip message="Restart web services" placement="top-right">
-                    <confirm-sidebar dispatch="restartServerWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart server">
-                    <confirm-sidebar dispatch="restartServer" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restart" :params="server.id"><span class="icon-server"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart databases">
-                    <confirm-sidebar dispatch="restartServerDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restartDatabases" :params="server.id"><span class="icon-database"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Restart workers">
-                    <confirm-sidebar dispatch="restartServerWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
+                    <confirm-sidebar dispatch="user_server_services/restartWorkers" :params="server.id"><span class="icon-worker"></span></confirm-sidebar>
                 </tooltip>
 
                 <tooltip message="Archive server" placement="top-left">

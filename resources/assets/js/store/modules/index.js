@@ -32,6 +32,7 @@ import user_site_servers from './user/site/servers'
 import user_site_workers from './user/site/workers'
 import user_site_schemas from './user/site/schemas'
 import user_site_ssh_keys from './user/site/ssh-keys'
+import user_site_services from './user/site/services'
 import user_site_cron_jobs from './user/site/cron-jobs'
 import user_site_deployments from './user/site/deployments'
 import user_site_firewall_rules from './user/site/firewall-rules'
@@ -93,6 +94,7 @@ export default {
     user_site_workers,
     user_site_schemas,
     user_site_ssh_keys,
+    user_site_services,
     user_site_cron_jobs,
     user_site_deployments,
     user_site_firewall_rules,

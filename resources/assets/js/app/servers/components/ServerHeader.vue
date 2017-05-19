@@ -10,16 +10,16 @@
                 </button>
                 <ul class="dropdown-menu nowrap dropdown-list">
                     <li>
-                        <confirm-dropdown dispatch="restartServerWebServices" :params="server.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_server_services/restartWebServices" :params="server.id"><a href="#"><span class="icon-web"></span> Restart Web Services</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="restartServer" :params="server.id"><a href="#"><span class="icon-server"></span> Restart Server</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_server_services/restartServer" :params="server.id"><a href="#"><span class="icon-server"></span> Restart Server</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="restartServerDatabases" :params="server.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_server_services/restartServerDatabases" :params="server.id"><a href="#"><span class="icon-database"></span> Restart Databases</a></confirm-dropdown>
                     </li>
                     <li>
-                        <confirm-dropdown dispatch="restartServerWorkers" :params="server.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
+                        <confirm-dropdown dispatch="user_server_services/restartServerWorkers" :params="server.id"><a href="#"><span class="icon-worker"></span> Restart Workers</a></confirm-dropdown>
                     </li>
                 </ul>
             </span>
