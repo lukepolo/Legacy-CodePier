@@ -3215,11 +3215,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return false;
         },
         isDeploying: function isDeploying() {
-            return _.find(this.$store.state.user_site_deployments.deployments[this.site.id], function (deployment) {
-                return deployment.status != 'Completed' && deployment.status != 'Failed';
-            });
-
-            return false;
+            var status = this.site.last_deployment_status;
+            return status === 'Running' || status === 'Queued';
         }
     },
     created: function created() {
@@ -12352,7 +12349,7 @@ axios.interceptors.response.use(function (response) {
 
 
 __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a.log = function (msg) {
-    console.info(msg);
+    // console.info(msg)
 };
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
@@ -12911,8 +12908,7 @@ var handleApiError = function handleApiError(response) {
     if (_.isString(message)) {
         this.showError(message);
     } else {
-        console.info('UNABLE TO PARSE ERROR');
-        console.info(message);
+        console.warn('UNABLE TO PARSE ERROR');
     }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
@@ -13214,10 +13210,6 @@ var logout = function logout(_ref, data) {
     _objectDestructuringEmpty(_ref);
 
     return Vue.request(data).post(Vue.action('Auth\LoginController@logout')).then(function () {
-        console.info('no error');
-        window.location = '/';
-    }, function (errors) {
-        console.info('errors');
         window.location = '/';
     });
 };
@@ -13542,68 +13534,6 @@ var get = function get(_ref, data) {
 
     return Vue.request(filters).post(Vue.action('EventController@store'), 'events/setAll');
 };
-
-//
-// ADD_NEW_SITE_DEPLOYMENT: (state, deployment) => {
-//     state.events.unshift(deployment)
-// },
-//     // TODO - we need to add the type
-//     UPDATE_DEPLOYMENT_EVENT: (state, event) => {
-//     const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
-//
-//     if (siteDeployment) {
-//         const serverDeployment = _.find(siteDeployment.server_deployments, { id: event.server_deployment.id })
-//         if (serverDeployment) {
-//             Vue.set(
-//                 serverDeployment.events,
-//                 parseInt(_.findKey(serverDeployment.events, {
-//                     id: event.deployment_event.id
-//                 })),
-//                 event.deployment_event
-//             )
-//         }
-//     }
-// },
-//     UPDATE_SITE_DEPLOYMENT_EVENT: (state, event) => {
-//
-//     const siteDeploymentKey = _.findKey(state.events, { id: event.site_deployment.id })
-//     const siteDeployment = state.events[siteDeploymentKey]
-//
-//     _.each(event.site_deployment, function (value, key) {
-//         if (key !== 'server_deployments') {
-//             siteDeployment[key] = value
-//         }
-//     })
-//
-// },
-//     UPDATE_SERVER_DEPLOYMENT_EVENT: (state, event) => {
-//
-//     const siteDeployment = _.find(state.events, { id: event.site_deployment.id })
-//
-//     if (siteDeployment) {
-//
-//         const serverDeployment = _.find(siteDeployment.server_deployments, { id: event.server_deployment.id })
-//
-//         if (serverDeployment) {
-//             _.each(event.server_deployment, function (value, key) {
-//                 serverDeployment[key] = value
-//             })
-//         }
-//     }
-// },
-//     UPDATE_EVENT_COMMAND: (state, command) => {
-//     const commandKey = _.findKey(state.events, {
-//         id: command.id,
-//         event_type: command.event_type
-//     })
-//
-//     if (!commandKey) {
-//         state.events.unshift(command)
-//         return
-//     }
-//
-//     Vue.set(state.events, parseInt(commandKey), command)
-// }
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(1)))
 
 /***/ }),
@@ -13644,6 +13574,8 @@ var get = function get(_ref, data) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clear", function() { return clear; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateDeployment", function() { return updateDeployment; });
 var setAll = function setAll(state, _ref) {
     var response = _ref.response;
 
@@ -13671,6 +13603,41 @@ var update = function update(state, command) {
     }
 
     Vue.set(state.events, parseInt(commandKey), command);
+};
+
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
+
+    state.events.unshift(response);
+};
+
+var updateDeployment = function updateDeployment(state, deployment) {
+
+    var siteDeployment = _.find(state.events, { id: deployment.site_deployment.id });
+
+    if (siteDeployment) {
+
+        _.each(deployment.site_deployment, function (value, key) {
+            if (key !== 'server_deployments') {
+                siteDeployment[key] = value;
+            }
+        });
+
+        var serverDeployment = _.find(siteDeployment.server_deployments, { id: deployment.server_deployment.id });
+
+        if (serverDeployment) {
+
+            _.each(deployment.server_deployment, function (value, key) {
+                serverDeployment[key] = value;
+            });
+
+            if (deployment.deployment_event) {
+                Vue.set(serverDeployment.events, parseInt(_.findKey(serverDeployment.events, {
+                    id: deployment.deployment_event.id
+                })), deployment.deployment_event);
+            }
+        }
+    }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(1)))
 
@@ -14588,25 +14555,12 @@ var get = function get(_ref) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_, Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-var set = function set(state, _ref) {
-    var response = _ref.response,
-        requestData = _ref.requestData;
-};
-
-var setAll = function setAll(state, _ref2) {
-    var response = _ref2.response;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
 
     state.running_commands = response;
-};
-
-var add = function add(state, _ref3) {
-    var response = _ref3.response,
-        requestData = _ref3.requestData;
 };
 
 var update = function update(state, command) {
@@ -14623,11 +14577,6 @@ var update = function update(state, command) {
 
         state.running_commands[command.commandable_type].push(command);
     }
-};
-
-var remove = function remove(state, _ref4) {
-    var response = _ref4.response,
-        requestData = _ref4.requestData;
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(1)))
 
@@ -16716,6 +16665,7 @@ var remove = function remove(state, _ref3) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDeployHook", function() { return removeDeployHook; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deploy", function() { return deploy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rollbackSite", function() { return rollbackSite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDeployment", function() { return getDeployment; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var getDeployments = function getDeployments(_ref) {
@@ -16772,9 +16722,17 @@ var removeDeployHook = function removeDeployHook(_ref7, data) {
 };
 
 var deploy = function deploy(_ref8, site) {
-    _objectDestructuringEmpty(_ref8);
+    var commit = _ref8.commit;
 
     return Vue.request().post(Vue.action('Site\SiteController@deploy', { site: site })).then(function () {
+
+        commit('user_sites/updateLastDeploymentStatus', {
+            site: site,
+            status: 'Queued'
+        }, {
+            root: true
+        });
+
         app.showSuccess('Your site deployment has been queued.');
     });
 };
@@ -16787,16 +16745,11 @@ var rollbackSite = function rollbackSite(_ref9, data) {
     });
 };
 
-// getDeployment : ({commit}, data) => {
-//     return Vue.http.get(Vue.action('Site\SiteDeploymentsController@show', { site :  data.site, deployment: data.deployment })).then((response) => {
-//         commit('ADD_NEW_SITE_DEPLOYMENT', response.data)
-//         commit('UPDATE_SITE_DEPLOYMENT_STATUS', response.data)
-//         return response.data
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//
+var getDeployment = function getDeployment(_ref10, data) {
+    var commit = _ref10.commit;
+
+    return Vue.request(data).get(Vue.action('Site\SiteDeploymentsController@show', { site: data.site, deployment: data.deployment }), 'events/add');
+};
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
@@ -16844,33 +16797,6 @@ var setSiteDeploymentSteps = function setSiteDeploymentSteps(state, _ref3) {
 
     state.site_deployment_steps = response;
 };
-
-// UPDATE_RUNNING_SITE_DEPLOYMENT: (state, event) => {
-//     if (!state.running_deployments[event.site_deployment.site_id]) {
-//         Vue.set(state.running_deployments, event.site_deployment.site_id, [])
-//     }
-//
-//     const siteDeployments = state.running_deployments[event.site_deployment.site_id]
-//     const siteDeployment = siteDeployments[_.findKey(siteDeployments, { id: event.site_deployment.id })]
-//
-//     if (siteDeployment) {
-//         _.each(event.site_deployment, function (value, key) {
-//             if (key !== 'server_deployments') {
-//                 siteDeployment[key] = value
-//             }
-//         })
-//     } else {
-//         siteDeployments.push(event.site_deployment)
-//     }
-// },
-//     UPDATE_SITE_DEPLOYMENT_STATUS: (state, siteDeployment) => {
-//
-//     const siteKey = _.findKey(state.sites, { id: siteDeployment.site_id })
-//
-//     if (siteKey) {
-//         Vue.set(state.sites[siteKey], 'last_deployment_status', siteDeployment.status)
-//     }
-// }
 
 /***/ }),
 /* 478 */
@@ -17939,37 +17865,54 @@ var destroy = function destroy(_ref5, site) {
 
 var listen = function listen(_ref6, site) {
     var commit = _ref6.commit,
-        state = _ref6.state;
+        state = _ref6.state,
+        dispatch = _ref6.dispatch;
 
     if (_.indexOf(state.listening_to, site.id) === -1) {
-        commit('listenTo', site);
+        commit('listenTo', site.id);
         Echo.private('App.Models.Site.Site.' + site.id).listen('Site\\DeploymentStepStarted', function (data) {
-            commit('UPDATE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment);
+
+            commit('events/updateDeployment', data, { root: true });
+            commit('user_sites/updateLastDeploymentStatus', {
+                site: data.site_deployment.site_id,
+                status: data.site_deployment.status
+            }, {
+                root: true
+            });
         }).listen('Site\\DeploymentStepCompleted', function (data) {
-            commit('UPDATE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
+
+            commit('events/updateDeployment', data, { root: true });
+            commit('user_sites/updateLastDeploymentStatus', {
+                site: data.site_deployment.site_id,
+                status: data.site_deployment.status
+            }, {
+                root: true
+            });
         }).listen('Site\\DeploymentStepFailed', function (data) {
-            commit('UPDATE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment);
+
+            commit('events/updateDeployment', data, { root: true });
+            commit('user_sites/updateLastDeploymentStatus', {
+                site: data.site_deployment.site_id,
+                status: data.site_deployment.status
+            }, {
+                root: true
+            });
         }).listen('Site\\DeploymentCompleted', function (data) {
-            commit('UPDATE_SERVER_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_EVENT', data);
-            commit('UPDATE_RUNNING_SITE_DEPLOYMENT', data);
-            commit('UPDATE_SITE_DEPLOYMENT_STATUS', data.site_deployment);
+
+            commit('events/updateDeployment', data, { root: true });
+            commit('user_sites/updateLastDeploymentStatus', {
+                site: data.site_deployment.site_id,
+                status: data.site_deployment.status
+            }, {
+                root: true
+            });
         }).notification(function (notification) {
             if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
-                dispatch('getDeployment', {
+                dispatch('user_site_deployments/getDeployment', {
                     site: notification.siteDeployment.site_id,
                     deployment: notification.siteDeployment.id
+                }, {
+                    root: true
                 });
             }
         });
@@ -18008,6 +17951,7 @@ var listen = function listen(_ref6, site) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listenTo", function() { return listenTo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateLastDeploymentStatus", function() { return updateLastDeploymentStatus; });
 var set = function set(state, _ref) {
     var response = _ref.response;
 
@@ -18040,6 +17984,16 @@ var remove = function remove(state, _ref5) {
 
 var listenTo = function listenTo(state, site) {
     state.listening_to.push(site);
+};
+
+var updateLastDeploymentStatus = function updateLastDeploymentStatus(state, _ref6) {
+    var site = _ref6.site,
+        status = _ref6.status;
+
+    var siteKey = parseInt(_.findKey(state.sites, { id: site }));
+    if (siteKey !== null) {
+        Vue.set(state.sites[siteKey], 'last_deployment_status', status);
+    }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
