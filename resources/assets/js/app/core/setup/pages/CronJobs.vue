@@ -82,7 +82,7 @@
                     cron: null,
                     user: 'root',
                     cron_timing: null
-                }
+                },
             }
         },
         created() {
@@ -164,6 +164,8 @@
                 this.form.cron_timing = null;
                 if(this.site) {
                     this.form.cron = this.site.path
+                } else {
+                    this.form.cron = null
                 }
             }
         },

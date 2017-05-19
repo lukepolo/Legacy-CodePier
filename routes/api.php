@@ -171,7 +171,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::resource('servers.cron-jobs', 'ServerCronJobController');
             Route::resource('servers.ssl-certificate', 'ServerSslController');
             Route::resource('servers.network', 'ServerNetworkRuleController');
-            Route::resource('servers.firewall', 'ServerFirewallRuleController');
+            Route::resource('servers.firewall-rules', 'ServerFirewallRuleController');
             Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::resource('servers.language-settings', 'ServerLanguageSettingsController');
             Route::resource('servers.environment-variables', 'ServerEnvironmentVariablesController');
