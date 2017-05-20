@@ -47,7 +47,7 @@
                 return false;
             },
             addCustomFile() {
-                this.$store.dispatch('user_site_files/find', {
+                this.$store.dispatch('user_site_files/findFile', {
                     custom : true,
                     file : this.form.file,
                     site : this.$route.params.site_id
@@ -58,13 +58,13 @@
         },
         computed: {
             runningCommands() {
-                return this.$store.state.commands.running_commands;
+                return this.$store.state.serversStore.running_commands;
             },
             site() {
                 return this.$store.state.user_sites.site;
             },
             customSiteFiles() {
-                return _.filter(this.$store.state.user_site_files.files, function(file) {
+                return _.filter(this.$store.state.siteFilesStore.site_files, function(file) {
                     return file.custom;
                 });
             }

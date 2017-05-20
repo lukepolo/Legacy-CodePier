@@ -295,7 +295,7 @@ function applyToTag (styleElement, obj) {
 /* unused harmony export ServerInfo */
 /* unused harmony export SiteHeader */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return FrameworkFiles; });
-/* unused harmony export SiteCustomFiles */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return SiteCustomFiles; });
 /* unused harmony export ServerCreateList */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DeploymentStepCard; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return SecurityNav; });
@@ -8227,7 +8227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addCustomFile: function addCustomFile() {
             var _this = this;
 
-            this.$store.dispatch('user_site_files/findFile', {
+            this.$store.dispatch('user_site_files/find', {
                 custom: true,
                 file: this.form.file,
                 site: this.$route.params.site_id
@@ -8238,13 +8238,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         runningCommands: function runningCommands() {
-            return this.$store.state.serversStore.running_commands;
+            return this.$store.state.commands.running_commands;
         },
         site: function site() {
             return this.$store.state.user_sites.site;
         },
         customSiteFiles: function customSiteFiles() {
-            return _.filter(this.$store.state.siteFilesStore.site_files, function (file) {
+            return _.filter(this.$store.state.user_site_files.files, function (file) {
                 return file.custom;
             });
         }
@@ -8994,12 +8994,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        FrameworkFiles: __WEBPACK_IMPORTED_MODULE_0__components__["i" /* FrameworkFiles */]
+        FrameworkFiles: __WEBPACK_IMPORTED_MODULE_0__components__["i" /* FrameworkFiles */],
+        SiteCustomFiles: __WEBPACK_IMPORTED_MODULE_0__components__["j" /* SiteCustomFiles */]
     },
     created: function created() {
         this.fetchData();
@@ -22683,7 +22685,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.site) ? _c('div', [(_vm.site.framework) ? _c('framework-files') : _vm._e()], 1) : _vm._e()
+  return (_vm.site) ? _c('div', [(_vm.site.framework) ? _c('framework-files') : _vm._e(), _vm._v(" "), _c('site-custom-files')], 1) : _vm._e()
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

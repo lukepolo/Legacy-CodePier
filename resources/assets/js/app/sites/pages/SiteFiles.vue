@@ -1,17 +1,20 @@
 <template>
     <div v-if="site">
         <framework-files v-if="site.framework"></framework-files>
+        <site-custom-files></site-custom-files>
     </div>
 </template>
 
 <script>
     import {
-        FrameworkFiles
+        FrameworkFiles,
+        SiteCustomFiles
     } from '../components'
 
     export default {
         components : {
-            FrameworkFiles
+            FrameworkFiles,
+            SiteCustomFiles
         },
         created() {
             this.fetchData()
