@@ -35,7 +35,7 @@ export const getEditableFrameworkFiles = ({}, site) => {
     )
 }
 
-export const findFile = ({}, data) => {
+export const find = ({}, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteFileController@find', {
             site: data.site
@@ -43,6 +43,22 @@ export const findFile = ({}, data) => {
         'user_site_files/add'
     )
 }
+
+export const reload = ({}, data) => {
+
+    return Vue.request(data).post(
+        Vue.action('Site\SiteFileController@reloadFile', {
+            site: data.site,
+            file: data.file,
+            server: data.server
+        }),
+        'user_site_files/update'
+    ).then(() => {
+        app.showSuccess('You have reloaded the file')
+    })
+
+}
+
 
 //     addCustomFile: ({ commit }, site) => {
 //     Vue.http.get().then((response) => {
@@ -52,16 +68,6 @@ export const findFile = ({}, data) => {
 //     })
 // },
 //
-//     reloadSiteFile: ({ commit }, data) => {
-//     Vue.http.post(Vue.action('Site\SiteFileController@reloadFile', {
-//         site: data.site,
-//         file: data.file,
-//         server: data.server
-//     })).then((response) => {
-//         commit('UPDATE_SITE_FILE', response.data)
-//         app.showSuccess('You have reloaded the file')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
+//
 // },
 //
