@@ -11,7 +11,7 @@ export const update = ({}, data) => {
             file: data.file_id,
             server: data.server
         }),
-        'user_site_files/update'
+        'user_server_files/update'
     ).then(() => {
         app.showSuccess('You have updated the file')
     })
@@ -30,30 +30,21 @@ export const getEditableFiles = ({}, server) => {
     })
 }
 
-export const findFile = ({}, data) => {
+export const find = ({}, data) => {
     return Vue.request(data).post(
         Vue.action('Server\ServerFileController@find', { server: data.server }),
-        'user_site_files/add'
+        'user_server_files/add'
     )
 }
 
-//     addCustomFile: ({ commit }, server) => {
-//     Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFiles', { server: server })).then((response) => {
-//         commit('ADD_SERVER_FILE', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-// },
-//
-//     reloadServerFile: ({ commit }, data) => {
-//     Vue.http.post(Vue.action('Server\ServerFileController@reloadFile', {
-//         file: data.file,
-//         server: data.server
-//     })).then((response) => {
-//         commit('UPDATE_SERVER_FILE', response.data)
-//         app.showSuccess('You have reloaded the server file.')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// }
+export const reload = ({}, data) => {
+    return Vue.request().post(
+        Vue.action('Server\ServerFileController@reloadFile', {
+            file: data.file,
+            server: data.server
+        }),
+        'user_server_files/update'
+    ).then(() => {
+        app.showSuccess('You have reloaded the server file.')
+    })
+}
