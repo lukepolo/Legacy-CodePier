@@ -30,8 +30,3 @@ export const removeTemp = (state, index) => {
 export const setPileSites = (state, { response, requestData }) => {
     Vue.set(state.pile_sites, requestData.pile, response)
 }
-
-export const removeFromPileSites = (state, { requestData }) => {
-    alert('remove site from pile')
-    // Vue.set(state.pile_sites, requestData.pile, requestData.site)
-}
