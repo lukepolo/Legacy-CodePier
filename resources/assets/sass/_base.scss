@@ -5,8 +5,8 @@
 @import 'base/variables';
 @import 'base/mixins';
 
-@import "../bower/font-awesome/scss/font-awesome";
-@import "../bower/jcf-forms/scss/jcf_forms";
+@import './../../../node_modules/font-awesome/scss/font-awesome';
+@import './../../../node_modules/jcf-forms/scss/jcf_forms';
 
 
 // BASICS --------------------------------------------------
@@ -29,7 +29,6 @@ body {
 img {
   max-width: 100%;
 }
-
 
 
 // TEXT ----------------------------------------------------

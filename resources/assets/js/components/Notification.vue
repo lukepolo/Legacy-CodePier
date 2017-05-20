@@ -28,7 +28,7 @@
         methods : {
             close: function (notification) {
                 clearTimeout(this.timer);
-                this.$store.dispatch('removeNotification', notification);
+                this.$store.dispatch('notifications/remove', notification);
             }
         }
     }

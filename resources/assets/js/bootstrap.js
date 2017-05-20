@@ -1,42 +1,83 @@
-window._ = require('lodash')
-_.mixin(require("lodash-inflection"))
+/*
+ |--------------------------------------------------------------------------
+ | Global Variables
+ |--------------------------------------------------------------------------
+ |
+ */
 
-window.Vue = require('vue')
+window.laroute = require('./laroute')
+window.moment = require('moment-timezone')
+window.moment.tz.setDefault('UTC')
 
-window.Clipboard = require('clipboard')
+/*
+ |--------------------------------------------------------------------------
+ | Vendors
+ |--------------------------------------------------------------------------
+ |
+ */
 
-window.VueRouter = require('vue-router/dist/vue-router.common.js')
-require('vue-resource')
+require('jcf-forms')
+_.mixin(require('lodash-inflection'))
+require('../bower/jquery-cron/cron/jquery-cron.js')
 
-Vue.use(VueRouter)
+/**
+ * Ace editor
+ */
+
+require('brace')
+require('brace/mode/sh')
+require('brace/ext/searchbox')
+require('brace/theme/monokai')
+
+/*
+ |--------------------------------------------------------------------------
+ | Axios Setup
+ |--------------------------------------------------------------------------
+ |
+ */
 
 import NProgress from 'nprogress'
 
-Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken)
+window.axios = require('axios')
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content
 
-    NProgress.start()
-    next((response) => {
-        if (_.isSet(response.data)) {
-            if (response.data.error === 'Unauthenticated.') {
-                location.reload()
-            }
-        }
-        NProgress.done()
+axios.interceptors.request.use((config) => {
+    NProgress.configure({
+        easing: 'ease',
+        speed: 500,
+        showSpinner: false
     })
+    NProgress.start()
+    NProgress.inc(0.3)
+    return config
+}, function (error) {
+    return Promise.reject(error)
 })
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': Laravel.csrfToken
-    }
+axios.interceptors.response.use((response) => {
+    NProgress.done()
+    return response
+}, function (error) {
+    return Promise.reject(error)
 })
+
+/*
+ |--------------------------------------------------------------------------
+ | Laravel Echo Setup
+ |--------------------------------------------------------------------------
+ |
+ */
 
 import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
 
-window.Pusher = require('pusher-js');
+Pusher.log = (msg) => {
+    console.info(msg)
+}
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: Laravel.pusherKey
 })
+
