@@ -215,7 +215,6 @@
             },
             currentProvisioningStep() {
 
-                // TODO - we gotta do this differently
                 let provisioningSteps = this.$store.state.user_server_provisioning.current_step;
 
                 if(_.has(provisioningSteps, this.server.id)) {
@@ -230,7 +229,7 @@
                 this.showing = !this.showing
             },
             retryProvision() {
-                this.$store.dispatch('retryProvisioning', this.server.id);
+                this.$store.dispatch('user_server_provisioning/retry', this.server.id);
             },
             getMemoryUsage(stats) {
                 return (this.getBytesFromString(stats.used)/this.getBytesFromString(stats.total))*100
