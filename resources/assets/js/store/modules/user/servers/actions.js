@@ -29,13 +29,12 @@ export const store = ({ dispatch }, data) => {
 
 export const archive = ({}, server) => {
     return Vue.request(server).delete(
-        Vue.action('Server\ServerController@destroy', { server: server }),
-        [
+        Vue.action('Server\ServerController@destroy', { server: server }), [
             'user_servers/remove',
             'user_site_servers/remove',
         ]
     ).then(() => {
-        if (app.$router.currentRoute.params.server) {
+        if (app.$router.currentRoute.params.server_id) {
             app.$router.push('/')
         }
         app.showSuccess('You have archived the server')
@@ -55,8 +54,9 @@ export const restore = ({ dispatch }, server) => {
             'user_servers/add',
             'user_servers/removeFromTrash'
         ]
-    ).then(() => {
+    ).then((server) => {
         dispatch('listenTo', server)
+        return server
     })
 }
 

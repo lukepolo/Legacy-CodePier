@@ -19,9 +19,12 @@ export const update = (state, { response }) => {
 }
 
 export const remove = (state, { requestData }) => {
-    state.trashed.push(_.find(state.servers, {
-        id: requestData.server }
-    ))
+
+    state.trashed.push(
+        _.find(state.servers, {
+            id: requestData.value }
+        )
+    )
 
     Vue.set(state, 'servers', _.reject(state.servers, {
         id: requestData.value
