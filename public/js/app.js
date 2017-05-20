@@ -6343,7 +6343,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addCustomFile: function addCustomFile() {
             var _this = this;
 
-            this.$store.dispatch('findServerFile', {
+            this.$store.dispatch('user_server_files/find', {
                 custom: true,
                 file: this.form.file,
                 server: this.$route.params.server_id
@@ -6442,7 +6442,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
 
                 if (!this.file_model) {
-                    this.$store.dispatch('findServerFile', {
+                    this.$store.dispatch('user_server_files/find', {
                         custom: false,
                         file: this.file,
                         server: this.$route.params.server_id
@@ -6453,7 +6453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         reloadFile: function reloadFile() {
-            this.$store.dispatch('reloadServerFile', {
+            this.$store.dispatch('user_server_files/reload', {
                 file: this.file_model.id,
                 server: this.$route.params.server_id
             });
@@ -12761,6 +12761,7 @@ var isTag = function isTag(target, tag) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return local; });
 var local = function local() {
+    return false;
     return Laravel.env === 'local';
 };
 
@@ -12930,6 +12931,7 @@ var isAdmin = function isAdmin() {
 };
 
 var teamsEnabled = function teamsEnabled() {
+    return false;
     return Laravel.teams;
 };
 
@@ -15371,7 +15373,8 @@ var setAll = function setAll(state, _ref) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEditableFiles", function() { return getEditableFiles; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findFile", function() { return findFile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reload", function() { return reload; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 var get = function get(_ref, server) {
@@ -15386,7 +15389,7 @@ var update = function update(_ref2, data) {
     return Vue.request(data).patch(Vue.action('Server\ServerFileController@update', {
         file: data.file_id,
         server: data.server
-    }), 'user_site_files/update').then(function () {
+    }), 'user_server_files/update').then(function () {
         app.showSuccess('You have updated the file');
     });
 };
@@ -15405,32 +15408,22 @@ var getEditableFiles = function getEditableFiles(_ref4, server) {
     });
 };
 
-var findFile = function findFile(_ref5, data) {
+var find = function find(_ref5, data) {
     _objectDestructuringEmpty(_ref5);
 
-    return Vue.request(data).post(Vue.action('Server\ServerFileController@find', { server: data.server }), 'user_site_files/add');
+    return Vue.request(data).post(Vue.action('Server\ServerFileController@find', { server: data.server }), 'user_server_files/add');
 };
 
-//     addCustomFile: ({ commit }, server) => {
-//     Vue.http.get(Vue.action('Server\ServerFeatureController@getEditableFiles', { server: server })).then((response) => {
-//         commit('ADD_SERVER_FILE', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-// },
-//
-//     reloadServerFile: ({ commit }, data) => {
-//     Vue.http.post(Vue.action('Server\ServerFileController@reloadFile', {
-//         file: data.file,
-//         server: data.server
-//     })).then((response) => {
-//         commit('UPDATE_SERVER_FILE', response.data)
-//         app.showSuccess('You have reloaded the server file.')
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// }
+var reload = function reload(_ref6, data) {
+    _objectDestructuringEmpty(_ref6);
+
+    return Vue.request().post(Vue.action('Server\ServerFileController@reloadFile', {
+        file: data.file,
+        server: data.server
+    }), 'user_server_files/update').then(function () {
+        app.showSuccess('You have reloaded the server file.');
+    });
+};
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
@@ -15457,52 +15450,35 @@ var findFile = function findFile(_ref5, data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setEditableFiles", function() { return setEditableFiles; });
-var set = function set(state, _ref) {
-    var response = _ref.response,
-        requestData = _ref.requestData;
-};
-
-var setAll = function setAll(state, _ref2) {
-    var response = _ref2.response;
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
 
     state.files = response;
 };
 
-var add = function add(state, _ref3) {
-    var response = _ref3.response;
+var add = function add(state, _ref2) {
+    var response = _ref2.response;
 
     state.files.push(response);
 };
 
-var update = function update(state, _ref4) {
-    var response = _ref4.response;
+var update = function update(state, _ref3) {
+    var response = _ref3.response;
+
+    Vue.set(state.files[_.findKey(state.files, { id: response.id })], 'unencrypted_content', response.unencrypted_content);
 };
 
-var setEditableFiles = function setEditableFiles(state, _ref5) {
-    var response = _ref5.response;
+var setEditableFiles = function setEditableFiles(state, _ref4) {
+    var response = _ref4.response;
 
     state.editable_files = response;
 };
-
-//
-// SET_SERVER_FILES: (state, files) => {
-//     state.server_files = files
-// },
-//     ADD_SERVER_FILE: (state, file) => {
-//     state.server_files.push(file)
-// },
-//     UPDATE_SERVER_FILE: (state, file) => {
-//     Vue.set(state.server_files[_.findKey(state.server_files, { id: file.id })], 'unencrypted_content', file.unencrypted_content)
-// },
-//     SET_EDITABLE_SERVER_FILES: (state, files) => {
-//     state.server_editable_files = files
-// }
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
 /***/ }),
 /* 429 */

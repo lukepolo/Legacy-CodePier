@@ -59,7 +59,7 @@
                     });
 
                     if(!this.file_model) {
-                        this.$store.dispatch('findServerFile', {
+                        this.$store.dispatch('user_server_files/find', {
                             custom : false,
                             file : this.file,
                             server : this.$route.params.server_id
@@ -70,7 +70,7 @@
                 }
             },
             reloadFile() {
-                this.$store.dispatch('reloadServerFile', {
+                this.$store.dispatch('user_server_files/reload', {
                     file : this.file_model.id,
                     server : this.$route.params.server_id,
                 })

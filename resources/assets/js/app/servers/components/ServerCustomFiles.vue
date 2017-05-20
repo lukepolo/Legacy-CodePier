@@ -47,7 +47,7 @@
                 return false;
             },
             addCustomFile() {
-                this.$store.dispatch('findServerFile', {
+                this.$store.dispatch('user_server_files/find', {
                     custom : true,
                     file : this.form.file,
                     server : this.$route.params.server_id

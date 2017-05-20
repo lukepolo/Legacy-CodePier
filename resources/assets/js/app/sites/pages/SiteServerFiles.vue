@@ -9,12 +9,12 @@
 <script>
 
     import {
-        SiteFile
+        SiteFile,
     } from '../components';
 
     export default {
         components : {
-            SiteFile
+            SiteFile,
         },
         created() {
             this.fetchData();
