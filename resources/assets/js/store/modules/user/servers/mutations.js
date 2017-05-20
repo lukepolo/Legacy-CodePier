@@ -43,3 +43,10 @@ export const removeFromTrash = (state, { requestData }) => {
 export const listenTo = (state, server) => {
     state.listening_to.push(server)
 }
+
+export const updateStats = (state, data) => {
+    let server = _.find(state.servers, { id: data.server })
+    if (server) {
+        Vue.set(server, 'stats', data.stats)
+    }
+}
