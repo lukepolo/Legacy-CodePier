@@ -8,20 +8,12 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Favicons -->
-        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
-        <link rel="manifest" href="/assets/img/favicon/manifest.json">
-        <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#48acf0">
-        <link rel="shortcut icon" href="/assets/img/favicon/favicon.ico">
-        <meta name="msapplication-config" content="/assets/img/favicon/browserconfig.xml">
-        <meta name="theme-color" content="#ffffff">
+        @include('layouts.core.favicon')
 
         <title>CodePier</title>
 
         <!-- Styles -->
-        <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+        <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
         <!-- Scripts -->
         <script>
@@ -74,17 +66,16 @@
             </div>
         </div>
 
-        <!-- Scripts -->
-        <script src="{{ elixir('js/all.js') }}"></script>
-
-        <script type="text/javascript">
-            moment.tz.setDefault("UTC")
-        </script>
-
-        @stack('scripts')
-
         @if(\Auth::check())
-            <script src="{{ elixir('js/app.js') }}"></script>
+
+            @stack('scripts')
+
+            <!-- Scripts -->
+            <script src="{{ mix('/js/manifest.js') }}"></script>
+            <script src="{{ mix('/js/vendor.js') }}"></script>
+            <script src="{{ mix('/js/app.js') }}"></script>
+
+
             @include('layouts.core.notifications')
             @if(config('app.env') == 'production')
                 <script type="text/javascript">
