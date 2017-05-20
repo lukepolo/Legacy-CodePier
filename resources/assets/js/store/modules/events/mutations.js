@@ -29,7 +29,6 @@ export const add = (state, { response }) => {
     state.events.unshift(response)
 }
 
-
 export const updateDeployment = (state, deployment) => {
 
     const siteDeployment = _.find(state.events, { id: deployment.site_deployment.id })

@@ -4320,7 +4320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         availableServerFrameworks: function availableServerFrameworks() {
-            return this.$store.state.system_frameworks.frameworks;
+            return this.$store.state.server_frameworks.frameworks;
         }
     }
 });
@@ -4426,9 +4426,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$store.dispatch('user_server_features/get', this.serverId);
             }
 
-            this.$store.dispatch('system_features/get');
-            this.$store.dispatch('system_languages/get');
-            this.$store.dispatch('system_frameworks/get');
+            this.$store.dispatch('server_features/get');
+            this.$store.dispatch('server_languages/get');
+            this.$store.dispatch('server_frameworks/get');
         },
 
         getSectionTitle: function getSectionTitle(area) {
@@ -4476,17 +4476,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return serverFeatures;
         },
         availableServerFeatures: function availableServerFeatures() {
-            var serverFeatures = this.$store.state.system_features.features;
+            var serverFeatures = this.$store.state.server_features.features;
 
             this.section = _.keys(serverFeatures)[0];
 
             return serverFeatures;
         },
         availableServerLanguages: function availableServerLanguages() {
-            return this.$store.state.system_languages.languages;
+            return this.$store.state.server_languages.languages;
         },
         availableServerFrameworks: function availableServerFrameworks() {
-            return this.$store.state.system_frameworks.frameworks;
+            return this.$store.state.server_frameworks.frameworks;
         }
     }
 });
@@ -9120,8 +9120,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchData: function fetchData() {
             this.$store.dispatch('repository_providers/get');
             this.$store.dispatch('user_repository_providers/get');
-            this.$store.dispatch('system_frameworks/get');
-            this.$store.dispatch('system_languages/get');
+            this.$store.dispatch('server_frameworks/get');
+            this.$store.dispatch('server_languages/get');
         },
         updateSite: function updateSite() {
             this.$store.dispatch('user_sites/update', {
@@ -9173,10 +9173,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.state.user_repository_providers.providers;
         },
         availableLanguages: function availableLanguages() {
-            return this.$store.state.system_languages.languages;
+            return this.$store.state.server_languages.languages;
         },
         availableFrameworks: function availableFrameworks() {
-            return this.$store.state.system_frameworks.frameworks;
+            return this.$store.state.server_frameworks.frameworks;
         }
     }
 });
@@ -13582,11 +13582,11 @@ var updateDeployment = function updateDeployment(state, deployment) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events__ = __webpack_require__(342);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__admin_categories__ = __webpack_require__(323);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__notifications__ = __webpack_require__(355);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__system_subscriptions__ = __webpack_require__(796);
-throw new Error("Cannot find module \"./server/server-providers\"");
-throw new Error("Cannot find module \"./system/repository/repository-providers\"");
-throw new Error("Cannot find module \"./system/notification/notification-settings\"");
-throw new Error("Cannot find module \"./system/notification/notification-providers\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__subscriptions__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__server_providers__ = __webpack_require__(852);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__repository_providers__ = __webpack_require__(848);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__notification_settings__ = __webpack_require__(844);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__notification_providers__ = __webpack_require__(840);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__system__ = __webpack_require__(379);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__server_features__ = __webpack_require__(784);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__server_languages__ = __webpack_require__(792);
@@ -13594,8 +13594,8 @@ throw new Error("Cannot find module \"./system/notification/notification-provide
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_user__ = __webpack_require__(545);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__ = __webpack_require__(529);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_subscription__ = __webpack_require__(533);
-throw new Error("Cannot find module \"./user/notification/notification-settings\"");
-throw new Error("Cannot find module \"./user/notification/notification-providers\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_notification_settings__ = __webpack_require__(824);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_notification_providers__ = __webpack_require__(820);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__user_teams__ = __webpack_require__(537);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__user_teams_members__ = __webpack_require__(539);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__user_piles__ = __webpack_require__(399);
@@ -13610,7 +13610,7 @@ throw new Error("Cannot find module \"./user/notification/notification-providers
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__user_site_cron_jobs__ = __webpack_require__(471);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__user_site_deployments__ = __webpack_require__(475);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__user_site_firewall_rules__ = __webpack_require__(487);
-throw new Error("Cannot find module \"./user/repository-providers/providers/index\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__user_repository_providers__ = __webpack_require__(812);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_site_server_features__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__user_site_ssl_certificates__ = __webpack_require__(516);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__user_site_language_settings__ = __webpack_require__(491);
@@ -13624,7 +13624,7 @@ throw new Error("Cannot find module \"./user/repository-providers/providers/inde
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__user_server_features__ = __webpack_require__(423);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__user_server_services__ = __webpack_require__(447);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__user_server_ssh_keys__ = __webpack_require__(455);
-throw new Error("Cannot find module \"./user/server/server-providers\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__user_server_providers__ = __webpack_require__(816);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__user_server_cron_jobs__ = __webpack_require__(415);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__user_server_provisioning__ = __webpack_require__(439);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__user_server_firewall_rules__ = __webpack_require__(431);
@@ -13699,22 +13699,22 @@ throw new Error("Cannot find module \"./user/server/server-providers\"");
     events: __WEBPACK_IMPORTED_MODULE_3__events__["a" /* default */],
     categories: __WEBPACK_IMPORTED_MODULE_4__admin_categories__["a" /* default */],
     notifications: __WEBPACK_IMPORTED_MODULE_5__notifications__["a" /* default */],
-    subscriptions: __WEBPACK_IMPORTED_MODULE_6__system_subscriptions__["a" /* default */],
-    server_providers: __WEBPACK_IMPORTED_MODULE_7__server_server_providers___default.a,
-    repository_providers: __WEBPACK_IMPORTED_MODULE_8__system_repository_repository_providers___default.a,
-    notification_settings: __WEBPACK_IMPORTED_MODULE_9__system_notification_notification_settings___default.a,
-    notification_providers: __WEBPACK_IMPORTED_MODULE_10__system_notification_notification_providers___default.a,
+    subscriptions: __WEBPACK_IMPORTED_MODULE_6__subscriptions__["a" /* default */],
+    server_providers: __WEBPACK_IMPORTED_MODULE_7__server_providers__["a" /* default */],
+    repository_providers: __WEBPACK_IMPORTED_MODULE_8__repository_providers__["a" /* default */],
+    notification_settings: __WEBPACK_IMPORTED_MODULE_9__notification_settings__["a" /* default */],
+    notification_providers: __WEBPACK_IMPORTED_MODULE_10__notification_providers__["a" /* default */],
 
     system: __WEBPACK_IMPORTED_MODULE_11__system__["a" /* default */],
-    system_features: __WEBPACK_IMPORTED_MODULE_12__server_features__["a" /* default */],
-    system_languages: __WEBPACK_IMPORTED_MODULE_13__server_languages__["a" /* default */],
-    system_frameworks: __WEBPACK_IMPORTED_MODULE_14__server_frameworks__["a" /* default */],
+    server_features: __WEBPACK_IMPORTED_MODULE_12__server_features__["a" /* default */],
+    server_languages: __WEBPACK_IMPORTED_MODULE_13__server_languages__["a" /* default */],
+    server_frameworks: __WEBPACK_IMPORTED_MODULE_14__server_frameworks__["a" /* default */],
 
     user: __WEBPACK_IMPORTED_MODULE_15__user_user__["a" /* default */],
     user_ssh_keys: __WEBPACK_IMPORTED_MODULE_16__user_ssh_keys__["a" /* default */],
     user_subscription: __WEBPACK_IMPORTED_MODULE_17__user_subscription__["a" /* default */],
-    user_notification_settings: __WEBPACK_IMPORTED_MODULE_18__user_notification_notification_settings___default.a,
-    user_notification_providers: __WEBPACK_IMPORTED_MODULE_19__user_notification_notification_providers___default.a,
+    user_notification_settings: __WEBPACK_IMPORTED_MODULE_18__user_notification_settings__["a" /* default */],
+    user_notification_providers: __WEBPACK_IMPORTED_MODULE_19__user_notification_providers__["a" /* default */],
 
     user_teams: __WEBPACK_IMPORTED_MODULE_20__user_teams__["a" /* default */],
     user_team_members: __WEBPACK_IMPORTED_MODULE_21__user_teams_members__["a" /* default */],
@@ -13731,7 +13731,7 @@ throw new Error("Cannot find module \"./user/server/server-providers\"");
     user_site_cron_jobs: __WEBPACK_IMPORTED_MODULE_31__user_site_cron_jobs__["a" /* default */],
     user_site_deployments: __WEBPACK_IMPORTED_MODULE_32__user_site_deployments__["a" /* default */],
     user_site_firewall_rules: __WEBPACK_IMPORTED_MODULE_33__user_site_firewall_rules__["a" /* default */],
-    user_repository_providers: __WEBPACK_IMPORTED_MODULE_34__user_repository_providers_providers_index___default.a,
+    user_repository_providers: __WEBPACK_IMPORTED_MODULE_34__user_repository_providers__["a" /* default */],
     user_site_server_features: __WEBPACK_IMPORTED_MODULE_35__user_site_server_features__["a" /* default */],
     user_site_ssl_certificates: __WEBPACK_IMPORTED_MODULE_36__user_site_ssl_certificates__["a" /* default */],
     user_site_language_settings: __WEBPACK_IMPORTED_MODULE_37__user_site_language_settings__["a" /* default */],
@@ -13746,7 +13746,7 @@ throw new Error("Cannot find module \"./user/server/server-providers\"");
     user_server_features: __WEBPACK_IMPORTED_MODULE_45__user_server_features__["a" /* default */],
     user_server_services: __WEBPACK_IMPORTED_MODULE_46__user_server_services__["a" /* default */],
     user_server_ssh_keys: __WEBPACK_IMPORTED_MODULE_47__user_server_ssh_keys__["a" /* default */],
-    user_server_providers: __WEBPACK_IMPORTED_MODULE_48__user_server_server_providers___default.a,
+    user_server_providers: __WEBPACK_IMPORTED_MODULE_48__user_server_providers__["a" /* default */],
     user_server_cron_jobs: __WEBPACK_IMPORTED_MODULE_49__user_server_cron_jobs__["a" /* default */],
     user_server_provisioning: __WEBPACK_IMPORTED_MODULE_50__user_server_provisioning__["a" /* default */],
     user_server_firewall_rules: __WEBPACK_IMPORTED_MODULE_51__user_server_firewall_rules__["a" /* default */],
@@ -13769,23 +13769,16 @@ throw new Error("Cannot find module \"./user/server/server-providers\"");
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
-var get = function get(_ref) {
-    _objectDestructuringEmpty(_ref);
-};
-
-var add = function add(_ref2, notification) {
-    var commit = _ref2.commit;
+var add = function add(_ref, notification) {
+    var commit = _ref.commit;
 
     commit('add', notification);
 };
 
-var remove = function remove(_ref3, notification) {
-    var commit = _ref3.commit;
+var remove = function remove(_ref2, notification) {
+    var commit = _ref2.commit;
 
     commit('remove', notification);
 };
@@ -13844,10 +13837,63 @@ var remove = function remove(state, notification) {
 /* 363 */,
 /* 364 */,
 /* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
+/* 366 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plans", function() { return plans; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var plans = function plans(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('SubscriptionController@index'), 'subscriptions/setAll');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 367 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(368);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 368 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.plans = response;
+};
+
+/***/ }),
+/* 369 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    plans: []
+});
+
+/***/ }),
 /* 370 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -32878,7 +32924,7 @@ if (false) {
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 var get = function get() {
-    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFeatures'), 'system_features/setAll');
+    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFeatures'), 'server_features/setAll');
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
@@ -32931,7 +32977,7 @@ var setAll = function setAll(state, _ref) {
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 var get = function get() {
-    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFrameworks'), 'system_frameworks/setAll');
+    return Vue.request().get(Vue.action('Server\ServerFeatureController@getFrameworks'), 'server_frameworks/setAll');
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
@@ -32985,7 +33031,7 @@ var setAll = function setAll(state, _ref) {
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
 var get = function get() {
-    return Vue.request().get(Vue.action('Server\ServerFeatureController@getLanguages'), 'system_languages/setAll');
+    return Vue.request().get(Vue.action('Server\ServerFeatureController@getLanguages'), 'server_languages/setAll');
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
@@ -33031,29 +33077,55 @@ var setAll = function setAll(state, _ref) {
 });
 
 /***/ }),
-/* 795 */
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plans", function() { return plans; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
-var plans = function plans(_ref, data) {
+var get = function get(_ref, user) {
     _objectDestructuringEmpty(_ref);
 
-    return Vue.request(data).get(Vue.action('SubscriptionController@index'), 'subscriptions/setAll');
+    return Vue.request().get(Vue.action('UserProvidersUserRepositoryProviderController@index', { user: user }), 'user_repository_providers/setAll');
+};
+
+var destroy = function destroy(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).delete(Vue.action('UserProvidersUserRepositoryProviderController@destroy', {
+        user: data.user,
+        repository_provider: data.repository_provider
+    }), 'user_repository_providers/remove');
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 796 */
+/* 812 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(798);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(795);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(797);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(814);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(811);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(813);
 
 
 
@@ -33066,7 +33138,229 @@ var plans = function plans(_ref, data) {
 });
 
 /***/ }),
-/* 797 */
+/* 813 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+var remove = function remove(state, _ref2) {
+    var requestData = _ref2.requestData;
+
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.repository_provider }));
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
+
+/***/ }),
+/* 814 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+/* 815 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, user) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('UserProvidersUserServerProviderController@index', { user: user }), 'user_server_providers/setAll');
+};
+
+var destroy = function destroy(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).delete(Vue.action('UserProvidersUserServerProviderController@destroy', {
+        user: data.user,
+        server_provider: data.server_provider
+    }), 'user_server_providers/remove');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 816 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(818);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(815);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(817);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 817 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+var remove = function remove(state, _ref2) {
+    var requestData = _ref2.requestData;
+
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.server_provider }));
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
+
+/***/ }),
+/* 818 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+/* 819 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, user) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('UserProvidersUserNotificationProviderController@index', { user: user }), 'user_notification_providers/setAll');
+};
+
+var destroy = function destroy(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).delete(Vue.action('UserProvidersUserNotificationProviderController@destroy', {
+        user: data.user,
+        notification_provider: data.notification_provider
+    }), 'user_notification_providers/destroy');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 820 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(822);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(819);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(821);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 821 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue, _) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+var remove = function remove(state, _ref2) {
+    var requestData = _ref2.requestData;
+
+    Vue.set(state, 'providers', _.reject(state.providers, { id: requestData.notification_provider }));
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
+
+/***/ }),
+/* 822 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+/* 823 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('UserUserNotificationSettingsController@index'), 'user_notification_settings/setAll');
+};
+
+var update = function update(_ref2, data) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request(data).post(Vue.action('UserUserNotificationSettingsController@store'), 'user_notification_settings/setAll');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 824 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(826);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(823);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(825);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 825 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33075,16 +33369,301 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var setAll = function setAll(state, _ref) {
     var response = _ref.response;
 
-    state.plans = response;
+    state.settings = response;
 };
 
 /***/ }),
-/* 798 */
+/* 826 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    plans: []
+    settings: []
+});
+
+/***/ }),
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('Auth\Providers\NotificationProvidersController@index'), 'notification_providers/setAll');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 840 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(842);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(839);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(841);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 841 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+/***/ }),
+/* 842 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+/* 843 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('NotificationSettingsController@index'), 'notification_settings/setAll');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 844 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(846);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(843);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(845);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 845 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.settings = response;
+};
+
+/***/ }),
+/* 846 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    settings: []
+});
+
+/***/ }),
+/* 847 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref, data) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request(data).get(Vue.action('Auth\Providers\RepositoryProvidersController@index'), 'repository_providers/setAll');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 848 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(850);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(847);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(849);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 849 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+/***/ }),
+/* 850 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: []
+});
+
+/***/ }),
+/* 851 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Vue) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFeatures", function() { return getFeatures; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOptions", function() { return getOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRegions", function() { return getRegions; });
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+var get = function get(_ref) {
+    _objectDestructuringEmpty(_ref);
+
+    return Vue.request().get(Vue.action('Auth\Providers\ServerProvidersController@index'), 'server_providers/setAll');
+};
+
+var getFeatures = function getFeatures(_ref2, provider) {
+    _objectDestructuringEmpty(_ref2);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/features', 'server_providers/setFeatures');
+};
+
+var getOptions = function getOptions(_ref3, provider) {
+    _objectDestructuringEmpty(_ref3);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/options', 'server_providers/setOptions');
+};
+
+var getRegions = function getRegions(_ref4, provider) {
+    _objectDestructuringEmpty(_ref4);
+
+    return Vue.request().get('/api/server/providers/' + provider + '/regions', 'server_providers/setRegions');
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 852 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__state__ = __webpack_require__(854);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__actions__ = __webpack_require__(851);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mutations__ = __webpack_require__(853);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: __WEBPACK_IMPORTED_MODULE_0__state__["a" /* default */],
+    actions: __WEBPACK_IMPORTED_MODULE_1__actions__,
+    mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__,
+    namespaced: true
+});
+
+/***/ }),
+/* 853 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAll", function() { return setAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFeatures", function() { return setFeatures; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setOptions", function() { return setOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setRegions", function() { return setRegions; });
+var setAll = function setAll(state, _ref) {
+    var response = _ref.response;
+
+    state.providers = response;
+};
+
+var setFeatures = function setFeatures(state, _ref2) {
+    var response = _ref2.response;
+
+    state.features = response;
+};
+
+var setOptions = function setOptions(state, _ref3) {
+    var response = _ref3.response;
+
+    state.options = response;
+};
+
+var setRegions = function setRegions(state, _ref4) {
+    var response = _ref4.response;
+
+    state.regions = response;
+};
+
+/***/ }),
+/* 854 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    providers: [],
+    features: [],
+    options: [],
+    regions: []
 });
 
 /***/ })

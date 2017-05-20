@@ -4,22 +4,22 @@ import buoys from './buoys'
 import events from './events'
 import categories from './admin/categories'
 import notifications from './notifications'
-import subscriptions from './system/subscriptions'
-import server_providers from './server/server-providers'
-import repository_providers from './system/repository/repository-providers'
-import notification_settings from './system/notification/notification-settings'
-import notification_providers from './system/notification/notification-providers'
+import subscriptions from './subscriptions'
+import server_providers from './server/providers'
+import repository_providers from './repository/providers'
+import notification_settings from './notification/settings'
+import notification_providers from './notification/providers'
 
 import system from './system'
-import system_features from './server/features'
-import system_languages from './server/languages'
-import system_frameworks from './server/frameworks'
+import server_features from './server/features'
+import server_languages from './server/languages'
+import server_frameworks from './server/frameworks'
 
 import user from './user/user'
 import user_ssh_keys from './user/ssh-keys'
 import user_subscription from './user/subscription'
-import user_notification_settings from './user/notification/notification-settings'
-import user_notification_providers from './user/notification/notification-providers'
+import user_notification_settings from './user/notification/settings'
+import user_notification_providers from './user/notification/providers'
 
 import user_teams from './user/teams'
 import user_team_members from './user/teams/members'
@@ -36,7 +36,7 @@ import user_site_services from './user/site/services'
 import user_site_cron_jobs from './user/site/cron-jobs'
 import user_site_deployments from './user/site/deployments'
 import user_site_firewall_rules from './user/site/firewall-rules'
-import user_repository_providers from './user/repository-providers/providers/index'
+import user_repository_providers from './user/repository/providers'
 import user_site_server_features from './user/site/server-features'
 import user_site_ssl_certificates from './user/site/ssl-certificates'
 import user_site_language_settings from './user/site/language-settings'
@@ -51,7 +51,7 @@ import user_server_workers from './user/server/workers'
 import user_server_features from './user/server/features'
 import user_server_services from './user/server/services'
 import user_server_ssh_keys from './user/server/ssh-keys'
-import user_server_providers from './user/server/server-providers'
+import user_server_providers from './user/server/providers'
 import user_server_cron_jobs from './user/server/cron-jobs'
 import user_server_provisioning from './user/server/provisioning'
 import user_server_firewall_rules from './user/server/firewall-rules'
@@ -73,9 +73,9 @@ export default {
     notification_providers,
 
     system,
-    system_features,
-    system_languages,
-    system_frameworks,
+    server_features,
+    server_languages,
+    server_frameworks,
 
     user,
     user_ssh_keys,

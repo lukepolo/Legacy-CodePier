@@ -195,7 +195,7 @@
         },
         computed: {
             availableServerFrameworks() {
-                return this.$store.state.system_frameworks.frameworks;
+                return this.$store.state.server_frameworks.frameworks;
             }
         }
     }
