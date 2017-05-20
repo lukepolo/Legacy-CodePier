@@ -185,8 +185,8 @@
 
 <script>
 
-    import CommandEvent from './components/CommandEvent.vue';
-    import DeploymentEvent from './components/DeploymentEvent.vue';
+    import CommandEvent from './event-components/CommandEvent.vue';
+    import DeploymentEvent from './event-components/DeploymentEvent.vue';
 
     Vue.directive('resizeable', {
         inserted: function (el, bindings) {

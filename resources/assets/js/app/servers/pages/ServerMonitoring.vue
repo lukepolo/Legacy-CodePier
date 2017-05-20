@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import {CpuLoads} from './../../sites/components'
+    import CpuLoads from './../../sites/components/CpuLoads.vue'
     export default {
         components : {
             CpuLoads

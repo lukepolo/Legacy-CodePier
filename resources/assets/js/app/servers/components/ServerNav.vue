@@ -1,16 +1,16 @@
 <template>
 
-    <ul class="wizard" v-if="server">
+    <ul class="wizard" v-if="serverId">
 
-        <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_sites', params : { server_id : serverId } }" tag="li" class="wizard-item">
             <a>Server Information</a>
         </router-link>
 
-        <router-link :to="{ name : 'server_ssh_keys', params : { server_id : server.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_ssh_keys', params : { server_id : serverId } }" tag="li" class="wizard-item">
             <a>Security</a>
         </router-link>
 
-        <router-link :to="{ name : 'server_environment_variables', params : { server_id : server.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'server_environment_variables', params : { server_id : serverId } }" tag="li" class="wizard-item">
             <a>Server Setup</a>
         </router-link>
 
@@ -20,8 +20,8 @@
 <script>
     export default {
         computed : {
-            server() {
-                return this.$store.state.user_servers.server;
+            serverId() {
+                return this.$route.params.server_id
             }
         }
     }

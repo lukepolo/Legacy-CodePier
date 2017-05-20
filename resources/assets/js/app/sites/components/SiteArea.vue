@@ -67,7 +67,7 @@
     import SiteNav from './SiteNav.vue'
     import Servers from './Servers.vue'
     import SiteHeader from './SiteHeader.vue'
-    import LeftNav from '../../core/LeftNav.vue'
+    import LeftNav from '../../../components/LeftNav.vue'
 
     export default {
         data() {

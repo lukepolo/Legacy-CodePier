@@ -1,6 +1,6 @@
 <template>
     <header>
-        <notification-area></notification-area>
+        <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
                 <img src="/assets/img/codepier_w.svg">
@@ -94,11 +94,11 @@
 
 <script>
 
-    import NotificationArea from './NotificationArea.vue';
+    import Notifications from './Notifications.vue';
 
     export default {
         components: {
-            NotificationArea
+            Notifications
         },
         data() {
             return {

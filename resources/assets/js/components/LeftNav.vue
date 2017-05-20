@@ -85,7 +85,7 @@
 </template>
 
 <script>
-    import SiteDeploy from './components/SiteDeploy.vue'
+    import SiteDeploy from './SiteDeploy.vue'
     export default {
         components : {
             SiteDeploy

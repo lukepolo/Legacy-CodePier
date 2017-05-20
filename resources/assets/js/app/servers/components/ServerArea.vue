@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import LeftNav from '../../core/LeftNav.vue';
+    import LeftNav from '../../../components/LeftNav.vue';
     import ServerHeader from './ServerHeader.vue';
 
     export default {
