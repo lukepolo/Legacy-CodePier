@@ -142,8 +142,8 @@
 </template>
 
 <script>
-    import LeftNav from '../../core/LeftNav.vue';
-    import {ServerFeatures} from '../../core/setup/pages'
+    import LeftNav from '../../../components/LeftNav.vue';
+    import {ServerFeatures} from '../../setup/pages'
 
     export default {
         components: {

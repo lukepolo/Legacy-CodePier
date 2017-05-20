@@ -1,5 +1,5 @@
 require('./bootstrap')
-require('./app/core')
+require('./components')
 require('./directives')
 
 import store from './store'

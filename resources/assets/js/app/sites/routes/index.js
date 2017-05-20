@@ -24,7 +24,7 @@ import {
     SslCertificates,
     LanguageSettings,
     EnvironmentVariables
-} from '../../core/setup/pages'
+} from '../../setup/pages'
 
 export default [
     {

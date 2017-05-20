@@ -12,6 +12,7 @@
        </template>
    </span>
 </template>
+
 <script>
     export default {
         props : ['site'],

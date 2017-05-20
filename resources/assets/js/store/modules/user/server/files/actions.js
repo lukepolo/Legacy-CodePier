@@ -25,9 +25,7 @@ export const getEditableFiles = ({}, server) => {
     Vue.request().get(
         Vue.action('Server\ServerFeatureController@getEditableFiles', { server: server }),
         'user_server_files/setEditableFiles'
-    ).then(() => {
-        app.showSuccess('You have updated the server file.')
-    })
+    )
 }
 
 export const find = ({}, data) => {

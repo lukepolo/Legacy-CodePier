@@ -32,7 +32,7 @@
         Pile
     } from '../components';
 
-    import LeftNav from '../../core/LeftNav.vue';
+    import LeftNav from '../../../components/LeftNav.vue';
 
     export default {
         components: {
