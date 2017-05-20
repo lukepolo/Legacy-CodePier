@@ -88,9 +88,9 @@
                     this.$store.dispatch('user_server_features/get', this.serverId);
                 }
 
-                this.$store.dispatch('system_features/get');
-                this.$store.dispatch('system_languages/get');
-                this.$store.dispatch('system_frameworks/get');
+                this.$store.dispatch('server_features/get');
+                this.$store.dispatch('server_languages/get');
+                this.$store.dispatch('server_frameworks/get');
             },
             getSectionTitle: function (area) {
                 let areaName = area;
@@ -137,17 +137,17 @@
                 return serverFeatures
             },
             availableServerFeatures() {
-                let serverFeatures = this.$store.state.system_features.features
+                let serverFeatures = this.$store.state.server_features.features
 
                 this.section = _.keys(serverFeatures)[0]
 
                 return serverFeatures
             },
             availableServerLanguages() {
-                return this.$store.state.system_languages.languages
+                return this.$store.state.server_languages.languages
             },
             availableServerFrameworks() {
-                return this.$store.state.system_frameworks.frameworks
+                return this.$store.state.server_frameworks.frameworks
             }
         }
     }

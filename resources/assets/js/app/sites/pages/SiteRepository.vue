@@ -139,8 +139,8 @@
             fetchData() {
                 this.$store.dispatch('repository_providers/get')
                 this.$store.dispatch('user_repository_providers/get')
-                this.$store.dispatch('system_frameworks/get')
-                this.$store.dispatch('system_languages/get')
+                this.$store.dispatch('server_frameworks/get')
+                this.$store.dispatch('server_languages/get')
             },
             updateSite() {
                 this.$store.dispatch('user_sites/update', {
@@ -193,10 +193,10 @@
                 return this.$store.state.user_repository_providers.providers
             },
             availableLanguages() {
-                return this.$store.state.system_languages.languages
+                return this.$store.state.server_languages.languages
             },
             availableFrameworks() {
-                return this.$store.state.system_frameworks.frameworks
+                return this.$store.state.server_frameworks.frameworks
             }
         },
     }
