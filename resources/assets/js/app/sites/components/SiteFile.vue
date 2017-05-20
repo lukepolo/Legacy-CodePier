@@ -78,7 +78,7 @@
                     });
 
                     if(!this.file_model) {
-                        this.$store.dispatch('user_site_files/findFile', {
+                        this.$store.dispatch('user_site_files/find', {
                             custom : false,
                             file : this.file,
                             site : this.$route.params.site_id
@@ -89,7 +89,7 @@
                 }
             },
             reloadFile() {
-                this.$store.dispatch('reloadSiteFile', {
+                this.$store.dispatch('user_site_files/reload', {
                     file : this.file_model.id,
                     server : this.reload_server,
                     site : this.$route.params.site_id,
@@ -101,14 +101,15 @@
         },
         computed : {
             site_servers() {
-                let siteServers = _.get(this.$store.state.user_sites.site_servers, this.$route.params.site_id);
-                if(siteServers && _.keys(siteServers).length) {
-                    let server = _.first(siteServers);
-                    if(server) {
-                        this.reload_server = server.id;
-                    }
-                    return siteServers;
+
+                let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+
+                let server = _.first(servers);
+                if(server) {
+                    this.reload_server = server.id;
                 }
+
+                return servers
             },
             filePath() {
               if(_.isObject(this.file)) {
