@@ -94,9 +94,11 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                 case 'App\\Notifications\\Server\\ServerMemory':
                 case 'App\\Notifications\\Server\\ServerDiskUsage':
                 case 'App\\Notifications\\Server\\ServerLoad':
-                        commit('SET_SERVER_STATS', {
+                        commit('user_servers/updateStats', {
                             server: server.id,
                             stats: notification.stats
+                        }, {
+                            root : true
                         })
                     break
                 }

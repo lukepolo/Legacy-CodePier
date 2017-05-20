@@ -291,7 +291,6 @@ function applyToTag (styleElement, obj) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SiteNav; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return SiteFile; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return SiteArea; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CpuLoads; });
 /* unused harmony export ServerInfo */
 /* unused harmony export SiteHeader */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return FrameworkFiles; });
@@ -305,7 +304,6 @@ var Servers = __webpack_require__(158);
 var SiteNav = __webpack_require__(160);
 var SiteFile = __webpack_require__(15);
 var SiteArea = __webpack_require__(633);
-var CpuLoads = __webpack_require__(630);
 var ServerInfo = __webpack_require__(157);
 var SiteHeader = __webpack_require__(159);
 var FrameworkFiles = __webpack_require__(632);
@@ -5748,7 +5746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         resetForm: function resetForm() {
             this.$data.form = this.$options.data().form;
-            if (this.siteId()) {
+            if (this.siteId) {
                 this.form.type = 'Let\'s Encrypt';
                 this.form.domains = this.site.domain;
             } else {
@@ -7134,7 +7132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        CpuLoads: __WEBPACK_IMPORTED_MODULE_0__sites_components__["a" /* CpuLoads */]
+        CpuLoads: __WEBPACK_IMPORTED_MODULE_0__sites_components__["CpuLoads"]
     },
     created: function created() {
         this.fetchData();
@@ -7352,57 +7350,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 242 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        'stats': {},
-        'showLabels': {
-            default: true
-        }
-    },
-    methods: {
-        getCpuLoad: function getCpuLoad(load) {
-            var loadPercent = load / this.stats.cpus * 100;
-            return loadPercent > 100 ? 100 : loadPercent;
-        },
-        getAgoText: function getAgoText(ago) {
-            return _('min').pluralize(ago).replace('"', '');
-        }
-    }
-});
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
-
-/***/ }),
+/* 242 */,
 /* 243 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7624,8 +7572,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components__ = __webpack_require__(8);
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CpuLoads_vue__ = __webpack_require__(777);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_CpuLoads_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_CpuLoads_vue__);
 //
 //
 //
@@ -7824,7 +7772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     components: {
-        CpuLoads: __WEBPACK_IMPORTED_MODULE_0__components__["a" /* CpuLoads */]
+        CpuLoads: __WEBPACK_IMPORTED_MODULE_0__components_CpuLoads_vue___default.a
     },
     mounted: function mounted() {
         this.showing = this.showInfo;
@@ -12356,7 +12304,7 @@ axios.interceptors.response.use(function (response) {
 
 
 __WEBPACK_IMPORTED_MODULE_2_pusher_js___default.a.log = function (msg) {
-    // console.info(msg)
+    console.info(msg);
 };
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
@@ -16413,9 +16361,11 @@ var listenTo = function listenTo(_ref7, server) {
                 case 'App\\Notifications\\Server\\ServerMemory':
                 case 'App\\Notifications\\Server\\ServerDiskUsage':
                 case 'App\\Notifications\\Server\\ServerLoad':
-                    commit('SET_SERVER_STATS', {
+                    commit('user_servers/updateStats', {
                         server: server.id,
                         stats: notification.stats
+                    }, {
+                        root: true
                     });
                     break;
             }
@@ -16457,6 +16407,7 @@ var listenTo = function listenTo(_ref7, server) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTrashed", function() { return setTrashed; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFromTrash", function() { return removeFromTrash; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listenTo", function() { return listenTo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStats", function() { return updateStats; });
 var set = function set(state, _ref) {
     var response = _ref.response;
 
@@ -16508,6 +16459,13 @@ var removeFromTrash = function removeFromTrash(state, _ref7) {
 };
 var listenTo = function listenTo(state, server) {
     state.listening_to.push(server);
+};
+
+var updateStats = function updateStats(state, data) {
+    var server = _.find(state.servers, { id: data.server });
+    if (server) {
+        Vue.set(server, 'stats', data.stats);
+    }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(3)))
 
@@ -21430,40 +21388,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 630 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(242),
-  /* template */
-  __webpack_require__(702),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/CpuLoadsVue.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CpuLoadsVue.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5414748a", Component.options)
-  } else {
-    hotAPI.reload("data-v-5414748a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 630 */,
 /* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24492,7 +24417,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('span', {
       staticClass: "icon-refresh"
-    })])])])] : (!_vm.server) ? [(ssl_certificate.active) ? _c('tooltip', {
+    })])])])] : [(ssl_certificate.active) ? _c('tooltip', {
       attrs: {
         "message": "Deactivate"
       }
@@ -24520,7 +24445,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('span', {
       staticClass: "icon-check_circle"
-    })])])])] : _vm._e(), _vm._v(" "), _c('tooltip', {
+    })])])])], _vm._v(" "), _c('tooltip', {
       attrs: {
         "message": "Delete"
       }
@@ -26624,46 +26549,7 @@ if (false) {
 }
 
 /***/ }),
-/* 702 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "server-info condensed"
-  }, [_c('div', {
-    staticClass: "cpu-load"
-  }, [_vm._l((_vm.stats.loads), function(load, ago) {
-    return [_c('div', {
-      staticClass: "cpu-group"
-    }, [(_vm.showLabels == true) ? _c('div', {
-      staticClass: "cpu-min"
-    }, [_vm._v(_vm._s(ago) + " " + _vm._s(_vm.getAgoText(ago)))]) : _vm._e(), _vm._v(" "), _c('div', {
-      staticClass: "cpu-stats"
-    }, [_c('div', {
-      staticClass: "server-progress-container"
-    }, [_c('div', {
-      staticClass: "server-progress",
-      class: {
-        danger: _vm.getCpuLoad(load) >= 75,
-          warning: _vm.getCpuLoad(load) < 75 && _vm.getCpuLoad(load) >= 50
-      },
-      style: ({
-        width: _vm.getCpuLoad(load) + '%'
-      })
-    }), _vm._v(" "), _c('div', {
-      staticClass: "stats-label stats-available"
-    }, [_vm._v(_vm._s(load))])])])])]
-  })], 2)])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5414748a", module.exports)
-  }
-}
-
-/***/ }),
+/* 702 */,
 /* 703 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28006,12 +27892,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                " + _vm._s(_vm.server.name) + "\n            ")])], 1), _vm._v(" "), _c('div', {
     staticClass: "server-ip"
-  }, [_vm._v("\n            " + _vm._s(_vm.server.ip) + "  \n        ")]), _vm._v(" "), (_vm.server.stats && _vm.server.stats.loads && !_vm.showServerInfo) ? [_c('cpu-loads', {
-    attrs: {
-      "stats": _vm.server.stats,
-      "showLabels": "false"
-    }
-  })] : _vm._e()], 2), _vm._v(" "), (_vm.showServerInfo) ? _c('div', {
+  }, [_vm._v("\n            " + _vm._s(_vm.server.ip) + "  \n        ")]), _vm._v(" "), (_vm.server.stats && _vm.server.stats.loads && !_vm.showServerInfo) ? void 0 : _vm._e()], 2), _vm._v(" "), (_vm.showServerInfo) ? _c('div', {
     staticClass: "server-info"
   }, [_c('div', {
     staticClass: "server-status"
@@ -33721,6 +33602,149 @@ __webpack_require__(163);
 __webpack_require__(164);
 module.exports = __webpack_require__(165);
 
+
+/***/ }),
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(_) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        'stats': {},
+        'showLabels': {
+            default: true
+        }
+    },
+    methods: {
+        getCpuLoad: function getCpuLoad(load) {
+            var loadPercent = load / this.stats.cpus * 100;
+            return loadPercent > 100 ? 100 : loadPercent;
+        },
+        getAgoText: function getAgoText(ago) {
+            return _('min').pluralize(ago).replace('"', '');
+        }
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+
+/***/ }),
+/* 777 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(776),
+  /* template */
+  __webpack_require__(778),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/LukePOLO/PhpstormProjects/CodePier/resources/assets/js/app/sites/components/CpuLoads.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CpuLoads.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03c5620a", Component.options)
+  } else {
+    hotAPI.reload("data-v-03c5620a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 778 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "server-info condensed"
+  }, [_c('div', {
+    staticClass: "cpu-load"
+  }, [_vm._l((_vm.stats.loads), function(load, ago) {
+    return [_c('div', {
+      staticClass: "cpu-group"
+    }, [(_vm.showLabels == true) ? _c('div', {
+      staticClass: "cpu-min"
+    }, [_vm._v(_vm._s(ago) + " " + _vm._s(_vm.getAgoText(ago)))]) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "cpu-stats"
+    }, [_c('div', {
+      staticClass: "server-progress-container"
+    }, [_c('div', {
+      staticClass: "server-progress",
+      class: {
+        danger: _vm.getCpuLoad(load) >= 75,
+          warning: _vm.getCpuLoad(load) < 75 && _vm.getCpuLoad(load) >= 50
+      },
+      style: ({
+        width: _vm.getCpuLoad(load) + '%'
+      })
+    }), _vm._v(" "), _c('div', {
+      staticClass: "stats-label stats-available"
+    }, [_vm._v(_vm._s(load))])])])])]
+  })], 2)])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-03c5620a", module.exports)
+  }
+}
 
 /***/ })
 ],[757]);

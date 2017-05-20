@@ -13,7 +13,6 @@
             </div>
 
             <template v-if="server.stats && server.stats.loads && !showServerInfo">
-                <cpu-loads :stats="server.stats" showLabels="false"></cpu-loads>
             </template>
         </div>
 
@@ -188,7 +187,7 @@
 </template>
 
 <script>
-    import {CpuLoads} from './../components'
+    import CpuLoads from './../components/CpuLoads.vue'
     export default {
         props : {
             'server' : {},
@@ -197,7 +196,7 @@
             },
         },
         components : {
-          CpuLoads
+            CpuLoads
         },
         mounted() {
           this.showing = this.showInfo

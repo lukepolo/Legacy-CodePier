@@ -74,7 +74,7 @@
                                     </span>
                                 </tooltip>
                             </template>
-                            <template v-else-if="!server">
+                            <template v-else>
                                 <tooltip message="Deactivate" v-if="ssl_certificate.active">
                                     <span class="table--action-deactivate">
                                         <a @click="deactivateSslCertificate(ssl_certificate.id)"><span class="icon-cancel"></span></a>
@@ -222,7 +222,7 @@
             },
             resetForm() {
                 this.$data.form = this.$options.data().form
-                if(this.siteId()) {
+                if(this.siteId) {
                     this.form.type = 'Let\'s Encrypt'
                     this.form.domains = this.site.domain
                 } else {
