@@ -1,4 +1,4 @@
-export const set = (state, { response, requestData }) => {
+export const set = (state, { response }) => {
     state.subscription = response
 }
 

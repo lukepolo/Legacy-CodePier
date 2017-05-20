@@ -5,22 +5,6 @@ export const getCurrentStep = ({}, server) => {
     )
 }
 
-export const show = ({}, data) => {
-    return Vue.request(data).get('')
-}
-
-export const store = ({}, data) => {
-    return Vue.request(data).post('')
-}
-
-export const update = ({}, data) => {
-    return Vue.request(data).patch('')
-}
-
-export const destroy = ({}, data) => {
-    return Vue.request(data).delete('')
-}
-
 export const setVersion = ({ commit }, data) => {
     commit('system/setVersion', data.version)
 }
