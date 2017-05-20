@@ -6523,6 +6523,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
@@ -16356,7 +16358,7 @@ var archive = function archive(_ref4, server) {
     _objectDestructuringEmpty(_ref4);
 
     return Vue.request(server).delete(Vue.action('Server\ServerController@destroy', { server: server }), ['user_servers/remove', 'user_site_servers/remove']).then(function () {
-        if (app.$router.currentRoute.params.server) {
+        if (app.$router.currentRoute.params.server_id) {
             app.$router.push('/');
         }
         app.showSuccess('You have archived the server');
@@ -16372,8 +16374,9 @@ var getTrashed = function getTrashed(_ref5) {
 var restore = function restore(_ref6, server) {
     var dispatch = _ref6.dispatch;
 
-    return Vue.request(server).post(Vue.action('Server\ServerController@restore', { server: server }), ['user_servers/add', 'user_servers/removeFromTrash']).then(function () {
+    return Vue.request(server).post(Vue.action('Server\ServerController@restore', { server: server }), ['user_servers/add', 'user_servers/removeFromTrash']).then(function (server) {
         dispatch('listenTo', server);
+        return server;
     });
 };
 
@@ -16481,8 +16484,9 @@ var update = function update(state, _ref4) {
 var remove = function remove(state, _ref5) {
     var requestData = _ref5.requestData;
 
+
     state.trashed.push(_.find(state.servers, {
-        id: requestData.server }));
+        id: requestData.value }));
 
     Vue.set(state, 'servers', _.reject(state.servers, {
         id: requestData.value
@@ -30236,11 +30240,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "section-header primary"
   }, [_c('back'), _vm._v("\n    Server " + _vm._s(_vm.server.name) + " "), _c('small', [_vm._v("(" + _vm._s(_vm.server.ip) + ")")]), _vm._v(" "), _c('div', {
     staticClass: "section-header--btn-right"
+  }, [_c('drop-down', {
+    attrs: {
+      "tag": "span"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-default btn-xs dropdown-toggle",
+    slot: "header"
   }, [_c('span', {
-    staticClass: "dropdown"
-  }, [_vm._m(0), _vm._v(" "), _c('ul', {
-    staticClass: "dropdown-menu nowrap dropdown-list"
-  }, [_c('li', [_c('confirm-dropdown', {
+    staticClass: "icon-server"
+  })]), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
       "dispatch": "user_server_services/restartWebServices",
       "params": _vm.server.id
@@ -30284,16 +30293,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "icon-worker"
-  }), _vm._v(" Restart Workers")])])], 1)])]), _vm._v(" "), _c('span', {
-    staticClass: "dropdown"
-  }, [_vm._m(1), _vm._v(" "), _c('ul', {
-    staticClass: "dropdown-menu nowrap dropdown-list",
+  }), _vm._v(" Restart Workers")])])], 1)]), _vm._v(" "), _c('drop-down', {
     attrs: {
-      "aria-labelledby": "dropdownMenu1"
+      "tag": "span"
     }
-  }, [_c('li', [_c('confirm-dropdown', {
+  }, [_c('button', {
+    staticClass: "btn btn-default btn-xs dropdown-toggle",
+    slot: "header"
+  }, [_c('span', {
+    staticClass: "icon-settings"
+  })]), _vm._v(" "), _c('li', [_c('confirm-dropdown', {
     attrs: {
-      "dispatch": "archiveServer",
+      "dispatch": "user_servers/archive",
       "params": _vm.server.id
     }
   }, [_c('a', {
@@ -30302,28 +30313,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "icon-archive"
-  }), _vm._v(" Archive Server")])])], 1)])])])], 1) : _vm._e()
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default btn-xs dropdown-toggle",
-    attrs: {
-      "type": "button",
-      "data-toggle": "dropdown"
-    }
-  }, [_c('span', {
-    staticClass: "icon-server"
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default btn-xs dropdown-toggle",
-    attrs: {
-      "type": "button",
-      "data-toggle": "dropdown"
-    }
-  }, [_c('span', {
-    staticClass: "icon-settings"
-  })])
-}]}
+  }), _vm._v(" Archive Server")])])], 1)])], 1)], 1) : _vm._e()
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
