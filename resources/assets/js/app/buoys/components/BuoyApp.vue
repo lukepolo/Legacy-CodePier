@@ -1,31 +1,37 @@
 <template>
-    <div class="group">
-        <div class="group-heading">
+    <div class="group--item">
+        <div class="group--item-heading">
             <h4>
-                <template v-if="buoyApp.icon_url">
-                    <img :src="buoyApp.icon_url" style="max-width:50px">
-                </template>
-
-                {{ buoyApp.title }}
-
-                <p class="pull-right">
-                    {{ buoyApp.installs }} Installs
-                    <br>
+                <div class="group--item-heading-name">{{ buoyApp.title }}</div>
+                <div class="action-btn">
                     <template v-if="isAdmin()">
-                        <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoyApp.id } }">Edit</router-link>
-                    </template>
-                </p>
-
-                <div class="small">
-                    <template v-for="category in buoyApp.categories">
-                        <span class="label label-primary">{{ category.name }}</span>
+                        <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoyApp.id } }" class="btn btn-small"><span class="icon-pencil"></span></router-link>
                     </template>
                 </div>
-
             </h4>
         </div>
 
-        <div class="group-content">
+        <div class="group--item-subheading">
+            <div class="group--item-img">
+                <template v-if="buoyApp.icon_url">
+                    <img :src="buoyApp.icon_url">
+                </template>
+                <template v-else>
+                    <img src="/assets/img/icons/buoy.svg">
+                </template>
+            </div>
+            <div class="group--item-subheading-info">
+                <span class="label label-primary">category</span>
+                <template v-for="category in buoyApp.categories">
+                    <span class="label label-primary">{{ category.name }}</span>
+                </template>
+            </div>
+            <div class="group--item-subheading-info">
+                {{ buoyApp.installs }} Installs
+            </div>
+        </div>
+
+        <div class="group--item-content">
 
             {{ buoyApp.description }}
 
