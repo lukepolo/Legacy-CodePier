@@ -44,18 +44,31 @@ class WebHookController extends Controller
         return response()->json('OK');
     }
 
+    /**
+     * @param Request $request
+     * @param $serverHasId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loadMonitor(Request $request, $serverHasId)
     {
         $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
 
-        $server->update([
-            'stats->cpus' => $request->get('cpus'),
-            'stats->loads' => $this->getStats($request->get('loads')),
-        ]);
+        $stats = $this->getStats($request->get('loads'));
 
-        $server->notify(new ServerLoad($server));
+        if(!empty($stats)) {
 
-        return response()->json('OK');
+            $server->update([
+                'stats->cpus' => $request->get('cpus'),
+                'stats->loads' => $stats,
+            ]);
+
+            $server->notify(new ServerLoad($server));
+
+            return response()->json('OK');
+        }
+
+        return response()->json('Malformed Data sent', 400);
+
     }
 
     public function memoryMonitor(Request $request, $serverHasId)
@@ -64,13 +77,18 @@ class WebHookController extends Controller
 
         $memoryStats = $this->getStats($request->get('memory'));
 
-        $server->update([
-            'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
-        ]);
+        if(isset($memoryStats['name'])) {
 
-        $server->notify(new ServerMemory($server));
+            $server->update([
+                'stats->memory->' . str_replace(':', '', $memoryStats['name']) => $memoryStats,
+            ]);
 
-        return response()->json('OK');
+            $server->notify(new ServerMemory($server));
+
+            return response()->json('OK');
+        }
+
+        return response()->json('Malformed Data sent', 400);
     }
 
     public function diskUsageMonitor(Request $request, $serverHasId)
@@ -79,20 +97,33 @@ class WebHookController extends Controller
 
         $diskStats = $this->getStats($request->get('disk_usage'));
 
-        $server->update([
-            'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
-        ]);
+        if(isset($diskStats['disk'])) {
 
-        $server->notify(new ServerDiskUsage($server));
+            $server->update([
+                'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
+            ]);
 
-        return response()->json('OK');
+            $server->notify(new ServerDiskUsage($server));
+
+            return response()->json('OK');
+
+        }
+
+        return response()->json('Malformed Data sent', 400);
     }
 
     private function getStats($items)
     {
         $stats = [];
+
         foreach (explode(' ', $items) as $stat) {
+
             $statParts = explode('=', $stat);
+
+            if(count($statParts) == 0) {
+                break;
+            }
+
             $stats[$statParts[0]] = $statParts[1];
         }
 
