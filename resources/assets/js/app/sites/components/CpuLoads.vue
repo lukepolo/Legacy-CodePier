@@ -37,6 +37,9 @@
                 return (loadPercent > 100 ? 100 : loadPercent)
             },
             getAgoText(ago) {
+
+
+
                 return _('min').pluralize(ago).replace('"', '')
             }
         }
