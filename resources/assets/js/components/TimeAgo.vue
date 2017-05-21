@@ -11,7 +11,7 @@
             this.setCurrentTime()
             setInterval(() => {
                 this.update()
-            }, 15000)
+            }, 60000)
         },
         data() {
           return {
