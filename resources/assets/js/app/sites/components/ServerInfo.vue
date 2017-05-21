@@ -120,7 +120,7 @@
                         </em>
                     </h4>
                     <template v-if="server.stats && server.stats.loads">
-                        <cpu-loads :stats="server.stats"></cpu-loads>
+                        <cpu-loads :lastUpdatedAt="server.stats.stats_updated_at" :stats="server.stats"></cpu-loads>
                     </template>
 
                     <template v-else>

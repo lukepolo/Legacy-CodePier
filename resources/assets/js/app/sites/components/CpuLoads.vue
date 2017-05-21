@@ -3,7 +3,9 @@
         <div class="cpu-load">
             <template v-for="(load, ago) in stats.loads">
                 <div class="cpu-group">
-                    <div class="cpu-min" v-if="showLabels == true">{{ ago }} {{ getAgoText(ago) }}</div>
+                    <div class="cpu-min" v-if="showLabels == true">
+                        <time-ago :time="getTime(ago)"></time-ago>
+                    </div>
                     <div class="cpu-stats">
                         <div class="server-progress-container">
                             <div
@@ -29,18 +31,22 @@
             'stats' : {},
             'showLabels' : {
                 default : true
-            }
+            },
+            'lastUpdatedAt' : {
+                default : null
+            },
         },
         methods : {
             getCpuLoad(load) {
                 let loadPercent = (load / this.stats.cpus) * 100
                 return (loadPercent > 100 ? 100 : loadPercent)
             },
-            getAgoText(ago) {
+            getTime(ago) {
+                if(this.lastUpdatedAt) {
+                    return this.parseDate(this.lastUpdatedAt).add(-ago, 'minutes')
+                }
 
-
-
-                return _('min').pluralize(ago).replace('"', '')
+                return moment().add(-ago, 'minutes')
             }
         }
     }
