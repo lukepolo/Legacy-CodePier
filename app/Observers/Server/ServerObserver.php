@@ -7,14 +7,12 @@ use App\Models\Server\Server;
 
 class ServerObserver
 {
-
     /**
      * @param Server $server
      */
     public function updating(Server $server)
     {
-        if($server->isDirty('stats')) {
-
+        if ($server->isDirty('stats')) {
             $stats = $server->stats;
             $stats['stats_updated_at'] = Carbon::now()->toIso8601String();
 
