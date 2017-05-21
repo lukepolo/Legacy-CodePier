@@ -1,12 +1,10 @@
 <template>
     <section>
-        <h3>Buoys</h3>
-
         <!--<h2>Categories</h2>-->
         <!--<p v-for="category in categories">-->
             <!--{{ category.name }}-->
         <!--</p>-->
-        <div class="group-container">
+        <div class="group">
             <buoy-app :buoyApp="buoyApp" v-for="buoyApp in buoyApps" :key="buoyApp.id"></buoy-app>
         </div>
 
