@@ -11,12 +11,10 @@
         @include card(1);
         border: 1px solid mix($black, $gray, 60%);
         margin: $spacing;
-        padding: $spacing;
 
         &-heading  {
             background-color: mix($white, $gray, 10%);
             border-bottom: 1px solid mix($black, $gray, 10%);
-            margin: (-$spacing) (-$spacing) ($spacing);
             padding: $spacing;
             position: relative;
 
@@ -54,22 +52,48 @@
             }
         }
 
+        &-subheading {
+            display: flex;
+            padding: $spacing;
+            border-bottom: 1px solid $color-divider;
+
+            &-info {
+                flex: 1 1 auto;
+                font-weight: 400;
+
+                &:last-child {
+                    text-align: right;
+                }
+            }
+        }
+        
         &-content {
             flex: 1 0 100px;
             position: relative;
+            padding: $spacing
         }
 
-        .btn-footer {
-            margin: ($spacing) (-$spacing) (-$spacing);
-            padding: $spacing;
+        &-img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            margin: (-$spacing/2) $spacing/2 (-$spacing/2) (-$spacing/4);
+
+
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateY(-50%) translateX(-50%);
+            }
         }
 
         .add-pile {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
-            margin: -$spacing;
-            padding: $spacing;
 
             .icon-layers {
                 display: block;
