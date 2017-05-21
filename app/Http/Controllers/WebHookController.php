@@ -55,8 +55,7 @@ class WebHookController extends Controller
 
         $stats = $this->getStats($request->get('loads'));
 
-        if(!empty($stats)) {
-
+        if (! empty($stats)) {
             $server->update([
                 'stats->cpus' => $request->get('cpus'),
                 'stats->loads' => $stats,
@@ -68,7 +67,6 @@ class WebHookController extends Controller
         }
 
         return response()->json('Malformed Data sent', 400);
-
     }
 
     public function memoryMonitor(Request $request, $serverHasId)
@@ -77,10 +75,9 @@ class WebHookController extends Controller
 
         $memoryStats = $this->getStats($request->get('memory'));
 
-        if(isset($memoryStats['name'])) {
-
+        if (isset($memoryStats['name'])) {
             $server->update([
-                'stats->memory->' . str_replace(':', '', $memoryStats['name']) => $memoryStats,
+                'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
             ]);
 
             $server->notify(new ServerMemory($server));
@@ -97,8 +94,7 @@ class WebHookController extends Controller
 
         $diskStats = $this->getStats($request->get('disk_usage'));
 
-        if(isset($diskStats['disk'])) {
-
+        if (isset($diskStats['disk'])) {
             $server->update([
                 'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
             ]);
@@ -106,7 +102,6 @@ class WebHookController extends Controller
             $server->notify(new ServerDiskUsage($server));
 
             return response()->json('OK');
-
         }
 
         return response()->json('Malformed Data sent', 400);
@@ -117,10 +112,9 @@ class WebHookController extends Controller
         $stats = [];
 
         foreach (explode(' ', $items) as $stat) {
-
             $statParts = explode('=', $stat);
 
-            if(count($statParts) == 0) {
+            if (count($statParts) == 0) {
                 break;
             }
 
