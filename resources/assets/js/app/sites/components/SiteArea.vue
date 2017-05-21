@@ -40,8 +40,8 @@
             <div class="section-content">
                 <div class="container">
 
-                    <template v-if="site && site.repository">
-                        <transition>
+                    <template v-if="site">
+                        <transition v-if="site.repository">
                             <router-view name="nav"></router-view>
                         </transition>
                         <transition >
