@@ -90,11 +90,6 @@
         components : {
             SiteDeploy
         },
-        created() {
-            this.$store.dispatch('user_sites/get')
-            this.$store.dispatch('user_ssh_keys/get')
-            this.$store.dispatch('user_repository_providers/get', this.$store.state.user.user.id);
-        },
         data() {
             return {
                 adding_site: false,
