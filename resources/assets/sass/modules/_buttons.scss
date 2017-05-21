@@ -87,8 +87,8 @@ button[disabled=disabled] {
     text-align: center;
     border-top: 1px solid $jcf-color-divider;
     background-color: transparent;
-    margin: $jcf-form-padding (-$jcf-form-padding) (-$jcf-form-padding);
-    padding: ($jcf-form-padding/2) $jcf-form-padding;
+    margin: $spacing 0px 0px;
+    padding: $spacing;
 }
 
 
