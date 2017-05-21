@@ -1,4 +1,5 @@
 import {
+    createForm,
     getFormData
 } from './form'
 
@@ -73,6 +74,7 @@ export default {
     getServer,
     showError,
     parseDate,
+    createForm,
     showSuccess,
     getFormData,
     dateHumanize,

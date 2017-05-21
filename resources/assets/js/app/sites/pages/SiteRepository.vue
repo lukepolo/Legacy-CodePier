@@ -12,19 +12,14 @@
 
                     <div class="input-question">Repository Provider</div>
 
-                    <label v-for="user_repository_provider in user_repository_providers">
-
-                        <input name="user_repository_provider_id" type="radio" v-model="form.user_repository_provider_id" :value="user_repository_provider.id">
-                        <span class="icon"></span>
-                        {{ getRepositoryName(user_repository_provider.repository_provider_id) }}
-
-                    </label>
+                    <repository-provider-selector :provider.sync="form.user_repository_provider_id"></repository-provider-selector>
 
                 </div>
 
                 <div class="jcf-input-group">
 
                     <input type="text" v-model="form.repository" name="repository">
+
                     <label for="repository">
                         <span class="float-label">Repository Name</span>
                     </label>
@@ -169,10 +164,15 @@
 
 <script>
 
+    import RepositoryProviderSelector from './../components/RepositoryProviderSelector.vue'
+
     export default {
+        components: {
+            RepositoryProviderSelector
+        },
         data() {
             return {
-                form: {
+                form: this.createForm({
                     type : null,
                     branch: 'master',
                     framework: null,
@@ -182,7 +182,7 @@
                     wildcard_domain : false,
                     zerotime_deployment: true,
                     user_repository_provider_id: null
-                }
+                })
             }
         },
         created() {
@@ -213,19 +213,12 @@
                     user_repository_provider_id: this.form.user_repository_provider_id
                 });
             },
-            getRepositoryName(user_repository_id) {
-                if(this.repository_providers) {
-                    let repository = _.find(this.repository_providers, {id : user_repository_id})
-                    if(repository) {
-                        return repository.name
-                    }
-                }
-
-            }
         },
         computed: {
             site() {
                 let site = this.$store.state.user_sites.site;
+
+                this.form.reset()
 
                 if (site && site.repository) {
                     this.form.type = site.type
