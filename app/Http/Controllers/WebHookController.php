@@ -114,11 +114,10 @@ class WebHookController extends Controller
         foreach (explode(' ', $items) as $stat) {
             $statParts = explode('=', $stat);
 
-            if (count($statParts) == 0) {
-                break;
+            if(isset($statParts[0]) && isset($statParts[1])) {
+                $stats[$statParts[0]] = $statParts[1];
             }
 
-            $stats[$statParts[0]] = $statParts[1];
         }
 
         return $stats;
