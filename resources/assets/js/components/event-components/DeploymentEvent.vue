@@ -50,7 +50,7 @@
         <div class="events--item-commit">
             <a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a>
 
-            <confirm dispatch="rollbackSite" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } ">
+            <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } ">
                 Rollback
             </confirm>
         </div>
