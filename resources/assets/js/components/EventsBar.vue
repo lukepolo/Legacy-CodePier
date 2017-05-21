@@ -302,7 +302,6 @@
                 this.$store.dispatch('events/get');
                 this.$store.dispatch('user_sites/get');
                 this.$store.dispatch('user_servers/get');
-                this.$store.dispatch('repository_providers/get');
             },
             updateFilters() {
                 this.$store.commit('events/clear');
