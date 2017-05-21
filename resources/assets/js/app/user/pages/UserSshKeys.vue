@@ -3,6 +3,11 @@
         <p>
             This allows you to connect to your servers with the user "codepier" and the supplied SSH Keys.
         </p>
+
+        <p>
+            To create an ssh key follow this  <a target="_blank" href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">guide</a>
+        </p>
+
         <div class="jcf-form-wrap">
             <form @submit.prevent="createSshkey" class="floating-labels">
 
@@ -14,6 +19,9 @@
                 </div>
 
                 <div class="jcf-input-group">
+                    <tooltip message="Usually located at ~/.ssh/id_rsa.pub" size="medium" placement="top-right">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
                     <div class="input-question">Public Key</div>
                     <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
                 </div>
