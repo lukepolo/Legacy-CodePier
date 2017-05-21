@@ -73,7 +73,7 @@ export const deploy = ({ commit }, site) => {
     })
 }
 
-export const rollbackSite = ({}, data) => {
+export const rollback = ({}, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteController@rollback', { site: data.site })
     ).then(() => {
