@@ -39,6 +39,5 @@ export const changeTeams = ({}, team) => {
         'user_teams/setTeam'
     ).then(() => {
         dispatch('user_piles/get')
-        dispatch('user_sites/get')
     })
 }

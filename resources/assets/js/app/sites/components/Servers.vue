@@ -120,7 +120,6 @@
             fetchData() {
                 this.connectServers = false
                 this.form.connected_servers = []
-                this.$store.dispatch('user_servers/get');
             },
             linkServers() {
                 this.form.site = this.$route.params.site_id

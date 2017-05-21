@@ -137,10 +137,9 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('repository_providers/get')
-                this.$store.dispatch('user_repository_providers/get')
-                this.$store.dispatch('server_frameworks/get')
                 this.$store.dispatch('server_languages/get')
+                this.$store.dispatch('server_frameworks/get')
+                this.$store.dispatch('repository_providers/get')
             },
             updateSite() {
                 this.$store.dispatch('user_sites/update', {

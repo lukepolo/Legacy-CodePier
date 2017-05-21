@@ -48,44 +48,44 @@
         },
         methods: {
             hasNotificationSetting(notification_setting, service) {
-                let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id});
+                let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id})
 
                 if(notification) {
-                    return _.indexOf(notification.services, service) != -1;
+                    return _.indexOf(notification.services, service) != -1
                 }
 
-                return false;
+                return false
 
             },
             isConnected: function (notification_provider_id) {
 
                 if (_.some(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
-                    return true;
+                    return true
                 }
 
-                return false;
+                return false
             },
             disconnectProvider: function (notification_provider_id) {
                 let notification_provider = _.find(this.user_notification_providers, function (notification_provider) {
-                    return notification_provider.notification_provider_id === notification_provider_id;
-                }).id;
+                    return notification_provider.notification_provider_id === notification_provider_id
+                }).id
 
                 this.$store.dispatch('user_notification_providers/destroy', {
                     user: this.$store.state.user.user.id,
                     notification_provider: notification_provider
-                });
+                })
             },
             updateUserNotifications() {
 
-                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el));
+                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el))
             }
         },
         mounted() {
-            this.$store.dispatch('notification_providers/get');
-            this.$store.dispatch('user_notification_providers/get');
+            this.$store.dispatch('notification_providers/get')
+            this.$store.dispatch('user_notification_providers/get', this.$store.state.user.user.id)
 
-            this.$store.dispatch('notification_settings/get');
-            this.$store.dispatch('user_notification_settings/get');
+            this.$store.dispatch('notification_settings/get')
+            this.$store.dispatch('user_notification_settings/get')
         },
     }
 </script>
