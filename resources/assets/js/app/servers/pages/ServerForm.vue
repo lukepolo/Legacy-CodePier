@@ -122,11 +122,16 @@
                                         <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
                                             <span class="fa fa-info-circle"></span>
                                         </tooltip>
-                                        <h3 v-if="$route.params.site_id">Your server has been customized for your application</h3>
+                                        <h3 v-if="$route.params.site_id">
+                                            Your server has been customized for your application
+                                            <small>
+                                                <a @click="customize_server = !customize_server">(customize)</a>
+                                            </small>
+                                        </h3>
                                     </label>
                                 </div>
 
-                                <server-features :update="false"></server-features>
+                                <server-features :update="false" v-show="customize_server"></server-features>
 
                                 <div class="btn-footer">
                                     <button type="submit" class="btn btn-primary">Create Server</button>
@@ -159,7 +164,8 @@
         data() {
          return {
             is_custom : false,
-            server_provider : null
+            server_provider : null,
+            customize_server : false,
          }
         },
         methods: {
