@@ -52,24 +52,24 @@
             }
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('user_ssh_keys/get');
+                this.$store.dispatch('user_ssh_keys/get')
             },
             createSshkey() {
                 this.$store.dispatch('user_ssh_keys/store', this.form).then(() => {
-                    this.form = this.$options.data().form;
-                });
+                    this.form = this.$options.data().form
+                })
             },
             deleteSshKey: function (sshKeyId) {
-                this.$store.dispatch('user_ssh_keys/destroy', sshKeyId);
+                this.$store.dispatch('user_ssh_keys/destroy', sshKeyId)
             }
         },
         computed: {
             user_ssh_keys() {
-                return this.$store.state.user_ssh_keys.ssh_keys;
+                return this.$store.state.user_ssh_keys.ssh_keys
             }
         },
     }

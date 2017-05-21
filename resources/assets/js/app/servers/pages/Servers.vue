@@ -72,20 +72,9 @@
 <script>
 
     export default {
-        created() {
-            this.fetchData();
-        },
-        watch: {
-            '$route': 'fetchData'
-        },
         data() {
             return {
                 showArchive : false
-            }
-        },
-        methods: {
-            fetchData() {
-                this.$store.dispatch('user_servers/getTrashed');
             }
         },
         computed: {

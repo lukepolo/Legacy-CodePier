@@ -83,8 +83,16 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('user_servers/show', this.$route.params.server_id);
+                let serverId = this.$route.params.server_id
+                if(!this.server || this.server.id !== parseInt(serverId)) {
+                    this.$store.dispatch('user_servers/show', serverId);
+                }
             },
+        },
+        computed : {
+            server() {
+               return this.$store.state.user_servers.server
+            }
         }
     }
 </script>

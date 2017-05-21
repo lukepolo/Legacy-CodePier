@@ -44,17 +44,13 @@
                         <transition>
                             <router-view name="nav"></router-view>
                         </transition>
-
                         <transition >
                             <router-view name="subNav">
                                 <router-view></router-view>
                             </router-view>
                         </transition>
                     </template>
-                    <template v-else>
-                        <h3>Repository Information</h3>
-                        <router-view></router-view>
-                    </template>
+
                 </div>
             </div>
         </section>
@@ -95,7 +91,10 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('user_sites/show', this.$route.params.site_id)
+                let siteId = this.$route.params.site_id
+                if(!this.site || this.site.id !== parseInt(siteId)) {
+                    this.$store.dispatch('user_sites/show', siteId)
+                }
             }
         },
         computed: {

@@ -142,7 +142,7 @@
 </template>
 
 <script>
-    import LeftNav from '../../../components/LeftNav.vue';
+    import LeftNav from '../../../components/LeftNav.vue'
     import {ServerFeatures} from '../../setup/pages'
 
     export default {
@@ -151,7 +151,7 @@
             ServerFeatures
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         watch: {
             '$route': 'fetchData'
@@ -164,16 +164,16 @@
         },
         methods: {
             fetchData() {
-                this.$store.dispatch('server_providers/get');
-                this.$store.dispatch('user_server_providers/get');
+                this.$store.dispatch('server_providers/get')
+                this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id)
             },
             getProviderData(server_provider_id) {
                 this.is_custom = false
-                let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name;
+                let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name
                 if(provider) {
-                    this.$store.dispatch('server_providers/getFeatures', provider);
-                    this.$store.dispatch('server_providers/getOptions', provider);
-                    this.$store.dispatch('server_providers/getRegions', provider);
+                    this.$store.dispatch('server_providers/getFeatures', provider)
+                    this.$store.dispatch('server_providers/getOptions', provider)
+                    this.$store.dispatch('server_providers/getRegions', provider)
                 }
             },
             createServer() {
