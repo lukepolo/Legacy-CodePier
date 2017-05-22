@@ -44,6 +44,7 @@ mix
         clipboard: 'Clipboard',
         jquery: ['$', 'jQuery']
     })
+    .sourceMaps()
 
 if (mix.config.inProduction) {
     mix.version()
