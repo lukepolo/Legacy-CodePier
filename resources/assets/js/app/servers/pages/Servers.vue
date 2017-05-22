@@ -59,6 +59,10 @@
                         </table>
                     </div>
                     <div class="btn-footer">
+                        <p>While we do offer the ability to create a server manually, we suggest creating a site first.<br>
+                            and let the site dictate how your server is built.
+                            We recommend only advance users to use this functionality.
+                        </p>
                         <router-link :to="{ name : 'server_form' }">
                             <a class="btn btn-primary">Create A Server</a>
                         </router-link>

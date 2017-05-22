@@ -6,7 +6,6 @@
                 <template v-if="isConnected(repository_provider.id)">
 
                     <input
-                        class="btn"
                         name="user_repository_provider_id"
                         type="radio"
                         v-model="user_provider"
@@ -25,6 +24,7 @@
                         })"
                         class="btn btn-default"
                     >
+                        <i class="icon-github"></i>
                         {{ repository_provider.name}}
                     </a>
                 </template>
