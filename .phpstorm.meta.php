@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-04-27.
+    * Generated on 2017-05-26.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -52,8 +52,6 @@ namespace PHPSTORM_META {
             'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
-            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
-            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -150,15 +148,9 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
             'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
-            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -203,8 +195,6 @@ namespace PHPSTORM_META {
             'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
-            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
-            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -301,15 +291,9 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
             'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
-            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \App::make('') => [
             '' == '@',
@@ -354,8 +338,6 @@ namespace PHPSTORM_META {
             'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
-            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
-            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -452,15 +434,9 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
             'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
-            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
         \app('') => [
             '' == '@',
@@ -505,8 +481,6 @@ namespace PHPSTORM_META {
             'Lord\Laroute\Compilers\CompilerInterface' instanceof \Lord\Laroute\Compilers\TemplateCompiler,
             'command.laroute.generate' instanceof \Lord\Laroute\Console\Commands\LarouteGeneratorCommand,
             'teamwork' instanceof \Mpociot\Teamwork\Teamwork,
-            'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
-            'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
             'hashids.factory' instanceof \Vinkla\Hashids\HashidsFactory,
             'hashids' instanceof \Vinkla\Hashids\HashidsManager,
             'hashids.connection' instanceof \Hashids\Hashids,
@@ -603,15 +577,9 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
-            'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
-            'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
-            'App\Contracts\Systems\SystemServiceContract' instanceof \App\Services\Systems\SystemService,
             'App\Contracts\Server\ServerFeatureServiceContract' instanceof \App\Services\Server\ServerFeatureService,
-            'App\Contracts\Site\SiteServiceContract' instanceof \App\Services\Site\SiteService,
             'App\Contracts\Site\SiteFeatureServiceContract' instanceof \App\Services\Site\SiteFeatureService,
             'App\Contracts\Site\SiteDeploymentStepsServiceContract' instanceof \App\Services\Site\SiteDeploymentStepsService,
-            'App\Contracts\BuoyServiceContract' instanceof \App\Services\Buoys\BuoyService,
         ],
     ];
 }

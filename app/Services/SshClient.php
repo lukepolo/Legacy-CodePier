@@ -4,9 +4,11 @@ namespace App\Services;
 
 
 use App\Contracts\SshContract;
+use App\Events\SshLoginAttempted;
 use App\Exceptions\FailedCommandException;
-use App\Providers\SshLoginAttempted;
+use App\Exceptions\SshConnectionFailed;
 use Dompdf\Exception;
+use Illuminate\Database\Eloquent\Collection;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;
 
@@ -27,30 +29,36 @@ class SshClient implements SshContract
         $this->rsa = $rsa;
     }
 
-    public function run($commands, $read = false, $expectedFailure = false): string
+    public function run($commands, $read = false, $expectedFailure = false)
     {
-        if (is_array($commands)) {
-            collect($commands)->each(function ($command) {
-                $this->ssh->exec($this->processCommand($command));
-            });
+        $ssh = $this->getSsh();
+        $outputs = collect($commands)->map(function ($command) use ($ssh) {
+            $output = $ssh->exec($this->processCommand($command));
+            $this->checkOutputStatus($output);
+            return $output;
+        });
+        return $outputs->count() != 1 ?  $outputs : $outputs->first();
 
-        }
-        $output = $this->cleanOutput($this->ssh->exec($this->processCommand($commands)));
 
-        $this->checkOutputStatus($output);
-
-        return $output;
     }
 
-    public function connect($server): void
+    protected function getSsh()
     {
-        $this->rsa->loadKey($server->private_ssh_key);
-        $this->ssh = app()->makeWith(SSH2::class, [$server->ip, $server->port]);
+        if (!$this->ssh) {
+            throw new SshConnectionFailed('Not Connected');
+        }
+        return $this->ssh;
+    }
+
+    public function connect(Collection $server): void
+    {
+      $this->rsa->loadKey(data_get($server, 'private_ssh_key'));
+        $this->setSsh(data_get($server, 'ip'), data_get($server, 'port'));
         $this->attemptLogin($server);
         $this->ssh->setTimeout(0);
     }
 
-    protected function attemptLogin($server)
+    protected function attemptLogin(Collection $server)
     {
         try {
             $result = $this->ssh->login($this->user, $this->rsa);
@@ -83,10 +91,15 @@ class SshClient implements SshContract
         return trim(str_replace('codepier-done', '', $response));
     }
 
-    private function checkOutputStatus($output) : void
+    public function checkOutputStatus($output) : void
     {
         if ($this->ssh->getExitStatus()) {
             throw new FailedCommandException($output);
         }
+    }
+
+    protected function setSsh($ip, $port)
+    {
+        $this->ssh = app()->makeWith(SSH2::class, $ip, $port);
     }
 }

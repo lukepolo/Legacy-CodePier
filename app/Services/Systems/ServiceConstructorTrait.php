@@ -2,18 +2,18 @@
 
 namespace App\Services\Systems;
 
+use App\Contracts\RemoteTaskServiceContract;
 use App\Models\Server\Server;
-use App\Services\RemoteTaskService;
 
 trait ServiceConstructorTrait
 {
     protected $server;
 
     /**
-     * @param RemoteTaskService $remoteTaskService
-     * @param Server            $server
+     * @param RemoteTaskServiceContract $remoteTaskService
+     * @param Server $server
      */
-    public function __construct(RemoteTaskService $remoteTaskService, Server $server)
+    public function __construct(RemoteTaskServiceContract $remoteTaskService, Server $server)
     {
         $this->server = $server;
 
@@ -22,7 +22,7 @@ trait ServiceConstructorTrait
 
     public function connectToServer($user = 'root')
     {
-        $this->remoteTaskService->ssh($this->server);
+        $this->remoteTaskService->connectTo($this->server);
     }
 
     public function getErrors()
@@ -54,7 +54,7 @@ trait ServiceConstructorTrait
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::WEB_SERVICE_GROUP);
+        $this->remoteTaskService->run('/opt/codepier/./'.SystemService::DATABASE_SERVICE_GROUP);
     }
 
     public function restartWorkers()

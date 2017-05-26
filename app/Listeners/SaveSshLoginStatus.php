@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Providers\SshLoginAttempted;
+use App\Events\SshLoginAttempted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,8 +26,8 @@ class SaveSshLoginStatus
      */
     public function handle(SshLoginAttempted $event)
     {
-        $event->server->update([
-            'ssh_connection' => $event->state,
-        ]);
+        $server = $event->server->first();
+        $server->ssh_connection = $event->state;
+        $server->save();
     }
 }

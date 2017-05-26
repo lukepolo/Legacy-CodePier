@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -23,7 +24,7 @@ class SshLoginAttempted
      * @param Server $server
      * @param bool $state
      */
-    public function __construct(Server $server, bool $state)
+    public function __construct(Collection $server, bool $state)
     {
         $this->server = $server;
         $this->state = $state;
