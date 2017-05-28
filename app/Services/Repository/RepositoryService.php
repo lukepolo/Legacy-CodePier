@@ -2,11 +2,11 @@
 
 namespace App\Services\Repository;
 
-use App\Exceptions\SiteUserProviderNotConnected;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Exceptions\SiteUserProviderNotConnected;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -33,7 +33,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function importSshKey(Site $site)
     {
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
         }
 
@@ -74,7 +74,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function isPrivate(Site $site)
     {
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
         }
 
@@ -106,7 +106,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function createDeployHook(Site $site)
     {
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
         }
 
@@ -120,8 +120,7 @@ class RepositoryService implements RepositoryServiceContract
      */
     public function deleteDeployHook(Site $site)
     {
-
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
         }
 

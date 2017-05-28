@@ -61,14 +61,14 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function toSlack($notifiable)
     {
-        $commit ='';
+        $commit = '';
         $site = $notifiable;
         $url = url('site/'.$notifiable->id);
         $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
 
-        if(!empty($notifiable->userRepositoryProvider)) {
+        if (! empty($notifiable->userRepositoryProvider)) {
             $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
-            if(!empty($repositoryProvider)) {
+            if (! empty($repositoryProvider)) {
                 $commit = 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit;
             }
         }
