@@ -19,7 +19,6 @@ use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
-use function response;
 
 class SiteService implements SiteServiceContract
 {
@@ -120,7 +119,7 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        if($site->userRepositoryProvider) {
+        if ($site->userRepositoryProvider) {
             $this->repositoryService->importSshKey($site);
         }
 
@@ -193,7 +192,7 @@ class SiteService implements SiteServiceContract
      */
     public function createDeployHook(Site $site)
     {
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             return response()->json('The site does not have a connected repository', 400);
         }
 
@@ -206,7 +205,7 @@ class SiteService implements SiteServiceContract
      */
     public function deleteDeployHook(Site $site)
     {
-        if(!$site->userRepositoryProvider) {
+        if (! $site->userRepositoryProvider) {
             return response()->json('The site does not have a connected repository', 400);
         }
 

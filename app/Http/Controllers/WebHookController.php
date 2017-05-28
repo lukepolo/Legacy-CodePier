@@ -25,7 +25,7 @@ class WebHookController extends Controller
 
         $branch = null;
 
-        if(!empty($site->userRepositoryProvider)) {
+        if (! empty($site->userRepositoryProvider)) {
             switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
                 case OauthController::GITHUB:
                 case OauthController::GITLAB:
@@ -36,7 +36,6 @@ class WebHookController extends Controller
                     break;
             }
         }
-
 
         if (empty($branch) || $site->branch === $branch) {
             dispatch(
