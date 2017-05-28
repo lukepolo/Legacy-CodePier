@@ -247,7 +247,7 @@ class SiteController extends Controller
 
         $site->public_ssh_key = null;
 
-        if(empty($site->repository)) {
+        if (empty($site->repository)) {
             $this->repositoryService->generateNewSshKeys($site);
         } else {
             try {
@@ -272,7 +272,7 @@ class SiteController extends Controller
             'hash' => create_redis_hash(),
         ]);
 
-        if(!empty($site->automatic_deployment_id)) {
+        if (! empty($site->automatic_deployment_id)) {
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }
