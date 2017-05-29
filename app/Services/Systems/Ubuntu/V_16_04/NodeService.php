@@ -27,7 +27,7 @@ class NodeService extends AbstractService
             'sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg',
             'echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list',
             'sudo apt-get update',
-            'DEBIAN_FRONTEND=noninteractive apt-get install -y yarn'
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y yarn',
         ]);
     }
 

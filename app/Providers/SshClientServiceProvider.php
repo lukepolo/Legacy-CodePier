@@ -8,8 +8,8 @@ use Illuminate\Support\ServiceProvider;
 
 class SshClientServiceProvider extends ServiceProvider
 {
-
     protected $defer = true;
+
     /**
      * Bootstrap the application services.
      *

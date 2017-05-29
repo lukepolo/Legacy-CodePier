@@ -6,7 +6,6 @@ use App\Services\AbstractService;
 
 class Laravel extends AbstractService
 {
-
     public static $files = [
         '.env',
     ];

@@ -23,9 +23,9 @@ class EventServiceProvider extends ServiceProvider
             DigitalOceanExtendSocialite::class.'@handle',
         ],
         SshLoginAttempted::class => [
-            SaveSshLoginStatus::class . '@handle',
+            SaveSshLoginStatus::class.'@handle',
 
-        ]
+        ],
     ];
 
     /**

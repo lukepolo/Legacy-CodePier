@@ -6,7 +6,6 @@ use App\Services\AbstractService;
 
 class OsService extends AbstractService
 {
-
     public function updateSystem()
     {
         $this->connectToServer();
@@ -66,7 +65,7 @@ class OsService extends AbstractService
         $this->remoteTaskService->run([
             'chown codepier:codepier /home/codepier/.ssh -R',
             'chmod o-w /home/codepier',
-            'service sshd restart'
+            'service sshd restart',
         ]);
 
         $this->remoteTaskService->makeDirectory('/opt/codepier');
@@ -138,8 +137,7 @@ APT::Periodic::Unattended-Upgrade "1";
             "sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main",
             'sudo apt-get update',
             'DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine',
-            'sudo usermod -aG docker codepier'
+            'sudo usermod -aG docker codepier',
         ]);
-
     }
 }

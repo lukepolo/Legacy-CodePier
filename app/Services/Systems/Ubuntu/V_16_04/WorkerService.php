@@ -33,7 +33,7 @@ class WorkerService extends AbstractService
             'DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor',
             'mkdir /home/codepier/workers',
             'systemctl enable supervisor',
-            'service supervisor start'
+            'service supervisor start',
         ]);
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
@@ -58,7 +58,7 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
         $this->remoteTaskService->run([
             'supervisorctl reread',
             'supervisorctl update',
-            'supervisorctl start server-worker-'.$worker->id.':*'
+            'supervisorctl start server-worker-'.$worker->id.':*',
         ]);
     }
 
@@ -71,6 +71,5 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
             'supervisorctl reread',
             'supervisorctl update',
         ]);
-
     }
 }

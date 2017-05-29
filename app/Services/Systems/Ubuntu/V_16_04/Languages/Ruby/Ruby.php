@@ -8,9 +8,7 @@ use App\Services\RemoteTaskService;
 
 class Ruby extends AbstractService
 {
-
     /** @var RemoteTaskService $remoteTaskService */
-
     public static $files = [
 
     ];
@@ -68,7 +66,7 @@ class Ruby extends AbstractService
             'DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates',
             'sh -c \'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list\'',
             'apt-get update',
-            'DEBIAN_FRONTEND=noninteractive apt-get install -y nginx-extras passenger'
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y nginx-extras passenger',
         ]);
 
         $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'include /etc/nginx/sites-enabled/*;', '## Passenger');
@@ -78,13 +76,13 @@ class Ruby extends AbstractService
             case '2.3':
                 $this->remoteTaskService->run([
                     'source /usr/local/rvm/scripts/rvm; rvm install 2.3.0',
-                    'source /usr/local/rvm/scripts/rvm; rvm use 2.3.0 --default'
+                    'source /usr/local/rvm/scripts/rvm; rvm use 2.3.0 --default',
                 ]);
                 break;
             default:
                 $this->remoteTaskService->run([
                     'source /usr/local/rvm/scripts/rvm; rvm install 2.4.0'.
-                    'source /usr/local/rvm/scripts/rvm; rvm use 2.4.0 --default'
+                    'source /usr/local/rvm/scripts/rvm; rvm use 2.4.0 --default',
                 ]);
                 break;
         }

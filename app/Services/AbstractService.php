@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-
-use App\Contracts\RemoteTaskServiceContract;
 use App\Models\Server\Server;
+use App\Contracts\RemoteTaskServiceContract;
 use Illuminate\Database\Eloquent\Collection;
 
 abstract class AbstractService
@@ -37,5 +36,4 @@ abstract class AbstractService
 
         $this->remoteTaskService->run('chmod 775 '.$serviceGroupFile);
     }
-
 }

@@ -7,13 +7,11 @@ use App\Services\AbstractService;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 
-
 class WebService extends AbstractService
 {
     /**
      * // TODO - need to separate Apache and NGINX configs.
      */
-
     public static $files = [
         'Nginx' => [
             '/etc/nginx/nginx.conf',

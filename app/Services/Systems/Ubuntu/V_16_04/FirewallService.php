@@ -7,7 +7,6 @@ use App\Services\AbstractService;
 
 class FirewallService extends AbstractService
 {
-
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
@@ -18,7 +17,7 @@ class FirewallService extends AbstractService
             'ufw allow ssh',
             'ufw disable',
             'ufw allow '.$this->server->port.'/tcp',
-            'echo "y" | ufw enable'
+            'echo "y" | ufw enable',
         ]);
     }
 

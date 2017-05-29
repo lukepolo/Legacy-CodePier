@@ -2,14 +2,13 @@
 
 namespace Tests\Unit;
 
+use Mockery;
+use Tests\TestCase;
+use Tests\TestHelper;
+use Tests\Mocks\SshMock;
 use App\Events\SshLoginAttempted;
 use App\Services\RemoteTaskService;
 use Illuminate\Support\Facades\Event;
-use Mockery;
-use Tests\Mocks\SshMock;
-use Tests\TestCase;
-use Tests\TestHelper;
-
 
 class RemoteTaskServiceTest extends TestCase
 {
@@ -63,5 +62,4 @@ class RemoteTaskServiceTest extends TestCase
         $key = $client->createSsHKey();
         $this->assertEquals($key, '123');
     }
-
 }
