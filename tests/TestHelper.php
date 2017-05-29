@@ -2,12 +2,9 @@
 
 namespace Tests;
 
-
-use App\Models\Server\Server;
-use App\Services\RemoteTaskService;
 use Mockery;
 use phpseclib\Crypt\RSA;
-use phpseclib\Net\SSH2;
+use App\Models\Server\Server;
 
 trait TestHelper
 {
@@ -19,6 +16,7 @@ trait TestHelper
     public function getRsaMock()
     {
         $rsaMock = Mockery::mock(Rsa::class);
+
         return $rsaMock->shouldReceive('loadKey')->withAnyArgs()->andReturnNull()
             ->shouldReceive('setPublicKeyFormat')->withAnyArgs()->andReturnNull()
             ->shouldReceive('createKey')->withNoArgs()->andReturn('123')
@@ -32,15 +30,13 @@ trait TestHelper
         $prop->setAccessible(true);
         $prop->setValue($object, $value);
     }
+
     public function callProtectedMethod($object, $methodName, $args = [])
     {
         $rfc = new \ReflectionClass($object);
         $method = $rfc->getMethod($methodName);
         $method->setAccessible(true);
+
         return $method->invokeArgs($object, $args);
     }
-
-
-
-
 }

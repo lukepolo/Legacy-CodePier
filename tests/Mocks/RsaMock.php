@@ -2,8 +2,6 @@
 
 namespace Tests\Mocks;
 
-
 class RsaMock
 {
-    
 }

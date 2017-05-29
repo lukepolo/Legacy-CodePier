@@ -8,7 +8,6 @@ use App\Services\AbstractService;
 
 class MonitoringService extends AbstractService
 {
-
     const LOAD_AVG_SCRIPT = 'sleep $((RANDOM % 250)) && cpus=$(cat /proc/cpuinfo | grep processor | wc -l) && current_load=$(cat /proc/loadavg | grep / | awk \'{ print "1="$1 " 5="$2 " 15="$3}\')';
     const MEMORY_SCRIPT = 'sleep $((RANDOM % 250)) && free -m -h | grep : | awk \'{ print "name="$1 " total="$2 " used="$3 " free="$4 " available="$7}\'';
     const DISK_USAGE_SCRIPT = 'sleep $((RANDOM % 250)) && df -h / | grep / | awk \'{ print "disk="$1 " used="$3 " available="$4 " percent="$5}\'';

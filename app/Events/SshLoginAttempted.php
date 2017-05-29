@@ -4,9 +4,9 @@ namespace App\Events;
 
 use App\Models\Server\Server;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 

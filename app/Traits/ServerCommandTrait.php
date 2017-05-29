@@ -6,11 +6,11 @@ use Closure;
 use App\Models\Command;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
-use App\Exceptions\FailedCommandException;
 use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\SshConnectionFailed;
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\FailedCommandException;
 
 trait ServerCommandTrait
 {

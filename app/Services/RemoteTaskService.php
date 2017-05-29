@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
-
-use App\Contracts\RemoteTaskServiceContract;
+use Dompdf\Exception;
+use phpseclib\Net\SSH2;
+use phpseclib\Crypt\RSA;
 use App\Contracts\SshContract;
 use App\Events\SshLoginAttempted;
-use App\Exceptions\FailedCommandException;
 use App\Exceptions\SshConnectionFailed;
-use Dompdf\Exception;
+use App\Exceptions\FailedCommandException;
+use App\Contracts\RemoteTaskServiceContract;
 use Illuminate\Database\Eloquent\Collection;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SSH2;
 
 class RemoteTaskService implements RemoteTaskServiceContract
 {
@@ -27,7 +26,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * SshClient constructor.
      * @param RSA $rsa
      */
-    public function __construct( RSA $rsa)
+    public function __construct(RSA $rsa)
     {
         $this->rsa = $rsa;
     }
@@ -41,6 +40,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
     {
         $this->server = $server;
         $this->connect($server);
+
         return $this;
     }
 
@@ -56,24 +56,25 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $outputs = collect($commands)->map(function ($command) use ($ssh) {
             $output = $ssh->exec($this->processCommand($command));
             $this->checkOutputStatus($output);
+
             return $output;
         });
-        return $outputs->count() != 1 ?  $outputs : $outputs->first();
 
-
+        return $outputs->count() != 1 ? $outputs : $outputs->first();
     }
 
     protected function getSsh()
     {
-        if (!$this->ssh) {
+        if (! $this->ssh) {
             throw new SshConnectionFailed('Not Connected');
         }
+
         return $this->ssh;
     }
 
     public function connect(Collection $server): void
     {
-      $this->rsa->loadKey(data_get($server, 'private_ssh_key'));
+        $this->rsa->loadKey(data_get($server, 'private_ssh_key'));
         $this->setSsh(data_get($server, 'ip'), data_get($server, 'port'));
         $this->attemptLogin($server);
         $this->ssh->setTimeout(0);
@@ -84,7 +85,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
         try {
             $result = $this->ssh->login($this->user, $this->rsa);
             event(new SshLoginAttempted($server, $result));
-
         } catch (Exception $exception) {
             event(new SshLoginAttempted($server, false));
         }
@@ -93,18 +93,20 @@ class RemoteTaskService implements RemoteTaskServiceContract
     public function for(string $user): sshContract
     {
         $this->user = $user;
+
         return $this;
     }
 
     public function createSsHKey()
     {
         $this->rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
         return $this->rsa->createKey();
     }
 
     protected function processCommand(string $command) : string
     {
-        return 'source /etc/profile && ' . $command . ' && echo codepier-done; ';
+        return 'source /etc/profile && '.$command.' && echo codepier-done; ';
     }
 
     protected function cleanOutput($response) : string

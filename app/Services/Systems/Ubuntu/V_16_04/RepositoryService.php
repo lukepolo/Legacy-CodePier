@@ -3,7 +3,6 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Contracts\RemoteTaskServiceContract;
-use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Collection;
 
 class RepositoryService
@@ -19,7 +18,6 @@ class RepositoryService
         $this->remoteTaskService = $remoteTaskService;
         $this->server = $server;
     }
-
 
     /**
      *  @description GIt is a is a version control system

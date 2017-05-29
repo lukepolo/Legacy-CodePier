@@ -3,8 +3,8 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Schema;
-use App\Exceptions\UnknownDatabase;
 use App\Services\AbstractService;
+use App\Exceptions\UnknownDatabase;
 use App\Services\Systems\SystemService;
 
 class DatabaseService extends AbstractService
@@ -26,7 +26,7 @@ class DatabaseService extends AbstractService
             'DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server',
             "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
             "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
-            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql"
+            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql",
         ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
@@ -61,7 +61,7 @@ class DatabaseService extends AbstractService
             'DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server',
             "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
             "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
-            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql"
+            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql",
         ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
@@ -80,7 +80,7 @@ class DatabaseService extends AbstractService
             'DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev',
             'sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"',
             'sudo -u postgres psql -c "CREATE ROLE codepier_servers LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"',
-            'service postgresql restart'
+            'service postgresql restart',
         ]);
     }
 
@@ -120,7 +120,7 @@ class DatabaseService extends AbstractService
             'apt-get update',
             'apt-get install -y mongodb-org php-mongodb ',
             'systemctl enable mongod.service',
-            'service mongod start'
+            'service mongod start',
         ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');

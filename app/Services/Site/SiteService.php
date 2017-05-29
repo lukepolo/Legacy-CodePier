@@ -4,7 +4,6 @@ namespace App\Services\Site;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
-use App\Exceptions\FailedCommandException;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
 use App\Services\Systems\SystemService;
@@ -12,6 +11,7 @@ use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
+use App\Exceptions\FailedCommandException;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Services\DeploymentServices\PHP\PHP;

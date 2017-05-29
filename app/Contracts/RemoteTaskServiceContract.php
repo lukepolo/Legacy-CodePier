@@ -2,7 +2,6 @@
 
 namespace App\Contracts;
 
-
 use Illuminate\Database\Eloquent\Collection;
 
 interface RemoteTaskServiceContract
@@ -95,5 +94,4 @@ interface RemoteTaskServiceContract
      * @return string
      */
     public function hasDirectory($directory);
-
 }
