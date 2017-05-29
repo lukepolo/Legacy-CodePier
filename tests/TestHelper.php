@@ -4,7 +4,7 @@ namespace Tests;
 
 
 use App\Models\Server\Server;
-use App\Services\SshClient;
+use App\Services\RemoteTaskService;
 use Mockery;
 use phpseclib\Crypt\RSA;
 use phpseclib\Net\SSH2;

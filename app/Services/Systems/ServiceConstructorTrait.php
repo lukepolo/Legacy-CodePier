@@ -4,7 +4,8 @@ namespace App\Services\Systems;
 
 use App\Contracts\RemoteTaskServiceContract;
 use App\Models\Server\Server;
-
+use Illuminate\Database\Eloquent\Collection;
+/* @deprecated */
 trait ServiceConstructorTrait
 {
     protected $server;
@@ -12,8 +13,9 @@ trait ServiceConstructorTrait
     /**
      * @param RemoteTaskServiceContract $remoteTaskService
      * @param Server $server
+     * @deprecated
      */
-    public function __construct(RemoteTaskServiceContract $remoteTaskService, Server $server)
+    public function __construct(RemoteTaskServiceContract $remoteTaskService, Collection $server)
     {
         $this->server = $server;
 
@@ -22,7 +24,7 @@ trait ServiceConstructorTrait
 
     public function connectToServer($user = 'root')
     {
-        $this->remoteTaskService->connectTo($this->server);
+        $this->remoteTaskService->connect($this->server);
     }
 
     public function getErrors()

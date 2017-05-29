@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Contracts\RemoteTaskServiceContract;
 use App\Models\Server\Server;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class AbstractService
 {
@@ -18,7 +19,7 @@ abstract class AbstractService
      * @param Server $server
      * @internal param $service
      */
-    public function __construct(RemoteTaskServiceContract $remoteTaskService, Server $server)
+    public function __construct(RemoteTaskServiceContract $remoteTaskService, Collection $server)
     {
         $this->remoteTaskService = $remoteTaskService;
         $this->server = $server;
@@ -26,8 +27,7 @@ abstract class AbstractService
 
     public function connectToServer($user = 'root'): void
     {
-        $this->remoteTaskService->connectTo($this->server);
-
+        $this->remoteTaskService->connect($this->server);
     }
 
     public function addToServiceRestartGroup($group, string $command): void

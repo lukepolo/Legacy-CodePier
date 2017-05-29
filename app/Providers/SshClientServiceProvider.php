@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\SshContract;
-use App\Services\SshClient;
+use App\Services\RemoteTaskService;
 use Illuminate\Support\ServiceProvider;
 
 class SshClientServiceProvider extends ServiceProvider
@@ -29,7 +29,7 @@ class SshClientServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             SshContract::class,
-            SshClient::class
+            RemoteTaskService::class
         );
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP\Frameworks;
 
-use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\AbstractService;
 
-class Laravel
+class Laravel extends AbstractService
 {
-    use ServiceConstructorTrait;
 
     public static $files = [
         '.env',

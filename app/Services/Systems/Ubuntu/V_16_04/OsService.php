@@ -3,7 +3,6 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Services\AbstractService;
-use App\Services\Systems\ServiceConstructorTrait;
 
 class OsService extends AbstractService
 {

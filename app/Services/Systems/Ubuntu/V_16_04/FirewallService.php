@@ -4,7 +4,6 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\FirewallRule;
 use App\Services\AbstractService;
-use App\Services\Systems\ServiceConstructorTrait;
 
 class FirewallService extends AbstractService
 {

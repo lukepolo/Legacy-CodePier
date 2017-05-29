@@ -5,7 +5,6 @@ namespace App\Services\Systems\Ubuntu\V_16_04;
 use App\Models\Worker;
 use App\Services\AbstractService;
 use App\Services\Systems\SystemService;
-use App\Services\Systems\ServiceConstructorTrait;
 
 class WorkerService extends AbstractService
 {
