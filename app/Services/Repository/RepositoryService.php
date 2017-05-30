@@ -2,9 +2,9 @@
 
 namespace App\Services\Repository;
 
-use App\Jobs\Server\InstallPublicKey;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
+use App\Jobs\Server\InstallPublicKey;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\DeployKeyAlreadyUsed;
 use App\Exceptions\SiteUserProviderNotConnected;
@@ -135,11 +135,11 @@ class RepositoryService implements RepositoryServiceContract
     }
 
     /**
-     * Saves the public keys to the server
+     * Saves the public keys to the server.
      * @param Site $site
      */
-    public function saveKeysToServer(Site $site) {
-
+    public function saveKeysToServer(Site $site)
+    {
         foreach ($site->provisionedServers as $server) {
             try {
                 dispatch(
@@ -151,6 +151,5 @@ class RepositoryService implements RepositoryServiceContract
                 continue;
             }
         }
-
     }
 }
