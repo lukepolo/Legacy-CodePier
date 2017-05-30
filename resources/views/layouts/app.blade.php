@@ -26,7 +26,7 @@
                 'teams' => config('app.teams'),
             ]); ?>
         </script>
-        @if(config('app.env') == 'production' && \Auth::check())
+{{--        @if(config('app.env') == 'production' && \Auth::check())--}}
             <script>
                 window['_fs_debug'] = false;
                 window['_fs_host'] = 'fullstory.com';
@@ -49,7 +49,7 @@
                     email: '{{ auth()->user()->email }}',
                 });
             </script>
-        @endif
+        {{--@endif--}}
     </head>
     <body>
         <div id="app-layout">
