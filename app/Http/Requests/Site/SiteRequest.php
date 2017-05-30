@@ -25,6 +25,7 @@ class SiteRequest extends FormRequest
     {
         if ($this->get('domainless')) {
             return [
+                'domain' => 'required',
                 'pile_id' => 'required|integer',
             ];
         }
