@@ -280,15 +280,21 @@
             },
             providerUrl() {
                 if(this.form.user_repository_provider_id) {
-                    let repositoryProvider = _.find(this.repository_providers, {
-                        id : _.find(this.user_repository_providers, {
-                            id : this.form.user_repository_provider_id
-                        }).id
+
+                    let userRepository = _.find(this.user_repository_providers, {
+                        id : this.form.user_repository_provider_id
                     })
 
-                    if(repositoryProvider) {
-                        return repositoryProvider.url
+                    if(userRepository) {
+                        let repositoryProvider = _.find(this.repository_providers, {
+                            id : userRepository.id
+                        })
+
+                        if(repositoryProvider) {
+                            return repositoryProvider.url
+                        }
                     }
+
                 }
             },
             repositoryUrl() {
