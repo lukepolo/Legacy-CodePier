@@ -23,6 +23,7 @@ export const store = ({ dispatch }, data) => {
     ).then((site) => {
         dispatch('listen', site)
         app.$router.push({ name: 'site_repository', params: { site_id: site.id }})
+        return site
     })
 }
 

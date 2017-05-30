@@ -57,13 +57,6 @@
                     </div>
                 </div>
 
-                <div class="slack-invite" v-if="userRepositoryProviders && !userRepositoryProviders.length">
-                    <router-link :to="{ name : 'user_repository_providers' }">
-                        Connect Repository Provider
-                        <div class="small">You have not connected a repository provider</div>
-                    </router-link>
-                </div>
-
                 <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
                     <router-link :to="{ name : 'user_ssh_keys' }">
                         Create A SSH Key
@@ -146,9 +139,6 @@
             },
             current_pile_id() {
                 return this.$store.state.user.user.current_pile_id
-            },
-            userRepositoryProviders() {
-                return this.$store.state.user_repository_providers.providers;
             }
         }
     }
