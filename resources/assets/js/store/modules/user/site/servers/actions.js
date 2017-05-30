@@ -4,3 +4,11 @@ export const get = ({}, site) => {
         'user_site_servers/setAll'
     )
 }
+
+export const updateLinks = ({ dispatch }, data) => {
+    return Vue.request(data).post(
+        Vue.action('Site\SiteServerController@store', {site: data.site})
+    ).then(() => {
+        dispatch('get', data.site)
+    })
+}

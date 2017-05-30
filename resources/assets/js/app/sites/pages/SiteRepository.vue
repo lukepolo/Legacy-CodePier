@@ -235,6 +235,10 @@
                     this.form.zerotime_deployment = site.zerotime_deployment
                     this.form.user_repository_provider_id = site.user_repository_provider_id
 
+                    if(this.form.repository && !this.form.user_repository_provider_id) {
+                        this.form.custom_provider = true
+                    }
+
                 }
 
                 this.form.setOriginalData()
@@ -252,6 +256,7 @@
                     web_directory: this.form.web_directory,
                     keep_releases : this.form.keep_releases,
                     wildcard_domain: this.form.wildcard_domain,
+                    custom_provider : this.form.custom_provider,
                     zerotime_deployment: this.form.zerotime_deployment,
                     user_repository_provider_id: this.form.user_repository_provider_id
                 });

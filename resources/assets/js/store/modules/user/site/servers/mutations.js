@@ -1,7 +1,11 @@
 export const setAll = (state, { response, requestData }) => {
-    Vue.set(state.servers, requestData.value, _.map(response, 'id'))
+    state.servers[requestData.value] = _.map(response, 'id')
+    state.servers = Object.assign({}, state.servers, _.cloneDeep(state.servers))
 }
 
 export const remove = (state, { requestData }) => {
-    Vue.set(state, 'servers', _.reject(state.servers, { id: requestData.value }))
+    _.each(state.servers, (servers, site) => {
+        Vue.set(state.servers, site, _.reject(state.servers[site], { id: requestData.value }))
+    })
+
 }
