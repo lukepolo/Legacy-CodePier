@@ -37,9 +37,8 @@ class DeleteSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
+    public function handle(SiteService $siteService)
     {
         $siteService->deleteSite($this->server, $this->site);
     }
