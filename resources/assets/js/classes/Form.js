@@ -13,6 +13,15 @@ class Form extends Request {
         this.errors.clear()
     }
 
+
+    empty() {
+        for (const field in this.emptyData) {
+            this[field] = this.emptyData[field]
+        }
+
+        this.errors.clear()
+    }
+
     /**
      * Handle a successful form submission.
      *

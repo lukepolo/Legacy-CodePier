@@ -14,6 +14,7 @@ class Request {
         if (data && !_.isObject(data)) {
             this['value'] = data
         } else {
+            this.emptyData = data
             this.originalData = data
         }
 
@@ -32,6 +33,7 @@ class Request {
      * Fetch all relevant data for the form.
      */
     data () {
+
         if (this.formData) {
             return this.formData
         }
@@ -191,6 +193,7 @@ class Request {
     setOriginalData () {
         this.originalData = this.data()
     }
+
 }
 
 export default Request
