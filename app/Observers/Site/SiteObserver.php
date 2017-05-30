@@ -75,7 +75,6 @@ class SiteObserver
         );
 
         $this->repositoryService->generateNewSshKeys($site);
-
     }
 
     public function updating(Site $site)

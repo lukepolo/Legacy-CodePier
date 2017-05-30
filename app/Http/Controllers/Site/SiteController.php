@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Jobs\Site\DeleteSite;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
+use App\Jobs\Site\DeleteSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
