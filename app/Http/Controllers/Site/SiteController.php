@@ -248,8 +248,9 @@ class SiteController extends Controller
 
         $site->public_ssh_key = null;
 
-        if (empty($site->repository)) {
+        if (empty($site->userRepositoryProvider)) {
             $this->repositoryService->generateNewSshKeys($site);
+            $this->repositoryService->saveKeysToServer($site);
         } else {
             try {
                 $this->repositoryService->importSshKey($site);

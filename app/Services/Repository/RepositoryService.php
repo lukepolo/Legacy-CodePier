@@ -57,13 +57,7 @@ class RepositoryService implements RepositoryServiceContract
                 }
             }
 
-            foreach ($site->provisionedServers as $server) {
-                try {
-                    $this->remoteTaskService->saveSshKeyToServer($site, $server);
-                } catch (SshConnectionFailed $sshConnectionFailed) {
-                    continue;
-                }
-            }
+            $this->saveKeysToServer($site);
         }
     }
 
@@ -137,5 +131,21 @@ class RepositoryService implements RepositoryServiceContract
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
+    }
+
+    /**
+     * Saves the public keys to the server
+     * @param Site $site
+     */
+    public function saveKeysToServer(Site $site) {
+
+        foreach ($site->provisionedServers as $server) {
+            try {
+                $this->remoteTaskService->saveSshKeyToServer($site, $server);
+            } catch (SshConnectionFailed $sshConnectionFailed) {
+                continue;
+            }
+        }
+
     }
 }
