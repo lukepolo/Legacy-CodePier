@@ -17,6 +17,7 @@ use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Site\SiteFeatureServiceContract as SiteFeatureService;
+use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
 use App\Contracts\Site\SiteDeploymentStepsServiceContract as SiteDeploymentStepsService;
 
 class SiteObserver
@@ -26,6 +27,7 @@ class SiteObserver
     public static $originalServers = [];
 
     private $siteService;
+    private $repositoryService;
     private $siteFeatureService;
     private $siteDeploymentStepsService;
 
@@ -33,15 +35,18 @@ class SiteObserver
      * SiteObserver constructor.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\Site\SiteFeatureService |SiteFeatureService $siteFeatureService
+     * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
+     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService $siteFeatureService
      * @param \App\Services\Site\SiteDeploymentStepsService | SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(
         SiteService $siteService,
+        RepositoryService $repositoryService,
         SiteFeatureService $siteFeatureService,
         SiteDeploymentStepsService $siteDeploymentStepsService
     ) {
         $this->siteService = $siteService;
+        $this->repositoryService = $repositoryService;
         $this->siteFeatureService = $siteFeatureService;
         $this->siteDeploymentStepsService = $siteDeploymentStepsService;
     }
@@ -68,6 +73,9 @@ class SiteObserver
                 'from_ip'     => null,
             ])
         );
+
+        $this->repositoryService->generateNewSshKeys($site);
+
     }
 
     public function updating(Site $site)

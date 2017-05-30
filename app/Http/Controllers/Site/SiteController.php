@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Jobs\Site\DeleteSite;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeploySite;
@@ -105,17 +106,18 @@ class SiteController extends Controller
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
 
-            foreach ($changes['attached'] as $serverID) {
+            foreach ($changes['attached'] as $server) {
                 $this->dispatch(
                     (new CreateSite(
-                        Server::findOrFail($serverID), $site)
+                        Server::findOrFail($server), $site)
                     )->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
-            foreach ($changes['detached'] as $serverID) {
-                // TODO - We need to get rid of the site from that serer
-                // There is a ton to get rid of and needs to be thought out
+            foreach ($changes['detached'] as $server) {
+                (new DeleteSite(
+                    Server::findOrFail($server), $site)
+                )->onQueue(config('queue.channels.server_commands'));
             }
         }
 

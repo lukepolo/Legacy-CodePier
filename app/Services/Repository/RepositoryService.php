@@ -2,6 +2,7 @@
 
 namespace App\Services\Repository;
 
+use App\Jobs\Server\InstallPublicKey;
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
 use App\Exceptions\SshConnectionFailed;
@@ -141,7 +142,11 @@ class RepositoryService implements RepositoryServiceContract
 
         foreach ($site->provisionedServers as $server) {
             try {
-                $this->remoteTaskService->saveSshKeyToServer($site, $server);
+                dispatch(
+                    (
+                        new InstallPublicKey($server, $site)
+                    )->onQueue(config('queue.channels.server_commands'))
+                );
             } catch (SshConnectionFailed $sshConnectionFailed) {
                 continue;
             }
