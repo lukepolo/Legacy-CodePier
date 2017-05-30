@@ -13,7 +13,7 @@ class AddCustomProviderToSites extends Migration
      */
     public function up()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->boolean('custom_provider')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddCustomProviderToSites extends Migration
      */
     public function down()
     {
-        Schema::table('sites', function(Blueprint $table) {
+        Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('custom_provider');
         });
     }
