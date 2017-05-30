@@ -114,7 +114,8 @@ class SiteController extends Controller
             }
 
             foreach ($changes['detached'] as $serverID) {
-                dd('site needs to be deleted');
+                // TODO - We need to get rid of the site from that serer
+                // There is a ton to get rid of and needs to be thought out
             }
         }
 

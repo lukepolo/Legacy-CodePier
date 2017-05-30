@@ -31,7 +31,7 @@ class SiteRepositoryRequest extends FormRequest
             'repository'=> 'string',
             'zerotime_deployment' => 'nullable|boolean',
             'web_directory' => 'nullable|string',
-            'user_repository_provider_id' => 'required_unless:custom_provider,true|integer',
+            'user_repository_provider_id' => 'required_unless:custom_provider,true|nullable|integer',
             'keep_releases' => 'required_if:zerotime_deployment,true',
         ];
     }
