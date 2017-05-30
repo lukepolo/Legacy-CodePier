@@ -57,10 +57,9 @@ trait DeployTrait
             $this->release = $this->release.'/'.$this->releaseTime;
         }
 
-        if( $site->userRepositoryProvider) {
+        if ($site->userRepositoryProvider) {
             $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
         }
-
     }
 
     /**
@@ -77,19 +76,15 @@ trait DeployTrait
         if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
 
-            if($this->repositoryProvider) {
-
+            if ($this->repositoryProvider) {
                 $url = 'https://'.$this->repositoryProvider->url.'/'.$this->repository;
 
                 if ($this->site->private) {
                     $url = $this->repositoryProvider->git_url.':'.$this->repository;
                 }
-
             } else {
-
                 $repositoryUrl = parse_url($this->repository);
-                $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'],'/');
-
+                $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'], '/');
             }
 
             if ($this->zerotimeDeployment) {
