@@ -107,7 +107,9 @@ class SiteController extends Controller
 
             foreach ($changes['attached'] as $serverID) {
                 $this->dispatch(
-                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue(config('queue.channels.server_commands'))
+                    (new CreateSite(
+                        Server::findOrFail($serverID), $site)
+                    )->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
@@ -245,10 +247,14 @@ class SiteController extends Controller
 
         $site->public_ssh_key = null;
 
-        try {
-            $this->repositoryService->importSshKey($site);
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 400);
+        if (empty($site->repository)) {
+            $this->repositoryService->generateNewSshKeys($site);
+        } else {
+            try {
+                $this->repositoryService->importSshKey($site);
+            } catch (\Exception $e) {
+                return response()->json($e->getMessage(), 400);
+            }
         }
 
         return response()->json($site);
@@ -266,7 +272,7 @@ class SiteController extends Controller
             'hash' => create_redis_hash(),
         ]);
 
-        if ($site->automatic_deployment_id) {
+        if (! empty($site->automatic_deployment_id)) {
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }
