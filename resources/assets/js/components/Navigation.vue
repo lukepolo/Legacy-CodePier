@@ -8,7 +8,7 @@
         </div>
 
         <ul class="nav nav-left nav-piles">
-            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers">
+            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
                 <li>
                     <span class="dropdown-heading">Change Pile</span>
                 </li>
