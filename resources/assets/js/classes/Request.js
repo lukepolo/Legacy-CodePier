@@ -33,7 +33,6 @@ class Request {
      * Fetch all relevant data for the form.
      */
     data () {
-
         if (this.formData) {
             return this.formData
         }
@@ -119,7 +118,7 @@ class Request {
 
             axios[requestType](url, data, config)
                 .then(response => {
-                    if (response.config.responseType == 'arraybuffer') {
+                    if (response.config.responseType === 'arraybuffer') {
                         const a = document.createElement('a')
                         document.body.appendChild(a)
 

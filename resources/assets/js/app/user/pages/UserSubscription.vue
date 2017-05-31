@@ -132,7 +132,7 @@
                 return this.$store.state.user_subscription.upcoming_subscription;
             },
             isCanceled() {
-                return this.user_subscription.ends_at != null;
+                return this.user_subscription.ends_at !==  null;
             }
         },
         methods: {

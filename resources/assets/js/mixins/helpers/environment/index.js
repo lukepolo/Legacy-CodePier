@@ -1,4 +1,3 @@
 export const local = () => {
-    return false
-    return Laravel.env === 'local'
+    return false // Laravel.env === 'local'
 }

@@ -25,7 +25,7 @@
                             <tbody>
                                 <tr v-for="server in servers">
                                     <td>
-                                        <template v-if="server.status == 'Provisioned'">
+                                        <template v-if="server.status === 'Provisioned'">
                                             <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
                                                 {{ server.name }}
                                             </router-link>
@@ -42,7 +42,7 @@
                                             </confirm>
                                         </template>
                                         <template v-else>
-                                            <template v-if="server.status != 'Provisioned' && server.custom_server_url">
+                                            <template v-if="server.status !==  'Provisioned' && server.custom_server_url">
                                                 <textarea rows="4" readonly>{{ server.custom_server_url }}</textarea>
                                                 <clipboard :data="server.custom_server_url"></clipboard>
                                             </template>
@@ -83,7 +83,7 @@
         },
         computed: {
             showArchived() {
-                return this.$route.name != 'servers'
+                return this.$route.name !==  'servers'
             },
             servers() {
                 if(!this.showArchive) {

@@ -7,7 +7,6 @@
 
 window.laroute = require('./laroute')
 window.moment = require('moment-timezone')
-window.moment.tz.setDefault('UTC')
 
 /*
  |--------------------------------------------------------------------------

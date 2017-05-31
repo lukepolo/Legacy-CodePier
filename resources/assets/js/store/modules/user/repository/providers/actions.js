@@ -1,11 +1,11 @@
-export const get = ({}, user) => {
+export const get = (context, user) => {
     return Vue.request().get(
         Vue.action('User\Providers\UserRepositoryProviderController@index', { user: user }),
         'user_repository_providers/setAll'
     )
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete(
         Vue.action('User\Providers\UserRepositoryProviderController@destroy', {
             user: data.user,

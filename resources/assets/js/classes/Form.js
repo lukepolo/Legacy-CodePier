@@ -13,8 +13,7 @@ class Form extends Request {
         this.errors.clear()
     }
 
-
-    empty() {
+    empty () {
         for (const field in this.emptyData) {
             this[field] = this.emptyData[field]
         }

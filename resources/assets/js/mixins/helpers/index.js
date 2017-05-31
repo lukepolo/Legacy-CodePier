@@ -61,7 +61,7 @@ import {
 } from './repository-provider'
 
 Vue.mixin({
-    methods : {
+    methods: {
         now,
         back,
         local,

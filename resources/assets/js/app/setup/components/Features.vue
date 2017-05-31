@@ -5,7 +5,7 @@
             <ul class="nav nav-tabs">
 
                 <template v-for="(features, serverFeatureArea) in availableServerFeatures">
-                    <li :class="{ 'router-link-active' : section == serverFeatureArea }" v-if="features.length != 0">
+                    <li :class="{ 'router-link-active' : section === serverFeatureArea }" v-if="features.length !==  0">
                         <a @click="switchSection(serverFeatureArea)">
                             {{ getSectionTitle(serverFeatureArea) }}
                         </a>
@@ -13,7 +13,7 @@
                 </template>
 
                 <template v-for="(features, serverLanguageArea) in availableServerLanguages">
-                    <li :class="{ 'router-link-active' : section == serverLanguageArea }" v-if="features.length != 0">
+                    <li :class="{ 'router-link-active' : section === serverLanguageArea }" v-if="features.length !==  0">
                         <a @click="switchSection(serverLanguageArea)">
                             {{ getSectionTitle(serverLanguageArea) }}
                         </a>
@@ -32,7 +32,7 @@
                         :area="serverFeatureArea"
                         :features="features"
                         v-for="(features, serverFeatureArea) in availableServerFeatures"
-                        v-show="section == serverFeatureArea"
+                        v-show="section === serverFeatureArea"
                         :current_selected_features="currentSelectedFeatures"
                         v-on:featuresChanged="updateSelectedFeatures"
                         :key="serverFeatureArea"
@@ -44,7 +44,7 @@
                         :features="features"
                         :frameworks="true"
                         v-for="(features, serverLanguageArea) in availableServerLanguages"
-                        v-show="section == serverLanguageArea"
+                        v-show="section === serverLanguageArea"
                         :current_selected_features="currentSelectedFeatures"
                         v-on:featuresChanged="updateSelectedFeatures"
                         :key="serverLanguageArea"
