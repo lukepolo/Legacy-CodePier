@@ -1,12 +1,7 @@
 <template>
     <section>
-        <p>
-            This allows you to connect to your servers with the user "codepier" and the supplied SSH Keys.
-        </p>
 
-        <p>
-            To create an ssh key follow this  <a target="_blank" href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">guide</a>
-        </p>
+        <ssh-guide></ssh-guide>
 
         <div class="jcf-form-wrap">
             <form @submit.prevent="createSshkey" class="floating-labels">
