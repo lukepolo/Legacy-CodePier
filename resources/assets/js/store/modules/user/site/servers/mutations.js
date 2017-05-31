@@ -10,10 +10,9 @@ export const remove = (state, { requestData }) => {
 }
 
 export const update = (state, { response }) => {
-
     _.each(state.servers, (servers, site) => {
-        let serverKey = _.findKey(state.servers[site], { id : response.id })
-        if(serverKey) {
+        const serverKey = _.findKey(state.servers[site], { id: response.id })
+        if (serverKey) {
             Vue.set(state.servers[site], serverKey, response)
         }
     })

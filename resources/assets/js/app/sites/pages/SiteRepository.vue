@@ -159,7 +159,7 @@
 
                 <div class="btn-footer">
                     <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
-                    <button class="btn btn-primary" type="submit" :disabled="form.diff().length == 0">Update Repository</button>
+                    <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
                 </div>
 
             </form>

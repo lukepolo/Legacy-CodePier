@@ -129,10 +129,10 @@
                                     <template v-for="(types, area) in defaultNotificationTypes">
                                         <template v-for="type in types">
                                             <label>
-                                                <template v-if="area == 'site_deployments'">
+                                                <template v-if="area === 'site_deployments'">
                                                     <input type="checkbox" v-model="form.filters.types.site_deployments" :value="type">
                                                 </template>
-                                                <template v-else-if="area == 'commands'">
+                                                <template v-else-if="area === 'commands'">
                                                     <input type="checkbox" v-model="form.filters.types.commands" :value="type">
                                                 </template>
                                                 <span class="icon"></span>
@@ -162,10 +162,10 @@
                 </section>
                 <section v-else>
                     <template  v-for="event in events">
-                        <template v-if="event.event_type == 'App\\Models\\Site\\SiteDeployment'">
+                        <template v-if="event.event_type === 'App\\Models\\Site\\SiteDeployment'">
                             <deployment-event :event="event" :key="event"></deployment-event>
                         </template>
-                        <template v-else-if="event.event_type == 'App\\Models\\Command'">
+                        <template v-else-if="event.event_type === 'App\\Models\\Command'">
                             <command-event :event="event" :key="event"></command-event>
                         </template>
                         <template v-else>
@@ -185,221 +185,216 @@
 
 <script>
 
-    import CommandEvent from './event-components/CommandEvent.vue';
-    import DeploymentEvent from './event-components/DeploymentEvent.vue';
+    import CommandEvent from './event-components/CommandEvent.vue'
+import DeploymentEvent from './event-components/DeploymentEvent.vue'
 
-    Vue.directive('resizeable', {
+Vue.directive('resizeable', {
         inserted: function (el, bindings) {
+            const container = $('footer')
+            const bottom = $('#collapseEvents')
+            const handle = $('#drag')
 
-            let isResizing = false,
-                lastOffset = null,
-                container = $('footer'),
-                bottom = $('#collapseEvents'),
-                handle = $('#drag');
+            let isResizing = false
+            let lastOffset = null
 
             handle.on('mousedown', function (e) {
-                isResizing = true;
+                isResizing = true
                 bottom.addClass('dragging')
-            });
+            })
 
             $(document).on('mousemove', function (e) {
                 if (!isResizing) {
-                    return;
+                    return
                 }
 
-                lastOffset = container.height() - (e.clientY - container.offset().top);
+                lastOffset = container.height() - (e.clientY - container.offset().top)
 
-                if(lastOffset < 100) {
+                if (lastOffset < 100) {
                     lastOffset = 100
                 }
 
-                bottom.css('height', lastOffset - 40);
+                bottom.css('height', lastOffset - 40)
             }).on('mouseup', function (e) {
-                isResizing = false;
+                isResizing = false
                 bottom.removeClass('dragging')
-            });
-
+            })
         }
-    });
+    })
 
-    Vue.directive('watch-scroll', {
+Vue.directive('watch-scroll', {
         update: function (el, bindings) {
+            const container = $('#collapseEvents')
 
-            let container = $('#collapseEvents');
+            container.unbind('scroll')
 
-            container.unbind('scroll');
+            const pagination = bindings.value.events_pagination
+            const form = bindings.value.form
 
-            let pagination = bindings.value.events_pagination;
-            let form = bindings.value.form;
-
-            if(pagination) {
-                let nextPage = pagination.current_page + 1;
+            if (pagination) {
+                const nextPage = pagination.current_page + 1
                 if (nextPage <= pagination.last_page) {
-                    container.bind('scroll', function() {
+                    container.bind('scroll', function () {
                         if ((container[0].scrollHeight - container[0].scrollTop - container[0].offsetHeight) < 1) {
-                            form.page = nextPage;
+                            form.page = nextPage
                             $('#events-loading').removeClass('hide')
                             app.$store.dispatch('events/get', form).then((data) => {
                                 $('#events-loading').addClass('hide')
-                            });
+                            })
                         }
-                    });
+                    })
                 }
             }
         }
-    });
+    })
 
-    export default {
-        components : {
+export default {
+        components: {
             CommandEvent,
-            DeploymentEvent,
+            DeploymentEvent
         },
-        data() {
+        data () {
             return {
-                windowWidth : 0,
-                showEvents : false,
-                defaultNotificationTypes : Laravel.defaultNotificationTypes,
-                form : {
-                    page : 1,
-                    filters : {
-                        types : {
-                            commands : [],
-                            site_deployments : [],
+                windowWidth: 0,
+                showEvents: false,
+                defaultNotificationTypes: Laravel.defaultNotificationTypes,
+                form: {
+                    page: 1,
+                    filters: {
+                        types: {
+                            commands: [],
+                            site_deployments: []
                         },
-                        piles : [],
-                        sites : [],
-                        servers : [],
+                        piles: [],
+                        sites: [],
+                        servers: []
                     }
                 },
-                prev_filters : {
-                    types : {
-                        commands : [],
-                        site_deployments : [],
+                prev_filters: {
+                    types: {
+                        commands: [],
+                        site_deployments: []
                     },
-                    piles : [],
-                    sites : [],
-                    servers : [],
+                    piles: [],
+                    sites: [],
+                    servers: []
                 }
             }
         },
-        created() {
-            this.fetchData();
+        created () {
+            this.fetchData()
         },
-        mounted() {
-            this.$nextTick(function() {
-                window.addEventListener('resize', this.getWindowWidth);
+        mounted () {
+            this.$nextTick(function () {
+                window.addEventListener('resize', this.getWindowWidth)
                 this.getWindowWidth()
             })
-
         },
         methods: {
-            showFilter(filter) {
-                let filterList = $(this.$refs[filter])
+            showFilter (filter) {
+                const filterList = $(this.$refs[filter])
                 $('#collapseEvents .dropdown').removeClass('open')
                 filterList.toggleClass('open').find('.dropdown-menu').css('left', filterList.position().left)
             },
-            fetchData() {
-                this.$store.dispatch('events/get');
-                this.$store.dispatch('user_sites/get');
-                this.$store.dispatch('user_servers/get');
+            fetchData () {
+                this.$store.dispatch('events/get')
+                this.$store.dispatch('user_sites/get')
+                this.$store.dispatch('user_servers/get')
             },
-            updateFilters() {
-                this.$store.commit('events/clear');
-                this.form.page = 1;
+            updateFilters () {
+                this.$store.commit('events/clear')
+                this.form.page = 1
 
-                this.prev_filters = _.cloneDeep(this.form.filters);
-                this.$store.dispatch('events/get', this.form);
+                this.prev_filters = _.cloneDeep(this.form.filters)
+                this.$store.dispatch('events/get', this.form)
             },
-            renderType(type) {
-                let title = type.substring(type.lastIndexOf('\\') + 1);
+            renderType (type) {
+                const title = type.substring(type.lastIndexOf('\\') + 1)
 
-                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(type) {
-                    return type.toUpperCase();
-                }) + 's';
+                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function (type) {
+                    return type.toUpperCase()
+                }) + 's'
             },
-            cancel(type) {
-
+            cancel (type) {
                 $('#collapseEvents .dropdown').removeClass('open')
 
-                let filters = _.cloneDeep(this.prev_filters[type]);
+                const filters = _.cloneDeep(this.prev_filters[type])
 
-                Vue.set(this.form.filters, type, filters);
+                Vue.set(this.form.filters, type, filters)
             },
-            getWindowWidth() {
-                this.windowWidth = document.documentElement.clientWidth;
-            },
+            getWindowWidth () {
+                this.windowWidth = document.documentElement.clientWidth
+            }
         },
         computed: {
-            pilesList() {
-                let piles = this.form.filters.piles;
-                if(!piles.length) {
-                    return 'All';
+            pilesList () {
+                const piles = this.form.filters.piles
+                if (!piles.length) {
+                    return 'All'
                 }
 
                 return _.join(
                     _.map(piles, (pile) => {
-                        return this.getPile(pile, 'name');
-                        }
+                        return this.getPile(pile, 'name')
+                    }
                     ), ', '
-                );
+                )
             },
-            siteList() {
-                let sites = this.form.filters.sites;
-                if(!sites.length) {
-                    return 'All';
+            siteList () {
+                const sites = this.form.filters.sites
+                if (!sites.length) {
+                    return 'All'
                 }
 
                 return _.join(
                     _.map(sites, (site) => {
-                            return this.getSite(site, 'name');
-                        }
+                        return this.getSite(site, 'name')
+                    }
                     ), ', '
-                );
+                )
             },
-            serverList() {
-                let servers = this.form.filters.servers;
-                if(!servers.length) {
-                    return 'All';
+            serverList () {
+                const servers = this.form.filters.servers
+                if (!servers.length) {
+                    return 'All'
                 }
 
                 return _.join(
                     _.map(servers, (server) => {
-                            return this.getServer(server, 'name');
-                        }
+                        return this.getServer(server, 'name')
+                    }
                     ), ', '
-                );
+                )
             },
-            eventList() {
+            eventList () {
+                const types = this.form.filters.types
 
-                let types = this.form.filters.types;
+                const events = _.map(_.merge(types.site_deployments, types.commands), (event) => {
+                    return this.renderType(event)
+                })
 
-                let events = _.map(_.merge(types.site_deployments, types.commands), (event) => {
-                    return this.renderType(event);
-                });
-
-                if(!events.length) {
-                    return 'All';
+                if (!events.length) {
+                    return 'All'
                 }
 
-                return _.join(events, ', ');
+                return _.join(events, ', ')
             },
-            piles() {
-                return this.$store.state.user_piles.piles;
+            piles () {
+                return this.$store.state.user_piles.piles
             },
-            sites() {
-                return this.$store.state.user_sites.sites;
+            sites () {
+                return this.$store.state.user_sites.sites
             },
-            servers() {
-                return this.$store.state.user_servers.servers;
+            servers () {
+                return this.$store.state.user_servers.servers
             },
 
-            events() {
-                return this.$store.state.events.events;
+            events () {
+                return this.$store.state.events.events
             },
-            events_pagination() {
-                return this.$store.state.events.events_pagination;
+            events_pagination () {
+                return this.$store.state.events.events_pagination
             }
-        },
+        }
     }
 
 </script>

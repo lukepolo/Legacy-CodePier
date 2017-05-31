@@ -259,7 +259,7 @@
              */
             toggleScope(scope) {
                 if (this.scopeIsAssigned(scope)) {
-                    this.form.scopes = _.reject(this.form.scopes, s => s == scope);
+                    this.form.scopes = _.reject(this.form.scopes, s => s === scope);
                 } else {
                     this.form.scopes.push(scope);
                 }

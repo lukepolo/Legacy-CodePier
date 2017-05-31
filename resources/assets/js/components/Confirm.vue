@@ -29,41 +29,41 @@
 <script>
     export default {
         props: {
-            'params' : {},
-            'dispatch' : {},
-            'cancel_text' : {},
-            'confirm_text' : {},
-            'confirm_with_text' : {},
-            'confirm_class' : {
-                default : 'btn'
-            },
-        },
-        data() {
-            return {
-                confirm: false,
-                confirmedText : '',
+            'params': {},
+            'dispatch': {},
+            'cancel_text': {},
+            'confirm_text': {},
+            'confirm_with_text': {},
+            'confirm_class': {
+                default: 'btn'
             }
         },
-        watch : {
-            'confirm'() {
+        data () {
+            return {
+                confirm: false,
+                confirmedText: ''
+            }
+        },
+        watch: {
+            'confirm' () {
                 Vue.nextTick(() => {
-                    if( this.$refs.confirm_input) {
+                    if (this.$refs.confirm_input) {
                         this.$refs.confirm_input.focus()
                     }
                 })
-            },
+            }
 
         },
         computed: {
-            cancelText() {
+            cancelText () {
                 return 'Cancel'
             },
-            confirmText() {
+            confirmText () {
                 return this.confirm_text ? this.confirm_text : 'Confirm'
             },
-            textConfirmed() {
-                if(this.confirm_with_text) {
-                    if(_.lowerCase(this.confirmedText) != _.lowerCase(this.confirm_with_text)) {
+            textConfirmed () {
+                if (this.confirm_with_text) {
+                    if (_.lowerCase(this.confirmedText) !== _.lowerCase(this.confirm_with_text)) {
                         return false
                     }
                 }
@@ -71,23 +71,23 @@
             }
         },
         methods: {
-            open() {
+            open () {
                 app.$emit('close-confirms')
                 this.confirm = true
             },
-            close() {
+            close () {
                 $(this.$el).closest('.dropdown').removeClass('open')
                 this.confirm = false
             },
-            confirmMethod() {
-                if(this.textConfirmed) {
+            confirmMethod () {
+                if (this.textConfirmed) {
                     this.confirmedText = ''
                     this.$store.dispatch(this.dispatch, this.params)
                     this.close()
                 }
             }
         },
-        created() {
+        created () {
             app.$on('close-confirms', () => {
                 this.confirm = false
             })

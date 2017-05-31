@@ -3,6 +3,5 @@ export const isAdmin = function () {
 }
 
 export const teamsEnabled = () => {
-    return false
-    return Laravel.teams
+    return false // Laravel.teams
 }
