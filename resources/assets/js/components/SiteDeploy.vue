@@ -25,10 +25,15 @@
         },
         computed : {
             hasDeployableServers() {
-                let deployableServers = this.$store.state.user_site_servers.servers[this.site.id]
+
+                let deployableServers = _.filter(this.$store.state.user_site_servers.servers[this.site.id], (server) => {
+                    return server.progress >= 100
+                })
+
                 if(deployableServers && _.keys(deployableServers).length) {
                     return true
                 }
+
                 return false
             },
             isDeploying() {

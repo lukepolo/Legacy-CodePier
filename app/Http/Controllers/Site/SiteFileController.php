@@ -66,7 +66,7 @@ class SiteFileController extends Controller
             ->first();
 
         if (empty($file)) {
-            $servers = Site::with('servers.files')->findOrFail($siteId)->servers;
+            $servers = Site::with('provisionedServers.files')->findOrFail($siteId)->provisionedServers;
 
             foreach ($servers as $server) {
                 $file = $server->files->first(function ($file) use ($request) {

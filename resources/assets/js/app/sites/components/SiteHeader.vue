@@ -145,8 +145,9 @@
                 return this.$store.state.user_sites.site;
             },
             siteServers() {
-                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id);
-                if(siteServers && _.keys(siteServers).length) {
+                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
+
+                if(siteServers && siteServers.length) {
                     return siteServers
                 }
             },
