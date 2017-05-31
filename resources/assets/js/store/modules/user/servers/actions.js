@@ -70,10 +70,26 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
 
         Echo.private('App.Models.Server.Server.' + server.id)
             .listen('Server\\ServerProvisionStatusChanged', (data) => {
+
                 commit('user_servers/update', {
                     response : data.server
-                }, { root : true })
-                commit('user_server_provisioning/setCurrentStep', data.serverCurrentProvisioningStep, { root : true })
+                }, {
+                    root : true
+                })
+
+                commit('user_site_servers/update', {
+                    response : data.server,
+                }, {
+                    root : true
+                })
+
+                commit('user_server_provisioning/setCurrentStep',
+                    data.serverCurrentProvisioningStep, {
+                    root : true
+                })
+
+
+
             })
             .listen('Server\\ServerSshConnectionFailed', (data) => {
                 commit('user_servers/update', {
