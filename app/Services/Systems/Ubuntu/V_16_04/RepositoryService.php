@@ -2,9 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Contracts\RemoteTaskServiceContract;
 use App\Services\AbstractService;
-use Illuminate\Database\Eloquent\Collection;
 
 class RepositoryService extends AbstractService
 {
