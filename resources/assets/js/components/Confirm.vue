@@ -1,5 +1,5 @@
 <template>
-    <span class="confirm-container" @click.stop @keyup.32.prevent @keyup.esc="close()">
+    <span class="confirm-container" @click.stop.prevent @keyup.32.prevent @keyup.esc="close()">
         <button :class="confirm_class" @click="open()">
             <slot></slot>
         </button>
@@ -18,8 +18,8 @@
                     </div>
                 </template>
                 <div class="btn-footer">
-                    <button class="btn btn-small" @click.stop="close()">{{ cancelText }}</button>
-                    <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
+                    <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
+                    <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
                 </div>
             </div>
         </transition>
