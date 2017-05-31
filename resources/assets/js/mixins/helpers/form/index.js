@@ -7,7 +7,7 @@ export const getFormData = function (form) {
     return new FormData(form)
 }
 
-import Form from './../../classes/Form'
+import Form from '../../../classes/Form'
 
 export const createForm = (data, reset) => {
     return new Form(data, reset)

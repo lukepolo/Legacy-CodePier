@@ -1,14 +1,11 @@
+import store from './store'
+import router from './router'
+
 require('./bootstrap')
 require('./components')
 require('./directives')
-
-import store from './store'
-import mixins from './mixins'
-import router from './router'
-
-Vue.mixin({
-    methods: mixins
-})
+require('./emitters')
+require('./mixins')
 
 const app = new Vue({
     store,
@@ -28,4 +25,4 @@ Echo.channel('app').listen('ReleasedNewVersion', (data) => {
 
 app.$mount('#app-layout')
 
-require('./emitters')
+
