@@ -3,22 +3,11 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Contracts\RemoteTaskServiceContract;
+use App\Services\AbstractService;
 use Illuminate\Database\Eloquent\Collection;
 
-class RepositoryService
+class RepositoryService extends AbstractService
 {
-    protected $remoteTaskService;
-
-    /**
-     * RepositoryService constructor.
-     * @param $remoteTaskService
-     */
-    public function __construct(RemoteTaskServiceContract $remoteTaskService, Collection $server)
-    {
-        $this->remoteTaskService = $remoteTaskService;
-        $this->server = $server;
-    }
-
     /**
      *  @description GIt is a is a version control system
      */
