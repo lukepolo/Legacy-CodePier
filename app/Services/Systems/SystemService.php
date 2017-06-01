@@ -41,6 +41,7 @@ class SystemService implements SystemServiceContract
 
     const SERVER_TYPES = [
         'Full Stack' => 'full_stack',
+        'Web' => 'web',
         'Worker' => 'worker',
         'Database' => 'database',
         'Load Balancer' => 'load_balancer',
@@ -54,6 +55,14 @@ class SystemService implements SystemServiceContract
             self::WORKERS,
             self::FIREWALL,
             self::DATABASE,
+            self::MONITORING,
+            self::REPOSITORY,
+        ],
+        'web' => [
+            self::WEB,
+            self::NODE,
+            self::SYSTEM,
+            self::FIREWALL,
             self::MONITORING,
             self::REPOSITORY,
         ],
