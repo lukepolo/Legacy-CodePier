@@ -4,9 +4,9 @@ namespace App\Events\Site;
 
 use App\Models\Worker;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\Workers\RemoveServerWorker;
 
 class SiteWorkerDeleted
@@ -27,10 +27,9 @@ class SiteWorkerDeleted
             $siteCommand = $this->makeCommand($site, $worker);
 
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
-                if(
+                if (
                     $serverType === SystemService::WORKER_SERVER ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
@@ -40,7 +39,6 @@ class SiteWorkerDeleted
                         )->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
         }
     }
