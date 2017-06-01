@@ -7,6 +7,4 @@ use App\Services\Systems\ServiceConstructorTrait;
 class FullStackServerService
 {
     use ServiceConstructorTrait;
-
-
 }

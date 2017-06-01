@@ -55,20 +55,20 @@ class SystemService implements SystemServiceContract
             self::FIREWALL,
             self::DATABASE,
             self::MONITORING,
-            self::REPOSITORY
+            self::REPOSITORY,
         ],
         'worker' => [
             self::NODE,
             self::SYSTEM,
             self::WORKERS,
             self::MONITORING,
-            self::REPOSITORY
+            self::REPOSITORY,
         ],
         'database' => [
             self::SYSTEM,
             self::DATABASE,
             self::MONITORING,
-            self::REPOSITORY
+            self::REPOSITORY,
         ],
         'load_balancer' => [
             self::WEB,
@@ -101,7 +101,6 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
-
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service, $server);
@@ -111,29 +110,26 @@ class SystemService implements SystemServiceContract
                 $provisionStep->update([
                     'failed' => false,
                     'completed' => true,
-                    'log' => $systemService->getOutput()
+                    'log' => $systemService->getOutput(),
                 ]);
             }
         } catch (FailedCommand $e) {
-
             $provisionStep->update([
                 'failed' => true,
-                'log' => $systemService->getErrors()
+                'log' => $systemService->getErrors(),
             ]);
 
             $this->updateProgress($provisionStep->step);
 
             return false;
-
         } catch (\Exception $e) {
-
             if (config('app.debug')) {
                 throw $e;
             }
 
             $provisionStep->update([
                 'failed' => true,
-                'log' => 'We had a system error please contact support.'
+                'log' => 'We had a system error please contact support.',
             ]);
 
             $this->updateProgress($provisionStep->step);
