@@ -43,7 +43,7 @@ class SystemService implements SystemServiceContract
     const WORKER_SERVER = 'worker';
     const DATABASE_SERVER = 'database';
     const LOAD_BALANCER = 'load_balancer';
-    const FULL_STACK_SERVER  = 'full_stack';
+    const FULL_STACK_SERVER = 'full_stack';
 
     const SERVER_TYPES = [
         'Full Stack' => self::FULL_STACK_SERVER,
