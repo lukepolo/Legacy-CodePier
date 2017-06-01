@@ -54,25 +54,23 @@ class CreateSite implements ShouldQueue
     {
         $serverType = $this->server->type;
 
-        if(
+        if (
             $serverType === SystemService::WEB_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $siteService->create($this->server, $this->site);
         }
 
-        if(
+        if (
             $serverType === SystemService::WEB_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-
             $this->site->cronJobs->each(function ($cronJob) {
                 dispatch(
                     (new InstallServerCronJob($this->server, $cronJob,
                         $this->makeCommand($this->site, $cronJob)))->onQueue(config('queue.channels.server_commands'))
                 );
             });
-
         }
 
         $this->site->files->each(function ($file) {
@@ -83,12 +81,11 @@ class CreateSite implements ShouldQueue
             }
         });
 
-        if(
+        if (
             $serverType === SystemService::WEB_SERVER ||
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-
             $this->site->firewallRules->each(function ($firewallRule) {
                 dispatch(
                     (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site,
@@ -103,7 +100,7 @@ class CreateSite implements ShouldQueue
             );
         });
 
-        if(
+        if (
             $serverType === SystemService::WEB_SERVER ||
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
@@ -117,7 +114,7 @@ class CreateSite implements ShouldQueue
             });
         }
 
-        if(
+        if (
             $serverType === SystemService::WORKER_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
@@ -127,10 +124,9 @@ class CreateSite implements ShouldQueue
                         $this->makeCommand($this->site, $worker)))->onQueue(config('queue.channels.server_commands'))
                 );
             });
-
         }
 
-        if(
+        if (
             $serverType === SystemService::DATABASE_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
@@ -148,7 +144,7 @@ class CreateSite implements ShouldQueue
             );
         });
 
-        if(
+        if (
             $serverType === SystemService::WORKER_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {

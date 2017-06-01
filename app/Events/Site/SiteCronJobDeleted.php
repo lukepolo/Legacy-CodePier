@@ -4,9 +4,9 @@ namespace App\Events\Site;
 
 use App\Models\CronJob;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 
 class SiteCronJobDeleted
@@ -27,10 +27,9 @@ class SiteCronJobDeleted
             $siteCommand = $this->makeCommand($site, $cronJob);
 
             foreach ($cronJob->servers as $server) {
-
                 $serverType = $server->type;
 
-                if(
+                if (
                     $serverType === SystemService::WEB_SERVER ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
@@ -39,7 +38,6 @@ class SiteCronJobDeleted
                             $siteCommand))->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
         }
     }
