@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
+use App\Jobs\Site\DeleteSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
 use App\Models\Site\SiteDeployment;
@@ -105,14 +106,18 @@ class SiteController extends Controller
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
 
-            foreach ($changes['attached'] as $serverID) {
+            foreach ($changes['attached'] as $server) {
                 $this->dispatch(
-                    (new CreateSite(Server::findOrFail($serverID), $site))->onQueue(config('queue.channels.server_commands'))
+                    (new CreateSite(
+                        Server::findOrFail($server), $site)
+                    )->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
-            foreach ($changes['detached'] as $serverID) {
-                dd('site needs to be deleted');
+            foreach ($changes['detached'] as $server) {
+                (new DeleteSite(
+                    Server::findOrFail($server), $site)
+                )->onQueue(config('queue.channels.server_commands'));
             }
         }
 
@@ -239,12 +244,22 @@ class SiteController extends Controller
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refreshSshKeys($siteId)
+    public function refreshPublicKey($siteId)
     {
         $site = Site::findOrFail($siteId);
 
         $site->public_ssh_key = null;
-        $this->repositoryService->importSshKey($site);
+
+        if (empty($site->userRepositoryProvider)) {
+            $this->repositoryService->generateNewSshKeys($site);
+            $this->repositoryService->saveKeysToServer($site);
+        } else {
+            try {
+                $this->repositoryService->importSshKey($site);
+            } catch (\Exception $e) {
+                return response()->json($e->getMessage(), 400);
+            }
+        }
 
         return response()->json($site);
     }
@@ -261,7 +276,7 @@ class SiteController extends Controller
             'hash' => create_redis_hash(),
         ]);
 
-        if ($site->automatic_deployment_id) {
+        if (! empty($site->automatic_deployment_id)) {
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }

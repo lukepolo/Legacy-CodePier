@@ -119,7 +119,10 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        $this->repositoryService->importSshKey($site);
+        if ($site->userRepositoryProvider) {
+            $this->repositoryService->importSshKey($site);
+        }
+
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
         foreach ($siteServerDeployment->events as $event) {
@@ -144,7 +147,9 @@ class SiteService implements SiteServiceContract
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, $e->getMessage()));
+                $log = collect($e->getMessage())->filter()->implode("\n");
+
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
@@ -183,19 +188,27 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
-     * @return Site $site
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function createDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            return response()->json('The site does not have a connected repository', 400);
+        }
+
         return $this->repositoryService->createDeployHook($site);
     }
 
     /**
      * @param Site $site
-     * @return Site $site
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function deleteDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            return response()->json('The site does not have a connected repository', 400);
+        }
+
         return $this->repositoryService->deleteDeployHook($site);
     }
 

@@ -38,7 +38,12 @@ class SiteDeploymentStepsController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        return response()->json($this->siteDeploymentStepsService->buildDeploymentOptions($this->siteDeploymentStepsService->getDeploymentClass($site))->values()->all());
+        return response()->json(
+            $this->siteDeploymentStepsService->buildDeploymentOptions(
+                $this->siteDeploymentStepsService->getDeploymentClass($site),
+                $this->siteDeploymentStepsService->getFrameworkClass($site)
+            )
+        );
     }
 
     /**
@@ -50,7 +55,10 @@ class SiteDeploymentStepsController extends Controller
     {
         $site = Site::with('deploymentSteps')->findOrFail($siteId);
 
-        $this->deploymentSteps = $this->siteDeploymentStepsService->buildDeploymentOptions($this->siteDeploymentStepsService->getDeploymentClass($site))->keyBy('internal_deployment_function');
+        $this->deploymentSteps = $this->siteDeploymentStepsService->buildDeploymentOptions(
+            $this->siteDeploymentStepsService->getDeploymentClass($site),
+            $this->siteDeploymentStepsService->getFrameworkClass($site)
+        )->keyBy('internal_deployment_function');
 
         $newDeploymentSteps = collect($request->get('deployment_steps'));
 

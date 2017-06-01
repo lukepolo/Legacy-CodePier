@@ -61,21 +61,29 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function toSlack($notifiable)
     {
-        $url = url('site/'.$notifiable->id);
+        $commit = '';
         $site = $notifiable;
+        $url = url('site/'.$notifiable->id);
         $siteDeployment = SiteDeployment::findOrFail($this->siteDeployment->id);
 
-        $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
+        if (! empty($notifiable->userRepositoryProvider)) {
+            $repositoryProvider = $notifiable->userRepositoryProvider->repositoryProvider;
+            if (! empty($repositoryProvider)) {
+                $commit = 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit;
+            }
+        }
 
         return (new SlackMessage())
             ->success()
             ->content('Deployment Completed')
-            ->attachment(function ($attachment) use ($url, $site, $siteDeployment, $repositoryProvider) {
+            ->attachment(function ($attachment) use ($url, $commit, $site, $siteDeployment, $repositoryProvider) {
                 $attachment->title('('.$site->pile->name.') '.$site->domain, $url)
-                    ->fields([
-                        'Commit' => 'https://'.$repositoryProvider->url.'/'.$site->repository.'/'.$repositoryProvider->commit_url.'/'.$siteDeployment->git_commit,
-                        'Message' =>  $siteDeployment->commit_message,
-                    ]);
+                    ->fields(
+                        array_filter([
+                            'Commit' => $commit,
+                            'Message' =>  $siteDeployment->commit_message,
+                        ])
+                    );
             });
     }
 }

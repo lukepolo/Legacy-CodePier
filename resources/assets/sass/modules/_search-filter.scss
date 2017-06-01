@@ -115,14 +115,6 @@
     }
   }
 
-  //TODO: Think we can delete this. Believe it is bootstrap which we are no longer using.
-  //&.in {
-  //  flex-grow: 1;
-  //  flex-shrink: 1;
-  //  display: flex;
-  //  flex-direction: column;
-  //}
-
   .jcf-form-wrap {
     padding: $spacing/2;
 
@@ -136,6 +128,7 @@
   }
 
   .btn-footer {
+    //TODO:  Decide if we need the margin here
     border-top: 1px solid $gray;
     margin: ($spacing/2) (-$spacing/2) (-$spacing/2);
     padding: ($spacing/2) $spacing;
