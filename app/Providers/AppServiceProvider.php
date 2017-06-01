@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Systems\SystemService;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -12,7 +13,6 @@ use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
-use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('valid_server_type', function ($attribute, $value) {
-            return collect(ServerService::SERVER_TYPES)->contains($value);
+            return collect(SystemService::SERVER_TYPES)->contains($value);
         });
 
         UserLoginProvider::updating(function ($provider) {

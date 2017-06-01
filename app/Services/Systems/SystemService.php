@@ -18,6 +18,7 @@ class SystemService implements SystemServiceContract
     ];
 
     const WEB = 'WebService';
+    const NODE = 'NodeService';
     const SYSTEM = 'OsService';
     const WORKERS = 'WorkerService';
     const FIREWALL = 'FirewallService';
@@ -36,6 +37,45 @@ class SystemService implements SystemServiceContract
     const LANGUAGES = [
         'PHP' => 'Languages\PHP\PHP',
         'Ruby' => 'Languages\Ruby\Ruby',
+    ];
+
+    const SERVER_TYPES = [
+        'Full Stack' => 'full_stack',
+        'Worker' => 'worker',
+        'Database' => 'database',
+        'Load Balancer' => 'load_balancer',
+    ];
+
+    const SERVER_TYPE_FEATURE_GROUPS = [
+        'full_stack' => [
+            self::WEB,
+            self::NODE,
+            self::SYSTEM,
+            self::WORKERS,
+            self::FIREWALL,
+            self::DATABASE,
+            self::MONITORING,
+            self::REPOSITORY
+        ],
+        'worker' => [
+            self::NODE,
+            self::SYSTEM,
+            self::WORKERS,
+            self::MONITORING,
+            self::REPOSITORY
+        ],
+        'database' => [
+            self::SYSTEM,
+            self::DATABASE,
+            self::MONITORING,
+            self::REPOSITORY
+        ],
+        'load_balancer' => [
+            self::WEB,
+            self::SYSTEM,
+            self::FIREWALL,
+            self::MONITORING,
+        ],
     ];
 
     /**
@@ -61,33 +101,40 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
+
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service, $server);
 
                 call_user_func_array([$systemService, $provisionStep->function], $provisionStep->parameters);
 
-                $provisionStep->failed = false;
-                $provisionStep->completed = true;
-                $provisionStep->log = $systemService->getOutput();
-                $provisionStep->save();
+                $provisionStep->update([
+                    'failed' => false,
+                    'completed' => true,
+                    'log' => $systemService->getOutput()
+                ]);
             }
         } catch (FailedCommand $e) {
-            $provisionStep->failed = true;
-            $provisionStep->log = $systemService->getErrors();
-            $provisionStep->save();
+
+            $provisionStep->update([
+                'failed' => true,
+                'log' => $systemService->getErrors()
+            ]);
 
             $this->updateProgress($provisionStep->step);
 
             return false;
+
         } catch (\Exception $e) {
+
             if (config('app.debug')) {
                 throw $e;
             }
 
-            $provisionStep->failed = true;
-            $provisionStep->log = 'We had a system error please contact support.';
-            $provisionStep->save();
+            $provisionStep->update([
+                'failed' => true,
+                'log' => 'We had a system error please contact support.'
+            ]);
 
             $this->updateProgress($provisionStep->step);
 

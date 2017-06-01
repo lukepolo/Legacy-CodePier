@@ -167,7 +167,7 @@
          return {
             is_custom : false,
             server_provider : null,
-            customize_server : this.$route.params.site_id ? false : true,
+            customize_server : !this.$route.params.site_id,
          }
         },
         methods: {
