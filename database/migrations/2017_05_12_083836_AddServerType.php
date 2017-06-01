@@ -13,7 +13,7 @@ class AddServerType extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->string('type')->default('full_stack');
         });
     }
