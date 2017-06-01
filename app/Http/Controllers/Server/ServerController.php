@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Server;
 
 use App\Models\Site\Site;
+use App\Services\Systems\SystemService;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
@@ -82,7 +83,7 @@ class ServerController extends Controller
             'pile_id' => $pileId,
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
-            'type' => $request->get('type', \App\Services\Server\ServerService::SERVER_TYPES['Full Stack']),
+            'type' => $request->get('type', SystemService::FULL_STACK_SERVER),
         ]);
 
         if (! empty($site)) {

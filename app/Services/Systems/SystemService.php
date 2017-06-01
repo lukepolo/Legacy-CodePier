@@ -39,16 +39,22 @@ class SystemService implements SystemServiceContract
         'Ruby' => 'Languages\Ruby\Ruby',
     ];
 
+    const WEB_SERVER = 'web';
+    const WORKER_SERVER = 'worker';
+    const DATABASE_SERVER = 'database';
+    const LOAD_BALANCER = 'load_balancer';
+    const FULL_STACK_SERVER  = 'full_stack';
+
     const SERVER_TYPES = [
-        'Full Stack' => 'full_stack',
-        'Web' => 'web',
-        'Worker' => 'worker',
-        'Database' => 'database',
-        'Load Balancer' => 'load_balancer',
+        'Full Stack' => self::FULL_STACK_SERVER,
+        'Web' => self::WEB_SERVER,
+        'Worker' => self::WORKER_SERVER,
+        'Database' => self::DATABASE_SERVER,
+        'Load Balancer' => self::LOAD_BALANCER,
     ];
 
     const SERVER_TYPE_FEATURE_GROUPS = [
-        'full_stack' => [
+        self::FULL_STACK_SERVER => [
             self::WEB,
             self::NODE,
             self::SYSTEM,
@@ -58,7 +64,7 @@ class SystemService implements SystemServiceContract
             self::MONITORING,
             self::REPOSITORY,
         ],
-        'web' => [
+        self::WEB_SERVER => [
             self::WEB,
             self::NODE,
             self::SYSTEM,
@@ -66,20 +72,20 @@ class SystemService implements SystemServiceContract
             self::MONITORING,
             self::REPOSITORY,
         ],
-        'worker' => [
+        self::WORKER_SERVER => [
             self::NODE,
             self::SYSTEM,
             self::WORKERS,
             self::MONITORING,
             self::REPOSITORY,
         ],
-        'database' => [
+        self::DATABASE_SERVER => [
             self::SYSTEM,
             self::DATABASE,
             self::MONITORING,
             self::REPOSITORY,
         ],
-        'load_balancer' => [
+        self::LOAD_BALANCER => [
             self::WEB,
             self::SYSTEM,
             self::FIREWALL,

@@ -4,6 +4,7 @@ namespace App\Events\Site;
 
 use App\Models\CronJob;
 use App\Models\Site\Site;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
@@ -24,10 +25,18 @@ class SiteCronJobCreated
             $siteCommand = $this->makeCommand($site, $cronJob);
 
             foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new InstallServerCronJob($server, $cronJob,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                );
+
+                $serverType = $server->type;
+
+                if(
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (new InstallServerCronJob($server, $cronJob,
+                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
     }
