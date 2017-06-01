@@ -7,6 +7,4 @@ use App\Services\Systems\ServiceConstructorTrait;
 class LoadBalencerService
 {
     use ServiceConstructorTrait;
-
-
 }
