@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\Systems\SystemService;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -14,6 +13,7 @@ use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
