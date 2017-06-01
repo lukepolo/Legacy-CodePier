@@ -36,7 +36,7 @@ class SiteObserver
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
      * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
-     * @param \App\Services\Site\SiteFeatureService |SiteFeatureService $siteFeatureService
+     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService $siteFeatureService
      * @param \App\Services\Site\SiteDeploymentStepsService | SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(
@@ -73,6 +73,8 @@ class SiteObserver
                 'from_ip'     => null,
             ])
         );
+
+        $this->repositoryService->generateNewSshKeys($site);
     }
 
     public function updating(Site $site)

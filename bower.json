@@ -18,16 +18,6 @@
     "tests"
   ],
   "dependencies": {
-    "ace-build": "~1.2.5",
-    "bootstrap": "^3.3.6",
-    "font-awesome": "fontawesome#^4.6.3",
-    "hint.css": "^2.4.1",
-    "jcf-forms": "JCF-Forms#*",
-    "jquery": "^3.1.1",
-    "jquery-confirm2": "^2.5.1",
-    "jquery-cron": "^0.1.4",
-    "moment": "^2.13.0",
-    "moment-timezone": "^0.5.4",
-    "select2": "^4.0.3"
+    "jquery-cron": "^0.1.4"
   }
 }

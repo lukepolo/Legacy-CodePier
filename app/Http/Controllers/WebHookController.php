@@ -25,17 +25,19 @@ class WebHookController extends Controller
 
         $branch = null;
 
-        switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
-            case OauthController::GITHUB:
-            case OauthController::GITLAB:
-                $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
-                break;
-            case OauthController::BITBUCKET:
-                $branch = $request->get('push')['changes'][0]['new']['name'];
-                break;
+        if (! empty($site->userRepositoryProvider)) {
+            switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
+                case OauthController::GITHUB:
+                case OauthController::GITLAB:
+                    $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
+                    break;
+                case OauthController::BITBUCKET:
+                    $branch = $request->get('push')['changes'][0]['new']['name'];
+                    break;
+            }
         }
 
-        if (count($request->all()) == 0 || $site->branch == $branch) {
+        if (empty($branch) || $site->branch === $branch) {
             dispatch(
                 (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
             );
@@ -44,18 +46,29 @@ class WebHookController extends Controller
         return response()->json('OK');
     }
 
+    /**
+     * @param Request $request
+     * @param $serverHasId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loadMonitor(Request $request, $serverHasId)
     {
         $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
 
-        $server->update([
-            'stats->cpus' => $request->get('cpus'),
-            'stats->loads' => $this->getStats($request->get('loads')),
-        ]);
+        $stats = $this->getStats($request->get('loads'));
 
-        $server->notify(new ServerLoad($server));
+        if (! empty($stats)) {
+            $server->update([
+                'stats->cpus' => $request->get('cpus'),
+                'stats->loads' => $stats,
+            ]);
 
-        return response()->json('OK');
+            $server->notify(new ServerLoad($server));
+
+            return response()->json('OK');
+        }
+
+        return response()->json('Malformed Data sent', 400);
     }
 
     public function memoryMonitor(Request $request, $serverHasId)
@@ -64,13 +77,17 @@ class WebHookController extends Controller
 
         $memoryStats = $this->getStats($request->get('memory'));
 
-        $server->update([
-            'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
-        ]);
+        if (isset($memoryStats['name'])) {
+            $server->update([
+                'stats->memory->'.str_replace(':', '', $memoryStats['name']) => $memoryStats,
+            ]);
 
-        $server->notify(new ServerMemory($server));
+            $server->notify(new ServerMemory($server));
 
-        return response()->json('OK');
+            return response()->json('OK');
+        }
+
+        return response()->json('Malformed Data sent', 400);
     }
 
     public function diskUsageMonitor(Request $request, $serverHasId)
@@ -79,21 +96,29 @@ class WebHookController extends Controller
 
         $diskStats = $this->getStats($request->get('disk_usage'));
 
-        $server->update([
-            'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
-        ]);
+        if (isset($diskStats['disk'])) {
+            $server->update([
+                'stats->disk_usage->'.$diskStats['disk'] => $diskStats,
+            ]);
 
-        $server->notify(new ServerDiskUsage($server));
+            $server->notify(new ServerDiskUsage($server));
 
-        return response()->json('OK');
+            return response()->json('OK');
+        }
+
+        return response()->json('Malformed Data sent', 400);
     }
 
     private function getStats($items)
     {
         $stats = [];
+
         foreach (explode(' ', $items) as $stat) {
             $statParts = explode('=', $stat);
-            $stats[$statParts[0]] = $statParts[1];
+
+            if (isset($statParts[0]) && isset($statParts[1])) {
+                $stats[$statParts[0]] = $statParts[1];
+            }
         }
 
         return $stats;

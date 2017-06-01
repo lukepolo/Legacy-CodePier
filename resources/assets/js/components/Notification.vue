@@ -12,23 +12,23 @@
 <script>
     export default {
         props: ['notification'],
-        data() {
+        data () {
             return {
                 timer: null
             }
         },
-        created() {
-            let timeout = this.notification.hasOwnProperty('timeout') ? this.notification.timeout : true;
+        created () {
+            const timeout = this.notification.hasOwnProperty('timeout') ? this.notification.timeout : true
             if (timeout) {
                 this.timer = setTimeout(function () {
                     this.close(this.notification)
-                }.bind(this),  this.notification.timeout);
+                }.bind(this), this.notification.timeout)
             }
         },
-        methods : {
+        methods: {
             close: function (notification) {
-                clearTimeout(this.timer);
-                this.$store.dispatch('removeNotification', notification);
+                clearTimeout(this.timer)
+                this.$store.dispatch('notifications/remove', notification)
             }
         }
     }

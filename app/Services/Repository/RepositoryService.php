@@ -4,8 +4,10 @@ namespace App\Services\Repository;
 
 use App\Models\Site\Site;
 use App\Models\RepositoryProvider;
+use App\Jobs\Server\InstallPublicKey;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\DeployKeyAlreadyUsed;
+use App\Exceptions\SiteUserProviderNotConnected;
 use App\Contracts\Repository\RepositoryServiceContract;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
@@ -27,10 +29,15 @@ class RepositoryService implements RepositoryServiceContract
      *
      * @param Site $site
      * @return mixed
+     * @throws SiteUserProviderNotConnected
      * @throws \Exception
      */
     public function importSshKey(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
+        }
+
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
 
         if (empty($site->public_ssh_key) || empty($site->private_ssh_key)) {
@@ -39,26 +46,33 @@ class RepositoryService implements RepositoryServiceContract
 
             try {
                 $providerService->importSshKey($site);
-            } catch (DeployKeyAlreadyUsed $e) {
-                $this->importSshKey($site);
-            }
+            } catch (\Exception $e) {
+                if ($e instanceof DeployKeyAlreadyUsed) {
+                    $this->importSshKey($site);
+                } else {
+                    $site->update([
+                        'public_ssh_key' => null,
+                    ]);
 
-            foreach ($site->provisionedServers as $server) {
-                try {
-                    $this->remoteTaskService->saveSshKeyToServer($site, $server);
-                } catch (SshConnectionFailed $sshConnectionFailed) {
-                    continue;
+                    throw $e;
                 }
             }
+
+            $this->saveKeysToServer($site);
         }
     }
 
     /**
      * @param Site $site
      * @return mixed
+     * @throws SiteUserProviderNotConnected
      */
     public function isPrivate(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
+        }
+
         $providerService = $this->getProvider($site->userRepositoryProvider->repositoryProvider);
         $private = $providerService->isPrivate($site);
 
@@ -83,18 +97,28 @@ class RepositoryService implements RepositoryServiceContract
     /**
      * @param Site $site
      * @return Site $site
+     * @throws SiteUserProviderNotConnected
      */
     public function createDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
+        }
+
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->createDeployHook($site);
     }
 
     /**
      * @param Site $site
      * @return Site $site
+     * @throws SiteUserProviderNotConnected
      */
     public function deleteDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            throw new SiteUserProviderNotConnected('You must check to see if the user provider is connected.');
+        }
+
         return $this->getProvider($site->userRepositoryProvider->repositoryProvider)->deleteDeployHook($site);
     }
 
@@ -102,11 +126,30 @@ class RepositoryService implements RepositoryServiceContract
      * Generates keys based for the site.
      * @param Site $site
      */
-    private function generateNewSshKeys(Site $site)
+    public function generateNewSshKeys(Site $site)
     {
         $sshKey = $this->remoteTaskService->createSshKey();
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
+    }
+
+    /**
+     * Saves the public keys to the server.
+     * @param Site $site
+     */
+    public function saveKeysToServer(Site $site)
+    {
+        foreach ($site->provisionedServers as $server) {
+            try {
+                dispatch(
+                    (
+                        new InstallPublicKey($server, $site)
+                    )->onQueue(config('queue.channels.server_commands'))
+                );
+            } catch (SshConnectionFailed $sshConnectionFailed) {
+                continue;
+            }
+        }
     }
 }

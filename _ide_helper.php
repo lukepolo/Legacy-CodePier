@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.22 on 2017-05-09.
+ * Generated for Laravel 5.4.24 on 2017-06-01.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -423,6 +423,21 @@ namespace Illuminate\Support\Facades {
         public static function registerDeferredProvider($provider, $service = null)
         {
             \Illuminate\Foundation\Application::registerDeferredProvider($provider, $service);
+        }
+        
+        /**
+         * Resolve the given type from the container.
+         * 
+         * (Overriding Container::makeWith)
+         *
+         * @param string $abstract
+         * @param array $parameters
+         * @return mixed 
+         * @static 
+         */
+        public static function makeWith($abstract, $parameters)
+        {
+            return \Illuminate\Foundation\Application::makeWith($abstract, $parameters);
         }
         
         /**
@@ -1091,20 +1106,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Resolve the given type with the given parameter overrides.
-         *
-         * @param string $abstract
-         * @param array $parameters
-         * @return mixed 
-         * @static 
-         */
-        public static function makeWith($abstract, $parameters)
-        {
-            //Method inherited from \Illuminate\Container\Container            
-            return \Illuminate\Foundation\Application::makeWith($abstract, $parameters);
-        }
-        
-        /**
          * Instantiate a concrete instance of the given type.
          *
          * @param string $concrete
@@ -1170,6 +1171,19 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Illuminate\Container\Container            
             return \Illuminate\Foundation\Application::getAlias($abstract);
+        }
+        
+        /**
+         * Remove all of the extender callbacks for a given type.
+         *
+         * @param string $abstract
+         * @return void 
+         * @static 
+         */
+        public static function forgetExtenders($abstract)
+        {
+            //Method inherited from \Illuminate\Container\Container            
+            \Illuminate\Foundation\Application::forgetExtenders($abstract);
         }
         
         /**
@@ -4252,6 +4266,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get the MD5 hash of the file at the given path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */
+        public static function hash($path)
+        {
+            return \Illuminate\Filesystem\Filesystem::hash($path);
+        }
+        
+        /**
          * Write the contents of a file.
          *
          * @param string $path
@@ -4675,6 +4701,20 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Define abilities for a resource.
+         *
+         * @param string $name
+         * @param string $class
+         * @param array $abilities
+         * @return $this 
+         * @static 
+         */
+        public static function resource($name, $class, $abilities = null)
+        {
+            return \Illuminate\Auth\Access\Gate::resource($name, $class, $abilities);
+        }
+        
+        /**
          * Define a policy class for a given class type.
          *
          * @param string $class
@@ -4798,6 +4838,17 @@ namespace Illuminate\Support\Facades {
         public static function forUser($user)
         {
             return \Illuminate\Auth\Access\Gate::forUser($user);
+        }
+        
+        /**
+         * Get all of the defined abilities.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function abilities()
+        {
+            return \Illuminate\Auth\Access\Gate::abilities();
         }
         
     }         
@@ -6503,6 +6554,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Check if the route name matches the given string.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */
+        public static function routeIs($name)
+        {
+            return \Illuminate\Http\Request::routeIs($name);
+        }
+        
+        /**
          * Determine if the current request URL and query string matches a pattern.
          *
          * @return bool 
@@ -6902,6 +6965,8 @@ namespace Illuminate\Support\Facades {
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies
+         * @param int $trustedHeaderSet A bit field of Request::HEADER_*, usually either Request::HEADER_FORWARDED or Request::HEADER_X_FORWARDED_ALL, to set which headers to trust from your proxies
+         * @throws \InvalidArgumentException When $trustedHeaderSet is invalid
          * @static 
          */
         public static function setTrustedProxies($proxies)
@@ -6920,6 +6985,18 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Symfony\Component\HttpFoundation\Request            
             return \Illuminate\Http\Request::getTrustedProxies();
+        }
+        
+        /**
+         * Gets the set of trusted headers from trusted proxies.
+         *
+         * @return int A bit field of Request::HEADER_* that defines which headers are trusted from your proxies
+         * @static 
+         */
+        public static function getTrustedHeaderSet()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::getTrustedHeaderSet();
         }
         
         /**
@@ -6964,6 +7041,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key The header key
          * @param string $value The header name
          * @throws \InvalidArgumentException
+         * @deprecated since version 3.3, to be removed in 4.0. Use "X-Forwarded-*" headers or the "Forwarded" header defined in RFC7239, and the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
          * @static 
          */
         public static function setTrustedHeaderName($key, $value)
@@ -6978,6 +7056,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key The header key
          * @return string The header name
          * @throws \InvalidArgumentException
+         * @deprecated since version 3.3, to be removed in 4.0. Use the Request::getTrustedHeaderSet() method instead.
          * @static 
          */
         public static function getTrustedHeaderName($key)
@@ -7426,7 +7505,7 @@ namespace Illuminate\Support\Facades {
          * configure it via "setTrustedHeaderName()" with the "client-host" key.
          *
          * @return string 
-         * @throws \UnexpectedValueException when the host name is invalid
+         * @throws SuspiciousOperationException when the host name is invalid or not trusted
          * @static 
          */
         public static function getHost()
@@ -8540,6 +8619,20 @@ namespace Illuminate\Support\Facades {
         public static function resource($name, $controller, $options = array())
         {
             \Illuminate\Routing\Router::resource($name, $controller, $options);
+        }
+        
+        /**
+         * Route an api resource to a controller.
+         *
+         * @param string $name
+         * @param string $controller
+         * @param array $options
+         * @return void 
+         * @static 
+         */
+        public static function apiResource($name, $controller, $options = array())
+        {
+            \Illuminate\Routing\Router::apiResource($name, $controller, $options);
         }
         
         /**
@@ -10065,7 +10158,7 @@ namespace Illuminate\Support\Facades {
          * Store the uploaded file on the disk.
          *
          * @param string $path
-         * @param \Illuminate\Http\UploadedFile $file
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
          * @param array $options
          * @return string|false 
          * @static 
@@ -10729,7 +10822,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Register a custom implicit validator extension.
+         * Register a custom dependent validator extension.
          *
          * @param string $rule
          * @param \Closure|string $extension
@@ -10743,7 +10836,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Register a custom implicit validator message replacer.
+         * Register a custom validator message replacer.
          *
          * @param string $rule
          * @param \Closure|string $replacer
@@ -11354,6 +11447,19 @@ namespace Illuminate\Support\Facades {
         public static function hasSection($name)
         {
             return \Illuminate\View\Factory::hasSection($name);
+        }
+        
+        /**
+         * Get the contents of a section.
+         *
+         * @param string $name
+         * @param string $default
+         * @return mixed 
+         * @static 
+         */
+        public static function getSection($name, $default = null)
+        {
+            return \Illuminate\View\Factory::getSection($name, $default);
         }
         
         /**
@@ -13312,6 +13418,20 @@ if (! function_exists('starts_with')) {
     }
 }
 
+if (! function_exists('str_after')) {
+    /**
+     * Return the remainder of a string after a given value.
+     *
+     * @param  string  $subject
+     * @param  string  $search
+     * @return string
+     */
+    function str_after($subject, $search)
+    {
+        return Str::after($subject, $search);
+    }
+}
+
 if (! function_exists('str_contains')) {
     /**
      * Determine if a given string contains a given substring.
@@ -13728,7 +13848,7 @@ if (! function_exists('create_redis_hash')) {
     
     class Eloquent extends \Illuminate\Database\Eloquent\Model {    
         /**
-         * Create and return and un-saved model instance.
+         * Create and return an un-saved model instance.
          *
          * @param array $attributes
          * @return \Illuminate\Database\Eloquent\Model 
@@ -13802,7 +13922,7 @@ if (! function_exists('create_redis_hash')) {
         /**
          * Add a basic where clause to the query.
          *
-         * @param string|\Closure $column
+         * @param string|array|\Closure $column
          * @param string $operator
          * @param mixed $value
          * @param string $boolean
@@ -14306,8 +14426,8 @@ if (! function_exists('create_redis_hash')) {
          * Apply the callback's query changes if the given "value" is true.
          *
          * @param mixed $value
-         * @param \Closure $callback
-         * @param \Closure $default
+         * @param callable $callback
+         * @param callable $default
          * @return mixed 
          * @static 
          */
