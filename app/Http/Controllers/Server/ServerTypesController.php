@@ -24,11 +24,12 @@ class ServerTypesController extends Controller
     }
 
     /**
-     * Gets the server types that we are able to provision
+     * Gets the server types that we are able to provision.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index() {
+    public function index()
+    {
         return response()->json(
             \App\Services\Server\ServerService::SERVER_TYPES
         );
