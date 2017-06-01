@@ -285,4 +285,5 @@ class ServerController extends Controller
     {
         return 'curl '.config('app.url_provision').' | bash -s '.$key->key;
     }
+
 }

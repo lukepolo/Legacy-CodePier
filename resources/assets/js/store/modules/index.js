@@ -11,6 +11,7 @@ import notification_settings from './notification/settings'
 import notification_providers from './notification/providers'
 
 import system from './system'
+import server_types from './server/types'
 import server_features from './server/features'
 import server_languages from './server/languages'
 import server_frameworks from './server/frameworks'
@@ -73,6 +74,7 @@ export default {
     notification_providers,
 
     system,
+    server_types,
     server_features,
     server_languages,
     server_frameworks,
