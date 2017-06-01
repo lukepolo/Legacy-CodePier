@@ -1,18 +1,18 @@
-export const get = ({}, site) => {
+export const get = (context, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteFirewallRuleController@index', { site: site }),
         'user_site_firewall_rules/setAll'
     )
 }
 
-export const store = ({}, data) => {
+export const store = (context, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteFirewallRuleController@store', { site: data.site }),
         'user_site_firewall_rules/add'
     )
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete(
         Vue.action('Site\SiteFirewallRuleController@destroy', {
             site: data.site,

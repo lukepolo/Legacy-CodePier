@@ -1,6 +1,6 @@
 <template>
   <div>
-      <template v-if="deploymentStep.internal_deployment_function || deploymentStep.editing == false">
+      <template v-if="deploymentStep.internal_deployment_function || deploymentStep.editing === false">
 
           <template v-if="!deploymentStep.internal_deployment_function">
               <a class="text-error pull-right" @click="deleteStep"><span class="icon-cancel"></span></a>

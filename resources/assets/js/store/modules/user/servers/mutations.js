@@ -19,7 +19,6 @@ export const update = (state, { response }) => {
 }
 
 export const remove = (state, { requestData }) => {
-
     state.trashed.push(
         _.find(state.servers, {
             id: requestData.value }
@@ -45,7 +44,7 @@ export const listenTo = (state, server) => {
 }
 
 export const updateStats = (state, data) => {
-    let server = _.find(state.servers, { id: data.server })
+    const server = _.find(state.servers, { id: data.server })
     if (server) {
         Vue.set(server, 'stats', data.stats)
     }

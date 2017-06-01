@@ -1,11 +1,11 @@
-export const get = ({}, team) => {
+export const get = (context, team) => {
     return Vue.request().get(
         Vue.action('User\Team\UserTeamMemberController@show', { team: team }),
         'user_team_members/setAll'
     )
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete(
         Vue.action('User\Team\UserTeamMemberController@destroy', {
             team: data.team,
@@ -15,14 +15,14 @@ export const destroy = ({}, data) => {
     )
 }
 
-export const sendInvite = ({}, data) => {
+export const sendInvite = (context, data) => {
     return Vue.request(data).post(
         Vue.action('User\Team\UserTeamMemberController@invite'),
         'user_team_members/add'
     )
 }
 
-export const resendInvite = ({}, data) => {
+export const resendInvite = (context, data) => {
     return Vue.request(data).post(
         Vue.action('User\Team\UserTeamMemberController@resendInvite', { invite_id: data.invite })
     )

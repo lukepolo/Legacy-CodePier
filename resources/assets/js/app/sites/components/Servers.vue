@@ -123,7 +123,7 @@
             },
             linkServers() {
                 this.form.site = this.$route.params.site_id
-                this.$store.dispatch('updateLinkedServers', this.form).then(() => {
+                this.$store.dispatch('user_site_servers/updateLinks', this.form).then(() => {
                     this.connectServers = false
                 })
             },
@@ -137,9 +137,10 @@
                 return this.$store.state.user_sites.site;
             },
             siteServers() {
+
                 let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
 
-                if(servers && servers.length == 1) {
+                if(servers && servers.length === 1) {
                     this.showInfo = true
                 }
 

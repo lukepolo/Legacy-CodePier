@@ -84,7 +84,7 @@
                 return (this.prefix ? this.prefix : 'event') + '_' + this.event.id + '_' + this.type.replace(/\\/g, '_');
             },
             statusClass: function() {
-                if(typeof this.status == 'undefined') {
+                if(typeof this.status === 'undefined') {
                     if(this.event.hasOwnProperty('failed') && this.event.hasOwnProperty('completed') && this.event.hasOwnProperty('started')) {
                         if(!this.event.failed && ! this.event.completed && !this.event.started) {
                             return 'events--item-status-neutral';
@@ -101,7 +101,7 @@
                 return this.status;
             },
             showDropDown() {
-                return typeof this.dropdown != 'undefined' ? this.dropdown : true;
+                return typeof this.dropdown !==  'undefined' ? this.dropdown : true;
             }
         }
     }

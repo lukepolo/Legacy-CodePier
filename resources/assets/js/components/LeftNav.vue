@@ -10,10 +10,10 @@
                         <tooltip
                             class="event-status"
                             :class="{
-                                'event-status-neutral' : site.last_deployment_status == 'Queued',
-                                'event-status-success' : site.last_deployment_status == 'Completed',
-                                'event-status-error' : site.last_deployment_status == 'Failed',
-                                'icon-spinner' : site.last_deployment_status == 'Running'
+                                'event-status-neutral' : site.last_deployment_status === 'Queued',
+                                'event-status-success' : site.last_deployment_status === 'Completed',
+                                'event-status-error' : site.last_deployment_status === 'Failed',
+                                'icon-spinner' : site.last_deployment_status === 'Running'
                             }"
                             :message="getDeploymentStatusText(site)"
                             placement="right"
@@ -57,13 +57,6 @@
                     </div>
                 </div>
 
-                <div class="slack-invite" v-if="userRepositoryProviders && !userRepositoryProviders.length">
-                    <router-link :to="{ name : 'user_repository_providers' }">
-                        Connect Repository Provider
-                        <div class="small">You have not connected a repository provider</div>
-                    </router-link>
-                </div>
-
                 <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
                     <router-link :to="{ name : 'user_ssh_keys' }">
                         Create A SSH Key
@@ -87,68 +80,68 @@
 <script>
     import SiteDeploy from './SiteDeploy.vue'
     export default {
-        components : {
+        components: {
             SiteDeploy
         },
-        data() {
+        data () {
             return {
                 adding_site: false,
                 form: {
                     domain: null,
                     domainless: false,
-                    pile_id : this.$store.state.user.user.current_pile_id,
+                    pile_id: this.$store.state.user.user.current_pile_id
                 }
             }
         },
         methods: {
-            saveSite() {
+            saveSite () {
                 this.$store.dispatch('user_sites/store', this.form).then((site) => {
-                    if(site) {
+                    if (site) {
                         this.adding_site = false
                     }
                 })
             },
-            getDeploymentStatusText(site) {
+            getDeploymentStatusText (site) {
+                let status = null
 
-                switch(site.last_deployment_status) {
+                switch (site.last_deployment_status) {
                     case 'Completed':
-                        return 'All Good'
+                        status = 'All Good'
                         break
                     case 'Failed' :
-                        return 'Something Failed'
+                        status = 'Something Failed'
                         break
                     case 'Queued' :
-                        return 'Queued'
+                        status = 'Queued'
                         break
                     default :
-                        return 'Deploying'
+                        status = 'Deploying'
                         break
                 }
+
+                return status
             },
-            slackInviteLink() {
+            slackInviteLink () {
                 return this.action('User\UserController@slackInvite')
             }
         },
         computed: {
-            userSshKeys() {
+            userSshKeys () {
                 return this.$store.state.user_ssh_keys.ssh_keys
             },
-            currentPile() {
+            currentPile () {
                 return this.getPile(this.$store.state.user.user.current_pile_id)
             },
-            user() {
+            user () {
                 return this.$store.state.user.user
             },
-            sites() {
+            sites () {
                 return _.filter(this.$store.state.user_sites.sites, (site) => {
-                    return site.pile_id == this.current_pile_id
+                    return site.pile_id === this.current_pile_id
                 })
             },
-            current_pile_id() {
+            current_pile_id () {
                 return this.$store.state.user.user.current_pile_id
-            },
-            userRepositoryProviders() {
-                return this.$store.state.user_repository_providers.providers;
             }
         }
     }

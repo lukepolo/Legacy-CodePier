@@ -8,9 +8,10 @@
 
         <div class="section-header--btn-right">
 
-            <template v-if="site && site.repository">
+            <template v-if="site.user_repository_provider_id">
+                <template v-if="site && site.repository">
 
-                <template v-if="!site.automatic_deployment_id">
+                    <template v-if="!site.automatic_deployment_id">
 
                     <span class="dropdown" @click="createDeployHook">
                         <tooltip message="Enable Auto Deploy" placement="bottom-left" class="btn btn-default">
@@ -18,9 +19,9 @@
                         </tooltip>
                     </span>
 
-                </template>
+                    </template>
 
-                <template v-else>
+                    <template v-else>
 
                     <span class="dropdown" @click="removeDeployHook">
                         <tooltip message="Remove Auto Deploy" placement="bottom-left" class="btn btn-default">
@@ -28,9 +29,11 @@
                         </tooltip>
                     </span>
 
-                </template>
+                    </template>
 
+                </template>
             </template>
+
 
             <drop-down tag="span">
 
@@ -142,8 +145,9 @@
                 return this.$store.state.user_sites.site;
             },
             siteServers() {
-                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id);
-                if(siteServers && _.keys(siteServers).length) {
+                let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
+
+                if(siteServers && siteServers.length) {
                     return siteServers
                 }
             },

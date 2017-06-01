@@ -9,7 +9,7 @@ export const get = ({ dispatch }) => {
     })
 }
 
-export const show = ({}, server) => {
+export const show = (context, server) => {
     return Vue.request().get(
         Vue.action('Server\ServerController@show', { server: server }),
         'user_servers/set'
@@ -27,11 +27,11 @@ export const store = ({ dispatch }, data) => {
     })
 }
 
-export const archive = ({}, server) => {
+export const archive = (context, server) => {
     return Vue.request(server).delete(
         Vue.action('Server\ServerController@destroy', { server: server }), [
             'user_servers/remove',
-            'user_site_servers/remove',
+            'user_site_servers/remove'
         ]
     ).then(() => {
         if (app.$router.currentRoute.params.server_id) {
@@ -41,7 +41,7 @@ export const archive = ({}, server) => {
     })
 }
 
-export const getTrashed = ({}) => {
+export const getTrashed = () => {
     return Vue.request().get(
         Vue.action('Server\ServerController@index', { trashed: true }),
         'user_servers/setTrashed'
@@ -71,36 +71,48 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
         Echo.private('App.Models.Server.Server.' + server.id)
             .listen('Server\\ServerProvisionStatusChanged', (data) => {
                 commit('user_servers/update', {
-                    response : data.server
-                }, { root : true })
-                commit('user_server_provisioning/setCurrentStep', data.serverCurrentProvisioningStep, { root : true })
+                    response: data.server
+                }, {
+                    root: true
+                })
+
+                commit('user_site_servers/update', {
+                    response: data.server
+                }, {
+                    root: true
+                })
+
+                commit('user_server_provisioning/setCurrentStep',
+                    data.serverCurrentProvisioningStep, {
+                        root: true
+                    })
             })
             .listen('Server\\ServerSshConnectionFailed', (data) => {
                 commit('user_servers/update', {
-                    response : data.server
-                }, { root : true })
+                    response: data.server
+                }, { root: true })
             })
             .listen('Server\\ServerFailedToCreate', (data) => {
                 commit('user_servers/update', {
-                    response : data.server
-                }, { root : true })
+                    response: data.server
+                }, { root: true })
             })
             .listen('Server\\ServerCommandUpdated', (data) => {
-                commit('user_commands/update', data.command, { root : true})
-                commit('events/update', data.command, { root : true })
+                commit('user_commands/update', data.command, { root: true })
+                commit('events/update', data.command, { root: true })
             })
             .notification((notification) => {
                 switch (notification.type) {
-                case 'App\\Notifications\\Server\\ServerMemory':
-                case 'App\\Notifications\\Server\\ServerDiskUsage':
-                case 'App\\Notifications\\Server\\ServerLoad':
+                    case 'App\\Notifications\\Server\\ServerMemory':
+                    case 'App\\Notifications\\Server\\ServerDiskUsage':
+                    case 'App\\Notifications\\Server\\ServerLoad':
                         commit('user_servers/updateStats', {
                             server: server.id,
                             stats: notification.stats
                         }, {
-                            root : true
+                            root: true
                         })
-                    break
+                        break
                 }
             })
     }
