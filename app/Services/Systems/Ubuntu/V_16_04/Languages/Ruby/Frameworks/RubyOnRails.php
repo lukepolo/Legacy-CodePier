@@ -2,12 +2,10 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04\Languages\Ruby\Frameworks;
 
-use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\AbstractService;
 
-class RubyOnRails
+class RubyOnRails extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     public static $files = [
         'config/secrets.yml',
     ];

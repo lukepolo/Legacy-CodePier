@@ -2,84 +2,125 @@
 
 namespace App\Services;
 
+use Dompdf\Exception;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
-use App\Models\Site\Site;
-use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
+use App\Contracts\SshContract;
+use App\Events\SshLoginAttempted;
 use App\Exceptions\SshConnectionFailed;
+use App\Exceptions\FailedCommandException;
 use App\Contracts\RemoteTaskServiceContract;
+use Illuminate\Database\Eloquent\Collection;
 
 class RemoteTaskService implements RemoteTaskServiceContract
 {
-    private $user;
-    private $server;
-    private $session;
-    private $errors = [];
-
-    private $output = '';
+    protected $ssh;
+    protected $rsa;
+    protected $server;
+    protected $user = 'root';
 
     /**
-     * @param $command
+     * SshClient constructor.
+     * @param RSA $rsa
+     */
+    public function __construct(RSA $rsa)
+    {
+        $this->rsa = $rsa;
+    }
+
+    protected function getServer()
+    {
+        return $this->server ?? new SshConnectionFailed('No server set');
+    }
+
+    public function withServer(Collection $server) : self
+    {
+        $this->server = $server;
+        $this->connect($server);
+
+        return $this;
+    }
+
+    /**
+     * @param array|string $commands
      * @param bool $read
      * @param bool $expectedFailure
-     *
-     * @throws FailedCommand
-     * @throws SshConnectionFailed
-     * @throws \Exception
-     *
-     * @return string
+     * @return mixed|static
      */
-    public function run($command, $read = false, $expectedFailure = false)
+    public function run($commands, bool $read = false, bool $expectedFailure = false)
     {
-        if (! $this->server) {
-            throw new SshConnectionFailed('No server set');
+        $ssh = $this->getSsh();
+        $outputs = collect($commands)->map(function ($command) use ($ssh) {
+            $output = $ssh->exec($this->processCommand($command));
+            $this->checkOutputStatus($output);
+
+            return $output;
+        });
+
+        return $outputs->count() != 1 ? $outputs : $outputs->first();
+    }
+
+    protected function getSsh()
+    {
+        if (! $this->ssh) {
+            throw new SshConnectionFailed('Not Connected');
         }
 
-        $output = null;
+        return $this->ssh;
+    }
 
-        if (config('app.env') === 'local') {
-            \Log::info('Running Command '.$command);
-        }
+    public function connect(Collection $server): void
+    {
+        $this->rsa->loadKey(data_get($server, 'private_ssh_key'));
+        $this->setSsh(data_get($server, 'ip'), data_get($server, 'port'));
+        $this->attemptLogin($server);
+        $this->ssh->setTimeout(0);
+    }
 
+    protected function attemptLogin(Collection $server)
+    {
         try {
-            $output = $this->session->exec('source /etc/profile && '.rtrim($command, ';').' && echo codepier-done;');
-        } catch (\ErrorException $e) {
-            if ($e->getMessage() == 'Unable to open channel') {
-                \Log::warning('retrying to connect to');
-                $this->ssh($this->server, $this->user);
-                $this->run($command, $read);
-            } else {
-                if ($expectedFailure) {
-                    set_error_handler(function ($num, $str, $file, $line) {
-                        return true;
-                    });
-                }
-
-                throw new SshConnectionFailed('We were unbale to connect to you server '.$this->server->name.'.');
-            }
+            $result = $this->ssh->login($this->user, $this->rsa);
+            event(new SshLoginAttempted($server, $result));
+        } catch (Exception $exception) {
+            event(new SshLoginAttempted($server, false));
         }
+    }
 
-        $output = $this->cleanOutput($output);
+    public function for(string $user): sshContract
+    {
+        $this->user = $user;
 
-        if (config('app.env') === 'local') {
-            \Log::info($output);
+        return $this;
+    }
+
+    public function createSsHKey()
+    {
+        $this->rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
+
+        return $this->rsa->createKey();
+    }
+
+    protected function processCommand(string $command) : string
+    {
+        return 'source /etc/profile && '.$command.' && echo codepier-done; ';
+    }
+
+    protected function cleanOutput($response) : string
+    {
+        return trim(str_replace('codepier-done', '', $response));
+    }
+
+    public function checkOutputStatus($output) : void
+    {
+        if ($this->ssh->getExitStatus()) {
+            throw new FailedCommandException($output);
         }
+    }
 
-        if (! empty($output)) {
-            $this->output .= $output."\n";
-        }
-
-        if ($this->session->getExitStatus() != 0) {
-            \Log::critical('Error while running Command '.$command);
-            \Log::critical($output);
-
-            $this->errors[] = $output;
-
-            throw new FailedCommand($output);
-        }
-
-        return $output;
+    protected function setSsh($ip, $port)
+    {
+        $this->ssh = app()->makeWith(SSH2::class, $ip, $port);
     }
 
     /**
@@ -219,87 +260,6 @@ echo \"Wrote\"", $read);
         return filter_var($this->run("[ -d $directory ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
     }
 
-    /**
-     * @param \App\Models\Server\Server $server
-     * @param string $user
-     *
-     * @throws SshConnectionFailed
-     *
-     * @return bool
-     */
-    public function ssh(Server $server, $user = 'root')
-    {
-        if ($this->server == $server && $user == $this->user) {
-            return true;
-        }
-
-        $this->user = $user;
-        $this->server = $server;
-
-        $key = new RSA();
-        $key->loadKey($server->private_ssh_key);
-
-        $ssh = new SSH2($this->server->ip, $this->server->port);
-
-        try {
-            if (! $ssh->login($user, $key)) {
-                $server->ssh_connection = false;
-                $server->save();
-
-                throw new SshConnectionFailed('We are unable to connect to your server '.$this->server->name.' ('.$this->server->ip.').');
-            }
-        } catch (\Exception $e) {
-            $server->update([
-                'ssh_connection' => false,
-            ]);
-
-            throw new SshConnectionFailed($e->getMessage());
-        }
-
-        if (! $server->ssh_connection) {
-            $server->update([
-                'ssh_connection' => true,
-            ]);
-        }
-
-        $ssh->setTimeout(0);
-
-        $this->session = $ssh;
-
-        return true;
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOutput()
-    {
-        return $this->output;
-    }
-
-    /**
-     * @param $response
-     * @return string
-     */
-    private function cleanOutput($response)
-    {
-        return trim(str_replace('codepier-done', '', $response));
-    }
-
-    /**
-     * http://unix.stackexchange.com/questions/32907/what-characters-do-i-need-to-escape-when-using-sed-in-a-sh-script.
-     *
-     * @param $text
-     * @return mixed
-     */
     private function cleanText($text)
     {
         $text = preg_replace('#(&|\\\|\/)#', '\\\$1', $text);
@@ -321,37 +281,5 @@ echo \"Wrote\"", $read);
         $text = preg_replace('#(\$|\.|\*|\/|\[|\\\|\]|\^)#', '\\\$1', $text);
 
         return $text;
-    }
-
-    /**
-     * Creates a new ssh key.
-     * @return array
-     */
-    public function createSshKey()
-    {
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-
-        return $rsa->createKey();
-    }
-
-    /**
-     * @param Site $site
-     * @param Server $server
-     */
-    public function saveSshKeyToServer(Site $site, Server $server)
-    {
-        if (! empty($site->public_ssh_key)) {
-            $sshFile = '/home/codepier/.ssh/'.$site->id.'_id_rsa';
-
-            $this->ssh($server, 'codepier');
-
-            $this->writeToFile($sshFile, $site->private_ssh_key);
-            $this->writeToFile($sshFile.'.pub', $site->public_ssh_key);
-
-            $this->appendTextToFile('~/.ssh/config', "IdentityFile $sshFile");
-
-            $this->run('chmod 600 /home/codepier/.ssh/* -R');
-        }
     }
 }

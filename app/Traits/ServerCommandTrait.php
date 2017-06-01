@@ -6,11 +6,11 @@ use Closure;
 use App\Models\Command;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
-use App\Exceptions\FailedCommand;
 use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\SshConnectionFailed;
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\FailedCommandException;
 
 trait ServerCommandTrait
 {
@@ -79,7 +79,7 @@ trait ServerCommandTrait
         } catch (\Exception $e) {
             switch (get_class($e)) {
                 case SshConnectionFailed::class:
-                case FailedCommand::class:
+                case FailedCommandException::class:
                     $message = $e->getMessage();
                     break;
                 default:

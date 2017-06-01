@@ -12,10 +12,10 @@ use App\Classes\DiskSpace;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
-use App\Exceptions\FailedCommand;
 use App\Models\EnvironmentVariable;
 use App\Exceptions\SshConnectionFailed;
 use App\Services\Systems\SystemService;
+use App\Exceptions\FailedCommandException;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract;
 use App\Notifications\Server\ServerProvisioned;
@@ -404,7 +404,7 @@ class ServerService implements ServerServiceContract
     /**
      * @param Server $server
      * @param SslCertificate $sslCertificate
-     * @throws FailedCommand
+     * @throws FailedCommandException
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
@@ -426,7 +426,7 @@ class ServerService implements ServerServiceContract
             try {
                 $this->installCron($server, $cronJob);
                 $server->cronJobs()->save($cronJob);
-            } catch (FailedCommand $e) {
+            } catch (FailedCommandException $e) {
                 $cronJob->delete();
                 throw $e;
             }

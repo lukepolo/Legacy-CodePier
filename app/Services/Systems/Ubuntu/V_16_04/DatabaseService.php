@@ -3,14 +3,12 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Schema;
+use App\Services\AbstractService;
 use App\Exceptions\UnknownDatabase;
 use App\Services\Systems\SystemService;
-use App\Services\Systems\ServiceConstructorTrait;
 
-class DatabaseService
+class DatabaseService extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     /**
      * @description MariaDB is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source.
      *
@@ -22,15 +20,14 @@ class DatabaseService
 
         $this->connectToServer();
 
-        $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password password $databasePassword'");
-        $this->remoteTaskService->run("debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password_again password $databasePassword'");
-
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server');
-
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-
-        $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
+        $this->remoteTaskService->run([
+            "debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password password $databasePassword'",
+            "debconf-set-selections <<< 'maria-db-10.0 mysql-server/root_password_again password $databasePassword'",
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server',
+            "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
+            "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
+            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql",
+        ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
@@ -58,15 +55,14 @@ class DatabaseService
 
         $this->connectToServer();
 
-        $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password password $databasePassword'");
-        $this->remoteTaskService->run("debconf-set-selections <<< 'mysql-server/root_password_again password $databasePassword'");
-
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server');
-
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-
-        $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
+        $this->remoteTaskService->run([
+            "debconf-set-selections <<< 'mysql-server/root_password password $databasePassword'",
+            "debconf-set-selections <<< 'mysql-server/root_password_again password $databasePassword'",
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server',
+            "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
+            "mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"",
+            "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql",
+        ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
@@ -80,11 +76,12 @@ class DatabaseService
 
         $databasePassword = $this->server->database_password;
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
-        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier_servers LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-
-        $this->remoteTaskService->run('service postgresql restart');
+        $this->remoteTaskService->run([
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev',
+            'sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"',
+            'sudo -u postgres psql -c "CREATE ROLE codepier_servers LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"',
+            'service postgresql restart',
+        ]);
     }
 
     /**
@@ -116,12 +113,15 @@ class DatabaseService
         $this->connectToServer();
 
         $this->remoteTaskService->makeDirectory('/data/db');
-        $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927');
-        $this->remoteTaskService->run('echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list');
-        $this->remoteTaskService->run('apt-get update');
-        $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
-        $this->remoteTaskService->run('systemctl enable mongod.service');
-        $this->remoteTaskService->run('service mongod start');
+
+        $this->remoteTaskService->run([
+            'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927',
+            'echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list',
+            'apt-get update',
+            'apt-get install -y mongodb-org php-mongodb ',
+            'systemctl enable mongod.service',
+            'service mongod start',
+        ]);
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
     }

@@ -197,7 +197,7 @@ return [
         App\Providers\ServerServiceProvider::class,
         App\Providers\SiteServiceProvider::class,
         App\Providers\BuoyServiceProvider::class,
-
+        App\Providers\SshClientServiceProvider::class,
     ],
 
     /*
