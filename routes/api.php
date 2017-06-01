@@ -20,13 +20,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-    Route::resource('me', 'User\UserController', [
+    Route::apiResource('me', 'User\UserController', [
         'only' => [
             'index',
         ],
     ]);
 
-    Route::resource('user', 'User\UserController', [
+    Route::apiResource('user', 'User\UserController', [
         'except' => 'index',
     ]);
 
@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     |
     */
 
-    Route::resource('categories', 'CategoriesController');
+    Route::apiResource('categories', 'CategoriesController');
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('buoy-apps/buoyClasses', 'BuoyAppController@getBuoyClasses');
     Route::post('buoy-apps/{buoy_app}/update', 'BuoyAppController@update');
-    Route::resource('buoy-apps', 'BuoyAppController');
+    Route::apiResource('buoy-apps', 'BuoyAppController');
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     |--------------------------------------------------------------------------
     |
     */
-    Route::resource('bitts', 'BittsController');
+    Route::apiResource('bitts', 'BittsController');
     Route::post('bitt/{bitt}/run', 'BittsController@runOnServers');
 
     /*
@@ -76,7 +76,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::resource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
+            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
                 'except' => [
                     'show',
                 ],
@@ -85,13 +85,13 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
-            Route::resource('ssh-keys', 'UserSshKeyController');
-            Route::resource('subscription', 'Subscription\UserSubscriptionController');
-            Route::resource('server-providers', 'Providers\UserServerProviderController');
-            Route::resource('notification-settings', 'UserNotificationSettingsController');
-            Route::resource('repository-providers', 'Providers\UserRepositoryProviderController');
-            Route::resource('notification-providers', 'Providers\UserNotificationProviderController');
-            Route::resource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
+            Route::apiResource('ssh-keys', 'UserSshKeyController');
+            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
+            Route::apiResource('server-providers', 'Providers\UserServerProviderController');
+            Route::apiResource('notification-settings', 'UserNotificationSettingsController');
+            Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
+            Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
+            Route::apiResource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
         });
 
         /*
@@ -101,7 +101,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         |
         */
 
-        Route::resource('events', 'EventController');
+        Route::apiResource('events', 'EventController');
 
         /*
         |--------------------------------------------------------------------------
@@ -110,10 +110,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         |
         */
 
-        Route::resource('team', 'User\Team\UserTeamController');
+        Route::apiResource('team', 'User\Team\UserTeamController');
 
         Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::resource('team.members', 'UserTeamMemberController');
+            Route::apiResource('team.members', 'UserTeamMemberController');
             Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
             Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
             Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
@@ -127,8 +127,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         */
 
         Route::get('piles/all', 'Pile\PileController@allPiles');
-        Route::resource('piles', 'Pile\PileController');
-        Route::resource('pile.sites', 'Pile\PileSitesController');
+        Route::apiResource('piles', 'Pile\PileController');
+        Route::apiResource('pile.sites', 'Pile\PileSitesController');
 
         Route::post('change-pile', 'Pile\PileController@changePile');
 
@@ -139,7 +139,7 @@ Route::group(['middleware' => 'auth:api'], function () {
        |
        */
 
-        Route::resource('servers', 'Server\ServerController');
+        Route::apiResource('servers', 'Server\ServerController');
 
         Route::post('server/{server}/find-file', 'Server\ServerFileController@find');
         Route::post('server/{server}/reload-file/{file}', 'Server\ServerFileController@reloadFile');
@@ -161,20 +161,20 @@ Route::group(['middleware' => 'auth:api'], function () {
                 Route::post('restart-web-services/{server}', 'ServerController@restartWebServices');
             });
 
-            Route::resource('servers.file', 'ServerFileController');
-            Route::resource('servers.buoys', 'ServerBuoyController');
-            Route::resource('servers.sites', 'ServerSiteController');
-            Route::resource('servers.workers', 'ServerWorkerController');
-            Route::resource('servers.schemas', 'ServerSchemaController');
-            Route::resource('servers.ssh-keys', 'ServerSshKeyController');
-            Route::resource('servers.features', 'ServerFeatureController');
-            Route::resource('servers.cron-jobs', 'ServerCronJobController');
-            Route::resource('servers.ssl-certificate', 'ServerSslController');
-            Route::resource('servers.network', 'ServerNetworkRuleController');
-            Route::resource('servers.firewall-rules', 'ServerFirewallRuleController');
-            Route::resource('servers.provision-steps', 'ServerProvisionStepsController');
-            Route::resource('servers.language-settings', 'ServerLanguageSettingsController');
-            Route::resource('servers.environment-variables', 'ServerEnvironmentVariablesController');
+            Route::apiResource('servers.file', 'ServerFileController');
+            Route::apiResource('servers.buoys', 'ServerBuoyController');
+            Route::apiResource('servers.sites', 'ServerSiteController');
+            Route::apiResource('servers.workers', 'ServerWorkerController');
+            Route::apiResource('servers.schemas', 'ServerSchemaController');
+            Route::apiResource('servers.ssh-keys', 'ServerSshKeyController');
+            Route::apiResource('servers.features', 'ServerFeatureController');
+            Route::apiResource('servers.cron-jobs', 'ServerCronJobController');
+            Route::apiResource('servers.ssl-certificate', 'ServerSslController');
+            Route::apiResource('servers.network', 'ServerNetworkRuleController');
+            Route::apiResource('servers.firewall-rules', 'ServerFirewallRuleController');
+            Route::apiResource('servers.provision-steps', 'ServerProvisionStepsController');
+            Route::apiResource('servers.language-settings', 'ServerLanguageSettingsController');
+            Route::apiResource('servers.environment-variables', 'ServerEnvironmentVariablesController');
             Route::get('server/{server}/language-settings', 'ServerLanguageSettingsController@getLanguageSettings');
         });
 
@@ -185,7 +185,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         |
         */
 
-        Route::resource('sites', 'Site\SiteController');
+        Route::apiResource('sites', 'Site\SiteController');
 
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
         Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
@@ -202,27 +202,28 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('restart-workers/{site}', 'SiteController@restartWorkerServices');
             Route::post('restart-web-services/{site}', 'SiteController@restartWebServices');
 
-            Route::resource('sites.file', 'SiteFileController');
-            Route::resource('sites.buoys', 'SiteBuoyController');
-            Route::resource('sites.servers', 'SiteServerController');
-            Route::resource('sites.workers', 'SiteWorkerController');
-            Route::resource('sites.schemas', 'SiteSchemaController');
-            Route::resource('sites.ssh-keys', 'SiteSshKeyController');
-            Route::resource('sites.cron-jobs', 'SiteCronJobController');
-            Route::resource('sites.ssl-certificate', 'SiteSslController');
-            Route::resource('sites.deployments', 'SiteDeploymentsController');
-            Route::resource('sites.hooks', 'Repository\RepositoryHookController');
-            Route::resource('sites.firewall-rules', 'SiteFirewallRuleController');
-            Route::resource('sites.server-features', 'SiteServerFeaturesController');
-            Route::resource('sites.deployment-steps', 'SiteDeploymentStepsController');
-            Route::resource('sites.language-settings', 'SiteLanguageSettingsController');
-            Route::resource('sites.environment-variables', 'SiteEnvironmentVariablesController');
+            Route::apiResource('sites.file', 'SiteFileController');
+            Route::apiResource('sites.buoys', 'SiteBuoyController');
+            Route::apiResource('sites.servers', 'SiteServerController');
+            Route::apiResource('sites.workers', 'SiteWorkerController');
+            Route::apiResource('sites.schemas', 'SiteSchemaController');
+            Route::apiResource('sites.ssh-keys', 'SiteSshKeyController');
+            Route::apiResource('sites.cron-jobs', 'SiteCronJobController');
+            Route::apiResource('sites.ssl-certificate', 'SiteSslController');
+            Route::apiResource('sites.deployments', 'SiteDeploymentsController');
+            Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
+            Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
+            Route::apiResource('sites.server-features', 'SiteServerFeaturesController');
+            Route::apiResource('sites.deployment-steps', 'SiteDeploymentStepsController');
+            Route::apiResource('sites.language-settings', 'SiteLanguageSettingsController');
+            Route::apiResource('sites.environment-variables', 'SiteEnvironmentVariablesController');
             Route::get('site/{site}/language-settings', 'SiteLanguageSettingsController@getLanguageSettings');
         });
     });
 
-    Route::resource('notification-settings', 'NotificationSettingsController');
+    Route::apiResource('notification-settings', 'NotificationSettingsController');
 
+    Route::apiResource('server/types', 'Server\ServerTypesController');
     Route::get('server/features', 'Server\ServerFeatureController@getFeatures');
     Route::get('server/languages', 'Server\ServerFeatureController@getLanguages');
     Route::get('server/frameworks', 'Server\ServerFeatureController@getFrameworks');
@@ -232,9 +233,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::group(['prefix' => 'providers', 'namespace' => 'Auth\Providers'], function () {
-            Route::resource('server-providers', 'ServerProvidersController');
-            Route::resource('repository-providers', 'RepositoryProvidersController');
-            Route::resource('notification-providers', 'NotificationProvidersController');
+            Route::apiResource('server-providers', 'ServerProvidersController');
+            Route::apiResource('repository-providers', 'RepositoryProvidersController');
+            Route::apiResource('notification-providers', 'NotificationProvidersController');
         });
     });
 
@@ -243,9 +244,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
         ], function () {
-            Route::resource('options', 'DigitalOceanServerOptionsController');
-            Route::resource('regions', 'DigitalOceanServerRegionsController');
-            Route::resource('features', 'DigitalOceanServerFeaturesController');
+            Route::apiResource('options', 'DigitalOceanServerOptionsController');
+            Route::apiResource('regions', 'DigitalOceanServerRegionsController');
+            Route::apiResource('features', 'DigitalOceanServerFeaturesController');
         });
     });
 });
