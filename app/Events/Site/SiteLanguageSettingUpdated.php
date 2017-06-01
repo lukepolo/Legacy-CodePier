@@ -4,6 +4,7 @@ namespace App\Events\Site;
 
 use App\Models\Site\Site;
 use App\Models\LanguageSetting;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\UpdateServerLanguageSetting;
@@ -24,9 +25,18 @@ class SiteLanguageSettingUpdated
             $siteCommand = $this->makeCommand($site, $languageSetting);
 
             foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new UpdateServerLanguageSetting($server, $languageSetting, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                );
+
+                $serverType = $server->type;
+
+                if(
+                    $serverType === SystemService::WORKER_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (new UpdateServerLanguageSetting($server, $languageSetting, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
+
             }
         }
     }

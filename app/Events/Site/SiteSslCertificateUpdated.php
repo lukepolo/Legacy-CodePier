@@ -4,6 +4,7 @@ namespace App\Events\Site;
 
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
@@ -26,36 +27,46 @@ class SiteSslCertificateUpdated
             $siteCommand = $this->makeCommand($site, $sslCertificate);
 
             foreach ($site->provisionedServers as $server) {
-                if ($sslCertificate->active) {
-                    if ($activeSsl->id != $sslCertificate->id) {
+
+                $serverType = $server->type;
+
+                if(
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::LOAD_BALANCER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    if ($sslCertificate->active) {
+                        if ($activeSsl->id != $sslCertificate->id) {
+                            dispatch(
+                                (new DeactivateServerSslCertificate(
+                                    $server,
+                                    $site,
+                                    $activeSsl,
+                                    $siteCommand
+                                ))->onQueue(config('queue.channels.server_commands'))
+                            );
+                        }
+
+                        dispatch(
+                            (new ActivateServerSslCertificate(
+                                $server,
+                                $site,
+                                $sslCertificate,
+                                $siteCommand
+                            ))->onQueue(config('queue.channels.server_commands'))
+                        );
+                    } else {
                         dispatch(
                             (new DeactivateServerSslCertificate(
                                 $server,
                                 $site,
-                                $activeSsl,
+                                $sslCertificate,
                                 $siteCommand
                             ))->onQueue(config('queue.channels.server_commands'))
                         );
                     }
-
-                    dispatch(
-                        (new ActivateServerSslCertificate(
-                            $server,
-                            $site,
-                            $sslCertificate,
-                            $siteCommand
-                        ))->onQueue(config('queue.channels.server_commands'))
-                    );
-                } else {
-                    dispatch(
-                        (new DeactivateServerSslCertificate(
-                            $server,
-                            $site,
-                            $sslCertificate,
-                            $siteCommand
-                        ))->onQueue(config('queue.channels.server_commands'))
-                    );
                 }
+
             }
         }
     }
