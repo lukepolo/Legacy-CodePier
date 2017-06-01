@@ -1,18 +1,18 @@
-export const get = ({}) => {
+export const get = () => {
     return Vue.request().get(
         Vue.action('User\Subscription\UserSubscriptionController@index'),
         'user_subscription/set'
     )
 }
 
-export const store = ({}, data) => {
+export const store = (context, data) => {
     return Vue.request(data).post(
         Vue.action('User\Subscription\UserSubscriptionController@store'),
         'user_subscription/set'
     )
 }
 
-export const cancel = ({}, data) => {
+export const cancel = (context, data) => {
     return Vue.request(data).delete(
         Vue.action('User\Subscription\UserSubscriptionController@destroy', {
             subscription: subscription
@@ -21,14 +21,14 @@ export const cancel = ({}, data) => {
     )
 }
 
-export const getInvoices = ({}) => {
+export const getInvoices = () => {
     return Vue.request().get(
         Vue.action('User\Subscription\UserSubscriptionInvoiceController@index'),
         'user_subscription/setUpcoming'
     )
 }
 
-export const getUpcomingSubscription = ({}) => {
+export const getUpcomingSubscription = () => {
     return Vue.request().get(
         Vue.action('User\Subscription\UserSubscriptionUpcomingInvoiceController@index'),
         'user_subscription/setUpcoming'

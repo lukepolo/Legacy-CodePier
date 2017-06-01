@@ -2,7 +2,7 @@
     <section>
         <div class="jcf-form-wrap">
 
-            <template v-if="!server && update != false">
+            <template v-if="!server && update !==  false">
 
                 <form @submit.prevent="dispatchMethod" enctype="multipart/form-data" class="floating-labels">
 

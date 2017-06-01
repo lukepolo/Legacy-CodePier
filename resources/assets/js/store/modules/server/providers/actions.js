@@ -1,25 +1,25 @@
-export const get = ({}) => {
+export const get = () => {
     return Vue.request().get(
         Vue.action('Auth\Providers\ServerProvidersController@index'),
         'server_providers/setAll'
     )
 }
 
-export const getFeatures = ({}, provider) => {
+export const getFeatures = (context, provider) => {
     return Vue.request().get(
         '/api/server/providers/' + provider + '/features',
         'server_providers/setFeatures'
     )
 }
 
-export const getOptions = ({}, provider) => {
+export const getOptions = (context, provider) => {
     return Vue.request().get(
         '/api/server/providers/' + provider + '/options',
         'server_providers/setOptions'
     )
 }
 
-export const getRegions = ({}, provider) => {
+export const getRegions = (context, provider) => {
     return Vue.request().get(
         '/api/server/providers/' + provider + '/regions',
         'server_providers/setRegions'

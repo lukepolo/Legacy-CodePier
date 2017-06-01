@@ -26,7 +26,7 @@
                     </div>
                 </template>
 
-                <template v-if="form.type == 'existing'">
+                <template v-if="form.type === 'existing'">
                     <div class="jcf-input-group">
                         <div class="input-question">Private Key</div>
                         <textarea name="private_key" v-model="form.private_key"></textarea>

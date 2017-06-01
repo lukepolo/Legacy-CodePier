@@ -50,7 +50,7 @@
 
                 if(_.has(serverFeatures, 'DatabaseService')) {
                     return _.keys(_.pickBy(serverFeatures.DatabaseService, function(options, database) {
-                        if(database == 'MariaDB' || database == 'PostgreSQL' || database == 'MySQL') {
+                        if(database === 'MariaDB' || database === 'PostgreSQL' || database === 'MySQL') {
                             return options.enabled;
                         }
                     }))

@@ -30,11 +30,9 @@ export const add = (state, { response }) => {
 }
 
 export const updateDeployment = (state, deployment) => {
-
     const siteDeployment = _.find(state.events, { id: deployment.site_deployment.id })
 
     if (siteDeployment) {
-
         _.each(deployment.site_deployment, function (value, key) {
             if (key !== 'server_deployments') {
                 siteDeployment[key] = value
@@ -44,12 +42,11 @@ export const updateDeployment = (state, deployment) => {
         const serverDeployment = _.find(siteDeployment.server_deployments, { id: deployment.server_deployment.id })
 
         if (serverDeployment) {
-
             _.each(deployment.server_deployment, function (value, key) {
                 serverDeployment[key] = value
             })
 
-            if(deployment.deployment_event) {
+            if (deployment.deployment_event) {
                 Vue.set(
                     serverDeployment.events,
                     parseInt(_.findKey(serverDeployment.events, {
@@ -58,8 +55,6 @@ export const updateDeployment = (state, deployment) => {
                     deployment.deployment_event
                 )
             }
-
         }
-
     }
 }

@@ -14,6 +14,7 @@ class Request {
         if (data && !_.isObject(data)) {
             this['value'] = data
         } else {
+            this.emptyData = data
             this.originalData = data
         }
 
@@ -117,7 +118,7 @@ class Request {
 
             axios[requestType](url, data, config)
                 .then(response => {
-                    if (response.config.responseType == 'arraybuffer') {
+                    if (response.config.responseType === 'arraybuffer') {
                         const a = document.createElement('a')
                         document.body.appendChild(a)
 
@@ -191,6 +192,7 @@ class Request {
     setOriginalData () {
         this.originalData = this.data()
     }
+
 }
 
 export default Request
