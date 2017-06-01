@@ -4,14 +4,6 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        { "type": "vcs", "url": "https://github.com/lukepolo/dbal" },
-        {
-            "type": "composer",
-            "url": "https://packagist.org"
-        },
-        { "packagist": false }
-    ],
     "require": {
         "php": ">=7.0.0",
         "authy/php": "2.*",

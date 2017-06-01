@@ -2,12 +2,10 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
-use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\AbstractService;
 
-class NodeService
+class NodeService extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     /**
      *  @description NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
      */
@@ -25,10 +23,12 @@ class NodeService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg');
-        $this->remoteTaskService->run('echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list');
-        $this->remoteTaskService->run('sudo apt-get update');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y yarn');
+        $this->remoteTaskService->run([
+            'sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg',
+            'echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list',
+            'sudo apt-get update',
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y yarn',
+        ]);
     }
 
     /**

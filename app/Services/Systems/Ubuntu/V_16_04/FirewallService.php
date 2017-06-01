@@ -3,22 +3,22 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\FirewallRule;
-use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\AbstractService;
 
-class FirewallService
+class FirewallService extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('ufw default deny incoming');
-        $this->remoteTaskService->run('ufw default allow outgoing');
-        $this->remoteTaskService->run('ufw allow ssh');
-        $this->remoteTaskService->run('ufw disable');
-        $this->remoteTaskService->run('ufw allow '.$this->server->port.'/tcp');
-        $this->remoteTaskService->run('echo "y" | ufw enable');
+        $this->remoteTaskService->run([
+            'ufw default deny incoming',
+            'ufw default allow ongoing',
+            'ufw allow ssh',
+            'ufw disable',
+            'ufw allow '.$this->server->port.'/tcp',
+            'echo "y" | ufw enable',
+        ]);
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
@@ -50,7 +50,9 @@ done');
         $this->connectToServer();
 
         if ($firewallRule->from_ip) {
-            return $this->remoteTaskService->run("ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port");
+            return $this->remoteTaskService->run(
+                "ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port"
+            );
         }
 
         return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type");

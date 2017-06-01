@@ -4,14 +4,12 @@ namespace App\Services\Systems\Ubuntu\V_16_04\Languages\PHP;
 
 use App\Models\CronJob;
 use App\Models\Site\Site;
+use App\Services\AbstractService;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
-use App\Services\Systems\ServiceConstructorTrait;
 
-class PHP
+class PHP extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     /** @var RemoteTaskService $remoteTaskService */
     private $remoteTaskService;
 

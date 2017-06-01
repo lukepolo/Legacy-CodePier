@@ -3,7 +3,7 @@
 namespace App\Services\Systems;
 
 use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
+use App\Exceptions\FailedCommandException;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
@@ -72,7 +72,7 @@ class SystemService implements SystemServiceContract
                 $provisionStep->log = $systemService->getOutput();
                 $provisionStep->save();
             }
-        } catch (FailedCommand $e) {
+        } catch (FailedCommandException $e) {
             $provisionStep->failed = true;
             $provisionStep->log = $systemService->getErrors();
             $provisionStep->save();

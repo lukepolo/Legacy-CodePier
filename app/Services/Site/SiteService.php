@@ -4,7 +4,6 @@ namespace App\Services\Site;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
-use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
 use App\Services\Systems\SystemService;
@@ -12,6 +11,7 @@ use App\Events\Site\DeploymentCompleted;
 use App\Events\Site\DeploymentStepFailed;
 use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
+use App\Exceptions\FailedCommandException;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
 use App\Services\DeploymentServices\PHP\PHP;
@@ -146,10 +146,11 @@ class SiteService implements SiteServiceContract
                 }
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
-            } catch (FailedCommand $e) {
+            } catch (FailedCommandException $e) {
                 $log = collect($e->getMessage())->filter()->implode("\n");
 
                 event(new DeploymentStepFailed($site, $server, $event, $event->step, $log));
+
                 throw new DeploymentFailed($e->getMessage());
             }
         }

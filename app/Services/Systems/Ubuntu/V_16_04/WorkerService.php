@@ -3,13 +3,11 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Worker;
+use App\Services\AbstractService;
 use App\Services\Systems\SystemService;
-use App\Services\Systems\ServiceConstructorTrait;
 
-class WorkerService
+class WorkerService extends AbstractService
 {
-    use ServiceConstructorTrait;
-
     /**
      * @description Beanstalk is a simple, fast work queue.
      */
@@ -31,11 +29,12 @@ class WorkerService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
-        $this->remoteTaskService->run('mkdir /home/codepier/workers');
-
-        $this->remoteTaskService->run('systemctl enable supervisor');
-        $this->remoteTaskService->run('service supervisor start');
+        $this->remoteTaskService->run([
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor',
+            'mkdir /home/codepier/workers',
+            'systemctl enable supervisor',
+            'service supervisor start',
+        ]);
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
@@ -56,18 +55,21 @@ redirect_stderr=true
 stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
 ');
 
-        $this->remoteTaskService->run('supervisorctl reread');
-        $this->remoteTaskService->run('supervisorctl update');
-        $this->remoteTaskService->run('supervisorctl start server-worker-'.$worker->id.':*');
+        $this->remoteTaskService->run([
+            'supervisorctl reread',
+            'supervisorctl update',
+            'supervisorctl start server-worker-'.$worker->id.':*',
+        ]);
     }
 
     public function removeWorker(Worker $worker, $user = 'root')
     {
         $this->connectToServer($user);
 
-        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf');
-
-        $this->remoteTaskService->run('supervisorctl reread');
-        $this->remoteTaskService->run('supervisorctl update');
+        $this->remoteTaskService->run([
+            'rm /etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf',
+            'supervisorctl reread',
+            'supervisorctl update',
+        ]);
     }
 }
