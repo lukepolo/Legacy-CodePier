@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\Server\ServerService;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
@@ -13,6 +12,7 @@ use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
+use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
