@@ -34,13 +34,6 @@ class ServerService implements ServerServiceContract
     const LETS_ENCRYPT = 'Let\'s Encrypt';
     const BITT_FILES = '/opt/codepier/bitts';
 
-    const SERVER_TYPES = [
-        'Full Stack' => 'full_stack',
-        'Worker' => 'worker',
-        'Database' => 'database',
-        'Load Balancer' => 'load_balancer',
-    ];
-
     /**
      * SiteService constructor.
      *

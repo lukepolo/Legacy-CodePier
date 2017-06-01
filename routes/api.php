@@ -213,7 +213,11 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
-            Route::apiResource('sites.server-features', 'SiteServerFeaturesController');
+            Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [
+                'parameters' => [
+                    'server-features' => 'server-type'
+                ]
+            ]);
             Route::apiResource('sites.deployment-steps', 'SiteDeploymentStepsController');
             Route::apiResource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::apiResource('sites.environment-variables', 'SiteEnvironmentVariablesController');
