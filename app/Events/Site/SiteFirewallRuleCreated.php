@@ -6,7 +6,6 @@ use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class SiteFirewallRuleCreated
