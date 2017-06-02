@@ -4,9 +4,9 @@ namespace App\Events\Site;
 
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
 
 class SiteFirewallRuleCreated
@@ -32,7 +32,7 @@ class SiteFirewallRuleCreated
 
                 $serverType = $server->type;
 
-                if(
+                if (
                     $serverType === SystemService::WEB_SERVER ||
                     $serverType === SystemService::LOAD_BALANCER ||
                     $serverType === SystemService::FULL_STACK_SERVER
@@ -42,7 +42,6 @@ class SiteFirewallRuleCreated
                             $siteCommand))->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
         }
     }

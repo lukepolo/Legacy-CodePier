@@ -4,9 +4,9 @@ namespace App\Events\Site;
 
 use App\Models\Schema;
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\Schemas\AddServerSchema;
 
 class SiteSchemaCreated
@@ -25,10 +25,9 @@ class SiteSchemaCreated
             $siteCommand = $this->makeCommand($site, $schema);
 
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
-                if(
+                if (
                     $serverType === SystemService::DATABASE_SERVER ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
@@ -37,7 +36,6 @@ class SiteSchemaCreated
                             $siteCommand))->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
         }
     }
