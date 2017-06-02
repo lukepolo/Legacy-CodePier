@@ -13,8 +13,8 @@ class FirewallRulesPortWildcard extends Migration
      */
     public function up()
     {
-        Schema::table('firewall_rules', function(Blueprint $table) {
-            $table->string('port',6)->nullable()->change();
+        Schema::table('firewall_rules', function (Blueprint $table) {
+            $table->string('port', 6)->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ class FirewallRulesPortWildcard extends Migration
      */
     public function down()
     {
-        Schema::table('firewall_rules', function(Blueprint $table) {
-            $table->integer('port',6)->change();
+        Schema::table('firewall_rules', function (Blueprint $table) {
+            $table->integer('port', 6)->change();
         });
     }
 }
