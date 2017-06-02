@@ -87,9 +87,16 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
     /**
      * @param Site $site
+     * @param $serverType
+     * @throws \Exception
      */
-    public function updateWebServerConfig(Site $site)
+    public function updateWebServerConfig(Site $site, $serverType)
     {
+
+        if($serverType === SystemService::LOAD_BALANCER) {
+            throw new \Exception('we need to setup the load balancer configs!');
+        }
+
         $this->connectToServer();
 
         $this->createWebServerSite($site);
@@ -196,7 +203,7 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/server");
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/after");
 
-        $this->updateWebServerConfig($site);
+        $this->updateWebServerConfig($site, $this->server->type);
     }
 
     /**

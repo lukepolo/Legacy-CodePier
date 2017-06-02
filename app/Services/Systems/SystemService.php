@@ -26,9 +26,6 @@ class SystemService implements SystemServiceContract
     const MONITORING = 'MonitoringService';
     const REPOSITORY = 'RepositoryService';
 
-    const PHP = 'Languages\PHP';
-    const LARAVEL = 'Languages\Frameworks\Laravel';
-
     const WEB_SERVICE_GROUP = 'web_services';
     const WORKER_SERVICE_GROUP = 'worker_services';
     const DATABASE_SERVICE_GROUP = 'database_services';
@@ -37,6 +34,10 @@ class SystemService implements SystemServiceContract
     const LANGUAGES = [
         'PHP' => 'Languages\PHP\PHP',
         'Ruby' => 'Languages\Ruby\Ruby',
+    ];
+
+    const FRAMEWORKS = [
+        'Languages\PHP\Frameworks\Laravel'
     ];
 
     const WEB_SERVER = 'web';
@@ -53,6 +54,8 @@ class SystemService implements SystemServiceContract
         'Load Balancer' => self::LOAD_BALANCER,
     ];
 
+    const LANGUAGES_GROUP = "Languages";
+
     const SERVER_TYPE_FEATURE_GROUPS = [
         self::FULL_STACK_SERVER => [
             self::WEB,
@@ -63,6 +66,7 @@ class SystemService implements SystemServiceContract
             self::DATABASE,
             self::MONITORING,
             self::REPOSITORY,
+            self::LANGUAGES_GROUP,
         ],
         self::WEB_SERVER => [
             self::WEB,
@@ -71,6 +75,7 @@ class SystemService implements SystemServiceContract
             self::FIREWALL,
             self::MONITORING,
             self::REPOSITORY,
+            self::LANGUAGES_GROUP,
         ],
         self::WORKER_SERVER => [
             self::NODE,
@@ -78,6 +83,7 @@ class SystemService implements SystemServiceContract
             self::WORKERS,
             self::MONITORING,
             self::REPOSITORY,
+            self::LANGUAGES_GROUP,
         ],
         self::DATABASE_SERVER => [
             self::SYSTEM,

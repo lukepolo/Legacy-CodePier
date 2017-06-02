@@ -118,4 +118,17 @@ return [
 
     'attributes' => [],
 
+    /*
+   |--------------------------------------------------------------------------
+   | Custom Validations
+   |--------------------------------------------------------------------------
+   |
+   */
+
+    'domain' => 'You must supply a valid domain.',
+    'server_name' => 'You must supply a valid server name.',
+    'valid_server_type' => 'You must supply valid a server type.',
+    'environmentVariable' => 'You must supply a valid environment variable.',
+    'valid_firewall_port' => 'You must supply a valid firewall port as a integer or a wildcard.',
+    'valid_language_type' => 'You must supply a valid language type.',
 ];

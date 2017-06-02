@@ -56,6 +56,7 @@ class CreateSite implements ShouldQueue
 
         if(
             $serverType === SystemService::WEB_SERVER ||
+            $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $siteService->create($this->server, $this->site);
