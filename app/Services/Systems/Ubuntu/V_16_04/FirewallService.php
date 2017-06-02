@@ -25,8 +25,8 @@ class FirewallService
     {
         $this->connectToServer();
 
-        if($firewallRule->port !== '*') {
-            if (!empty($firewallRule->from_ip)) {
+        if ($firewallRule->port !== '*') {
+            if (! empty($firewallRule->from_ip)) {
                 $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
             } else {
                 $command = "ufw allow $firewallRule->port/$firewallRule->type";
@@ -38,7 +38,7 @@ do
    count=$(ps -A -ww | grep [^]]ufw | wc -l)
    if [ $count -eq 0 ]
    then
-        ' . $command . '
+        '.$command.'
       break
    else
       sleep $[ ( $RANDOM % 10 )  + 1 ]s
@@ -53,7 +53,7 @@ done');
     {
         $this->connectToServer();
 
-        if($firewallRule->port !== '*') {
+        if ($firewallRule->port !== '*') {
             if ($firewallRule->from_ip) {
                 return $this->remoteTaskService->run("ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port");
             }

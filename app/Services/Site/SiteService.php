@@ -2,9 +2,8 @@
 
 namespace App\Services\Site;
 
-use App\Events\Site\SiteFirewallRuleCreated;
-use App\Models\FirewallRule;
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
@@ -16,6 +15,7 @@ use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
+use App\Events\Site\SiteFirewallRuleCreated;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -230,7 +230,7 @@ class SiteService implements SiteServiceContract
     }
 
     /**
-     * Creates a firewall rule for a site if it does not exist
+     * Creates a firewall rule for a site if it does not exist.
      *
      * @param Site $site
      * @param $port
@@ -250,7 +250,6 @@ class SiteService implements SiteServiceContract
             ->where('type', $type)
             ->count()
         ) {
-
             $firewallRule = FirewallRule::create([
                 'port' => $port,
                 'type' => $type,

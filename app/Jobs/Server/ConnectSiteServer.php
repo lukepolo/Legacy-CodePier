@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Server;
 
-
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -42,24 +41,21 @@ class ConnectSiteServer implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         if ($this->server->ip) {
-           $siteService->createFirewallRule(
+            $siteService->createFirewallRule(
                $this->site,
                '*',
                'both',
-               'Opens your '.$this->server->type .' to your site',
+               'Opens your '.$this->server->type.' to your site',
                $this->server->ip
            );
         } else {
-
             if ($this->server->created_at->addMinutes(5) > Carbon::now()) {
-
                 dispatch(
                     (new self($this->site, $this->server))->delay(30)->onQueue(config('queue.channels.server_commands'))
                 );
 
                 return;
             }
-
         }
     }
 }
