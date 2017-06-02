@@ -82,18 +82,12 @@ class CreateSite implements ShouldQueue
             }
         });
 
-        if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            $this->site->firewallRules->each(function ($firewallRule) {
-                dispatch(
-                    (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site,
-                        $firewallRule)))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
+        $this->site->firewallRules->each(function ($firewallRule) {
+            dispatch(
+                (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site,
+                    $firewallRule)))->onQueue(config('queue.channels.server_commands'))
+            );
+        });
 
         $this->site->sshKeys->each(function ($sshKey) {
             dispatch(
