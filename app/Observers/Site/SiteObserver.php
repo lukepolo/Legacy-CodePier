@@ -6,7 +6,6 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
@@ -14,6 +13,7 @@ use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
+use App\Services\Systems\SystemService;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -117,7 +117,6 @@ class SiteObserver
 
         if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
                 if (
