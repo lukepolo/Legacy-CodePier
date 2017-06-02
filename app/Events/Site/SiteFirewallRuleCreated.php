@@ -26,6 +26,10 @@ class SiteFirewallRuleCreated
 
             foreach ($site->provisionedServers as $server) {
 
+                if($firewallRule->ip === $server->ip) {
+                    continue;
+                }
+
                 $serverType = $server->type;
 
                 if(

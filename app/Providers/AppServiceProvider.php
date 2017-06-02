@@ -76,6 +76,10 @@ class AppServiceProvider extends ServiceProvider
             return collect(SystemService::SERVER_TYPES)->contains($value);
         });
 
+        Validator::extend('valid_firewall_port', function ($attribute, $value) {
+            return is_numeric($value) || $value == '*';
+        });
+
         UserLoginProvider::updating(function ($provider) {
             if (! empty($expiresIn = $provider->getOriginal('expires_in'))) {
                 $provider->expires_in = Carbon::now()->addSeconds($expiresIn);

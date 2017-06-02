@@ -16,6 +16,10 @@
                                 <input type="hidden" name="pile_id" :value="pile">
                             </template>
 
+                            <template v-if="$route.params.type">
+                                <input type="hidden" name="type" :value="$route.params.type">
+                            </template>
+
                             <div class="input-group input-radio">
                                 <div class="input-question">Server Provider</div>
                                 <template v-if="user_server_providers.length">

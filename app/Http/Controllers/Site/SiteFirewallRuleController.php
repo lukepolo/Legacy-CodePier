@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers\Site;
 
+
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FirewallRuleRequest;
 use App\Events\Site\SiteFirewallRuleCreated;
 use App\Events\Site\SiteFirewallRuleDeleted;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class SiteFirewallRuleController extends Controller
 {
+    private $siteService;
+
+    /**
+     * SiteFirewallRuleController constructor.
+     * @param  \App\Services\Site\SiteService | SiteService $siteService
+     */
+    public function __construct(SiteService $siteService)
+    {
+        $this->siteService = $siteService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,29 +46,13 @@ class SiteFirewallRuleController extends Controller
      */
     public function store(FirewallRuleRequest $request, $siteId)
     {
-        $site = Site::with('firewallRules')->findOrFail($siteId);
-
-        $port = $request->get('port');
-        $type = $request->get('type', null);
-        $fromIp = $request->get('from_ip', null);
-
-        if (! $site->firewallRules
-            ->where('port', $port)
-            ->where('from_ip', $fromIp)
-            ->where('type', $type)
-            ->count()
-        ) {
-            $firewallRule = FirewallRule::create([
-                'port' => $port,
-                'type' => $type,
-                'from_ip' => $fromIp,
-                'description' => $request->get('description'),
-            ]);
-
-            $site->firewallRules()->save($firewallRule);
-
-            event(new SiteFirewallRuleCreated($site, $firewallRule));
-
+        if(!empty($firewallRule = $this->siteService->createFirewallRule(
+            Site::with('firewallRules')->findOrFail($siteId),
+            $request->get('port'),
+            $request->get('type'),
+            $request->get('description'),
+            $request->get('from_ip', null)
+        ))) {
             return response()->json($firewallRule);
         }
 

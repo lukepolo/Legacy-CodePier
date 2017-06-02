@@ -31,11 +31,19 @@ class SiteServerFeaturesController extends Controller
      */
     public function show($siteId, $serverType)
     {
+        $languages = collect();
+        $serverFeatures = collect(Site::findOrFail($siteId)->server_features);
+        $serverTypeFeatureGroups = collect(SystemService::SERVER_TYPE_FEATURE_GROUPS[$serverType]);
+
+        if($serverTypeFeatureGroups->contains(SystemService::LANGUAGES_GROUP)) {
+            $languages = $serverFeatures->filter(function($features, $featureIndex) {
+                return starts_with($featureIndex, 'Languages');
+            })->keys();
+        }
+
         return response()->json(
-            collect(
-                Site::findOrFail($siteId)->server_features
-            )->only(
-                SystemService::SERVER_TYPE_FEATURE_GROUPS[$serverType]
+            $serverFeatures->only(
+                $languages->merge($serverTypeFeatureGroups)->toArray()
             )
         );
     }
