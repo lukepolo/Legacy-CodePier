@@ -16,7 +16,7 @@ trait ServiceConstructorTrait
      * @param Server $server
      * @deprecated
      */
-    public function __construct(RemoteTaskServiceContract $remoteTaskService, Collection $server)
+    public function __construct(RemoteTaskServiceContract $remoteTaskService, Server $server)
     {
         $this->server = $server;
 

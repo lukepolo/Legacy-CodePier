@@ -18,7 +18,7 @@ abstract class AbstractService
      * @param Server $server
      * @internal param $service
      */
-    public function __construct(RemoteTaskServiceContract $remoteTaskService, Collection $server)
+    public function __construct(RemoteTaskServiceContract $remoteTaskService, Server $server)
     {
         $this->remoteTaskService = $remoteTaskService;
         $this->server = $server;

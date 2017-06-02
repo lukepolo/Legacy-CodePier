@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Collection;
 
 interface RemoteTaskServiceContract
@@ -15,9 +16,9 @@ interface RemoteTaskServiceContract
     public function run($commands, bool $read = false, bool $expectedFailure = false);
 
     /**
-     * @param Collection $server
+     * @param Server $server
      */
-    public function connect(Collection $server): void;
+    public function connect(Server $server): void;
 
     /** writes to a file on a target machine
      * @param $file

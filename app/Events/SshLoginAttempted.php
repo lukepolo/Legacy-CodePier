@@ -24,7 +24,7 @@ class SshLoginAttempted
      * @param Server $server
      * @param bool $state
      */
-    public function __construct(Collection $server, bool $state)
+    public function __construct(Server $server, bool $state)
     {
         $this->server = $server;
         $this->state = $state;

@@ -10,7 +10,8 @@ trait TestHelper
 {
     public function createServer(int $count = 1, array $attributes = [])
     {
-        return factory(Server::class, $count)->make();
+        $server = factory(Server::class, $count)->make();
+        return (new Server)->fill($server->toArray());
     }
 
     public function getRsaMock()

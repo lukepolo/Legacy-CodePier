@@ -2,15 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Server\Server;
 use Dompdf\Exception;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
-use App\Contracts\SshContract;
 use App\Events\SshLoginAttempted;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\FailedCommandException;
 use App\Contracts\RemoteTaskServiceContract;
-use Illuminate\Database\Eloquent\Collection;
 
 class RemoteTaskService implements RemoteTaskServiceContract
 {
@@ -22,6 +21,9 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
     protected $user = 'root';
 
+    protected $output;
+
+    protected $errors;
     /**
      * SshClient constructor.
      * @param RSA $rsa
@@ -36,7 +38,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return $this->server ?? new SshConnectionFailed('No server set');
     }
 
-    public function withServer(Collection $server) : self
+    public function withServer(Server $server) : self
     {
         $this->server = $server;
         $this->connect($server);
@@ -48,19 +50,19 @@ class RemoteTaskService implements RemoteTaskServiceContract
      * @param array|string $commands
      * @param bool $read
      * @param bool $expectedFailure
-     * @return mixed|static
+     * @return array|mixed|string
      */
     public function run($commands, bool $read = false, bool $expectedFailure = false)
     {
         $ssh = $this->getSsh();
-        $outputs = collect($commands)->map(function ($command) use ($ssh) {
+        $this->output = collect($commands)->map(function ($command) use ($ssh) {
             $output = $ssh->exec($this->processCommand($command));
             $this->checkOutputStatus($output);
 
             return $output;
         });
 
-        return $outputs->count() != 1 ? $outputs : $outputs->first();
+        return $this->output->count() != 1 ? $this->output: $this->output->first();
     }
 
     protected function getSsh()
@@ -72,7 +74,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return $this->ssh;
     }
 
-    public function connect(Collection $server): void
+    public function connect(Server $server): void
     {
         $this->rsa->loadKey(data_get($server, 'private_ssh_key'));
         $this->setSsh(data_get($server, 'ip'), data_get($server, 'port'));
@@ -80,7 +82,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         $this->ssh->setTimeout(0);
     }
 
-    protected function attemptLogin(Collection $server)
+    protected function attemptLogin(Server $server)
     {
         try {
             $result = $this->ssh->login($this->user, $this->rsa);
@@ -90,7 +92,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
     }
 
-    public function for(string $user): sshContract
+    public function for(string $user): RemoteTaskServiceContract
     {
         $this->user = $user;
 
@@ -117,6 +119,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
     public function checkOutputStatus($output) : void
     {
         if ($this->ssh->getExitStatus()) {
+            $this->errors[] = $this->output;
             throw new FailedCommandException($output);
         }
     }
@@ -263,4 +266,21 @@ echo \"Wrote\"", $read);
 
         return $text;
     }
+
+    /**
+     * @return string | array
+     */
+    public function getOutput()
+    {
+        return $this->output;
+
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
+
+    }
+
+
 }
