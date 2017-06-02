@@ -27,18 +27,10 @@ class SiteFirewallRuleDeleted
             $siteCommand = $this->makeCommand($site, $firewallRule);
 
             foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new RemoveServerFirewallRule($server, $firewallRule,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+                dispatch(
+                    (new RemoveServerFirewallRule($server, $firewallRule,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }
