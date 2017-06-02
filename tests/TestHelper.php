@@ -11,6 +11,7 @@ trait TestHelper
     public function createServer(int $count = 1, array $attributes = [])
     {
         $server = factory(Server::class, $count)->make();
+
         return (new Server)->fill($server->toArray());
     }
 

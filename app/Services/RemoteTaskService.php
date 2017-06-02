@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Server\Server;
 use Dompdf\Exception;
 use phpseclib\Net\SSH2;
 use phpseclib\Crypt\RSA;
+use App\Models\Server\Server;
 use App\Events\SshLoginAttempted;
 use App\Exceptions\SshConnectionFailed;
 use App\Exceptions\FailedCommandException;
@@ -24,6 +24,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
     protected $output;
 
     protected $errors;
+
     /**
      * SshClient constructor.
      * @param RSA $rsa
@@ -62,7 +63,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
             return $output;
         });
 
-        return $this->output->count() != 1 ? $this->output: $this->output->first();
+        return $this->output->count() != 1 ? $this->output : $this->output->first();
     }
 
     protected function getSsh()
@@ -273,14 +274,10 @@ echo \"Wrote\"", $read);
     public function getOutput()
     {
         return $this->output;
-
     }
 
     public function getErrors(): array
     {
         return $this->errors;
-
     }
-
-
 }

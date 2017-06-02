@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Server\Server;
 use App\Contracts\RemoteTaskServiceContract;
-use Illuminate\Database\Eloquent\Collection;
 
 abstract class AbstractService
 {
