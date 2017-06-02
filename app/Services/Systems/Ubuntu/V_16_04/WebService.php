@@ -92,8 +92,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
      */
     public function updateWebServerConfig(Site $site, $serverType)
     {
-
-        if($serverType === SystemService::LOAD_BALANCER) {
+        if ($serverType === SystemService::LOAD_BALANCER) {
             throw new \Exception('we need to setup the load balancer configs!');
         }
 

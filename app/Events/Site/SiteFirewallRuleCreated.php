@@ -25,8 +25,7 @@ class SiteFirewallRuleCreated
             $siteCommand = $this->makeCommand($site, $firewallRule);
 
             foreach ($site->provisionedServers as $server) {
-
-                if($firewallRule->ip === $server->ip) {
+                if ($firewallRule->ip === $server->ip) {
                     continue;
                 }
 

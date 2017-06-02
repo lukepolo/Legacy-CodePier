@@ -37,7 +37,7 @@ class SystemService implements SystemServiceContract
     ];
 
     const FRAMEWORKS = [
-        'Languages\PHP\Frameworks\Laravel'
+        'Languages\PHP\Frameworks\Laravel',
     ];
 
     const WEB_SERVER = 'web';
@@ -54,7 +54,7 @@ class SystemService implements SystemServiceContract
         'Load Balancer' => self::LOAD_BALANCER,
     ];
 
-    const LANGUAGES_GROUP = "Languages";
+    const LANGUAGES_GROUP = 'Languages';
 
     const SERVER_TYPE_FEATURE_GROUPS = [
         self::FULL_STACK_SERVER => [
