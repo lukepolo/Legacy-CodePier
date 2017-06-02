@@ -3,7 +3,6 @@
 namespace App\Contracts;
 
 use App\Models\Server\Server;
-use Illuminate\Database\Eloquent\Collection;
 
 interface RemoteTaskServiceContract
 {
