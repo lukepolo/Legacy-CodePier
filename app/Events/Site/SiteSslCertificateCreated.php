@@ -4,9 +4,9 @@ namespace App\Events\Site;
 
 use App\Models\Site\Site;
 use App\Models\SslCertificate;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 
 class SiteSslCertificateCreated
@@ -25,10 +25,9 @@ class SiteSslCertificateCreated
             $siteCommand = $this->makeCommand($site, $sslCertificate);
 
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
-                if(
+                if (
                     $serverType === SystemService::WEB_SERVER ||
                     $serverType === SystemService::LOAD_BALANCER ||
                     $serverType === SystemService::FULL_STACK_SERVER
@@ -43,7 +42,6 @@ class SiteSslCertificateCreated
                         )->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
         }
     }
