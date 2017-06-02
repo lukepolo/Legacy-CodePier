@@ -6,6 +6,7 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
+use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Jobs\Site\RenameSiteDomain;
@@ -116,9 +117,18 @@ class SiteObserver
 
         if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
-                );
+
+                $serverType = $server->type;
+
+                if (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::LOAD_BALANCER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
 
