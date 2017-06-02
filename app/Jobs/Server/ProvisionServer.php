@@ -48,7 +48,6 @@ class ProvisionServer implements ShouldQueue
         $this->server->load('provisionSteps');
 
         if ($serverService->provision($this->server)) {
-
             $this->server->user->load('sshKeys');
 
             foreach ($this->server->user->sshKeys as $sshKey) {
@@ -60,12 +59,11 @@ class ProvisionServer implements ShouldQueue
                     (new CreateSite($this->server, $site))->onQueue(config('queue.channels.server_commands'))
                 );
 
-                foreach($site->servers as $server) {
+                foreach ($site->servers as $server) {
                     dispatch(
                         (new ConnectSiteServer($site, $server))->onQueue(config('queue.channels.server_commands'))
                     );
                 }
-
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

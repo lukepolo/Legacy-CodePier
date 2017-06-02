@@ -35,8 +35,8 @@ class SiteServerFeaturesController extends Controller
         $serverFeatures = collect(Site::findOrFail($siteId)->server_features);
         $serverTypeFeatureGroups = collect(SystemService::SERVER_TYPE_FEATURE_GROUPS[$serverType]);
 
-        if($serverTypeFeatureGroups->contains(SystemService::LANGUAGES_GROUP)) {
-            $languages = $serverFeatures->filter(function($features, $featureIndex) {
+        if ($serverTypeFeatureGroups->contains(SystemService::LANGUAGES_GROUP)) {
+            $languages = $serverFeatures->filter(function ($features, $featureIndex) {
                 return starts_with($featureIndex, 'Languages');
             })->keys();
         }
