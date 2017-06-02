@@ -3,11 +3,11 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,7 +43,6 @@ class DeploySite implements ShouldQueue
         ]);
 
         foreach ($this->servers as $server) {
-
             $serverType = $server->type;
 
             if (
@@ -57,7 +56,6 @@ class DeploySite implements ShouldQueue
                     'site_deployment_id' => $this->siteDeployment->id,
                 ])->createSteps();
             }
-
         }
 
         $site->notify(new NewSiteDeployment($this->siteDeployment));
