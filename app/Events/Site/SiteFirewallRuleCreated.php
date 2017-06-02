@@ -29,18 +29,10 @@ class SiteFirewallRuleCreated
                     continue;
                 }
 
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new InstallServerFirewallRule($server, $firewallRule,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+                dispatch(
+                    (new InstallServerFirewallRule($server, $firewallRule,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }
