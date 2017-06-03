@@ -19,6 +19,8 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use App\Models\System;
+use App\Services\Systems\SystemService;
 
 class SiteController extends Controller
 {
@@ -75,6 +77,8 @@ class SiteController extends Controller
      */
     public function show($id)
     {
+        dd();
+
         return response(
             Site::findOrFail($id)
         );
