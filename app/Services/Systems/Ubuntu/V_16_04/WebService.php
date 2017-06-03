@@ -95,7 +95,6 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->connectToServer();
 
         if ($serverType === SystemService::LOAD_BALANCER) {
-
             $httpType = 'http';
 
             if ($site->hasActiveSSL()) {
@@ -104,12 +103,13 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/http/balance', '
 upstream myproject {
-    '.$site->servers->map(function($server) {
-        $server->ip = 'server '.$server->ip.';';
-        return $server;
-    })->filter(function($server) {
-        return $server->type === SystemService::WEB_SERVER;
-    })->implode('ip', "\n").'
+    '.$site->servers->map(function ($server) {
+                $server->ip = 'server '.$server->ip.';';
+
+                return $server;
+            })->filter(function ($server) {
+                return $server->type === SystemService::WEB_SERVER;
+            })->implode('ip', "\n").'
 }');
 
             $location = '
@@ -126,7 +126,6 @@ location / {
         $site->load('sslCertificates');
 
         if ($site->hasActiveSSL()) {
-
             $activeSsl = $site->activeSsl();
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
@@ -187,7 +186,7 @@ add_header  Strict-Transport-Security "max-age=0;";
         switch ($webserver) {
             case 'Nginx':
 
-                if($this->server->type !== SystemService::LOAD_BALANCER) {
+                if ($this->server->type !== SystemService::LOAD_BALANCER) {
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
                 }
 
