@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-06-01.
+    * Generated on 2017-06-03.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -67,7 +67,6 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
-            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -135,6 +134,7 @@ namespace PHPSTORM_META {
             'migrator' instanceof \Illuminate\Database\Migrations\Migrator,
             'migration.creator' instanceof \Illuminate\Database\Migrations\MigrationCreator,
             'composer' instanceof \Illuminate\Support\Composer,
+            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'swift.transport' instanceof \Illuminate\Mail\TransportManager,
             'swift.mailer' instanceof \Swift_Mailer,
             'mailer' instanceof \Illuminate\Mail\Mailer,
@@ -220,7 +220,6 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
-            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -288,6 +287,7 @@ namespace PHPSTORM_META {
             'migrator' instanceof \Illuminate\Database\Migrations\Migrator,
             'migration.creator' instanceof \Illuminate\Database\Migrations\MigrationCreator,
             'composer' instanceof \Illuminate\Support\Composer,
+            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'swift.transport' instanceof \Illuminate\Mail\TransportManager,
             'swift.mailer' instanceof \Swift_Mailer,
             'mailer' instanceof \Illuminate\Mail\Mailer,
@@ -373,7 +373,6 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
-            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -441,6 +440,7 @@ namespace PHPSTORM_META {
             'migrator' instanceof \Illuminate\Database\Migrations\Migrator,
             'migration.creator' instanceof \Illuminate\Database\Migrations\MigrationCreator,
             'composer' instanceof \Illuminate\Support\Composer,
+            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'swift.transport' instanceof \Illuminate\Mail\TransportManager,
             'swift.mailer' instanceof \Swift_Mailer,
             'mailer' instanceof \Illuminate\Mail\Mailer,
@@ -526,7 +526,6 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster,
-            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -594,6 +593,7 @@ namespace PHPSTORM_META {
             'migrator' instanceof \Illuminate\Database\Migrations\Migrator,
             'migration.creator' instanceof \Illuminate\Database\Migrations\MigrationCreator,
             'composer' instanceof \Illuminate\Support\Composer,
+            'hash' instanceof \Illuminate\Hashing\BcryptHasher,
             'swift.transport' instanceof \Illuminate\Mail\TransportManager,
             'swift.mailer' instanceof \Swift_Mailer,
             'mailer' instanceof \Illuminate\Mail\Mailer,
