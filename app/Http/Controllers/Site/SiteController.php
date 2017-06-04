@@ -77,8 +77,6 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        dd();
-
         return response(
             Site::findOrFail($id)
         );
