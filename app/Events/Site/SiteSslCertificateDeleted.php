@@ -38,8 +38,7 @@ class SiteSslCertificateDeleted
                         (new RemoveServerSslCertificate(
                             $server,
                             $sslCertificate,
-                            $siteCommand,
-                            $site
+                            $siteCommand
                         ))->onQueue(config('queue.channels.server_commands'))
                     );
                 }

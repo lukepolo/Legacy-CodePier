@@ -49,6 +49,11 @@ class InstallServerSslCertificate implements ShouldQueue
         } else {
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->installSslCertificate($this->server, $this->sslCertificate);
+
+                foreach($this->sslCertificate->sites as $site) {
+                    $siteService->updateWebServerConfig($this->server, $site);
+                }
+
             }, null, false);
 
             if (! $this->wasSuccessful()) {

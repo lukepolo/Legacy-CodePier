@@ -39,7 +39,6 @@ class SiteSslCertificateUpdated
                             dispatch(
                                 (new DeactivateServerSslCertificate(
                                     $server,
-                                    $site,
                                     $activeSsl,
                                     $siteCommand
                                 ))->onQueue(config('queue.channels.server_commands'))
