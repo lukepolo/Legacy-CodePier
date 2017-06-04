@@ -3,6 +3,7 @@
 namespace App\Services\Site;
 
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
@@ -14,6 +15,7 @@ use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
+use App\Events\Site\SiteFirewallRuleCreated;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -69,7 +71,7 @@ class SiteService implements SiteServiceContract
      */
     public function updateWebServerConfig(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->updateWebServerConfig($site);
+        $this->getWebServerService($server)->updateWebServerConfig($site, $server->type);
 
         $this->serverService->restartWebServices($server);
     }
@@ -224,6 +226,42 @@ class SiteService implements SiteServiceContract
 
         if (isset($webServices['Nginx']['enabled'])) {
             return $this->serverService->getService(SystemService::WEB, $server);
+        }
+    }
+
+    /**
+     * Creates a firewall rule for a site if it does not exist.
+     *
+     * @param Site $site
+     * @param $port
+     * @param $type
+     * @param $description
+     * @param null $fromIp
+     *
+     * return FirewallRule | null
+     */
+    public function createFirewallRule(Site $site, $port, $type, $description, $fromIp = null)
+    {
+        $type = $port === '*' ? 'both' : $type;
+
+        if (! $site->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->where('type', $type)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'type' => $type,
+                'from_ip' => $fromIp,
+                'description' => $description,
+            ]);
+
+            $site->firewallRules()->save($firewallRule);
+
+            event(new SiteFirewallRuleCreated($site, $firewallRule));
+
+            return $firewallRule;
         }
     }
 }

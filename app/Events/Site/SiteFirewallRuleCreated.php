@@ -24,6 +24,10 @@ class SiteFirewallRuleCreated
             $siteCommand = $this->makeCommand($site, $firewallRule);
 
             foreach ($site->provisionedServers as $server) {
+                if ($firewallRule->ip === $server->ip) {
+                    continue;
+                }
+
                 dispatch(
                     (new InstallServerFirewallRule($server, $firewallRule,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
