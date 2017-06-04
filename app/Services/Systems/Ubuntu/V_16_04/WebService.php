@@ -6,7 +6,6 @@ use App\Models\Site\Site;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
-use function snake_case;
 
 /**
  * // TODO - need to separate Apache and NGINX configs.
@@ -96,26 +95,26 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->connectToServer();
 
         if ($serverType === SystemService::LOAD_BALANCER) {
-
             $httpType = 'http';
 
             if ($site->hasActiveSSL()) {
                 $httpType = 'https';
             }
 
-            $upstreamName = snake_case(str_replace('.','_', $site->domain));
+            $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
             // TODO - for now we will do it by what servers are connected to that site
             // realistically it would be awesome if we could hook up cloudflares free anycast to allow for global load balancing
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
 upstream '.$upstreamName.' {
     ip_hash;
-    '.$site->servers->map(function($server) {
-        $server->ip = 'server '.$server->ip.';';
-        return $server;
-    })->filter(function($server) {
-        return $server->type === SystemService::WEB_SERVER;
-    })->implode('ip', "\n").'
+    '.$site->servers->map(function ($server) {
+                $server->ip = 'server '.$server->ip.';';
+
+                return $server;
+            })->filter(function ($server) {
+                return $server->type === SystemService::WEB_SERVER;
+            })->implode('ip', "\n").'
 }');
 
             $location = '
@@ -133,7 +132,6 @@ location / {
         $site->load('sslCertificates');
 
         if ($site->hasActiveSSL()) {
-
             $activeSsl = $site->activeSsl();
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
@@ -194,7 +192,7 @@ add_header  Strict-Transport-Security "max-age=0;";
         switch ($webserver) {
             case 'Nginx':
 
-                if($this->server->type !== SystemService::LOAD_BALANCER) {
+                if ($this->server->type !== SystemService::LOAD_BALANCER) {
                     $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
                 }
 
