@@ -107,13 +107,13 @@
             schemas() {
                 if(this.siteId) {
                     return _.filter(this.$store.state.user_site_schemas.schemas, (schema) => {
-                        return schema.database == this.database
+                        return schema.database === this.database
                     })
                 }
 
                 if(this.serverId) {
                     return _.filter(this.$store.state.user_server_schemas.schemas, (schema) => {
-                        return schema.database == this.database
+                        return schema.database === this.database
                     })
                 }
             }

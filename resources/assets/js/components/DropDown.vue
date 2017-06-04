@@ -19,48 +19,50 @@
 
 <script>
     export default {
-        props : {
-            'tag' : {
-                default : 'li'
+        props: {
+            'tag': {
+                default: 'li'
             },
             'name': {
-                default : null
+                default: null
             },
             'muted': {
-                default : null
+                default: null
             },
             'icon': {
-                default : null
+                default: null
             }
         },
-        data() {
+        data () {
             return {
-                'open' : false
+                'open': false
             }
         },
         methods: {
-            show(target) {
-                if(
+            show (target) {
+                if (
                     this.open &&
                     !app.isTag(target, 'textarea') &&
                     !app.isTag(target, 'input') &&
                     !app.isTag(target, 'select') &&
                     !app.isTag(target, 'option')
                 ) {
-                    return this.open = false
+                    this.open = false
+
+                    return this.open
                 }
 
                 app.$emit('close-dropdowns')
                 this.open = true
-            },
+            }
         },
-        created() {
+        created () {
             app.$on('close-dropdowns', () => {
                 this.open = false
             })
         },
-        slots() {
+        slots () {
             return this.$slots
-        },
+        }
     }
 </script>

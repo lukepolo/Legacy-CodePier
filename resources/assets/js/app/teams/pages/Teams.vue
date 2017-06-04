@@ -142,7 +142,7 @@
                 this.$store.dispatch('deleteTeam', team_id);
             },
             isOwnerOfTeam: function (team) {
-                return team.owner_id == this.$store.state.user.user.id;
+                return team.owner_id === this.$store.state.user.user.id;
             },
             createTeamForm() {
                 this.create_form = this.$options.data().create_form;

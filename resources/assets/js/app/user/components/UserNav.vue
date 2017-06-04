@@ -33,8 +33,8 @@
 
         <router-link tag="li" class="wizard-item" :to="{ name : 'user_repository_providers' }">
             <a>
-                Repository Providers
-                <div class="small">We need basic repository access to allow deployments on your servers</div>
+                Source Control Providers
+                <div class="small">You can make your life easier by attaching a github / bitbucket / gitlab account to allow us to deploy your code</div>
             </a>
         </router-link>
 

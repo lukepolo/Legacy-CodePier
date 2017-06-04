@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\SslCertificates;
 
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
@@ -19,7 +18,6 @@ class RemoveServerSslCertificate implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $site;
     private $server;
     private $sslCertificate;
 
@@ -31,11 +29,9 @@ class RemoveServerSslCertificate implements ShouldQueue
      * @param Server $server
      * @param SslCertificate $sslCertificate
      * @param Command $siteCommand
-     * @param Site $site
      */
-    public function __construct(Server $server, SslCertificate $sslCertificate, Command $siteCommand = null, Site $site = null)
+    public function __construct(Server $server, SslCertificate $sslCertificate, Command $siteCommand = null)
     {
-        $this->site = $site;
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
         $this->makeCommand($server, $sslCertificate, $siteCommand);
@@ -54,8 +50,9 @@ class RemoveServerSslCertificate implements ShouldQueue
         if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->removeSslCertificate($this->server, $this->sslCertificate);
-                if ($this->site) {
-                    $siteService->updateWebServerConfig($this->server, $this->site);
+
+                foreach ($this->sslCertificate->sites as $site) {
+                    $siteService->updateWebServerConfig($this->server, $site);
                 }
             });
 

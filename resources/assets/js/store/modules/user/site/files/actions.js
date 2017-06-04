@@ -1,11 +1,11 @@
-export const get = ({}, site) => {
+export const get = (context, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteFileController@index', { site: site }),
         'user_site_files/setAll'
     )
 }
 
-export const update = ({}, data) => {
+export const update = (context, data) => {
     return Vue.request(data).patch(
         Vue.action('Site\SiteFileController@update', {
             site: data.site,
@@ -17,25 +17,25 @@ export const update = ({}, data) => {
     })
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete('')
 }
 
-export const getEditableFiles = ({}, site) => {
+export const getEditableFiles = (context, site) => {
     Vue.request().get(
         Vue.action('Site\SiteFeatureController@getEditableFiles', { site: site }),
         'user_site_files/setEditableFiles'
     )
 }
 
-export const getEditableFrameworkFiles = ({}, site) => {
+export const getEditableFrameworkFiles = (context, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteFeatureController@getEditableFrameworkFiles', { site: site }),
         'user_site_files/setEditableFrameworkFiles'
     )
 }
 
-export const find = ({}, data) => {
+export const find = (context, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteFileController@find', {
             site: data.site
@@ -44,8 +44,7 @@ export const find = ({}, data) => {
     )
 }
 
-export const reload = ({}, data) => {
-
+export const reload = (context, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteFileController@reloadFile', {
             site: data.site,
@@ -56,9 +55,7 @@ export const reload = ({}, data) => {
     ).then(() => {
         app.showSuccess('You have reloaded the file')
     })
-
 }
-
 
 //     addCustomFile: ({ commit }, site) => {
 //     Vue.http.get().then((response) => {

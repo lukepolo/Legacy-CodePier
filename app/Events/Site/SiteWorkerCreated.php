@@ -6,6 +6,7 @@ use App\Models\Worker;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\Workers\InstallServerWorker;
 
 class SiteWorkerCreated
@@ -22,8 +23,20 @@ class SiteWorkerCreated
     {
         if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $worker);
+
             foreach ($site->provisionedServers as $server) {
-                dispatch(new InstallServerWorker($server, $worker, $siteCommand));
+                $serverType = $server->type;
+
+                if (
+                    $serverType === SystemService::WORKER_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (
+                            new InstallServerWorker($server, $worker, $siteCommand)
+                        )->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
     }

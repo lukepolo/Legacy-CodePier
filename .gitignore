@@ -4,8 +4,10 @@
 /public/hot
 /storage/*.key
 /.idea
+/.vagrant
 Homestead.yaml
 Homestead.json
+npm-debug.log
 .env
 /public/.DS_Store
 *.DS_Store

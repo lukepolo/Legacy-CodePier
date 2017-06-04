@@ -20,7 +20,9 @@
             fetchData() {
                 if(this.siteId) {
                     this.$store.dispatch('user_site_schemas/get', this.siteId)
-                    this.$store.dispatch('user_site_server_features/get', this.siteId)
+                    this.$store.dispatch('user_site_server_features/get', {
+                        site : this.siteId
+                    })
                 }
 
                 if(this.serverId) {
@@ -50,7 +52,7 @@
 
                 if(_.has(serverFeatures, 'DatabaseService')) {
                     return _.keys(_.pickBy(serverFeatures.DatabaseService, function(options, database) {
-                        if(database == 'MariaDB' || database == 'PostgreSQL' || database == 'MySQL') {
+                        if(database === 'MariaDB' || database === 'PostgreSQL' || database === 'MySQL') {
                             return options.enabled;
                         }
                     }))

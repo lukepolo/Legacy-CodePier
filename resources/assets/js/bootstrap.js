@@ -7,7 +7,6 @@
 
 window.laroute = require('./laroute')
 window.moment = require('moment-timezone')
-window.moment.tz.setDefault('UTC')
 
 /*
  |--------------------------------------------------------------------------
@@ -39,8 +38,9 @@ require('brace/theme/monokai')
 import NProgress from 'nprogress'
 
 window.axios = require('axios')
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-window.axios.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelector('meta[name="csrf-token"]').content
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken
 
 axios.interceptors.request.use((config) => {
     NProgress.configure({
@@ -73,7 +73,7 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 
 Pusher.log = (msg) => {
-    console.info(msg)
+    // console.info(msg)
 }
 
 window.Echo = new Echo({

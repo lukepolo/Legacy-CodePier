@@ -1,11 +1,11 @@
-export const get = ({}, server) => {
+export const get = (context, server) => {
     return Vue.request().get(
         Vue.action('Server\ServerBuoyController@index', { server: server }),
         'user_server_buoys/setAll'
     )
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete(
         Vue.action('Server\ServerBuoyController@destroy', {
             buoy: data.buoy,

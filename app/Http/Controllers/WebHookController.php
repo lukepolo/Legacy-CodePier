@@ -25,17 +25,19 @@ class WebHookController extends Controller
 
         $branch = null;
 
-        switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
-            case OauthController::GITHUB:
-            case OauthController::GITLAB:
-                $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
-                break;
-            case OauthController::BITBUCKET:
-                $branch = $request->get('push')['changes'][0]['new']['name'];
-                break;
+        if (! empty($site->userRepositoryProvider)) {
+            switch ($site->userRepositoryProvider->repositoryProvider->provider_name) {
+                case OauthController::GITHUB:
+                case OauthController::GITLAB:
+                    $branch = substr($request->get('ref'), strrpos($request->get('ref'), '/') + 1);
+                    break;
+                case OauthController::BITBUCKET:
+                    $branch = $request->get('push')['changes'][0]['new']['name'];
+                    break;
+            }
         }
 
-        if (count($request->all()) == 0 || $site->branch == $branch) {
+        if (empty($branch) || $site->branch === $branch) {
             dispatch(
                 (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
             );

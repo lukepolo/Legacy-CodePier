@@ -15,7 +15,7 @@
                         </thead>
                         <tr v-for="member in members">
                             <td>{{ member.name }} - {{ member.email }}</td>
-                            <td v-if="isOwnerOfTeam && member.id != current_user.id">
+                            <td v-if="isOwnerOfTeam && member.id !==  current_user.id">
                                 <button @click="deleteMember(member.id)" class="btn btn-danger btn-sm"><i
                                         class="fa fa-trash-o"></i> Delete
                                 </button>
@@ -118,7 +118,7 @@
                 return this.$store.state.user_teams.team_members;
             },
             isOwnerOfTeam() {
-                return this.team.owner_id == this.$store.state.user.user.id;
+                return this.team.owner_id === this.$store.state.user.user.id;
             }
         }
     }

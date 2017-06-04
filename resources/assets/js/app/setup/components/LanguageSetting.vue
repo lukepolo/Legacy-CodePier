@@ -86,7 +86,7 @@
             },
             languageSetting() {
                 return _.find(this.languageSettings, (languageSetting) => {
-                    return languageSetting.languageSetting == this.setting.language && languageSetting.setting == this.setting.name;
+                    return languageSetting.languageSetting === this.setting.language && languageSetting.setting === this.setting.name;
                 })
             },
             isCommandCurrentlyRunning() {

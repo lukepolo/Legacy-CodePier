@@ -8,14 +8,14 @@
         </div>
 
         <ul class="nav nav-left nav-piles">
-            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers">
+            <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
                 <li>
                     <span class="dropdown-heading">Change Pile</span>
                 </li>
                 <template v-for="pile in piles">
                     <li>
                         <a @click="changePile(pile.id)"
-                           :class="{ selected : (currentPile && currentPile.id == pile.id) }">
+                           :class="{ selected : (currentPile && currentPile.id === pile.id) }">
                             <span class="icon-layers"></span>
                             {{ pile.name }}
                         </a>
@@ -24,7 +24,7 @@
             </drop-down>
         </ul>
 
-        <section v-if="current_version != version">
+        <section v-if="current_version !==  version">
             <div>
                 Hello, We've got a new version of CodePier ready for you. <a href="">Refresh now</a> to make it yours.
             </div>
@@ -55,12 +55,12 @@
                 </li>
                 <li>
                     <a href="#" @click="changeTeam()"
-                       :class="{selected : currentTeam == null}"><span class="icon-person"></span> Private</a>
+                       :class="{selected : currentTeam === null}"><span class="icon-person"></span> Private</a>
                 </li>
                 <template v-for="team in teams">
                     <li>
                         <a href="#" @click="changeTeam(team.id)"
-                           :class="{selected : (currentTeam && currentTeam.id == team.id)}"><span class="icon-people"></span> {{ team.name }}</a>
+                           :class="{selected : (currentTeam && currentTeam.id === team.id)}"><span class="icon-people"></span> {{ team.name }}</a>
                     </li>
                 </template>
             </drop-down>
@@ -94,66 +94,66 @@
 
 <script>
 
-    import Notifications from './Notifications.vue';
+    import Notifications from './Notifications.vue'
 
-    export default {
+export default {
         components: {
             Notifications
         },
-        data() {
+        data () {
             return {
-                form : {
-                    query : 'Sorry, its coming soon!'
+                form: {
+                    query: 'Sorry, its coming soon!'
                 },
-                search : false,
-                current_version : Laravel.version
+                search: false,
+                current_version: Laravel.version
             }
         },
         computed: {
-            version() {
+            version () {
                 return this.$store.state.system.version
             },
-            piles() {
-                return this.$store.state.user_piles.piles;
+            piles () {
+                return this.$store.state.user_piles.piles
             },
-            currentPile() {
-                if(this.user) {
-                    return this.getPile(this.user.current_pile_id);
+            currentPile () {
+                if (this.user) {
+                    return this.getPile(this.user.current_pile_id)
                 }
             },
-            currentTeam() {
-                let currentTeam = this.$store.state.user.user.current_team
+            currentTeam () {
+                const currentTeam = this.$store.state.user.user.current_team
 
-                if(currentTeam) {
+                if (currentTeam) {
                     return currentTeam.name
                 }
                 return 'Private'
             },
-            user() {
-                return this.$store.state.user.user;
+            user () {
+                return this.$store.state.user.user
             },
-            teams() {
-                return this.$store.state.user_teams.teams;
+            teams () {
+                return this.$store.state.user_teams.teams
             }
         },
         methods: {
-            toggleSearch() {
+            toggleSearch () {
                 this.search = !this.search
-                this.$refs.search.focus();
+                this.$refs.search.focus()
             },
-            logout() {
+            logout () {
                 this.$store.dispatch('auth/logout')
             },
             changeTeam: function (teamID) {
-                this.$store.dispatch('changeTeams', teamID);
+                this.$store.dispatch('changeTeams', teamID)
             },
             changePile: function (pile_id) {
-                this.$store.dispatch('user_piles/change', pile_id);
+                this.$store.dispatch('user_piles/change', pile_id)
             }
         },
-        created() {
-            this.$store.dispatch('user_piles/get');
-            this.$store.dispatch('user_teams/get');
+        created () {
+            this.$store.dispatch('user_piles/get')
+            this.$store.dispatch('user_teams/get')
         }
     }
 </script>

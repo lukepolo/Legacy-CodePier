@@ -7,6 +7,7 @@ use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\Ubuntu\V_16_04\WebService;
 
 class PHP
 {
@@ -177,6 +178,7 @@ class PHP
     error_log  /var/log/nginx/'.$site->domain.' error;
   
     location / {
+        include '.WebService::NGINX_SERVER_FILES.'/'.$site->domain.'/root-location/*;
         try_files $uri $uri/ /index.php?$query_string;
     }
     

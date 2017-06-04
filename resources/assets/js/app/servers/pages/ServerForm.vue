@@ -16,6 +16,10 @@
                                 <input type="hidden" name="pile_id" :value="pile">
                             </template>
 
+                            <template v-if="$route.params.type">
+                                <input type="hidden" name="type" :value="$route.params.type">
+                            </template>
+
                             <div class="input-group input-radio">
                                 <div class="input-question">Server Provider</div>
                                 <template v-if="user_server_providers.length">
@@ -115,24 +119,26 @@
                                     </div>
                                 </template>
 
-                                <hr></hr>
-
                                 <div class="jcf-input-group">
                                     <label for="web_directory">
-                                        <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
-                                            <span class="fa fa-info-circle"></span>
-                                        </tooltip>
                                         <h3 v-if="$route.params.site_id">
-                                            Your server has been customized for your application
+                                            <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
+                                                <span class="fa fa-info-circle"></span>
+                                            </tooltip>
+                                            Your server has been customized for your application<br>
                                             <small>
                                                 <a @click="customize_server = !customize_server">(customize)</a>
                                             </small>
+                                        </h3>
+                                        <h3 v-else>
+                                            Setup your server :
                                         </h3>
                                     </label>
                                 </div>
 
                                 <server-features :update="false" v-show="customize_server"></server-features>
 
+                                <br><br><br>
                                 <div class="btn-footer">
                                     <button type="submit" class="btn btn-primary">Create Server</button>
                                 </div>
@@ -165,7 +171,7 @@
          return {
             is_custom : false,
             server_provider : null,
-            customize_server : false,
+            customize_server : !this.$route.params.site_id,
          }
         },
         methods: {

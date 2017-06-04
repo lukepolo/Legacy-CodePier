@@ -13,6 +13,7 @@ use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
@@ -69,6 +70,14 @@ class AppServiceProvider extends ServiceProvider
                 'PHP',
                 'Ruby',
             ])->contains($value);
+        });
+
+        Validator::extend('valid_server_type', function ($attribute, $value) {
+            return collect(SystemService::SERVER_TYPES)->contains($value);
+        });
+
+        Validator::extend('valid_firewall_port', function ($attribute, $value) {
+            return is_numeric($value) || $value == '*';
         });
 
         UserLoginProvider::updating(function ($provider) {

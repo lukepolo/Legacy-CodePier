@@ -8,6 +8,7 @@ use App\Models\Server\Server;
 use App\Jobs\Server\CreateServer;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ProvisioningKey;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
@@ -82,6 +83,7 @@ class ServerController extends Controller
             'pile_id' => $pileId,
             // TODO - currently we only support ubuntu 16.04
             'system_class' => 'ubuntu 16.04',
+            'type' => $request->get('type', SystemService::FULL_STACK_SERVER),
         ]);
 
         if (! empty($site)) {
