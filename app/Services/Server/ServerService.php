@@ -433,7 +433,6 @@ class ServerService implements ServerServiceContract
         }
 
         $this->activateSslCertificate($server, $sslCertificate);
-
     }
 
     /**
