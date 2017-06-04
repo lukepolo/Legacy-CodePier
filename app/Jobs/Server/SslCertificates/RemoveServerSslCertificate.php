@@ -3,7 +3,6 @@
 namespace App\Jobs\Server\SslCertificates;
 
 use App\Models\Command;
-use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Models\SslCertificate;
@@ -52,10 +51,9 @@ class RemoveServerSslCertificate implements ShouldQueue
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->removeSslCertificate($this->server, $this->sslCertificate);
 
-                foreach($this->sslCertificate->sites as $site) {
+                foreach ($this->sslCertificate->sites as $site) {
                     $siteService->updateWebServerConfig($this->server, $site);
                 }
-
             });
 
             if (! $this->wasSuccessful()) {
