@@ -68,6 +68,8 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
+        $this->remoteTaskService->updateText('/etc/mysql/mysql.conf.d/mysqld.cnf', 'bind-address', '#bind-address           = 127.0.0.1');
+
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
@@ -94,7 +96,7 @@ class DatabaseService
     {
         $this->connectToServer();
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
-
+        $this->remoteTaskService->updateText('/etc/redis/redis.conf', 'bind 127.0.0.1', '#bind 127.0.0.1');
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
     }
 

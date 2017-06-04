@@ -20,7 +20,9 @@
             fetchData() {
                 if(this.siteId) {
                     this.$store.dispatch('user_site_schemas/get', this.siteId)
-                    this.$store.dispatch('user_site_server_features/get', this.siteId)
+                    this.$store.dispatch('user_site_server_features/get', {
+                        site : this.siteId
+                    })
                 }
 
                 if(this.serverId) {

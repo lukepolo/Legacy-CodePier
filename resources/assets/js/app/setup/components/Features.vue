@@ -81,7 +81,10 @@
             fetchData() {
 
                 if(this.siteId) {
-                    this.$store.dispatch('user_site_server_features/get', this.siteId);
+                    this.$store.dispatch('user_site_server_features/get', {
+                        site : this.siteId,
+                        server_type : this.$route.params.type
+                    });
                 }
 
                 if(this.serverId) {
