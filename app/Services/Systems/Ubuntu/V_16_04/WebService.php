@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Services\Server\ServerService;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
+use function snake_case;
 
 /**
  * // TODO - need to separate Apache and NGINX configs.
@@ -102,8 +103,13 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
                 $httpType = 'https';
             }
 
-            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/http/balance', '
-upstream myproject {
+            $upstreamName = snake_case(str_replace('.','_', $site->domain));
+
+            // TODO - for now we will do it by what servers are connected to that site
+            // realistically it would be awesome if we could hook up cloudflares free anycast to allow for global load balancing
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
+upstream '.$upstreamName.' {
+    ip_hash;
     '.$site->servers->map(function($server) {
         $server->ip = 'server '.$server->ip.';';
         return $server;
@@ -114,7 +120,8 @@ upstream myproject {
 
             $location = '
 location / {
-    proxy_pass '.$httpType.'://'.$site->domain.';
+    include proxy_params;
+    proxy_pass '.$httpType.'://'.$upstreamName.';
 }
 ';
         } else {
@@ -194,10 +201,6 @@ add_header  Strict-Transport-Security "max-age=0;";
                 return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
 # codepier CONFIG (DO NOT REMOVE!)
 include '.self::NGINX_SERVER_FILES.'/'.$domain.'/before/*;
-
-http {
-    include '.self::NGINX_SERVER_FILES.'/'.$domain.'/http/*;
-}
 
 server {
     include '.self::NGINX_SERVER_FILES.'/'.$domain.'/server/*;
