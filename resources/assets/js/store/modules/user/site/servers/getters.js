@@ -1,10 +1,11 @@
 export const getServers = (state, getters, rootState) => (siteId) => {
+    const siteServers = state.servers[siteId]
 
-    let siteServerIds = state.servers[siteId];
-
-    if(siteServerIds && _.keys(siteServerIds).length) {
+    if (siteServers && siteServers.length) {
         return _.filter(rootState.user_servers.servers, (server) => {
-            return _.indexOf(siteServerIds, server.id) > -1
+            return _.find(siteServers, {
+                id: server.id
+            })
         })
     }
 }

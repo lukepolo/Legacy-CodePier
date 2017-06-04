@@ -9,7 +9,7 @@ export const get = ({ dispatch }) => {
     })
 }
 
-export const show = ({}, site) => {
+export const show = (context, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteController@show', { site: site }),
         'user_sites/set'
@@ -23,10 +23,11 @@ export const store = ({ dispatch }, data) => {
     ).then((site) => {
         dispatch('listen', site)
         app.$router.push({ name: 'site_repository', params: { site_id: site.id }})
+        return site
     })
 }
 
-export const update = ({}, data) => {
+export const update = (context, data) => {
     return Vue.request(data).patch(
         Vue.action('Site\SiteController@update', { site: data.site }), [
             'user_sites/set',
@@ -37,7 +38,7 @@ export const update = ({}, data) => {
     })
 }
 
-export const destroy = ({}, site) => {
+export const destroy = (context, site) => {
     return Vue.request(site).delete(
         Vue.action('Site\SiteController@destroy', { site: site }), [
             'user_sites/remove'
@@ -53,56 +54,48 @@ export const listen = ({ commit, state, dispatch }, site) => {
         commit('listenTo', site.id)
         Echo.private('App.Models.Site.Site.' + site.id)
             .listen('Site\\DeploymentStepStarted', (data) => {
-
-                commit('events/updateDeployment', data, { root : true })
+                commit('events/updateDeployment', data, { root: true })
                 commit('user_sites/updateLastDeploymentStatus', {
-                    site : data.site_deployment.site_id,
-                    status : data.site_deployment.status,
+                    site: data.site_deployment.site_id,
+                    status: data.site_deployment.status
                 }, {
-                    root : true
+                    root: true
                 })
-
             })
             .listen('Site\\DeploymentStepCompleted', (data) => {
-
-                commit('events/updateDeployment', data, { root : true })
+                commit('events/updateDeployment', data, { root: true })
                 commit('user_sites/updateLastDeploymentStatus', {
-                    site : data.site_deployment.site_id,
-                    status : data.site_deployment.status,
+                    site: data.site_deployment.site_id,
+                    status: data.site_deployment.status
                 }, {
-                    root : true
+                    root: true
                 })
-
             })
             .listen('Site\\DeploymentStepFailed', (data) => {
-
-                commit('events/updateDeployment', data, { root : true })
+                commit('events/updateDeployment', data, { root: true })
                 commit('user_sites/updateLastDeploymentStatus', {
-                    site : data.site_deployment.site_id,
-                    status : data.site_deployment.status,
+                    site: data.site_deployment.site_id,
+                    status: data.site_deployment.status
                 }, {
-                    root : true
+                    root: true
                 })
-
             })
             .listen('Site\\DeploymentCompleted', (data) => {
-
-                commit('events/updateDeployment', data, { root : true })
+                commit('events/updateDeployment', data, { root: true })
                 commit('user_sites/updateLastDeploymentStatus', {
-                    site : data.site_deployment.site_id,
-                    status : data.site_deployment.status,
+                    site: data.site_deployment.site_id,
+                    status: data.site_deployment.status
                 }, {
-                    root : true
+                    root: true
                 })
-
             })
             .notification((notification) => {
                 if (notification.type === 'App\\Notifications\\Site\\NewSiteDeployment') {
                     dispatch('user_site_deployments/getDeployment', {
-                        site :  notification.siteDeployment.site_id,
-                        deployment : notification.siteDeployment.id,
+                        site: notification.siteDeployment.site_id,
+                        deployment: notification.siteDeployment.id
                     }, {
-                        root : true
+                        root: true
                     })
                 }
             })

@@ -1,5 +1,5 @@
 <template>
-    <span class="confirm-container" @click.stop @keyup.32.prevent @keyup.esc="close()">
+    <span class="confirm-container" @click.stop.prevent @keyup.32.prevent @keyup.esc="close()">
         <button :class="confirm_class" @click="open()">
             <slot></slot>
         </button>
@@ -18,8 +18,8 @@
                     </div>
                 </template>
                 <div class="btn-footer">
-                    <button class="btn btn-small" @click.stop="close()">{{ cancelText }}</button>
-                    <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop="confirmMethod">{{ confirmText }}</button>
+                    <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
+                    <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
                 </div>
             </div>
         </transition>
@@ -29,41 +29,41 @@
 <script>
     export default {
         props: {
-            'params' : {},
-            'dispatch' : {},
-            'cancel_text' : {},
-            'confirm_text' : {},
-            'confirm_with_text' : {},
-            'confirm_class' : {
-                default : 'btn'
-            },
-        },
-        data() {
-            return {
-                confirm: false,
-                confirmedText : '',
+            'params': {},
+            'dispatch': {},
+            'cancel_text': {},
+            'confirm_text': {},
+            'confirm_with_text': {},
+            'confirm_class': {
+                default: 'btn'
             }
         },
-        watch : {
-            'confirm'() {
+        data () {
+            return {
+                confirm: false,
+                confirmedText: ''
+            }
+        },
+        watch: {
+            'confirm' () {
                 Vue.nextTick(() => {
-                    if( this.$refs.confirm_input) {
+                    if (this.$refs.confirm_input) {
                         this.$refs.confirm_input.focus()
                     }
                 })
-            },
+            }
 
         },
         computed: {
-            cancelText() {
+            cancelText () {
                 return 'Cancel'
             },
-            confirmText() {
+            confirmText () {
                 return this.confirm_text ? this.confirm_text : 'Confirm'
             },
-            textConfirmed() {
-                if(this.confirm_with_text) {
-                    if(_.lowerCase(this.confirmedText) != _.lowerCase(this.confirm_with_text)) {
+            textConfirmed () {
+                if (this.confirm_with_text) {
+                    if (_.lowerCase(this.confirmedText) !== _.lowerCase(this.confirm_with_text)) {
                         return false
                     }
                 }
@@ -71,23 +71,23 @@
             }
         },
         methods: {
-            open() {
+            open () {
                 app.$emit('close-confirms')
                 this.confirm = true
             },
-            close() {
+            close () {
                 $(this.$el).closest('.dropdown').removeClass('open')
                 this.confirm = false
             },
-            confirmMethod() {
-                if(this.textConfirmed) {
+            confirmMethod () {
+                if (this.textConfirmed) {
                     this.confirmedText = ''
                     this.$store.dispatch(this.dispatch, this.params)
                     this.close()
                 }
             }
         },
-        created() {
+        created () {
             app.$on('close-confirms', () => {
                 this.confirm = false
             })

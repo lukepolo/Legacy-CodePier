@@ -1,5 +1,8 @@
 <template>
     <section>
+
+        <ssh-guide></ssh-guide>
+
         <div class="jcf-form-wrap">
             <form @submit.prevent="createKey" class="floating-labels">
                 <div class="jcf-input-group">

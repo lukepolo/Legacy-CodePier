@@ -3,7 +3,7 @@
         <div class="cpu-load">
             <template v-for="(load, ago) in stats.loads">
                 <div class="cpu-group">
-                    <div class="cpu-min" v-if="showLabels == true">
+                    <div class="cpu-min" v-if="showLabels === true">
                         <time-ago :time="getTime(ago)"></time-ago>
                     </div>
                     <div class="cpu-stats">

@@ -1,7 +1,12 @@
 {
-  "/js/app.js": "/js/app.48cfa974b3cd9f9423cc.js",
-  "/css/app.css": "/css/app.34bbe07c081209b585a5618802396858.css",
-  "/css/public.css": "/css/public.b4a0184d3cc87ef9d39ea2f8d869aeab.css",
-  "/js/vendor.js": "/js/vendor.72d16901dc6189e2dc7a.js",
-  "/js/manifest.js": "/js/manifest.d41d8cd98f00b204e980.js"
+  "/js/app.js": "/js/app.5f26fa6c2302c8e89d3c.js",
+  "/css/app.css": "/css/app.d7fb6959c32f1d219e134cbef8bd5a75.css",
+  "/css/public.css": "/css/public.08f3a5947808d2428d5bd15ed485b9b8.css",
+  "/js/vendor.js": "/js/vendor.43cc880acb23b965a509.js",
+  "/js/manifest.js": "/js/manifest.d41d8cd98f00b204e980.js",
+  "/js/app.js.map": "/js/app.5f26fa6c2302c8e89d3c.js.map",
+  "/css/app.css.map": "/css/app.d7fb6959c32f1d219e134cbef8bd5a75.css.map",
+  "/css/public.css.map": "/css/public.08f3a5947808d2428d5bd15ed485b9b8.css.map",
+  "/js/vendor.js.map": "/js/vendor.43cc880acb23b965a509.js.map",
+  "/js/manifest.js.map": "/js/manifest.d41d8cd98f00b204e980.js.map"
 }

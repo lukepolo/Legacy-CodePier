@@ -51,7 +51,7 @@
                 let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id})
 
                 if(notification) {
-                    return _.indexOf(notification.services, service) != -1
+                    return _.indexOf(notification.services, service) !==  -1
                 }
 
                 return false

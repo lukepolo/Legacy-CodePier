@@ -1,4 +1,4 @@
-export const get = ({}, data) => {
+export const get = (context, data) => {
     let filters = (data && data.filters) ? data.filters : null
 
     filters = _.merge({

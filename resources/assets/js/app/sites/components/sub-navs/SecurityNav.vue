@@ -17,7 +17,7 @@
                 </a>
             </router-link>
 
-            <router-link :to="{ name : 'site_ssl_certs', params : { site_id : siteId } }" tag="li" v-if="site && site.domain != 'default' ">
+            <router-link :to="{ name : 'site_ssl_certs', params : { site_id : siteId } }" tag="li" v-if="site && site.domain !==  'default' ">
                 <a>
                     SSL Certificates
                     <div class="small">Configure SSL certificates for your app</div>

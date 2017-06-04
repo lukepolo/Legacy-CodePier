@@ -74,7 +74,7 @@
 
                 if(!_.isObject(this.file_model)) {
                     this.file_model = _.find(this.siteFiles, (file) => {
-                        return this.file_model ==  file.file_path;
+                        return this.file_model ===  file.file_path;
                     });
 
                     if(!this.file_model) {

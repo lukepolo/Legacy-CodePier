@@ -1,19 +1,19 @@
-export const get = ({}, data) => {
+export const get = (context, data) => {
     return Vue.request(data).get('')
 }
 
-export const show = ({}, data) => {
+export const show = (context, data) => {
     return Vue.request(data).get('')
 }
 
-export const store = ({}, data) => {
+export const store = (context, data) => {
     return Vue.request(data).post('')
 }
 
-export const update = ({}, data) => {
+export const update = (context, data) => {
     return Vue.request(data).patch('')
 }
 
-export const destroy = ({}, data) => {
+export const destroy = (context, data) => {
     return Vue.request(data).delete('')
 }

@@ -1,20 +1,25 @@
 <template>
-    <div>
+
+    <div class="server-type-list">
+
         <template v-if="site.repository">
-            <li>
-                <router-link :class="classes" :to="{ name : 'server_form_with_site' , params : { site_id : site.id , type : 'full_stack' } }">
-                    <span class="icon-server"></span> Create Full Stack Server
+
+            <li v-for="(serverType, serverTypeText) in serverTypes">
+
+                <router-link
+                    :class="classes"
+                    :to="{ name : 'server_form_with_site' , params : {
+                        site_id : site.id ,
+                         type : serverType
+                    }
+                }">
+                    <span class="icon-server"></span> Create {{ serverTypeText }}
                 </router-link>
+
             </li>
-            <!--<div class="btn btn-primary">Create Web Server</div>-->
-            <!-- - not available during beta-->
-            <!--<div class="btn btn-primary">Create Load Balance</div>-->
-            <!-- - not available during beta-->
-            <!--<div class="btn btn-primary">Create Database Server</div>-->
-            <!-- - not available during beta-->
-            <!--<div class="btn btn-primary">Create Queue Worker Serer</div>-->
-            <!-- - not available during beta-->
+
         </template>
+
     </div>
 
 </template>
@@ -26,9 +31,15 @@
                 default : ''
             }
         },
+        created() {
+            this.$store.dispatch('server_types/get')
+        },
         computed: {
             site() {
                 return this.$store.state.user_sites.site;
+            },
+            serverTypes() {
+                return this.$store.state.server_types.types
             }
         }
     }

@@ -53,7 +53,7 @@
                                 <div class="select-wrap">
                                     <select :name="getInputName(feature, parameter)">
                                         <template v-for="option in feature.options">
-                                            <option :selected="getParameterValue(feature, parameter, value) == option" :value="option">{{ option }}</option>
+                                            <option :selected="getParameterValue(feature, parameter, value) === option" :value="option">{{ option }}</option>
                                         </template>
                                     </select>
                                 </div>
@@ -116,7 +116,7 @@
                 if(parameter) {
                     name = name + '[parameters][' + parameter + ']';
 
-                    if(feature.multiple == true) {
+                    if(feature.multiple === true) {
                         name = name + '[]';
                     }
 

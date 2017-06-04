@@ -1,11 +1,11 @@
-export const restart = ({}, server) => {
+export const restart = (context, server) => {
     Vue.request().post(
         Vue.action('Server\ServerController@restartServer', { server: server })
     ).then(() => {
         app.showSuccess('You have restarted your server')
     })
 }
-export const restartWebServices = ({}, server) => {
+export const restartWebServices = (context, server) => {
     Vue.request().post(
         Vue.action('Server\ServerController@restartWebServices', { server: server })
     ).then(() => {
@@ -13,7 +13,7 @@ export const restartWebServices = ({}, server) => {
     })
 }
 
-export const restartDatabases = ({}, server) => {
+export const restartDatabases = (context, server) => {
     Vue.request().post(
         Vue.action('Server\ServerController@restartDatabases', { server: server })
     ).then(() => {
@@ -21,9 +21,9 @@ export const restartDatabases = ({}, server) => {
     })
 }
 
-export const restartWorkers = ({}, server) => {
+export const restartWorkers = (context, server) => {
     Vue.request().post(
-        Vue.action('Server\ServerController@restartWorkerServices', {server: server})
+        Vue.action('Server\ServerController@restartWorkerServices', { server: server })
     ).then(() => {
         app.showSuccess('You have restarted your workers')
     })
