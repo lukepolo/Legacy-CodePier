@@ -124,7 +124,7 @@ location / {
 }
 ';
         } else {
-            $location = 'root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
+            $location = 'root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';';
         }
 
         $this->createWebServerSite($site);
@@ -169,7 +169,7 @@ server {
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
-add_header  Strict-Transport-Security "max-age=0;";
+add_header Strict-Transport-Security max-age=0;
 
 '.$location.'
 
