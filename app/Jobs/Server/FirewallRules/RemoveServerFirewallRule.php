@@ -56,44 +56,25 @@ class RemoveServerFirewallRule implements ShouldQueue
     {
         $sitesCount = $this->firewallRule->sites->count();
 
-        if(
-            ServerCommand::whereHas('command', function($query) {
-                    $query->where('commandable_type', FirewallRule::class);
-                })
-                ->where('server_id', $this->server->id)
-                ->where('started', 1)
-                ->where('completed', 0)
-                ->where('failed', 0)
-                ->count()
-        ) {
 
-            dispatch(
-                (new self($this->server, $this->firewallRule, null, $this->serverCommand))
-                    ->delay(rand(0, 10))
-                    ->onQueue(config('queue.channels.server_provisioning'))
-            );
+        if (! $sitesCount) {
+            $this->runOnServer(function () use ($serverService) {
+                $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
+            });
 
-        } else {
-
-            if (! $sitesCount) {
-                $this->runOnServer(function () use ($serverService) {
-                    $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
-                });
-
-                if (! $this->wasSuccessful()) {
-                    throw new ServerCommandFailed($this->getCommandErrors());
-                }
-
-                $this->server->firewallRules()->detach($this->firewallRule->id);
-
-                $this->firewallRule->load('servers');
-                if ($this->firewallRule->servers->count() == 0) {
-                    $this->firewallRule->delete();
-                }
-            } else {
-                $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
+            if (! $this->wasSuccessful()) {
+                throw new ServerCommandFailed($this->getCommandErrors());
             }
 
+            $this->server->firewallRules()->detach($this->firewallRule->id);
+
+            $this->firewallRule->load('servers');
+            if ($this->firewallRule->servers->count() == 0) {
+                $this->firewallRule->delete();
+            }
+        } else {
+            $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
         }
+
     }
 }
