@@ -26,26 +26,23 @@ class FirewallService
         $this->connectToServer();
 
         if ($firewallRule->port !== '*') {
+
             if (! empty($firewallRule->from_ip)) {
+
                 $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
+
             } else {
+
                 $command = "ufw allow $firewallRule->port/$firewallRule->type";
+
             }
 
-            return $this->remoteTaskService->run('
-for i in {1..5}
-do
-   count=$(ps -A -ww | grep [^]]ufw | wc -l)
-   if [ $count -eq 0 ]
-   then
-        '.$command.'
-      break
-   else
-      sleep $[ ( $RANDOM % 10 )  + 1 ]s
-   fi
-done');
+            return $this->remoteTaskService->run($command);
+
         } else {
+
             return $this->addServerNetworkRule($firewallRule->from_ip);
+
         }
     }
 
