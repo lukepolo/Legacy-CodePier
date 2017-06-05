@@ -38,7 +38,7 @@ class InstallServerFirewallRule implements ShouldQueue
         $this->server = $server;
         $this->firewallRule = $firewallRule;
 
-        if(empty($severCommand)) {
+        if (empty($severCommand)) {
             $this->makeCommand($server, $firewallRule, $siteCommand);
         }
     }
@@ -52,8 +52,8 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if(
-            ServerCommand::whereHas('command', function($query) {
+        if (
+            ServerCommand::whereHas('command', function ($query) {
                 $query->where('commandable_type', FirewallRule::class);
             })
                 ->where('server_id', $this->server->id)
@@ -62,13 +62,11 @@ class InstallServerFirewallRule implements ShouldQueue
                 ->where('failed', 0)
                 ->count()
             ) {
-
             dispatch(
                 (new self($this->server, $this->firewallRule, null, $this->serverCommand))
                     ->delay(rand(0, 10))
                     ->onQueue(config('queue.channels.server_provisioning'))
             );
-
         } else {
             if ($this->server->firewallRules
                     ->where('port', $this->firewallRule->port)
@@ -90,6 +88,5 @@ class InstallServerFirewallRule implements ShouldQueue
                 $this->server->firewallRules()->save($this->firewallRule);
             }
         }
-
     }
 }
