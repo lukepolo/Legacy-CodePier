@@ -25,7 +25,7 @@ class OsService
 
         $this->remoteTaskService->run('ln -sf /usr/share/zoneinfo/UTC /etc/localtime');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y ntpdate');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y ntpdate');
         $this->remoteTaskService->run('ntpdate ntp.ubuntu.com');
     }
 
@@ -127,7 +127,7 @@ APT::Periodic::Unattended-Upgrade "1";
 
         $this->remoteTaskService->run('sudo apt update');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y docker-engine');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine');
 
         $this->remoteTaskService->run('sudo usermod -aG docker codepier');
     }

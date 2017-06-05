@@ -17,7 +17,7 @@ class WorkerService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y beanstalkd');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
         $this->remoteTaskService->updateText('/etc/default/beanstalkd', '#START=yes', 'START=yes');
         $this->remoteTaskService->run('service beanstalkd restart');
 
@@ -31,7 +31,7 @@ class WorkerService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y supervisor');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
         $this->remoteTaskService->run('mkdir /home/codepier/workers');
 
         $this->remoteTaskService->run('systemctl enable supervisor');
