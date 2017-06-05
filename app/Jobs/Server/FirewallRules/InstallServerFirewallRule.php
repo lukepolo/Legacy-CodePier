@@ -5,6 +5,7 @@ namespace App\Jobs\Server\FirewallRules;
 use App\Models\Command;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Models\ServerCommand;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
@@ -30,12 +31,16 @@ class InstallServerFirewallRule implements ShouldQueue
      * @param Server $server
      * @param FirewallRule $firewallRule
      * @param Command $siteCommand
+     * @param ServerCommand $severCommand
      */
-    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null, ServerCommand $severCommand = null)
     {
         $this->server = $server;
         $this->firewallRule = $firewallRule;
-        $this->makeCommand($server, $firewallRule, $siteCommand);
+
+        if (empty($severCommand)) {
+            $this->makeCommand($server, $firewallRule, $siteCommand);
+        }
     }
 
     /**
@@ -47,24 +52,41 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if ($this->server->firewallRules
-            ->where('port', $this->firewallRule->port)
-            ->where('from_ip', $this->firewallRule->from_ip)
-            ->count()
-            ||
-            $this->server->firewallRules->keyBy('id')->get($this->firewallRule->id)
-        ) {
-            $this->updateServerCommand(0, 'Sever already has firewall rule : '.$this->firewallRule->port.' from ip '.$this->firewallRule->from_ip);
+        if (
+            ServerCommand::whereHas('command', function ($query) {
+                $query->where('commandable_type', FirewallRule::class);
+            })
+                ->where('server_id', $this->server->id)
+                ->where('started', 1)
+                ->where('completed', 0)
+                ->where('failed', 0)
+                ->count()
+            ) {
+            dispatch(
+                (new self($this->server, $this->firewallRule, null, $this->serverCommand))
+                    ->delay(rand(0, 10))
+                    ->onQueue(config('queue.channels.server_provisioning'))
+            );
         } else {
-            $this->runOnServer(function () use ($serverService) {
-                $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
-            });
+            if ($this->server->firewallRules
+                    ->where('port', $this->firewallRule->port)
+                    ->where('from_ip', $this->firewallRule->from_ip)
+                    ->count()
+                ||
+                $this->server->firewallRules->keyBy('id')->get($this->firewallRule->id)
+            ) {
+                $this->updateServerCommand(0, 'Sever already has firewall rule : '.$this->firewallRule->port.' from ip '.$this->firewallRule->from_ip);
+            } else {
+                $this->runOnServer(function () use ($serverService) {
+                    $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
+                });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
+                if (! $this->wasSuccessful()) {
+                    throw new ServerCommandFailed($this->getCommandErrors());
+                }
+
+                $this->server->firewallRules()->save($this->firewallRule);
             }
-
-            $this->server->firewallRules()->save($this->firewallRule);
         }
     }
 }
