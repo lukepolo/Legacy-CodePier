@@ -13,7 +13,7 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->writeToFile('/etc/opt/iptables',"
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables', "
     #!/bin/sh
     echo 'REDOING IP TABLES'
     iptables -F
@@ -29,18 +29,17 @@ class FirewallService
     iptables -I INPUT 1 -i lo -j ACCEPT
     
     # SSH
-    iptables -A INPUT -p tcp -m tcp --dport ".$this->server->port." -j ACCEPT
+    iptables -A INPUT -p tcp -m tcp --dport ".$this->server->port.' -j ACCEPT
     
     # DO NOT REMOVE - Custom Rules
     
     iptables -P INPUT DROP
-");
+');
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
         $this->remoteTaskService->run('/etc/opt/./iptables');
         $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
         $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
-
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
@@ -54,7 +53,6 @@ class FirewallService
         );
 
         return $this->rebuildFirewall();
-
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
@@ -69,8 +67,8 @@ class FirewallService
         return $this->rebuildFirewall();
     }
 
-    private function getRule($firewallRule) {
-
+    private function getRule($firewallRule)
+    {
         if ($firewallRule->port !== '*') {
             if ($firewallRule->from_ip) {
                 $rule = "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT";
@@ -82,7 +80,6 @@ class FirewallService
         }
 
         return $rule;
-
     }
 
     private function rebuildFirewall()
