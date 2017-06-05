@@ -5,6 +5,7 @@ namespace App\Jobs\Server\FirewallRules;
 use App\Models\Command;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
+use App\Models\ServerCommand;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
@@ -29,12 +30,19 @@ class RemoveServerFirewallRule implements ShouldQueue
      * @param Server $server
      * @param FirewallRule $firewallRule
      * @param Command $siteCommand
+     * @param ServerCommand|null $serverCommand
      */
-    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null, ServerCommand $serverCommand = null)
     {
         $this->server = $server;
         $this->firewallRule = $firewallRule;
-        $this->makeCommand($server, $firewallRule, $siteCommand);
+
+        if(empty($severCommand)) {
+            $this->makeCommand($server, $firewallRule, $siteCommand);
+        } else {
+            $this->serverCommand = $serverCommand;
+        }
+
     }
 
     /**
@@ -48,23 +56,44 @@ class RemoveServerFirewallRule implements ShouldQueue
     {
         $sitesCount = $this->firewallRule->sites->count();
 
-        if (! $sitesCount) {
-            $this->runOnServer(function () use ($serverService) {
-                $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
-            });
+        if(
+            ServerCommand::whereHas('command', function($query) {
+                    $query->where('commandable_type', FirewallRule::class);
+                })
+                ->where('server_id', $this->server->id)
+                ->where('started', 1)
+                ->where('completed', 0)
+                ->where('failed', 0)
+                ->count()
+        ) {
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
+            dispatch(
+                (new self($this->server, $this->firewallRule, null, $this->serverCommand))
+                    ->delay(rand(0, 10))
+                    ->onQueue(config('queue.channels.server_provisioning'))
+            );
 
-            $this->server->firewallRules()->detach($this->firewallRule->id);
-
-            $this->firewallRule->load('servers');
-            if ($this->firewallRule->servers->count() == 0) {
-                $this->firewallRule->delete();
-            }
         } else {
-            $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
+
+            if (! $sitesCount) {
+                $this->runOnServer(function () use ($serverService) {
+                    $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
+                });
+
+                if (! $this->wasSuccessful()) {
+                    throw new ServerCommandFailed($this->getCommandErrors());
+                }
+
+                $this->server->firewallRules()->detach($this->firewallRule->id);
+
+                $this->firewallRule->load('servers');
+                if ($this->firewallRule->servers->count() == 0) {
+                    $this->firewallRule->delete();
+                }
+            } else {
+                $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
+            }
+
         }
     }
 }

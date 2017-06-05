@@ -83,12 +83,12 @@ class CreateSite implements ShouldQueue
             }
         });
 
-        foreach($this->site->firewallRules as $firewallRule) {
+        $this->site->firewallRules->each(function ($firewallRule) {
             dispatch(
                 (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site,
                     $firewallRule)))->onQueue(config('queue.channels.server_commands'))
             );
-        }
+        });
 
         $this->site->sshKeys->each(function ($sshKey) {
             dispatch(
