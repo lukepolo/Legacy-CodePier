@@ -4,7 +4,10 @@ namespace App\Services\Server\Providers;
 
 use DigitalOcean;
 use Carbon\Carbon;
+use Exception;
+use function get_class;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
 use App\Models\Server\Server;
@@ -259,7 +262,11 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $client = new Client();
 
-        $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token);
+        try {
+            $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token);
+        } catch(ClientException $e) {
+            throw new Exception(json_decode($e->getResponse()->getBody(), true));
+        }
 
         if ($response->getStatusCode() == 200) {
             $tokenData = json_decode($response->getBody(), true);

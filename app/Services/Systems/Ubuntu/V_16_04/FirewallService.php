@@ -13,7 +13,7 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install iptables-persistent');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install iptables-persistent -y');
 
         $this->remoteTaskService->writeToFile('/etc/opt/iptables', "
     #!/bin/sh
@@ -30,7 +30,6 @@ class FirewallService
     
     # allow loopback device (127.0.0.1)
     iptables --wait --append INPUT --in-interface lo --jump ACCEPT
-    iptables --wait --append OUTPUT --out-interface lo --jump ACCEPT
     
     # SSH
     iptables --wait --append INPUT --policy tcp --match tcp --dport ".$this->server->port." --jump ACCEPT
@@ -42,7 +41,6 @@ class FirewallService
 ");
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
-        $this->remoteTaskService->run('/etc/opt/./iptables');
         $this->rebuildFirewall();
     }
 

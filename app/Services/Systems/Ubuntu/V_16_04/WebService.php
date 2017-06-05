@@ -33,7 +33,7 @@ class WebService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y letsencrypt');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
     }
 
     /**
@@ -43,7 +43,7 @@ class WebService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y nginx');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 
         $this->remoteTaskService->removeFile('/etc/nginx/sites-enabled/default');
         $this->remoteTaskService->removeFile('/etc/nginx/sites-available/default');

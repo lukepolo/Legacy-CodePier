@@ -135,15 +135,18 @@ class SystemService implements SystemServiceContract
                 ]);
             }
         } catch (FailedCommand $e) {
+
             $provisionStep->update([
                 'failed' => true,
                 'log' => $systemService->getErrors(),
             ]);
 
-            $this->updateProgress($provisionStep->step);
+            $this->updateProgress($provisionStep->log);
 
             return false;
+
         } catch (\Exception $e) {
+
             if (config('app.debug')) {
                 throw $e;
             }
