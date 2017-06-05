@@ -15,7 +15,7 @@ class NodeService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y nodejs npm');
     }
 
     /**
@@ -27,8 +27,8 @@ class NodeService
 
         $this->remoteTaskService->run('sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg');
         $this->remoteTaskService->run('echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list');
-        $this->remoteTaskService->run('sudo apt-get update');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y yarn');
+        $this->remoteTaskService->run('sudo apt update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y yarn');
     }
 
     /**
