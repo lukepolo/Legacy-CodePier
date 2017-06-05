@@ -13,57 +13,86 @@ class FirewallService
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('ufw default deny incoming');
-        $this->remoteTaskService->run('ufw default allow outgoing');
-        $this->remoteTaskService->run('ufw allow ssh');
-        $this->remoteTaskService->run('ufw disable');
-        $this->remoteTaskService->run('ufw allow '.$this->server->port.'/tcp');
-        $this->remoteTaskService->run('echo "y" | ufw enable');
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables',"
+    #!/bin/sh
+    echo 'REDOING IP TABLES'
+    iptables -F
+    iptables -X
+    iptables -t nat -F
+    iptables -t nat -X
+    iptables -t mangle -F
+    iptables -t mangle -X
+    iptables -P INPUT ACCEPT
+    iptables -P FORWARD ACCEPT
+    iptables -P OUTPUT ACCEPT
+    iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+    iptables -I INPUT 1 -i lo -j ACCEPT
+    
+    # SSH
+    iptables -A INPUT -p tcp -m tcp --dport ".$this->server->port." -j ACCEPT
+    
+    # DO NOT REMOVE - Custom Rules
+    
+    iptables -P INPUT DROP
+");
+
+        $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
+        $this->remoteTaskService->run('/etc/opt/./iptables');
+        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
+        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
+
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        if ($firewallRule->port !== '*') {
-            if (! empty($firewallRule->from_ip)) {
-                $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
-            } else {
-                $command = "ufw allow $firewallRule->port/$firewallRule->type";
-            }
+        $this->remoteTaskService->findTextAndAppend(
+            '/etc/opt/iptables',
+            '# DO NOT REMOVE - Custom Rules',
+            $this->getRule($firewallRule)
+        );
 
-            return $this->remoteTaskService->run($command);
-        } else {
-            return $this->addServerNetworkRule($firewallRule->from_ip);
-        }
+        return $this->rebuildFirewall();
+
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
+        $this->remoteTaskService->removeLineByText(
+            '/etc/opt/iptables',
+            $this->getRule($firewallRule)
+        );
+
+        return $this->rebuildFirewall();
+    }
+
+    private function getRule($firewallRule) {
+
         if ($firewallRule->port !== '*') {
             if ($firewallRule->from_ip) {
-                return $this->remoteTaskService->run("ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port");
+                $rule = "iptables -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT";
+            } else {
+                $rule = "iptables -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT";
             }
-
-            return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type");
         } else {
-            return $this->removeServerNetworkRule($firewallRule->from_ip);
+            $rule = "iptables -I INPUT -p tcp -s $firewallRule->from_ip -j ACCEPT";
         }
+
+        return $rule;
+
     }
 
-    public function addServerNetworkRule($serverIp)
+    private function rebuildFirewall()
     {
         $this->connectToServer();
 
-        return $this->remoteTaskService->run("ufw allow from $serverIp");
-    }
+        $this->remoteTaskService->run('/etc/opt/./iptables');
+        $this->remoteTaskService->run('iptables-save > /etc/iptables/rules.v4');
+        $this->remoteTaskService->run('ip6tables-save > /etc/iptables/rules.v6');
 
-    public function removeServerNetworkRule($serverIp)
-    {
-        $this->connectToServer();
-
-        return $this->remoteTaskService->run("ufw delete allow from $serverIp");
+        return $this->remoteTaskService->getErrors();
     }
 }
