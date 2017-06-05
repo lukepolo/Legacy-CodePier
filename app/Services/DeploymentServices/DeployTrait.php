@@ -77,6 +77,7 @@ trait DeployTrait
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
 
             if ($this->repositoryProvider) {
+                $repositoryUrl = parse_url($this->repositoryProvider->url);
                 $url = 'https://'.$this->repositoryProvider->url.'/'.$this->repository;
 
                 if ($this->site->private) {
@@ -86,6 +87,8 @@ trait DeployTrait
                 $repositoryUrl = parse_url($this->repository);
                 $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'], '/');
             }
+
+            $this->remoteTaskService->run('ssh-keyscan -t rsa '.$repositoryUrl['host'].' | tee -a ~/.ssh/known_hosts');
 
             if ($this->zerotimeDeployment) {
                 $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);
