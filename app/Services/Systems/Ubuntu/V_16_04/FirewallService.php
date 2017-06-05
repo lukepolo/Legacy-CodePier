@@ -15,7 +15,7 @@ class FirewallService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install iptables-persistent -y');
 
-        $this->remoteTaskService->writeToFile('/etc/opt/iptables', "
+        $this->remoteTaskService->writeToFile('/etc/opt/iptables', '
     #!/bin/sh
     iptables --wait --flush
     iptables --wait --delete-chain
@@ -32,13 +32,13 @@ class FirewallService
     iptables --wait --append INPUT --in-interface lo --jump ACCEPT
     
     # SSH
-    iptables --wait --append INPUT --policy tcp --match tcp --dport ".$this->server->port." --jump ACCEPT
+    iptables --wait --append INPUT --policy tcp --match tcp --dport '.$this->server->port.' --jump ACCEPT
     
     # DO NOT REMOVE - Custom Rules
     
     # default drop
     iptables --wait --policy INPUT DROP
-");
+');
 
         $this->remoteTaskService->run('chmod 775 /etc/opt/iptables');
         $this->rebuildFirewall();
