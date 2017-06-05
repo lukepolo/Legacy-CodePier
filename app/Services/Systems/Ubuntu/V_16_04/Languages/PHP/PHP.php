@@ -77,11 +77,11 @@ class PHP
             default:
                 $installVersion = $version;
                 $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
-                $this->remoteTaskService->run('apt-get update');
+                $this->remoteTaskService->run('apt update');
                 break;
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb '.$installVersion.'-ldap');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y php'.$installVersion.'-cli php'.$installVersion.'-dev php'.$installVersion.'-pgsql php'.$installVersion.'-sqlite3 php'.$installVersion.'-gd php'.$installVersion.'-curl php'.$installVersion.'-memcached php'.$installVersion.'-imap php'.$installVersion.'-mysql php'.$installVersion.'-mbstring php'.$installVersion.'-xml php'.$installVersion.'-zip php'.$installVersion.'-bcmath php'.$installVersion.'-soap php'.$installVersion.'-intl php'.$installVersion.'-readline php'.$installVersion.'-mongodb '.$installVersion.'-ldap');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
@@ -104,7 +104,7 @@ class PHP
             $tempVersion = '';
         }
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y php'.$tempVersion.'-fpm');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y php'.$tempVersion.'-fpm');
 
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/fpm/php.ini', 'upload_max_filesize =', 'memory_limit = 250M');
@@ -126,7 +126,7 @@ class PHP
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y composer');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install -y composer');
 
         $cronJob = '* 1 * * * /usr/local/bin/composer self-update';
 
@@ -147,8 +147,8 @@ class PHP
 
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
-        $this->remoteTaskService->run('apt-get update');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install blackfire-agent blackfire-php');
+        $this->remoteTaskService->run('apt update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt install blackfire-agent blackfire-php');
 
         $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");
 
