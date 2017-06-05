@@ -38,7 +38,7 @@ class InstallServerFirewallRule implements ShouldQueue
         $this->server = $server;
         $this->firewallRule = $firewallRule;
 
-        if(empty($severCommand)) {
+        if (empty($severCommand)) {
             $this->makeCommand($server, $firewallRule, $siteCommand);
         }
     }
@@ -52,7 +52,6 @@ class InstallServerFirewallRule implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-
         if ($this->server->firewallRules
                 ->where('port', $this->firewallRule->port)
                 ->where('from_ip', $this->firewallRule->from_ip)
@@ -72,6 +71,5 @@ class InstallServerFirewallRule implements ShouldQueue
 
             $this->server->firewallRules()->save($this->firewallRule);
         }
-
     }
 }

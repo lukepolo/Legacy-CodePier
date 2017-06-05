@@ -37,12 +37,11 @@ class RemoveServerFirewallRule implements ShouldQueue
         $this->server = $server;
         $this->firewallRule = $firewallRule;
 
-        if(empty($severCommand)) {
+        if (empty($severCommand)) {
             $this->makeCommand($server, $firewallRule, $siteCommand);
         } else {
             $this->serverCommand = $serverCommand;
         }
-
     }
 
     /**
@@ -55,7 +54,6 @@ class RemoveServerFirewallRule implements ShouldQueue
     public function handle(ServerService $serverService)
     {
         $sitesCount = $this->firewallRule->sites->count();
-
 
         if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
@@ -75,6 +73,5 @@ class RemoveServerFirewallRule implements ShouldQueue
         } else {
             $this->updateServerCommand(0, 'Sites that are on this server using this firewall rule', false);
         }
-
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FirewallRule;
-use App\Models\ServerCommand;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
