@@ -434,7 +434,6 @@ class ServerService implements ServerServiceContract
 
         $sslCertificate->key = $this->getFile($server, $sslCertificate->key_path);
         $sslCertificate->cert = $this->getFile($server, $sslCertificate->cert_path);
-
     }
 
     /**
