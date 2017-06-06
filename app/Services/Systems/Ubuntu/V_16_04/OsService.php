@@ -13,10 +13,10 @@ class OsService
         $this->connectToServer();
 
         // https://github.com/docker/machine/issues/3358 - sleeping for 30
-        $this->remoteTaskService->run('sleep 30; DEBIAN_FRONTEND=noninteractive apt-get update');
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
+        $this->remoteTaskService->run('sleep 30; DEBIAN_FRONTEND=noninteractive apt update');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt -y upgrade');
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt -y install zip unzip libpq-dev');
     }
 
     public function setTimezoneToUTC()
@@ -125,7 +125,7 @@ APT::Periodic::Unattended-Upgrade "1";
         $this->remoteTaskService->run('sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D');
         $this->remoteTaskService->run("sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'");
 
-        $this->remoteTaskService->run('sudo apt-get update');
+        $this->remoteTaskService->run('sudo apt update');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y docker-engine');
 
