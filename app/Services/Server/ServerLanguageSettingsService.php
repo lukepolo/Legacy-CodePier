@@ -39,6 +39,7 @@ class ServerLanguageSettingsService implements ServerLanguageSettingsServiceCont
             );
 
             $traitMethods = collect();
+
             foreach ($reflectionClass->getTraits() as $trait) {
                 foreach ($trait->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     $traitMethods->push($method->getName());

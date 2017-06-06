@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
@@ -21,7 +21,7 @@
         <title>CodePier</title>
 
         <!-- Styles -->
-        <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     </head>
     <body>

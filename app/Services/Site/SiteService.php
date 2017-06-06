@@ -3,6 +3,7 @@
 namespace App\Services\Site;
 
 use App\Models\Site\Site;
+use App\Models\FirewallRule;
 use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Models\Site\SiteDeployment;
@@ -14,6 +15,7 @@ use App\Models\Site\SiteServerDeployment;
 use App\Events\Site\DeploymentStepStarted;
 use App\Contracts\Site\SiteServiceContract;
 use App\Events\Site\DeploymentStepCompleted;
+use App\Events\Site\SiteFirewallRuleCreated;
 use App\Services\DeploymentServices\PHP\PHP;
 use App\Services\DeploymentServices\Ruby\Ruby;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -69,7 +71,7 @@ class SiteService implements SiteServiceContract
      */
     public function updateWebServerConfig(Server $server, Site $site)
     {
-        $this->getWebServerService($server)->updateWebServerConfig($site);
+        $this->getWebServerService($server)->updateWebServerConfig($site, $server->type);
 
         $this->serverService->restartWebServices($server);
     }
@@ -119,7 +121,10 @@ class SiteService implements SiteServiceContract
      */
     public function deploy(Server $server, Site $site, SiteServerDeployment $siteServerDeployment, SiteDeployment $oldSiteDeployment = null)
     {
-        $this->repositoryService->importSshKey($site);
+        if ($site->userRepositoryProvider) {
+            $this->repositoryService->importSshKey($site);
+        }
+
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
         foreach ($siteServerDeployment->events as $event) {
@@ -144,7 +149,9 @@ class SiteService implements SiteServiceContract
 
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, $e->getMessage()));
+                $log = collect($e->getMessage())->filter()->implode("\n");
+
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
@@ -183,19 +190,27 @@ class SiteService implements SiteServiceContract
 
     /**
      * @param Site $site
-     * @return Site $site
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function createDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            return response()->json('The site does not have a connected repository', 400);
+        }
+
         return $this->repositoryService->createDeployHook($site);
     }
 
     /**
      * @param Site $site
-     * @return Site $site
+     * @return Site|\Illuminate\Http\JsonResponse
      */
     public function deleteDeployHook(Site $site)
     {
+        if (! $site->userRepositoryProvider) {
+            return response()->json('The site does not have a connected repository', 400);
+        }
+
         return $this->repositoryService->deleteDeployHook($site);
     }
 
@@ -211,6 +226,42 @@ class SiteService implements SiteServiceContract
 
         if (isset($webServices['Nginx']['enabled'])) {
             return $this->serverService->getService(SystemService::WEB, $server);
+        }
+    }
+
+    /**
+     * Creates a firewall rule for a site if it does not exist.
+     *
+     * @param Site $site
+     * @param $port
+     * @param $type
+     * @param $description
+     * @param null $fromIp
+     *
+     * return FirewallRule | null
+     */
+    public function createFirewallRule(Site $site, $port, $type, $description, $fromIp = null)
+    {
+        $type = $port === '*' ? 'both' : $type;
+
+        if (! $site->firewallRules
+            ->where('port', $port)
+            ->where('from_ip', $fromIp)
+            ->where('type', $type)
+            ->count()
+        ) {
+            $firewallRule = FirewallRule::create([
+                'port' => $port,
+                'type' => $type,
+                'from_ip' => $fromIp,
+                'description' => $description,
+            ]);
+
+            $site->firewallRules()->save($firewallRule);
+
+            event(new SiteFirewallRuleCreated($site, $firewallRule));
+
+            return $firewallRule;
         }
     }
 }

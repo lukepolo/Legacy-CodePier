@@ -13,6 +13,7 @@ use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
+use App\Services\Systems\SystemService;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -36,7 +37,7 @@ class SiteObserver
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
      * @param \App\Services\Repository\RepositoryService | RepositoryService $repositoryService
-     * @param \App\Services\Site\SiteFeatureService |SiteFeatureService $siteFeatureService
+     * @param \App\Services\Site\SiteFeatureService | SiteFeatureService $siteFeatureService
      * @param \App\Services\Site\SiteDeploymentStepsService | SiteDeploymentStepsService $siteDeploymentStepsService
      */
     public function __construct(
@@ -73,6 +74,8 @@ class SiteObserver
                 'from_ip'     => null,
             ])
         );
+
+        $this->repositoryService->generateNewSshKeys($site);
     }
 
     public function updating(Site $site)
@@ -114,9 +117,17 @@ class SiteObserver
 
         if ($site->isDirty('web_directory')) {
             foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
-                );
+                $serverType = $server->type;
+
+                if (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::LOAD_BALANCER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
 

@@ -7,12 +7,12 @@
 <script>
     export default {
         props: {
-            data: String,
+            data: String
         },
-        created() {
-            let clipboard = new Clipboard('.clipboard', {
+        created () {
+            new Clipboard('.clipboard', {
                 text: this.data
-            });
+            })
         }
     }
 </script>

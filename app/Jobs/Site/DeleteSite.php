@@ -9,7 +9,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class DeleteSite implements ShouldQueue
 {
@@ -37,9 +36,8 @@ class DeleteSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
+    public function handle(SiteService $siteService)
     {
         $siteService->deleteSite($this->server, $this->site);
     }

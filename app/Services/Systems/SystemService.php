@@ -18,15 +18,13 @@ class SystemService implements SystemServiceContract
     ];
 
     const WEB = 'WebService';
+    const NODE = 'NodeService';
     const SYSTEM = 'OsService';
     const WORKERS = 'WorkerService';
     const FIREWALL = 'FirewallService';
     const DATABASE = 'DatabaseService';
     const MONITORING = 'MonitoringService';
     const REPOSITORY = 'RepositoryService';
-
-    const PHP = 'Languages\PHP';
-    const LARAVEL = 'Languages\Frameworks\Laravel';
 
     const WEB_SERVICE_GROUP = 'web_services';
     const WORKER_SERVICE_GROUP = 'worker_services';
@@ -36,6 +34,69 @@ class SystemService implements SystemServiceContract
     const LANGUAGES = [
         'PHP' => 'Languages\PHP\PHP',
         'Ruby' => 'Languages\Ruby\Ruby',
+    ];
+
+    const FRAMEWORKS = [
+        'Languages\PHP\Frameworks\Laravel',
+    ];
+
+    const WEB_SERVER = 'web';
+    const WORKER_SERVER = 'worker';
+    const DATABASE_SERVER = 'database';
+    const LOAD_BALANCER = 'load_balancer';
+    const FULL_STACK_SERVER = 'full_stack';
+
+    const SERVER_TYPES = [
+        'Full Stack' => self::FULL_STACK_SERVER,
+        'Web' => self::WEB_SERVER,
+        'Worker' => self::WORKER_SERVER,
+        'Database' => self::DATABASE_SERVER,
+        'Load Balancer' => self::LOAD_BALANCER,
+    ];
+
+    const LANGUAGES_GROUP = 'Languages';
+
+    const SERVER_TYPE_FEATURE_GROUPS = [
+        self::FULL_STACK_SERVER => [
+            self::WEB,
+            self::NODE,
+            self::SYSTEM,
+            self::WORKERS,
+            self::FIREWALL,
+            self::DATABASE,
+            self::MONITORING,
+            self::REPOSITORY,
+            self::LANGUAGES_GROUP,
+        ],
+        self::WEB_SERVER => [
+            self::WEB,
+            self::NODE,
+            self::SYSTEM,
+            self::FIREWALL,
+            self::MONITORING,
+            self::REPOSITORY,
+            self::LANGUAGES_GROUP,
+        ],
+        self::WORKER_SERVER => [
+            self::NODE,
+            self::SYSTEM,
+            self::WORKERS,
+            self::MONITORING,
+            self::REPOSITORY,
+            self::LANGUAGES_GROUP,
+        ],
+        self::DATABASE_SERVER => [
+            self::SYSTEM,
+            self::DATABASE,
+            self::MONITORING,
+            self::REPOSITORY,
+        ],
+        self::LOAD_BALANCER => [
+            self::WEB,
+            self::SYSTEM,
+            self::FIREWALL,
+            self::MONITORING,
+        ],
     ];
 
     /**
@@ -67,17 +128,19 @@ class SystemService implements SystemServiceContract
 
                 call_user_func_array([$systemService, $provisionStep->function], $provisionStep->parameters);
 
-                $provisionStep->failed = false;
-                $provisionStep->completed = true;
-                $provisionStep->log = $systemService->getOutput();
-                $provisionStep->save();
+                $provisionStep->update([
+                    'failed' => false,
+                    'completed' => true,
+                    'log' => $systemService->getOutput(),
+                ]);
             }
         } catch (FailedCommand $e) {
-            $provisionStep->failed = true;
-            $provisionStep->log = $systemService->getErrors();
-            $provisionStep->save();
+            $provisionStep->update([
+                'failed' => true,
+                'log' => $systemService->getErrors(),
+            ]);
 
-            $this->updateProgress($provisionStep->step);
+            $this->updateProgress($provisionStep->log);
 
             return false;
         } catch (\Exception $e) {
@@ -85,9 +148,10 @@ class SystemService implements SystemServiceContract
                 throw $e;
             }
 
-            $provisionStep->failed = true;
-            $provisionStep->log = 'We had a system error please contact support.';
-            $provisionStep->save();
+            $provisionStep->update([
+                'failed' => true,
+                'log' => 'We had a system error please contact support.',
+            ]);
 
             $this->updateProgress($provisionStep->step);
 

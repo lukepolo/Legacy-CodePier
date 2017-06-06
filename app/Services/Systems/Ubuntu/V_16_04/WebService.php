@@ -87,10 +87,45 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
     /**
      * @param Site $site
+     * @param $serverType
+     * @throws \Exception
      */
-    public function updateWebServerConfig(Site $site)
+    public function updateWebServerConfig(Site $site, $serverType)
     {
         $this->connectToServer();
+
+        if ($serverType === SystemService::LOAD_BALANCER) {
+            $httpType = 'http';
+
+            if ($site->hasActiveSSL()) {
+                $httpType = 'https';
+            }
+
+            $upstreamName = snake_case(str_replace('.', '_', $site->domain));
+
+            // TODO - for now we will do it by what servers are connected to that site
+            // realistically it would be awesome if we could hook up cloudflares free anycast to allow for global load balancing
+            $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
+upstream '.$upstreamName.' {
+    ip_hash;
+    '.$site->servers->map(function ($server) {
+                $server->ip = 'server '.$server->ip.';';
+
+                return $server;
+            })->filter(function ($server) {
+                return $server->type === SystemService::WEB_SERVER;
+            })->implode('ip', "\n").'
+}');
+
+            $location = '
+location / {
+    include proxy_params;
+    proxy_pass '.$httpType.'://'.$upstreamName.';
+}
+';
+        } else {
+            $location = 'root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';';
+        }
 
         $this->createWebServerSite($site);
 
@@ -104,8 +139,7 @@ server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
 listen 443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : null).';
 
-root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
-
+'.$location.'
 
 ssl_certificate_key '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.key;
 ssl_certificate '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.crt;
@@ -135,8 +169,10 @@ server {
 listen 80 '.($site->domain == 'default' ? 'default_server' : null).';
 listen [::]:80 '.($site->domain == 'default' ? 'default_server' : null).';
 server_name '.($site->wildcard_domain ? '.' : '').$site->domain.';
-add_header  Strict-Transport-Security "max-age=0;";
-root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';
+add_header Strict-Transport-Security max-age=0;
+
+'.$location.'
+
 ');
 
             $this->remoteTaskService->removeFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/ssl_redirect.conf');
@@ -151,9 +187,14 @@ root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : n
 
         $webserver = $this->getWebServer();
 
+        $config = '';
+
         switch ($webserver) {
             case 'Nginx':
-                $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
+
+                if ($this->server->type !== SystemService::LOAD_BALANCER) {
+                    $config = create_system_service('Languages\\'.$site->type.'\\'.$site->type, $this->server)->getNginxConfig($site);
+                }
 
                 return $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/'.$domain, '
 # codepier CONFIG (DO NOT REMOVE!)
@@ -195,8 +236,9 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/before");
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/server");
         $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/after");
+        $this->remoteTaskService->makeDirectory(self::NGINX_SERVER_FILES."/$site->domain/root-location");
 
-        $this->updateWebServerConfig($site);
+        $this->updateWebServerConfig($site, $this->server->type);
     }
 
     /**

@@ -57,7 +57,9 @@ trait DeployTrait
             $this->release = $this->release.'/'.$this->releaseTime;
         }
 
-        $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
+        if ($site->userRepositoryProvider) {
+            $this->repositoryProvider = $site->userRepositoryProvider->repositoryProvider;
+        }
     }
 
     /**
@@ -73,13 +75,21 @@ trait DeployTrait
 
         if (! $this->rollback) {
             $this->remoteTaskService->run('mkdir -p '.$this->siteFolder);
-            $this->remoteTaskService->run('ssh-keyscan -t rsa '.$this->repositoryProvider->url.' | tee -a ~/.ssh/known_hosts');
 
-            $url = 'http://'.$this->repositoryProvider->url.'/'.$this->repository.'.git';
+            if ($this->repositoryProvider) {
+                $host = $this->repositoryProvider->url;
+                $url = 'https://'.$host.'/'.$this->repository;
 
-            if ($this->site->private) {
-                $url = $this->repositoryProvider->git_url.':'.$this->repository;
+                if ($this->site->private) {
+                    $url = $this->repositoryProvider->git_url.':'.$this->repository;
+                }
+            } else {
+                $repositoryUrl = parse_url($this->repository);
+                $host = $repositoryUrl['host'];
+                $url = 'git@'.$repositoryUrl['host'].':'.trim($repositoryUrl['path'], '/');
             }
+
+            $this->remoteTaskService->run('ssh-keyscan -t rsa '.$host.' | tee -a ~/.ssh/known_hosts');
 
             if ($this->zerotimeDeployment) {
                 $output[] = $this->remoteTaskService->run('eval `ssh-agent -s` > /dev/null 2>&1; ssh-add ~/.ssh/'.$this->site->id.'_id_rsa > /dev/null 2>&1 ; cd '.$this->siteFolder.'; git clone '.$url.' --branch='.$this->branch.(empty($this->sha) ? ' --depth=1' : '').' '.$this->release);

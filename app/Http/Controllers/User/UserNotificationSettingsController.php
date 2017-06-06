@@ -39,7 +39,7 @@ class UserNotificationSettingsController extends Controller
             ]);
         }
 
-        return response()->json('OK');
+        return response()->json(\Auth::user()->notificationSettings);
     }
 
     /**
