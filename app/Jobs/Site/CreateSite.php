@@ -56,9 +56,11 @@ class CreateSite implements ShouldQueue
 
         if (
             $serverType === SystemService::WEB_SERVER ||
+            $serverType === SystemService::WORKER_SERVER ||
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
+            $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
             $siteService->create($this->server, $this->site);
         }
 
@@ -150,7 +152,5 @@ class CreateSite implements ShouldQueue
                 );
             });
         }
-
-        $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
     }
 }

@@ -82,8 +82,9 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                     root: true
                 })
 
-                commit('user_server_provisioning/setCurrentStep',
-                    data.serverCurrentProvisioningStep, {
+                commit('user_server_provisioning/setCurrentStep', {
+                        request : data.serverCurrentProvisioningStep
+                    }, {
                         root: true
                     })
             })

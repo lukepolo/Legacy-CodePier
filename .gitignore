@@ -2,7 +2,6 @@
 /node_modules
 /public/storage
 /public/hot
-/storage/*.key
 /.idea
 /.vagrant
 Homestead.yaml
