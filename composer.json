@@ -4,10 +4,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/lukepolo/dbal" }
+    ],
     "require": {
         "php": ">=7.0.0",
         "authy/php": "2.*",
         "barryvdh/laravel-ide-helper": "^2.3",
+        "doctrine/dbal": "dev-mysql57-json",
         "dompdf/dompdf": "~0.8",
         "filp/whoops": "^2.1",
         "gentle/bitbucket-api": "^0.8.2",
