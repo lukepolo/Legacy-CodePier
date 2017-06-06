@@ -33,7 +33,7 @@ class FirewallService
     iptables --wait -I INPUT 1 -i lo -j ACCEPT
     
     # SSH
-    iptables --wait -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+    iptables --wait -A INPUT -p tcp -m tcp --dport '.$this->server->port.' -j ACCEPT
     
     # DO NOT REMOVE - Custom Rules
     
