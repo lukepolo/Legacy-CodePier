@@ -68,6 +68,8 @@ class DatabaseService
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
+        $this->remoteTaskService->updateText('/etc/mysql/mysql.conf.d/mysqld.cnf', 'bind-address', '#bind-address           = 127.0.0.1');
+
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
@@ -94,7 +96,7 @@ class DatabaseService
     {
         $this->connectToServer();
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y redis-server');
-
+        $this->remoteTaskService->updateText('/etc/redis/redis.conf', 'bind 127.0.0.1', '#bind 127.0.0.1');
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service redis restart');
     }
 
@@ -118,7 +120,7 @@ class DatabaseService
         $this->remoteTaskService->makeDirectory('/data/db');
         $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927');
         $this->remoteTaskService->run('echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list');
-        $this->remoteTaskService->run('apt-get update');
+        $this->remoteTaskService->run('apt update');
         $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
         $this->remoteTaskService->run('systemctl enable mongod.service');
         $this->remoteTaskService->run('service mongod start');

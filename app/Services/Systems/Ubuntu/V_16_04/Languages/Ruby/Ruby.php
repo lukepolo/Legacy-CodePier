@@ -72,7 +72,7 @@ class Ruby
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates');
 
         $this->remoteTaskService->run('sh -c \'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list\'');
-        $this->remoteTaskService->run('apt-get update');
+        $this->remoteTaskService->run('apt update');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx-extras passenger');
 

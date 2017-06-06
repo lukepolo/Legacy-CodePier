@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
@@ -12,9 +13,11 @@ use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Server\ServerNetworkRule;
+use App\Observers\Server\ServerObserver;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\SslCertificateObserver;
 use Illuminate\Support\Facades\Validator;
@@ -41,13 +44,12 @@ class AppServiceProvider extends ServiceProvider
         }
 
         User::observe(UserObserver::class);
-
         Site::observe(SiteObserver::class);
+        Server::observe(ServerObserver::class);
+        SslCertificate::observe(SslCertificateObserver::class);
         ServerCommand::observe(ServerCommandObserver::class);
         ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
-
-        SslCertificate::observe(SslCertificateObserver::class);
 
         Validator::extend('server_name', function ($attribute, $value) {
             return preg_match('/^[a-zA-Z0-9\.\-]+$/', $value) > 0;
@@ -68,6 +70,14 @@ class AppServiceProvider extends ServiceProvider
                 'PHP',
                 'Ruby',
             ])->contains($value);
+        });
+
+        Validator::extend('valid_server_type', function ($attribute, $value) {
+            return collect(SystemService::SERVER_TYPES)->contains($value);
+        });
+
+        Validator::extend('valid_firewall_port', function ($attribute, $value) {
+            return is_numeric($value) || $value == '*';
         });
 
         UserLoginProvider::updating(function ($provider) {

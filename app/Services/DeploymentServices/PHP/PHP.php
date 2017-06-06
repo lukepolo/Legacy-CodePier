@@ -25,6 +25,8 @@ class PHP
      * @description Install the node vendors packages.
      *
      * @order 300
+     *
+     * @not_default
      */
     public function installNodeDependencies()
     {

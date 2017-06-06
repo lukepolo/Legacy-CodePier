@@ -49,6 +49,7 @@ class ProvisionServer implements ShouldQueue
 
         if ($serverService->provision($this->server)) {
             $this->server->user->load('sshKeys');
+
             foreach ($this->server->user->sshKeys as $sshKey) {
                 dispatch(new InstallServerSshKey($this->server, $sshKey));
             }
@@ -57,6 +58,12 @@ class ProvisionServer implements ShouldQueue
                 dispatch(
                     (new CreateSite($this->server, $site))->onQueue(config('queue.channels.server_commands'))
                 );
+
+                foreach ($site->servers as $server) {
+                    dispatch(
+                        (new ConnectSiteServer($site, $server))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

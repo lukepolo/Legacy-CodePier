@@ -40,6 +40,7 @@ trait Laravel
 
     /**
      * @description Creates a symbolic link for the storage folder to the public directory
+     *
      * @order 205
      */
     public function laravelMapStorageFolderToPublic()

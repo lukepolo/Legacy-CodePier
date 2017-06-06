@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 
 class SiteSslCertificateDeleted
@@ -26,14 +27,21 @@ class SiteSslCertificateDeleted
             $siteCommand = $this->makeCommand($site, $sslCertificate);
 
             foreach ($site->provisionedServers as $server) {
-                dispatch(
-                    (new RemoveServerSslCertificate(
-                        $server,
-                        $sslCertificate,
-                        $siteCommand,
-                        $site
-                    ))->onQueue(config('queue.channels.server_commands'))
-                );
+                $serverType = $server->type;
+
+                if (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::LOAD_BALANCER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                ) {
+                    dispatch(
+                        (new RemoveServerSslCertificate(
+                            $server,
+                            $sslCertificate,
+                            $siteCommand
+                        ))->onQueue(config('queue.channels.server_commands'))
+                    );
+                }
             }
         }
     }

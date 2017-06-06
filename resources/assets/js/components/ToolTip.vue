@@ -15,6 +15,7 @@
         <slot></slot>
     </span>
 </template>
+
 <script>
     export default {
         props: {

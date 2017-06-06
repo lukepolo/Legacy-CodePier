@@ -103,7 +103,7 @@
     }
 
     // EVENTS ITEM EXPAND / COLLAPSE ARROW
-    [data-toggle="collapse"]:not(.collapsed) .icon-play {
+    a:not(.collapsed) .icon-play {
       display: block;
       transform: rotate(90deg);
       position: relative;

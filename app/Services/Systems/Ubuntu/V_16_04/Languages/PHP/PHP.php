@@ -7,6 +7,7 @@ use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
+use App\Services\Systems\Ubuntu\V_16_04\WebService;
 
 class PHP
 {
@@ -76,7 +77,7 @@ class PHP
             default:
                 $installVersion = $version;
                 $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
-                $this->remoteTaskService->run('apt-get update');
+                $this->remoteTaskService->run('apt update');
                 break;
         }
 
@@ -146,7 +147,7 @@ class PHP
 
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
-        $this->remoteTaskService->run('apt-get update');
+        $this->remoteTaskService->run('apt update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install blackfire-agent blackfire-php');
 
         $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");
@@ -177,6 +178,7 @@ class PHP
     error_log  /var/log/nginx/'.$site->domain.' error;
   
     location / {
+        include '.WebService::NGINX_SERVER_FILES.'/'.$site->domain.'/root-location/*;
         try_files $uri $uri/ /index.php?$query_string;
     }
     
