@@ -2,6 +2,7 @@
 
 namespace App\Services\Server\Providers;
 
+use Exception;
 use DigitalOcean;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -11,6 +12,7 @@ use App\Models\Server\Server;
 use DigitalOceanV2\Entity\Droplet;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
+use GuzzleHttp\Exception\ClientException;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
@@ -259,7 +261,11 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $client = new Client();
 
-        $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token);
+        try {
+            $response = $client->post(self::OAUTH_TOKEN_URL.'?grant_type=refresh_token&refresh_token='.$userServerProvider->refresh_token);
+        } catch (ClientException $e) {
+            throw new Exception(json_decode($e->getResponse()->getBody(), true));
+        }
 
         if ($response->getStatusCode() == 200) {
             $tokenData = json_decode($response->getBody(), true);
