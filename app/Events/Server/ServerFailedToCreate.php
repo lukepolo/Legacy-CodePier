@@ -27,8 +27,6 @@ class ServerFailedToCreate implements ShouldBroadcastNow
 
         $server->save();
 
-        dump('server failed');
-        dump($status);
         $this->server = $server;
     }
 
