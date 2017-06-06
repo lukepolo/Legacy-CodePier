@@ -28,6 +28,6 @@ class DigitalOceanController extends Controller
      */
     public function index()
     {
-        dd($this->serverService->getServerProviderUser(ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()));
+        return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
     }
 }
