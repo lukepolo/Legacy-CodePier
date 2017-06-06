@@ -95,9 +95,10 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $this->connectToServer();
 
         if ($serverType === SystemService::LOAD_BALANCER) {
+            $httpPort = '';
             $httpType = 'http';
-
             if ($site->hasActiveSSL()) {
+                $httpPort = ':443';
                 $httpType = 'https';
             }
 
@@ -108,8 +109,8 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
 upstream '.$upstreamName.' {
     ip_hash;
-    '.$site->servers->map(function ($server) {
-                $server->ip = 'server '.$server->ip.';';
+    '.$site->servers->map(function ($server) use($httpPort) {
+                $server->ip = 'server '.$server->ip.$httpPort.';';
 
                 return $server;
             })->filter(function ($server) {
