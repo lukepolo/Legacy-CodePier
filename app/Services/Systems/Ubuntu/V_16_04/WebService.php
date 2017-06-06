@@ -109,7 +109,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
 upstream '.$upstreamName.' {
     ip_hash;
-    '.$site->servers->map(function ($server) use($httpPort) {
+    '.$site->servers->map(function ($server) use ($httpPort) {
                 $server->ip = 'server '.$server->ip.$httpPort.';';
 
                 return $server;
