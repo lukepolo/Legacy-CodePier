@@ -65,10 +65,9 @@
 
             </div>
         </div>
+        @stack('scripts')
 
         @if(\Auth::check())
-
-            @stack('scripts')
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>
