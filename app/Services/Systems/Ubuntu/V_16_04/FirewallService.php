@@ -15,6 +15,9 @@ class FirewallService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install iptables-persistent -y');
 
+        // https://bugs.launchpad.net/ufw/+bug/1652163
+        // https://bugs.launchpad.net/ufw/+bug/1204579
+
         $this->remoteTaskService->writeToFile('/opt/codepier/iptables', '
     #!/bin/sh
     
