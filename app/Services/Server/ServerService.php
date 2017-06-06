@@ -378,8 +378,8 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->makeDirectory($sslCertPath);
 
-        $this->remoteTaskService->run("ln -f -s $sslCertificate->key_path $sslCertPath/server.key");
-        $this->remoteTaskService->run("ln -f -s $sslCertificate->cert_path $sslCertPath/server.crt");
+        $this->remoteTaskService->writeToFile("$sslCertPath/server.key", $sslCertificate->key);
+        $this->remoteTaskService->writeToFile("$sslCertPath/server.crt", $sslCertificate->cert);
     }
 
     /**
@@ -431,6 +431,9 @@ class ServerService implements ServerServiceContract
                 throw $e;
             }
         }
+
+        $sslCertificate->key = $sslCertificate->key_path;
+        $sslCertificate->cert = $sslCertificate->cert_path;
 
         $this->activateSslCertificate($server, $sslCertificate);
     }
