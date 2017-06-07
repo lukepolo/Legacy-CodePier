@@ -35,7 +35,6 @@ class FirewallService
             }
 
             return $this->remoteTaskService->run($this->lock.' "'.$command.'"');
-
         } else {
             return $this->addServerNetworkRule($firewallRule->from_ip);
         }
