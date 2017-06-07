@@ -4,7 +4,6 @@
 
             <label>
                 <template v-if="isConnected(repository_provider.id)">
-
                     <input
                         name="user_repository_provider_id"
                         type="radio"
@@ -60,7 +59,7 @@ export default {
     },
     methods: {
         isConnected: function (repository_provider_id) {
-            return _.find(this.user_repository_providers, {'repository_provider_id': repository_provider_id})
+            return _.find(this.user_repository_providers, {'repository_provider_id': parseInt(repository_provider_id)})
         },
         disconnectProvider: function (repository_provider_id) {
 
