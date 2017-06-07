@@ -290,6 +290,9 @@
                             id : userRepository.id
                         })
 
+                        if(repositoryProvider) {
+                            return repositoryProvider.url
+                        }
 
                     }
 
