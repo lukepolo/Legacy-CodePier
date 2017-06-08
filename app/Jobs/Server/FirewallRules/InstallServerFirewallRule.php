@@ -64,7 +64,7 @@ class InstallServerFirewallRule implements ShouldQueue
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
 
-                switch($this->server->type) {
+                switch ($this->server->type) {
                     case SystemService::DATABASE:
                         $serverService->restartDatabase($this->server);
                         break;
@@ -72,7 +72,6 @@ class InstallServerFirewallRule implements ShouldQueue
                         $serverService->restartWorkers($this->server);
                         break;
                 }
-
             });
 
             if (! $this->wasSuccessful()) {
