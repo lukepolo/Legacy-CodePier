@@ -155,13 +155,12 @@ ssl_dhparam /etc/nginx/dhparam.pem;
 ssl_ecdh_curve secp384r1;
 
 ssl_prefer_server_ciphers on;
-ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256;
+ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
 
 '.$strictTransport.'
 
 ssl_session_cache shared:SSL:10m;
 ssl_session_timeout 10m;
-ssl_prefer_server_ciphers on;
 
 ssl_stapling on;
 ssl_stapling_verify on;
