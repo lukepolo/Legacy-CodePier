@@ -45,7 +45,7 @@ class RepositoryService implements RepositoryServiceContract
             $this->saveKeysToServer($site);
         }
 
-        if(!$site->private && $this->isPrivate($site)) {
+        if (! $site->private && $this->isPrivate($site)) {
             try {
                 $providerService->importSshKey($site);
             } catch (\Exception $e) {
@@ -60,7 +60,6 @@ class RepositoryService implements RepositoryServiceContract
                 }
             }
         }
-
     }
 
     /**
