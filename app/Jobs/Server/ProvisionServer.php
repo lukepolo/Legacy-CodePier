@@ -60,7 +60,7 @@ class ProvisionServer implements ShouldQueue
                 );
 
                 foreach ($site->servers as $server) {
-                    if($this->server !== $server->id) {
+                    if ($this->server !== $server->id) {
                         dispatch(
                             (new ConnectSiteServer($site, $server))->onQueue(config('queue.channels.server_commands'))
                         );
