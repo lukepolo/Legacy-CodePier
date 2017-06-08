@@ -5,7 +5,7 @@
                 <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                    {{ server.name }}
+                    {{ server.name }} <small>({{ serverType }})</small>
                 </router-link>
             </div>
             <div class="server-ip">
@@ -211,6 +211,9 @@
             }
         },
         computed : {
+            serverType() {
+                return _.replace(this.server.type, '_', ' ')
+            },
             showServerInfo() {
                 if(this.server.progress < 100) {
                     return true
