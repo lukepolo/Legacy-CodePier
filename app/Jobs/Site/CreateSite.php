@@ -106,7 +106,7 @@ class CreateSite implements ShouldQueue
 
         if (
             (
-                !$this->site->isLoadBalanced() &&
+                ! $this->site->isLoadBalanced() &&
                 (
                     $serverType === SystemService::WEB_SERVER ||
                     $serverType === SystemService::FULL_STACK_SERVER
