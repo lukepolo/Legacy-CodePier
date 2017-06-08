@@ -11,6 +11,7 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
+use App\Services\Systems\SystemService;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -258,5 +259,11 @@ class Site extends Model
         if ($this->framework) {
             return str_replace('.', '\\Frameworks\\', $this->framework);
         }
+    }
+
+    public function isLoadBalanced() {
+        return !empty($this->servers->first(function($server) {
+            return $server->type === SystemService::LOAD_BALANCER;
+        }));
     }
 }

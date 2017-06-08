@@ -28,7 +28,7 @@ class SiteLanguageSettingUpdated
                 $serverType = $server->type;
 
                 if (
-                    $serverType === SystemService::WORKER_SERVER ||
+                    $serverType === SystemService::WEB_SERVER ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
                     dispatch(
