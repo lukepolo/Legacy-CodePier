@@ -11,7 +11,6 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
-use App\Services\Systems\SystemService;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -22,6 +21,7 @@ use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\User\UserRepositoryProvider;
@@ -261,8 +261,9 @@ class Site extends Model
         }
     }
 
-    public function isLoadBalanced() {
-        return !empty($this->servers->first(function($server) {
+    public function isLoadBalanced()
+    {
+        return ! empty($this->servers->first(function ($server) {
             return $server->type === SystemService::LOAD_BALANCER;
         }));
     }
