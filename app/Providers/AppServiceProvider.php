@@ -8,6 +8,7 @@ use App\Models\User\User;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
+use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
@@ -37,7 +38,8 @@ class AppServiceProvider extends ServiceProvider
             'create-custom-server' => 'Allows creation of a custom server',
         ]);
 
-        if ($this->app->environment() != 'production') {
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 

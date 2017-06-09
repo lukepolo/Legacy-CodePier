@@ -24,5 +24,3 @@ Echo.channel('app').listen('ReleasedNewVersion', (data) => {
 })
 
 app.$mount('#app-layout')
-
-
