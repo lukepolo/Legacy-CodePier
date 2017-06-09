@@ -1,0 +1,30 @@
+machine:
+  hosts:
+    myapp.dev: 127.0.0.1
+  php:
+    version: 7.1.0
+  services:
+    - mysql
+  post:
+    - chromedriver:
+        background: true
+dependencies:
+  pre:
+    - sudo composer self-update
+  post:
+    - sudo ln -s /opt/circleci/.phpenv/shims/php /usr/local/bin/php
+    - sudo cp /opt/circleci/.phpenv/shims/php /usr/bin/php
+    - cp .env.dusk.testing .env
+    - "sudo php artisan serve --host=myapp.dev --port=8080 > server.log 2>&1":
+        background: true
+    - "sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080"
+    - "sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080"
+general:
+  artifacts:
+    - "tests/Browser/screenshots"
+    - "tests/Browser/console"
+    - "server.log"
+test:
+  override:
+    - vendor/bin/phpunit
+    - php artisan dusk
