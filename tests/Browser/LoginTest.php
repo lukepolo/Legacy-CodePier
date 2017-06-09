@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use App\Models\User\User;
-use Laravel\Dusk\Concerns\InteractsWithAuthentication;
 use Tests\DuskTestCase;
+use App\Models\User\User;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Concerns\InteractsWithAuthentication;
 
 class LoginTest extends DuskTestCase
 {
@@ -35,8 +35,7 @@ class LoginTest extends DuskTestCase
                 ->waitUntil('app.$store.state.user_piles.piles.length > 0')
                 ->assertSee('dev')
                 ->assertSee('qa')
-                ->assertSee('production')
-            ;
+                ->assertSee('production');
         });
     }
 
@@ -53,5 +52,4 @@ class LoginTest extends DuskTestCase
                 });
         });
     }
-
 }
