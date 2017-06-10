@@ -98,8 +98,8 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                     response: data.server
                 }, { root: true })
             })
-            .
-            listen('Server\\ServerCommandUpdated', (data) => {
+
+            .listen('Server\\ServerCommandUpdated', (data) => {
                 commit('user_commands/update', data.command, { root: true })
                 commit('events/update', data.command, { root: true })
             })
