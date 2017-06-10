@@ -58,6 +58,15 @@ class RemoveServerFirewallRule implements ShouldQueue
         if (! $sitesCount) {
             $this->runOnServer(function () use ($serverService) {
                 $serverService->getService(SystemService::FIREWALL, $this->server)->removeFirewallRule($this->firewallRule);
+
+                switch ($this->server->type) {
+                    case SystemService::DATABASE_SERVER:
+                        $serverService->restartDatabase($this->server);
+                        break;
+                    case SystemService::WORKER_SERVER:
+                        $serverService->restartWorkers($this->server);
+                        break;
+                }
             });
 
             if (! $this->wasSuccessful()) {
