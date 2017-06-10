@@ -67,7 +67,6 @@ class RemoveServerFirewallRule implements ShouldQueue
                         $serverService->restartWorkers($this->server);
                         break;
                 }
-
             });
 
             if (! $this->wasSuccessful()) {
