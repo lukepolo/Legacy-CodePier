@@ -26,7 +26,3 @@ export const remove = (state, { requestData }) => {
 export const removeTemp = (state, index) => {
     state.piles.splice(index, 1)
 }
-
-export const setPileSites = (state, { response, requestData }) => {
-    Vue.set(state.pile_sites, requestData.pile, response)
-}

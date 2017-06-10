@@ -30,9 +30,9 @@
 <script>
     import {
         Pile
-    } from '../components';
+    } from '../components'
 
-    import LeftNav from '../../../components/LeftNav.vue';
+    import LeftNav from '../../../components/LeftNav.vue'
 
     export default {
         components: {
@@ -40,19 +40,19 @@
             LeftNav
         },
         computed: {
-            piles() {
-                return this.$store.state.user_piles.piles;
+            piles () {
+                return this.$store.state.user_piles.piles
             }
         },
         methods: {
-            deletePile(index) {
+            deletePile (index) {
                 this.$store.commit('REMOVE_TEMP_PILE', index)
             },
-            newPile() {
+            newPile () {
                 this.$store.state.user_piles.piles.push({
                     name: null,
                     editing: true
-                });
+                })
             }
         }
     }

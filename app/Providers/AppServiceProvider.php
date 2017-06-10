@@ -16,7 +16,6 @@ use App\Models\User\UserServerProvider;
 use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use App\Models\Server\ServerNetworkRule;
 use App\Observers\Server\ServerObserver;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\SslCertificateObserver;
@@ -24,7 +23,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User\UserNotificationProvider;
 use App\Observers\Server\ServerCommandObserver;
 use App\Observers\Server\ServerDeploymentObserver;
-use App\Observers\Server\ServerNetworkRuleObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
         Server::observe(ServerObserver::class);
         SslCertificate::observe(SslCertificateObserver::class);
         ServerCommand::observe(ServerCommandObserver::class);
-        ServerNetworkRule::observe(ServerNetworkRuleObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
 
         Validator::extend('server_name', function ($attribute, $value) {

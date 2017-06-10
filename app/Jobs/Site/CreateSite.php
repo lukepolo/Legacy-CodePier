@@ -105,10 +105,14 @@ class CreateSite implements ShouldQueue
         });
 
         if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-
+            (
+                ! $this->site->isLoadBalanced() &&
+                (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                )
+            ) ||
+            $serverType === SystemService::LOAD_BALANCER
         ) {
             $this->site->sslCertificates->each(function ($sslCertificate) {
                 dispatch(
