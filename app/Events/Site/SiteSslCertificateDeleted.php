@@ -41,7 +41,6 @@ class SiteSslCertificateDeleted
                     ) ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
-
                     dispatch(
                         (new RemoveServerSslCertificate(
                             $server,
