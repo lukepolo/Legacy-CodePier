@@ -1,4 +1,4 @@
-export const get = ({dispatch}, site) => {
+export const get = ({ dispatch }, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteSslController@index', { site: site }),
         'user_site_ssl_certificates/setAll'
@@ -10,12 +10,12 @@ export const get = ({dispatch}, site) => {
     })
 }
 
-export const store = ({dispatch}, data) => {
+export const store = ({ dispatch }, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteSslController@store', { site: data.site_id }),
         'user_site_ssl_certificates/add'
     ).then((sslCertificate) => {
-        if(sslCertificate !== 'OK') {
+        if (sslCertificate !== 'OK') {
             dispatch('listenToSslCerificate', sslCertificate)
             return sslCertificate
         }
@@ -37,10 +37,10 @@ export const destroy = (context, data) => {
 }
 
 export const listenToSslCerificate = ({ commit }, sslCertificate) => {
-    Echo.private('App.Models.SslCertificate.'+sslCertificate.id)
+    Echo.private('App.Models.SslCertificate.' + sslCertificate.id)
         .listen('SslCertificate\\SslCertificateUpdated', (data) => {
             commit('update', {
-                response : data.ssl_certificate
+                response: data.ssl_certificate
             })
         })
 }
