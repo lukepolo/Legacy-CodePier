@@ -38,10 +38,3 @@ export const change = (context, pile) => {
         }
     })
 }
-
-export const sites = (context, pile) => {
-    return Vue.request().get(
-        Vue.action('Pile\PileSitesController@index', { pile: pile }),
-        'user_piles/setPileSites'
-    )
-}

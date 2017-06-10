@@ -76,8 +76,9 @@ class PHP
                 break;
             default:
                 $installVersion = $version;
-                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
-                $this->remoteTaskService->run('apt update');
+                // https://github.com/oerdnj/deb.sury.org/issues/56#issuecomment-191748654
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php');
+                $this->remoteTaskService->run('apt-get update');
                 break;
         }
 
@@ -147,7 +148,7 @@ class PHP
 
         $this->remoteTaskService->run('wget -O - https://packagecloud.io/gpg.key | apt-key add -');
         $this->remoteTaskService->run('echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list');
-        $this->remoteTaskService->run('apt update');
+        $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install blackfire-agent blackfire-php');
 
         $this->remoteTaskService->run("blackfire-agent --server-id=$serverID --server-token=$serverToken -d > /etc/blackfire/agent");

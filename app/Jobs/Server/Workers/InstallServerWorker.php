@@ -21,7 +21,7 @@ class InstallServerWorker implements ShouldQueue
     private $server;
     private $worker;
 
-    public $tries = 1;
+    public $tries = 3;
     public $timeout = 60;
 
     /**
