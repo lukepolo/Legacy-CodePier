@@ -28,7 +28,6 @@ Broadcast::channel('App.Models.Site.Site.{siteId}', function ($user, $siteId) {
 });
 
 Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($user, $sslCertificateId) {
-
     $sslCertificate = \App\Models\SslCertificate::with(['sites', 'servers'])->findOrfail($sslCertificateId);
 
     return $user->currentPile->sites->whereIn('id', $sslCertificate->sites->pluck('id'))->count() ||
