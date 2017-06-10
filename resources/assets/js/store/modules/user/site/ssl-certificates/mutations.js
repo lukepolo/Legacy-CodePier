@@ -3,7 +3,9 @@ export const setAll = (state, { response }) => {
 }
 
 export const add = (state, { response }) => {
-    state.ssl_certificates.push(response)
+    if(_.isObject(response)) {
+        state.ssl_certificates.push(response)
+    }
 }
 
 export const update = (state, { response }) => {

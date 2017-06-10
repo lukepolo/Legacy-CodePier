@@ -26,14 +26,22 @@ class SiteSslCertificateDeleted
         if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate);
 
+            $loadBalancerExists = $site->provisionedServers->first(function ($server) {
+                return $server->type === SystemService::LOAD_BALANCER;
+            });
+
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;
 
                 if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
+                    (
+                        empty($loadBalancerExists) &&
+                        $serverType === SystemService::WEB_SERVER ||
+                        $serverType === SystemService::LOAD_BALANCER
+                    ) ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
+
                     dispatch(
                         (new RemoveServerSslCertificate(
                             $server,
