@@ -411,7 +411,7 @@ class ServerService implements ServerServiceContract
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
-            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
+            'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
         );
 
         if (! $server->cronJobs
