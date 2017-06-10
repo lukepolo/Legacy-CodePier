@@ -62,16 +62,18 @@ class InstallServerFirewallRule implements ShouldQueue
             $this->updateServerCommand(0, 'Sever already has firewall rule : '.$this->firewallRule->port.' from ip '.$this->firewallRule->from_ip);
         } else {
             $this->runOnServer(function () use ($serverService) {
+
                 $serverService->getService(SystemService::FIREWALL, $this->server)->addFirewallRule($this->firewallRule);
 
                 switch ($this->server->type) {
-                    case SystemService::DATABASE:
+                    case SystemService::DATABASE_SERVER:
                         $serverService->restartDatabase($this->server);
                         break;
                     case SystemService::WORKER_SERVER:
                         $serverService->restartWorkers($this->server);
                         break;
                 }
+
             });
 
             if (! $this->wasSuccessful()) {
