@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.24 on 2017-06-03.
+ * Generated for Laravel 5.4.25 on 2017-06-10.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -6965,7 +6965,7 @@ namespace Illuminate\Support\Facades {
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies
-         * @param int $trustedHeaderSet A bit field of Request::HEADER_*, usually either Request::HEADER_FORWARDED or Request::HEADER_X_FORWARDED_ALL, to set which headers to trust from your proxies
+         * @param int $trustedHeaderSet A bit field of Request::HEADER_*, to set which headers to trust from your proxies
          * @throws \InvalidArgumentException When $trustedHeaderSet is invalid
          * @static 
          */
@@ -7041,7 +7041,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key The header key
          * @param string $value The header name
          * @throws \InvalidArgumentException
-         * @deprecated since version 3.3, to be removed in 4.0. Use "X-Forwarded-*" headers or the "Forwarded" header defined in RFC7239, and the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
+         * @deprecated since version 3.3, to be removed in 4.0. Use the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
          * @static 
          */
         public static function setTrustedHeaderName($key, $value)
@@ -7214,8 +7214,8 @@ namespace Illuminate\Support\Facades {
          * adding the IP address where it received the request from.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-ip" key.
+         * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
+         * argument of the Request::setTrustedProxies() method instead.
          *
          * @return string|null The client IP address
          * @see getClientIps()
@@ -7318,7 +7318,8 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Port" header must contain the client port.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Port",
-         * configure it via "setTrustedHeaderName()" with the "client-port" key.
+         * configure it via via the $trustedHeaderSet argument of the
+         * Request::setTrustedProxies() method instead.
          *
          * @return int|string can be a string if fetched from the server bag
          * @static 
@@ -7481,8 +7482,8 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Proto"
-         * ("SSL_HTTPS" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-proto" key.
+         * ("SSL_HTTPS" for instance), configure it via the $trustedHeaderSet
+         * argument of the Request::setTrustedProxies() method instead.
          *
          * @return bool 
          * @static 
@@ -7502,7 +7503,8 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Host" header must contain the client host name.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Host",
-         * configure it via "setTrustedHeaderName()" with the "client-host" key.
+         * configure it via the $trustedHeaderSet argument of the
+         * Request::setTrustedProxies() method instead.
          *
          * @return string 
          * @throws SuspiciousOperationException when the host name is invalid or not trusted
@@ -12142,6 +12144,18 @@ namespace Sentry\SentryLaravel {
     class SentryFacade {
         
         /**
+         * Destruct all objects contain link to this object
+         * 
+         * This method can not delete shutdown handler
+         *
+         * @static 
+         */
+        public static function close_all_children_link()
+        {
+            return \Raven_Client::close_all_children_link();
+        }
+        
+        /**
          * Installs any available automated hooks (such as error_reporting).
          *
          * @static 
@@ -12244,6 +12258,8 @@ namespace Sentry\SentryLaravel {
         /**
          * 
          *
+         * @param array $value
+         * @return \Raven_Client 
          * @static 
          */
         public static function setPrefixes($value)
@@ -12286,7 +12302,7 @@ namespace Sentry\SentryLaravel {
          *
          * @static 
          */
-        public static function getServerEndpoint($value)
+        public static function getServerEndpoint($value = '')
         {
             return \Raven_Client::getServerEndpoint($value);
         }
@@ -12308,7 +12324,8 @@ namespace Sentry\SentryLaravel {
          * and is responsible for encoding the data, authenticating, and sending
          * the data to the upstream Sentry server.
          *
-         * @param \function $value Function to be called
+         * @param Callable $value Function to be called
+         * @return \Raven_Client 
          * @static 
          */
         public static function setTransport($value)
@@ -12319,6 +12336,7 @@ namespace Sentry\SentryLaravel {
         /**
          * 
          *
+         * @return string[]|\Raven_Processor[] 
          * @static 
          */
         public static function getDefaultProcessors()
@@ -12331,7 +12349,7 @@ namespace Sentry\SentryLaravel {
          * sent to Sentry.
          *
          * @param $options
-         * @return array 
+         * @return \Raven_Processor[] 
          * @static 
          */
         public static function setProcessorsFromOptions($options)
@@ -12342,8 +12360,9 @@ namespace Sentry\SentryLaravel {
         /**
          * Parses a Raven-compatible DSN and returns an array of its values.
          *
-         * @param string $dsn Raven compatible DSN: http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
+         * @param string $dsn Raven compatible DSN
          * @return array parsed DSN
+         * @doc http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
          * @static 
          */
         public static function parseDSN($dsn)
@@ -12364,6 +12383,9 @@ namespace Sentry\SentryLaravel {
         /**
          * Given an identifier, returns a Sentry searchable string.
          *
+         * @param mixed $ident
+         * @return mixed 
+         * @codeCoverageIgnore 
          * @static 
          */
         public static function getIdent($ident)
@@ -12372,8 +12394,16 @@ namespace Sentry\SentryLaravel {
         }
         
         /**
-         * Deprecated
+         * 
          *
+         * @param string $message The message (primary description) for the event.
+         * @param array $params params to use when formatting the message.
+         * @param string $level Log level group
+         * @param bool|array $stack
+         * @param mixed $vars
+         * @return string|null 
+         * @deprecated 
+         * @codeCoverageIgnore 
          * @static 
          */
         public static function message($message, $params = array(), $level = 'info', $stack = false, $vars = null)
@@ -12382,8 +12412,12 @@ namespace Sentry\SentryLaravel {
         }
         
         /**
-         * Deprecated
+         * 
          *
+         * @param \Exception $exception
+         * @return string|null 
+         * @deprecated 
+         * @codeCoverageIgnore 
          * @static 
          */
         public static function exception($exception)
@@ -12397,6 +12431,9 @@ namespace Sentry\SentryLaravel {
          * @param string $message The message (primary description) for the event.
          * @param array $params params to use when formatting the message.
          * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @param bool|array $stack
+         * @param mixed $vars
+         * @return string|null 
          * @static 
          */
         public static function captureMessage($message, $params = array(), $data = array(), $stack = false, $vars = null)
@@ -12409,6 +12446,9 @@ namespace Sentry\SentryLaravel {
          *
          * @param \Exception $exception The Exception object.
          * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @param mixed $logger
+         * @param mixed $vars
+         * @return string|null 
          * @static 
          */
         public static function captureException($exception, $data = null, $logger = null, $vars = null)
@@ -12419,6 +12459,7 @@ namespace Sentry\SentryLaravel {
         /**
          * Capture the most recent error (obtained with ``error_get_last``).
          *
+         * @return string|null 
          * @static 
          */
         public static function captureLastError()
@@ -12429,6 +12470,9 @@ namespace Sentry\SentryLaravel {
         /**
          * Log an query to sentry
          *
+         * @param string|null $query
+         * @param string $level
+         * @param string $engine
          * @static 
          */
         public static function captureQuery($query, $level = 'info', $engine = '')
@@ -12500,6 +12544,8 @@ namespace Sentry\SentryLaravel {
         /**
          * 
          *
+         * @param array $data
+         * @return string|bool 
          * @static 
          */
         public static function encode($data)
@@ -12559,6 +12605,7 @@ namespace Sentry\SentryLaravel {
          * @param string $id User's ID
          * @param string|null $email User's email
          * @param array $data Additional user data
+         * @codeCoverageIgnore 
          * @static 
          */
         public static function set_user_data($id, $email = null, $data = array())
@@ -12619,6 +12666,38 @@ namespace Sentry\SentryLaravel {
         public static function setProcessors($processors)
         {
             return \Raven_Client::setProcessors($processors);
+        }
+        
+        /**
+         * 
+         *
+         * @return object|null 
+         * @static 
+         */
+        public static function getLastSentryError()
+        {
+            return \Raven_Client::getLastSentryError();
+        }
+        
+        /**
+         * 
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function getShutdownFunctionHasBeenSet()
+        {
+            return \Raven_Client::getShutdownFunctionHasBeenSet();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function close_curl_resource()
+        {
+            return \Raven_Client::close_curl_resource();
         }
         
     }         
@@ -12987,13 +13066,13 @@ if (! function_exists('array_set')) {
 
 if (! function_exists('array_sort')) {
     /**
-     * Sort the array using the given callback.
+     * Sort the array by the given callback or attribute name.
      *
      * @param  array  $array
-     * @param  callable  $callback
+     * @param  callable|string  $callback
      * @return array
      */
-    function array_sort($array, callable $callback)
+    function array_sort($array, $callback)
     {
         return Arr::sort($array, $callback);
     }
@@ -13268,6 +13347,45 @@ if (! function_exists('ends_with')) {
     function ends_with($haystack, $needles)
     {
         return Str::endsWith($haystack, $needles);
+    }
+}
+
+if (! function_exists('env')) {
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    function env($key, $default = null)
+    {
+        $value = getenv($key);
+
+        if ($value === false) {
+            return value($default);
+        }
+
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+
+        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
     }
 }
 
@@ -13730,27 +13848,6 @@ if (! function_exists('create_system_service')) {
         $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
 
         return $systemService->createSystemService($service, $server);
-    }
-}
-
-if (! function_exists('save_without_events')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return mixed
-     */
-    function save_without_events(\Illuminate\Database\Eloquent\Model $model)
-    {
-        $observables = $model->getObservableEvents();
-
-        $model->flushEventListeners();
-
-        $model->save();
-
-        $model->addObservableEvents($observables);
-
-        return $model;
     }
 }
 

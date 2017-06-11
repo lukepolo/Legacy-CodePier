@@ -56,44 +56,43 @@
 <script>
     export default {
         props: ['pile', 'index'],
-        data() {
+        data () {
             return {
                 form: {
-                    pile : this.pile.id,
+                    pile: this.pile.id,
                     name: this.pile.name
                 },
                 editing: this.pile.editing
             }
         },
         watch: {
-            'editing'() {
+            'editing' () {
                 Vue.nextTick(() => {
                     if (this.editing) {
                         this.$refs.pile_name.focus()
                     }
                 })
-            },
+            }
         },
         methods: {
-            cancel() {
+            cancel () {
                 if (!this.pile.id) {
                     this.$store.commit('user_piles/removeTemp', this.index)
                 }
 
                 this.editing = false
             },
-            edit() {
+            edit () {
                 this.editing = true
             },
-            deletePile() {
-
-                if(this.pile.id) {
+            deletePile () {
+                if (this.pile.id) {
                     return this.$store.dispatch('user_piles/destroy', this.pile.id)
                 }
 
                 this.cancel()
             },
-            savePile() {
+            savePile () {
                 if (this.pile.id) {
                     this.$store.dispatch('user_piles/update', this.form)
                 } else {
@@ -105,14 +104,9 @@
                 this.editing = false
             }
         },
-        computed : {
-            sites() {
+        computed: {
+            sites () {
                 return this.$store.state.user_piles.piles[this.pile.id].sites
-            }
-        },
-        created() {
-            if(this.pile.id) {
-                this.$store.dispatch('user_piles/sites', this.pile.id)
             }
         }
     }
