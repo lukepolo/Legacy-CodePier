@@ -30,17 +30,11 @@
                             <input name="domain" v-model="form.domain" type="text">
                             <label for="domain">
                                 <span class="float-label">
-                                    <template v-if="!form.domainless">
-                                        Domain
-                                    </template>
-                                    <template v-else>
-                                        Alias
-                                    </template>
+                                    Domain / Alias
                                 </span>
                             </label>
                         </div>
 
-                        <input type="checkbox" v-model="form.domainless"> Not a domain
                         <button class="btn btn-primary">Save</button>
                     </form>
                 </div>
@@ -88,7 +82,6 @@
                 adding_site: false,
                 form: {
                     domain: null,
-                    domainless: false,
                     pile_id: this.$store.state.user.user.current_pile_id
                 }
             }
