@@ -40,6 +40,7 @@ class StartDevEnvironment extends Command
     {
         $process = new Process('cd storage/dev-environment && vagrant up');
         $process->setTimeout(0);
+
         return $process->run();
     }
 }
