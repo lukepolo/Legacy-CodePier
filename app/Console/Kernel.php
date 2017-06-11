@@ -2,8 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ProvisionDevEnvironment;
 use App\Console\Commands\SendBetaEmails;
-use App\Console\Commands\ServeDevEnvironment;
+use App\Console\Commands\StartDevEnvironment;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
@@ -31,7 +32,9 @@ class Kernel extends ConsoleKernel
         // BETA - Emails - TEMP
         SendBetaEmails::class,
 
-        ServeDevEnvironment::class,
+        ProvisionDevEnvironment::class,
+        StartDevEnvironment::class,
+
     ];
 
     /**

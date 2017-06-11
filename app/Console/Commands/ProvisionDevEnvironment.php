@@ -5,30 +5,28 @@ namespace App\Console\Commands;
 use App\Jobs\Server\CreateServer;
 use App\Models\Server\Provider\ServerProvider;
 use App\Models\User\User;
-use App\Services\Server\ServerFeatureService;
 use App\Services\Site\SiteFeatureService;
 use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Services\RemoteTaskService;
-use App\Services\Server\Providers\CustomProvider;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
-class ServeDevEnvironment extends Command
+class ProvisionDevEnvironment extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dev:serve';
+    protected $signature = 'dev:provision';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Spawns a development Ubuntu CodePier-provisioned server.';
+    protected $description = 'Spawns and provisions a development Ubuntu CodePier-provisioned server.';
 
     /**
      * Create a new command instance.
