@@ -67,7 +67,6 @@ if (! function_exists('create_redis_hash')) {
     }
 }
 
-
 if (! function_exists('is_domain')) {
 
     /**

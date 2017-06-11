@@ -20,17 +20,16 @@ class SiteDnsController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
-        if(is_domain($site->domain)) {
-
+        if (is_domain($site->domain)) {
             $key = $siteId.'_dns';
 
-            if($request->has('refresh')) {
+            if ($request->has('refresh')) {
                 Cache::forget($key);
             }
 
             return response()->json(
-                Cache::remember($key, 60 * 24, function() use($site) {
-                    return collect(dns_get_record($site->domain, DNS_A))->first(function($record) use($site) {
+                Cache::remember($key, 60 * 24, function () use ($site) {
+                    return collect(dns_get_record($site->domain, DNS_A))->first(function ($record) use ($site) {
                         return $record['host'] == $site->domain;
                     });
                 })
