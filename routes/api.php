@@ -202,6 +202,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('restart-workers/{site}', 'SiteController@restartWorkerServices');
             Route::post('restart-web-services/{site}', 'SiteController@restartWebServices');
 
+            Route::apiResource('sites.dns', 'SiteDnsController');
             Route::apiResource('sites.file', 'SiteFileController');
             Route::apiResource('sites.buoys', 'SiteBuoyController');
             Route::apiResource('sites.servers', 'SiteServerController');

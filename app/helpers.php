@@ -66,3 +66,17 @@ if (! function_exists('create_redis_hash')) {
         return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::command('INCR', [$key]));
     }
 }
+
+
+if (! function_exists('is_domain')) {
+
+    /**
+     * Gets Makes a new hash based on redis.
+     * @param string $domain
+     * @return bool
+     */
+    function is_domain($domain)
+    {
+        return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $domain) > 0;
+    }
+}

@@ -38,7 +38,7 @@
             </router-link>
 
             <template v-if="site && !site.repository">
-                <router-link :to="{ name : 'site_repository', params : { site_id : site.id } }" tag="li">
+                <router-link :to="{ name : 'site_overview', params : { site_id : site.id } }" tag="li">
                     <a>
                         Server Features
                         <div class="small">You must setup your site's repository first</div>
