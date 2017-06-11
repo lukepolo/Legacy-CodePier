@@ -1,7 +1,15 @@
 <template>
     <div class="tab-container tab-left">
         <ul class="nav nav-tabs" v-if="site.repository">
-            <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
+
+            <router-link :to="{ name : 'site_overview', params : { site_id : siteId } }" tag="li" exact>
+                <a>
+                    Overview
+                    <div class="small">Your site information</div>
+                </a>
+            </router-link>
+
+            <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li">
                 <a>
                     Repository
                     <div class="small">Your app's information</div>
