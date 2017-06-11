@@ -9,6 +9,8 @@ class FirewallService
 {
     use ServiceConstructorTrait;
 
+    protected $lock = 'flock -w 30  /opt/codepier/ufw.lock -c';
+
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
@@ -32,18 +34,7 @@ class FirewallService
                 $command = "ufw allow $firewallRule->port/$firewallRule->type";
             }
 
-            return $this->remoteTaskService->run('
-for i in {1..5}
-do
-   count=$(ps -A -ww | grep [^]]ufw | wc -l)
-   if [ $count -eq 0 ]
-   then
-        '.$command.'
-      break
-   else
-      sleep $[ ( $RANDOM % 10 )  + 1 ]s
-   fi
-done');
+            return $this->remoteTaskService->run($this->lock.' "'.$command.'"');
         } else {
             return $this->addServerNetworkRule($firewallRule->from_ip);
         }
@@ -55,10 +46,10 @@ done');
 
         if ($firewallRule->port !== '*') {
             if ($firewallRule->from_ip) {
-                return $this->remoteTaskService->run("ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port");
+                return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port'");
             }
 
-            return $this->remoteTaskService->run("ufw delete allow $firewallRule->port/$firewallRule->type");
+            return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow $firewallRule->port/$firewallRule->type'");
         } else {
             return $this->removeServerNetworkRule($firewallRule->from_ip);
         }
@@ -68,13 +59,13 @@ done');
     {
         $this->connectToServer();
 
-        return $this->remoteTaskService->run("ufw allow from $serverIp");
+        return $this->remoteTaskService->run($this->lock.' '."'ufw allow from $serverIp'");
     }
 
     public function removeServerNetworkRule($serverIp)
     {
         $this->connectToServer();
 
-        return $this->remoteTaskService->run("ufw delete allow from $serverIp");
+        return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow from $serverIp'");
     }
 }

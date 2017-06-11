@@ -5,7 +5,7 @@
                 <span class="icon-arrow-down pull-right" :class="{ closed : !showServerInfo }" @click="toggle"></span>
                 <a class="event-status" :class="{ 'event-status-success' : server.ssh_connection, 'event-status-warning' : !server.ssh_connection && server.ip, 'event-status-neutral' : !server.ssh_connection && !server.ip }" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Connection Successful"></a>
                 <router-link :to="{ name : 'server_sites', params : { server_id : server.id } }">
-                    {{ server.name }}
+                    {{ server.name }} <small>({{ serverType }})</small>
                 </router-link>
             </div>
             <div class="server-ip">
@@ -199,7 +199,11 @@
             CpuLoads
         },
         mounted() {
-          this.showing = this.showInfo
+            this.showing = this.showInfo
+
+            if(this.server.progress < 100) {
+                this.$store.dispatch('user_server_provisioning/getCurrentStep', this.server.id)
+            }
         },
         data() {
             return {
@@ -207,6 +211,9 @@
             }
         },
         computed : {
+            serverType() {
+                return _.replace(this.server.type, '_', ' ')
+            },
             showServerInfo() {
                 if(this.server.progress < 100) {
                     return true
@@ -214,14 +221,7 @@
                 return this.showing
             },
             currentProvisioningStep() {
-
-                let provisioningSteps = this.$store.state.user_server_provisioning.current_step;
-
-                if(_.has(provisioningSteps, this.server.id)) {
-                   return _.get(provisioningSteps, this.server.id);
-                }
-
-                return null;
+                return this.$store.state.user_server_provisioning.current_step;
             }
         },
         methods : {

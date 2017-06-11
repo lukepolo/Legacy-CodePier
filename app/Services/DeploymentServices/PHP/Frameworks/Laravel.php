@@ -34,7 +34,7 @@ trait Laravel
         $output = [];
 
         if ($this->zerotimeDeployment) {
-            $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/storage ]) || (mv '.$this->release.'/storage '.$this->siteFolder.')');
+            $output[] = $this->remoteTaskService->run('cp -r '.$this->release.'/storage '.$this->siteFolder);
             $output[] = $this->remoteTaskService->run('rm '.$this->release.'/storage -rf');
             $output[] = $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/storage '.$this->release);
         }

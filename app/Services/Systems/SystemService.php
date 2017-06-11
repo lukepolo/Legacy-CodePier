@@ -140,7 +140,7 @@ class SystemService implements SystemServiceContract
                 'log' => $systemService->getErrors(),
             ]);
 
-            $this->updateProgress($provisionStep->step);
+            $this->updateProgress($provisionStep->log);
 
             return false;
         } catch (\Exception $e) {

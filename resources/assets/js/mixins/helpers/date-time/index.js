@@ -3,7 +3,6 @@ export const now = () => {
 }
 
 export const timeAgo = (time) => {
-
     time = moment(time)
 
     const currentTime = moment()
@@ -16,7 +15,6 @@ export const timeAgo = (time) => {
 }
 
 export const parseDate = (date, timezone) => {
-
     if (timezone) {
         return moment(date).tz(timezone)
     }
@@ -25,8 +23,6 @@ export const parseDate = (date, timezone) => {
 }
 
 export const dateHumanize = (date, timezone) => {
-
     return moment(date).tz(timezone).fromNow()
-
 }
 

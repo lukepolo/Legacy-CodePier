@@ -76,7 +76,8 @@ class PHP
                 break;
             default:
                 $installVersion = $version;
-                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ondrej/php');
+                // https://github.com/oerdnj/deb.sury.org/issues/56#issuecomment-191748654
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php');
                 $this->remoteTaskService->run('apt-get update');
                 break;
         }

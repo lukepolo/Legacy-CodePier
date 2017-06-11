@@ -18,7 +18,8 @@ class WorkerService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y beanstalkd');
-        $this->remoteTaskService->updateText('/etc/default/beanstalkd', '#START=yes', 'START=yes');
+        $this->remoteTaskService->updateText('/etc/default/beanstalkd', 'BEANSTALKD_LISTEN_ADDR', 'BEANSTALKD_LISTEN_ADDR=0.0.0.0');
+        $this->remoteTaskService->updateText('/etc/default/beanstalkd', '#BEANSTALKD_EXTRA=', 'BEANSTALKD_EXTRA="-b /var/lib/beanstalkd"');
         $this->remoteTaskService->run('service beanstalkd restart');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service beanstalkd restart');

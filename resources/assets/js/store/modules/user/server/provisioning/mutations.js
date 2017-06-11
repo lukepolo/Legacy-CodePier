@@ -1,3 +1,3 @@
-export const setCurrentStep = (state, step) => {
-    Vue.set(state.current_step, step)
+export const setCurrentStep = (state, { response }) => {
+    Vue.set(state, 'current_step', response)
 }

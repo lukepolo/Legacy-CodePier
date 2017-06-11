@@ -12,6 +12,7 @@ Vue.Errors = Errors
 Vue.Request = Request
 
 Vue.action = action
+
 Vue.request = (data) => {
     return new Request(data)
 }
