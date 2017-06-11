@@ -17,7 +17,6 @@ trait Laravel
             $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->release.'/.env');
         }
 
-
         if ($this->zerotimeDeployment) {
             return $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
