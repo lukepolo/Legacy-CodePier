@@ -56,9 +56,15 @@ class SiteController extends Controller
      */
     public function store(SiteRequest $request)
     {
+        $isDomain = false;
+
+        if(preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $request->get('domain')) > 0) {
+            $isDomain = true;
+        }
+
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'domain'              => $isDomain ? $request->get('domain') : 'default',
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
         ]);

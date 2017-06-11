@@ -23,15 +23,8 @@ class SiteRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->get('domainless')) {
-            return [
-                'domain' => 'required',
-                'pile_id' => 'required|integer',
-            ];
-        }
-
         return [
-            'domain' => 'required_if:domainless,false|domain',
+            'domain' => 'required',
             'pile_id' => 'required|integer',
         ];
     }
