@@ -97,6 +97,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         if ($serverType === SystemService::LOAD_BALANCER) {
             $httpPort = '';
             $httpType = 'http';
+
             if ($site->hasActiveSSL()) {
                 $httpPort = ':443';
                 $httpType = 'https';

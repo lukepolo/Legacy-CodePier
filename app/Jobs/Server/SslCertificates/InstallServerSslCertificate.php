@@ -49,7 +49,7 @@ class InstallServerSslCertificate implements ShouldQueue
         } else {
             $this->runOnServer(function () use ($serverService, $siteService) {
                 $serverService->installSslCertificate($this->server, $this->sslCertificate);
-                $this->updateWebConfigs($serverService);
+                $this->updateWebConfigs($siteService);
             });
 
             if (! $this->wasSuccessful()) {
@@ -64,7 +64,7 @@ class InstallServerSslCertificate implements ShouldQueue
                         'active' => false,
                     ]);
 
-                    $this->updateWebConfigs($serverService);
+                    $this->updateWebConfigs($siteService);
                 }
 
                 throw new ServerCommandFailed($this->getCommandErrors());
@@ -78,6 +78,9 @@ class InstallServerSslCertificate implements ShouldQueue
         }
     }
 
+    /**
+     * @param \App\Services\Site\SiteService | SiteService $siteService
+     */
     private function updateWebConfigs($siteService)
     {
         foreach ($this->sslCertificate->sites as $site) {
