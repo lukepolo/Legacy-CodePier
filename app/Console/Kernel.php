@@ -2,13 +2,13 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ProvisionDevEnvironment;
 use App\Console\Commands\SendBetaEmails;
-use App\Console\Commands\StartDevEnvironment;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
 use App\Console\Commands\ClearFailedCommands;
+use App\Console\Commands\StartDevEnvironment;
+use App\Console\Commands\ProvisionDevEnvironment;
 use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\Tests\ServerEvents\ServerCommandUpdated;

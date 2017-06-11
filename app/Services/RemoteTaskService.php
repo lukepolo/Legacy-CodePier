@@ -211,9 +211,10 @@ echo \"Wrote\"", $read);
 
     public function isFileEmpty($file)
     {
-        if($this->hasFile($file)) {
+        if ($this->hasFile($file)) {
             return filter_var($this->run("cat $file | wc -c"), FILTER_VALIDATE_INT) == 0;
         }
+
         return true;
     }
 
