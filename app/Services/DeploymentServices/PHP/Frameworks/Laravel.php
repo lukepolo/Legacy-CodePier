@@ -13,6 +13,11 @@ trait Laravel
      */
     public function laravelCreateSymbolicEnv()
     {
+        if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.example')) {
+            $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->release.'/.env');
+        }
+
+
         if ($this->zerotimeDeployment) {
             return $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
         }
