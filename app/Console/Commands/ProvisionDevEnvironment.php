@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Server\CreateServer;
-use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
-use App\Services\Site\SiteFeatureService;
-use App\Models\Server\Server;
 use App\Models\Site\Site;
-use App\Services\RemoteTaskService;
+use App\Models\User\User;
+use App\Models\Server\Server;
 use Illuminate\Console\Command;
+use App\Jobs\Server\CreateServer;
+use App\Services\RemoteTaskService;
 use Symfony\Component\Process\Process;
+use App\Services\Site\SiteFeatureService;
+use App\Models\Server\Provider\ServerProvider;
 
 class ProvisionDevEnvironment extends Command
 {
@@ -45,12 +45,11 @@ class ProvisionDevEnvironment extends Command
      */
     public function handle(RemoteTaskService $remoteTaskService, SiteFeatureService $siteFeatureService)
     {
-
         $this->remoteTaskService = $remoteTaskService;
 
         $userId = $this->ask('What user ID would you like to use?');
 
-        if ($userId &&  empty(User::where('id', $userId)->first())) {
+        if ($userId && empty(User::where('id', $userId)->first())) {
             throw new \Exception('It appears as though the you provided does not exist!');
         }
 
@@ -70,7 +69,7 @@ class ProvisionDevEnvironment extends Command
             'keep_releases'               => 10,
             'wildcard_domain'             => false,
             'zerotime_deployment'         => true,
-            'user_repository_provider_id' => 1
+            'user_repository_provider_id' => 1,
         ]);
 
         $server = Server::firstOrCreate([
@@ -81,7 +80,7 @@ class ProvisionDevEnvironment extends Command
             'server_features' => $siteFeatureService->getSuggestedFeatures($site),
             'pile_id' => 1,
             'system_class' => 'ubuntu 16.04',
-            'ip' => '192.168.10.10'
+            'ip' => '192.168.10.10',
         ]);
 
         if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
@@ -97,6 +96,6 @@ class ProvisionDevEnvironment extends Command
         $process->setTimeout(0);
         $process->run();
 
-        return dispatch((new CreateServer(ServerProvider::findOrFail(2),$server))->onQueue(config('queue.channels.server_provisioning')));
+        return dispatch((new CreateServer(ServerProvider::findOrFail(2), $server))->onQueue(config('queue.channels.server_provisioning')));
     }
 }

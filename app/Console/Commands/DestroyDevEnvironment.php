@@ -40,6 +40,7 @@ class DestroyDevEnvironment extends Command
     {
         $process = new Process('cd storage/dev-environment && vagrant destroy');
         $process->setTimeout(0);
+
         return $process->run();
     }
 }

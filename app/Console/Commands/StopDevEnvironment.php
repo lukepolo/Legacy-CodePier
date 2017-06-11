@@ -40,6 +40,7 @@ class StopDevEnvironment extends Command
     {
         $process = new Process('cd storage/dev-environment && vagrant stop');
         $process->setTimeout(0);
+
         return $process->run();
     }
 }

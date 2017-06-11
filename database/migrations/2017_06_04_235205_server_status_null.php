@@ -13,7 +13,7 @@ class ServerStatusNull extends Migration
      */
     public function up()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->string('status')->nullable()->change()->default('');
         });
     }
@@ -25,7 +25,7 @@ class ServerStatusNull extends Migration
      */
     public function down()
     {
-        Schema::table('servers', function(Blueprint $table) {
+        Schema::table('servers', function (Blueprint $table) {
             $table->string('status')->change();
         });
     }
