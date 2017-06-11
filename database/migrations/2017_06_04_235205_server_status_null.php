@@ -14,7 +14,7 @@ class ServerStatusNull extends Migration
     public function up()
     {
         Schema::table('servers', function(Blueprint $table) {
-            $table->string('status')->nullable()->change();
+            $table->string('status')->nullable()->change()->default('');
         });
     }
 
