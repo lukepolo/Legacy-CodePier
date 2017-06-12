@@ -5240,6 +5240,14 @@ pre {
   word-break: break-word;
 }
 
+.text-clip {
+  max-width: 185px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
 input {
   background-color: transparent;
 }
@@ -5853,9 +5861,10 @@ a.item:hover:before {
 
 .group--item-heading-name {
   white-space: nowrap;
-  max-width: 288px;
+  max-width: 192px;
   overflow: hidden;
   text-overflow: ellipsis;
+  vertical-align: bottom;
 }
 
 .group--item-heading h4 {
@@ -6347,6 +6356,7 @@ a.item:hover:before {
   font-weight: normal;
   margin: 0px;
   padding: 0px;
+  z-index: 90;
 }
 
 .dropdown-menu.dropup {
@@ -8869,8 +8879,12 @@ a.list--item:hover:before {
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24), -webkit-transform 0.3s cubic-bezier(0.71, 1.7, 0.77, 1.24);
 }
 
-[data-toggle="tooltip"] {
+[data-toggle="tooltip"],
+[class^="hint-"],
+[class*=" hint-"] {
   cursor: pointer;
+  vertical-align: bottom;
+  z-index: 100;
 }
 
 .icon-cloud-auto-deploy.active:before {
