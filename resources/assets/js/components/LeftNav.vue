@@ -1,5 +1,5 @@
 <template>
-    <section id="left" class="section-column">
+    <section id="left" class="section-column" v-if="hasSites">
         <h3 class="section-header">{{ currentPile.name }} Sites</h3>
 
         <div class="section-content">
