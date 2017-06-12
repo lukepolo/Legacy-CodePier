@@ -17,7 +17,16 @@
                         <a @click="changePile(pile.id)"
                            :class="{ selected : (currentPile && currentPile.id === pile.id) }">
                             <span class="icon-layers"></span>
-                            {{ pile.name }}
+
+                            <template v-if="pile.name && pile.name.length > 18">
+                                <tooltip :message="pile.name" placement="bottom">
+                                    <span  class="text-clip">{{ pile.name }}</span>
+                                </tooltip>
+                            </template>
+                            <template v-else>
+                                <span  class="text-clip">{{ pile.name }}</span>
+                            </template>
+
                         </a>
                     </li>
                 </template>

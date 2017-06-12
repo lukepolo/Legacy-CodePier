@@ -21,9 +21,10 @@
 
             &-name {
                 white-space: nowrap;
-                max-width: 288px;
+                max-width: 192px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                vertical-align: bottom;
             }
 
             h4 {

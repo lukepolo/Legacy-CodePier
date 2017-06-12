@@ -1,6 +1,17 @@
 <template>
     <section id="left" class="section-column">
-        <h3 class="section-header">{{ currentPile.name }} Sites</h3>
+        <h3 class="section-header">
+            <template v-if="currentPile.name && currentPile.name.length > 17">
+                <tooltip :message="currentPile.name" placement="bottom-right">
+                    <span class="text-clip">{{ currentPile.name }}</span>
+                </tooltip>
+            </template>
+            <template v-else>
+                <span class="text-clip">{{ currentPile.name }}</span>
+            </template>
+
+            Sites
+        </h3>
 
         <div class="section-content">
             <div class="site-container">

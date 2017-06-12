@@ -20,7 +20,14 @@
 
                 </template>
                 <template v-else>
-                    <div class="group--item-heading-name">{{ pile.name }}</div>
+                    <template v-if="pile.name && pile.name.length > 23">
+                        <tooltip :message="pile.name" placement="bottom">
+                            <div class="group--item-heading-name">{{ pile.name }}</div>
+                        </tooltip>
+                    </template>
+                    <template v-else>
+                        <div class="group--item-heading-name">{{ pile.name }}</div>
+                    </template>
 
                     <div class="action-btn">
                         <button @click="edit" class="btn btn-small"><span class="icon-pencil"></span></button>

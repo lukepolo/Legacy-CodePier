@@ -49,6 +49,13 @@ pre {
   word-break: break-word;
 }
 
+.text-clip {
+  max-width: 185px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: bottom
+}
 
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
