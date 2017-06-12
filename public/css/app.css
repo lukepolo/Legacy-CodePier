@@ -5829,8 +5829,8 @@ a.item:hover:before {
 
 .group--item {
   -webkit-box-flex: 0;
-      -ms-flex: 0 1 380px;
-          flex: 0 1 380px;
+      -ms-flex: 0 1 320px;
+          flex: 0 1 320px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
