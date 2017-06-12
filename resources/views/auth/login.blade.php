@@ -42,9 +42,9 @@
                             <div class="btn-footer">
                                 <span class="btn toggle-forms">Create Account</span>
                                 <button class="btn btn-primary" type="submit">Login</button>
-                                <small>
+                                <div class="btn-forgot-pw">
                                     <a href="/password/reset">Forgot password?</a>
-                                </small>
+                                </div>
                             </div>
                         </form>
                     </div><!-- end form-wrap -->
