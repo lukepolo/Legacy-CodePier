@@ -5,7 +5,7 @@
     flex-wrap: wrap;
 
     &--item {
-        flex: 0 1 380px;
+        flex: 0 1 320px;
         display: flex;
         flex-direction: column;
         @include card(1);
