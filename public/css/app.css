@@ -5698,6 +5698,10 @@ span.btn {
   padding: 5px 10px;
 }
 
+.btn-small + .btn-small {
+  margin-left: 5px;
+}
+
 .btn-large {
   font-size: 18px;
   padding: 10px 18px;
@@ -5709,6 +5713,17 @@ button[disabled=disabled] {
   background-color: #636567;
   color: #8a8c8d !important;
   pointer-events: none;
+}
+
+.btn-text-success {
+  color: #83B692;
+  font-weight: 600;
+  letter-spacing: .5px;
+  cursor: pointer;
+}
+
+.btn-text-success:hover {
+  color: #9cc5a8;
 }
 
 .btn-footer {
@@ -5833,6 +5848,7 @@ a.item:hover:before {
   border-bottom: 1px solid #3a3d3f;
   padding: 20px;
   position: relative;
+  min-height: 61px;
 }
 
 .group--item-heading-name {
@@ -5853,7 +5869,7 @@ a.item:hover:before {
   letter-spacing: .5px;
   background-color: transparent;
   border: 1px solid #2B2B2B;
-  width: calc(100% - 35px);
+  width: calc(100% - 72px);
   margin: -10px;
   padding: 9px;
 }
@@ -5910,6 +5926,43 @@ a.item:hover:before {
   left: 50%;
   -webkit-transform: translateY(-50%) translateX(-50%);
           transform: translateY(-50%) translateX(-50%);
+}
+
+.group--item-link {
+  font-weight: 600;
+  letter-spacing: .5px;
+  margin-top: 20px;
+  padding: 0px 20px;
+}
+
+.group--item-link [class^="icon-"],
+.group--item-link [class*=" icon-"] {
+  color: #FFFFFF;
+  position: relative;
+  background-color: #48ACF0;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  position: relative;
+  top: -6px;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.group--item-link [class^="icon-"]:before,
+.group--item-link [class*=" icon-"]:before {
+  position: relative;
+  top: 6px;
+}
+
+.group--item-link:hover {
+  color: #6dbdf3;
+  cursor: pointer;
+}
+
+.group--item-link:hover [class^="icon-"],
+.group--item-link:hover [class*=" icon-"] {
+  background-color: #6dbdf3;
 }
 
 .group--item .add-pile {

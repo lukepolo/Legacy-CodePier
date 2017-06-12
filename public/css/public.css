@@ -5373,6 +5373,10 @@ span.btn {
   padding: 5px 10px;
 }
 
+.btn-small + .btn-small {
+  margin-left: 5px;
+}
+
 .btn-large {
   font-size: 18px;
   padding: 10px 18px;
@@ -5384,6 +5388,17 @@ button[disabled=disabled] {
   background-color: #636567;
   color: #8a8c8d !important;
   pointer-events: none;
+}
+
+.btn-text-success {
+  color: #83B692;
+  font-weight: 600;
+  letter-spacing: .5px;
+  cursor: pointer;
+}
+
+.btn-text-success:hover {
+  color: #9cc5a8;
 }
 
 .btn-footer {
