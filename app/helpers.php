@@ -39,27 +39,6 @@ if (! function_exists('create_system_service')) {
     }
 }
 
-if (! function_exists('save_without_events')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return mixed
-     */
-    function save_without_events(\Illuminate\Database\Eloquent\Model $model)
-    {
-        $observables = $model->getObservableEvents();
-
-        $model->flushEventListeners();
-
-        $model->save();
-
-        $model->addObservableEvents($observables);
-
-        return $model;
-    }
-}
-
 if (! function_exists('remove_events')) {
 
     /**
@@ -85,5 +64,18 @@ if (! function_exists('create_redis_hash')) {
     function create_redis_hash($key = 'default')
     {
         return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::command('INCR', [$key]));
+    }
+}
+
+if (! function_exists('is_domain')) {
+
+    /**
+     * Gets Makes a new hash based on redis.
+     * @param string $domain
+     * @return bool
+     */
+    function is_domain($domain)
+    {
+        return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $domain) > 0;
     }
 }

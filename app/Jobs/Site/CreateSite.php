@@ -56,10 +56,18 @@ class CreateSite implements ShouldQueue
 
         if (
             $serverType === SystemService::WEB_SERVER ||
+            $serverType === SystemService::WORKER_SERVER ||
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
             $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+        }
+
+        if (
+            $serverType === SystemService::WEB_SERVER ||
+            $serverType === SystemService::LOAD_BALANCER ||
+            $serverType === SystemService::FULL_STACK_SERVER
+        ) {
             $siteService->create($this->server, $this->site);
         }
 
@@ -97,10 +105,14 @@ class CreateSite implements ShouldQueue
         });
 
         if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::LOAD_BALANCER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-
+            (
+                ! $this->site->isLoadBalanced() &&
+                (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                )
+            ) ||
+            $serverType === SystemService::LOAD_BALANCER
         ) {
             $this->site->sslCertificates->each(function ($sslCertificate) {
                 dispatch(

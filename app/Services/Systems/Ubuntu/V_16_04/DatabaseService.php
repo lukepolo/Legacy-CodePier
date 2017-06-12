@@ -120,7 +120,7 @@ class DatabaseService
         $this->remoteTaskService->makeDirectory('/data/db');
         $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927');
         $this->remoteTaskService->run('echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list');
-        $this->remoteTaskService->run('apt update');
+        $this->remoteTaskService->run('apt-get update');
         $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
         $this->remoteTaskService->run('systemctl enable mongod.service');
         $this->remoteTaskService->run('service mongod start');

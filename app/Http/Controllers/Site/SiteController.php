@@ -56,9 +56,11 @@ class SiteController extends Controller
      */
     public function store(SiteRequest $request)
     {
+        $isDomain = is_domain($request->get('domain'));
+
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'domain'              => $isDomain ? $request->get('domain') : 'default',
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
         ]);

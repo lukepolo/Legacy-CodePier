@@ -83,10 +83,10 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                 })
 
                 commit('user_server_provisioning/setCurrentStep', {
-                        request : data.serverCurrentProvisioningStep
-                    }, {
-                        root: true
-                    })
+                    request: data.serverCurrentProvisioningStep
+                }, {
+                    root: true
+                })
             })
             .listen('Server\\ServerSshConnectionFailed', (data) => {
                 commit('user_servers/update', {
@@ -98,6 +98,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                     response: data.server
                 }, { root: true })
             })
+
             .listen('Server\\ServerCommandUpdated', (data) => {
                 commit('user_commands/update', data.command, { root: true })
                 commit('events/update', data.command, { root: true })

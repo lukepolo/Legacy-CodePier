@@ -287,12 +287,13 @@
 
                     if(userRepository) {
                         let repositoryProvider = _.find(this.repository_providers, {
-                            id : userRepository.id
+                            id : userRepository.repository_provider_id
                         })
 
-
+                        if(repositoryProvider) {
+                            return repositoryProvider.url
+                        }
                     }
-
 
                 }
             },

@@ -209,6 +209,15 @@ echo \"Wrote\"", $read);
         return filter_var($this->run("[ -f $file ] && echo true || echo false"), FILTER_VALIDATE_BOOLEAN);
     }
 
+    public function isFileEmpty($file)
+    {
+        if ($this->hasFile($file)) {
+            return filter_var($this->run("cat $file | wc -c"), FILTER_VALIDATE_INT) == 0;
+        }
+
+        return true;
+    }
+
     /**
      * Checks to see if the server has the file.
      * @param $directory

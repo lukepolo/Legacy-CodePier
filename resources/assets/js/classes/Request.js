@@ -41,6 +41,7 @@ class Request {
 
         delete data.errors
         delete data.resetData
+        delete data.emptyData
         delete data.originalData
 
         return data
@@ -57,7 +58,8 @@ class Request {
         for (const value in config) {
             this[value] = config[value]
         }
-        return this.submit('get', url, mutations, config)
+
+        return this.submit('get', this.dataQueryString() ? url+'?'+this.dataQueryString() : url, mutations)
     }
 
     /**
@@ -191,6 +193,19 @@ class Request {
      */
     setOriginalData () {
         this.originalData = this.data()
+    }
+
+    /**
+     * Generates a query string for the data given
+     */
+    dataQueryString() {
+        var str = []
+        let data = this.data()
+        for(let datum in data)
+            if (data.hasOwnProperty(datum)) {
+                str.push(encodeURIComponent(datum) + "=" + encodeURIComponent(data[datum]))
+            }
+        return str.join("&")
     }
 
 }

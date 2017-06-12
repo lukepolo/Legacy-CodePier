@@ -21,6 +21,7 @@ use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
+use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\User\UserRepositoryProvider;
@@ -258,5 +259,12 @@ class Site extends Model
         if ($this->framework) {
             return str_replace('.', '\\Frameworks\\', $this->framework);
         }
+    }
+
+    public function isLoadBalanced()
+    {
+        return ! empty($this->servers->first(function ($server) {
+            return $server->type === SystemService::LOAD_BALANCER;
+        }));
     }
 }
