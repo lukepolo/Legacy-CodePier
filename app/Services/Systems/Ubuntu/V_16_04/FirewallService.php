@@ -9,89 +9,63 @@ class FirewallService
 {
     use ServiceConstructorTrait;
 
+    protected $lock = 'flock -w 30  /opt/codepier/ufw.lock -c';
+
     public function addBasicFirewallRules()
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install iptables-persistent -y');
-
-        $this->remoteTaskService->writeToFile('/opt/codepier/iptables', '
-    #!/bin/sh
-    
-    iptables --wait -F
-    iptables --wait -X
-    iptables --wait -t nat -F
-    iptables --wait -t nat -X
-    iptables --wait -t mangle -F
-    iptables --wait -t mangle -X
-    
-    iptables --wait -P INPUT ACCEPT
-    iptables --wait -P FORWARD ACCEPT
-    iptables --wait -P OUTPUT ACCEPT
-    
-    iptables --wait -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-    iptables --wait -I INPUT 1 -i lo -j ACCEPT
-    
-    # SSH
-    iptables --wait -A INPUT -p tcp -m tcp --dport '.$this->server->port.' -j ACCEPT
-    
-    # DO NOT REMOVE - Custom Rules
-    
-    iptables --wait -P INPUT DROP
-');
-
-        $this->remoteTaskService->run('chmod 775 /opt/codepier/iptables');
-        $this->rebuildFirewall();
+        $this->remoteTaskService->run('ufw default deny incoming');
+        $this->remoteTaskService->run('ufw default allow outgoing');
+        $this->remoteTaskService->run('ufw allow ssh');
+        $this->remoteTaskService->run('ufw disable');
+        $this->remoteTaskService->run('ufw allow '.$this->server->port.'/tcp');
+        $this->remoteTaskService->run('echo "y" | ufw enable');
     }
 
     public function addFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->findTextAndAppend(
-            '/opt/codepier/iptables',
-            '# DO NOT REMOVE - Custom Rules',
-            $this->getRule($firewallRule)
-        );
+        if ($firewallRule->port !== '*') {
+            if (! empty($firewallRule->from_ip)) {
+                $command = "ufw allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port";
+            } else {
+                $command = "ufw allow $firewallRule->port/$firewallRule->type";
+            }
 
-        return $this->rebuildFirewall();
+            return $this->remoteTaskService->run($this->lock.' "'.$command.'"');
+        } else {
+            return $this->addServerNetworkRule($firewallRule->from_ip);
+        }
     }
 
     public function removeFirewallRule(FirewallRule $firewallRule)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->removeLineByText(
-            '/opt/codepier/iptables',
-            $this->getRule($firewallRule)
-        );
-
-        return $this->rebuildFirewall();
-    }
-
-    private function getRule($firewallRule)
-    {
         if ($firewallRule->port !== '*') {
             if ($firewallRule->from_ip) {
-                $rule = "iptables --wait -A INPUT -s $firewallRule->from_ip -p tcp -m tcp --dport $firewallRule->port -j ACCEPT";
-            } else {
-                $rule = "iptables --wait -A INPUT -p tcp -m tcp --dport $firewallRule->port -j ACCEPT";
+                return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow proto $firewallRule->type from $firewallRule->from_ip to any port $firewallRule->port'");
             }
-        } else {
-            $rule = "iptables --wait -A INPUT -s $firewallRule->from_ip -j ACCEPT";
-        }
 
-        return $rule;
+            return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow $firewallRule->port/$firewallRule->type'");
+        } else {
+            return $this->removeServerNetworkRule($firewallRule->from_ip);
+        }
     }
 
-    private function rebuildFirewall()
+    public function addServerNetworkRule($serverIp)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('/opt/codepier/./iptables');
-        $this->remoteTaskService->run('netfilter-persistent save');
-        $this->remoteTaskService->run('netfilter-persistent reload');
+        return $this->remoteTaskService->run($this->lock.' '."'ufw allow from $serverIp'");
+    }
 
-        return $this->remoteTaskService->getErrors();
+    public function removeServerNetworkRule($serverIp)
+    {
+        $this->connectToServer();
+
+        return $this->remoteTaskService->run($this->lock.' '."'ufw delete allow from $serverIp'");
     }
 }

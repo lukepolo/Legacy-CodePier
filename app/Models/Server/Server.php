@@ -113,11 +113,6 @@ class Server extends Model
         return $this->morphToMany(Worker::class, 'workerable');
     }
 
-    public function connectedServers()
-    {
-        return $this->hasMany(ServerNetworkRule::class);
-    }
-
     public function sslCertificates()
     {
         return $this->morphToMany(SslCertificate::class, 'sslCertificateable');

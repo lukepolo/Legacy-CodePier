@@ -5,24 +5,7 @@
         <div class="section-content">
             <div class="site-container">
                 <div class="site" v-for="site in sites">
-                    <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
-                    <div class="site-name">
-                        <tooltip
-                            class="event-status"
-                            :class="{
-                                'event-status-neutral' : site.last_deployment_status === 'Queued',
-                                'event-status-success' : site.last_deployment_status === 'Completed',
-                                'event-status-error' : site.last_deployment_status === 'Failed',
-                                'icon-spinner' : site.last_deployment_status === 'Running'
-                            }"
-                            :message="getDeploymentStatusText(site)"
-                            placement="right"
-                        >
-                        </tooltip>
-                        {{ site.name }}
-                        <site-deploy :site="site"></site-deploy>
-                    </div>
-                </router-link>
+                    <site :site="site"></site>
                 </div>
                 <div class="jcf-form-wrap">
                     <form @submit.prevent="saveSite" v-if="adding_site" class="floating-labels">
@@ -30,17 +13,11 @@
                             <input name="domain" v-model="form.domain" type="text">
                             <label for="domain">
                                 <span class="float-label">
-                                    <template v-if="!form.domainless">
-                                        Domain
-                                    </template>
-                                    <template v-else>
-                                        Alias
-                                    </template>
+                                    Domain / Alias
                                 </span>
                             </label>
                         </div>
 
-                        <input type="checkbox" v-model="form.domainless"> Not a domain
                         <button class="btn btn-primary">Save</button>
                     </form>
                 </div>
@@ -78,19 +55,20 @@
 </template>
 
 <script>
-    import SiteDeploy from './SiteDeploy.vue'
+
+    import Site from './left-nav-components/Site.vue'
+
     export default {
         components: {
-            SiteDeploy
+            Site
         },
         data () {
             return {
                 adding_site: false,
-                form: {
+                form: this.createForm({
                     domain: null,
-                    domainless: false,
                     pile_id: this.$store.state.user.user.current_pile_id
-                }
+                })
             }
         },
         methods: {
@@ -98,28 +76,9 @@
                 this.$store.dispatch('user_sites/store', this.form).then((site) => {
                     if (site) {
                         this.adding_site = false
+                        this.form.reset()
                     }
                 })
-            },
-            getDeploymentStatusText (site) {
-                let status = null
-
-                switch (site.last_deployment_status) {
-                    case 'Completed':
-                        status = 'All Good'
-                        break
-                    case 'Failed' :
-                        status = 'Something Failed'
-                        break
-                    case 'Queued' :
-                        status = 'Queued'
-                        break
-                    default :
-                        status = 'Deploying'
-                        break
-                }
-
-                return status
             },
             slackInviteLink () {
                 return this.action('User\UserController@slackInvite')

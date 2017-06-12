@@ -22,7 +22,8 @@ export const store = ({ dispatch }, data) => {
         'user_sites/add'
     ).then((site) => {
         dispatch('listen', site)
-        app.$router.push({ name: 'site_repository', params: { site_id: site.id }})
+        dispatch('user_piles/get', null, { root: true })
+        app.$router.push({ name: 'site_overview', params: { site_id: site.id }})
         return site
     })
 }
@@ -38,12 +39,13 @@ export const update = (context, data) => {
     })
 }
 
-export const destroy = (context, site) => {
+export const destroy = ({ dispatch }, site) => {
     return Vue.request(site).delete(
         Vue.action('Site\SiteController@destroy', { site: site }), [
             'user_sites/remove'
         ]
     ).then(() => {
+        dispatch('user_piles/get', null, { root: true })
         app.$router.push('/')
         app.showSuccess('You have deleted the site')
     })

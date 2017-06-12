@@ -28,6 +28,7 @@ import user_team_members from './user/teams/members'
 import user_piles from './user/piles'
 import user_sites from './user/sites'
 import user_commands from './user/commands'
+import user_site_dns from './user/site/dns'
 import user_site_files from './user/site/files'
 import user_site_servers from './user/site/servers'
 import user_site_workers from './user/site/workers'
@@ -91,6 +92,7 @@ export default {
     user_piles,
     user_sites,
     user_commands,
+    user_site_dns,
     user_site_files,
     user_site_servers,
     user_site_workers,

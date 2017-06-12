@@ -1,4 +1,5 @@
 import {
+    SiteOverview,
     SiteRepository,
     SiteDeployment,
     SiteFiles,
@@ -33,6 +34,15 @@ export default [
             {
                 alias: '',
                 path: 'setup',
+                name: 'site_overview',
+                components: {
+                    default: SiteOverview,
+                    nav: SiteNav,
+                    subNav: SiteSetupNav
+                }
+            },
+            {
+                path: 'setup/repository',
                 name: 'site_repository',
                 components: {
                     default: SiteRepository,
