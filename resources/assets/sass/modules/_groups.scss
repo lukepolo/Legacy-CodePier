@@ -17,6 +17,7 @@
             border-bottom: 1px solid mix($black, $gray, 10%);
             padding: $spacing;
             position: relative;
+            min-height: 61px;
 
             &-name {
                 white-space: nowrap;
@@ -36,7 +37,7 @@
                 letter-spacing: .5px;
                 background-color: transparent;
                 border: 1px solid $black;
-                width: calc(100% - 35px);
+                width: calc(100% - 72px);
                 margin: -10px;
                 padding: 9px;
 
@@ -87,6 +88,40 @@
                 top: 50%;
                 left: 50%;
                 transform: translateY(-50%) translateX(-50%);
+            }
+        }
+
+        &-link {
+            font-weight: 600;
+            letter-spacing: .5px;
+            margin-top:  $spacing;
+            padding: 0px $spacing;
+
+            [class^="icon-"], [class*=" icon-"] {
+                color: $white;
+                position: relative;
+                background-color: $blue;
+                border-radius: 50%;
+                height: 25px;
+                width: 25px;
+                position: relative;
+                top: -6px;
+                text-align: center;
+                margin-right: 5px;
+
+                &:before {
+                    position: relative;
+                    top: 6px;
+                }
+            }
+
+            &:hover {
+                color: mix($blue, $white, 80%);
+                cursor: pointer;
+
+                [class^="icon-"], [class*=" icon-"] {
+                    background-color: mix($blue, $white, 80%);
+                }
             }
         }
 

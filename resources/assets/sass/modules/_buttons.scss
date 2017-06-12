@@ -66,6 +66,10 @@ span.btn {
 .btn-small {
     font-size: 14px;
     padding: 5px 10px;
+
+    + .btn-small {
+        margin-left: 5px;
+    }
 }
 
 .btn-large {
@@ -79,6 +83,17 @@ button[disabled=disabled] {
     background-color: mix($gray, $white, 80%);
     color: mix($gray, $white, 60%) !important;
     pointer-events: none;
+}
+
+.btn-text-success {
+    color: $green;
+    font-weight: 600;
+    letter-spacing: .5px;
+    cursor: pointer;
+
+    &:hover {
+        color: mix($green, $white, 80%);
+    }
 }
 
 // BUTTON FOOTER STYLES ------------------------------------
