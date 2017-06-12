@@ -21,10 +21,12 @@ export const store = ({ dispatch }, data) => {
         Vue.action('Site\SiteController@store'),
         'user_sites/add'
     ).then((site) => {
-        dispatch('listen', site)
-        dispatch('user_piles/get', null, { root: true })
-        app.$router.push({ name: 'site_overview', params: { site_id: site.id }})
-        return site
+        dispatch('user_piles/change', data.pile_id, { root: true }).then(() => {
+            dispatch('listen', site)
+            dispatch('user_piles/get', null, { root: true })
+            app.$router.push({ name: 'site_overview', params: { site_id: site.id }})
+            return site
+        })
     })
 }
 
