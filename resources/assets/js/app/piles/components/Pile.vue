@@ -7,6 +7,15 @@
 
                     <div class="action-btn">
                         <button @click="savePile" class="btn btn-small btn-primary"><span class="icon-check_circle"></span></button>
+
+                        <button @click="deletePile()" class="btn btn-small">
+                            <template v-if="pile.id">
+                                <span class="icon-trash"></span>
+                            </template>
+                            <template v-else>
+                                <span class="icon-cancel"></span>
+                            </template>
+                        </button>
                     </div>
 
                 </template>
@@ -15,41 +24,36 @@
 
                     <div class="action-btn">
                         <button @click="edit" class="btn btn-small"><span class="icon-pencil"></span></button>
+
+                        <button @click="deletePile()" class="btn btn-small">
+                            <span class="icon-trash"></span>
+                        </button>
                     </div>
                 </template>
             </h4>
         </div>
 
-        <template v-if="pile.sites && pile.sites.length">
+        <template v-if="pile.sites">
             <div class="group--item-content">
-                <h4>Sites</h4>
-                <div class="list">
-                    <router-link class="list--item" :to="{ name: 'site_overview', params : { site_id : site.id} }" v-for="site in pile.sites" :key="site.id">
-                        <div class="list--item-name">
-                            {{ site.name }}
-                        </div>
-                    </router-link>
+                <template v-if="pile.sites.length">
+                    <h4>Sites</h4>
+                    <div class="list">
+                        <router-link class="list--item" :to="{ name: 'site_overview', params : { site_id : site.id} }" v-for="site in pile.sites" :key="site.id">
+                            <div class="list--item-name">
+                                {{ site.name }}
+                            </div>
+                        </router-link>
+                    </div>
+                </template>
+                <template v-else>
+                    <h4>No Sites</h4>
+                </template>
+
+                <div class="group--item-link">
+                    <span class="icon-plus"></span> Create New Site
                 </div>
             </div>
         </template>
-
-        <template v-else="pile.sites">
-            <div class="group--item-content">
-                <h4>No Sites</h4>
-            </div>
-        </template>
-
-        <div class="btn-footer text-center">
-            <button @click="deletePile()" class="btn">
-                <template v-if="pile.id">
-                    Delete
-                </template>
-                <template v-else>
-                    Cancel
-                </template>
-            </button>
-            <!--<button class="btn" v-if="pile.id">TODO - doesn't do anything yet! -&#45;&#45; Create Site</button>-->
-        </div>
     </div>
 </template>
 
