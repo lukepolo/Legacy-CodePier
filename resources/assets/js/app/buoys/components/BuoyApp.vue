@@ -4,7 +4,7 @@
             <h4>
                 <div class="group--item-heading-name">{{ buoyApp.title }}</div>
                 <div class="action-btn">
-                    <template v-if="isAdmin()">
+                    <template v-if="isAdmin">
                         <router-link :to="{ name: 'buoy_edit', params : { buoy_id : buoyApp.id } }" class="btn btn-small"><span class="icon-pencil"></span></router-link>
                     </template>
                 </div>
