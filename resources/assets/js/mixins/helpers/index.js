@@ -8,7 +8,8 @@ import {
 } from './pile'
 
 import {
-    getSite
+    getSite,
+    hasSites
 } from './site'
 
 import {
@@ -70,7 +71,6 @@ Vue.mixin({
         getPile,
         getSite,
         timeAgo,
-        isAdmin,
         hasClass,
         getServer,
         showError,
@@ -79,11 +79,15 @@ Vue.mixin({
         showSuccess,
         getFormData,
         dateHumanize,
-        teamsEnabled,
         handleApiError,
         isCommandRunning,
         serverHasFeature,
         getBytesFromString,
         getRepositoryProvider
+    },
+    computed: {
+        isAdmin,
+        hasSites,
+        teamsEnabled
     }
 })

@@ -40,39 +40,45 @@
             </h4>
         </div>
 
-        <template v-if="pile.sites">
-            <div class="group--item-content">
-                <template v-if="pile.sites.length">
-                    <h4>Sites</h4>
-                    <div class="list">
-                        <router-link class="list--item" :to="{ name: 'site_overview', params : { site_id : site.id} }" v-for="site in pile.sites" :key="site.id">
-                            <div class="list--item-name">
-                                {{ site.name }}
-                            </div>
-                        </router-link>
-                    </div>
-                </template>
-                <template v-else>
-                    <h4>No Sites</h4>
-                </template>
-
-                <div class="group--item-link">
-                    <span class="icon-plus"></span> Create New Site
+        <div class="group--item-content">
+            <template v-if="pile.sites && pile.sites.length">
+                <h4>Sites</h4>
+                <div class="list">
+                    <router-link class="list--item" :to="{ name: 'site_overview', params : { site_id : site.id} }" v-for="site in pile.sites" :key="site.id">
+                        <div class="list--item-name">
+                            {{ site.name }}
+                        </div>
+                    </router-link>
                 </div>
+            </template>
+            <template v-else>
+                <h4>No Sites</h4>
+            </template>
+
+            <div class="group--item-link" @click="addingSite = true">
+                <template v-if="!addingSite && !editing">
+                    <span class="icon-plus"></span> Create New Site
+                </template>
+                <site-form :pile="pile" :adding.sync="addingSite"></site-form>
             </div>
-        </template>
+        </div>
     </div>
 </template>
 
 <script>
+    import SiteForm from './../../../components/SiteForm.vue'
     export default {
         props: ['pile', 'index'],
+        components: {
+            SiteForm
+        },
         data () {
             return {
                 form: {
                     pile: this.pile.id,
                     name: this.pile.name
                 },
+                addingSite: false,
                 editing: this.pile.editing
             }
         },

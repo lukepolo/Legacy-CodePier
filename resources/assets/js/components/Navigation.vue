@@ -7,7 +7,7 @@
             </router-link>
         </div>
 
-        <ul class="nav nav-left nav-piles">
+        <ul class="nav nav-left nav-piles" v-if="hasSites">
             <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
                 <li>
                     <span class="dropdown-heading">Change Pile</span>
@@ -58,7 +58,7 @@
             </template>
 
 
-            <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled()">
+            <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled">
                 <li>
                     <span class="dropdown-heading">Change Team</span>
                 </li>
@@ -77,7 +77,7 @@
                <li>
                    <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
                </li>
-               <li v-if="teamsEnabled()">
+               <li v-if="teamsEnabled">
                    <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                </li>
                <li>
@@ -86,7 +86,7 @@
                <li>
                    <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                </li>
-               <template v-if="isAdmin()">
+               <template v-if="isAdmin">
                    <br>
                    Admin
                    <li>
