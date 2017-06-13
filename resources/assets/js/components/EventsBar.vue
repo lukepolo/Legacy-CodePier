@@ -297,7 +297,6 @@ export default {
             },
             fetchData () {
                 this.$store.dispatch('events/get')
-                this.$store.dispatch('user_sites/get')
                 this.$store.dispatch('user_servers/get')
             },
             updateFilters () {
