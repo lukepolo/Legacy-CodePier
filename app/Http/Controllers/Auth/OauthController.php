@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Session;
 use Socialite;
 use Bitbucket\API\Users;
 use App\Models\User\User;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
@@ -139,7 +139,7 @@ class OauthController extends Controller
                 dd($e->getMessage());
             }
 
-            if(\Auth::check()) {
+            if (\Auth::check()) {
                 return redirect()->intended()->withErrors($e->getMessage());
             } else {
                 return redirect('/login')->withErrors($e->getMessage());
