@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Session;
 use Socialite;
 use Bitbucket\API\Users;
 use App\Models\User\User;
@@ -42,12 +43,14 @@ class OauthController extends Controller
     /**
      * Handles provider requests.
      *
+     * @param Request $request
      * @param $provider
-     *
      * @return mixed
      */
-    public function newProvider($provider)
+    public function newProvider(Request $request, $provider)
     {
+        Session::put('url.intended', $request->headers->get('referer'));
+
         $scopes = null;
 
         $providerDriver = Socialite::driver($provider);
@@ -136,7 +139,11 @@ class OauthController extends Controller
                 dd($e->getMessage());
             }
 
-            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
+            if(\Auth::check()) {
+                return redirect()->intended()->withErrors($e->getMessage());
+            } else {
+                return redirect('/login')->withErrors($e->getMessage());
+            }
         }
     }
 
