@@ -1,5 +1,4 @@
 export const hasSites = function () {
-    return true
     return this.$store.state.user_sites.sites.length > 0
 }
 
