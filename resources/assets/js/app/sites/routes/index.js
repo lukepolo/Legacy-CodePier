@@ -1,10 +1,10 @@
 import {
+    SiteFiles,
     SiteOverview,
+    SiteWorkflow,
     SiteRepository,
     SiteDeployment,
-    SiteFiles,
     SiteServerFiles
-
 } from '../pages'
 
 import {
@@ -37,6 +37,16 @@ export default [
                 name: 'site_overview',
                 components: {
                     default: SiteOverview,
+                    nav: SiteNav,
+                    subNav: SiteSetupNav
+                }
+            },
+            {
+                alias: '',
+                path: 'setup/workflow',
+                name: 'site_workflow',
+                components: {
+                    default: SiteWorkflow,
                     nav: SiteNav,
                     subNav: SiteSetupNav
                 }

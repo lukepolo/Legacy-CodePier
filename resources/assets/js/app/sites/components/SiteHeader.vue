@@ -9,7 +9,7 @@
         <div class="section-header--btn-right">
 
             <template v-if="site.user_repository_provider_id">
-                <template v-if="site && site.repository">
+                <template v-if="workFlowCompleted">
 
                     <template v-if="!site.automatic_deployment_id">
 

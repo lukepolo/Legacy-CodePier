@@ -9,7 +9,8 @@ import {
 
 import {
     getSite,
-    hasSites
+    hasSites,
+    workFlowCompleted
 } from './site'
 
 import {
@@ -88,6 +89,7 @@ Vue.mixin({
     computed: {
         isAdmin,
         hasSites,
-        teamsEnabled
+        teamsEnabled,
+        workFlowCompleted
     }
 })

@@ -30,33 +30,49 @@
 </style>
 
 <template>
+
     <div class="parent">
 
         <left-nav></left-nav>
 
         <section id="middle" class="section-column">
+
             <site-header></site-header>
 
             <div class="section-content">
+
                 <div class="container">
 
                     <template v-if="site">
-                        <transition v-if="site.repository">
+
+                        <transition v-if="workFlowCompleted">
+
                             <router-view name="nav"></router-view>
+
                         </transition>
+
                         <transition >
+
                             <router-view name="subNav">
+
                                 <router-view></router-view>
+
                             </router-view>
+
                         </transition>
+
                     </template>
 
                 </div>
+
             </div>
+
         </section>
 
-        <servers></servers>
+        <servers v-if="workFlowCompleted"></servers>
+
     </div>
+
 </template>
 
 <script>
