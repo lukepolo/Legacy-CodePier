@@ -1,6 +1,7 @@
 <template>
-<<<<<<< HEAD
-    <section id="left" class="section-column">
+
+    <section id="left" class="section-column" v-if="hasSites">
+
         <h3 class="section-header">
             <template v-if="currentPile.name && currentPile.name.length > 17">
                 <tooltip :message="currentPile.name" placement="bottom-right">
@@ -13,8 +14,6 @@
 
             Sites
         </h3>
-    <section id="left" class="section-column" v-if="hasSites">
-        <h3 class="section-header">{{ currentPile.name }} Sites</h3>
 
         <div class="section-content">
 
@@ -26,24 +25,25 @@
 
                 <site-form :pile="currentPile.id"></site-form>
 
-                <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
-                    <router-link :to="{ name : 'user_ssh_keys' }">
-                        Create A SSH Key
-                        <div class="small">You have not created an account ssh key</div>
-                    </router-link>
-                </div>
-
-                <div class="slack-invite" v-if="!user.invited_to_slack">
-                    <a :href="slackInviteLink()">
-                        <i class="fa fa-slack" aria-hidden="true"></i>
-                        Get Invite to Slack
-                    </a>
-                </div>
             </div>
 
+            <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
+                <router-link :to="{ name : 'user_ssh_keys' }">
+                    Create A SSH Key
+                    <div class="small">You have not created an account ssh key</div>
+                </router-link>
+            </div>
+
+            <div class="slack-invite" v-if="!user.invited_to_slack">
+                <a :href="slackInviteLink()">
+                    <i class="fa fa-slack" aria-hidden="true"></i>
+                    Get Invite to Slack
+                </a>
+            </div>
         </div>
 
     </section>
+
 </template>
 
 <script>

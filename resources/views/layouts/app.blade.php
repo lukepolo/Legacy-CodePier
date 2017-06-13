@@ -61,7 +61,7 @@
                     @yield('content')
                 </div>
 
-                <events-bar></events-bar>
+                <events-bar v-if="hasSites"></events-bar>
 
             </div>
         </div>
