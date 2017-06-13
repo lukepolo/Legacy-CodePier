@@ -12,3 +12,15 @@ export const getSite = function (siteId, attribute) {
     }
     return {}
 }
+
+export const workFlowCompleted = function() {
+
+    let site = this.$store.state.user_sites.site
+
+    if(site) {
+        let workflow = site.workflow
+        console.info(workflow)
+    }
+
+    return false
+}

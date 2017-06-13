@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container tab-left">
-        <ul class="nav nav-tabs" v-if="site.repository">
+        <ul class="nav nav-tabs" v-if="workFlowCompleted">
 
             <router-link :to="{ name : 'site_overview', params : { site_id : siteId } }" tag="li" exact>
                 <a>

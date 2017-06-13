@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container tab-left">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" v-if="workFlowCompleted">
 
             <router-link :to="{ name : 'site_environment_variables', params : { site_id : siteId } }" tag="li" exact>
                 <a>
@@ -37,23 +37,12 @@
                 </a>
             </router-link>
 
-            <template v-if="site && !site.repository">
-                <router-link :to="{ name : 'site_overview', params : { site_id : site.id } }" tag="li">
-                    <a>
-                        Server Features
-                        <div class="small">You must setup your site's repository first</div>
-                        <div class="small">Advanced server setup, highly customized servers</div>
-                    </a>
-                </router-link>
-            </template>
-            <template v-else>
-                <router-link :to="{ name : 'site_server_features', params : { site_id : siteId } }" tag="li">
-                    <a>
-                        Server Features
-                        <div class="small">Advanced server setup, highly customized servers</div>
-                    </a>
-                </router-link>
-            </template>
+            <router-link :to="{ name : 'site_server_features', params : { site_id : siteId } }" tag="li">
+                <a>
+                    Server Features
+                    <div class="small">Advanced server setup, highly customized servers</div>
+                </a>
+            </router-link>
 
         </ul>
         <div class="tab-content">
