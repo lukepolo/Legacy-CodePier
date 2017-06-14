@@ -173,7 +173,10 @@
         },
         methods: {
             skipWorkflow() {
-                alert('skip workflow')
+                this.$store.dispatch('user_sites/updateWorkflow', {
+                    workflow : {},
+                    site : this.$route.params.site_id,
+                })
             },
             saveWorkflow() {
                 this.$store.dispatch('user_sites/updateWorkflow', {

@@ -24,7 +24,7 @@ class WorkflowRequest extends FormRequest
     public function rules()
     {
         return [
-            'workflow' => 'required',
+            'workflow' => 'nullable',
         ];
     }
 }
