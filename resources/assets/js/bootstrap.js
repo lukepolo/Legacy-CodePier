@@ -73,7 +73,7 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 
 Pusher.log = (msg) => {
-    // console.info(msg)
+    // console.log(msg)
 }
 
 window.Echo = new Echo({
