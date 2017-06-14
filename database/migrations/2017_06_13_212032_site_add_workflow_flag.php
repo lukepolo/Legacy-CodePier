@@ -16,6 +16,15 @@ class SiteAddWorkflowFlag extends Migration
         Schema::table('sites', function (Blueprint $table) {
             $table->json('workflow');
         });
+
+        foreach(\App\Models\Site\Site::all() as $site) {
+            if($site->servers->count()) {
+                $site->update([
+                    'workflow' => []
+                ]);
+            }
+        }
+
     }
 
     /**

@@ -55,7 +55,7 @@
 
                             <router-view name="subNav">
 
-                                <template v-if="workFlowCompleted !== true">
+                                <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                     <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
                                     <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
                                 </template>
