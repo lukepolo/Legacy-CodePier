@@ -8,7 +8,6 @@ use App\Http\Requests\Site\WorkflowRequest;
 
 class SiteWorkflowController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      * @param WorkflowRequest $request
@@ -20,10 +19,9 @@ class SiteWorkflowController extends Controller
         $site = Site::findOrFail($siteId);
 
         $site->update([
-            'workflow' => $request->get('workflow')
+            'workflow' => $request->get('workflow'),
         ]);
 
         return response()->json($site);
     }
-
 }
