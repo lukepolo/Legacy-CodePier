@@ -17,14 +17,13 @@ class SiteAddWorkflowFlag extends Migration
             $table->json('workflow');
         });
 
-        foreach(\App\Models\Site\Site::all() as $site) {
-            if($site->servers->count()) {
+        foreach (\App\Models\Site\Site::all() as $site) {
+            if ($site->servers->count()) {
                 $site->update([
-                    'workflow' => []
+                    'workflow' => [],
                 ]);
             }
         }
-
     }
 
     /**
