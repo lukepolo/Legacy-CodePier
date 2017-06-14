@@ -57,6 +57,7 @@
 
                                 <template v-if="workFlowCompleted !== true">
                                     <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
+                                    <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
                                 </template>
                                 <router-view></router-view>
 
@@ -143,6 +144,17 @@
                 if(!this.site || this.site.id !== parseInt(siteId)) {
                     this.$store.dispatch('user_sites/show', siteId)
                 }
+            },
+            updateWorkFlow() {
+
+                let workflow = _.clone(this.site.workflow)
+
+                workflow[this.workFlowCompleted] = true
+
+                this.$store.dispatch('user_sites/updateWorkflow', {
+                    workflow : workflow,
+                    site : this.$route.params.site_id,
+                })
             }
         },
         computed: {
