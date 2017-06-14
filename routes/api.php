@@ -170,7 +170,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('servers.features', 'ServerFeatureController');
             Route::apiResource('servers.cron-jobs', 'ServerCronJobController');
             Route::apiResource('servers.ssl-certificate', 'ServerSslController');
-            Route::apiResource('servers.network', 'ServerNetworkRuleController');
             Route::apiResource('servers.firewall-rules', 'ServerFirewallRuleController');
             Route::apiResource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::apiResource('servers.language-settings', 'ServerLanguageSettingsController');
@@ -188,6 +187,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::apiResource('sites', 'Site\SiteController');
 
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
+        Route::post('site/{site}/workflow', 'Site\SiteWorkflowController@store');
         Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
         Route::post('site/{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');

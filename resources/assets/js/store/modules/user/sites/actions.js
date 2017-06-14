@@ -105,3 +105,15 @@ export const listen = ({ commit, state, dispatch }, site) => {
             })
     }
 }
+
+export const updateWorkflow = (context, data) => {
+
+    console.info(data)
+
+    return Vue.request(data).post(
+        Vue.action('Site\SiteWorkflowController@store', { site: data.site }), [
+            'user_sites/set',
+            'user_sites/update'
+        ]
+    )
+}

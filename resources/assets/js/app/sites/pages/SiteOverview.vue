@@ -79,12 +79,8 @@
 
                 let site = this.site
 
-                if (site && site.id === parseInt(this.$route.params.site_id)) {
-                    if(site.repository) {
-                        this.form.domain = site.domain
-                    } else {
-                        this.$router.push({ name: 'site_repository', params: { site_id: site.id }})
-                    }
+                if(site) {
+                    this.form.domain = site.domain
                 }
 
                 this.form.setOriginalData()

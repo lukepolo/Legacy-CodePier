@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container tab-left">
-        <ul class="nav nav-tabs" v-if="workFlowCompleted">
+        <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
 
             <router-link :to="{ name : 'site_environment_variables', params : { site_id : siteId } }" tag="li" exact>
                 <a>

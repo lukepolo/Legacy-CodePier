@@ -45,7 +45,7 @@
 
                     <template v-if="site">
 
-                        <transition v-if="workFlowCompleted">
+                        <transition v-if="workFlowCompleted === true">
 
                             <router-view name="nav"></router-view>
 
@@ -55,6 +55,9 @@
 
                             <router-view name="subNav">
 
+                                <template v-if="workFlowCompleted !== true">
+                                    <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
+                                </template>
                                 <router-view></router-view>
 
                             </router-view>
@@ -69,7 +72,7 @@
 
         </section>
 
-        <servers v-if="workFlowCompleted"></servers>
+        <servers v-if="workFlowCompleted === true"></servers>
 
     </div>
 
@@ -103,9 +106,38 @@
 //                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
                 this.transitionName = 'bounce';
                 this.fetchData()
-            }
+                this.checkRedirect()
+            },
+            'site' : 'checkRedirect'
+
         },
         methods: {
+            checkRedirect() {
+
+                let site = this.site
+
+                if (site && site.id === parseInt(this.$route.params.site_id)) {
+
+                    if(site.repository) {
+
+                        if(this.workFlowCompleted !== true) {
+
+                            if(site.workflow) {
+
+                                if(this.workFlowCompleted !== this.$route.name) {
+                                    this.$router.push({ name: this.workFlowCompleted, params: { site_id: site.id }})
+                                }
+
+                            } else {
+                                this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
+                            }
+
+                        } else {
+                            this.$router.push({ name: 'site_repository', params: { site_id: site.id }})
+                        }
+                    }
+                }
+            },
             fetchData() {
                 let siteId = this.$route.params.site_id
                 if(!this.site || this.site.id !== parseInt(siteId)) {
@@ -116,6 +148,14 @@
         computed: {
             site() {
                 return this.$store.state.user_sites.site
+            },
+            workflowStepsCompleted() {
+                return _.filter(this.site.workflow, function(status) {
+                    return status === true
+                }).length + 1
+            },
+            totalWorkflowSteps() {
+                return _.keys(this.site.workflow).length
             }
         }
     }
