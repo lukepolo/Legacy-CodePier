@@ -120,7 +120,6 @@
                 if (site && site.id === parseInt(this.$route.params.site_id)) {
 
                     if(site.repository) {
-
                         if(this.workFlowCompleted !== true) {
 
                             if(site.workflow) {
@@ -133,9 +132,9 @@
                                 this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
                             }
 
-                        } else {
-                            this.$router.push({ name: 'site_repository', params: { site_id: site.id }})
                         }
+                    } else {
+                        this.$router.push({ name: 'site_repository', params: { site_id: site.id }})
                     }
                 }
             },
@@ -154,6 +153,10 @@
                 this.$store.dispatch('user_sites/updateWorkflow', {
                     workflow : workflow,
                     site : this.$route.params.site_id,
+                }).then(() => {
+                    if(this.workFlowCompleted === true) {
+                        this.$router.push({ name: 'site_overview', params: { site_id: this.site.id }})
+                    }
                 })
             }
         },
