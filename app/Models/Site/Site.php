@@ -58,6 +58,7 @@ class Site extends Model
     ];
 
     protected $casts = [
+        'workflow' => 'array',
         'server_features' => 'array',
     ];
 

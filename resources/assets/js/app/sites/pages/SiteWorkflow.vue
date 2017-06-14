@@ -143,8 +143,12 @@
                     </label>
                 </div>
 
+                <p>
+                    You can opt out workflow in your <router-link :to="{ name: 'my_account' }">profile</router-link>
+                </p>
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Update Workflow</button>
+                    <button @click.prevent="skipWorkflow" class="btn btn-danger" type="submit">Skip</button>
                 </div>
 
             </form>
@@ -168,8 +172,16 @@
             }
         },
         methods: {
+            skipWorkflow() {
+                alert('skip workflow')
+            },
             saveWorkflow() {
-                alert('save dat workflow!')
+                this.$store.dispatch('user_sites/updateWorkflow', {
+                    workflow : _.mapValues(_.invert(this.form.workflow), function() {
+                        return false
+                    }),
+                    site : this.$route.params.site_id,
+                })
             }
 
         },

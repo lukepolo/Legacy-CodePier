@@ -224,12 +224,6 @@
                 
                 let site = this.site
 
-                if (site && site.id === parseInt(this.$route.params.site_id)) {
-                    if(site.repository && !this.workFlowCompleted) {
-                        this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
-                    }
-                }
-
                 if (site && site.repository) {
 
                     this.form.type = site.type
