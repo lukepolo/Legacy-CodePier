@@ -129,7 +129,6 @@ class SiteService implements SiteServiceContract
 
         foreach ($siteServerDeployment->events as $index => $event) {
             try {
-
                 if (empty($event->step)) {
                     $event->delete();
                     continue;
@@ -148,7 +147,7 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
-                if($index === 0) {
+                if ($index === 0) {
                     $releaseFolder = $deploymentService->releaseTime;
                     $siteServerDeployment->siteDeployment->update([
                         'folder_name' => $releaseFolder,
@@ -165,7 +164,6 @@ class SiteService implements SiteServiceContract
                 throw new DeploymentFailed($e->getMessage());
             }
         }
-
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }
