@@ -35,7 +35,8 @@ mix
         'laravel-echo',
         'moment-timezone',
         'filesize-parser',
-        'lodash-inflection'
+        'lodash-inflection',
+        'moment-precise-range-plugin'
     ])
     .autoload({
         vue: 'Vue',
