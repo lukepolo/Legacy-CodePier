@@ -17,7 +17,6 @@ window.app = app
 app.$store.dispatch('user_sites/get')
 app.$store.dispatch('user_commands/get')
 app.$store.dispatch('user_ssh_keys/get')
-app.$store.dispatch('user_site_deployments/getDeployments')
 
 Echo.channel('app').listen('ReleasedNewVersion', (data) => {
     app.$store.dispatch('system/setVersion', data)

@@ -127,8 +127,9 @@ class SiteService implements SiteServiceContract
 
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        foreach ($siteServerDeployment->events as $event) {
+        foreach ($siteServerDeployment->events as $index => $event) {
             try {
+
                 if (empty($event->step)) {
                     $event->delete();
                     continue;
@@ -147,6 +148,15 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
+                if($index === 0) {
+                    $releaseFolder = $deploymentService->releaseTime;
+                    $siteServerDeployment->siteDeployment->update([
+                        'folder_name' => $releaseFolder,
+                        'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
+                        'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
+                    ]);
+                }
+
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
                 $log = collect($e->getMessage())->filter()->implode("\n");
@@ -156,12 +166,6 @@ class SiteService implements SiteServiceContract
             }
         }
 
-        $releaseFolder = $deploymentService->releaseTime;
-        $siteServerDeployment->siteDeployment->update([
-            'folder_name' => $releaseFolder,
-            'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
-            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
-        ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }

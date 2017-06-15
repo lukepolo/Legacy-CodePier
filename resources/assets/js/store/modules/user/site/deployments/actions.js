@@ -1,7 +1,14 @@
-export const getDeployments = () => {
+export const get = (context, site) => {
+    return Vue.request().get(
+        Vue.action('Site\SiteDeploymentsController@index', { site: site }),
+        'user_site_deployments/setAll'
+    )
+}
+
+export const getRunningDeployments = () => {
     return Vue.request().get(
         Vue.action('User\UserController@getRunningDeployments'),
-        'user_site_deployments/setDeployments'
+        'user_site_deployments/setRunningDeployments'
     )
 }
 

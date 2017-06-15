@@ -1,5 +1,9 @@
-export const setDeployments = (state, { response }) => {
+export const setAll = (state, { response }) => {
     state.deployments = response
+}
+
+export const setRunningDeployments = (state, { response }) => {
+    state.running_deployments = response
 }
 
 export const setDeploymentSteps = (state, { response }) => {
@@ -9,3 +13,4 @@ export const setDeploymentSteps = (state, { response }) => {
 export const setSiteDeploymentSteps = (state, { response }) => {
     state.site_deployment_steps = response
 }
+

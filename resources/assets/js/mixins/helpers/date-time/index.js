@@ -14,15 +14,10 @@ export const timeAgo = (time) => {
     return time.format('M-D-YY h:mm A')
 }
 
-export const parseDate = (date, timezone) => {
-    if (timezone) {
-        return moment(date).tz(timezone)
-    }
-
+export const parseDate = (date) => {
     return moment(date)
 }
 
-export const dateHumanize = (date, timezone) => {
-    return moment(date).tz(timezone).fromNow()
+export const diff = (date1, date2) => {
+    return moment(date2).preciseDiff(moment(date1))
 }
-

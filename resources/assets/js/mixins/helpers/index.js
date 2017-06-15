@@ -30,9 +30,9 @@ import {
 
 import {
     now,
+    diff,
     timeAgo,
-    parseDate,
-    dateHumanize
+    parseDate
 } from './date-time'
 
 import {
@@ -66,6 +66,7 @@ Vue.mixin({
     methods: {
         now,
         back,
+        diff,
         local,
         isTag,
         action,
@@ -79,7 +80,6 @@ Vue.mixin({
         createForm,
         showSuccess,
         getFormData,
-        dateHumanize,
         handleApiError,
         isCommandRunning,
         serverHasFeature,
