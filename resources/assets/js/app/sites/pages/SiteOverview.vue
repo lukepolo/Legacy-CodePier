@@ -4,9 +4,10 @@
         <div>
             <h3>
                 Health Check
+                <small>coming soon!</small>
             </h3>
             <p>
-                https://codepier.io <i class="fa fa-check-circle"></i>
+                {{ site.domain }} <i class="fa fa-check-circle"></i>
             </p>
         </div>
 
@@ -15,30 +16,41 @@
                 Repository / Deploy Branch
             </h3>
             <p>
-                CodePier/CodePier - master
+                {{ site.repository }} @ {{ site.branch }}
             </p>
         </div>
 
         <div>
             <h3>Recent deployments</h3>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
-            dpeloyment 12-24-197 took 100 seconds<br>
+            <template v-for="deploymentEvent in deploymentEvents">
+                {{ deploymentEvent.status }} {{ timeAgo(deploymentEvent.created_at) }}
+                <br>
+                <small>
+                    took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
+                </small>
+                <br>
+            </template>
+            <template v-for="recentDeployment in recentDeployments">
+                {{ recentDeployment.status }} {{ timeAgo(recentDeployment.created_at) }}
+                <br>
+                <small>
+                    took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
+                </small>
+                <br>
+            </template>
         </div>
 
+        <br>
         <div>
-            <h3>Recent Commands</h3>
-            fireawll rule installed<br>
-            fireawll rule installed<br>
-            fireawll rule installed<br>
-            fireawll rule installed<br>
-            fireawll rule installed<br>
-            fireawll rule installed<br>
+            <h3>
+                Recent Commands
+                <small>
+                    coming soon!
+                </small>
+            </h3>
         </div>
+
+        <br>
 
         <div>
             <h3>
@@ -47,6 +59,9 @@
             </h3>
             <template v-if="dns.host">
                 Your site is pointed to : {{ dns.ip }}
+            </template>
+            <template v-else>
+                Cannot find DNS entry
             </template>
         </div>
     </div>
@@ -72,6 +87,7 @@
         methods: {
             fetchData() {
                 this.getDns()
+                this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
             },
             siteChange() {
 
@@ -112,6 +128,26 @@
             site() {
                 return this.$store.state.user_sites.site
             },
+            recentDeployments() {
+                return this.$store.state.user_site_deployments.deployments
+            },
+            deploymentEvents() {
+                if(this.site && this.recentDeployments) {
+
+                    let latestDeployment = this.recentDeployments[0]
+
+                    return _.filter(this.$store.state.events.events, (event) => {
+                        return event.event_type === 'App\\Models\\Site\\SiteDeployment' &&
+                            event.site_id ===  this.site.id &&
+                            !_.find(this.recentDeployments, { id : event.id }) &&
+                            (
+                                !latestDeployment ||
+                                (latestDeployment.created_at) < event.created_at
+                            )
+                    })
+                }
+
+            }
         },
     }
 </script>

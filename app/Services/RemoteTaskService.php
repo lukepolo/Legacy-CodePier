@@ -251,6 +251,7 @@ echo \"Wrote\"", $read);
         $ssh = new SSH2($this->server->ip, $this->server->port);
 
         try {
+            // TODO - login as codepier / sudo to root
             if (! $ssh->login($user, $key)) {
                 $server->ssh_connection = false;
                 $server->save();

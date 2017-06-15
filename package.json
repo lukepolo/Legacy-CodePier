@@ -28,6 +28,7 @@
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
     "lodash-inflection": "^1.5.0",
+    "moment-precise-range-plugin": "^1.2.3",
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
     "pusher-js": "^4.0.0",

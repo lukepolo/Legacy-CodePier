@@ -11,6 +11,21 @@ class SiteDeploymentsController extends Controller
      * @param $siteId
      * @return array
      */
+    public function index($siteId)
+    {
+        return response()->json(
+            SiteDeployment::where('site_id', $siteId)
+                ->latest()
+                ->take(10)
+                ->get()
+        );
+    }
+
+    /**
+     * @param $siteId
+     * @param $siteDeploymentId
+     * @return array
+     */
     public function show($siteId, $siteDeploymentId)
     {
         return response()->json(

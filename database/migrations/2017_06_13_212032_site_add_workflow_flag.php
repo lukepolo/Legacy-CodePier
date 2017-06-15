@@ -14,7 +14,7 @@ class SiteAddWorkflowFlag extends Migration
     public function up()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->json('workflow');
+            $table->json('workflow')->nullable();
         });
 
         foreach (\App\Models\Site\Site::all() as $site) {
