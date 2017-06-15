@@ -36,6 +36,10 @@
                 <small>
                     took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
                 </small>
+
+                <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
+                    Rollback
+                </confirm>
                 <br>
             </template>
         </div>
