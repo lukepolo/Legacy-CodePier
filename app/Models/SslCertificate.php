@@ -40,6 +40,6 @@ class SslCertificate extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' SSL certificate ' .$this->domains;
+        return $status.' SSL certificate '.$this->domains;
     }
 }

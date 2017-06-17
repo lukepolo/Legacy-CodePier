@@ -58,6 +58,6 @@ class SshKey extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' ssh key ' .$this->name;
+        return $status.' ssh key '.$this->name;
     }
 }

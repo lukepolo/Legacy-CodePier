@@ -68,6 +68,6 @@ class File extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' file '. $this->path;
+        return $status.' file '.$this->path;
     }
 }

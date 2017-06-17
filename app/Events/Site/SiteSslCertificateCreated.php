@@ -22,7 +22,6 @@ class SiteSslCertificateCreated
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Setting Up');
 
             $loadBalancerExists = $site->provisionedServers->first(function ($server) {

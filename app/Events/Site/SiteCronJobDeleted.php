@@ -24,7 +24,6 @@ class SiteCronJobDeleted
         $site->cronJobs()->detach($cronJob);
 
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $cronJob, 'Removing');
 
             foreach ($cronJob->servers as $server) {
@@ -45,6 +44,6 @@ class SiteCronJobDeleted
 
     public function commandDescription($status)
     {
-        return ucwords($status). ' file '. $this->path;
+        return ucwords($status).' file '.$this->path;
     }
 }

@@ -38,6 +38,6 @@ class LanguageSetting extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' language setting '. $this->setting.' for '.$this->language;
+        return $status.' language setting '.$this->setting.' for '.$this->language;
     }
 }
