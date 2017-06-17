@@ -11,7 +11,6 @@ class Lifeline extends Model
 
     protected $guarded = ['id'];
 
-
     protected $appends = [
         'url',
     ];
@@ -26,7 +25,6 @@ class Lifeline extends Model
     {
         return $this->belongsTo(Site::class);
     }
-
 
     public function getUrlAttribute()
     {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Site\LifeLineUpdated;
-use App\Models\Site\Lifeline;
 use Carbon\Carbon;
+use App\Models\Site\Lifeline;
+use App\Events\Site\LifeLineUpdated;
 
 class LifeLineController extends Controller
 {
@@ -17,12 +17,11 @@ class LifeLineController extends Controller
         $lifeline = Lifeline::findOrFail(\Hashids::decode($lifelineHashId)[0]);
 
         $lifeline->update([
-            'last_seen' => Carbon::now()
+            'last_seen' => Carbon::now(),
         ]);
 
         broadcast(new LifeLineUpdated($lifeline));
 
         return response()->json('OK');
     }
-
 }
