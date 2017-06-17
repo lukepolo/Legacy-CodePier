@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site;
 
-
 use App\Models\Site\Site;
 use App\Models\Site\Lifeline;
 use App\Http\Controllers\Controller;
