@@ -34,6 +34,6 @@ class EnvironmentVariable extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' environment variable '. $this->variable;
+        return $status.' environment variable '.$this->variable;
     }
 }

@@ -16,13 +16,12 @@ trait ModelCommandTrait
      */
     private function makeCommand(Site $site, Model $model, $status)
     {
-
         return Command::create([
             'site_id' => $site->id,
             'commandable_id' => $model->id,
             'commandable_type' => get_class($model),
             'status' => 'Queued',
-            'description' => $model->commandDescription($status)
+            'description' => $model->commandDescription($status),
         ]);
     }
 }

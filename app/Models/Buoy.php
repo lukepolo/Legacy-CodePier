@@ -25,6 +25,6 @@ class Buoy extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' buoy '. $this->buoyApp->title;
+        return $status.' buoy '.$this->buoyApp->title;
     }
 }

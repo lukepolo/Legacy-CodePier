@@ -5,7 +5,6 @@ namespace App\Jobs\Server\FirewallRules;
 use App\Models\Command;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
-use App\Models\ServerCommand;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;

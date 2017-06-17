@@ -40,6 +40,6 @@ class CronJob extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' cron job '. $this->job.' ran by '.$this->user;
+        return $status.' cron job '.$this->job.' ran by '.$this->user;
     }
 }

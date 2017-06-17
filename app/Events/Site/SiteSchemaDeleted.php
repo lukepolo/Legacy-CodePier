@@ -24,7 +24,6 @@ class SiteSchemaDeleted
         $site->schemas()->detach($schema);
 
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $schema, 'Deleting');
 
             foreach ($site->provisionedServers as $server) {
