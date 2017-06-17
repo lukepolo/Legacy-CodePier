@@ -25,7 +25,7 @@ class SiteLifeline extends FormRequest
     {
         return [
             'name' => 'required',
-            'threshold' => 'required|integer'
+            'threshold' => 'required|greaterThanZero',
         ];
     }
 }
