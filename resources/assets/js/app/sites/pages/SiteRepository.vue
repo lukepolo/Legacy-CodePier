@@ -121,34 +121,20 @@
 
                     <div class="jcf-input-group">
 
-                        <div class="input-question">Select Language</div>
+                        <div class="input-question">Select Site Type</div>
 
                         <div class="select-wrap">
 
                             <select v-model="form.type" name="type" required>
                                 <option value=""></option>
-                                <option :value="language" v-for="(features, language) in availableLanguages">
-                                    {{ language }}
-                                </option>
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                    <div class="jcf-input-group" v-if="form.type">
-
-                        <tooltip message="By selecting a framework, we customize the options surrounding your app" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                        <div class="input-question">Select Framework</div>
-
-                        <div class="select-wrap">
-
-                            <select v-model="form.framework" name="framework">
-                                <option value="">None</option>
-                                <option v-for="(features, framework) in availableFrameworks[form.type]" :value="form.type+'.'+framework"> {{ framework }}</option>
+                                <template v-for="(features, language) in availableLanguages">
+                                    <optgroup :label="language">
+                                        <option :value="language">
+                                            Generic {{ language }}
+                                        </option>
+                                        <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
+                                    </optgroup>
+                                </template>
                             </select>
 
                         </div>
@@ -226,9 +212,8 @@
 
                 if (site && site.repository) {
 
-                    this.form.type = site.type
+                    this.form.type = site.framework ? site.framework : site.type
                     this.form.branch = site.branch
-                    this.form.framework = site.framework
                     this.form.repository = site.repository
                     this.form.keep_releases = site.keep_releases
                     this.form.web_directory = site.web_directory
@@ -246,13 +231,21 @@
 
             },
             updateSite() {
+
+                let tempType = _.split(this.form.type, '.')
+                let type = tempType[0]
+                let framework = null
+                if(tempType.length === 2) {
+                    framework = tempType[0]+'.'+tempType[1]
+                }
+
                 this.$store.dispatch('user_sites/update', {
                     site: this.site.id,
-                    type : this.form.type,
+                    type : type,
                     branch: this.form.branch,
                     domain: this.site.domain,
                     pile_id: this.site.pile_id,
-                    framework: this.form.framework,
+                    framework: framework,
                     repository: this.form.repository,
                     web_directory: this.form.web_directory,
                     keep_releases : this.form.keep_releases,
