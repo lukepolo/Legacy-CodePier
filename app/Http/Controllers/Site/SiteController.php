@@ -63,6 +63,7 @@ class SiteController extends Controller
             'domain'              => $isDomain ? $request->get('domain') : 'default',
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
+            'workflow'            => \Auth::user()->workflow ? null : []
         ]);
 
         return response()->json($site);

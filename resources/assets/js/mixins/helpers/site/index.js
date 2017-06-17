@@ -15,9 +15,10 @@ export const getSite = function (siteId, attribute) {
 
 export const workFlowCompleted = function() {
 
+
     let site = this.$store.state.user_sites.site
 
-    if(site && site.workflow) {
+    if(site && site.repository && site.workflow) {
         let workflow = _.findKey(site.workflow, function(status) {
             return status === false
         })
