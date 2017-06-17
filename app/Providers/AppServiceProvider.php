@@ -60,6 +60,10 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
         });
 
+        Validator::extend('greaterThanZero', function ($attribute, $value) {
+            return $value > 0;
+        });
+
         // http://stackoverflow.com/questions/2821043/allowed-characters-in-linux-environment-variable-names
         // https://regex101.com/r/nBGmWp/1
         Validator::extend('environmentVariable', function ($attribute, $value) {
