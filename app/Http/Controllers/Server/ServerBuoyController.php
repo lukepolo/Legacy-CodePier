@@ -44,20 +44,19 @@ class ServerBuoyController extends Controller
             return isset($option['value']) ? $option['value'] : null;
         })->toArray();
 
-        if($server->buoys
+        if ($server->buoys
             ->where('buoy_app_id', $buoyApp->id)
             ->count()) {
             return response()->json('This buoy is already installed on this server', 400);
         }
 
-
-        if (!empty($conflictedPorts = $server
+        if (! empty($conflictedPorts = $server
             ->buoys
             ->pluck('ports')
             ->flatten()
             ->intersect($localPorts)
         )) {
-            return response()->json('You have conflicting ports ('.$conflictedPorts->implode(',').') on this server' , 400);
+            return response()->json('You have conflicting ports ('.$conflictedPorts->implode(',').') on this server', 400);
         }
 
         $buoy = Buoy::create([
