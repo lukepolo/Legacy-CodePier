@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
-use App\Models\Site\Lifeline;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
+use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
@@ -18,8 +17,8 @@ use App\Models\User\UserServerProvider;
 use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use App\Observers\Site\LifelineObserver;
 use App\Observers\Server\ServerObserver;
+use App\Observers\Site\LifelineObserver;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\SslCertificateObserver;
 use Illuminate\Support\Facades\Validator;

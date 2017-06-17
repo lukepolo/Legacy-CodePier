@@ -10,7 +10,7 @@ class LifelineObserver
 {
     public function updating(Lifeline $lifeline)
     {
-        if($lifeline->isDirty('sent_notifications')) {
+        if ($lifeline->isDirty('sent_notifications')) {
             $lifeline->notify(new LifeLineCheckedIn);
         }
     }

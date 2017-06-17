@@ -2,8 +2,8 @@
 
 namespace App\Models\Site;
 
-use App\Models\SlackChannel;
 use App\Traits\Hashable;
+use App\Models\SlackChannel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -57,5 +57,4 @@ class Lifeline extends Model
     {
         return $this->site->routeNotificationForSlack();
     }
-
 }
