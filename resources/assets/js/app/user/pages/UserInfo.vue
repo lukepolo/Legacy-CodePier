@@ -1,6 +1,7 @@
 <template>
     <section>
         <div class="jcf-form-wrap">
+
             <form @submit.prevent="onSubmit" class="floating-labels">
 
                 <div class="jcf-input-group">
@@ -33,6 +34,14 @@
                     </div>
                 </section>
 
+                <div class="jcf-input-group input-checkbox">
+                    <div class="input-question">Workflows </div>
+                    <label>
+                        <input v-model="form.workflow" name="workflow" type="checkbox">
+                        <span class="icon"></span> Enabled
+                    </label>
+                </div>
+
                 <div class="btn-footer">
                     <button class="btn btn-primary" type="submit">Update Profile</button>
                 </div>
@@ -48,10 +57,12 @@
         data() {
             return {
                 form: {
+                    user : user.id,
                     name: user.name,
                     email: user.email,
                     new_password: null,
-                    confirm_password: null
+                    confirm_password: null,
+                    workflow : user.workflow,
                 }
             }
         },
@@ -65,7 +76,7 @@
 
                 this.form.user_id = this.user.id;
 
-                this.$store.dispatch('updateUser', this.form)
+                this.$store.dispatch('user/update', this.form)
             }
         }
     }
