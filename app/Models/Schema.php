@@ -39,6 +39,6 @@ class Schema extends Model
 
     public function commandDescription($status)
     {
-        return $status. ' database ' .$this->name;
+        return $status.' database '.$this->name;
     }
 }
