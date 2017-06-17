@@ -58,13 +58,19 @@
             return {
                 form: {
                     user : user.id,
-                    name: user.name,
-                    email: user.email,
+                    name: null,
+                    email: null,
                     new_password: null,
                     confirm_password: null,
-                    workflow : user.workflow,
+                    workflow : null,
                 }
             }
+        },
+        watch: {
+            'user' : 'setData'
+        },
+        created() {
+            this.setData()
         },
         computed: {
             user() {
@@ -72,6 +78,14 @@
             }
         },
         methods: {
+            setData() {
+                  console.info('set seom data')
+                this.form.name = this.user.name
+                this.form.email = this.user.email
+                this.form.workflow = this.user.workflow
+                console.info(this.user)
+
+            },
             onSubmit() {
 
                 this.form.user_id = this.user.id;
