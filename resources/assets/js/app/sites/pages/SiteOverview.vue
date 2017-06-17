@@ -2,15 +2,6 @@
     <div v-if="site">
 
         <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage</router-link>
-        <div>
-            <h3>
-                Health Check
-                <small>coming soon!</small>
-            </h3>
-            <p>
-                {{ site.domain }} <i class="fa fa-check-circle"></i>
-            </p>
-        </div>
 
         <div>
             <h3>
@@ -63,7 +54,10 @@
                 <i class="fa fa-refresh" @click="getDns(true)"></i>
             </h3>
             <template v-if="dns.host">
-                Your site is pointed to : {{ dns.ip }}
+                Your site is pointed to :
+                <span :class="{ 'text-error' : !dnsIsPointedToServer , 'text-success' : dnsIsPointedToServer}">
+                    {{ dns.ip }}
+                </span>
             </template>
             <template v-else>
                 Cannot find DNS entry
@@ -132,6 +126,14 @@
             },
             site() {
                 return this.$store.state.user_sites.site
+            },
+            siteServers() {
+                return _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
+            },
+            dnsIsPointedToServer() {
+                if(this.siteServers && this.dns.ip) {
+                    return _.indexOf(_.map(this.siteServers, 'ip'), this.dns.ip) > -1
+                }
             },
             recentDeployments() {
                 return this.$store.state.user_site_deployments.deployments
