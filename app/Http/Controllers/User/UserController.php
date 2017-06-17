@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user);
+        return response()->json($user->fresh());
     }
 
     /**
