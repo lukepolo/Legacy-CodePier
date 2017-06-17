@@ -33,7 +33,6 @@ export const destroy = (context, data) => {
 }
 
 export const listen = ({ commit }, lifeline) => {
-    console.info('listen to '+lifeline)
     Echo.private('App.Models.Site.Lifeline.' + lifeline)
         .listen('Site\\LifeLineUpdated', (data) => {
             commit('update', {

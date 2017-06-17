@@ -21,10 +21,10 @@
           BuoyApp
         },
         created() {
-            this.$store.dispatch('getBuoys')
-            this.$store.dispatch('getCategories')
-            this.$store.dispatch('getAllServers')
-            this.$store.dispatch('allServerBuoys')
+            this.$store.dispatch('buoys/get')
+            this.$store.dispatch('admin_categories/get')
+//            this.$store.dispatch('getAllServers')
+            this.$store.dispatch('user_server_buoys/all')
         },
         computed: {
             buoyApps() {
@@ -33,10 +33,10 @@
                 }
             },
             categories() {
-                return this.$store.state.categoriesStore.categories
+                return this.$store.state.admin_categories.categories
             },
             buoyAppsPagination() {
-                return this.$store.state.buoyAppsStore.buoy_apps
+                return this.$store.state.buoys.buoy_apps
             },
         }
     }

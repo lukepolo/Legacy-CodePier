@@ -32,16 +32,16 @@
 <script>
     export default {
         created() {
-            this.$store.dispatch('getCategories')
+            this.$store.dispatch('admin_categories/get')
         },
         methods: {
             deleteCategory(categoryId) {
-                this.$store.dispatch('deleteCategory', categoryId)
+                this.$store.dispatch('admin_categories/destroy', categoryId)
             }
         },
         computed: {
             categories() {
-                return this.$store.state.categoriesStore.categories
+                return this.$store.state.admin_categories.categories
             }
         }
     }

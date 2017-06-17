@@ -41,17 +41,16 @@
 
         <ul class="nav navbar-right nav-right">
 
-            <template v-if="local()">
-                <li class="search-container">
-                    <div class="search-form" :class="{ open : search }">
-                        <input ref='search' type="text" placeholder="search..." v-model="form.query">
-                    </div>
-                    <a @click="toggleSearch()"><span class="icon-search"></span></a>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
-                </li>
-
+            <template>
+                <!--<li class="search-container">-->
+                    <!--<div class="search-form" :class="{ open : search }">-->
+                        <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->
+                    <!--</div>-->
+                    <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>-->
+                <!--</li>-->
                 <li>
                     <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
                 </li>

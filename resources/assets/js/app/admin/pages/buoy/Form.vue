@@ -95,8 +95,9 @@
 <script>
     export default {
         created() {
-            this.$store.dispatch('getCategories').then(() => {
-                this.$store.dispatch('getBuoy', this.buoyAppId).then((buoy) => {
+            this.$store.dispatch('admin_categories/get').then(() => {
+                this.$store.dispatch('buoys/show', this.buoyAppId).then((buoy) => {
+
                     this.form.icon = buoy.icon
                     this.form.ports = buoy.ports
                     this.form.title = buoy.title
@@ -104,7 +105,10 @@
                     this.form.options = buoy.options
                     this.form.buoy_class = buoy.buoy_class
                     this.form.description = buoy.description
-                    this.form.category = buoy.categories[0].id
+                    if(buoy.categories.length) {
+                        this.form.category = buoy.categories[0].id
+                    }
+
                 })
             })
         },
@@ -137,7 +141,7 @@
                 data.append('ports', JSON.stringify(form.ports))
                 data.append('options', JSON.stringify(form.options))
 
-                this.$store.dispatch('updateBuoy', {
+                this.$store.dispatch('buoys/update', {
                     form : data,
                     buoy_app: this.buoyAppId,
                 })
@@ -173,10 +177,10 @@
                 return this.$route.params.buoy_id
             },
             buoy() {
-                return this.$store.state.buoyAppsStore.buoy_app
+                return this.$store.state.buoys.buoy_app
             },
             categories() {
-                return this.$store.state.categoriesStore.categories
+                return this.$store.state.admin_categories.categories
             }
         }
     }
