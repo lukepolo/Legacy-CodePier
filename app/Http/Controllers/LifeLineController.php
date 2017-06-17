@@ -17,10 +17,9 @@ class LifeLineController extends Controller
         $lifeline = Lifeline::findOrFail(\Hashids::decode($lifelineHashId)[0]);
 
         $lifeline->update([
+            'sent_notifications' => 0,
             'last_seen' => Carbon::now(),
         ]);
-
-        broadcast(new LifeLineUpdated($lifeline));
 
         return response()->json('OK');
     }

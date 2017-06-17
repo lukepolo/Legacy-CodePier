@@ -1,27 +1,25 @@
-export const get = ({ commit }, site) => {
+export const get = ({ dispatch }, site) => {
     return Vue.request().get(
         Vue.action('Site\SiteLifelinesController@index', { site: site }),
         'user_site_life_lines/setAll'
     ).then((lifelines) => {
 
         _.each(lifelines, (lifeline) => {
-            Echo.private('App.Models.Site.Lifeline.' + lifeline.id)
-                .listen('Site\\LifeLineUpdated', (data) => {
-                    commit('update', {
-                        response : data.lifeline
-                    })
-                })
+            dispatch('listen', lifeline.id)
         })
 
         return lifelines
     })
 }
 
-export const store = (context, data) => {
+export const store = ({ dispatch }, data) => {
     return Vue.request(data).post(
         Vue.action('Site\SiteLifelinesController@store', { site: data.site }),
         'user_site_life_lines/add'
-    )
+    ).then((lifeline) => {
+        dispatch('listen', lifeline.id)
+        return lifeline
+    })
 }
 
 export const destroy = (context, data) => {
@@ -32,4 +30,14 @@ export const destroy = (context, data) => {
         }),
         'user_site_life_lines/remove'
     )
+}
+
+export const listen = ({ commit }, lifeline) => {
+    console.info('listen to '+lifeline)
+    Echo.private('App.Models.Site.Lifeline.' + lifeline)
+        .listen('Site\\LifeLineUpdated', (data) => {
+            commit('update', {
+                response : data.lifeline
+            })
+        })
 }

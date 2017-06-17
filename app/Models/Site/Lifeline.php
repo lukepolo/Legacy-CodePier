@@ -2,12 +2,14 @@
 
 namespace App\Models\Site;
 
+use App\Models\SlackChannel;
 use App\Traits\Hashable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Lifeline extends Model
 {
-    use Hashable;
+    use Hashable, Notifiable;
 
     protected $guarded = ['id'];
 
@@ -30,4 +32,30 @@ class Lifeline extends Model
     {
         return config('app.url_lifelines').'/'.$this->encode();
     }
+
+    public function slackChannel()
+    {
+        return $this->morphOne(SlackChannel::class, 'slackable');
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        return $this->site->user->email;
+    }
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        return $this->site->routeNotificationForSlack();
+    }
+
 }

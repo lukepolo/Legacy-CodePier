@@ -32,6 +32,7 @@ class SiteLifelinesController extends Controller
         return response()->json(
             Lifeline::create([
                 'name' => $request->get('name'),
+                'threshold' => $request->get('threshold'),
                 'site_id' =>  Site::findOrFail($siteId)->id,
             ])
         );

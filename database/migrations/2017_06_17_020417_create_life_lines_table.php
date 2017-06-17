@@ -16,9 +16,12 @@ class CreateLifelinesTable extends Migration
         Schema::create('lifelines', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('threshold');
             $table->integer('site_id');
             $table->dateTime('last_seen')->nullable();
+            $table->integer('sent_notifications')->default(0);
             $table->timestamps();
+            $table->index(['last_seen', 'threshold', 'sent_notifications']);
         });
     }
 
