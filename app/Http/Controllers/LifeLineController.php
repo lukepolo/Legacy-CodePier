@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Site\Lifeline;
-use App\Events\Site\LifeLineUpdated;
 
 class LifeLineController extends Controller
 {
