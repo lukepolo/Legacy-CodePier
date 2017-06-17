@@ -32,30 +32,28 @@ export default [
         path: '/site/:site_id', component: SiteArea,
         children: [
             {
-                alias: '',
-                path: 'setup',
+                path: 'overview',
                 name: 'site_overview',
                 components: {
                     default: SiteOverview,
+                    subNav: SiteSetupNav
+                }
+            },
+            {
+                alias: 'setup/repository',
+                path: 'setup',
+                name: 'site_repository',
+                components: {
+                    default: SiteRepository,
                     nav: SiteNav,
                     subNav: SiteSetupNav
                 }
             },
             {
-                alias: '',
                 path: 'setup/workflow',
                 name: 'site_workflow',
                 components: {
                     default: SiteWorkflow,
-                    nav: SiteNav,
-                    subNav: SiteSetupNav
-                }
-            },
-            {
-                path: 'setup/repository',
-                name: 'site_repository',
-                components: {
-                    default: SiteRepository,
                     nav: SiteNav,
                     subNav: SiteSetupNav
                 }
@@ -97,6 +95,7 @@ export default [
                 }
             },
             {
+                alias: 'security/ssh-keys',
                 path: 'security',
                 name: 'site_ssh_keys',
                 components: {
@@ -115,6 +114,7 @@ export default [
                 }
             },
             {
+                alias: 'server-setup/environment-variables',
                 path: 'server-setup',
                 name: 'site_environment_variables',
                 components: {

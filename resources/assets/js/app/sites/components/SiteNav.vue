@@ -1,6 +1,6 @@
 <template>
     <ul class="wizard" v-if="site">
-        <router-link :to="{ name : 'site_overview', params : { site_id : site.id } }" tag="li" class="wizard-item">
+        <router-link :to="{ name : 'site_repository', params : { site_id : site.id } }" tag="li" class="wizard-item">
             <a>Site Setup</a>
         </router-link>
 

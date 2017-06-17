@@ -51,17 +51,23 @@
 
                         </transition>
 
-                        <transition >
+                        <transition>
 
-                            <router-view name="subNav">
+                            <template v-if="notOverview">
+                                <router-view name="subNav">
 
-                                <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
-                                    <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
-                                    <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
-                                </template>
+                                    <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
+                                        <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
+                                        <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
+                                    </template>
+                                    <router-view></router-view>
+
+                                </router-view>
+                            </template>
+                            <template v-else>
                                 <router-view></router-view>
+                            </template>
 
-                            </router-view>
 
                         </transition>
 
@@ -171,6 +177,9 @@
             },
             totalWorkflowSteps() {
                 return _.keys(this.site.workflow).length
+            },
+            notOverview() {
+                return this.$route.name !== 'site_overview'
             }
         }
     }

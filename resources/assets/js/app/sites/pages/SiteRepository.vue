@@ -107,7 +107,7 @@
 
                         <label>
 
-                            <tooltip message="If your site requires a wildcard (ex : *.codepier.io) you should check this" size="medium">
+                            <tooltip :message="'If your site requires a wildcard (ex : *.'+ site.domain +') you should check this'" size="medium">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
 
