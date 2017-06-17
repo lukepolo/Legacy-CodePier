@@ -38,11 +38,11 @@ class CheckLifeLines extends Command
             ->where('sent_notifications', '<', 3)
             ->having('threshold', '<', Carbon::now()->subSeconds(15))
             ->orderBy('id')
-                ->chunk(1000, function ($lifelines) use($lifelineModel) {
-                foreach ($lifelines as $lifeline) {
-                    $lifelineModel->id = $lifeline->id;
-                    $lifelineModel->notify(new LifeLineThresholdExceeded);
-                }
-            });
+                ->chunk(1000, function ($lifelines) use ($lifelineModel) {
+                    foreach ($lifelines as $lifeline) {
+                        $lifelineModel->id = $lifeline->id;
+                        $lifelineModel->notify(new LifeLineThresholdExceeded);
+                    }
+                });
     }
 }
