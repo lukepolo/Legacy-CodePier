@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Models\Site\Lifeline;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\SslCertificate;
@@ -16,6 +18,7 @@ use App\Models\User\UserServerProvider;
 use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\Site\LifelineObserver;
 use App\Observers\Server\ServerObserver;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\SslCertificateObserver;
@@ -44,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Site::observe(SiteObserver::class);
         Server::observe(ServerObserver::class);
+        Lifeline::observe(LifelineObserver::class);
         SslCertificate::observe(SslCertificateObserver::class);
         ServerCommand::observe(ServerCommandObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);

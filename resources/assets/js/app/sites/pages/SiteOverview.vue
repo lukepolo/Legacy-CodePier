@@ -67,7 +67,10 @@
 
         <div>
             <form @submit.prevent="createLifeline">
-                <input type="text" v-model="lifeline_form.name">
+                Name : <input type="text" v-model="lifeline_form.name">
+                <br>
+                Should check-in every <input type="text" v-model="lifeline_form.threshold"> minutes
+                <br>
                 <button type="submit">Create Life Line</button>
             </form>
 
@@ -96,6 +99,7 @@
             return {
                 lifeline_form: this.createForm({
                     name : null,
+                    threshold : null,
                     site : this.$route.params.site_id
                 })
             }
@@ -136,7 +140,6 @@
                 return this.$store.state.user_sites.site
             },
             lifeLines() {
-                console.info('was updated')
                 return this.$store.state.user_site_life_lines.life_lines
             },
             siteServers() {
