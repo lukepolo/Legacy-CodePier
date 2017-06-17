@@ -56,7 +56,7 @@
             </template>
 
             <div class="group--item-link" @click="addingSite = true">
-                <template v-if="!addingSite && !editing">
+                <template v-if="!addingSite && pile.id">
                     <span class="icon-plus"></span> Create New Site
                 </template>
                 <site-form :pile="pile" :adding.sync="addingSite"></site-form>
