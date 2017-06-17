@@ -129,7 +129,6 @@
                         if(this.workFlowCompleted !== true) {
 
                             if(site.workflow) {
-
                                 if(this.workFlowCompleted !== this.$route.name) {
                                     this.$router.push({ name: this.workFlowCompleted, params: { site_id: site.id }})
                                 }
@@ -138,6 +137,8 @@
                                 this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
                             }
 
+                        } else if(this.$route.name === 'site_workflow') {
+                            this.$router.push({ name: 'site_overview', params: { site_id: site.id }})
                         }
                     } else {
                         this.$router.push({ name: 'site_repository', params: { site_id: site.id }})
