@@ -14,4 +14,3 @@ trait Hashable
         return $this->findOrFail(\Hashids::decode($hash));
     }
 }
-
