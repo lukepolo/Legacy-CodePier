@@ -34,7 +34,7 @@ class UserController extends Controller
         $user->fill([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'workflow' => $request->get('workflow')
+            'workflow' => $request->get('workflow'),
         ]);
 
         if ($request->has('password')) {
