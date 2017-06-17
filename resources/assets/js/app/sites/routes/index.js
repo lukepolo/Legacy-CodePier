@@ -40,7 +40,6 @@ export default [
                 }
             },
             {
-                alias: 'setup/repository',
                 path: 'setup',
                 name: 'site_repository',
                 components: {
