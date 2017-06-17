@@ -2,14 +2,7 @@
     <div class="tab-container tab-left">
         <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
 
-            <router-link :to="{ name : 'site_overview', params : { site_id : siteId } }" tag="li" exact>
-                <a>
-                    Overview
-                    <div class="small">Your site information</div>
-                </a>
-            </router-link>
-
-            <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li">
+            <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
                 <a>
                     Repository
                     <div class="small">Your app's information</div>
@@ -37,6 +30,7 @@
                 </a>
             </router-link>
         </ul>
+
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active">
                 <slot></slot>

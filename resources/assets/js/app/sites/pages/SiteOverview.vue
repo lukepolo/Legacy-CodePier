@@ -1,6 +1,7 @@
 <template>
     <div v-if="site">
 
+        <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage</router-link>
         <div>
             <h3>
                 Health Check
