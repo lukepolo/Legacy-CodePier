@@ -84,14 +84,20 @@
         },
         watch: {
             'editing' () {
+                this.focus()
+            }
+        },
+        mounted() {
+            this.focus()
+        },
+        methods: {
+            focus() {
                 Vue.nextTick(() => {
                     if (this.editing) {
                         this.$refs.pile_name.focus()
                     }
                 })
-            }
-        },
-        methods: {
+            },
             cancel () {
                 if (!this.pile.id) {
                     this.$store.commit('user_piles/removeTemp', this.index)
