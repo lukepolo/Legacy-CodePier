@@ -27,6 +27,10 @@ Broadcast::channel('App.Models.Site.Site.{siteId}', function ($user, $siteId) {
     return $user->id === \App\Models\Site\Site::findOrFail($siteId)->user_id;
 });
 
+Broadcast::channel('App.Models.Site.Lifeline.{lifeline}', function ($user, $lifeline) {
+    return $user->id === \App\Models\Site\Lifeline::findOrFail($lifeline)->site->user_id;
+});
+
 Broadcast::channel('App.Models.SslCertificate.{sslCertificateId}', function ($user, $sslCertificateId) {
     $sslCertificate = \App\Models\SslCertificate::with(['sites', 'servers'])->findOrfail($sslCertificateId);
 

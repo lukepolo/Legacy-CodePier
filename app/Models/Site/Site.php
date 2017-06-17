@@ -168,6 +168,11 @@ class Site extends Model
         return $this->morphToMany(LanguageSetting::class, 'language_settingable');
     }
 
+    public function lifelines()
+    {
+        return $this->hasMany(Lifeline::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Helpers
