@@ -2,9 +2,9 @@ import auth from './auth'
 import bitts from './bitts'
 import buoys from './buoys'
 import events from './events'
-import categories from './admin/categories'
 import notifications from './notifications'
 import subscriptions from './subscriptions'
+import admin_categories from './admin/categories'
 import server_providers from './server/providers'
 import repository_providers from './repository/providers'
 import notification_settings from './notification/settings'
@@ -67,9 +67,9 @@ export default {
     bitts,
     buoys,
     events,
-    categories,
     notifications,
     subscriptions,
+    admin_categories,
     server_providers,
     repository_providers,
     notification_settings,

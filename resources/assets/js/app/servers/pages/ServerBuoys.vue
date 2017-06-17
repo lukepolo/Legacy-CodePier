@@ -1,7 +1,8 @@
 <template>
     <div>
         <template v-for="buoy in serverBuoys">
-            {{ buoy.buoy_app.title }} <a href="#" @click.prevent="removeBuoy(buoy.id)">Remove</a><br>
+            {{ buoy.buoy_app.title }}
+            <!--<a href="#" @click.prevent="removeBuoy(buoy.id)">Remove</a><br>-->
         </template>
     </div>
 </template>

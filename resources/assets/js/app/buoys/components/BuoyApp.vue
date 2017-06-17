@@ -21,7 +21,6 @@
                 </template>
             </div>
             <div class="group--item-subheading-info">
-                <span class="label label-primary">category</span>
                 <template v-for="category in buoyApp.categories">
                     <span class="label label-primary">{{ category.name }}</span>
                 </template>
@@ -56,12 +55,12 @@
         props: ['buoyApp'],
         methods : {
             install() {
-                this.$store.dispatch('getBuoy', this.buoyApp.id)
+                this.$store.dispatch('buoys/show', this.buoyApp.id)
             }
         },
         computed : {
             allServerBuoys() {
-                return this.$store.state.serverBuoysStore.all_server_buoys
+                return this.$store.state.user_server_buoys.all
             },
             serversHasBuoyApp() {
                 return _.omitBy(_.map(this.allServerBuoys, (serverBuoyApps, server) => {

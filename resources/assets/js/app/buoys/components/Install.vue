@@ -69,13 +69,13 @@
         methods: {
             installBuoy() {
                 this.form.buoy_app_id = this.buoy_app.id
-                return this.$store.dispatch('installBuoyOnServer', this.form)
+                return this.$store.dispatch('buoys/installOnServer', this.form)
             }
         },
         computed: {
             buoy_app() {
 
-                let buoy_app = this.$store.state.buoyAppsStore.buoy_app
+                let buoy_app = this.$store.state.buoys.buoy_app
 
                 if(buoy_app) {
                     this.form.ports = buoy_app.ports
@@ -84,7 +84,9 @@
                 }
             },
             servers() {
-                return this.$store.state.serversStore.provisioned_servers
+                return _.filter(this.$store.state.user_servers.servers, function(server) {
+                    return server.progress >= 100
+                })
             }
         }
     }

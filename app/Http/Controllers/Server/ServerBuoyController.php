@@ -44,26 +44,37 @@ class ServerBuoyController extends Controller
             return isset($option['value']) ? $option['value'] : null;
         })->toArray();
 
-        if (! $server->buoys
-            ->whereIn('local_port', $localPorts)
-            ->count()
-        ) {
-            $buoy = Buoy::create([
-                'buoy_app_id' => $buoyApp->id,
-                'ports' => $localPorts,
-                'options' => $options,
-                'domain' => $request->get('domain', null),
-                'status' => 'Queued',
-            ]);
-
-            $buoyApp->increment('installs');
-
-            dispatch(new InstallBuoy($server, $buoy));
-
-            return response()->json($buoy);
+        if($server->buoys
+            ->where('buoy_app_id', $buoyApp->id)
+            ->count()) {
+            return response()->json('This buoy is already installed on this server', 400);
         }
 
-        return response()->json('Please choose another port ', 400);
+
+        if (!empty($conflictedPorts = $server
+            ->buoys
+            ->pluck('ports')
+            ->flatten()
+            ->intersect($localPorts)
+        )) {
+            return response()->json('You have conflicting ports ('.$conflictedPorts->implode(',').') on this server' , 400);
+        }
+
+        $buoy = Buoy::create([
+            'buoy_app_id' => $buoyApp->id,
+            'ports' => $localPorts,
+            'options' => $options,
+            'domain' => $request->get('domain', null),
+            'status' => 'Queued',
+        ]);
+
+        $server->buoys()->save($buoy);
+
+        $buoyApp->increment('installs');
+
+        dispatch(new InstallBuoy($server, $buoy));
+
+        return response()->json($buoy);
     }
 
     /**

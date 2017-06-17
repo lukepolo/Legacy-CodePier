@@ -41,32 +41,23 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->appendTextToFile('~/.bashrc', "SENTRY_SECRET_KEY='$secretKey'");
         $this->remoteTaskService->appendTextToFile('/etc/environment', "SENTRY_SECRET_KEY='$secretKey'");
 
-        if ($this->remoteTaskService->run('docker images | grep -qi redis && echo true || echo false') == 'false') {
-            $this->remoteTaskService->run('docker run \
-                --detach \
-                --name sentry-redis \
-                redis:3.2-alpine
-            ');
-        }
+        $this->remoteTaskService->run('docker run \
+            --detach \
+            --name sentry-redis \
+            redis:3.2-alpine');
 
-        if ($this->remoteTaskService->run('docker images | grep -qi postgres && echo true || echo false') == 'false') {
-            $this->remoteTaskService->run('docker run \
-                --detach \
-                --name sentry-postgres \
-                --env POSTGRES_PASSWORD=secret \
-                --env POSTGRES_USER=sentry \
-                -v /data/postgres:/var/lib/postgresql/data \
-                postgres:9.5
-            ');
-        }
+        $this->remoteTaskService->run('docker run \
+            --detach \
+            --name sentry-postgres \
+            --env POSTGRES_PASSWORD=secret \
+            --env POSTGRES_USER=sentry \
+            -v /data/postgres:/var/lib/postgresql/data \
+            postgres:9.5');
 
-        if ($this->remoteTaskService->run('docker images | grep -qi  tianon/exim4 && echo true || echo false') == 'false') {
-            $this->remoteTaskService->run('docker run \
-                --detach \
-                --name sentry-smtp \
-                tianon/exim4
-            ');
-        }
+        $this->remoteTaskService->run('docker run \
+            --detach \
+            --name sentry-smtp \
+            tianon/exim4');
 
         $this->remoteTaskService->ssh($this->server, 'codepier');
         $this->remoteTaskService->ssh($this->server);
@@ -76,10 +67,9 @@ class SentryBuoy implements BuoyContract
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
-            -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY\
+            -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY \
             -it sentry-onpremise \
-            upgrade
-        ');
+            upgrade');
 
         $this->getContainerId();
 
@@ -88,10 +78,9 @@ class SentryBuoy implements BuoyContract
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
             --name sentry-worker-01 \
-            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY\
+            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY \
             sentry-onpremise \
-            run worker
-        ');
+            run worker');
 
         $this->getContainerId();
 
@@ -100,10 +89,9 @@ class SentryBuoy implements BuoyContract
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
             --name sentry-cron \
-            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY\
+            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY \
             sentry-onpremise \
-            run cron
-        ');
+            run cron');
 
         $this->getContainerId();
 
@@ -111,20 +99,17 @@ class SentryBuoy implements BuoyContract
             --link sentry-redis:redis \
             --link sentry-postgres:postgres \
             --link sentry-smtp:smtp \
-            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY\
-            --env SENTRY_ADMIN_USERNAME=$SENTRY_ADMIN_USERNAME\
-            --env SENTRY_ADMIN_PASSWORD=$SENTRY_ADMIN_PASSWORD\
-            --env SENTRY_ADMIN_EMAIL=$SENTRY_ADMIN_EMAIL\
-            --env SENTRY_ALLOW_REGISTRATION=$SENTRY_ALLOW_REGISTRATION\
-            --env SENTRY_USE_SSL=$SENTRY_USE_SSL\
-            --env GITHUB_APP_ID=$GITHUB_APP_ID\
-            --env GITHUB_API_SECRET=$GITHUB_API_SECRET\
+            --env SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY \
+            --env SENTRY_ADMIN_USERNAME=$SENTRY_ADMIN_USERNAME \
+            --env SENTRY_ADMIN_PASSWORD=$SENTRY_ADMIN_PASSWORD \
+            --env SENTRY_ADMIN_EMAIL=$SENTRY_ADMIN_EMAIL \
+            --env GITHUB_APP_ID=$GITHUB_APP_ID \
+            --env GITHUB_API_SECRET=$GITHUB_API_SECRET \
             --name sentry-web-01 \
             -v /data/sentry:/var/lib/sentry/files \
             -p 9000:9000 \
             sentry-onpremise \
-            run web
-        ');
+            run web');
 
         $this->getContainerId();
 

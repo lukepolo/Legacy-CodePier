@@ -24,7 +24,7 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local()">
+                <router-link :to="{ name : 'server_buoys', params : { server_id : serverId } }" tag="li" class="wizard-item">
                     <a>
                         Buoys
                         <div class="small">Installed buoys on the system</div>

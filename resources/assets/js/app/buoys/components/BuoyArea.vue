@@ -43,7 +43,7 @@
         },
         computed: {
             buoy() {
-                return this.$store.state.buoyAppsStore.buoy_app
+                return this.$store.state.buoys.buoy_app
             }
         }
     }
