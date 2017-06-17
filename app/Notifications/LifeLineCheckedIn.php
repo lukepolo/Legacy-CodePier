@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use function snake_case;
 use App\Models\Site\Lifeline;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -43,7 +42,6 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
         return  (new MailMessage)
             ->subject($this->lifeline->site->name.' lifeline checked in')
             ->line('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
-
     }
 
     /**
@@ -53,7 +51,7 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
      */
     public function toSlack()
     {
-       return (new SlackMessage())
+        return (new SlackMessage())
             ->error()
             ->content('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has checked back in.');
     }

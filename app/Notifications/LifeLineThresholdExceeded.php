@@ -3,13 +3,12 @@
 namespace App\Notifications;
 
 use App\Models\Site\Lifeline;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use function snake_case;
+use App\Notifications\Channels\SlackMessageChannel;
+use Illuminate\Notifications\Messages\SlackMessage;
 
 class LifeLineThresholdExceeded extends Notification implements ShouldQueue
 {
@@ -42,11 +41,11 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
      */
     public function toMail()
     {
-        $mailMessage =  (new MailMessage)
+        $mailMessage = (new MailMessage)
             ->subject($this->lifeline->site->name.' lifeline failed to check-in')
             ->line('Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has not checked in since '.$this->lifeline->last_seen.'.');
 
-        if($this->lifeline->sent_notifications == 2) {
+        if ($this->lifeline->sent_notifications == 2) {
             $mailMessage->line('Last warning! You will receive a notification when a lifeline has been updated');
         }
 
@@ -60,16 +59,14 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
      */
     public function toSlack()
     {
-
         $message = 'Your lifeline '.$this->lifeline->name.' for '.$this->lifeline->site->name.' has not checked in since '.$this->lifeline->last_seen.'.';
 
-        if($this->lifeline->sent_notifications == 2) {
+        if ($this->lifeline->sent_notifications == 2) {
             $message .= ' Last warning! You will receive a notification when a lifeline has been updated';
         }
-       return (new SlackMessage())
+
+        return (new SlackMessage())
             ->error()
             ->content($message);
-
-
     }
 }
