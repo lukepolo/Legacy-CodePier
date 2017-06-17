@@ -63,6 +63,30 @@
                 Cannot find DNS entry
             </template>
         </div>
+
+
+        <div>
+            <form @submit.prevent="createLifeline">
+                <input type="text" v-model="lifeline_form.name">
+                <button type="submit">Create Life Line</button>
+            </form>
+
+            <p v-for="lifeLine in lifeLines">
+                {{ lifeLine.name }} - {{ lifeLine.url }}<br>
+                <template v-if="lifeLine.last_seen">
+                    {{ timeAgo(lifeLine.last_seen) }}
+                </template>
+                <template v-else>
+                    Never Seen
+                </template>
+                <br>
+                <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
+                    delete
+                </confirm>
+
+            </p>
+
+        </div>
     </div>
 </template>
 
@@ -70,42 +94,23 @@
     export default {
         data() {
             return {
-                form: this.createForm({
-                    domain : null,
+                lifeline_form: this.createForm({
+                    name : null,
+                    site : this.$route.params.site_id
                 })
             }
         },
         mounted() {
             this.fetchData()
-            this.siteChange()
         },
         watch: {
             '$route' : 'fetchData',
-            'site' : 'siteChange',
         },
         methods: {
             fetchData() {
                 this.getDns()
+                this.$store.dispatch('user_site_life_lines/get', this.$route.params.site_id)
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
-            },
-            siteChange() {
-
-                this.form.empty()
-
-                let site = this.site
-
-                if(site) {
-                    this.form.domain = site.domain
-                }
-
-                this.form.setOriginalData()
-
-            },
-            updateSite() {
-                this.$store.dispatch('user_sites/update', {
-                    site: this.site.id,
-
-                });
             },
             getDns(refresh) {
 
@@ -118,6 +123,9 @@
                 }
 
                 this.$store.dispatch('user_site_dns/get', data)
+            },
+            createLifeline() {
+                this.$store.dispatch('user_site_life_lines/store', this.lifeline_form)
             }
         },
         computed: {
@@ -126,6 +134,10 @@
             },
             site() {
                 return this.$store.state.user_sites.site
+            },
+            lifeLines() {
+                console.info('was updated')
+                return this.$store.state.user_site_life_lines.life_lines
             },
             siteServers() {
                 return _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
