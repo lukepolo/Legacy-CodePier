@@ -21,7 +21,8 @@ class SiteFirewallRuleCreated
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $firewallRule);
+
+            $siteCommand = $this->makeCommand($site, $firewallRule, 'Opening');
 
             foreach ($site->provisionedServers as $server) {
                 if ($firewallRule->ip === $server->ip) {

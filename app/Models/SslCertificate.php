@@ -37,4 +37,9 @@ class SslCertificate extends Model
         $this->servers()->detach();
         parent::delete();
     }
+
+    public function commandDescription($status)
+    {
+        return $status. ' SSL certificate ' .$this->domains;
+    }
 }

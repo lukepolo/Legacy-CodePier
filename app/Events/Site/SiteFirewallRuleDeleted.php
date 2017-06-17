@@ -23,7 +23,8 @@ class SiteFirewallRuleDeleted
         $site->firewallRules()->detach($firewallRule);
 
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $firewallRule);
+
+            $siteCommand = $this->makeCommand($site, $firewallRule, 'Closing');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
