@@ -22,7 +22,8 @@ class SiteLanguageSettingUpdated
     public function __construct(Site $site, LanguageSetting $languageSetting)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $languageSetting);
+
+            $siteCommand = $this->makeCommand($site, $languageSetting, 'Updating');
 
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;

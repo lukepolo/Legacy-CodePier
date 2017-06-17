@@ -25,4 +25,15 @@ class EnvironmentVariable extends Model
     {
         return $this->morphedByMany(Server::class, 'environmentable');
     }
+
+    /*
+     |--------------------------------------------------------------------------
+     | Helpers
+     |--------------------------------------------------------------------------
+     */
+
+    public function commandDescription($status)
+    {
+        return $status. ' environment variable '. $this->variable;
+    }
 }

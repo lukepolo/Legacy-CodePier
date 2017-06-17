@@ -55,4 +55,9 @@ class SshKey extends Model
         $this->servers()->detach();
         parent::delete();
     }
+
+    public function commandDescription($status)
+    {
+        return $status. ' ssh key ' .$this->name;
+    }
 }

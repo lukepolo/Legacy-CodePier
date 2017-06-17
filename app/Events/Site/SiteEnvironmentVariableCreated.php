@@ -21,7 +21,8 @@ class SiteEnvironmentVariableCreated
     public function __construct(Site $site, EnvironmentVariable $environmentVariable)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $environmentVariable);
+
+            $siteCommand = $this->makeCommand($site, $environmentVariable, 'Adding');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(

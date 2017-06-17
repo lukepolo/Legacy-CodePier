@@ -83,8 +83,11 @@ class DeleteSite implements ShouldQueue
 
         $this->site->firewallRules->each(function ($firewallRule) {
             dispatch(
-                (new RemoveServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site,
-                    $firewallRule)))->onQueue(config('queue.channels.server_commands'))
+                (new RemoveServerFirewallRule(
+                    $this->server,
+                    $firewallRule,
+                    $this->makeCommand($this->site, $firewallRule)
+                ))->onQueue(config('queue.channels.server_commands'))
             );
         });
 

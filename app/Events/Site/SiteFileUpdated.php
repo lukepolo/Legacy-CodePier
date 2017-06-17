@@ -20,7 +20,8 @@ class SiteFileUpdated
     public function __construct(Site $site, File $file)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $file);
+
+            $siteCommand = $this->makeCommand($site, $file, 'Updating');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(

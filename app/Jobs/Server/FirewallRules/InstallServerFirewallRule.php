@@ -31,16 +31,12 @@ class InstallServerFirewallRule implements ShouldQueue
      * @param Server $server
      * @param FirewallRule $firewallRule
      * @param Command $siteCommand
-     * @param ServerCommand $severCommand
      */
-    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null, ServerCommand $severCommand = null)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
         $this->server = $server;
         $this->firewallRule = $firewallRule;
-
-        if (empty($severCommand)) {
-            $this->makeCommand($server, $firewallRule, $siteCommand);
-        }
+        $this->makeCommand($server, $firewallRule, $siteCommand);
     }
 
     /**

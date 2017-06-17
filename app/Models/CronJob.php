@@ -37,4 +37,9 @@ class CronJob extends Model
         $this->servers()->detach();
         parent::delete();
     }
+
+    public function commandDescription($status)
+    {
+        return $status. ' cron job '. $this->job.' ran by '.$this->user;
+    }
 }
