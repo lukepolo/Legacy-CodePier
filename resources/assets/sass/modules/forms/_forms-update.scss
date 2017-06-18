@@ -1,0 +1,127 @@
+// FORM VALIDATION STYLES ==================================
+// =========================================================
+$flyform-background: transparent;
+$flyform-color: $color-text-primary;
+$flyform-font-size: 20px;
+$flyform-spacing: $spacing;
+$flyform-color-divider: $color-divider;
+$flyform-transition-in: all .5s;
+$flyform-transition-out: all .2s;
+
+
+
+// MAIN FORM STRUCTURE -------------------------------------
+// ---------------------------------------------------------
+.flyform {
+    background-color: $flyform-background;
+    margin: 0px auto $flyform-spacing*2;
+
+    &--heading {
+        background-color: $color-primary;
+        color: $color-text-primary;
+        border-bottom: 1px solid $flyform-color-divider;
+        padding: $flyform-spacing;
+
+        h1, h2, h3, h4, h5, h6 {
+            color: $color-text-primary;
+            margin: 0px;
+        }
+
+        p {
+            font-size: .9em;
+            margin: $flyform-spacing/2 0px 0px;
+            padding: 0px;
+            color: rgba($color-text-primary, .8);
+        }
+    }
+
+    &--content {
+        padding: $flyform-spacing;
+    }
+
+    &--footer {
+        text-align: center;
+        border-top: 1px solid $flyform-color-divider;
+        padding: $flyform-spacing;
+
+        &-btns {
+            + .flyform--footer-links {
+                font-weight: 400;
+                letter-spacing: .5px;
+                margin-top: $flyform-spacing;
+            }
+        }
+    }
+}
+
+
+// FORM GROUP STRUCTURE ------------------------------------
+// --------------------------------------------------------
+.flyform--group {
+    margin: $flyform-spacing/2 auto;
+    padding: $flyform-spacing*1.2 $flyform-spacing 0px;
+    position: relative;
+
+    + .flyform--footer {
+        margin-top: $spacing*2;
+    }
+
+    label {
+        position: absolute;
+        top: 0px;
+        right: $flyform-spacing;
+        bottom: 0px;
+        left: $flyform-spacing;
+        font-weight: 400;
+        color: mix($white, $black, 60%);
+        letter-spacing: .4px;
+        pointer-events: none;
+        transition: $flyform-transition-in;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 3px;
+            width: 0%;
+            background-color: $color-primary;
+            transition: $flyform-transition-out;
+        }
+    }
+
+    input {
+        width: 100%;
+        background-color: $flyform-background;
+        color: $flyform-color;
+        font-size: $flyform-font-size;
+        border: 1px solid $flyform-color-divider;
+        border-top: none;
+        padding: $flyform-spacing/4 $flyform-spacing/2;
+
+        &:focus {
+            box-shadow: none;
+            outline: none;
+
+            + label {
+                color: $color-primary;
+
+                &:after {
+                    width: 100%;
+                    transition: $flyform-transition-in;
+                }
+            }
+        }
+
+        // placeholder required for float label to work
+        &:placeholder-shown:not(:focus) + * {
+            font-size: $flyform-font-size;
+            top: $flyform-spacing*1.5 - 1px;
+            padding-left: $flyform-spacing/2;
+            font-weight: 300;
+            letter-spacing: 0px;
+            color: mix($white, $black, 60%);
+            transition: $flyform-transition-in;
+        }
+    }
+}

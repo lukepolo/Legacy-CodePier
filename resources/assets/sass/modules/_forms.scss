@@ -2,12 +2,29 @@
 // =========================================================
 
 
+@import 'forms/forms-update';
+
+//@import 'forms/forms_variables';
+//@import 'forms/check_radio';
+//@import 'forms/icons';
+//@import 'forms/select';
+//@import 'forms/structure';
+//@import 'forms/validation';
 
 
 
 
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
+
+#login_form,
+#register_form,
+#forgot_form {
+  background-color: mix($color-background, $white, 95%);
+  margin-bottom: $spacing*2;
+}
+
+
 table {
   width: 100%;
   max-width: 100%;
