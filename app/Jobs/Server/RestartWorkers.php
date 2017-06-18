@@ -24,12 +24,13 @@ class RestartWorkers implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
+     * @param null $siteCommand
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, $siteCommand = null)
     {
         $this->server = $server;
 
-        // TODO - add server command
+        $this->makeCommand($server, $server, $siteCommand, 'Restarting workers');
     }
 
     /**
