@@ -33,7 +33,6 @@ class InstallPublicKey implements ShouldQueue
         $this->server = $server;
 
         // TODO - add server command
-
     }
 
     /**
