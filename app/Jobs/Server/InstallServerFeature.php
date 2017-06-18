@@ -38,7 +38,7 @@ class InstallServerFeature implements ShouldQueue
         $this->service = $service;
         $this->parameters = $parameters;
 
-        $this->makeCommand($server, $server, null,'Installing new server feature '.implode(' ', explode('_',snake_case($feature))).' on server');
+        $this->makeCommand($server, $server, null, 'Installing new server feature '.implode(' ', explode('_', snake_case($feature))).' on server');
     }
 
     /**
