@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\Auth\SecondAuthController;
 use Closure;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Auth\SecondAuthController;
 
 class VerifySecondAuth
 {
@@ -12,7 +12,7 @@ class VerifySecondAuth
     {
         $user = $request->user();
 
-        if(
+        if (
             $user &&
             $user->second_auth_active &&
             (
