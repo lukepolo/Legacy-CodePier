@@ -21,8 +21,7 @@ class SiteRenamed
     public function __construct(Site $site, $newDomain, $oldDomain)
     {
         if ($site->provisionedServers->count()) {
-
-            $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain. 'to' . $newDomain);
+            $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.'to'.$newDomain);
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
