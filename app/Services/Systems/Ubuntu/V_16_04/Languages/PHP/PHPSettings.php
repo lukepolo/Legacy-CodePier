@@ -13,7 +13,6 @@ class PHPSettings
      *
      * @params max size
      * @params post max size
-     *
      */
     public function uploadSize($data)
     {

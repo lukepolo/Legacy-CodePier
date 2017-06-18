@@ -31,7 +31,7 @@ class RunBitt implements ShouldQueue
     {
         $this->bitt = $bitt;
         $this->server = $server;
-        $this->makeCommand($server, $bitt,'Running');
+        $this->makeCommand($server, $bitt, 'Running');
     }
 
     /**
