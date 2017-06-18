@@ -10,7 +10,6 @@ use App\Exceptions\FailedCommand;
 use App\Classes\FailedRemoteResponse;
 use App\Classes\SuccessRemoteResponse;
 use App\Exceptions\SshConnectionFailed;
-use function get_class;
 use Illuminate\Database\Eloquent\Model;
 
 trait ServerCommandTrait
@@ -32,8 +31,7 @@ trait ServerCommandTrait
     public function makeCommand(Server $server, Model $model, Command $command = null, $status = null)
     {
         if (empty($command)) {
-
-            if(empty($status)) {
+            if (empty($status)) {
                 \Log::critical('missing status for '.get_class($model));
             }
 
