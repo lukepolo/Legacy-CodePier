@@ -32,7 +32,7 @@ class InstallPublicKey implements ShouldQueue
         $this->site = $site;
         $this->server = $server;
 
-        // TODO - add server command
+        $this->makeCommand($server, $site, null,'Installing sites public key for deployments');
     }
 
     /**
