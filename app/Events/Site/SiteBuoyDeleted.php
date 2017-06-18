@@ -23,7 +23,7 @@ class SiteBuoyDeleted
         $site->buoys()->detach($buoy);
 
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $buoy);
+            $siteCommand = $this->makeCommand($site, $buoy, 'Deleting');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(

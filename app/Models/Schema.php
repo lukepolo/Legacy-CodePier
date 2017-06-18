@@ -30,4 +30,15 @@ class Schema extends Model
     {
         return $this->hasMany(SchemaUser::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function commandDescription($status)
+    {
+        return $status.' database '.$this->name;
+    }
 }

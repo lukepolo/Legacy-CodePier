@@ -2,13 +2,12 @@
 
 namespace App\Events\Site;
 
-use App\Models\SshKey;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Site\RenameSiteDomain;
 use Illuminate\Queue\SerializesModels;
-use App\Jobs\Server\SshKeys\InstallServerSshKey;
 
-class SiteSshKeyCreated
+class SiteRenamed
 {
     use SerializesModels, ModelCommandTrait;
 
@@ -16,18 +15,17 @@ class SiteSshKeyCreated
      * Create a new event instance.
      *
      * @param Site $site
-     * @param SshKey $sshKey
-     * @internal param FirewallRule $firewallRule
+     * @param $newDomain
+     * @param $oldDomain
      */
-    public function __construct(Site $site, SshKey $sshKey)
+    public function __construct(Site $site, $newDomain, $oldDomain)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $sshKey, 'Adding');
+            $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.'to'.$newDomain);
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new InstallServerSshKey($server, $sshKey,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RenameSiteDomain($server, $site, $newDomain, $oldDomain, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

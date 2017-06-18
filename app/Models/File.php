@@ -65,4 +65,9 @@ class File extends Model
         $this->servers()->detach();
         parent::delete();
     }
+
+    public function commandDescription($status)
+    {
+        return $status.' file '.$this->file_path;
+    }
 }

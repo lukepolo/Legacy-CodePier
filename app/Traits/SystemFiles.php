@@ -136,7 +136,7 @@ trait SystemFiles
         preg_match_all('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
-            return $matches[1];
+            return preg_replace("/[\n\r]/", '', $matches[1]);
         }
 
         return $default;
@@ -153,7 +153,7 @@ trait SystemFiles
         preg_match('/\@'.$param.'\s(.*)/', $method->getDocComment(), $matches);
 
         if (isset($matches[1])) {
-            return $matches[1];
+            return preg_replace("/[\n\r]/", '', $matches[1]);
         }
 
         return $default;

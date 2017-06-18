@@ -33,7 +33,7 @@ class RemoveBuoy implements ShouldQueue
     {
         $this->server = $server;
         $this->buoy = $buoy;
-        $this->makeCommand($server, $buoy, $siteCommand);
+        $this->makeCommand($server, $buoy, $siteCommand, 'Removing');
     }
 
     /**

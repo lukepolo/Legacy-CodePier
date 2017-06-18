@@ -15,10 +15,10 @@ class LanguageSetting extends Model
     ];
 
     /*
-   |--------------------------------------------------------------------------
-   | Relations
-   |--------------------------------------------------------------------------
-   */
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
 
     public function sites()
     {
@@ -28,5 +28,16 @@ class LanguageSetting extends Model
     public function servers()
     {
         return $this->morphedByMany(Server::class, 'language_settingable');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function commandDescription($status)
+    {
+        return $status.' language setting '.$this->setting.' for '.$this->language;
     }
 }
