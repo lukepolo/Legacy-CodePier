@@ -7,6 +7,7 @@ use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Schema;
 use App\Models\Server\Server;
+use App\Models\Site\Site;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
@@ -30,6 +31,7 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
+            Site::class,
             Bitt::class,
             Buoy::class,
             File::class,
