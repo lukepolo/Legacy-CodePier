@@ -27,10 +27,9 @@ class SecondAuthController extends Controller
     {
         $user = $request->user();
 
-        $user->update([
-            'second_auth_secret' => $this->google2FA->generateSecretKey(32, config('app.key')),
-            'second_auth_active' => false
-        ]);
+        $user->second_auth_secret =  $this->google2FA->generateSecretKey(32);
+        $user->second_auth_active = false;
+        $user->save();
 
         return response()->json([
             'secret' => $user->second_auth_secret,
