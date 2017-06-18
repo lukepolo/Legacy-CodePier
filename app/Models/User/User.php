@@ -49,7 +49,7 @@ class User extends Authenticatable
     protected $dates = [
         'created_at',
         'updated_at',
-        'second_auth_updated_at'
+        'second_auth_updated_at',
     ];
 
     /*

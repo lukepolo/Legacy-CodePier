@@ -23,14 +23,11 @@ class SecondAuthController extends Controller
         $this->google2FA = $google2FA;
     }
 
-    /**
-     *
-     */
     public function index()
     {
         $user = \Auth::user();
 
-        if(empty(\Auth::user()->second_auth_secret)) {
+        if (empty(\Auth::user()->second_auth_secret)) {
             $user->second_auth_secret = $this->google2FA->generateSecretKey(32);
             $user->save();
         }
@@ -57,34 +54,31 @@ class SecondAuthController extends Controller
             // https://github.com/antonioribeiro/google2fa
 //            $request->user()->second_auth_updated_at
         );
-        
-        if($valid) {
 
-
+        if ($valid) {
             $request->user()->update([
                 'second_auth_active' => true,
-                'second_auth_updated_at' => Carbon::now()
+                'second_auth_updated_at' => Carbon::now(),
             ]);
 
             Session::put(self::SECOND_AUTH_SESSION, $request->user()->second_auth_updated_at);
 
-
-            if($request->expectsJson()) {
+            if ($request->expectsJson()) {
                 return response()->json($request->user());
             }
 
             return redirect('/');
-
         }
 
-        if($request->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->json('Token failed, try again.', 401);
         }
 
         return back()->withErrors('Token was rejected.');
     }
 
-    public function show() {
+    public function show()
+    {
         return view('auth.second_auth');
     }
 
@@ -95,10 +89,9 @@ class SecondAuthController extends Controller
     public function destroy(Request $request)
     {
         $request->user()->update([
-            'second_auth_acitve' => false
+            'second_auth_acitve' => false,
         ]);
 
         return response()->json('OK');
     }
-
 }
