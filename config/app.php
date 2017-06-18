@@ -191,7 +191,6 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
-
         /*
          * Custom Service Providers
          */
