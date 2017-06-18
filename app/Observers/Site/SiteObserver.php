@@ -6,9 +6,9 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
+use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
-use App\Jobs\Site\RenameSiteDomain;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobCreated;
@@ -83,8 +83,8 @@ class SiteObserver
         remove_events($site);
 
         if ($site->isDirty('domain')) {
-            dispatch(
-                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(config('queue.channels.server_commands'))
+            event(
+                new SiteRenamed($site, $site->domain, $site->getOriginal('domain'))
             );
         }
 

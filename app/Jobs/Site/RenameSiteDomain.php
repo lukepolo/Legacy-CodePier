@@ -2,10 +2,11 @@
 
 namespace App\Jobs\Site;
 
+use App\Models\Command;
 use App\Models\Site\Site;
-use App\Traits\ModelCommandTrait;
-use App\Traits\ServerCommandTrait;
+use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,9 +14,10 @@ use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class RenameSiteDomain implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $site;
+    private $server;
     private $newDomain;
     private $oldDomain;
 
@@ -25,15 +27,21 @@ class RenameSiteDomain implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param Server $server
      * @param Site $site
      * @param $newDomain
      * @param $oldDomain
+     * @param Command $siteCommand
+     * @internal param Site $site
      */
-    public function __construct(Site $site, $newDomain, $oldDomain)
+    public function __construct(Server $server, Site $site, $newDomain, $oldDomain, Command $siteCommand)
     {
         $this->site = $site;
+        $this->server = $server;
         $this->oldDomain = $oldDomain;
         $this->newDomain = $newDomain;
+
+        $this->makeCommand($server, $site, $siteCommand);
     }
 
     /**
@@ -43,8 +51,9 @@ class RenameSiteDomain implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        foreach ($this->site->provisionedServers as $server) {
-            $siteService->renameDomain($server, $this->site, $this->newDomain, $this->oldDomain);
-        }
+        $this->runOnServer(function () use ($siteService) {
+            $siteService->renameDomain($this->server, $this->site, $this->newDomain, $this->oldDomain);
+        });
+
     }
 }
