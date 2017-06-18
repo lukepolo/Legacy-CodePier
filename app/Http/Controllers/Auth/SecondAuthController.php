@@ -29,7 +29,7 @@ class SecondAuthController extends Controller
 
         $user->update([
             'second_auth_secret' => $this->google2FA->generateSecretKey(32, config('app.key')),
-            'second_auth_active' => false
+            'second_auth_active' => false,
         ]);
 
         return response()->json([
@@ -38,7 +38,7 @@ class SecondAuthController extends Controller
                 'CodePier',
                 $user->email,
                 $user->second_auth_secret
-            )
+            ),
         ]);
     }
 
@@ -54,7 +54,6 @@ class SecondAuthController extends Controller
         );
 
         if ($valid) {
-
             $request->user()->update([
                 'second_auth_active' => true,
                 'second_auth_updated_at' => Carbon::now(),
