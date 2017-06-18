@@ -82,25 +82,22 @@ if (! function_exists('is_domain')) {
     }
 }
 
-
 if (! function_exists('second_authed')) {
 
     /**
-     * Checks to see if the user has been second authed
+     * Checks to see if the user has been second authed.
      * @return bool
      */
     function second_authed()
     {
         $user = \Auth::user();
 
-        if($user && $user->second_auth_active) {
-            return (
-                !empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
-                Session::get(SecondAuthController::SECOND_AUTH_SESSION)->timestamp === $user->second_auth_updated_at->timestamp
-            );
+        if ($user && $user->second_auth_active) {
+            return
+                ! empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
+                Session::get(SecondAuthController::SECOND_AUTH_SESSION)->timestamp === $user->second_auth_updated_at->timestamp;
         }
 
         return true;
-
     }
 }
