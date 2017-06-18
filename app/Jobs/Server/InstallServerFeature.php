@@ -39,7 +39,6 @@ class InstallServerFeature implements ShouldQueue
         $this->parameters = $parameters;
 
         // TODO - add server command // this may have to be its own model? not sure
-
     }
 
     /**
