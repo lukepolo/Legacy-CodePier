@@ -3,8 +3,6 @@
 namespace App\Jobs\Site;
 
 use App\Models\Site\Site;
-use App\Traits\ModelCommandTrait;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

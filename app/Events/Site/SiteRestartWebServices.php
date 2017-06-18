@@ -29,7 +29,6 @@ class SiteRestartWebServices
                 $serverType === SystemService::LOAD_BALANCER ||
                 $serverType === SystemService::FULL_STACK_SERVER
             ) {
-
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Web Services');
 
                 dispatch(
