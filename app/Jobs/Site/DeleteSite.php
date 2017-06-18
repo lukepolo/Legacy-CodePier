@@ -86,7 +86,7 @@ class DeleteSite implements ShouldQueue
                 (new RemoveServerFirewallRule(
                     $this->server,
                     $firewallRule,
-                    $this->makeCommand($this->site, $firewallRule,'Closing')
+                    $this->makeCommand($this->site, $firewallRule, 'Closing')
                 ))->onQueue(config('queue.channels.server_commands'))
             );
         });
@@ -110,7 +110,7 @@ class DeleteSite implements ShouldQueue
             $this->site->sslCertificates->each(function ($sslCertificate) {
                 dispatch(
                     (new RemoveServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site,
-                        $sslCertificate,'Removing')))->onQueue(config('queue.channels.server_commands'))
+                        $sslCertificate, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
