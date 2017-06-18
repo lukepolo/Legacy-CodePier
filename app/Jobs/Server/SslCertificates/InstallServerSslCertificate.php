@@ -34,7 +34,7 @@ class InstallServerSslCertificate implements ShouldQueue
     {
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
-        $this->makeCommand($server, $sslCertificate, $siteCommand);
+        $this->makeCommand($server, $sslCertificate, $siteCommand, 'Installing');
     }
 
     /**

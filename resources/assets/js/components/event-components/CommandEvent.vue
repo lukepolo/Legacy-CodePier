@@ -69,12 +69,7 @@
         },
         computed : {
             eventTitle() {
-                let str = this.event.commandable_type;
-                let title = str.substring(str.lastIndexOf('\\') + 1);
-
-                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(str) {
-                    return str.toUpperCase();
-                });
+               return this.event.description
             }
         }
     }

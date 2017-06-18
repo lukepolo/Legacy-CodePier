@@ -76,7 +76,7 @@ class DeleteSite implements ShouldQueue
             $this->site->cronJobs->each(function ($cronJob) {
                 dispatch(
                     (new RemoveServerCronJob($this->server, $cronJob,
-                        $this->makeCommand($this->site, $cronJob)))->onQueue(config('queue.channels.server_commands'))
+                        $this->makeCommand($this->site, $cronJob, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
@@ -86,14 +86,14 @@ class DeleteSite implements ShouldQueue
                 (new RemoveServerFirewallRule(
                     $this->server,
                     $firewallRule,
-                    $this->makeCommand($this->site, $firewallRule)
+                    $this->makeCommand($this->site, $firewallRule,'Closing')
                 ))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
         $this->site->sshKeys->each(function ($sshKey) {
             dispatch(
-                (new RemoveServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey)))->onQueue(config('queue.channels.server_commands'))
+                (new RemoveServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey, 'Removing')))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
@@ -110,7 +110,7 @@ class DeleteSite implements ShouldQueue
             $this->site->sslCertificates->each(function ($sslCertificate) {
                 dispatch(
                     (new RemoveServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site,
-                        $sslCertificate)))->onQueue(config('queue.channels.server_commands'))
+                        $sslCertificate,'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
@@ -122,7 +122,7 @@ class DeleteSite implements ShouldQueue
             $this->site->workers->each(function ($worker) {
                 dispatch(
                     (new RemoveServerWorker($this->server, $worker,
-                        $this->makeCommand($this->site, $worker)))->onQueue(config('queue.channels.server_commands'))
+                        $this->makeCommand($this->site, $worker, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
@@ -134,14 +134,14 @@ class DeleteSite implements ShouldQueue
             $this->site->schemas->each(function ($schema) {
                 dispatch(
                     (new RemoveServerSchema($this->server, $schema,
-                        $this->makeCommand($this->site, $schema)))->onQueue(config('queue.channels.server_commands'))
+                        $this->makeCommand($this->site, $schema, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
 
         $this->site->environmentVariables->each(function ($environmentVariable) {
             dispatch(
-                (new RemoveServerEnvironmentVariable($this->server, $environmentVariable, $this->makeCommand($this->site, $environmentVariable)))->onQueue(config('queue.channels.server_commands'))
+                (new RemoveServerEnvironmentVariable($this->server, $environmentVariable, $this->makeCommand($this->site, $environmentVariable, 'Removing')))->onQueue(config('queue.channels.server_commands'))
             );
         });
     }
