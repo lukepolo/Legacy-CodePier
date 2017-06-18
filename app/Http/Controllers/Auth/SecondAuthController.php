@@ -23,27 +23,25 @@ class SecondAuthController extends Controller
         $this->google2FA = $google2FA;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $user = \Auth::user();
+        $user = $request->user();
 
-        if (empty(\Auth::user()->second_auth_secret)) {
-            $user->second_auth_secret = $this->google2FA->generateSecretKey(32);
-            $user->save();
-        }
+        $user->update([
+            'second_auth_secret' => $this->google2FA->generateSecretKey(32, config('app.key')),
+            'second_auth_active' => false
+        ]);
 
-        return response()->json(
-            $this->google2FA->getQRCodeGoogleUrl(
+        return response()->json([
+            'secret' => $user->second_auth_secret,
+            'image' => $this->google2FA->getQRCodeInline(
                 'CodePier',
                 $user->email,
                 $user->second_auth_secret
             )
-        );
+        ]);
     }
 
-    /**
-     * @param Request $request
-     */
     public function store(Request $request)
     {
         $valid = $this->google2FA->verifyKey(
@@ -56,6 +54,7 @@ class SecondAuthController extends Controller
         );
 
         if ($valid) {
+
             $request->user()->update([
                 'second_auth_active' => true,
                 'second_auth_updated_at' => Carbon::now(),
