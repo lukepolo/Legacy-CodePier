@@ -2,16 +2,15 @@
 
 namespace App\Jobs\Site;
 
-use App\Exceptions\ServerCommandFailed;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
-use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class UpdateWebConfig implements ShouldQueue
 {
@@ -43,7 +42,7 @@ class UpdateWebConfig implements ShouldQueue
      */
     public function handle(SiteService $siteService)
     {
-        $this->runOnServer(function() use($siteService) {
+        $this->runOnServer(function () use ($siteService) {
             $siteService->updateWebServerConfig($this->server, $this->site);
         });
 
