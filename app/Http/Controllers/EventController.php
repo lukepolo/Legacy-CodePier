@@ -6,6 +6,7 @@ use App\Models\Bitt;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Schema;
+use App\Models\Server\Server;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
@@ -35,6 +36,7 @@ class EventController extends Controller
             Worker::class,
             SshKey::class,
             Schema::class,
+            Server::class,
             CronJob::class,
             SchemaUser::class,
             FirewallRule::class,

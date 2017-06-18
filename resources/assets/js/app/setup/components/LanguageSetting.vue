@@ -7,7 +7,7 @@
         </h3>
         <template v-for="param in setting.params">
             <div class="jcf-input-group">
-                <input type="text" :name="param" v-model="form.params['' + param +'']">
+                <input type="text" :name="param" v-model="form.params[param]">
                 <label>
                     <span class="float-label">{{ ucwords(param) }}</span>
                 </label>
@@ -70,7 +70,6 @@
                         language: this.setting.type,
                     })
                 }
-
             },
             ucwords(param) {
                 return _.startCase(param);

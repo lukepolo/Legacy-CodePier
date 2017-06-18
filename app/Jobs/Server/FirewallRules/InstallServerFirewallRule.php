@@ -35,7 +35,7 @@ class InstallServerFirewallRule implements ShouldQueue
     {
         $this->server = $server;
         $this->firewallRule = $firewallRule;
-        $this->makeCommand($server, $firewallRule, $siteCommand);
+        $this->makeCommand($server, $firewallRule, $siteCommand, 'Opening');
     }
 
     /**

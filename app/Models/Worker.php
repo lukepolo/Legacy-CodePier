@@ -40,6 +40,6 @@ class Worker extends Model
 
     public function commandDescription($status)
     {
-        return $status.' '.$this->number_of_workers.' workers running '.$this->command.' by '.$this->user;
+        return $status.' '.$this->number_of_workers.' workers running '.$this->command.' ran by '.$this->user;
     }
 }

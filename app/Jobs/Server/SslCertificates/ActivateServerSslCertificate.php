@@ -38,7 +38,7 @@ class ActivateServerSslCertificate implements ShouldQueue
         $this->site = $site;
         $this->server = $server;
         $this->sslCertificate = $sslCertificate;
-        $this->makeCommand($server, $sslCertificate, $siteCommand);
+        $this->makeCommand($server, $sslCertificate, $siteCommand, 'Activating');
     }
 
     /**
