@@ -19,6 +19,7 @@ class PHPSettings
         $phpVersion = $this->server->getLanguages()['PHP']['version'];
 
         $this->connectToServer();
+
         $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'upload_max_filesize', 'upload_max_filesize='.$data->params['max size'].'M');
         $this->remoteTaskService->updateText("/etc/php/$phpVersion/fpm/php.ini", 'post_max_size', 'post_max_size='.$data->params['post max size'].'M');
 

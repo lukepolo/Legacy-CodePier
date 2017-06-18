@@ -33,7 +33,7 @@ class InstallServerCronJob implements ShouldQueue
     {
         $this->server = $server;
         $this->cronJob = $cronJob;
-        $this->makeCommand($server, $cronJob, $siteCommand);
+        $this->makeCommand($server, $cronJob, $siteCommand, 'Installing');
     }
 
     /**

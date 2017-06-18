@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server;
 
+use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
@@ -24,10 +25,13 @@ class RestartWebServices implements ShouldQueue
      * Create a new job instance.
      *
      * @param Server $server
+     * @param Command $siteCommand
      */
-    public function __construct(Server $server)
+    public function __construct(Server $server, Command $siteCommand)
     {
         $this->server = $server;
+
+        $this->makeCommand($server, $server, $siteCommand, 'Restarting Web Services');
     }
 
     /**

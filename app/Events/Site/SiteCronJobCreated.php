@@ -22,7 +22,7 @@ class SiteCronJobCreated
     public function __construct(Site $site, CronJob $cronJob)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $cronJob);
+            $siteCommand = $this->makeCommand($site, $cronJob, 'Installing');
 
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;
