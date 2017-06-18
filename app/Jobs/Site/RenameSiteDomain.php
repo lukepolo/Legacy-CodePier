@@ -4,8 +4,8 @@ namespace App\Jobs\Site;
 
 use App\Models\Command;
 use App\Models\Site\Site;
-use Illuminate\Bus\Queueable;
 use App\Models\Server\Server;
+use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -54,6 +54,5 @@ class RenameSiteDomain implements ShouldQueue
         $this->runOnServer(function () use ($siteService) {
             $siteService->renameDomain($this->server, $this->site, $this->newDomain, $this->oldDomain);
         });
-
     }
 }
