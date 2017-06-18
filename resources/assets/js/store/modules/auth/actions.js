@@ -5,3 +5,18 @@ export const logout = (context, data) => {
         window.location = '/'
     })
 }
+
+export const getSecondAuthQr = () => {
+    return Vue.request().get(
+        Vue.action('Auth\SecondAuthController@index')
+    )
+}
+
+export const validateSecondAuth = (context, token) => {
+    return Vue.request({
+        token : token
+    }).post(
+        Vue.action('Auth\SecondAuthController@store'),
+        'user/set'
+    )
+}

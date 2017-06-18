@@ -46,6 +46,14 @@
                     <button class="btn btn-primary" type="submit">Update Profile</button>
                 </div>
 
+                {{ user.second_auth_active }}
+
+                <img :src="secondAuthImageUrl" v-if="secondAuthImageUrl">
+
+                Token :
+                <input type="text" v-model="token">
+                <div class="btn" @click="validateSecondAuth">Validate</div>
+
             </form>
         </div>
     </section>
@@ -63,7 +71,9 @@
                     new_password: null,
                     confirm_password: null,
                     workflow : null,
-                }
+                },
+                token : null,
+                secondAuthImageUrl : null
             }
         },
         watch: {
@@ -71,6 +81,9 @@
         },
         created() {
             this.setData()
+            this.$store.dispatch('auth/getSecondAuthQr').then((secondAuthImageUrl) => {
+                this.secondAuthImageUrl = secondAuthImageUrl
+            })
         },
         computed: {
             user() {
@@ -88,6 +101,9 @@
                 this.form.user_id = this.user.id;
 
                 this.$store.dispatch('user/update', this.form)
+            },
+            validateSecondAuth() {
+                this.$store.dispatch('auth/validateSecondAuth', this.token)
             }
         }
     }
