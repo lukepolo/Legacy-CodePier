@@ -21,7 +21,7 @@ trait ModelCommandTrait
             'commandable_id' => $model->id,
             'commandable_type' => get_class($model),
             'status' => 'Queued',
-            'description' => $model->commandDescription($status),
+            'description' => method_exists($model, 'commandDescription') ? $model->commandDescription($status) : $status,
         ]);
     }
 }
