@@ -35,7 +35,7 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'workflow' => $request->get('workflow'),
-            'second_auth_active' => $request->get('second_auth_active')
+            'second_auth_active' => $request->get('second_auth_active'),
         ]);
 
         if ($request->has('password')) {

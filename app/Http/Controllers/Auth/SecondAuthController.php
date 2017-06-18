@@ -37,7 +37,7 @@ class SecondAuthController extends Controller
                 'CodePier',
                 $user->email,
                 $user->second_auth_secret
-            )
+            ),
         ]);
     }
 
@@ -53,7 +53,6 @@ class SecondAuthController extends Controller
         );
 
         if ($valid) {
-
             $request->user()->update([
                 'second_auth_active' => true,
                 'second_auth_updated_at' => Carbon::now(),
