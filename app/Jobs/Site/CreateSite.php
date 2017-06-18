@@ -86,7 +86,7 @@ class CreateSite implements ShouldQueue
         $this->site->files->each(function ($file) {
             if (! empty($file->content)) {
                 dispatch(
-                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file,'Updating')))->onQueue(config('queue.channels.server_commands'))
+                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file, 'Updating')))->onQueue(config('queue.channels.server_commands'))
                 );
             }
         });
@@ -99,7 +99,7 @@ class CreateSite implements ShouldQueue
 
         $this->site->sshKeys->each(function ($sshKey) {
             dispatch(
-                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey,'Installing')))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey, 'Installing')))->onQueue(config('queue.channels.server_commands'))
             );
         });
 
@@ -157,7 +157,7 @@ class CreateSite implements ShouldQueue
             $this->site->languageSettings->each(function ($languageSetting) {
                 dispatch(
                     (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->makeCommand($this->site,
-                        $languageSetting,'Updating')))->onQueue(config('queue.channels.server_commands'))
+                        $languageSetting, 'Updating')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
