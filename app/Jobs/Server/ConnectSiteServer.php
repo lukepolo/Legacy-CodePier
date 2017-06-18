@@ -32,6 +32,9 @@ class ConnectSiteServer implements ShouldQueue
     {
         $this->site = $site;
         $this->server = $server;
+
+        // TODO - add server command
+
     }
 
     /**

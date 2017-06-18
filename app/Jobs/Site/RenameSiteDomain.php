@@ -32,6 +32,8 @@ class RenameSiteDomain implements ShouldQueue
         $this->site = $site;
         $this->oldDomain = $oldDomain;
         $this->newDomain = $newDomain;
+
+        // TODO - add server command
     }
 
     /**

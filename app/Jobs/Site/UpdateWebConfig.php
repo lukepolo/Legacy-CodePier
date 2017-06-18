@@ -2,8 +2,10 @@
 
 namespace App\Jobs\Site;
 
+use App\Exceptions\ServerCommandFailed;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Traits\ServerCommandTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,7 +15,7 @@ use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class UpdateWebConfig implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $server;
     private $site;
@@ -29,18 +31,24 @@ class UpdateWebConfig implements ShouldQueue
      */
     public function __construct(Server $server, Site $site)
     {
-        $this->server = $server;
         $this->site = $site;
+        $this->server = $server;
+        $this->makeCommand($server, $site, null, 'Updating Web Config');
     }
 
     /**
      * Execute the job.
-     *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @throws ServerCommandFailed
      */
-    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
+    public function handle(SiteService $siteService)
     {
-        $siteService->updateWebServerConfig($this->server, $this->site);
+        $this->runOnServer(function() use($siteService) {
+            $siteService->updateWebServerConfig($this->server, $this->site);
+        });
+
+        if (! $this->wasSuccessful()) {
+            throw new ServerCommandFailed($this->getCommandErrors());
+        }
     }
 }

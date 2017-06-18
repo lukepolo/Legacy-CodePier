@@ -28,6 +28,8 @@ class RestartWorkers implements ShouldQueue
     public function __construct(Server $server)
     {
         $this->server = $server;
+
+        // TODO - add server command
     }
 
     /**
