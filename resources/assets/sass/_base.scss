@@ -6,7 +6,7 @@
 @import 'base/mixins';
 
 @import './../../../node_modules/font-awesome/scss/font-awesome';
-@import './../../../node_modules/jcf-forms/scss/jcf_forms';
+//@import './../../../node_modules/jcf-forms/scss/jcf_forms';
 
 
 // BASICS --------------------------------------------------
@@ -85,6 +85,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
   font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: .5px;
   color: rgba($color-text-primary, .5);
   margin: 0px;
 

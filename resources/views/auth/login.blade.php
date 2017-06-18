@@ -11,29 +11,35 @@
                         </router-link>
                     </div>
 
-                    <div class="jcf-form-wrap" id="login_form">
-                        <div class="heading">
+
+                    <div id="login_form">
+                        <div class="flyform--heading">
                             <h2>Login</h2>
                         </div>
 
-                        <form method="POST" class="validation-form floating-labels">
+                        <form method="POST">
 
                             @include('auth.errors')
 
                             {{ csrf_field() }}
-                            <div class="jcf-input-group">
-                                <input type="email" name="email" required>
-                                <label for="email"><span class="float-label">Email</span></label>
+
+                            <div class="flyform--group">
+                                <input type="email" name="email" placeholder="&nbsp;" required tabindex="1">
+                                <label for="email"><span class="flyform--group-float">Email</span></label>
                             </div>
-                            <div class="jcf-input-group">
-                                <input type="password" name="password" required>
-                                <label for="password"><span class="float-label">Password</span></label>
+
+                            <div class="flyform--group">
+                                <input type="password" name="password" placeholder="&nbsp;" required tabindex="2">
+                                <label for="password"><span class="flyform--group-float">Password</span></label>
                             </div>
-                            <div class="btn-footer">
-                                <span class="btn toggle-forms">Create Account</span>
-                                <button class="btn btn-primary" type="submit">Login</button>
-                                <div class="btn-forgot-pw">
-                                    <a class="toggle-forgot">Forgot password?</a>
+
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-btns">
+                                    <button class="btn js-toggle-forms" tabindex="4">Create Account</button>
+                                    <button class="btn btn-primary" tabindex="3">Login</button>
+                                </div>
+                                <div class="flyform--footer-links">
+                                    <a class="js-toggle-forgot">Forgot password?</a>
                                 </div>
                             </div>
                         </form>
