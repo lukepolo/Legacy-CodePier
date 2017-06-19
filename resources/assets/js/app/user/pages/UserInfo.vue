@@ -2,7 +2,7 @@
     <section>
         <div class="jcf-form-wrap">
 
-            <form @submit.prevent="onSubmit" class="floating-labels">
+            <form @submit.prevent="updateUser" class="floating-labels">
 
                 <div class="jcf-input-group">
                     <input name="name" type="text" v-model="form.name">
@@ -46,6 +46,27 @@
                     <button class="btn btn-primary" type="submit">Update Profile</button>
                 </div>
 
+                <template v-if="user.second_auth_active">
+                    <div class="btn" @click="deactivateSecondAuth">Deactivate Second Auth</div>
+                </template>
+                <template v-else>
+                    <template v-if="secondAuthImage">
+                        <img :src="secondAuthImage">
+                        {{ secondAuthSecret }}
+
+                        <br>
+                        Token :
+                        <input type="text" v-model="token">
+                        <div class="btn" @click="validateSecondAuth">Validate</div>
+                    </template>
+                    <template v-else>
+                        <div class="btn" @click="activateSecondAuth">
+                            Activate Second Auth
+                        </div>
+                    </template>
+                </template>
+
+
             </form>
         </div>
     </section>
@@ -63,7 +84,11 @@
                     new_password: null,
                     confirm_password: null,
                     workflow : null,
-                }
+                    second_auth_active : null
+                },
+                token : null,
+                secondAuthImage : null,
+                secondAuthSecret : null
             }
         },
         watch: {
@@ -82,12 +107,24 @@
                 this.form.name = this.user.name
                 this.form.email = this.user.email
                 this.form.workflow = this.user.workflow
+                this.form.second_auth_active = this.user.second_auth_active
             },
-            onSubmit() {
-
-                this.form.user_id = this.user.id;
-
+            updateUser() {
+                this.form.user_id = this.user.id
                 this.$store.dispatch('user/update', this.form)
+            },
+            validateSecondAuth() {
+                this.$store.dispatch('auth/validateSecondAuth', this.token)
+            },
+            activateSecondAuth() {
+                this.$store.dispatch('auth/getSecondAuthQr').then((secondAuth) => {
+                    this.secondAuthImage = secondAuth.image
+                    this.secondAuthSecret = secondAuth.secret
+                })
+            },
+            deactivateSecondAuth() {
+                this.form.second_auth_active = false
+                this.updateUser()
             }
         }
     }

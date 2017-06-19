@@ -189,6 +189,7 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
+        PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
         /*
          * Custom Service Providers
@@ -256,6 +257,7 @@ return [
         'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
         'Hashids'      => Vinkla\Hashids\Facades\Hashids::class,
         'Sentry'       => Sentry\SentryLaravel\SentryFacade::class,
+        'Google2FA' => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
     ],
 
 ];
