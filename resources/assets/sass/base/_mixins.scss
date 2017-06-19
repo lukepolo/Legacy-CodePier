@@ -8,6 +8,9 @@
 	@if $point == xl {
 		@media (min-width: 2100px) { @content; }
 	}
+    @else if $point == mxl {
+        @media (max-width: 1900px) { @content;}
+    }
 	@else if $point == lg {
 		@media (max-width: 1400px) { @content; }
 	}
