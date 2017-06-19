@@ -31,6 +31,8 @@ class User extends Authenticatable
         'workflow',
         'current_pile_id',
         'invited_to_slack',
+        'second_auth_active',
+        'second_auth_updated_at',
         'user_login_provider_id',
     ];
 
@@ -42,6 +44,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'second_auth_secret',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'second_auth_updated_at',
     ];
 
     /*

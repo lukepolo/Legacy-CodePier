@@ -67,7 +67,7 @@
         </div>
         @stack('scripts')
 
-        @if(\Auth::check())
+        @if(\Auth::check() && second_authed())
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>

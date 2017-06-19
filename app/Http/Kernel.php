@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'auth.provisioning-key' => \App\Http\Middleware\VerifyProvisioningKey::class,
+        'second_auth' => \App\Http\Middleware\VerifySecondAuth::class,
     ];
 }

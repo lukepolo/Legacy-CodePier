@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Socialite;
-use Bitbucket\API\Users;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\RepositoryProvider;
