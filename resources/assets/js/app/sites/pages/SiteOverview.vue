@@ -2,9 +2,7 @@
     <div v-if="site">
 
         <h1>Site Overview</h1>
-
-
-
+        
 
 
         <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage</router-link>

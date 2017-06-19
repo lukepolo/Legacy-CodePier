@@ -53,6 +53,39 @@
 }
 
 
+.icon-link:before {
+  content: "\e9cb";
+}
+.icon-deploy:before {
+  content: "\e919";
+}
+.icon-spinner8:before {
+  content: "\e982";
+}
+.icon-database:before {
+  content: "\e90e";
+}
+.icon-spinner822:before {
+  content: "\e984";
+}
+.icon-github:before {
+  content: "\eab0";
+}
+.icon-digital-ocean:before {
+  content: "\e906";
+}
+.icon-webhooks:before {
+  content: "\e907";
+}
+.icon-play:before {
+  content: "\e901";
+}
+.icon-clipboard:before {
+  content: "\e908";
+}
+.icon-trash:before {
+  content: "\e914";
+}
 .icon-users:before {
   content: "\e911";
 }
@@ -107,15 +140,6 @@
 .icon-settings:before {
   content: "\e8b8";
 }
-.icon-info:before {
-  content: "\e913";
-}
-.icon-pencil:before {
-  content: "\e910";
-}
-.icon-trash:before {
-  content: "\e914";
-}
 .icon-plus:before {
   content: "\e915";
 }
@@ -167,30 +191,9 @@
 .icon-warning:before {
   content: "\e900";
 }
-.icon-deploy:before {
-  content: "\e919";
+.icon-info:before {
+  content: "\e913";
 }
-.icon-spinner8:before {
-  content: "\e982";
-}
-.icon-database:before {
-  content: "\e90e";
-}
-.icon-spinner822:before {
-  content: "\e984";
-}
-.icon-github:before {
-  content: "\eab0";
-}
-.icon-digital-ocean:before {
-  content: "\e906";
-}
-.icon-webhooks:before {
-  content: "\e907";
-}
-.icon-play:before {
-  content: "\e901";
-}
-.icon-clipboard:before {
-  content: "\e908";
+.icon-pencil:before {
+  content: "\e910";
 }
