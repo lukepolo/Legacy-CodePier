@@ -1,20 +1,18 @@
 <template>
     <div v-if="site">
-        <h3>To create your site, you need to select a source control provider.</h3>
+        <h3 v-if="!form.user_repository_provider_id && !form.custom_provider">
+            To create your site, you need to select a source control provider.
+        </h3>
 
         <form @submit.prevent="updateSite">
 
-            <div class="jcf-input-group input-radio">
-
-                <div class="input-question">Source Control Provider</div>
-
-                <repository-provider-selector :provider.sync="form.user_repository_provider_id"></repository-provider-selector>
-
-                <div class="btn btn-default" @click="form.custom_provider = true">
-                    Custom
+            <repository-provider-selector :provider.sync="form.user_repository_provider_id">
+                <div class="providers--item providers--item-custom" @click="form.custom_provider = true">
+                    <div class="providers--item-header">
+                        <div class="providers--item-name"><h3>Custom</h3></div>
+                    </div>
                 </div>
-
-            </div>
+            </repository-provider-selector>
 
             <template v-if="form.user_repository_provider_id || form.custom_provider">
 
@@ -36,12 +34,6 @@
                     </template>
                 </div>
 
-                <template v-if="form.custom_provider">
-                    <div class="flyform--input-text">
-                        Please enter the full URL to your repository
-                    </div>
-                </template>
-
                 <div class="flyform--group">
                     <input type="text" v-model="form.branch" name="branch" placeholder=" ">
                     <label for="branch">Branch</label>
@@ -54,7 +46,7 @@
                         <div class="flyform--group-prefix-label">
                             ~/codepier/{{site.domain}}/
                         </div>
-                        <tooltip message="The location of your apps entry (ex : public)" size="medium">
+                        <tooltip message="The location of your apps entry" size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
 

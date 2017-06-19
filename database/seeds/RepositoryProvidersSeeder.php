@@ -16,7 +16,7 @@ class RepositoryProvidersSeeder extends Seeder
     {
         $providers = [
             \App\Http\Controllers\Auth\OauthController::GITHUB => [
-                'name'             => 'Github',
+                'name'             => 'GitHub',
                 'url'              => 'github.com',
                 'git_url'          => 'git@github.com',
                 'commit_url'       => 'commit',
