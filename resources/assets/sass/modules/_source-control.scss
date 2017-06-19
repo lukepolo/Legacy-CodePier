@@ -1,0 +1,210 @@
+// SOURCE CONTROL STYLES ===================================
+// =========================================================
+.events {
+  border-top: 2px solid rgba($white, .2);
+
+  &--drag {
+
+  }
+
+  &--header {
+
+  }
+
+  &--collapse {
+    overflow-y: scroll;
+    transition: height .5s;
+    height: 30vh;
+
+    &-hidden {
+      height: 0px !important;
+      transition: height .5s;
+      overflow: hidden;
+    }
+  }
+
+  &--container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-grow: 1;
+    flex-shrink: 1;
+    border-top: 1px solid rgba($white, .1);
+  }
+
+
+  // EVENTS ITEM ---------------------------------------------
+  // ---------------------------------------------------------
+  &--item {
+    display: flex;
+    padding: ($spacing/2) $spacing;
+    border-bottom: 1px solid rgba($white, .1);
+
+    // EVENTS ITEM STATUS
+    &-status {
+      flex: 0 0 auto;
+      margin-right: $spacing;
+
+
+      &-neutral {
+        @include status(null);
+      }
+
+      &-success {
+        @include status(success);
+      }
+
+      &-error {
+        @include status(error);
+      }
+
+      &-warning {
+        @include status(warning);
+      }
+    }
+
+    // EVENTS ITEM FIELDS
+    &-name {
+      flex: 1 1 auto;
+    }
+
+    &-pile {
+      flex: 0 0 15%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: $spacing;
+    }
+
+    &-commit {
+      flex: 0 0 130px;
+
+      // Rollback Text
+      .confirm-container {
+        margin: 0px 0px 0px 10px;
+      }
+
+      .btn-small {
+        margin: -5px 0px;
+        text-transform: none;
+      }
+    }
+
+    &-site {
+      flex: 0 0 20%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: $spacing;
+    }
+
+    &-time {
+      flex: 0 0 130px;
+      text-align: right;
+    }
+
+    // EVENTS ITEM EXPAND / COLLAPSE ARROW
+    a:not(.collapsed) .icon-play {
+      display: block;
+      transform: rotate(90deg);
+      position: relative;
+      left: -4px;
+      top: 2px;
+    }
+  }
+}
+
+
+
+// EVENTS ITEM DETAILS -------------------------------------
+// ---------------------------------------------------------
+.events--item-details {
+  margin-left: $spacing;
+
+  // can't do margin-top -- makes collapse jump
+  &:before {
+    content: '';
+    display: block;
+    height: $spacing/2;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+
+    li {
+      padding-bottom: $spacing/4;
+    }
+  }
+
+  pre {
+    margin: 0px 0px $spacing ($spacing *2);
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    overflow: auto;
+    color: $yellow;
+  }
+
+  .icon-spinner {
+    margin-right: $spacing;
+  }
+
+  .events--item-error {
+    pre {
+      color: $red;
+    }
+  }
+}
+
+
+
+// DRAGGING STYLES -----------------------------------------
+// ---------------------------------------------------------
+#drag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 10px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+#collapseEvents {
+  &.dragging {
+    transition: all 0s;
+  }
+}
+
+
+
+// XL SCREEN STYLES ----------------------------------------
+// ---------------------------------------------------------
+@include breakpoint(xl) {
+  .events {
+
+    &--collapse {
+      height: 100%;
+    }
+
+    &--item {
+      flex-wrap: wrap;
+
+      &-name {
+        flex: 1 1 90%;
+        margin-bottom: 5px;
+      }
+
+      &-pile {
+        flex: 1 1 15%;
+        margin-left: 55px;
+      }
+
+      &-site {
+        flex: 1 1 15%;
+      }
+    }
+  }
+}

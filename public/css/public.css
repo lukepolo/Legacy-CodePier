@@ -5077,7 +5077,7 @@ button[disabled=disabled] {
 }
 
 .flyform--group {
-  margin: 10px 0px;
+  margin: 20px 0px;
   padding: 24px 0px 0px;
   position: relative;
 }
@@ -5093,7 +5093,7 @@ button[disabled=disabled] {
   bottom: 0px;
   left: 0px;
   font-weight: 400;
-  color: #aaaaaa;
+  color: #c8e6fb;
   letter-spacing: .4px;
   pointer-events: none;
   transition: all 0.5s;
@@ -5156,6 +5156,7 @@ button[disabled=disabled] {
   -webkit-box-align: baseline;
       -ms-flex-align: baseline;
           align-items: baseline;
+  border-bottom: 1px solid #B6B6B6;
 }
 
 .flyform--group-prefix-label {
@@ -5172,6 +5173,7 @@ button[disabled=disabled] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
+  border-bottom: none;
 }
 
 .flyform--group-prefix input + label + .flyform--group-prefix-label {
@@ -5210,6 +5212,63 @@ button[disabled=disabled] {
 .flyform--group-iconlabel {
   padding-left: 20px;
   transition: all 0.5s;
+}
+
+.flyform--group select {
+  box-shadow: none;
+  background-color: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #B6B6B6;
+  border-radius: 0px;
+  font-size: 20px;
+  padding: 5px 50px 5px 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.flyform--group select:focus {
+  outline: none;
+}
+
+.flyform--group select:hover {
+  background-color: rgba(60, 63, 65, 0.05);
+}
+
+.flyform--group option {
+  font-size: 16px;
+}
+
+.flyform--group-select {
+  position: relative;
+}
+
+.flyform--group-select:before {
+  content: '\f107';
+  font-family: 'icomoon';
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-left: 1px solid #B6B6B6;
+  color: #48ACF0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2em;
+  padding: 0px 10px;
+  pointer-events: none;
+}
+
+.tab-content .flyform--footer {
+  margin-left: -40px;
+  margin-right: -40px;
 }
 
 #login_form,

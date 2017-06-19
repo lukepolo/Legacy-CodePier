@@ -42,24 +42,52 @@
                     </div>
                 </template>
 
-                <div class="grid-2">
-                    <div class="flyform--group">
-                        <input type="text" v-model="form.branch" name="branch" placeholder=" ">
-                        <label for="branch">Branch</label>
-                    </div>
+                <div class="flyform--group">
+                    <input type="text" v-model="form.branch" name="branch" placeholder=" ">
+                    <label for="branch">Branch</label>
+                </div>
 
-                    <div class="flyform--group">
+                <div class="flyform--group">
+                    <div class="flyform--group-prefix">
                         <input type="text" name="web_directory" v-model="form.web_directory" placeholder=" ">
-
                         <label for="web_directory" class="flyform--group-iconlabel">Web Directory</label>
-
-                        <tooltip message="The location of your apps entry (ex : public) no need for leading '/'" size="medium">
+                        <div class="flyform--group-prefix-label">
+                            ~/codepier/{{site.domain}}/
+                        </div>
+                        <tooltip message="The location of your apps entry (ex : public)" size="medium">
                             <span class="fa fa-info-circle"></span>
                         </tooltip>
+
                     </div>
                 </div>
 
+                <div class="flyform--group">
+                    <label>Language & Framework</label>
+                    <div class="flyform--group-select">
 
+                        <select v-model="form.type" name="type" required>
+                            <option value=""></option>
+                            <template v-for="(features, language) in availableLanguages">
+                                <optgroup :label="language">
+                                    <option :value="language">
+                                        Generic {{ language }}
+                                    </option>
+                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
+                                </optgroup>
+                            </template>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="flyform--footer">
+                    <div class="flyform--footer-btns">
+                        <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
+                        <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
+                    </div>
+                </div>
+
+                <br><br><br><br>
                 <div class="grid-2">
                     <div class="flyform--group">
                         <label>
@@ -93,7 +121,7 @@
 
 
 
-                <br><br><br><br>
+
 
 
 
@@ -175,10 +203,7 @@
 
             </template>
 
-            <div class="btn-footer">
-                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
-                <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
-            </div>
+
 
         </form>
 

@@ -79,7 +79,7 @@ $flyform-transition: all .5s;
 // FORM GROUP STRUCTURE -----------------------------------
 // --------------------------------------------------------
 .flyform--group {
-    margin: $flyform-spacing/2 0px;
+    margin: $flyform-spacing 0px;
     padding: $flyform-spacing*1.2 0px 0px;
     position: relative;
 
@@ -94,7 +94,7 @@ $flyform-transition: all .5s;
         bottom: 0px;
         left: 0px;
         font-weight: 400;
-        color: mix($white, $black, 60%);
+        color: mix($blue, $white, 30%);
         letter-spacing: .4px;
         pointer-events: none;
         transition: $flyform-transition;
@@ -157,6 +157,7 @@ $flyform-transition: all .5s;
     &-prefix {
         display: flex;
         align-items: baseline;
+        border-bottom: 1px solid $flyform-color-divider;
 
         &-label {
             flex: 0 0 auto;
@@ -168,6 +169,7 @@ $flyform-transition: all .5s;
 
         input {
             order: 2;
+            border-bottom: none;
 
             + label + .flyform--group-prefix-label {
                 flex: 0 0 auto;
@@ -207,5 +209,68 @@ $flyform-transition: all .5s;
     &-iconlabel {
         padding-left: $flyform-spacing;
         transition: $flyform-transition;
+    }
+}
+
+
+// SELECT BOX STYLES ---------------------------------------
+// ---------------------------------------------------------
+.flyform--group {
+    select {
+        box-shadow: none;
+        background-color: transparent;
+        background-image: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        border: 1px solid $flyform-color-divider;
+        border-radius: 0px;
+        font-size: $flyform-font-size;
+        padding: ($flyform-spacing/4) 50px ($flyform-spacing/4) ($flyform-spacing/2);
+        width: 100%;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:hover {
+            background-color: rgba($color-text-secondary, .05);
+        }
+    }
+
+    option {
+        font-size: 16px;
+    }
+
+    &-select {
+        position: relative;
+
+        &:before {
+            content: '\f107';
+            font-family: 'icomoon';
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            border-left: 1px solid $flyform-color-divider;
+            color: $color-primary;
+            display: flex;
+            align-items: center;
+            font-size: 2em;
+            padding: 0px ($flyform-spacing/2);
+            pointer-events: none;
+        }
+    }
+}
+
+
+// FOOTER STYLES FOR MAIN TABBED CONTAINER
+.tab-content {
+    .flyform--footer {
+        margin-left: -$spacing*2;
+        margin-right: -$spacing*2;
     }
 }
