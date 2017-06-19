@@ -8,26 +8,28 @@
 
         {{ csrf_field() }}
 
-        <div class="flyform--group">
-            <input type="text" name="name" placeholder="&nbsp;" required>
-            <label for="name"><span class="flyform--group-float">Name</span></label>
-        </div>
-        <div class="flyform--group">
-            <input type="email" name="email" placeholder="&nbsp;" required>
-            <label for="email"><span class="flyform--group-float">Email</span></label>
-        </div>
-        <div class="flyform--group">
-            <input type="password" name="password" placeholder="&nbsp;" required>
-            <label for="password"><span class="flyform--group-float">Password</span></label>
-        </div>
-        <div class="flyform--group">
-            <input type="password" name="password_confirmation" placeholder="&nbsp;" required>
-            <label for="password_confirmation"><span class="flyform--group-float">Confirm Password</span></label>
+        <div class="flyform--content">
+            <div class="flyform--group">
+                <input type="text" name="name" placeholder="&nbsp;" required>
+                <label for="name">Name</label>
+            </div>
+            <div class="flyform--group">
+                <input type="email" name="email" placeholder="&nbsp;" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="flyform--group">
+                <input type="password" name="password" placeholder="&nbsp;" required>
+                <label for="password">Password</label>
+            </div>
+            <div class="flyform--group">
+                <input type="password" name="password_confirmation" placeholder="&nbsp;" required>
+                <label for="password_confirmation">Confirm Password</label>
+            </div>
         </div>
 
         <div class="flyform--footer">
             <div class="flyform--footer-btns">
-                <button class="btn js-toggle-forms">Cancel</button>
+                <span class="btn js-toggle-forms">Cancel</span>
                 <button class="btn btn-primary" type="submit">Sign Up</button>
             </div>
 

@@ -1,76 +1,72 @@
 <template>
     <div v-if="site">
-        <div class="jcf-form-wrap">
+        <h3>To create your site, you need to select a source control provider.</h3>
 
-            <h3>
-                To create your site, first we need to select a source control provider.
-            </h3>
+        <form @submit.prevent="updateSite">
 
-            <form @submit.prevent="updateSite" class="floating-labels">
+            <div class="jcf-input-group input-radio">
 
-                <div class="jcf-input-group input-radio">
+                <div class="input-question">Source Control Provider</div>
 
-                    <div class="input-question">Source Control Provider</div>
+                <repository-provider-selector :provider.sync="form.user_repository_provider_id"></repository-provider-selector>
 
-                    <repository-provider-selector :provider.sync="form.user_repository_provider_id"></repository-provider-selector>
-
-                    <div class="btn btn-default" @click="form.custom_provider = true">
-                        Custom
-                    </div>
-
+                <div class="btn btn-default" @click="form.custom_provider = true">
+                    Custom
                 </div>
 
-                <template v-if="form.user_repository_provider_id || form.custom_provider">
+            </div>
 
-                    <div class="jcf-input-group">
+            <template v-if="form.user_repository_provider_id || form.custom_provider">
 
-                        prefix :  {{ providerUrl }}
-                        <input type="text" v-model="form.repository" name="repository" required>
-
-                        <label for="repository">
-                            <span class="float-label">Repository Name</span>
-                        </label>
-
+                <div class="flyform--group">
+                    <div class="flyform--group-prefix">
+                        <input type="text" v-model="form.repository" name="repository" placeholder=" " required>
+                        <label for="repository">Repository URL</label>
                         <template v-if="!form.custom_provider">
-                            <a target="_blank" :href="'http://'+repositoryUrl">{{ repositoryUrl }}</a>
+                            <div class="flyform--group-prefix-label">
+                                {{ providerUrl }}/
+                            </div>
                         </template>
-                        <template v-else>
-                            <small>Please enter the full url to your repository</small>
-                        </template>
-
                     </div>
 
-                    <div class="jcf-input-group">
+                    <template v-if="!form.custom_provider">
+                        <div class="flyform--input-icon-right">
+                            <a target="_blank" :href="'http://'+repositoryUrl"><span class="icon-link"></span></a>
+                        </div>
+                    </template>
+                </div>
 
-                        <input type="text" v-model="form.branch" name="branch">
+                <template v-if="form.custom_provider">
+                    <div class="flyform--input-text">
+                        Please enter the full URL to your repository
+                    </div>
+                </template>
 
-                        <label for="branch">
-                            <span class="float-label">Branch</span>
+                <div class="grid-2">
+                    <div class="flyform--group">
+                        <input type="text" v-model="form.branch" name="branch" placeholder=" ">
+                        <label for="branch">Branch</label>
+                    </div>
+
+                    <div class="flyform--group">
+                        <input type="text" name="web_directory" v-model="form.web_directory" placeholder=" ">
+
+                        <label for="web_directory" class="flyform--group-iconlabel">Web Directory</label>
+
+                        <tooltip message="The location of your apps entry (ex : public) no need for leading '/'" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                    </div>
+                </div>
+
+
+                <div class="grid-2">
+                    <div class="flyform--group">
+                        <label>
+                            <span>Repository Options</span>
                         </label>
-
-                    </div>
-
-                    <div class="jcf-input-group">
-
-                        <input type="text" name="web_directory" v-model="form.web_directory">
-
-                        <label for="web_directory">
-
-                            <tooltip message="The location of your apps entry (ex : public) no need for leading '/'" size="medium">
-                                <span class="fa fa-info-circle"></span>
-                            </tooltip>
-                            <span class="float-label">Web Directory</span>
-
-                        </label>
-
-                    </div>
-
-                    <div class="jcf-input-group input-checkbox">
-
-                        <div class="input-question">Repository Options</div>
 
                         <label>
-
                             <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
                                 <span class="fa fa-info-circle"></span>
                             </tooltip>
@@ -78,79 +74,114 @@
                             <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
                             <span class="icon"></span>
                             Zerotime Deployment
-
                         </label>
-
                     </div>
 
-                    <template v-if="form.zerotime_deployment">
+                    <div class="flyform--group">
+                        <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
 
-                        <div class="jcf-input-group">
-
-                            <input type="number" v-model="form.keep_releases" name="keep_releases">
-
-                            <label for="keep_releases">
-
-                                <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
-                                    <span class="fa fa-info-circle"></span>
-                                </tooltip>
-
-                                <span class="float-label">Number of Releases to keep</span>
-
-                            </label>
-
-                        </div>
-
-                    </template>
-
-                    <div class="jcf-input-group input-checkbox">
-
-                        <label>
-
-                            <tooltip :message="'If your site requires a wildcard (ex : *.'+ site.domain +') you should check this'" size="medium">
-                                <span class="fa fa-info-circle"></span>
-                            </tooltip>
-
-                            <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
-                            <span class="icon"></span>
-                            Wildcard Domain
-
+                        <label for="keep_releases" class="flyform--group-iconlabel">
+                            <span>Number of Releases to keep</span>
                         </label>
 
+                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+
                     </div>
+                </div>
+
+
+
+                <br><br><br><br>
+
+
+
+                <div class="jcf-input-group input-checkbox">
+
+                    <div class="input-question">Repository Options</div>
+
+                    <label>
+
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+
+                        <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
+                        <span class="icon"></span>
+                        Zerotime Deployment
+
+                    </label>
+
+                </div>
+
+                <template v-if="form.zerotime_deployment">
 
                     <div class="jcf-input-group">
 
-                        <div class="input-question">Select Site Type</div>
+                        <input type="number" v-model="form.keep_releases" name="keep_releases">
 
-                        <div class="select-wrap">
+                        <label for="keep_releases">
 
-                            <select v-model="form.type" name="type" required>
-                                <option value=""></option>
-                                <template v-for="(features, language) in availableLanguages">
-                                    <optgroup :label="language">
-                                        <option :value="language">
-                                            Generic {{ language }}
-                                        </option>
-                                        <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
-                                    </optgroup>
-                                </template>
-                            </select>
+                            <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                                <span class="fa fa-info-circle"></span>
+                            </tooltip>
 
-                        </div>
+                            <span class="float-label">Number of Releases to keep</span>
+
+                        </label>
 
                     </div>
 
                 </template>
 
-                <div class="btn-footer">
-                    <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
-                    <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
+                <div class="jcf-input-group input-checkbox">
+
+                    <label>
+
+                        <tooltip :message="'If your site requires a wildcard (ex : *.'+ site.domain +') you should check this'" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+
+                        <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
+                        <span class="icon"></span>
+                        Wildcard Domain
+
+                    </label>
+
                 </div>
 
-            </form>
+                <div class="jcf-input-group">
 
-        </div>
+                    <div class="input-question">Language & Framework</div>
+
+                    <div class="select-wrap">
+
+                        <select v-model="form.type" name="type" required>
+                            <option value=""></option>
+                            <template v-for="(features, language) in availableLanguages">
+                                <optgroup :label="language">
+                                    <option :value="language">
+                                        Generic {{ language }}
+                                    </option>
+                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
+                                </optgroup>
+                            </template>
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </template>
+
+            <div class="btn-footer">
+                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
+                <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
+            </div>
+
+        </form>
+
 
     </div>
 </template>

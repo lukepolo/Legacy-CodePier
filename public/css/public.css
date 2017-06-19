@@ -5042,7 +5042,11 @@ button[disabled=disabled] {
 }
 
 .flyform--content {
-  padding: 20px;
+  padding: 0px 20px;
+}
+
+.flyform--content + .flyform--footer {
+  margin-top: 40px;
 }
 
 .flyform--footer {
@@ -5057,9 +5061,24 @@ button[disabled=disabled] {
   margin-top: 20px;
 }
 
+.flyform--input-icon-right {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  font-size: 1.5em;
+}
+
+.flyform--input-text {
+  font-size: .9em;
+  color: rgba(43, 43, 43, 0.7);
+  letter-spacing: .4px;
+  margin: -5px 0px 10px;
+  padding: 0px 11px;
+}
+
 .flyform--group {
-  margin: 10px auto;
-  padding: 24px 20px 0px;
+  margin: 10px 0px;
+  padding: 24px 0px 0px;
   position: relative;
 }
 
@@ -5070,9 +5089,9 @@ button[disabled=disabled] {
 .flyform--group label {
   position: absolute;
   top: 0px;
-  right: 20px;
+  right: 0px;
   bottom: 0px;
-  left: 20px;
+  left: 0px;
   font-weight: 400;
   color: #aaaaaa;
   letter-spacing: .4px;
@@ -5088,7 +5107,7 @@ button[disabled=disabled] {
   height: 3px;
   width: 0%;
   background-color: #48ACF0;
-  transition: all 0.2s;
+  transition: all 0.5s;
 }
 
 .flyform--group input {
@@ -5122,6 +5141,74 @@ button[disabled=disabled] {
   font-weight: 300;
   letter-spacing: 0px;
   color: #aaaaaa;
+  transition: all 0.5s;
+}
+
+.flyform--group input:placeholder-shown:not(:focus) + * .flyform--group-iconlabel {
+  padding-left: 0px;
+  transition: all 0.5s;
+}
+
+.flyform--group-prefix {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.flyform--group-prefix-label {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  color: rgba(43, 43, 43, 0.6);
+  font-weight: 400;
+  letter-spacing: .5px;
+  padding-right: 10px;
+}
+
+.flyform--group-prefix input {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+
+.flyform--group-prefix input + label + .flyform--group-prefix-label {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  min-width: 1px;
+  text-align: right;
+  opacity: 1;
+  padding-right: 10px;
+  transition: all 0.5s;
+}
+
+.flyform--group-prefix input:placeholder-shown:not(:focus) + label + .flyform--group-prefix-label {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 0px;
+          flex: 0 1 0px;
+  min-width: 0px;
+  padding: 0px;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.flyform--group [class^="hint-"],
+.flyform--group [class*=" hint-"] {
+  position: absolute;
+  top: 0px;
+}
+
+.flyform--group [class^="hint-"] + input + label,
+.flyform--group [class*=" hint-"] + input + label {
+  padding-left: 20px;
+}
+
+.flyform--group-iconlabel {
+  padding-left: 20px;
   transition: all 0.5s;
 }
 

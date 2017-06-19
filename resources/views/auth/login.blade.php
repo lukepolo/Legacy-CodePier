@@ -23,19 +23,21 @@
 
                             {{ csrf_field() }}
 
-                            <div class="flyform--group">
-                                <input type="email" name="email" placeholder="&nbsp;" required tabindex="1">
-                                <label for="email"><span class="flyform--group-float">Email</span></label>
-                            </div>
+                            <div class="flyform--content">
+                                <div class="flyform--group">
+                                    <input type="email" name="email" placeholder="&nbsp;" required tabindex="1">
+                                    <label for="email">Email</label>
+                                </div>
 
-                            <div class="flyform--group">
-                                <input type="password" name="password" placeholder="&nbsp;" required tabindex="2">
-                                <label for="password"><span class="flyform--group-float">Password</span></label>
+                                <div class="flyform--group">
+                                    <input type="password" name="password" placeholder="&nbsp;" required tabindex="2">
+                                    <label for="password">Password</label>
+                                </div>
                             </div>
 
                             <div class="flyform--footer">
                                 <div class="flyform--footer-btns">
-                                    <button class="btn js-toggle-forms" tabindex="4">Create Account</button>
+                                    <span class="btn js-toggle-forms" tabindex="4">Create Account</span>
                                     <button class="btn btn-primary" tabindex="3">Login</button>
                                 </div>
                                 <div class="flyform--footer-links">

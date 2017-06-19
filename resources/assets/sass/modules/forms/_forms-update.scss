@@ -5,8 +5,7 @@ $flyform-color: $color-text-primary;
 $flyform-font-size: 20px;
 $flyform-spacing: $spacing;
 $flyform-color-divider: $color-divider;
-$flyform-transition-in: all .5s;
-$flyform-transition-out: all .2s;
+$flyform-transition: all .5s;
 
 
 
@@ -36,7 +35,11 @@ $flyform-transition-out: all .2s;
     }
 
     &--content {
-        padding: $flyform-spacing;
+        padding: 0px $flyform-spacing;
+
+        + .flyform--footer {
+            margin-top: $spacing*2;
+        }
     }
 
     &--footer {
@@ -52,14 +55,32 @@ $flyform-transition-out: all .2s;
             }
         }
     }
+
+    // INPUT ICON STYLES ----------------------------------------
+    &--input-icon-right {
+        position: absolute;
+        top: $flyform-spacing*1.5;
+        right: 10px;
+        font-size: 1.5em;
+    }
+
+    // INPUT TEXT STYLES ----------------------------------------
+    &--input-text {
+        font-size: .9em;
+        color: rgba($color-text-primary, .7);
+        letter-spacing: .4px;
+        margin: (-$flyform-spacing/4) 0px $flyform-spacing/2;
+        padding: 0px ($flyform-spacing/2 + 1px);
+    }
+
 }
 
 
-// FORM GROUP STRUCTURE ------------------------------------
+// FORM GROUP STRUCTURE -----------------------------------
 // --------------------------------------------------------
 .flyform--group {
-    margin: $flyform-spacing/2 auto;
-    padding: $flyform-spacing*1.2 $flyform-spacing 0px;
+    margin: $flyform-spacing/2 0px;
+    padding: $flyform-spacing*1.2 0px 0px;
     position: relative;
 
     + .flyform--footer {
@@ -69,14 +90,14 @@ $flyform-transition-out: all .2s;
     label {
         position: absolute;
         top: 0px;
-        right: $flyform-spacing;
+        right: 0px;
         bottom: 0px;
-        left: $flyform-spacing;
+        left: 0px;
         font-weight: 400;
         color: mix($white, $black, 60%);
         letter-spacing: .4px;
         pointer-events: none;
-        transition: $flyform-transition-in;
+        transition: $flyform-transition;
 
         &:after {
             content: "";
@@ -86,7 +107,7 @@ $flyform-transition-out: all .2s;
             height: 3px;
             width: 0%;
             background-color: $color-primary;
-            transition: $flyform-transition-out;
+            transition: $flyform-transition;
         }
     }
 
@@ -108,7 +129,7 @@ $flyform-transition-out: all .2s;
 
                 &:after {
                     width: 100%;
-                    transition: $flyform-transition-in;
+                    transition: $flyform-transition;
                 }
             }
         }
@@ -121,7 +142,70 @@ $flyform-transition-out: all .2s;
             font-weight: 300;
             letter-spacing: 0px;
             color: mix($white, $black, 60%);
-            transition: $flyform-transition-in;
+            transition: $flyform-transition;
+
+            // when there is an info icon before the input label
+            .flyform--group-iconlabel {
+                padding-left:0px;
+                transition: $flyform-transition;
+            }
         }
+    }
+
+
+    // PREFIXED INPUTS ----------------------------------------
+    &-prefix {
+        display: flex;
+        align-items: baseline;
+
+        &-label {
+            flex: 0 0 auto;
+            color: rgba($color-text-primary, .6);
+            font-weight: 400;
+            letter-spacing: .5px;
+            padding-right: $spacing/2;
+        }
+
+        input {
+            order: 2;
+
+            + label + .flyform--group-prefix-label {
+                flex: 0 0 auto;
+                min-width: 1px;
+                text-align: right;
+                opacity: 1;
+                padding-right: $spacing/2;
+                transition: $flyform-transition;
+            }
+
+            &:placeholder-shown:not(:focus) {
+                + label + .flyform--group-prefix-label {
+                    flex: 0 1 0px;
+                    min-width: 0px;
+                    padding: 0px;
+                    overflow: hidden;
+                    opacity: 0;
+                    transition: $flyform-transition;
+                }
+            }
+        }
+    }
+
+
+
+    // INPUT HELP STYLES ----------------------------------------
+    [class^="hint-"], [class*=" hint-"] {
+        position: absolute;
+        top: 0px;
+
+        + input + label {
+            padding-left: $flyform-spacing;
+        }
+    }
+
+    // when there is an info icon before the input label
+    &-iconlabel {
+        padding-left: $flyform-spacing;
+        transition: $flyform-transition;
     }
 }
