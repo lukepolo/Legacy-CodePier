@@ -9,7 +9,6 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "authy/php": "2.*",
         "bacon/bacon-qr-code": "~1.0",
         "barryvdh/laravel-ide-helper": "^2.3",
         "doctrine/dbal": "dev-mysql57-json",
