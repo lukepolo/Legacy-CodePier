@@ -1,6 +1,4 @@
-const { mix } = require('laravel-mix')
-
-console.info(mix.config.Paths)
+const mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -46,10 +44,9 @@ mix
         jquery: ['$', 'jQuery']
     })
     .sourceMaps()
+    .version()
 
-if (mix.config.inProduction) {
-    mix.version()
-} else {
+if (!mix.inProduction()) {
     mix.browserSync({
         open: 'external',
         host: 'codepier.dev',
