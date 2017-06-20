@@ -14,8 +14,8 @@ class Add2faToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('second_auth_secret');
-            $table->boolean('second_auth_active');
+            $table->string('second_auth_secret')->nullable();
+            $table->boolean('second_auth_active')->default(false);
             $table->dateTime('second_auth_updated_at')->nullable();
         });
     }
@@ -30,7 +30,7 @@ class Add2faToUser extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('second_auth_secret');
             $table->dropColumn('second_auth_active');
-            $table->dateTime('second_auth_updated_at');
+            $table->dropColumn('second_auth_updated_at');
         });
     }
 }
