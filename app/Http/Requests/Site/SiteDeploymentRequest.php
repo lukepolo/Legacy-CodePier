@@ -4,7 +4,7 @@ namespace App\Http\Requests\Site;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SiteRepositoryRequest extends FormRequest
+class SiteDeploymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,8 @@ class SiteRepositoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|string',
-            'branch' => 'required|string',
-            'framework' => 'nullable|string',
-            'repository'=> 'string',
-            'web_directory' => 'nullable|string',
-            'user_repository_provider_id' => 'required_unless:custom_provider,true|nullable|integer',
+            'zerotime_deployment' => 'nullable|boolean',
+            'keep_releases' => 'required_if:zerotime_deployment,true',
         ];
     }
 }
