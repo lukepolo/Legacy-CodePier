@@ -17,7 +17,6 @@ moment.tz.setDefault('UTC')
  |
  */
 
-require('jcf-forms')
 _.mixin(require('lodash-inflection'))
 require('../bower/jquery-cron/cron/jquery-cron.js')
 

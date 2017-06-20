@@ -27,7 +27,6 @@ mix
         'lodash',
         'hint.css',
         'nprogress',
-        'jcf-forms',
         'pusher-js',
         'clipboard',
         'vue-router',
