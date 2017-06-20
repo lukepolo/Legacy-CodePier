@@ -26,6 +26,7 @@ class SiteRequest extends FormRequest
         return [
             'domain' => 'required',
             'pile_id' => 'required|integer',
+            'wildcard_domain' => 'nullable|boolean',
         ];
     }
 }

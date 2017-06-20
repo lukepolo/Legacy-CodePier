@@ -2,6 +2,8 @@
     <div v-if="site">
 
         <h1>Site Overview</h1>
+
+        <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
         
 
 

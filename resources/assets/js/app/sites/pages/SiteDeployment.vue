@@ -5,6 +5,50 @@
 </style>
 <template>
     <div v-if="site">
+
+        <form @submit.prevent="saveSiteDeploymentConfig">
+            <div class="jcf-input-group input-checkbox">
+
+                <div class="input-question">Repository Options</div>
+
+                <label>
+
+                    <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
+                        <span class="fa fa-info-circle"></span>
+                    </tooltip>
+
+                    <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
+                    <span class="icon"></span>
+                    Zerotime Deployment
+
+                </label>
+
+            </div>
+
+            <template v-if="form.zerotime_deployment">
+
+                <div class="jcf-input-group">
+
+                    <input type="number" v-model="form.keep_releases" name="keep_releases">
+
+                    <label for="keep_releases">
+
+                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+
+                        <span class="float-label">Number of Releases to keep</span>
+
+                    </label>
+
+                </div>
+
+            </template>
+
+            <button>Save Deployment Config</button>
+        </form>
+
+
         <p>
             Here we can customize how we deploy your application. We give you sensible defaults.
             By dragging steps from the inactive to the active we automatically suggest the order.
@@ -85,15 +129,34 @@
             return {
                 active: [],
                 inactive: [],
+                form : this.createForm({
+                    keep_releases : 10,
+                    zerotime_deployment: true,
+                    site : this.$route.params.site_id,
+                })
             }
         },
         created() {
-            this.fetchData();
+            this.fetchData()
+            this.siteChange()
         },
         watch: {
-            '$route': 'fetchData'
+            '$route': 'fetchData',
+            'site' : 'siteChange',
         },
         methods: {
+            siteChange() {
+
+                this.form.empty()
+
+                let site = this.site
+
+                this.form.keep_releases = site.keep_releases
+                this.form.zerotime_deployment = site.zerotime_deployment
+
+                this.form.setOriginalData()
+
+            },
             fetchData() {
                 this.$store.dispatch('user_site_deployments/getDeploymentSteps', this.$route.params.site_id).then(() => {
                     this.$store.dispatch('user_site_deployments/getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
@@ -107,6 +170,9 @@
                     site : this.$route.params.site_id,
                     deployment_steps : this.active
                 })
+            },
+            saveSiteDeploymentConfig() {
+                this.$store.dispatch('user_site_deployments/updateSiteDeploymentConfig', this.form)
             },
             hasStep(task) {
                 if(this.currentSiteDeploymentSteps.length) {

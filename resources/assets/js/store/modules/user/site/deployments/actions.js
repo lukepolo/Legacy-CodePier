@@ -93,3 +93,13 @@ export const getDeployment = ({ commit }, data) => {
         'events/add'
     )
 }
+
+export const updateSiteDeploymentConfig = (context, data) => {
+    return Vue.request(data).post(
+        Vue.action('Site\SiteDeploymentsController@store', { site: data.site }),
+        'user_sites/set',
+        'user_sites/update'
+    ).then(() => {
+        app.showSuccess('You have updated the site deployment config')
+    })
+}
