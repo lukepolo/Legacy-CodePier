@@ -1,0 +1,121 @@
+// SOURCE CONTROL STYLES ===================================
+// =========================================================
+.providers {
+  position: relative;
+  margin: 0px 0px $spacing;
+  padding: 0px 0px $spacing*2;
+  border-bottom: 2px solid rgba($white, .1);
+
+  label {
+
+    @include breakpoint(mxl) {
+      grid-column-end: span 2;
+    }
+
+    @include breakpoint(lg) {
+      grid-column-end: span 4;
+    }
+  }
+
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+
+    &:checked {
+      + .providers--item {
+        background-color: rgba($black, .8);
+
+        .providers--item-footer-connected {
+          h4 {
+            color: $green;
+
+            &:after {
+              content: 'ed';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--item {
+    @include card(1);
+    min-height: 113px;
+    background-color: rgba($color-background, 1);
+    border: 1px solid $color-divider;
+    transform: scale(1);
+    transition: all .2s ease;
+    position: relative;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+      transition: all .2s ease;
+
+      .providers--item-footer-connected {
+        h4 {
+          color: $green;
+        }
+      }
+
+      .providers--item-footer-connect {
+        h4 {
+          color: $color-primary;
+        }
+      }
+
+    }
+
+    &-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      padding: $spacing/2;
+    }
+
+    &-icon {
+      font-size: 1.7em;
+      color: rgba($color-text-primary, .5);
+      padding-right: $spacing/2;
+    }
+
+    &-footer {
+      border-top: 1px solid $color-divider;
+      text-align: center;
+
+      &-connected,
+      &-connect {
+        padding: $spacing/2;
+      }
+
+    }
+
+    .icon-check_circle,
+    .icon-link {
+      position: absolute;
+      right: $spacing/2;
+      top: $spacing;
+      transform: translateY(-50%);
+      font-size: 1.5em;
+    }
+
+    .icon-check_circle {
+      color: $green;
+    }
+
+    &-custom {
+      display: flex;
+      flex-direction: column;
+
+      .providers--item-header {
+        flex: 1 0 auto;
+      }
+    }
+  }
+
+
+}
+
+//  ----------------------------------------
+// ---------------------------------------------------------

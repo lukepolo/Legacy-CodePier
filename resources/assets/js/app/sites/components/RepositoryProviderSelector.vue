@@ -1,37 +1,34 @@
 <template>
-    <section>
-        <p v-for="repository_provider in repository_providers">
+    <div class="providers grid-4">
+        <label v-for="repository_provider in repository_providers">
+            <template v-if="isConnected(repository_provider.id)">
+                <input
+                name="user_repository_provider_id"
+                type="radio"
+                v-model="user_provider"
+                :value="isConnected(repository_provider.id).id"
+                >
+            </template>
 
-            <label>
-                <template v-if="isConnected(repository_provider.id)">
-                    <input
-                        name="user_repository_provider_id"
-                        type="radio"
-                        v-model="user_provider"
-                        :value="isConnected(repository_provider.id).id"
-                    >
-                    <span class="icon"></span>
-                    {{ repository_provider.provider_name }}
-
-                </template>
-
-                <template v-else>
-                    Integrate :
-                    <a
-                        :href="action('Auth\OauthController@newProvider', {
-                            provider : repository_provider.provider_name
-                        })"
-                        class="btn btn-default"
-                    >
-                        <i class="icon-github"></i>
-                        {{ repository_provider.name}}
-                    </a>
-                </template>
-
-            </label>
-
-        </p>
-    </section>
+            <div class="providers--item" @click="!isConnected(repository_provider.id) ? registerProvider(repository_provider.provider_name) : null">
+                <div class="providers--item-header">
+                    <div class="providers--item-icon"><span :class="'icon-' + repository_provider.name.toLowerCase()"></span></div>
+                    <div class="providers--item-name"> {{ repository_provider.name}}</div>
+                </div>
+                <div class="providers--item-footer">
+                    <template v-if="isConnected(repository_provider.id)">
+                        <div class="providers--item-footer-connected"><h4><span class="icon-check_circle"></span> Select</h4></div>
+                    </template>
+                    <template v-else>
+                        <div class="providers--item-footer-connect"><h4><span class="icon-link"></span> Connect Account</h4></div>
+                    </template>
+                </div>
+            </div>
+        </label>
+        <label>
+            <slot></slot>
+        </label>
+    </div>
 </template>
 
 <script>
@@ -75,6 +72,12 @@ export default {
         },
         user_repository_providers() {
             return this.$store.state.user_repository_providers.providers
+        },
+
+        registerProvider(provider) {
+            window.location.href = this.action('Auth\OauthController@newProvider', {
+                provider : provider
+            })
         },
     },
     computed: {
