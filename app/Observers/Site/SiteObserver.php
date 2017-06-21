@@ -102,17 +102,6 @@ class SiteObserver
                     }
                 }
             }
-
-            foreach ($this->siteFeatureService->getSuggestedCronJobs($site) as $cronJob) {
-                $cronJob = CronJob::create([
-                    'user' => 'codepier',
-                    'job' => $cronJob,
-                ]);
-
-                $site->cronJobs()->save($cronJob);
-
-                event(new SiteCronJobCreated($site, $cronJob));
-            }
         }
 
         if ($site->isDirty('web_directory')) {
