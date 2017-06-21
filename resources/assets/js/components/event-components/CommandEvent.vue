@@ -33,7 +33,9 @@
             <div class="events--item-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
             <div class="events--item-commit"></div>
         </template>
-        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
+        <div class="events--item-time">
+            <time-ago :time="event.created_at"></time-ago>
+        </div>
     </section>
 </template>
 

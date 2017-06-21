@@ -21,7 +21,7 @@
         <div>
             <h3>Recent deployments</h3>
             <template v-for="deploymentEvent in deploymentEvents">
-                {{ deploymentEvent.status }} {{ timeAgo(deploymentEvent.created_at) }}
+                {{ deploymentEvent.status }} <time-ago :time="deploymentEvent.created_at"></time-ago>
                 <br>
                 <small>
                     took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
@@ -29,7 +29,7 @@
                 <br>
             </template>
             <template v-for="recentDeployment in recentDeployments">
-                {{ recentDeployment.status }} {{ timeAgo(recentDeployment.created_at) }}
+                {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
                 <br>
                 <small>
                     took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
@@ -83,7 +83,7 @@
             <p v-for="lifeLine in lifeLines">
                 {{ lifeLine.name }} - {{ lifeLine.url }}<br>
                 <template v-if="lifeLine.last_seen">
-                    {{ timeAgo(lifeLine.last_seen) }}
+                    <time-ago :time="lifeLine.last_seen"></time-ago>
                 </template>
                 <template v-else>
                     Never Seen
