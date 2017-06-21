@@ -2,7 +2,6 @@
 
 namespace App\Observers\Site;
 
-use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
@@ -11,7 +10,6 @@ use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
-use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
 use App\Services\Systems\SystemService;
 use App\Events\Site\SiteFirewallRuleDeleted;
