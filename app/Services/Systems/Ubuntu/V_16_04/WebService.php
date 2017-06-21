@@ -64,7 +64,6 @@ class WebService
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
 
-
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/catch-all', '
 server {
     root /opt/codepier/landing;
