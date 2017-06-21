@@ -12,6 +12,7 @@
                     :message="deploymentStatus"
                     placement="right"
             >
+                --status tooltip--
             </tooltip>
             {{ site.name }}
             <site-deploy :site="site"></site-deploy>
