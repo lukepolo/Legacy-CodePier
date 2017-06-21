@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PragmaRX\Google2FA\Google2FA;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use PragmaRX\Google2FA\Contracts\Google2FA;
 
 class SecondAuthController extends Controller
 {
@@ -43,19 +43,17 @@ class SecondAuthController extends Controller
 
     public function store(Request $request)
     {
-        $valid = $this->google2FA->verifyKey(
+        $valid = $this->google2FA->verifyKeyNewer(
             $request->user()->second_auth_secret,
             $request->get('token'),
-            1
-            // TODO - once version 2 comes out we can do the new stuff
-            // https://github.com/antonioribeiro/google2fa
-//            $request->user()->second_auth_updated_at
+            null
         );
 
         if ($valid) {
+
             $request->user()->update([
                 'second_auth_active' => true,
-                'second_auth_updated_at' => Carbon::now(),
+                'second_auth_updated_at' => Carbon::now()->timestamp,
             ]);
 
             Session::put(self::SECOND_AUTH_SESSION, $request->user()->second_auth_updated_at);

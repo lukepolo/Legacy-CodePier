@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.27 on 2017-06-20.
+ * Generated for Laravel 5.4.27 on 2017-06-21.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12703,176 +12703,6 @@ namespace Sentry\SentryLaravel {
     }         
 }
     
-namespace PragmaRX\Google2FA\Vendor\Laravel {
-
-    class Facade {
-        
-        /**
-         * Generate a digit secret key in base32 format.
-         *
-         * @param int $length
-         * @return string 
-         * @static 
-         */
-        public static function generateSecretKey($length = 16, $prefix = '')
-        {
-            return \PragmaRX\Google2FA\Google2FA::generateSecretKey($length, $prefix);
-        }
-        
-        /**
-         * Returns the current Unix Timestamp divided by the KEY_REGENERATION
-         * period.
-         *
-         * @return int 
-         * @static 
-         */
-        public static function getTimestamp()
-        {
-            return \PragmaRX\Google2FA\Google2FA::getTimestamp();
-        }
-        
-        /**
-         * Decodes a base32 string into a binary string.
-         *
-         * @param string $b32
-         * @throws InvalidCharactersException
-         * @return int 
-         * @static 
-         */
-        public static function base32Decode($b32)
-        {
-            return \PragmaRX\Google2FA\Google2FA::base32Decode($b32);
-        }
-        
-        /**
-         * Takes the secret key and the timestamp and returns the one time
-         * password.
-         *
-         * @param string $key - Secret key in binary form.
-         * @param int $counter - Timestamp as returned by getTimestamp.
-         * @throws SecretKeyTooShortException
-         * @return string 
-         * @static 
-         */
-        public static function oathHotp($key, $counter)
-        {
-            return \PragmaRX\Google2FA\Google2FA::oathHotp($key, $counter);
-        }
-        
-        /**
-         * Get the current one time password for a key.
-         *
-         * @param string $initalizationKey
-         * @throws InvalidCharactersException
-         * @throws SecretKeyTooShortException
-         * @return string 
-         * @static 
-         */
-        public static function getCurrentOtp($initalizationKey)
-        {
-            return \PragmaRX\Google2FA\Google2FA::getCurrentOtp($initalizationKey);
-        }
-        
-        /**
-         * Verifies a user inputted key against the current timestamp. Checks $window
-         * keys either side of the timestamp.
-         *
-         * @param string $b32seed
-         * @param string $key - User specified key
-         * @param int $window
-         * @param bool $useTimeStamp
-         * @return bool 
-         * @static 
-         */
-        public static function verifyKey($b32seed, $key, $window = 4, $useTimeStamp = true)
-        {
-            return \PragmaRX\Google2FA\Google2FA::verifyKey($b32seed, $key, $window, $useTimeStamp);
-        }
-        
-        /**
-         * Extracts the OTP from the SHA1 hash.
-         *
-         * @param string $hash
-         * @return int 
-         * @static 
-         */
-        public static function oathTruncate($hash)
-        {
-            return \PragmaRX\Google2FA\Google2FA::oathTruncate($hash);
-        }
-        
-        /**
-         * Remove invalid chars from a base 32 string.
-         *
-         * @param $string
-         * @return mixed 
-         * @static 
-         */
-        public static function removeInvalidChars($string)
-        {
-            return \PragmaRX\Google2FA\Google2FA::removeInvalidChars($string);
-        }
-        
-        /**
-         * Creates a Google QR code url.
-         *
-         * @param string $company
-         * @param string $holder
-         * @param string $secret
-         * @param int $size
-         * @return string 
-         * @static 
-         */
-        public static function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
-        {
-            return \PragmaRX\Google2FA\Google2FA::getQRCodeGoogleUrl($company, $holder, $secret, $size);
-        }
-        
-        /**
-         * Generates a QR code data url to display inline.
-         *
-         * @param string $company
-         * @param string $holder
-         * @param string $secret
-         * @param int $size
-         * @param string $encoding Default to UTF-8
-         * @return string 
-         * @static 
-         */
-        public static function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
-        {
-            return \PragmaRX\Google2FA\Google2FA::getQRCodeInline($company, $holder, $secret, $size, $encoding);
-        }
-        
-        /**
-         * Creates a QR code url.
-         *
-         * @param $company
-         * @param $holder
-         * @param $secret
-         * @return string 
-         * @static 
-         */
-        public static function getQRCodeUrl($company, $holder, $secret)
-        {
-            return \PragmaRX\Google2FA\Google2FA::getQRCodeUrl($company, $holder, $secret);
-        }
-        
-        /**
-         * Encode a string to Base32.
-         *
-         * @param $string
-         * @return mixed 
-         * @static 
-         */
-        public static function toBase32($string)
-        {
-            return \PragmaRX\Google2FA\Google2FA::toBase32($string);
-        }
-        
-    }         
-}
-    
 namespace Mpociot\Teamwork\Facades {
 
     class Teamwork {
@@ -16142,8 +15972,6 @@ if (! function_exists('second_authed')) {
     class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
     
     class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
-    
-    class Google2FA extends \PragmaRX\Google2FA\Vendor\Laravel\Facade {}
     
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
     
