@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-06-20.
+    * Generated on 2017-06-21.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -150,7 +150,6 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'PragmaRX\Google2FA\Contracts\Google2FA' instanceof \PragmaRX\Google2FA\Google2FA,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -304,7 +303,6 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'PragmaRX\Google2FA\Contracts\Google2FA' instanceof \PragmaRX\Google2FA\Google2FA,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -458,7 +456,6 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'PragmaRX\Google2FA\Contracts\Google2FA' instanceof \PragmaRX\Google2FA\Google2FA,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
@@ -612,7 +609,6 @@ namespace PHPSTORM_META {
             'Laravel\Socialite\Contracts\Factory' instanceof \Laravel\Socialite\SocialiteManager,
             'SocialiteProviders\Manager\Contracts\Helpers\ConfigRetrieverInterface' instanceof \SocialiteProviders\Manager\Helpers\ConfigRetriever,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
-            'PragmaRX\Google2FA\Contracts\Google2FA' instanceof \PragmaRX\Google2FA\Google2FA,
             'App\Contracts\Repository\RepositoryServiceContract' instanceof \App\Services\Repository\RepositoryService,
             'App\Contracts\RemoteTaskServiceContract' instanceof \App\Services\RemoteTaskService,
             'App\Contracts\Server\ServerServiceContract' instanceof \App\Services\Server\ServerService,
