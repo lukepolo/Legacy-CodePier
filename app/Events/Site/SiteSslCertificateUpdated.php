@@ -43,9 +43,8 @@ class SiteSslCertificateUpdated
                 ) {
                     if ($sslCertificate->active) {
                         if ($activeSsl->id != $sslCertificate->id) {
-
                             $activeSsl->update([
-                                'active' => false
+                                'active' => false,
                             ]);
 
                             dispatch(
