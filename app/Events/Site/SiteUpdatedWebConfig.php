@@ -2,7 +2,6 @@
 
 namespace App\Events\Site;
 
-
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\UpdateWebConfig;
@@ -21,7 +20,6 @@ class SiteUpdatedWebConfig
     public function __construct(Site $site)
     {
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $site, 'Updating Web Config');
 
             foreach ($site->provisionedServers as $server) {
