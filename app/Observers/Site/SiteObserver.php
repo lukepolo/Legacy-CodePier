@@ -2,6 +2,7 @@
 
 namespace App\Observers\Site;
 
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
@@ -103,19 +104,7 @@ class SiteObserver
         }
 
         if ($site->isDirty('web_directory')) {
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
-            }
+            event(new SiteUpdatedWebConfig($site));
         }
 
         if ($site->isDirty('type') || $site->isDirty('framework')) {
