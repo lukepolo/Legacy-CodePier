@@ -110,7 +110,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
         $this->remoteTaskService->run('service nginx restart');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'nginx -t && service nginx restart');
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'nginx -t && service nginx reload');
     }
 
     /**
