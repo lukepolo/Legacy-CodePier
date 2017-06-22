@@ -2,17 +2,15 @@
 
 namespace App\Observers\Site;
 
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
 use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
-use App\Jobs\Site\UpdateWebConfig;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Services\Systems\SystemService;
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;

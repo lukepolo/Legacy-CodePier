@@ -3,10 +3,10 @@
 namespace App\Events\Site;
 
 use App\Models\Site\Site;
-use App\Services\Systems\SystemService;
 use App\Traits\ModelCommandTrait;
 use App\Jobs\Site\RenameSiteDomain;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Systems\SystemService;
 
 class SiteRenamed
 {
@@ -22,7 +22,6 @@ class SiteRenamed
     public function __construct(Site $site, $newDomain, $oldDomain)
     {
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.'to'.$newDomain);
 
             foreach ($site->provisionedServers as $server) {
