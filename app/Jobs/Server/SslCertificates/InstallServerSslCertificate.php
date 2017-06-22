@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
-use App\Events\Site\SiteSslCertificateUpdated;
 use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -13,6 +12,7 @@ use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\Site\SiteSslCertificateUpdated;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerSslCertificate implements ShouldQueue
@@ -52,7 +52,6 @@ class InstallServerSslCertificate implements ShouldQueue
             });
 
             if (! $this->wasSuccessful()) {
-
                 $this->sslCertificate->update([
                     'failed' => true,
                 ]);
@@ -80,8 +79,7 @@ class InstallServerSslCertificate implements ShouldQueue
     private function updateWebConfigs()
     {
         foreach ($this->sslCertificate->sites as $site) {
-
-            if($this->sslCertificate->active === true) {
+            if ($this->sslCertificate->active === true) {
                 event(new SiteSslCertificateUpdated($site, $this->sslCertificate));
             } else {
                 event(new SiteUpdatedWebConfig($site));
