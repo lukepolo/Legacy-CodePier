@@ -1,21 +1,3 @@
-<style>
-    .slide-left-enter, .slide-right-leave-active {
-        opacity: 0;
-        transform: translate(45px, 0);
-    }
-    .slide-left-leave-active, .slide-right-enter {
-        opacity: 0;
-        transform: translate(-45px, 0);
-    }
-
-    .slide-left-leave-active.child-view, .slide-right-leave-active.child-view {
-        position: absolute;
-    }
-    .child-view {
-        transition: all .2s;
-    }
-</style>
-
 <template>
 
     <div class="parent">
@@ -96,7 +78,8 @@
         watch: {
             '$route' (to, from) {
 
-                let slide = null
+                let slide = 'slide-right'
+
                 if(to.path.includes('setup')) {
                     slide = 'slide-right'
                 }
@@ -111,6 +94,10 @@
                     } else {
                         slide = 'slide-left'
                     }
+                }
+
+                if(from.path.includes('overview')) {
+                    slide = 'slide-left'
                 }
 
                 this.transitionName = slide

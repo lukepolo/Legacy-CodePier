@@ -1762,6 +1762,30 @@ tbody.collapse.in {
   border-top-right-radius: 0px;
 }
 
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(450px, 0);
+          transform: translate(450px, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-450px, 0);
+          transform: translate(-450px, 0);
+}
+
+.slide-left-leave-active.child-view,
+.slide-right-leave-active.child-view {
+  position: absolute;
+}
+
+.child-view {
+  -webkit-transition: all ease .5s;
+  transition: all ease .5s;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
