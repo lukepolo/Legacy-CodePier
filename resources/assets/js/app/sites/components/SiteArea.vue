@@ -1,31 +1,18 @@
 <style>
-    .bounce-enter-active {
-        animation: bounce-in .5s;
+    .slide-left-enter, .slide-right-leave-active {
+        opacity: 0;
+        transform: translate(45px, 0);
     }
-    .bounce-leave-active {
-        animation: bounce-out .5s;
+    .slide-left-leave-active, .slide-right-enter {
+        opacity: 0;
+        transform: translate(-45px, 0);
     }
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(1);
-        }
+
+    .slide-left-leave-active.child-view, .slide-right-leave-active.child-view {
+        position: absolute;
     }
-    @keyframes bounce-out {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(0);
-        }
+    .child-view {
+        transition: all .2s;
     }
 </style>
 
@@ -51,10 +38,10 @@
 
                         </transition>
 
-                        <transition>
+                        <transition :name="transitionName">
 
                             <template v-if="notOverview">
-                                <router-view name="subNav">
+                                <router-view name="subNav" class="child-view">
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
@@ -108,10 +95,25 @@
         },
         watch: {
             '$route' (to, from) {
-                const toDepth = to.path.split('/').length
-                const fromDepth = from.path.split('/').length
-//                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-                this.transitionName = 'bounce';
+
+                let slide = null
+                if(to.path.includes('setup')) {
+                    slide = 'slide-right'
+                }
+
+                if(to.path.includes('server-setup')) {
+                    slide = 'slide-left'
+                }
+
+                if(to.path.includes('security')) {
+                    if(from.path.includes('server-setup')) {
+                        slide = 'slide-right'
+                    } else {
+                        slide = 'slide-left'
+                    }
+                }
+
+                this.transitionName = slide
                 this.fetchData()
                 this.checkRedirect()
             },
