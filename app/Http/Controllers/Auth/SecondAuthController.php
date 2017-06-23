@@ -46,16 +46,17 @@ class SecondAuthController extends Controller
         $valid = $this->google2FA->verifyKeyNewer(
             $request->user()->second_auth_secret,
             $request->get('token'),
-            null
+            $request->user()->second_auth_updated_at
         );
 
         if ($valid) {
+
             $request->user()->update([
                 'second_auth_active' => true,
-                'second_auth_updated_at' => Carbon::now()->timestamp,
+                'second_auth_updated_at' => $valid,
             ]);
 
-            Session::put(self::SECOND_AUTH_SESSION, $request->user()->second_auth_updated_at);
+            Session::put(self::SECOND_AUTH_SESSION, $valid);
 
             if ($request->expectsJson()) {
                 return response()->json($request->user());
