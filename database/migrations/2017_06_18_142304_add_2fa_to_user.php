@@ -16,7 +16,7 @@ class Add2faToUser extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('second_auth_secret')->nullable();
             $table->boolean('second_auth_active')->default(false);
-            $table->dateTime('second_auth_updated_at')->nullable();
+            $table->integer('second_auth_updated_at')->nullable();
         });
     }
 
