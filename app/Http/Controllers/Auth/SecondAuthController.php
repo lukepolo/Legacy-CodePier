@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use App\Http\Controllers\Controller;
@@ -50,7 +49,6 @@ class SecondAuthController extends Controller
         );
 
         if ($valid) {
-
             $request->user()->update([
                 'second_auth_active' => true,
                 'second_auth_updated_at' => $valid,
