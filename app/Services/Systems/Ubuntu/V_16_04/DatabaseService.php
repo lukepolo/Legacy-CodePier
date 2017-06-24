@@ -197,8 +197,8 @@ class DatabaseService
      */
     public function addSchemaUser(SchemaUser $schemaUser)
     {
-        if(!empty($schemaUser->schema_ids)) {
-            foreach($schemaUser->schema_ids as $schemaId) {
+        if (! empty($schemaUser->schema_ids)) {
+            foreach ($schemaUser->schema_ids as $schemaId) {
                 $schema = Schema::findOrFail($schemaId);
                 switch ($schema->database) {
                     case self::MARIADB:
@@ -216,11 +216,11 @@ class DatabaseService
                 }
             }
         } else {
-            if($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
+            if ($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
                 $this->addMySqlUser($schemaUser);
             }
 
-            if($this->hasDatabaseInstalled(self::POSTGRESQL)) {
+            if ($this->hasDatabaseInstalled(self::POSTGRESQL)) {
                 $this->addPostgreSQLUser($schemaUser);
             }
         }
@@ -232,8 +232,8 @@ class DatabaseService
      */
     public function removeSchemaUser(SchemaUser $schemaUser)
     {
-        if(!empty($schemaUser->schema_ids)) {
-            foreach($schemaUser->schema_ids as $schemaId) {
+        if (! empty($schemaUser->schema_ids)) {
+            foreach ($schemaUser->schema_ids as $schemaId) {
                 $schema = Schema::findOrFail($schemaId);
                 switch ($schema->database) {
                     case self::MARIADB:
@@ -251,11 +251,11 @@ class DatabaseService
                 }
             }
         } else {
-            if($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
+            if ($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
                 $this->removeMySqlUser($schemaUser);
             }
 
-            if($this->hasDatabaseInstalled(self::POSTGRESQL)) {
+            if ($this->hasDatabaseInstalled(self::POSTGRESQL)) {
                 $this->removePostgreSQLUser($schemaUser);
             }
         }
@@ -269,7 +269,7 @@ class DatabaseService
     {
         $databaseServices = $this->server->server_features['DatabaseService'];
 
-        if(isset($databaseServices[$database]) && $databaseServices[$database]['enabled'] === true) {
+        if (isset($databaseServices[$database]) && $databaseServices[$database]['enabled'] === true) {
             return true;
         }
 
@@ -330,6 +330,5 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
 
         $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.removeUser($schemaUser->name);\"");
-
     }
 }
