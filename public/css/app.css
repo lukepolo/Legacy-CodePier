@@ -1765,25 +1765,31 @@ tbody.collapse.in {
 .slide-left-enter,
 .slide-right-leave-active {
   opacity: 0;
-  -webkit-transform: translate(450px, 0);
-          transform: translate(450px, 0);
+  -webkit-transform: translate(100%, 0);
+          transform: translate(100%, 0);
 }
 
 .slide-left-leave-active,
 .slide-right-enter {
   opacity: 0;
-  -webkit-transform: translate(-450px, 0);
-          transform: translate(-450px, 0);
+  -webkit-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
 }
 
 .slide-left-leave-active.child-view,
 .slide-right-leave-active.child-view {
   position: absolute;
+  width: calc(100% - 80px);
 }
 
 .child-view {
   -webkit-transition: all ease .5s;
   transition: all ease .5s;
+}
+
+.container {
+  overflow-x: hidden;
+  position: relative;
 }
 
 /*!

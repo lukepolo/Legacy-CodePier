@@ -219,6 +219,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('sites.ssl-certificate', 'SiteSslController');
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
+            Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [

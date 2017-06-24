@@ -14,11 +14,7 @@
 
                     <template v-if="site">
 
-                        <transition v-if="workFlowCompleted === true">
-
-                            <router-view name="nav"></router-view>
-
-                        </transition>
+                        <router-view name="nav" v-if="workFlowCompleted === true" ></router-view>
 
                         <transition :name="transitionName">
 
@@ -34,9 +30,8 @@
                                 </router-view>
                             </template>
                             <template v-else>
-                                <router-view></router-view>
+                                <router-view class="child-view"></router-view>
                             </template>
-
 
                         </transition>
 
