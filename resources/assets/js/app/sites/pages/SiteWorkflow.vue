@@ -160,15 +160,15 @@
     export default {
         data() {
             return {
-                form : this.createForm({
-                    workflow : [
+                form : {
+                    workflow: [
                         'site_databases',
                         'site_workers',
                         'site_cron_jobs',
                         'site_files',
                         'site_ssl_certs'
                     ]
-                })
+                }
             }
         },
         methods: {
