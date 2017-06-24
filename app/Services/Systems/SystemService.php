@@ -122,7 +122,6 @@ class SystemService implements SystemServiceContract
             foreach ($server->provisionSteps->filter(function ($provisionStep) {
                 return $provisionStep->completed == false;
             }) as $provisionStep) {
-
                 $this->updateProgress($provisionStep->step);
 
                 $systemService = $this->createSystemService($provisionStep->service, $server);
@@ -136,7 +135,6 @@ class SystemService implements SystemServiceContract
                 ]);
             }
         } catch (FailedCommand $e) {
-
             $provisionStep->update([
                 'failed' => true,
                 'log' => $systemService->getErrors(),
