@@ -160,7 +160,7 @@ class SiteService implements SiteServiceContract
             } catch (FailedCommand $e) {
                 $log = collect($e->getMessage())->filter()->implode("\n");
 
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log));
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
