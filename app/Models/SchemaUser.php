@@ -34,4 +34,15 @@ class SchemaUser extends Model
     {
         return $this->belongsTo(Schema::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function commandDescription($status)
+    {
+        return $status.' user '.$this->name.' for '.$this->schema->name;
+    }
 }

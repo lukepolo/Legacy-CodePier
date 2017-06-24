@@ -77,20 +77,20 @@ class DatabaseService
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
 
-//    /**
-//     * @description PostgreSQL is a powerful, open source object-relational database system.
-//     */
-//    public function installPostgreSQL()
-//    {
-//        $this->connectToServer();
-//
-//        $databasePassword = $this->server->database_password;
-//
-//        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
-//        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-//
-//        $this->remoteTaskService->run('service postgresql restart');
-//    }
+    /**
+     * @description PostgreSQL is a powerful, open source object-relational database system.
+     */
+    public function installPostgreSQL()
+    {
+        $this->connectToServer();
+
+        $databasePassword = $this->server->database_password;
+
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
+        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
+
+        $this->remoteTaskService->run('service postgresql restart');
+    }
 
     /**
      *  @description Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache and message broker.
@@ -197,31 +197,21 @@ class DatabaseService
      */
     public function addSchemaUser(SchemaUser $schemaUser)
     {
-        if (! empty($schemaUser->schema_ids)) {
-            foreach ($schemaUser->schema_ids as $schemaId) {
-                $schema = Schema::findOrFail($schemaId);
-                switch ($schema->database) {
-                    case self::MARIADB:
-                    case self::MYSQL:
-                        $this->addMySqlUser($schemaUser, $schema);
-                        break;
-                    case self::POSTGRESQL:
-                        $this->addPostgreSQLUser($schemaUser, $schema);
-                        break;
-                    case self::MONGODB:
-                        $this->addMongoDbUser($schemaUser, $schema);
-                    default:
-                        throw new UnknownDatabase($schema->database);
-                        break;
-                }
-            }
-        } else {
-            if ($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
-                $this->addMySqlUser($schemaUser);
-            }
-
-            if ($this->hasDatabaseInstalled(self::POSTGRESQL)) {
-                $this->addPostgreSQLUser($schemaUser);
+        foreach ($schemaUser->schema_ids as $schemaId) {
+            $schema = Schema::findOrFail($schemaId);
+            switch ($schema->database) {
+                case self::MARIADB:
+                case self::MYSQL:
+                    $this->addMySqlUser($schemaUser, $schema);
+                    break;
+                case self::POSTGRESQL:
+                    $this->addPostgreSQLUser($schemaUser, $schema);
+                    break;
+                case self::MONGODB:
+                    $this->addMongoDbUser($schemaUser, $schema);
+                default:
+                    throw new UnknownDatabase($schema->database);
+                    break;
             }
         }
     }
@@ -232,31 +222,21 @@ class DatabaseService
      */
     public function removeSchemaUser(SchemaUser $schemaUser)
     {
-        if (! empty($schemaUser->schema_ids)) {
-            foreach ($schemaUser->schema_ids as $schemaId) {
-                $schema = Schema::findOrFail($schemaId);
-                switch ($schema->database) {
-                    case self::MARIADB:
-                    case self::MYSQL:
-                        $this->removeMySqlUser($schemaUser, $schema);
-                        break;
-                    case self::POSTGRESQL:
-                        $this->removePostgreSQLUser($schemaUser, $schema);
-                        break;
-                    case self::MONGODB:
-                        $this->removeMongoDbUser($schemaUser, $schema);
-                    default:
-                        throw new UnknownDatabase($schema->database);
-                        break;
-                }
-            }
-        } else {
-            if ($this->hasDatabaseInstalled(self::MYSQL) || $this->hasDatabaseInstalled(self::MARIADB)) {
-                $this->removeMySqlUser($schemaUser);
-            }
-
-            if ($this->hasDatabaseInstalled(self::POSTGRESQL)) {
-                $this->removePostgreSQLUser($schemaUser);
+        foreach ($schemaUser->schema_ids as $schemaId) {
+            $schema = Schema::findOrFail($schemaId);
+            switch ($schema->database) {
+                case self::MARIADB:
+                case self::MYSQL:
+                    $this->removeMySqlUser($schemaUser, $schema);
+                    break;
+                case self::POSTGRESQL:
+                    $this->removePostgreSQLUser($schemaUser, $schema);
+                    break;
+                case self::MONGODB:
+                    $this->removeMongoDbUser($schemaUser, $schema);
+                default:
+                    throw new UnknownDatabase($schema->database);
+                    break;
             }
         }
     }
@@ -294,25 +274,18 @@ class DatabaseService
         $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"DROP USER IF EXISTS $schemaUser->name;\"");
     }
 
-//    private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
-//    {
-//        $this->connectToServer($this->server);
-//
-//        $databasePassword = $this->server->database_password;
-//
-//    }
-//
-//    private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
-//    {
-//        $this->connectToServer($this->server);
-//
-//        $databasePassword = $this->server->database_password;
-//
-//        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-//
-////        $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
-//        throw new \Exception('needs the codes');
-//    }
+    private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
+    {
+        $this->connectToServer($this->server);
+
+//        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+
+    }
+
+    private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
+    {
+//        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=$schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+    }
 
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
     {
