@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Site;
 
-use App\Jobs\Server\Schemas\AddServerSchemaUser;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -13,6 +12,7 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\Server\Schemas\AddServerSchema;
+use App\Jobs\Server\Schemas\AddServerSchemaUser;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Jobs\Server\Workers\InstallServerWorker;
