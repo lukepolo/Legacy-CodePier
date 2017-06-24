@@ -24,11 +24,9 @@ class SiteSchemaUserDeleted
         $site->schemaUsers()->detach($schemaUser);
 
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Deleting');
 
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
                 if (
