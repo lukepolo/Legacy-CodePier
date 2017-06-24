@@ -19,7 +19,7 @@
                         <transition :name="transitionName">
 
                             <template v-if="notOverview">
-                                <router-view name="subNav" class="child-view">
+                                <router-view name="subNav" :class="{ 'child-view' : workFlowCompleted === true }">
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
