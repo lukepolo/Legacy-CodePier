@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Jobs\Server\Schemas\AddServerSchemaUser;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -140,6 +141,13 @@ class CreateSite implements ShouldQueue
                 dispatch(
                     (new AddServerSchema($this->server, $schema,
                         $this->makeCommand($this->site, $schema, 'Creating')))->onQueue(config('queue.channels.server_commands'))
+                );
+            });
+
+            $this->site->schemaUsers->each(function ($schemaUser) {
+                dispatch(
+                    (new AddServerSchemaUser($this->server, $schemaUser,
+                        $this->makeCommand($this->site, $schemaUser, 'Creating')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }

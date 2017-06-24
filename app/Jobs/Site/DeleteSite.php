@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Jobs\Server\Schemas\RemoveServerSchemaUser;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -135,6 +136,13 @@ class DeleteSite implements ShouldQueue
                 dispatch(
                     (new RemoveServerSchema($this->server, $schema,
                         $this->makeCommand($this->site, $schema, 'Removing')))->onQueue(config('queue.channels.server_commands'))
+                );
+            });
+
+            $this->site->schemaUsers->each(function ($schemaUser) {
+                dispatch(
+                    (new RemoveServerSchemaUser($this->server, $schemaUser,
+                        $this->makeCommand($this->site, $schemaUser, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
