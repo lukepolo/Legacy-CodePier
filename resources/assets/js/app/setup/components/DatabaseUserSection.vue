@@ -97,18 +97,18 @@
                     })
                 }
 
-//                if(this.serverId) {
-//                    this.$store.dispatch('user_server_schemas/store', {
-//                        server : this.serverId,
-//                        name : this.schemaUserForm.name,
-//                        password : this.schemaUserForm.password,
-//                        databases : this.schemaUserForm.databases,
-//                    }).then((schema) => {
-//                        if(schema.id) {
-//                            this.schemaUserForm.reset()
-//                        }
-//                    })
-//                }
+                if(this.serverId) {
+                    this.$store.dispatch('user_server_schema_users/store', {
+                        server : this.serverId,
+                        name : this.schemaUserForm.name,
+                        password : this.schemaUserForm.password,
+                        schema_ids : this.schemaUserForm.schema_ids,
+                    }).then((schema) => {
+                        if(schema.id) {
+                            this.schemaUserForm.reset()
+                        }
+                    })
+                }
 
             },
             deleteSchemaUser(user) {
@@ -120,12 +120,12 @@
                     })
                 }
 
-//                if(this.serverId) {
-//                    this.$store.dispatch('user_server_schemas/destroy', {
-//                        schema: database,
-//                        server: this.serverId
-//                    })
-//                }
+                if(this.serverId) {
+                    this.$store.dispatch('user_server_schema_users/destroy', {
+                        schema_user: user,
+                        server: this.serverId
+                    })
+                }
             },
             getSchemasByType(schemaType) {
                 return _.filter(this.schemas, (schema) => {
@@ -152,6 +152,10 @@
             schemaUsers() {
                 if(this.siteId) {
                     return this.$store.state.user_site_schema_users.users
+                }
+
+                if(this.serverId) {
+                    return this.$store.state.user_server_schema_users.users
                 }
             },
             schemaTypes() {
