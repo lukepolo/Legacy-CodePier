@@ -19,16 +19,17 @@ export const workFlowCompleted = function() {
 
     if(site && site.repository && site.workflow) {
 
-        let currentWorkflow = _.find(
-            _.sortBy(
-                _.map(site.workflow, function(flow, step) {
-                    flow.step = step
-                    return flow
-                }),
-                'order'
-            ), function(flow) {
-                return flow.completed === false
-            })
+        let workflows = _.sortBy(
+            _.map(site.workflow, function(flow, step) {
+                flow.step = step
+                return flow
+            }),
+            'order'
+        );
+
+        let currentWorkflow = _.find(workflows, function(flow) {
+            return flow.completed === false
+        })
 
         if(currentWorkflow) {
             return currentWorkflow.step

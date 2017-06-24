@@ -23,6 +23,7 @@
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
+                                        <button @click="revertWorkFlow" class="btn btn-danger" v-if="workflowStepsCompleted !== 1">back</button>
                                         <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
                                     </template>
                                     <router-view></router-view>
@@ -135,12 +136,31 @@
                 }
                 this.checkRedirect()
             },
-            updateWorkFlow() {
-
+            revertWorkFlow() {
                 let workflow = _.clone(this.site.workflow)
 
-                workflow[this.workFlowCompleted] = true
+                let workflows = _.sortBy(
+                    _.map(workflow, function(flow, step) {
+                        flow.step = step
+                        return flow
+                    }),
+                    'order'
+                );
 
+                let currentWorkflowIndex = _.findKey(workflows, function(flow) {
+                    return flow.completed === false
+                })
+
+                workflow[workflows[currentWorkflowIndex - 1].step].completed = false
+
+                this.updateFlow(workflow)
+            },
+            updateWorkFlow() {
+                let workflow = _.clone(this.site.workflow)
+                workflow[this.workFlowCompleted].completed = true
+                this.updateFlow(workflow)
+            },
+            updateFlow(workflow) {
                 this.$store.dispatch('user_sites/updateWorkflow', {
                     workflow : workflow,
                     site : this.$route.params.site_id,
@@ -156,8 +176,8 @@
                 return this.$store.state.user_sites.site
             },
             workflowStepsCompleted() {
-                return _.filter(this.site.workflow, function(status) {
-                    return status === true
+                return _.filter(this.site.workflow, function(flow) {
+                    return flow.completed === true
                 }).length + 1
             },
             totalWorkflowSteps() {
