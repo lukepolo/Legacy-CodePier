@@ -4,12 +4,12 @@ namespace App\Services\Server;
 
 use App\Models\Bitt;
 use App\Models\Schema;
-use App\Models\SchemaUser;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
+use App\Models\SchemaUser;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
@@ -498,7 +498,6 @@ class ServerService implements ServerServiceContract
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
     }
-
 
     public function addSchemaUser(Server $server, SchemaUser $schemaUser)
     {

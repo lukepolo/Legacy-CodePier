@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Server\Server;
 use App\Models\Site\Site;
+use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class SchemaUser extends Model
@@ -11,7 +11,7 @@ class SchemaUser extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'schema_ids' => 'array'
+        'schema_ids' => 'array',
     ];
 
     /*
@@ -34,5 +34,4 @@ class SchemaUser extends Model
     {
         return $this->belongsTo(Schema::class);
     }
-
 }
