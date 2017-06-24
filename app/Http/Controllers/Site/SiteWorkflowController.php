@@ -22,15 +22,15 @@ class SiteWorkflowController extends Controller
 
         $tempFlow = $flow->keys()->flip();
 
-        $flow = $flow->map(function($completed, $workflow) use($tempFlow) {
+        $flow = $flow->map(function ($completed, $workflow) use ($tempFlow) {
             return [
                 'completed' => $completed,
-                'order' => $tempFlow[$workflow] + 1
+                'order' => $tempFlow[$workflow] + 1,
             ];
         });
 
         $site->update([
-            'workflow' => $flow
+            'workflow' => $flow,
         ]);
 
         return response()->json($site);
