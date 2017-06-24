@@ -31,6 +31,7 @@
 
                 if(this.serverId) {
                     this.$store.dispatch('user_server_schemas/get', this.serverId)
+                    this.$store.dispatch('user_server_schema_users/get', this.serverId)
                     this.$store.dispatch('user_server_features/get', this.serverId)
                 }
             }
