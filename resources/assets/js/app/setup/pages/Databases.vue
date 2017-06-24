@@ -1,14 +1,17 @@
 <template>
     <div>
         <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
+        <database-user-section></database-user-section>
     </div>
 </template>
 
 <script>
     import DatabaseSection from '../components/DatabaseSection.vue'
+    import DatabaseUserSection from '../components/DatabaseUserSection.vue'
     export default {
         components:  {
-            DatabaseSection
+            DatabaseSection,
+            DatabaseUserSection
         },
         created() {
             this.fetchData()
@@ -20,6 +23,7 @@
             fetchData() {
                 if(this.siteId) {
                     this.$store.dispatch('user_site_schemas/get', this.siteId)
+                    this.$store.dispatch('user_site_schema_users/get', this.siteId)
                     this.$store.dispatch('user_site_server_features/get', {
                         site : this.siteId
                     })

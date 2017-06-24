@@ -69,6 +69,10 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
         });
 
+        Validator::extend('databaseName', function ($attribute, $value) {
+            return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
+        });
+
         Validator::extend('valid_language_type', function ($attribute, $value) {
             return collect([
                 'PHP',

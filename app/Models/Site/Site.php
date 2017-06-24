@@ -6,6 +6,7 @@ use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
+use App\Models\SchemaUser;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
@@ -156,6 +157,11 @@ class Site extends Model
     public function schemas()
     {
         return $this->morphToMany(Schema::class, 'schemable');
+    }
+
+    public function schemaUsers()
+    {
+        return $this->morphToMany(SchemaUser::class, 'schema_userable');
     }
 
     public function environmentVariables()

@@ -4,6 +4,7 @@ namespace App\Services\Server;
 
 use App\Models\Bitt;
 use App\Models\Schema;
+use App\Models\SchemaUser;
 use App\Models\SshKey;
 use App\Models\CronJob;
 use phpseclib\Net\SFTP;
@@ -496,6 +497,17 @@ class ServerService implements ServerServiceContract
     public function removeSchema(Server $server, Schema $schema)
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
+    }
+
+
+    public function addSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->addSchemaUser($schemaUser);
+    }
+
+    public function removeSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->removeSchemaUser($schemaUser);
     }
 
     /**

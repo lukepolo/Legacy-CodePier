@@ -38,6 +38,7 @@ import user_site_services from './user/site/services'
 import user_site_cron_jobs from './user/site/cron-jobs'
 import user_site_life_lines from './user/site/life-lines'
 import user_site_deployments from './user/site/deployments'
+import user_site_schema_users from './user/site/schema-users'
 import user_site_firewall_rules from './user/site/firewall-rules'
 import user_repository_providers from './user/repository/providers'
 import user_site_server_features from './user/site/server-features'
@@ -103,6 +104,7 @@ export default {
     user_site_cron_jobs,
     user_site_life_lines,
     user_site_deployments,
+    user_site_schema_users,
     user_site_firewall_rules,
     user_repository_providers,
     user_site_server_features,
