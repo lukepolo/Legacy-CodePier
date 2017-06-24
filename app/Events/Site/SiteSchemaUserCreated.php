@@ -2,8 +2,8 @@
 
 namespace App\Events\Site;
 
-use App\Models\SchemaUser;
 use App\Models\Site\Site;
+use App\Models\SchemaUser;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
@@ -22,7 +22,6 @@ class SiteSchemaUserCreated
     public function __construct(Site $site, SchemaUser $schemaUser)
     {
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Creating');
 
             foreach ($site->provisionedServers as $server) {
