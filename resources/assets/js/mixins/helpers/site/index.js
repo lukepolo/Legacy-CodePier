@@ -15,16 +15,23 @@ export const getSite = function (siteId, attribute) {
 
 export const workFlowCompleted = function() {
 
-
     let site = this.$store.state.user_sites.site
 
     if(site && site.repository && site.workflow) {
-        let workflow = _.findKey(site.workflow, function(status) {
-            return status === false
-        })
 
-        if(workflow) {
-            return workflow
+        let currentWorkflow = _.find(
+            _.sortBy(
+                _.map(site.workflow, function(flow, step) {
+                    flow.step = step
+                    return flow
+                }),
+                'order'
+            ), function(flow) {
+                return flow.completed === false
+            })
+
+        if(currentWorkflow) {
+            return currentWorkflow.step
         }
 
         return true

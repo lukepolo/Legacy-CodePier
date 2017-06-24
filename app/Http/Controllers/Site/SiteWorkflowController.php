@@ -18,8 +18,19 @@ class SiteWorkflowController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
+        $flow = collect($request->get('workflow'));
+
+        $tempFlow = $flow->keys()->flip();
+
+        $flow = $flow->map(function($completed, $workflow) use($tempFlow) {
+            return [
+                'completed' => $completed,
+                'order' => $tempFlow[$workflow] + 1
+            ];
+        });
+
         $site->update([
-            'workflow' => $request->get('workflow'),
+            'workflow' => $flow
         ]);
 
         return response()->json($site);

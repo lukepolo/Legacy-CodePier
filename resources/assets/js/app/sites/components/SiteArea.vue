@@ -68,7 +68,7 @@
             SiteHeader,
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         watch: {
             '$route' (to, from) {
@@ -97,7 +97,6 @@
 
                 this.transitionName = slide
                 this.fetchData()
-                this.checkRedirect()
             },
             'site' : 'checkRedirect'
 
@@ -134,6 +133,7 @@
                 if(!this.site || this.site.id !== parseInt(siteId)) {
                     this.$store.dispatch('user_sites/show', siteId)
                 }
+                this.checkRedirect()
             },
             updateWorkFlow() {
 
