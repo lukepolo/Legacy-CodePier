@@ -4875,6 +4875,10 @@ pre {
   font-family: 'Cutive Mono', monospace;
 }
 
+small {
+  color: #B6B6B6;
+}
+
 .break-word {
   word-break: break-word;
 }
@@ -4926,6 +4930,15 @@ h4.primary,
 h5.primary,
 h6.primary {
   font-weight: 700;
+}
+
+h1.heading,
+h2.heading,
+h3.heading,
+h4.heading,
+h5.heading,
+h6.heading {
+  margin-bottom: 20px;
 }
 
 a {
@@ -5835,6 +5848,10 @@ a.item:hover:before {
         -ms-flex-positive: 1;
             flex-grow: 1;
   }
+}
+
+.group--item-content .list + form .flyform--group:first-child {
+  margin-top: 0px;
 }
 
 .col-split,
@@ -6752,6 +6769,75 @@ a.item:hover:before {
   margin-right: -40px;
 }
 
+.flyform--group-checkbox,
+.flyform--group-radio {
+  font-size: 16px;
+  margin: 20px 0px;
+}
+
+.flyform--group-checkbox label,
+.flyform--group-radio label {
+  position: relative;
+  display: block;
+  padding-left: 30px;
+  cursor: pointer;
+}
+
+.flyform--group-checkbox input,
+.flyform--group-radio input {
+  width: auto;
+  opacity: 0;
+  position: absolute;
+}
+
+.flyform--group-checkbox input:checked + .icon:before,
+.flyform--group-radio input:checked + .icon:before {
+  content: '';
+  color: #48ACF0;
+}
+
+.flyform--group-checkbox .icon,
+.flyform--group-radio .icon {
+  display: inline;
+}
+
+.flyform--group-checkbox .icon:before,
+.flyform--group-radio .icon:before {
+  content: '';
+  font-family: icomoon;
+  position: absolute;
+  left: 4px;
+  top: -3px;
+  font-size: 1.2em;
+  color: #B6B6B6;
+}
+
+.flyform--group-checkbox [class^="hint-"],
+.flyform--group-checkbox [class*=" hint-"],
+.flyform--group-radio [class^="hint-"],
+.flyform--group-radio [class*=" hint-"] {
+  position: relative;
+  top: -3px;
+  font-size: .83em;
+  margin-left: 5px;
+}
+
+.flyform--group-checkbox .icon:before {
+  content: '\E835';
+}
+
+.flyform--group-checkbox input:checked + .icon:before {
+  content: '\E834';
+}
+
+.flyform--group-radio .icon:before {
+  content: '\E836';
+}
+
+.flyform--group-radio input:checked + .icon:before {
+  content: '\E837';
+}
+
 #login_form,
 #register_form,
 #forgot_form {
@@ -7231,7 +7317,50 @@ textarea:focus {
 }
 
 .site-name .event-status {
-  margin-right: 10px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.site-name .event-status-neutral {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  background-color: #B6B6B6;
+}
+
+.site-name .event-status-success {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  background-color: #83B692;
+}
+
+.site-name .event-status-error {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  background-color: #F4645F;
+}
+
+.site-name .event-status-warning {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: 2px;
+  background-color: #FEC07A;
 }
 
 .site-name .deploy-status {

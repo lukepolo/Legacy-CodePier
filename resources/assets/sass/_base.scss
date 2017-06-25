@@ -44,6 +44,10 @@ pre {
   font-family: 'Cutive Mono', monospace;
 }
 
+small {
+  color: $color-text-secondary;
+}
+
 .break-word {
   word-break: break-word;
 }
@@ -90,6 +94,10 @@ h1, h2, h3, h4, h5, h6 {
 
   &.primary {
     font-weight: 700;
+  }
+
+  &.heading {
+    margin-bottom: $spacing;
   }
 }
 
