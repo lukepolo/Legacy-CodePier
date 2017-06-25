@@ -54,6 +54,10 @@ class CreateServer implements ShouldQueue
                 (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
             );
         } catch (\Exception $e) {
+
+            if(config('app.env') === 'local') {
+                throw $e;
+            }
             event(
                 new ServerFailedToCreate($this->server, $e->getMessage())
             );
