@@ -29,7 +29,7 @@ class LinodeServerFeaturesController extends Controller
     public function index()
     {
         return response()->json(
-            ServerProvider::with('serverFeatures')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures
+            ServerProvider::with('serverFeatures')->where('provider_name', LinodeController::LINODE)->firstOrFail()->serverFeatures
         );
     }
 }

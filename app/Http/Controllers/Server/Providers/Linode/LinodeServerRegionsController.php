@@ -30,7 +30,7 @@ class LinodeServerRegionsController extends Controller
     {
         $regions = ServerProvider::with(['serverRegions' => function ($query) {
             $query->orderBy('name');
-        }])->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverRegions;
+        }])->where('provider_name', LinodeController::LINODE)->firstOrFail()->serverRegions;
 
         if ($regions->isEmpty()) {
             return $this->store();
@@ -47,7 +47,7 @@ class LinodeServerRegionsController extends Controller
     public function store()
     {
         return response()->json(
-            $this->serverService->getServerRegions(ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail())
+            $this->serverService->getServerRegions(ServerProvider::where('provider_name', LinodeController::LINODE)->firstOrFail())
         );
     }
 }
