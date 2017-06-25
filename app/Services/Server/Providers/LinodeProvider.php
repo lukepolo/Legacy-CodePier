@@ -2,12 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
+use GuzzleHttp\Client;
+use App\Models\Server\Server;
+use GuzzleHttp\Psr7\Response;
+use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
-use App\Models\Server\Server;
-use App\Models\User\UserServerProvider;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 
 class LinodeProvider implements ServerProviderContract
 {
@@ -37,7 +37,7 @@ class LinodeProvider implements ServerProviderContract
                 'space' => $plan->DISK,
                 'priceHourly' => $plan->HOURLY,
                 'priceMonthly' => $plan->PRICE,
-                'plan_id' => $plan->PLANID
+                'plan_id' => $plan->PLANID,
             ]);
         }
 
@@ -63,12 +63,11 @@ class LinodeProvider implements ServerProviderContract
                 'server_provider_id' => $this->getServerProviderID(),
                 'name' => $region->LOCATION,
                 'provider_name' => $region->ABBR,
-                'region_id' => $region->DATACENTERID
+                'region_id' => $region->DATACENTERID,
             ]);
         }
 
         return $regions;
-
     }
 
     /**
@@ -87,13 +86,11 @@ class LinodeProvider implements ServerProviderContract
 
         $data = [
             'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-            'PlanID' => ServerProviderOption::findOrFail($server->options['server_option'])->plan_id
+            'PlanID' => ServerProviderOption::findOrFail($server->options['server_option'])->plan_id,
         ];
 
         return $this->saveServer($server, $this->makeRequest('post', $data)->DATA->LinodeID);
-
     }
-
 
     /**
      * Gets the status of a server.
