@@ -13,7 +13,7 @@ class AddOptionIdToServerOptions extends Migration
      */
     public function up()
     {
-        Schema::table('server_provider_options', function(Blueprint $table) {
+        Schema::table('server_provider_options', function (Blueprint $table) {
             $table->integer('plan_id')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddOptionIdToServerOptions extends Migration
      */
     public function down()
     {
-        Schema::table('server_provider_options', function(Blueprint $table) {
+        Schema::table('server_provider_options', function (Blueprint $table) {
             $table->dropColumn('plan_id');
         });
     }
