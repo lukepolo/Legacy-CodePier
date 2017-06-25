@@ -13,8 +13,8 @@ class AddServerRegionId extends Migration
      */
     public function up()
     {
-        Schema::table('server_provider_regions', function(Blueprint $table) {
-             $table->integer('region_id')->nullable();
+        Schema::table('server_provider_regions', function (Blueprint $table) {
+            $table->integer('region_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddServerRegionId extends Migration
      */
     public function down()
     {
-        Schema::table('server_provider_regions', function(Blueprint $table) {
+        Schema::table('server_provider_regions', function (Blueprint $table) {
             $table->dropColumn('region_id');
         });
     }
