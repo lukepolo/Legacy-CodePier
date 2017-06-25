@@ -2,10 +2,10 @@
 
 namespace App\Services\Server\Providers;
 
+use Carbon\Carbon;
+use App\Models\User\User;
 use App\Models\Server\Server;
 use App\Models\Server\Provider\ServerProvider;
-use App\Models\User\User;
-use Carbon\Carbon;
 
 trait ServerProviderTrait
 {
@@ -63,7 +63,7 @@ trait ServerProviderTrait
     {
         $providerName = $this->providerName;
 
-        $server_provider_id = \Cache::rememberForever($providerName.'Id', function () use($providerName) {
+        $server_provider_id = \Cache::rememberForever($providerName.'Id', function () use ($providerName) {
             return ServerProvider::where('provider_name', $providerName)->first()->id;
         });
 
@@ -72,7 +72,7 @@ trait ServerProviderTrait
             $server_provider_id
         )->first()
         ) {
-            if (!empty($serverProvider->expires_in) && Carbon::now()->gte($serverProvider->expires_in)) {
+            if (! empty($serverProvider->expires_in) && Carbon::now()->gte($serverProvider->expires_in)) {
                 return $this->refreshToken($serverProvider);
             }
 
