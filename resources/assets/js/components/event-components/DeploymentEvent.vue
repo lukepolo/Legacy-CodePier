@@ -54,7 +54,9 @@
                 Rollback
             </confirm>
         </div>
-        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
+        <div class="events--item-time">
+            <time-ago :time="event.created_at"></time-ago>
+        </div>
     </div>
 </template>
 

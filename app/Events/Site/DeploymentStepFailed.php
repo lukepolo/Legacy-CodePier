@@ -30,7 +30,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
      * @param DeploymentStep $deploymentStep
      * @param $log
      */
-    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log)
+    public function __construct(Site $site, Server $server, DeploymentEvent $deploymentEvent, DeploymentStep $deploymentStep, $log, $runtime)
     {
         $this->siteId = $site->id;
 
@@ -38,6 +38,7 @@ class DeploymentStepFailed implements ShouldBroadcastNow
             'log' => $log,
             'failed' => true,
             'completed' => true,
+            'runtime' => $runtime,
         ]);
 
         $deploymentEvent->serverDeployment->update([

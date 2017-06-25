@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -16,8 +17,8 @@ class UpdateWebConfig implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
-    private $server;
     private $site;
+    private $server;
 
     public $tries = 1;
     public $timeout = 60;
@@ -27,12 +28,14 @@ class UpdateWebConfig implements ShouldQueue
      *
      * @param Server $server
      * @param Site $site
+     * @param Command $siteCommand
      */
-    public function __construct(Server $server, Site $site)
+    public function __construct(Server $server, Site $site, Command $siteCommand)
     {
         $this->site = $site;
         $this->server = $server;
-        $this->makeCommand($server, $site, null, 'Updating Web Config');
+
+        $this->makeCommand($server, $site, $siteCommand);
     }
 
     /**

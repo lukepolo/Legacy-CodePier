@@ -68,7 +68,12 @@ class ServerFeatureController extends Controller
      */
     public function getLanguages()
     {
-        return response()->json($this->serverFeatureService->getLanguages());
+        $languages = $this->serverFeatureService->getLanguages();
+
+        // removing ruby for the time being
+        unset($languages['Ruby']);
+
+        return response()->json($languages);
     }
 
     /**

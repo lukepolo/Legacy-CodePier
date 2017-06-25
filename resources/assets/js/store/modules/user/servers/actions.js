@@ -70,6 +70,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
 
         Echo.private('App.Models.Server.Server.' + server.id)
             .listen('Server\\ServerProvisionStatusChanged', (data) => {
+
                 commit('user_servers/update', {
                     response: data.server
                 }, {
@@ -83,7 +84,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
                 })
 
                 commit('user_server_provisioning/setCurrentStep', {
-                    request: data.serverCurrentProvisioningStep
+                    response: data.serverCurrentProvisioningStep
                 }, {
                     root: true
                 })

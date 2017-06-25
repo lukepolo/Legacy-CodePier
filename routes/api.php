@@ -176,6 +176,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('servers.features', 'ServerFeatureController');
             Route::apiResource('servers.cron-jobs', 'ServerCronJobController');
             Route::apiResource('servers.ssl-certificate', 'ServerSslController');
+            Route::apiResource('servers.schema-users', 'ServerSchemaUserController');
             Route::apiResource('servers.firewall-rules', 'ServerFirewallRuleController');
             Route::apiResource('servers.provision-steps', 'ServerProvisionStepsController');
             Route::apiResource('servers.language-settings', 'ServerLanguageSettingsController');
@@ -219,6 +220,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('sites.ssl-certificate', 'SiteSslController');
             Route::apiResource('sites.life-lines', 'SiteLifelinesController');
             Route::apiResource('sites.deployments', 'SiteDeploymentsController');
+            Route::apiResource('sites.schema-users', 'SiteSchemaUserController');
             Route::apiResource('sites.hooks', 'Repository\RepositoryHookController');
             Route::apiResource('sites.firewall-rules', 'SiteFirewallRuleController');
             Route::apiResource('sites.server-features', 'SiteServerFeaturesController', [
@@ -259,6 +261,16 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('options', 'DigitalOceanServerOptionsController');
             Route::apiResource('regions', 'DigitalOceanServerRegionsController');
             Route::apiResource('features', 'DigitalOceanServerFeaturesController');
+        });
+
+        Route::group([
+            'prefix' => \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE,
+            'namespace' => 'Server\Providers\Linode',
+        ], function () {
+            Route::apiResource('provider', 'LinodeController');
+            Route::apiResource('options', 'LinodeServerOptionsController');
+            Route::apiResource('regions', 'LinodeServerRegionsController');
+            Route::apiResource('features', 'LinodeServerFeaturesController');
         });
     });
 });

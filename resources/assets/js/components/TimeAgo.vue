@@ -28,7 +28,14 @@
                 Vue.set(this.currentTime, this.currentTime.add(-1, 'minute'))
             },
             setCurrentTime () {
-                this.currentTime = this.time
+
+                let time = this.time
+
+                if(!moment.isMoment(time)) {
+                    time = this.parseDate(time)
+                }
+
+                this.currentTime = time
             }
         },
         computed: {

@@ -9,7 +9,6 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "authy/php": "2.*",
         "bacon/bacon-qr-code": "~1.0",
         "barryvdh/laravel-ide-helper": "^2.3",
         "doctrine/dbal": "dev-mysql57-json",
@@ -29,7 +28,7 @@
         "pda/pheanstalk": "^3.1",
         "php-http/guzzle6-adapter": "^1.1",
         "phpseclib/phpseclib": "^2.0",
-        "pragmarx/google2fa": "^1.0",
+        "pragmarx/google2fa": "^2.0",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^2.6",
         "sentry/sentry-laravel": "^0.7.0",

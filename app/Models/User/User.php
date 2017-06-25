@@ -47,12 +47,6 @@ class User extends Authenticatable
         'second_auth_secret',
     ];
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'second_auth_updated_at',
-    ];
-
     /*
     |--------------------------------------------------------------------------
     | Relations

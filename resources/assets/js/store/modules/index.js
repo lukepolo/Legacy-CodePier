@@ -38,6 +38,7 @@ import user_site_services from './user/site/services'
 import user_site_cron_jobs from './user/site/cron-jobs'
 import user_site_life_lines from './user/site/life-lines'
 import user_site_deployments from './user/site/deployments'
+import user_site_schema_users from './user/site/schema-users'
 import user_site_firewall_rules from './user/site/firewall-rules'
 import user_repository_providers from './user/repository/providers'
 import user_site_server_features from './user/site/server-features'
@@ -57,6 +58,7 @@ import user_server_ssh_keys from './user/server/ssh-keys'
 import user_server_providers from './user/server/providers'
 import user_server_cron_jobs from './user/server/cron-jobs'
 import user_server_provisioning from './user/server/provisioning'
+import user_server_schema_users from './user/server/schema-users'
 import user_server_firewall_rules from './user/server/firewall-rules'
 import user_server_ssl_certificates from './user/server/ssl-certificates'
 import user_server_language_settings from './user/server/language-settings'
@@ -103,6 +105,7 @@ export default {
     user_site_cron_jobs,
     user_site_life_lines,
     user_site_deployments,
+    user_site_schema_users,
     user_site_firewall_rules,
     user_repository_providers,
     user_site_server_features,
@@ -122,6 +125,7 @@ export default {
     user_server_providers,
     user_server_cron_jobs,
     user_server_provisioning,
+    user_server_schema_users,
     user_server_firewall_rules,
     user_server_ssl_certificates,
     user_server_language_settings,

@@ -9,6 +9,7 @@ use App\Models\CronJob;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
+use App\Models\SchemaUser;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
@@ -59,12 +60,12 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        $sshKey = $this->remoteTaskService->createSshKey();
-
-        $server->public_ssh_key = $sshKey['publickey'];
-        $server->private_ssh_key = $sshKey['privatekey'];
-
-        $server->save();
+        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
+            $sshKey = $this->remoteTaskService->createSshKey();
+            $server->public_ssh_key = $sshKey['publickey'];
+            $server->private_ssh_key = $sshKey['privatekey'];
+            $server->save();
+        }
 
         return $this->getProvider($serverProvider)->create($server);
     }
@@ -364,6 +365,10 @@ class ServerService implements ServerServiceContract
                 $this->remoteTaskService->writeToFile($sslCertificate->cert_path, $sslCertificate->cert);
                 break;
         }
+
+        $sslCertificate->update([
+            'active' => true,
+        ]);
     }
 
     /**
@@ -492,6 +497,16 @@ class ServerService implements ServerServiceContract
     public function removeSchema(Server $server, Schema $schema)
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
+    }
+
+    public function addSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->addSchemaUser($schemaUser);
+    }
+
+    public function removeSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->removeSchemaUser($schemaUser);
     }
 
     /**

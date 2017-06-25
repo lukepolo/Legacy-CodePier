@@ -14,6 +14,7 @@ use App\Jobs\Server\Schemas\RemoveServerSchema;
 use App\Jobs\Server\SshKeys\RemoveServerSshKey;
 use App\Jobs\Server\Workers\RemoveServerWorker;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
+use App\Jobs\Server\Schemas\RemoveServerSchemaUser;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
 use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
@@ -135,6 +136,13 @@ class DeleteSite implements ShouldQueue
                 dispatch(
                     (new RemoveServerSchema($this->server, $schema,
                         $this->makeCommand($this->site, $schema, 'Removing')))->onQueue(config('queue.channels.server_commands'))
+                );
+            });
+
+            $this->site->schemaUsers->each(function ($schemaUser) {
+                dispatch(
+                    (new RemoveServerSchemaUser($this->server, $schemaUser,
+                        $this->makeCommand($this->site, $schemaUser, 'Removing')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }

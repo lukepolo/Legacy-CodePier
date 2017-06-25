@@ -43,9 +43,14 @@ class SiteSslCertificateUpdated
                 ) {
                     if ($sslCertificate->active) {
                         if ($activeSsl->id != $sslCertificate->id) {
+                            $activeSsl->update([
+                                'active' => false,
+                            ]);
+
                             dispatch(
                                 (new DeactivateServerSslCertificate(
                                     $server,
+                                    $site,
                                     $activeSsl,
                                     $siteCommand
                                 ))->onQueue(config('queue.channels.server_commands'))
