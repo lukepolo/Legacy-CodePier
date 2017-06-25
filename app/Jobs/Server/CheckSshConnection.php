@@ -43,10 +43,10 @@ class CheckSshConnection implements ShouldQueue
             event(new ServerProvisionStatusChanged($this->server, 'Queue for Provisioning', 0));
             dispatch((new ProvisionServer($this->server))->onQueue(config('queue.channels.server_provisioning')));
         } else {
-//            if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
+            //            if ($this->server->created_at->addMinutes(10) > Carbon::now()) {
                 dispatch((new self($this->server))->delay(10)->onQueue(config('queue.channels.server_provisioning')));
 
-                return;
+            return;
 //            }
 //
 //            event(
