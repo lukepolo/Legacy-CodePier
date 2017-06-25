@@ -10,8 +10,9 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Contracts\Site\SiteServiceContract as SiteService;
+use App\Events\Site\SiteSslCertificateUpdated;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerSslCertificate implements ShouldQueue
@@ -39,17 +40,15 @@ class InstallServerSslCertificate implements ShouldQueue
 
     /**
      * @param \App\Services\Server\ServerService | ServerService $serverService
-     * @param \App\Services\Site\SiteService | SiteService $siteService
      * @throws ServerCommandFailed
      */
-    public function handle(ServerService $serverService, SiteService $siteService)
+    public function handle(ServerService $serverService)
     {
         if ($this->server->sslCertificates->keyBy('id')->get($this->sslCertificate->id)) {
             $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
         } else {
-            $this->runOnServer(function () use ($serverService, $siteService) {
+            $this->runOnServer(function () use ($serverService) {
                 $serverService->installSslCertificate($this->server, $this->sslCertificate);
-                $this->updateWebConfigs($siteService);
             });
 
             if (! $this->wasSuccessful()) {
@@ -61,8 +60,7 @@ class InstallServerSslCertificate implements ShouldQueue
                     $this->sslCertificate->update([
                         'active' => false,
                     ]);
-
-                    $this->updateWebConfigs($siteService);
+                    $this->updateWebConfigs();
                 }
 
                 throw new ServerCommandFailed($this->getCommandErrors());
@@ -73,16 +71,19 @@ class InstallServerSslCertificate implements ShouldQueue
             ]);
 
             $this->server->sslCertificates()->save($this->sslCertificate);
+
+            $this->updateWebConfigs();
         }
     }
 
-    /**
-     * @param \App\Services\Site\SiteService | SiteService $siteService
-     */
-    private function updateWebConfigs($siteService)
+    private function updateWebConfigs()
     {
         foreach ($this->sslCertificate->sites as $site) {
-            $siteService->updateWebServerConfig($this->server, $site);
+            if ($this->sslCertificate->active === true) {
+                event(new SiteSslCertificateUpdated($site, $this->sslCertificate));
+            } else {
+                event(new SiteUpdatedWebConfig($site));
+            }
         }
     }
 }

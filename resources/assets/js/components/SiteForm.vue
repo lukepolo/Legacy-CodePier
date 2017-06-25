@@ -11,6 +11,22 @@
                     </label>
                 </div>
 
+                <div class="jcf-input-group input-checkbox">
+
+                    <label>
+
+                        <tooltip :message="'If your site requires wildcard for sub domains'" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+
+                        <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
+                        <span class="icon"></span>
+                        Wildcard Domain
+
+                    </label>
+
+                </div>
+
                 <button class="btn btn-primary">Save</button>
             </form>
         </div>
@@ -37,7 +53,8 @@
             return {
                 form: this.createForm({
                     domain: null,
-                    pile_id: this.pile && this.pile.id
+                    wildcard_domain : false,
+                    pile_id: this.pile && this.pile.id,
                 })
             }
         },

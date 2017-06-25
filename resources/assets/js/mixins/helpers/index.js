@@ -31,7 +31,6 @@ import {
 import {
     now,
     diff,
-    timeAgo,
     parseDate
 } from './date-time'
 
@@ -72,7 +71,6 @@ Vue.mixin({
         action,
         getPile,
         getSite,
-        timeAgo,
         hasClass,
         getServer,
         showError,

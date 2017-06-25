@@ -12,6 +12,7 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Jobs\Server\Schemas\AddServerSchema;
+use App\Jobs\Server\Schemas\AddServerSchemaUser;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Jobs\Server\UpdateServerLanguageSetting;
 use App\Jobs\Server\Workers\InstallServerWorker;
@@ -140,6 +141,13 @@ class CreateSite implements ShouldQueue
                 dispatch(
                     (new AddServerSchema($this->server, $schema,
                         $this->makeCommand($this->site, $schema, 'Creating')))->onQueue(config('queue.channels.server_commands'))
+                );
+            });
+
+            $this->site->schemaUsers->each(function ($schemaUser) {
+                dispatch(
+                    (new AddServerSchemaUser($this->server, $schemaUser,
+                        $this->makeCommand($this->site, $schemaUser, 'Creating')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }

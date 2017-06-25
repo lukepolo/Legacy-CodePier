@@ -1,34 +1,3 @@
-<style>
-    .bounce-enter-active {
-        animation: bounce-in .5s;
-    }
-    .bounce-leave-active {
-        animation: bounce-out .5s;
-    }
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
-    @keyframes bounce-out {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.5);
-        }
-        100% {
-            transform: scale(0);
-        }
-    }
-</style>
-
 <template>
 
     <div class="parent">
@@ -45,19 +14,16 @@
 
                     <template v-if="site">
 
-                        <transition v-if="workFlowCompleted === true">
+                        <router-view name="nav" v-if="workFlowCompleted === true" ></router-view>
 
-                            <router-view name="nav"></router-view>
-
-                        </transition>
-
-                        <transition>
+                        <transition :name="transitionName">
 
                             <template v-if="notOverview">
-                                <router-view name="subNav">
+                                <router-view name="subNav" :class="{ 'child-view' : workFlowCompleted === true }">
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
+                                        <button @click="revertWorkFlow" class="btn btn-danger" v-if="workflowStepsCompleted !== 1">back</button>
                                         <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
                                     </template>
                                     <router-view></router-view>
@@ -65,9 +31,8 @@
                                 </router-view>
                             </template>
                             <template v-else>
-                                <router-view></router-view>
+                                <router-view class="child-view"></router-view>
                             </template>
-
 
                         </transition>
 
@@ -104,16 +69,35 @@
             SiteHeader,
         },
         created() {
-            this.fetchData();
+            this.fetchData()
         },
         watch: {
             '$route' (to, from) {
-                const toDepth = to.path.split('/').length
-                const fromDepth = from.path.split('/').length
-//                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-                this.transitionName = 'bounce';
+
+                let slide = 'slide-right'
+
+                if(to.path.includes('setup')) {
+                    slide = 'slide-right'
+                }
+
+                if(to.path.includes('server-setup')) {
+                    slide = 'slide-left'
+                }
+
+                if(to.path.includes('security')) {
+                    if(from.path.includes('server-setup')) {
+                        slide = 'slide-right'
+                    } else {
+                        slide = 'slide-left'
+                    }
+                }
+
+                if(from.path.includes('overview')) {
+                    slide = 'slide-left'
+                }
+
+                this.transitionName = slide
                 this.fetchData()
-                this.checkRedirect()
             },
             'site' : 'checkRedirect'
 
@@ -150,13 +134,33 @@
                 if(!this.site || this.site.id !== parseInt(siteId)) {
                     this.$store.dispatch('user_sites/show', siteId)
                 }
+                this.checkRedirect()
             },
-            updateWorkFlow() {
-
+            revertWorkFlow() {
                 let workflow = _.clone(this.site.workflow)
 
-                workflow[this.workFlowCompleted] = true
+                let workflows = _.sortBy(
+                    _.map(workflow, function(flow, step) {
+                        flow.step = step
+                        return flow
+                    }),
+                    'order'
+                );
 
+                let currentWorkflowIndex = _.findKey(workflows, function(flow) {
+                    return flow.completed === false
+                })
+
+                workflow[workflows[currentWorkflowIndex - 1].step].completed = false
+
+                this.updateFlow(workflow)
+            },
+            updateWorkFlow() {
+                let workflow = _.clone(this.site.workflow)
+                workflow[this.workFlowCompleted].completed = true
+                this.updateFlow(workflow)
+            },
+            updateFlow(workflow) {
                 this.$store.dispatch('user_sites/updateWorkflow', {
                     workflow : workflow,
                     site : this.$route.params.site_id,
@@ -172,8 +176,8 @@
                 return this.$store.state.user_sites.site
             },
             workflowStepsCompleted() {
-                return _.filter(this.site.workflow, function(status) {
-                    return status === true
+                return _.filter(this.site.workflow, function(flow) {
+                    return flow.completed === true
                 }).length + 1
             },
             totalWorkflowSteps() {

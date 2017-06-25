@@ -87,7 +87,7 @@ class PHP
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
-        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm restart');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
     }
 
     /**

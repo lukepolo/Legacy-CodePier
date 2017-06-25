@@ -64,6 +64,9 @@ class SiteController extends Controller
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
             'workflow'            => \Auth::user()->workflow ? null : [],
+            'wildcard_domain'     => $request->get('wildcard_domain', 0),
+            'keep_releases'       => 10,
+            'zerotime_deployment' => true,
         ]);
 
         return response()->json($site);
@@ -100,9 +103,6 @@ class SiteController extends Controller
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'keep_releases'               => $request->get('keep_releases', 10),
-            'wildcard_domain'             => $request->get('wildcard_domain', 0),
-            'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
 

@@ -74,128 +74,11 @@
 
                 <div class="flyform--footer">
                     <div class="flyform--footer-btns">
-                        <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
                         <button class="btn btn-primary" type="submit" :disabled="form.diff().length === 0">Update Repository</button>
                     </div>
                 </div>
 
-                <br><br><br><br>
-                <div class="grid-2">
-                    <div class="flyform--group">
-                        <label>
-                            <span>Repository Options</span>
-                        </label>
-
-                        <label>
-                            <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
-                                <span class="fa fa-info-circle"></span>
-                            </tooltip>
-
-                            <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
-                            <span class="icon"></span>
-                            Zerotime Deployment
-                        </label>
-                    </div>
-
-                    <div class="flyform--group">
-                        <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
-
-                        <label for="keep_releases" class="flyform--group-iconlabel">
-                            <span>Number of Releases to keep</span>
-                        </label>
-
-                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                    </div>
-                </div>
-
-
-
-
-
-
-
-                <div class="jcf-input-group input-checkbox">
-
-                    <div class="input-question">Repository Options</div>
-
-                    <label>
-
-                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                        <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
-                        <span class="icon"></span>
-                        Zerotime Deployment
-
-                    </label>
-
-                </div>
-
-                <template v-if="form.zerotime_deployment">
-
-                    <div class="jcf-input-group">
-
-                        <input type="number" v-model="form.keep_releases" name="keep_releases">
-
-                        <label for="keep_releases">
-
-                            <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
-                                <span class="fa fa-info-circle"></span>
-                            </tooltip>
-
-                            <span class="float-label">Number of Releases to keep</span>
-
-                        </label>
-
-                    </div>
-
-                </template>
-
-                <div class="jcf-input-group input-checkbox">
-
-                    <label>
-
-                        <tooltip :message="'If your site requires a wildcard (ex : *.'+ site.domain +') you should check this'" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                        <input type="checkbox" v-model="form.wildcard_domain" name="wildcard_domain" value="1">
-                        <span class="icon"></span>
-                        Wildcard Domain
-
-                    </label>
-
-                </div>
-
-                <div class="jcf-input-group">
-
-                    <div class="input-question">Language & Framework</div>
-
-                    <div class="select-wrap">
-
-                        <select v-model="form.type" name="type" required>
-                            <option value=""></option>
-                            <template v-for="(features, language) in availableLanguages">
-                                <optgroup :label="language">
-                                    <option :value="language">
-                                        Generic {{ language }}
-                                    </option>
-                                    <option v-for="(features, framework) in availableFrameworks[language]" :value="language+'.'+framework"> {{ framework }}</option>
-                                </optgroup>
-                            </template>
-                        </select>
-
-                    </div>
-
-                </div>
-
             </template>
-
-
 
         </form>
 
@@ -218,11 +101,8 @@
                     branch: 'master',
                     framework: null,
                     repository: null,
-                    keep_releases : 10,
                     web_directory: 'public',
                     custom_provider : false,
-                    wildcard_domain : false,
-                    zerotime_deployment: true,
                     user_repository_provider_id: null
                 })
             }
@@ -263,10 +143,7 @@
                     this.form.type = site.framework ? site.framework : site.type
                     this.form.branch = site.branch
                     this.form.repository = site.repository
-                    this.form.keep_releases = site.keep_releases
                     this.form.web_directory = site.web_directory
-                    this.form.wildcard_domain = site.wildcard_domain
-                    this.form.zerotime_deployment = site.zerotime_deployment
                     this.form.user_repository_provider_id = site.user_repository_provider_id
 
                     if(this.form.repository && !this.form.user_repository_provider_id) {
@@ -296,10 +173,7 @@
                     framework: framework,
                     repository: this.form.repository,
                     web_directory: this.form.web_directory,
-                    keep_releases : this.form.keep_releases,
-                    wildcard_domain: this.form.wildcard_domain,
                     custom_provider : this.form.custom_provider,
-                    zerotime_deployment: this.form.zerotime_deployment,
                     user_repository_provider_id: this.form.user_repository_provider_id
                 });
             },

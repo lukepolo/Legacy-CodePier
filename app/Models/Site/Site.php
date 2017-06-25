@@ -11,6 +11,7 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
+use App\Models\SchemaUser;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -156,6 +157,11 @@ class Site extends Model
     public function schemas()
     {
         return $this->morphToMany(Schema::class, 'schemable');
+    }
+
+    public function schemaUsers()
+    {
+        return $this->morphToMany(SchemaUser::class, 'schema_userable');
     }
 
     public function environmentVariables()
