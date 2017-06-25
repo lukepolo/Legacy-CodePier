@@ -10,7 +10,7 @@ use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class LinodeController extends Controller
 {
-    CONST LINODE = 'linode';
+    const LINODE = 'linode';
 
     private $serverService;
 
