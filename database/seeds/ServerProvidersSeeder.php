@@ -23,15 +23,27 @@ class ServerProvidersSeeder extends Seeder
                     ['feature' => 'Private Networking', 'cost' => null, 'default' => true, 'option' => 'privateNetworking'],
                 ],
                 'class' => \App\Services\Server\Providers\DigitalOceanProvider::class,
+                'oauth' => true,
+                'secret_token' => false,
             ],
-            \App\Services\Server\Providers\CustomProvider::class => [
+            \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE => [
+                'name'     => 'Linode',
+                'features' => [],
+                'class' => \App\Services\Server\Providers\LinodeProvider::class,
+                'oauth' => false,
+                'secret_token' => false,
+            ],
+            'custom' => [
                 'name'     => 'Custom Provider',
                 'features' => [],
                 'class' => \App\Services\Server\Providers\CustomProvider::class,
+                'oauth' => false,
+                'secret_token' => true,
             ],
         ];
 
         foreach ($providers as $provider => $data) {
+
             $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrNew([
                 'provider_class' => $data['class'],
             ]);
@@ -39,6 +51,9 @@ class ServerProvidersSeeder extends Seeder
             $serverProvider->fill([
                 'provider_name' => $provider,
                 'name'          => $data['name'],
+                'oauth'         => $data['oauth'],
+                'token'         => $data['token'],
+                'secret_token'        => $data['secret_token'],
             ]);
 
             $serverProvider->save();

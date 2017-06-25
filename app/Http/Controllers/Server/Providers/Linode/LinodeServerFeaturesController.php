@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Server\Providers\DigitalOcean;
+namespace App\Http\Controllers\Server\Providers\Linode;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
-class DigitalOceanController extends Controller
+class LinodeServerFeaturesController extends Controller
 {
     private $serverService;
 
@@ -28,6 +28,8 @@ class DigitalOceanController extends Controller
      */
     public function index()
     {
-        return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail());
+        return response()->json(
+            ServerProvider::with('serverFeatures')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures
+        );
     }
 }

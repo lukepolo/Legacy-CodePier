@@ -262,5 +262,15 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('regions', 'DigitalOceanServerRegionsController');
             Route::apiResource('features', 'DigitalOceanServerFeaturesController');
         });
+
+        Route::group([
+            'prefix' => \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE,
+            'namespace' => 'Server\Providers\Linode',
+        ], function () {
+            Route::apiResource('provider', 'LinodeController');
+            Route::apiResource('options', 'LinodeServerOptionsController');
+            Route::apiResource('regions', 'LinodeServerRegionsController');
+            Route::apiResource('features', 'LinodeServerFeaturesController');
+        });
     });
 });
