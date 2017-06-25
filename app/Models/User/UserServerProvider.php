@@ -24,7 +24,7 @@ class UserServerProvider extends Model
     protected $encryptable = [
         'token',
         'refresh_token',
-        'token_secret'
+        'token_secret',
     ];
 
     /*

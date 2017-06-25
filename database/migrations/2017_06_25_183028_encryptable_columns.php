@@ -13,11 +13,11 @@ class EncryptableColumns extends Migration
      */
     public function up()
     {
-        Schema::table('user_server_providers', function(Blueprint $table) {
+        Schema::table('user_server_providers', function (Blueprint $table) {
             $table->renameColumn('tokenSecret', 'token_secret');
         });
 
-        Schema::table('user_server_providers', function(Blueprint $table) {
+        Schema::table('user_server_providers', function (Blueprint $table) {
             $table->longText('token')->change();
             $table->longText('token_secret')->change();
             $table->longText('refresh_token')->change();
@@ -57,7 +57,6 @@ class EncryptableColumns extends Migration
         DB::table('user_login_providers')->truncate();
         DB::table('user_repository_providers')->truncate();
         DB::table('user_notification_providers')->truncate();
-
     }
 
     /**
