@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Server\Providers\Linode;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
@@ -26,7 +25,7 @@ class LinodeServerOptionsController extends Controller
      */
     public function index()
     {
-        $options = ServerProvider::with('serverOptions')->where('provider_name', OauthController::DIGITAL_OCEAN)->first()->serverOptions;
+        $options = ServerProvider::with('serverOptions')->where('provider_name', LinodeController::LINODE)->first()->serverOptions;
 
         if ($options->isEmpty()) {
             return $this->store();
@@ -43,7 +42,7 @@ class LinodeServerOptionsController extends Controller
     public function store()
     {
         return response()->json(
-            $this->serverService->getServerOptions(ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail())
+            $this->serverService->getServerOptions(ServerProvider::where('provider_name', LinodeController::LINODE)->firstOrFail())
         );
     }
 }

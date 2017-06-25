@@ -51,7 +51,6 @@ class ServerProvidersSeeder extends Seeder
                 'provider_name' => $provider,
                 'name'          => $data['name'],
                 'oauth'         => $data['oauth'],
-                'token'         => $data['token'],
                 'secret_token'        => $data['secret_token'],
             ]);
 
