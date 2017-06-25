@@ -75,7 +75,7 @@
                                     </label>
                                 </div>
 
-                                <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
+                                <template v-if="server_provider && server_options.length && server_regions.length">
 
                                     <div class="jcf-input-group">
                                         <div class="input-question">Size</div>
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="input-group input-checkbox">
+                                    <div class="input-group input-checkbox" v-if="server_provider_features.length">
                                         <div class="input-question">Features</div>
                                         <template v-for="feature in server_provider_features">
                                             <label>

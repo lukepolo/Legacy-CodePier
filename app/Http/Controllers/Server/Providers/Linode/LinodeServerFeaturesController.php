@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Server\Providers\Linode;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\OauthController;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
@@ -29,7 +28,7 @@ class LinodeServerFeaturesController extends Controller
     public function index()
     {
         return response()->json(
-            ServerProvider::with('serverFeatures')->where('provider_name', OauthController::DIGITAL_OCEAN)->firstOrFail()->serverFeatures
+            ServerProvider::with('serverFeatures')->where('provider_name', LinodeController::LINODE)->firstOrFail()->serverFeatures
         );
     }
 }
