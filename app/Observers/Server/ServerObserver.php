@@ -10,7 +10,8 @@ class ServerObserver
     /**
      * @param Server $server
      */
-    public function creating(Server $server) {
+    public function creating(Server $server)
+    {
         $server->sudo_password = str_random(32);
         $server->database_password = str_random(32);
     }

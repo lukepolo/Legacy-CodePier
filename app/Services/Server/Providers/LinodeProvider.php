@@ -2,12 +2,12 @@
 
 namespace App\Services\Server\Providers;
 
+use GuzzleHttp\Client;
+use App\Models\Server\Server;
+use GuzzleHttp\Psr7\Response;
+use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
-use App\Models\Server\Server;
-use App\Models\User\UserServerProvider;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 
 class LinodeProvider implements ServerProviderContract
 {
@@ -37,7 +37,7 @@ class LinodeProvider implements ServerProviderContract
                 'space' => $plan->DISK,
                 'priceHourly' => $plan->HOURLY,
                 'priceMonthly' => $plan->PRICE,
-                'plan_id' => $plan->PLANID
+                'plan_id' => $plan->PLANID,
             ]);
         }
 
@@ -63,12 +63,11 @@ class LinodeProvider implements ServerProviderContract
                 'server_provider_id' => $this->getServerProviderID(),
                 'name' => $region->LOCATION,
                 'provider_name' => $region->ABBR,
-                'region_id' => $region->DATACENTERID
+                'region_id' => $region->DATACENTERID,
             ]);
         }
 
         return $regions;
-
     }
 
     /**
@@ -90,7 +89,7 @@ class LinodeProvider implements ServerProviderContract
 
         $data = [
             'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-            'PlanID' => $serverProviderOption->plan_id
+            'PlanID' => $serverProviderOption->plan_id,
         ];
 
         $serverInfo = $this->makeRequest('post', $data);
@@ -107,9 +106,8 @@ class LinodeProvider implements ServerProviderContract
             'LinodeID' => $serverInfo->LinodeID,
             'rootPass' => $server->sudo_password,
             'rootSSHKey' => $server->public_ssh_key,
-            'size' => $serverProviderOption->space * 1024
+            'size' => $serverProviderOption->space * 1024,
         ]);
-
 
         $this->url = 'https://api.linode.com';
         $this->setToken($token);
@@ -119,11 +117,10 @@ class LinodeProvider implements ServerProviderContract
             'LinodeID' => $serverInfo->LinodeID,
             'KernelID' => null,
             'Label' => 'My Ubuntu 16.04 Profile',
-            'DiskList' => "%s,%s,,,,,,," . $diskInfo->DiskID
+            'DiskList' => '%s,%s,,,,,,,'.$diskInfo->DiskID,
         ]);
 
 //  )
-
 
         $this->url = 'https://api.linode.com';
         $this->setToken($token);
@@ -135,7 +132,6 @@ class LinodeProvider implements ServerProviderContract
 
         return $server;
     }
-
 
     /**
      * Gets the status of a server.
@@ -160,12 +156,11 @@ class LinodeProvider implements ServerProviderContract
      * Gets the server IP.
      *
      * @param \App\Models\Server\Server $server
-     *
      */
     public function savePublicIP(Server $server)
     {
         $server->update([
-            'ip' => $this->getPublicIP($server)
+            'ip' => $this->getPublicIP($server),
         ]);
     }
 
@@ -235,12 +230,12 @@ class LinodeProvider implements ServerProviderContract
 
         /** @var Response $response */
         $response = $client->$method($this->url, [
-            'form_params' => $data
+            'form_params' => $data,
         ]);
 
         $data = json_decode($response->getBody());
 
-        if(isset($data->DATA)) {
+        if (isset($data->DATA)) {
             return $data->DATA;
         }
 
