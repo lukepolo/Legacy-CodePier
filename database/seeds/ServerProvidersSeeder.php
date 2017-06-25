@@ -43,7 +43,6 @@ class ServerProvidersSeeder extends Seeder
         ];
 
         foreach ($providers as $provider => $data) {
-
             $serverProvider = \App\Models\Server\Provider\ServerProvider::firstOrNew([
                 'provider_class' => $data['class'],
             ]);
