@@ -2,20 +2,32 @@
     <section>
         <p v-for="provider in server_providers">
             <template v-if="isConnected(provider.id)">
-                Disconnect : <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
-                provider.name}}</a>
+                Disconnect :
+                <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
+                    provider.name}}
+                </a>
             </template>
             <template v-else>
-                Integrate : <a
-                    :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
-                    class="btn btn-default">{{ provider.name}}</a>
+                Integrate :
+                <template v-if="provider.oauth">
+                    <a :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
+                       class="btn btn-default">{{ provider.name}}
+                    </a>
+                </template>
+                <template v-else>
+                    <server-provider-form :provider="provider"></server-provider-form>
+                </template>
             </template>
         </p>
     </section>
 </template>
 
 <script>
+    import ServerProviderForm from '../components/ServerProviderForm.vue'
     export default {
+        components : {
+            ServerProviderForm
+        },
         computed: {
             server_providers() {
                 return this.$store.state.server_providers.providers;

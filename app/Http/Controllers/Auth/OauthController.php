@@ -218,7 +218,7 @@ class OauthController extends Controller
             'token'         => $user->token,
             'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userLoginProvider->save();
@@ -248,7 +248,7 @@ class OauthController extends Controller
             'user_id'       => \Auth::user()->id,
             'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userRepositoryProvider->save();
@@ -290,7 +290,7 @@ class OauthController extends Controller
             'expires_in'    => $expiresIn,
             'user_id'       => \Auth::user()->id,
             'refresh_token' => $refreshToken,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userServerProvider->save();
@@ -320,7 +320,7 @@ class OauthController extends Controller
             'user_id'       => \Auth::user()->id,
             'expires_in'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
-            'tokenSecret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
+            'token_secret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
         ]);
 
         $userNotificationProvider->save();
