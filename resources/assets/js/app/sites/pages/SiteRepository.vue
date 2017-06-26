@@ -1,6 +1,6 @@
 <template>
     <div v-if="site">
-        <h3 v-if="!form.user_repository_provider_id && !form.custom_provider">
+        <h3 class="heading" v-if="!form.user_repository_provider_id && !form.custom_provider">
             To create your site, you need to select a source control provider.
         </h3>
 

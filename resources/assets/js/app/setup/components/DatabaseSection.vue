@@ -1,23 +1,15 @@
 <template>
     <section>
-        <H3>{{ database }}</H3>
+        <h3>{{ database }}</h3>
 
-        <div class="jcf-form-wrap">
+        <form @submit.prevent="createSchema" class="floating-labels">
+            <div class="flyform--group">
+                <input type="text" name="name" v-model="schemaForm.name" placeholder=" ">
+                <label for="name">Database Name</label>
+            </div>
 
-            <form @submit.prevent="createSchema" class="floating-labels">
-                <div class="jcf-input-group">
-                    <input type="text" name="name" v-model="schemaForm.name">
-                    <label for="name">
-                        <span class="float-label">Name</span>
-                    </label>
-                </div>
-
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Create Schema</button>
-                </div>
-
-            </form>
-        </div>
+            <button class="btn btn-primary" type="submit">Create Schema</button>
+        </form>
 
         <table class="table">
             <thead>

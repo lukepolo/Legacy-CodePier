@@ -4932,6 +4932,15 @@ h6.primary {
   font-weight: 700;
 }
 
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+h6.secondary {
+  color: #c8e6fb;
+}
+
 h1.heading,
 h2.heading,
 h3.heading,
