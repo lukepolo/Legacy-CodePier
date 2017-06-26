@@ -19,14 +19,24 @@
                         <transition :name="transitionName">
 
                             <template v-if="notOverview">
-                                <router-view name="subNav" :class="{ 'child-view' : workFlowCompleted === true }">
+                                <router-view name="subNav" :class="{
+                                    'child-view' : workFlowCompleted === true,
+                                    'in-workflow' : workFlowCompleted !== true
+                                 }">
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
-                                        <h1>Workflow {{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h1>
-                                        <button @click="revertWorkFlow" class="btn btn-danger" v-if="workflowStepsCompleted !== 1">back</button>
-                                        <button @click="updateWorkFlow" class="btn btn-success">Continue</button>
+                                        <h2>{{ workFlowName }}</h2>
+                                        <h4 class="heading secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
                                     </template>
                                     <router-view></router-view>
+                                    <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
+                                        <div class="flyform--footer">
+                                            <div class="flyform--footer-btns">
+                                                <button @click="revertWorkFlow" class="btn" v-if="workflowStepsCompleted !== 1">back</button>
+                                                <button @click="updateWorkFlow" class="btn btn-primary">Continue</button>
+                                            </div>
+                                        </div>
+                                    </template>
 
                                 </router-view>
                             </template>
@@ -185,6 +195,9 @@
             },
             notOverview() {
                 return this.$route.name !== 'site_overview'
+            },
+            workFlowName() {
+                return this.workFlowCompleted.replace('site_', '').replace('_', ' ')
             }
         }
     }

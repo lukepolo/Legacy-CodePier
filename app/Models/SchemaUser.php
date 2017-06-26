@@ -43,6 +43,6 @@ class SchemaUser extends Model
 
     public function commandDescription($status)
     {
-        return $status.' user '.$this->name.' for '.$this->schema->name;
+        return $status.' database user '.$this->name;
     }
 }

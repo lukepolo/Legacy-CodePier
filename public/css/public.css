@@ -4875,6 +4875,10 @@ pre {
   font-family: 'Cutive Mono', monospace;
 }
 
+small {
+  color: #3C3F41;
+}
+
 .break-word {
   word-break: break-word;
 }
@@ -4926,6 +4930,24 @@ h4.primary,
 h5.primary,
 h6.primary {
   font-weight: 700;
+}
+
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+h6.secondary {
+  color: #c8e6fb;
+}
+
+h1.heading,
+h2.heading,
+h3.heading,
+h4.heading,
+h5.heading,
+h6.heading {
+  margin-bottom: 20px;
 }
 
 a {
@@ -5330,6 +5352,75 @@ button[disabled=disabled] {
 .tab-content .flyform--footer {
   margin-left: -40px;
   margin-right: -40px;
+}
+
+.flyform--group-checkbox,
+.flyform--group-radio {
+  font-size: 16px;
+  margin: 20px 0px;
+}
+
+.flyform--group-checkbox label,
+.flyform--group-radio label {
+  position: relative;
+  display: block;
+  padding-left: 30px;
+  cursor: pointer;
+}
+
+.flyform--group-checkbox input,
+.flyform--group-radio input {
+  width: auto;
+  opacity: 0;
+  position: absolute;
+}
+
+.flyform--group-checkbox input:checked + .icon:before,
+.flyform--group-radio input:checked + .icon:before {
+  content: '';
+  color: #48ACF0;
+}
+
+.flyform--group-checkbox .icon,
+.flyform--group-radio .icon {
+  display: inline;
+}
+
+.flyform--group-checkbox .icon:before,
+.flyform--group-radio .icon:before {
+  content: '';
+  font-family: icomoon;
+  position: absolute;
+  left: 4px;
+  top: -3px;
+  font-size: 1.2em;
+  color: #3C3F41;
+}
+
+.flyform--group-checkbox [class^="hint-"],
+.flyform--group-checkbox [class*=" hint-"],
+.flyform--group-radio [class^="hint-"],
+.flyform--group-radio [class*=" hint-"] {
+  position: relative;
+  top: -3px;
+  font-size: .83em;
+  margin-left: 5px;
+}
+
+.flyform--group-checkbox .icon:before {
+  content: '\E835';
+}
+
+.flyform--group-checkbox input:checked + .icon:before {
+  content: '\E834';
+}
+
+.flyform--group-radio .icon:before {
+  content: '\E836';
+}
+
+.flyform--group-radio input:checked + .icon:before {
+  content: '\E837';
 }
 
 #login_form,
