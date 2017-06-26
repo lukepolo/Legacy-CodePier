@@ -29,7 +29,6 @@ img {
   max-width: 100%;
 }
 
-
 // TEXT ----------------------------------------------------
 // ---------------------------------------------------------
 span {
@@ -37,7 +36,6 @@ span {
 }
 
 p {
-
 }
 
 pre {
@@ -53,13 +51,13 @@ pre {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  vertical-align: bottom
+  vertical-align: bottom;
 }
 
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
 input {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 textarea {
@@ -76,8 +74,6 @@ textarea {
   }
 }
 
-
-
 // HEADINGS ------------------------------------------------
 // ---------------------------------------------------------
 h1, h2, h3, h4, h5, h6 {
@@ -93,24 +89,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-
-
 // LINKS ---------------------------------------------------
 // ---------------------------------------------------------
 a {
   display: inline-block;
   color: $color-primary;
 
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover, &:focus, &:active {
     color: mix($white, $blue, 50%);
     text-decoration: none;
     cursor: pointer;
   }
 }
-
-
 
 // LISTS ---------------------------------------------------
 // ---------------------------------------------------------

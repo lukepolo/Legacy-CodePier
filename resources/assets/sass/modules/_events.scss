@@ -4,11 +4,9 @@
   border-top: 2px solid rgba($white, .2);
 
   &--drag {
-
   }
 
   &--header {
-
   }
 
   &--collapse {
@@ -31,7 +29,6 @@
     border-top: 1px solid rgba($white, .1);
   }
 
-
   // EVENTS ITEM ---------------------------------------------
   // ---------------------------------------------------------
   &--item {
@@ -43,7 +40,6 @@
     &-status {
       flex: 0 0 auto;
       margin-right: $spacing;
-
 
       &-neutral {
         @include status(null);
@@ -113,8 +109,6 @@
   }
 }
 
-
-
 // EVENTS ITEM DETAILS -------------------------------------
 // ---------------------------------------------------------
 .events--item-details {
@@ -139,11 +133,11 @@
 
   pre {
     margin: 0px 0px $spacing ($spacing *2);
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
     overflow: auto;
     color: $yellow;
   }
@@ -158,8 +152,6 @@
     }
   }
 }
-
-
 
 // DRAGGING STYLES -----------------------------------------
 // ---------------------------------------------------------
@@ -178,13 +170,10 @@
   }
 }
 
-
-
 // XL SCREEN STYLES ----------------------------------------
 // ---------------------------------------------------------
 @include breakpoint(xl) {
   .events {
-
     &--collapse {
       height: 100%;
     }

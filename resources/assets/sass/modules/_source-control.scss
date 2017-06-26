@@ -7,7 +7,6 @@
   border-bottom: 2px solid rgba($white, .1);
 
   label {
-
     @include breakpoint(mxl) {
       grid-column-end: span 2;
     }
@@ -63,7 +62,6 @@
           color: $color-primary;
         }
       }
-
     }
 
     &-header {
@@ -84,15 +82,12 @@
       border-top: 1px solid $color-divider;
       text-align: center;
 
-      &-connected,
-      &-connect {
+      &-connected, &-connect {
         padding: $spacing/2;
       }
-
     }
 
-    .icon-check_circle,
-    .icon-link {
+    .icon-check_circle, .icon-link {
       position: absolute;
       right: $spacing/2;
       top: $spacing;
@@ -113,8 +108,6 @@
       }
     }
   }
-
-
 }
 
 //  ----------------------------------------

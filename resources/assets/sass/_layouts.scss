@@ -1,8 +1,7 @@
 @import 'layouts/layout';
-@import 'layouts/header';   //cleanup
-@import 'layouts/footer';   //cleanup
-@import 'layouts/main';     //cleanup
-
+@import 'layouts/header'; //cleanup
+@import 'layouts/footer'; //cleanup
+@import 'layouts/main'; //cleanup
 
 // TEXT ----------------------------------------------------
 // ---------------------------------------------------------
@@ -28,8 +27,6 @@ p.info {
   text-align: right;
 }
 
-
-
 // COLORS --------------------------------------------------
 // ---------------------------------------------------------
 .text-success {
@@ -52,8 +49,6 @@ p.info {
   color: $color-accent;
 }
 
-
-
 // LABELS --------------------------------------------------
 // ---------------------------------------------------------
 .label {
@@ -71,10 +66,10 @@ p.info {
 
 .label-primary {
   background-color: $color-primary;
-  color : $color-text-primary !important;
+  color: $color-text-primary !important;
 }
 
 .label-danger {
   background-color: $red;
-  color : $color-text-primary !important;
+  color: $color-text-primary !important;
 }
