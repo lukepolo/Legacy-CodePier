@@ -27,9 +27,7 @@
       padding: ($spacing/4) ($spacing*2) ($spacing/4) ($spacing/2);
       position: relative;
 
-      &:hover,
-      &:active,
-      &:focus {
+      &:hover, &:active, &:focus {
         background-color: rgba($color-text-primary, .05);
       }
 

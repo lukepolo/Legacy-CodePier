@@ -66,12 +66,20 @@
 }
 
 @-webkit-keyframes nprogress-spinner {
-  0%   { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 @keyframes nprogress-spinner {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // PROGRESS BAR --------------------------------------------
@@ -88,7 +96,7 @@
     height: 18px !important;
     width: 18px !important;
     border-width: 9px !important;
-    
+
     .spinner-icon {
       display: none;
     }
