@@ -1,6 +1,6 @@
-const { mix } = require('laravel-mix')
+const { mix } = require("laravel-mix");
 
-console.info(mix.config.Paths)
+console.info(mix.config.Paths);
 
 /*
  |--------------------------------------------------------------------------
@@ -14,50 +14,50 @@ console.info(mix.config.Paths)
  */
 
 mix
-    .js('resources/assets/js/app.js', 'public/js')
-    .js('resources/assets/js/public.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('resources/assets/sass/public.scss', 'public/css')
-    .extract([
-        'vue',
-        'vuex',
-        'brace',
-        'axios',
-        'jquery',
-        'lodash',
-        'hint.css',
-        'nprogress',
-        'jcf-forms',
-        'pusher-js',
-        'clipboard',
-        'vue-router',
-        'vuedraggable',
-        'laravel-echo',
-        'moment-timezone',
-        'filesize-parser',
-        'lodash-inflection'
-    ])
-    .autoload({
-        vue: 'Vue',
-        lodash: '_',
-        ace: 'brace',
-        'pusher-js': 'Pusher',
-        clipboard: 'Clipboard',
-        jquery: ['$', 'jQuery']
-    })
-    .sourceMaps()
+  .js("resources/assets/js/app.js", "public/js")
+  .js("resources/assets/js/public.js", "public/js")
+  .sass("resources/assets/sass/app.scss", "public/css")
+  .sass("resources/assets/sass/public.scss", "public/css")
+  .extract([
+    "vue",
+    "vuex",
+    "brace",
+    "axios",
+    "jquery",
+    "lodash",
+    "hint.css",
+    "nprogress",
+    "jcf-forms",
+    "pusher-js",
+    "clipboard",
+    "vue-router",
+    "vuedraggable",
+    "laravel-echo",
+    "moment-timezone",
+    "filesize-parser",
+    "lodash-inflection"
+  ])
+  .autoload({
+    vue: "Vue",
+    lodash: "_",
+    ace: "brace",
+    "pusher-js": "Pusher",
+    clipboard: "Clipboard",
+    jquery: ["$", "jQuery"]
+  })
+  .sourceMaps();
 
 if (mix.config.inProduction) {
-    mix.version()
+  mix.version();
 } else {
-    mix.browserSync({
-        open: 'external',
-        host: 'codepier.dev',
-        proxy: 'codepier.dev',
-        files: [
-            'resources/views/**/*.php',
-            'public/js/**/*.js',
-            'public/css/**/*.css'
-        ]
-    })
+  mix.browserSync({
+    open: "external",
+    host: "codepier.dev",
+    proxy: "codepier.dev",
+    files: [
+      "resources/views/**/*.php",
+      "public/js/**/*.js",
+      "public/css/**/*.css"
+    ]
+  });
 }
