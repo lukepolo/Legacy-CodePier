@@ -1,114 +1,111 @@
 // BUTTON STYLES ===========================================
 // =========================================================
 .btn {
-    background-color: $jcf-color-text-inverse;
-    color: $jcf-color-text-primary !important;
-    font-size: 16px;
-    font-weight: 300;
-    text-transform: uppercase;
-    border: none; 
-    border-radius: 2px;
-    padding: 8px 15px;
-    cursor: pointer;
+  background-color: $jcf-color-text-inverse;
+  color: $jcf-color-text-primary !important;
+  font-size: 16px;
+  font-weight: 300;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: all .1s;
+  @include card(1);
+
+  &:hover, &:focus {
+    @include card(2);
+    outline: none;
+    transform: scale(1.02);
+    transition: all .1s;
+  }
+
+  &:active {
+    @include card(1);
+    outline: none;
     transform: scale(1);
     transition: all .1s;
-    @include card(1);
-    
-    &:hover,
-    &:focus {
-        @include card(2);
-        outline: none;
-        transform: scale(1.02);
-        transition: all .1s;
-    }
-    
-    &:active {
-        @include card(1);
-        outline: none;
-        transform: scale(1);
-        transition: all .1s;
-    }
-    
-    + .btn {
-        margin-left: 15px;
-    }
+  }
 
-    p {
-        font-size: 15px;
-        font-weight: 300;
-        text-transform: none;
-    }
+  + .btn {
+    margin-left: 15px;
+  }
 
-    &-link {
-        padding: 0px;
-        background-color: transparent;
+  p {
+    font-size: 15px;
+    font-weight: 300;
+    text-transform: none;
+  }
 
-        &:hover {
-            color: $color-primary;
-        }
+  &-link {
+    padding: 0px;
+    background-color: transparent;
+
+    &:hover {
+      color: $color-primary;
     }
+  }
 }
 
 span.btn {
-    display: inline-block;
+  display: inline-block;
 }
-    
-.btn-primary { 
-    background-color: $jcf-color-primary;
-    color: $jcf-color-text-primary !important;
+
+.btn-primary {
+  background-color: $jcf-color-primary;
+  color: $jcf-color-text-primary !important;
 }
 
 .btn-danger {
-    background-color: $red;
-    color: $jcf-color-text-primary !important;
+  background-color: $red;
+  color: $jcf-color-text-primary !important;
 }
 
 .btn-small {
-    font-size: 14px;
-    padding: 5px 10px;
+  font-size: 14px;
+  padding: 5px 10px;
 
-    + .btn-small {
-        margin-left: 5px;
-    }
+  + .btn-small {
+    margin-left: 5px;
+  }
 }
 
 .btn-large {
-    font-size: 18px;
-    padding: 10px 18px;
-    font-weight: 400;
+  font-size: 18px;
+  padding: 10px 18px;
+  font-weight: 400;
 }
 
-.btn-disabled,
-button[disabled=disabled] {
-    background-color: mix($gray, $white, 80%);
-    color: mix($gray, $white, 60%) !important;
-    pointer-events: none;
+.btn-disabled, button[disabled=disabled] {
+  background-color: mix($gray, $white, 80%);
+  color: mix($gray, $white, 60%) !important;
+  pointer-events: none;
 }
 
 .btn-text-success {
-    color: $green;
-    font-weight: 600;
-    letter-spacing: .5px;
-    cursor: pointer;
+  color: $green;
+  font-weight: 600;
+  letter-spacing: .5px;
+  cursor: pointer;
 
-    &:hover {
-        color: mix($green, $white, 80%);
-    }
+  &:hover {
+    color: mix($green, $white, 80%);
+  }
 }
 
 // BUTTON FOOTER STYLES ------------------------------------
 // ---------------------------------------------------------
 .btn-footer {
-    text-align: center;
-    border-top: 1px solid $jcf-color-divider;
-    background-color: transparent;
-    margin: $spacing 0px 0px;
-    padding: $spacing;
+  text-align: center;
+  border-top: 1px solid $jcf-color-divider;
+  background-color: transparent;
+  margin: $spacing 0px 0px;
+  padding: $spacing;
 }
-
 
 // BUTTON CONTAINER STYLES ---------------------------------
 // ---------------------------------------------------------
 .btn-container {
-    padding: $spacing;
+  padding: $spacing;
 }

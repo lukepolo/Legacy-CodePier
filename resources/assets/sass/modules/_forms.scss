@@ -1,7 +1,6 @@
 // FORMS STYLES ============================================
 // =========================================================
 
-
 @import 'forms/forms-update';
 
 //@import 'forms/forms_variables';
@@ -11,19 +10,13 @@
 //@import 'forms/structure';
 //@import 'forms/validation';
 
-
-
-
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
 
-#login_form,
-#register_form,
-#forgot_form {
+#login_form, #register_form, #forgot_form {
   background-color: mix($color-background, $white, 95%);
   margin-bottom: $spacing*2;
 }
-
 
 table {
   width: 100%;
@@ -42,11 +35,9 @@ th {
   color: rgba($color-text-primary, .7);
 }
 
-th,
-td {
+th, td {
   padding: 8px 10px;
 }
-
 
 tr {
   &:nth-child(even) {
@@ -58,9 +49,7 @@ tr {
   text-align: right;
   white-space: nowrap;
 
-  [class^="icon-"],
-  [class*=" icon-"],
-  .fa {
+  [class^="icon-"], [class*=" icon-"], .fa {
     font-size: 1.3em;
   }
 
@@ -93,12 +82,7 @@ tr {
   }
 }
 
-
-
-
-
 .jcf-form-wrap {
-
   option {
     color: black;
   }
@@ -108,8 +92,7 @@ tr {
     padding-left: 0px;
   }
 
-  .input-checkbox,
-  .input-radio{
+  .input-checkbox, .input-radio {
     margin-bottom: $spacing*2;
 
     label {
@@ -161,9 +144,7 @@ tr {
   }
 }
 
-
 [class*="hint--"] {
-
   z-index: 1000;
 
   &:after {
@@ -179,9 +160,7 @@ tr {
     width: 250px;
   }
 
-  &.hint--small,
-  &.hint--medium,
-  &.hint--large {
+  &.hint--small, &.hint--medium, &.hint--large {
     &:after {
       text-align: center;
     }
@@ -208,8 +187,6 @@ tr {
   }
 }
 
-
-
 .jcf-form-wrap {
   box-shadow: none;
 }
@@ -218,7 +195,8 @@ tr {
 .jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
 }
-.jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {
+.jcf-form-wrap .input-checkbox .icon:before,
+.jcf-form-wrap .input-radio .icon:before {
   top: -2px;
 }
 textarea {
@@ -234,7 +212,6 @@ textarea {
     outline: 3px solid $color-primary;
   }
 }
-
 
 .jcf-sub-form {
   border-left: 1px solid $color-divider;
