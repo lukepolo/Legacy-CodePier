@@ -1,6 +1,6 @@
 export default {
-    invoices: [],
-    subscription: null,
-    valid_subscription: false,
-    upcoming_subscription: null
-}
+  invoices: [],
+  subscription: null,
+  valid_subscription: false,
+  upcoming_subscription: null,
+};
