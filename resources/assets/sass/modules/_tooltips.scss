@@ -2,8 +2,7 @@
 // =========================================================
 @import "../../../../node_modules/hint.css/src/hint";
 
-[data-toggle="tooltip"],
-[class^="hint-"], [class*=" hint-"] {
+[data-toggle="tooltip"], [class^="hint-"], [class*=" hint-"] {
   cursor: pointer;
   vertical-align: bottom;
   z-index: 100;

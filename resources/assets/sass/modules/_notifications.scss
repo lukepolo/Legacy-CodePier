@@ -1,12 +1,10 @@
 // NOTIFICATION STYLES =====================================
 // =========================================================
-.fade-enter-active, 
-.fade-leave-active {
-  transition: opacity .5s
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
 }
-.fade-enter, 
-.fade-leave-active {
-  opacity: 0
+.fade-enter, .fade-leave-active {
+  opacity: 0;
 }
 
 .notifications {
@@ -47,5 +45,4 @@
       outline: none;
     }
   }
-
 }
