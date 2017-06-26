@@ -4932,6 +4932,15 @@ h6.primary {
   font-weight: 700;
 }
 
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+h6.secondary {
+  color: #c8e6fb;
+}
+
 h1.heading,
 h2.heading,
 h3.heading,
@@ -8119,18 +8128,6 @@ a.list--item:hover:before {
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-@media (max-width: 1900px) {
-  .providers label {
-    grid-column-end: span 2;
-  }
-}
-
-@media (max-width: 1400px) {
-  .providers label {
-    grid-column-end: span 4;
-  }
-}
-
 .providers input[type="radio"] {
   position: absolute;
   opacity: 0;
@@ -8235,6 +8232,18 @@ a.list--item:hover:before {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
+}
+
+@media (max-width: 1900px) {
+  .tab-container:not(.in-workflow) .providers label {
+    grid-column-end: span 2;
+  }
+}
+
+@media (max-width: 1400px) {
+  .tab-container:not(.in-workflow) .providers label {
+    grid-column-end: span 4;
+  }
 }
 
 .tabs {

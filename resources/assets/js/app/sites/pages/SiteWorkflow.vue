@@ -1,21 +1,21 @@
 <template>
     <section>
         <h2 class="heading">
-            Select the additional items needed to create your site.
+            Select the tasks needed to create your site.
         </h2>
 
         <form @submit.prevent="saveWorkflow" class="floating-labels">
             <div class="grid-2">
                 <div class="grid-item">
                     <div class="flyform--group">
-                        <label>Common Items Needed</label>
+                        <label>Common Tasks Needed</label>
                     </div>
 
                     <div class="flyform--group-checkbox">
                         <label>
                             <input type="checkbox" v-model="form.workflow" name="workflow[]" value="site_databases">
                             <span class="icon"></span>
-                            Create a Database
+                            Create Databases
 
                             <tooltip message="" size="medium">
                                 <span class="fa fa-info-circle"></span>
@@ -75,7 +75,7 @@
 
                 <div class="grid-item">
                     <div class="flyform--group">
-                        <label>Uncommon Items Needed</label>
+                        <label>Uncommon Tasks Needed</label>
                     </div>
 
                     <div class="flyform--group-checkbox">
@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="flyform--footer-links">
-                    You can opt out of using the workflow in your <router-link :to="{ name: 'my_account' }">profile</router-link>.
+                    <small>You can opt out of using the workflow in your <router-link :to="{ name: 'my_account' }">profile</router-link>.</small>
                 </div>
             </div>
 

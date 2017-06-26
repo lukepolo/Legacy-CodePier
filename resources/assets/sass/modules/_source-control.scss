@@ -6,17 +6,6 @@
   padding: 0px 0px $spacing*2;
   border-bottom: 2px solid rgba($white, .1);
 
-  label {
-
-    @include breakpoint(mxl) {
-      grid-column-end: span 2;
-    }
-
-    @include breakpoint(lg) {
-      grid-column-end: span 4;
-    }
-  }
-
   input[type="radio"] {
     position: absolute;
     opacity: 0;
@@ -119,3 +108,17 @@
 
 //  ----------------------------------------
 // ---------------------------------------------------------
+.tab-container:not(.in-workflow) {
+  .providers {
+    label {
+
+      @include breakpoint(mxl) {
+        grid-column-end: span 2;
+      }
+
+      @include breakpoint(lg) {
+        grid-column-end: span 4;
+      }
+    }
+  }
+}
