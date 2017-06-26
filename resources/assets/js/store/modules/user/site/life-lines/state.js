@@ -1,3 +1,3 @@
 export default {
-    life_lines: []
-}
+  life_lines: [],
+};
