@@ -1,8 +1,6 @@
 // LIST ITEM STYLES ========================================
 // =========================================================
 
-
-
 // SITE LIST STYLES ----------------------------------------
 // ---------------------------------------------------------
 .site > a {
@@ -33,12 +31,10 @@
 
     [class^="icon-"], [class*=" icon-"] {
       font-size: 1.5em;
-
     }
 
     .btn-disabled {
       background-color: transparent;
-
     }
 
     .deploy-status-text {
@@ -78,16 +74,6 @@
     background-color: rgba($white, .05);
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
@@ -158,8 +144,8 @@
 }
 
 .server-ip {
-    color: $color-text-primary;
-    padding-left: 36px;
+  color: $color-text-primary;
+  padding-left: 36px;
 }
 
 .server-connection {
@@ -196,7 +182,6 @@
   padding: 0px 20px;
 
   &.condensed {
-
     .server-progress-container {
       height: $spacing/4;
       margin-bottom: $spacing;
@@ -257,10 +242,8 @@
   }
 }
 
-
 // SERVER LIST
 .list {
-
   &--item {
     display: block;
     border-bottom: 1px solid $color-divider;
@@ -296,11 +279,6 @@
     }
   }
 }
-
-
-
-
-
 
 // CPU USAGE
 .cpu-load {
