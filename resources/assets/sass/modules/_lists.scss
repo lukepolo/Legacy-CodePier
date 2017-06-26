@@ -23,8 +23,27 @@
   font-size: 1.2em;
   margin-bottom: $spacing/4;
 
+  // EVENTS ITEM STATUS
   .event-status {
-    margin-right: 10px;
+    flex: 0 0 auto;
+    margin-right: $spacing;
+
+
+    &-neutral {
+      @include status(null);
+    }
+
+    &-success {
+      @include status(success);
+    }
+
+    &-error {
+      @include status(error);
+    }
+
+    &-warning {
+      @include status(warning);
+    }
   }
 
   .deploy-status {

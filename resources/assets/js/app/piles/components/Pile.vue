@@ -55,12 +55,11 @@
                 <h4>No Sites</h4>
             </template>
 
-            <div class="group--item-link" @click="addingSite = true">
-                <template v-if="!addingSite && pile.id">
-                    <span class="icon-plus"></span> Create New Site
-                </template>
-                <site-form :pile="pile" :adding.sync="addingSite"></site-form>
+            <div class="group--item-link" @click="addingSite = true" v-if="!addingSite && pile.id">
+                <span class="icon-plus"></span> Create New Site
             </div>
+
+            <site-form :pile="pile" :adding.sync="addingSite"></site-form>
         </div>
     </div>
 </template>
