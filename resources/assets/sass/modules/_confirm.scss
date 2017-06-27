@@ -1,91 +1,89 @@
 // CONFIRM DIALOG STYLES ===================================
 // =========================================================
 .confirm {
-  z-index : 100;
-  background-color: $color-background;
-  border: 1px solid mix($black, $gray, 50%);
-  border-radius: 3px;
-  margin: $spacing/2;
-  position: relative;
+    z-index: 100;
+    background-color: $color-background;
+    border: 1px solid mix($black, $gray, 50%);
+    border-radius: 3px;
+    margin: $spacing/2;
+    position: relative;
 
-  &:after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border: 10px solid $color-background;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-top: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: -10px;
-    z-index: 2;
-  }
-
-  &--header {
-    text-align: center;
-    border-bottom: 1px solid $color-divider;
-    font-size: 15px;
-    padding: $spacing/2;
-  }
-
-  &--content {
-    font-size: 15px;
-    text-transform: none;
-    color: $color-text-primary;
-    font-weight: $font-weight;
-    padding: 0px $spacing/2;
-  }
-
-  .jcf-input-group {
-    margin-bottom: $spacing;
-
-    input {
-      border-bottom: 1px solid $color-divider;
-      margin-bottom: 0px;
+    &:after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border: 10px solid $color-background;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-top: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -10px;
+        z-index: 2;
     }
-  }
 
-  .confirm--btns {
-    text-align: center;
-    padding: $spacing/2;
-  }
+    &--header {
+        text-align: center;
+        border-bottom: 1px solid $color-divider;
+        font-size: 15px;
+        padding: $spacing/2;
+    }
+
+    &--content {
+        font-size: 15px;
+        text-transform: none;
+        color: $color-text-primary;
+        font-weight: $font-weight;
+        padding: 0px $spacing/2;
+    }
+
+    .jcf-input-group {
+        margin-bottom: $spacing;
+
+        input {
+            border-bottom: 1px solid $color-divider;
+            margin-bottom: 0px;
+        }
+    }
+
+    .confirm--btns {
+        text-align: center;
+        padding: $spacing/2;
+    }
 }
 
 // CONFIRMS IN SIDEBARS ------------------------------------
 // ---------------------------------------------------------
 .confirm-sidebar {
-  .confirm {
-    position: absolute;
-    top: calc(100% + 25px);
-    margin: 0px;
-    left: 0px;
-    width: 284px;
-  }
+    .confirm {
+        position: absolute;
+        top: calc(100% + 25px);
+        margin: 0px;
+        left: 0px;
+        width: 284px;
+    }
 }
 
 #right {
-  .btn-container {
-    @for $i from 0 to 6 {
-      > span:nth-child(#{$i}) {
-        .confirm {
-          left: 0px - (60*($i - 1));
+    .btn-container {
+        @for $i from 0 to 6 {
+            > span:nth-child(#{$i}) {
+                .confirm {
+                    left: 0px - (60*($i - 1));
 
-          &:after {
-            left: (22px * $i) + (38px * ($i - 1));
-          }
+                    &:after {
+                        left: (22px * $i) + (38px * ($i - 1));
+                    }
+                }
+            }
         }
-      }
-    }
 
-    span:nth-child(3) .confirm {
-      margin-left: -4px;
+        span:nth-child(3) .confirm {
+            margin-left: -4px;
+        }
     }
-  }
 }
-
-
 
 // CONFIRM DIALOG ------------------------------------------
 // ---------------------------------------------------------
@@ -93,108 +91,106 @@
 // NEEDS REFORMATTING!!!
 
 .confirm-container {
-  display: inline-block;
-  margin-right: $spacing;
-  position: relative;
+    display: inline-block;
+    margin-right: $spacing;
+    position: relative;
 }
 
 .confirm-dialog {
-  @include card(1);
-  position: absolute;
-  bottom: 55px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 400px;
-  background-color: $color-background;
-  border: 1px solid mix($black, $gray, 50%);
-  border-radius: 3px;
-
-  &:before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border: 10px solid $color-background;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom: none;
+    @include card(1);
     position: absolute;
+    bottom: 55px;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -10px;
-    z-index: 2;
-  }
-
-  &:after {
-    content: '';
-    width: 10px;
-    height: 11px;
-    border: 10px solid mix($black, $gray, 50%);
-    border-bottom-width: 11px;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -12px;
-  }
-
-  .btn-footer {
-    border-top: 1px solid $black;
-    margin: 0px;
-    padding: $spacing/2;
-  }
-}
-
-.confirm-header {
-  border-bottom: 1px solid $black;
-  padding: $spacing/2;
-}
-
-.confirm-content {
-  padding: ($spacing/2) $spacing;
-
-  input {
-    //border-bottom-color: $color-text-primary !important;
-  }
-}
-
-
-
-// EVENTS PANEL ROLLBACK CONFIRMS
-.events-container {
-  .confirm-dialog {
-    width: 220px;
-    top: 50%;
-    right: calc(100% + 9px);
-    left: auto;
-    bottom: auto;
-    transform: translateY(-50%);
+    width: 400px;
+    background-color: $color-background;
+    border: 1px solid mix($black, $gray, 50%);
+    border-radius: 3px;
 
     &:before {
-      left: 100%;
-      top: 50%;
-      bottom: auto;
-      transform: translateY(-50%);
-      border: 10px solid $color-background;
-      border-right: none;
-      border-top-color: transparent;
-      border-bottom-color: transparent;
+        content: '';
+        width: 10px;
+        height: 10px;
+        border: 10px solid $color-background;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-bottom: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -10px;
+        z-index: 2;
     }
 
     &:after {
-      left: calc(100% + 1px);
-      top: 50%;
-      bottom: auto;
-      transform: translateY(-50%);
-      border: 10px solid mix($black, $gray, 50%);;
-      border-right: none;
-      border-top-color: transparent;
-      border-bottom-color: transparent;
+        content: '';
+        width: 10px;
+        height: 11px;
+        border: 10px solid mix($black, $gray, 50%);
+        border-bottom-width: 11px;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-bottom: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -12px;
     }
 
     .btn-footer {
-      border: none;
+        border-top: 1px solid $black;
+        margin: 0px;
+        padding: $spacing/2;
     }
-  }
+}
+
+.confirm-header {
+    border-bottom: 1px solid $black;
+    padding: $spacing/2;
+}
+
+.confirm-content {
+    padding: ($spacing/2) $spacing;
+
+    input {
+        //border-bottom-color: $color-text-primary !important;
+    }
+}
+
+// EVENTS PANEL ROLLBACK CONFIRMS
+.events-container {
+    .confirm-dialog {
+        width: 220px;
+        top: 50%;
+        right: calc(100% + 9px);
+        left: auto;
+        bottom: auto;
+        transform: translateY(-50%);
+
+        &:before {
+            left: 100%;
+            top: 50%;
+            bottom: auto;
+            transform: translateY(-50%);
+            border: 10px solid $color-background;
+            border-right: none;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        &:after {
+            left: calc(100% + 1px);
+            top: 50%;
+            bottom: auto;
+            transform: translateY(-50%);
+            border: 10px solid mix($black, $gray, 50%);
+            border-right: none;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        .btn-footer {
+            border: none;
+        }
+    }
 }

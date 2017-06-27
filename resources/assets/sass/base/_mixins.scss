@@ -1,28 +1,35 @@
 // MIXINS ==================================================
 // =========================================================
 
-
 // BREAKPOINTS ---------------------------------------------
 // ---------------------------------------------------------
 @mixin breakpoint($point) {
-	@if $point == xl {
-		@media (min-width: 2100px) { @content; }
-	}
-	@else if $point == lg {
-		@media (max-width: 1400px) { @content; }
-	}
-	@else if $point == md {
-		@media (max-width: 1024px)  { @content; }
-	}
-	@else if $point == sm {
-		@media (max-width: 768px)  { @content; }
-	}
-	@else if $point == xs {
-		@media (max-width: 414px)  { @content; }
-	}
+    @if $point == xl {
+        @media (min-width: 2100px) {
+            @content;
+        }
+    }
+    @else if $point == lg {
+        @media (max-width: 1400px) {
+            @content;
+        }
+    }
+    @else if $point == md {
+        @media (max-width: 1024px) {
+            @content;
+        }
+    }
+    @else if $point == sm {
+        @media (max-width: 768px) {
+            @content;
+        }
+    }
+    @else if $point == xs {
+        @media (max-width: 414px) {
+            @content;
+        }
+    }
 }
-
-
 
 // MATERIAL DESIGN CARD DEPTH ------------------------------
 // ---------------------------------------------------------
@@ -30,13 +37,13 @@
     @if $depth < 1 {
         box-shadow: none;
     }
-    
+
     @else if $depth > 5 {
         @warn "Invalid $depth `#{$depth}` for mixin `card`.";
-    } 
-    
+    }
+
     @else {
-        box-shadow: bottom-shadow($depth), top-shadow($depth);  
+        box-shadow: bottom-shadow($depth), top-shadow($depth);
     }
 }
 
@@ -56,7 +63,6 @@
     @return 0 $primary-offset $blur $color;
 }
 
-
 @mixin status($status) {
     height: 1em;
     width: 1em;
@@ -64,19 +70,19 @@
     border-radius: 50%;
     position: relative;
     top: 2px;
-    
+
     @if $status == success {
         background-color: $green;
     }
-    
+
     @else if $status == error {
         background-color: $red;
     }
-    
+
     @else if $status == warning {
         background-color: $yellow;
     }
-    
+
     @else {
         background-color: $grayLight;
     }

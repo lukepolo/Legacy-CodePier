@@ -30,8 +30,7 @@
     }
 
     @include breakpoint(lg) {
-        .col:not(:last-child),
-        .col:not(:first-child) {
+        .col:not(:last-child), .col:not(:first-child) {
             border: none;
             padding: 0px;
         }
@@ -66,7 +65,7 @@
 
     .jcf-form-wrap {
         padding: $spacing 0px 0px;
-        
+
         .btn-footer {
             margin: 0px;
             padding: $spacing 0px ($spacing/2);
