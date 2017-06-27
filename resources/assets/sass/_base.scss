@@ -8,47 +8,43 @@
 @import './../../../node_modules/font-awesome/scss/font-awesome';
 @import './../../../node_modules/jcf-forms/scss/jcf_forms';
 
-
 // BASICS --------------------------------------------------
 // ---------------------------------------------------------
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html, body, #app-layout {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  background-color: $color-background;
-  font-family: $font-body;
-  font-weight: $font-weight;
-  color: $color-text-primary;
+    background-color: $color-background;
+    font-family: $font-body;
+    font-weight: $font-weight;
+    color: $color-text-primary;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
-
 
 // TEXT ----------------------------------------------------
 // ---------------------------------------------------------
 span {
-  display: inline-block;
+    display: inline-block;
 }
 
 p {
-
 }
 
 pre {
-  font-family: 'Cutive Mono', monospace;
+    font-family: 'Cutive Mono', monospace;
 }
 
 .break-word {
-  word-break: break-word;
+    word-break: break-word;
 }
-
 
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
@@ -57,57 +53,49 @@ input {
 }
 
 textarea {
-  width: 100%;
-  background-color: transparent;
-  color: $color-text-primary;
-  font-family: $font-body;
-  border: 1px solid $color-divider;
-  padding: $spacing/2;
-  resize: none;
+    width: 100%;
+    background-color: transparent;
+    color: $color-text-primary;
+    font-family: $font-body;
+    border: 1px solid $color-divider;
+    padding: $spacing/2;
+    resize: none;
 
-  &:focus {
-    outline: 3px solid $color-primary;
-  }
+    &:focus {
+        outline: 3px solid $color-primary;
+    }
 }
-
-
 
 // HEADINGS ------------------------------------------------
 // ---------------------------------------------------------
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-heading;
-  font-weight: 400;
-  text-transform: uppercase;
-  color: rgba($color-text-primary, .5);
-  margin: 0px;
+    font-family: $font-heading;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgba($color-text-primary, .5);
+    margin: 0px;
 
-  &.primary {
-    font-weight: 700;
-  }
+    &.primary {
+        font-weight: 700;
+    }
 }
-
-
 
 // LINKS ---------------------------------------------------
 // ---------------------------------------------------------
 a {
-  display: inline-block;
-  color: $color-primary;
+    display: inline-block;
+    color: $color-primary;
 
-  &:hover,
-  &:focus,
-  &:active {
-    color: mix($white, $blue, 50%);
-    text-decoration: none;
-    cursor: pointer;
-  }
+    &:hover, &:focus, &:active {
+        color: mix($white, $blue, 50%);
+        text-decoration: none;
+        cursor: pointer;
+    }
 }
-
-
 
 // LISTS ---------------------------------------------------
 // ---------------------------------------------------------
 button {
-  border: none;
-  background-color: $color-text-inverse;
+    border: none;
+    background-color: $color-text-inverse;
 }

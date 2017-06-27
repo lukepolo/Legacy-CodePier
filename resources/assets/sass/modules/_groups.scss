@@ -12,7 +12,7 @@
         border: 1px solid mix($black, $gray, 60%);
         margin: $spacing;
 
-        &-heading  {
+        &-heading {
             background-color: mix($white, $gray, 10%);
             border-bottom: 1px solid mix($black, $gray, 10%);
             padding: $spacing;
@@ -66,11 +66,11 @@
                 }
             }
         }
-        
+
         &-content {
             flex: 1 0 100px;
             position: relative;
-            padding: $spacing
+            padding: $spacing;
         }
 
         &-img {
@@ -80,7 +80,6 @@
             overflow: hidden;
             position: relative;
             margin: (-$spacing/2) $spacing/2 (-$spacing/2) (-$spacing/4);
-
 
             img {
                 position: absolute;

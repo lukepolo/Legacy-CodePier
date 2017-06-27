@@ -3,9 +3,9 @@
 // todo jf - decrease style specificity on dropdowns
 
 .dropdown {
-    list-style : none;
+    list-style: none;
     a {
-        color : $white;
+        color: $white;
     }
 }
 
@@ -24,31 +24,27 @@
     &.nowrap {
         white-space: nowrap;
     }
-    
+
     li {
-        a,
-        > span {
+        a, > span {
             color: rgba($color-text-primary, .7);
             font-size: 14px;
             padding: ($spacing/2) ($spacing) !important;
-            
+
             [class^="icon-"], [class*=" icon-"] {
                 font-size: 1.4em;
-                line-height: 19px; 
+                line-height: 19px;
                 position: relative;
                 top: 2px;
                 right: 5px;
             }
-        }  
-        
-         > a {
+        }
+
+        > a {
             display: block;
         }
-                
-        a:hover,
-        a:focus,
-        a:active,
-        .selected {
+
+        a:hover, a:focus, a:active, .selected {
             background-color: $gray;
             color: $blue;
             cursor: pointer;
@@ -60,12 +56,12 @@
             text-align: center;
         }
     }
-    
+
     .dropdown-heading {
         text-transform: uppercase;
         font-size: 12px;
         letter-spacing: .5px;
-        border-bottom: 1px solid rgba($color-text-primary, .1);   
+        border-bottom: 1px solid rgba($color-text-primary, .1);
         color: $color-text-primary;
         text-align: center;
     }

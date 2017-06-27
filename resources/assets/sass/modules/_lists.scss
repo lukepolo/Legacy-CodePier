@@ -1,160 +1,146 @@
 // LIST ITEM STYLES ========================================
 // =========================================================
 
-
-
 // SITE LIST STYLES ----------------------------------------
 // ---------------------------------------------------------
 .site > a {
-  display: block;
-  color: $color-text-primary;
-  border-bottom: 1px solid $color-divider;
-  padding: $spacing;
-  position: relative;
+    display: block;
+    color: $color-text-primary;
+    border-bottom: 1px solid $color-divider;
+    padding: $spacing;
+    position: relative;
 
-  &.router-link-active {
-    color: $color-text-accent;
-    background-color: mix($gray, $black, 50%);
-  }
+    &.router-link-active {
+        color: $color-text-accent;
+        background-color: mix($gray, $black, 50%);
+    }
 }
 
 .site-name {
-  font-weight: 600;
-  font-size: 1.2em;
-  margin-bottom: $spacing/4;
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: $spacing/4;
 
-  .event-status {
-    margin-right: 10px;
-  }
-
-  .deploy-status {
-    float: right;
-    text-align: right;
-
-    [class^="icon-"], [class*=" icon-"] {
-      font-size: 1.5em;
-
+    .event-status {
+        margin-right: 10px;
     }
 
-    .btn-disabled {
-      background-color: transparent;
+    .deploy-status {
+        float: right;
+        text-align: right;
 
-    }
+        [class^="icon-"], [class*=" icon-"] {
+            font-size: 1.5em;
+        }
 
-    .deploy-status-text {
-      display: block;
-      font-size: .7em;
-      color: $color-text-secondary;
-      position: relative;
-      left: 7px;
-      top: -5px;
+        .btn-disabled {
+            background-color: transparent;
+        }
+
+        .deploy-status-text {
+            display: block;
+            font-size: .7em;
+            color: $color-text-secondary;
+            position: relative;
+            left: 7px;
+            top: -5px;
+        }
     }
-  }
 }
 
 // Clean Up
 
 #left .section-content {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  .btn-container {
-    flex: 1 1 auto;
-  }
+    .btn-container {
+        flex: 1 1 auto;
+    }
 }
 .site-container {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .slack-invite a {
-  display: block;
-  border-top: 1px solid $color-divider;
-  text-align: center;
-  padding: $spacing;
+    display: block;
+    border-top: 1px solid $color-divider;
+    text-align: center;
+    padding: $spacing;
 
-  &:hover {
-    background-color: rgba($white, .05);
-  }
+    &:hover {
+        background-color: rgba($white, .05);
+    }
 }
-
-
-
-
-
-
-
-
-
-
 
 // SERVER LIST STYLES --------------------------------------
 // ---------------------------------------------------------
 .server {
-  display: block;
-  border-bottom: 1px solid $color-divider;
-  position: relative;
+    display: block;
+    border-bottom: 1px solid $color-divider;
+    position: relative;
 
-  &.router-link-active {
-    background-color: mix($gray, $black, 50%);
-  }
-
-  .btn-container {
-    border-top: 1px solid rgba($color-divider, .4);
-    margin: 0px;
-    padding: $spacing/2 0px;
-    display: flex;
-    justify-content: space-between;
-
-    .confirm-container {
-      margin: 0px;
+    &.router-link-active {
+        background-color: mix($gray, $black, 50%);
     }
-  }
+
+    .btn-container {
+        border-top: 1px solid rgba($color-divider, .4);
+        margin: 0px;
+        padding: $spacing/2 0px;
+        display: flex;
+        justify-content: space-between;
+
+        .confirm-container {
+            margin: 0px;
+        }
+    }
 }
 
 .server-header {
-  background-color: rgba($black, .3);
-  padding: ($spacing) ($spacing) ($spacing/2);
+    background-color: rgba($black, .3);
+    padding: ($spacing) ($spacing) ($spacing/2);
 
-  .server-info.condensed .server-progress-container {
-    margin: 20px 0px 10px;
-  }
+    .server-info.condensed .server-progress-container {
+        margin: 20px 0px 10px;
+    }
 }
 
 .server-name {
-  font-weight: 600;
-  font-size: 1.2em;
-  margin-bottom: $spacing/4;
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: $spacing/4;
 
-  a {
-    color: $color-text-primary;
+    a {
+        color: $color-text-primary;
 
-    &:hover {
-      color: $color-primary;
-    }
-  }
-
-  [class^="icon-"], [class*=" icon-"] {
-    font-size: 2em;
-    cursor: pointer;
-    transition: all .2s ease;
-
-    &:hover {
-      color: $color-primary;
+        &:hover {
+            color: $color-primary;
+        }
     }
 
-    &.closed {
-      transform: rotate(-90deg);
-      transition: all .2s ease;
-    }
-  }
+    [class^="icon-"], [class*=" icon-"] {
+        font-size: 2em;
+        cursor: pointer;
+        transition: all .2s ease;
 
-  .event-status {
-    float: left;
-    margin-right: $spacing;
-    margin-left: 0px;
-  }
+        &:hover {
+            color: $color-primary;
+        }
+
+        &.closed {
+            transform: rotate(-90deg);
+            transition: all .2s ease;
+        }
+    }
+
+    .event-status {
+        float: left;
+        margin-right: $spacing;
+        margin-left: 0px;
+    }
 }
 
 .server-ip {
@@ -163,158 +149,150 @@
 }
 
 .server-connection {
-  height: 1em;
-  width: 1em;
-  display: inline-block;
-  float: right;
-  border-radius: 50%;
-  position: relative;
-  top: 2px;
-  right: -1.4em;
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    float: right;
+    border-radius: 50%;
+    position: relative;
+    top: 2px;
+    right: -1.4em;
 
-  &.server-success {
-    background-color: $green;
-  }
+    &.server-success {
+        background-color: $green;
+    }
 
-  &.server-error {
-    background-color: $red;
-  }
+    &.server-error {
+        background-color: $red;
+    }
 }
 
 .server-status {
-  h4 {
-    margin: 0px 0px $spacing/4;
-    padding-top: $spacing/2;
+    h4 {
+        margin: 0px 0px $spacing/4;
+        padding-top: $spacing/2;
 
-    &:not(:first-child) {
-      border-top: 1px solid $color-divider;
+        &:not(:first-child) {
+            border-top: 1px solid $color-divider;
+        }
     }
-  }
 }
 
 .server-info {
-  padding: 0px 20px;
+    padding: 0px 20px;
 
-  &.condensed {
+    &.condensed {
+        .server-progress-container {
+            height: $spacing/4;
+            margin-bottom: $spacing;
+        }
 
-    .server-progress-container {
-      height: $spacing/4;
-      margin-bottom: $spacing;
+        .stats-label {
+            display: inline-block;
+            font-size: 10px;
+            background-color: mix($color-background, $white, 90%);
+            border: 1px solid $color-divider;
+            padding: 1px 5px;
+            position: absolute;
+
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .stats-used {
+            left: 5px;
+        }
+
+        .stats-available {
+            right: 5px;
+        }
     }
-
-    .stats-label {
-      display: inline-block;
-      font-size: 10px;
-      background-color: mix($color-background, $white, 90%);
-      border: 1px solid $color-divider;
-      padding: 1px 5px;
-      position: absolute;
-
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .stats-used {
-      left: 5px;
-    }
-
-    .stats-available {
-      right: 5px;
-    }
-  }
 }
 
 .server-progress-container {
-  height: $spacing;
-  border: 1px solid $color-divider;
-  margin: ($spacing/2) 0;
-  position: relative;
+    height: $spacing;
+    border: 1px solid $color-divider;
+    margin: ($spacing/2) 0;
+    position: relative;
 }
 
 .server-progress-number {
-  position: absolute;
-  right: 0px;
-  font-size: .9em;
-  font-weight: 600;
-  line-height: $spacing;
-  padding: 0px ($spacing/4);
-  z-index: 10;
+    position: absolute;
+    right: 0px;
+    font-size: .9em;
+    font-weight: 600;
+    line-height: $spacing;
+    padding: 0px ($spacing/4);
+    z-index: 10;
 }
 
 .server-progress {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-color: $color-primary;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: $color-primary;
 
-  &.warning {
-    background-color: $yellow;
-  }
+    &.warning {
+        background-color: $yellow;
+    }
 
-  &.danger {
-    background-color: $red;
-  }
+    &.danger {
+        background-color: $red;
+    }
 }
-
 
 // SERVER LIST
 .list {
+    &--item {
+        display: block;
+        border-bottom: 1px solid $color-divider;
+        padding: $spacing;
+        position: relative;
 
-  &--item {
-    display: block;
-    border-bottom: 1px solid $color-divider;
-    padding: $spacing;
-    position: relative;
+        &:last-child {
+            border: none;
+        }
 
-    &:last-child {
-      border: none;
+        @at-root a#{&}:hover {
+            cursor: pointer;
+
+            &:before {
+                content: '\f105';
+                font-family: 'icomoon';
+                font-size: 2em;
+                line-height: .7em;
+                display: inline-block;
+                float: right;
+            }
+        }
+
+        &.selected {
+            background-color: mix($gray, $black, 50%);
+        }
+
+        &-name {
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: $spacing/4;
+            padding-right: 1.4em;
+        }
     }
-
-    @at-root a#{&}:hover {
-      cursor: pointer;
-
-      &:before {
-        content: '\f105';
-        font-family: 'icomoon';
-        font-size: 2em;
-        line-height: .7em;
-        display: inline-block;
-        float: right;
-      }
-    }
-
-    &.selected {
-      background-color: mix($gray, $black, 50%);
-    }
-
-    &-name {
-      font-weight: 600;
-      font-size: 1.2em;
-      margin-bottom: $spacing/4;
-      padding-right: 1.4em;
-    }
-  }
 }
-
-
-
-
-
 
 // CPU USAGE
 .cpu-load {
-  display: flex;
+    display: flex;
 }
 
 .cpu-group {
-  flex: 1 1 1em;
+    flex: 1 1 1em;
 
-  &:nth-child(2) {
-    margin: 0px 5px;
-  }
+    &:nth-child(2) {
+        margin: 0px 5px;
+    }
 }
 
 .cpu-min {
-  text-align: center;
+    text-align: center;
 }

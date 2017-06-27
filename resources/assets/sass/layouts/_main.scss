@@ -1,7 +1,7 @@
 // MAIN CONTENT STYLES =====================================
 // =========================================================
 .section-column {
-    display: flex; 
+    display: flex;
     flex-direction: column;
 
     &:not(:first-child) {
@@ -17,7 +17,7 @@
         @include card(2);
         background-color: mix($color-background, $white, 95%);
     }
-    
+
     &:nth-child(3) {
         @include card(2);
         background-color: mix($color-background, $white, 90%);
@@ -42,8 +42,7 @@
         transform: translateY(-50%);
         z-index: 1;
 
-        .dropdown + .dropdown,
-        .dropdown + .btn {
+        .dropdown + .dropdown, .dropdown + .btn {
             margin-left: $spacing*.75;
         }
 
@@ -108,7 +107,7 @@
     overflow-y: auto;
     overflow-x: visible;
     -webkit-overflow-scrolling: touch;
-    
+
     .container {
         padding: $spacing*2;
     }
