@@ -1,64 +1,28 @@
-import {
-    createForm,
-    getFormData
-} from './form'
+import { createForm, getFormData } from './form';
 
-import {
-    getPile
-} from './pile'
+import { getPile } from './pile';
 
-import {
-    getSite
-} from './site'
+import { getSite } from './site';
 
-import {
-    back,
-    action
-} from './routes'
+import { back, action } from './routes';
 
-import {
-    getServer,
-    serverHasFeature
-} from './server'
+import { getServer, serverHasFeature } from './server';
 
-import {
-    isTag,
-    hasClass
-} from './elements'
+import { isTag, hasClass } from './elements';
 
-import {
-    now,
-    timeAgo,
-    parseDate,
-    dateHumanize
-} from './date-time'
+import { now, timeAgo, parseDate, dateHumanize } from './date-time';
 
-import {
-    getBytesFromString
-} from './file-size'
+import { getBytesFromString } from './file-size';
 
-import {
-    local
-} from './environment'
+import { local } from './environment';
 
-import {
-    isAdmin,
-    teamsEnabled
-} from './permissions'
+import { isAdmin, teamsEnabled } from './permissions';
 
-import {
-    showError,
-    showSuccess,
-    handleApiError
-} from './notifications'
+import { showError, showSuccess, handleApiError } from './notifications';
 
-import {
-    isCommandRunning
-} from './server-command'
+import { isCommandRunning } from './server-command';
 
-import {
-    getRepositoryProvider
-} from './repository-provider'
+import { getRepositoryProvider } from './repository-provider';
 
 Vue.mixin({
     methods: {
@@ -84,6 +48,6 @@ Vue.mixin({
         isCommandRunning,
         serverHasFeature,
         getBytesFromString,
-        getRepositoryProvider
-    }
-})
+        getRepositoryProvider,
+    },
+});

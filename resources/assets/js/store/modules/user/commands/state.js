@@ -1,3 +1,3 @@
 export default {
-    running_commands: {}
-}
+    running_commands: {},
+};
