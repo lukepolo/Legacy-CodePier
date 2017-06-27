@@ -1,11 +1,9 @@
-import {
-    Piles
-} from '../pages'
+import { Piles } from '../pages';
 
 export default [
     {
         path: '/piles',
         name: 'piles',
-        component: Piles
-    }
-]
+        component: Piles,
+    },
+];
