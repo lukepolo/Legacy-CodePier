@@ -2,5 +2,5 @@ export default {
     server: [],
     servers: [],
     trashed: [],
-    listening_to: []
-}
+    listening_to: [],
+};

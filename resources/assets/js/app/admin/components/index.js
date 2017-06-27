@@ -1,1 +1,1 @@
-export const AdminArea = require('./AdminArea.vue')
+export const AdminArea = require('./AdminArea.vue');
