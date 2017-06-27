@@ -3,8 +3,7 @@ import {
     SiteDeployment,
     SiteFiles,
     SiteServerFiles
-
-} from '../pages'
+} from "../pages";
 
 import {
     SiteNav,
@@ -12,7 +11,7 @@ import {
     SecurityNav,
     SiteSetupNav,
     ServerSetupNav
-} from '../components'
+} from "../components";
 
 import {
     SshKeys,
@@ -24,16 +23,17 @@ import {
     SslCertificates,
     LanguageSettings,
     EnvironmentVariables
-} from '../../setup/pages'
+} from "../../setup/pages";
 
 export default [
     {
-        path: '/site/:site_id', component: SiteArea,
+        path: "/site/:site_id",
+        component: SiteArea,
         children: [
             {
-                alias: '',
-                path: 'setup',
-                name: 'site_repository',
+                alias: "",
+                path: "setup",
+                name: "site_repository",
                 components: {
                     default: SiteRepository,
                     nav: SiteNav,
@@ -41,8 +41,8 @@ export default [
                 }
             },
             {
-                path: 'setup/deployment',
-                name: 'site_deployment',
+                path: "setup/deployment",
+                name: "site_deployment",
                 components: {
                     default: SiteDeployment,
                     nav: SiteNav,
@@ -50,8 +50,8 @@ export default [
                 }
             },
             {
-                path: 'setup/framework-files',
-                name: 'site_files',
+                path: "setup/framework-files",
+                name: "site_files",
                 components: {
                     default: SiteFiles,
                     nav: SiteNav,
@@ -59,8 +59,8 @@ export default [
                 }
             },
             {
-                path: 'setup/databases',
-                name: 'site_databases',
+                path: "setup/databases",
+                name: "site_databases",
                 components: {
                     default: Databases,
                     nav: SiteNav,
@@ -68,8 +68,8 @@ export default [
                 }
             },
             {
-                path: 'security/firewall-rules',
-                name: 'site_firewall_rules',
+                path: "security/firewall-rules",
+                name: "site_firewall_rules",
                 components: {
                     default: FirewallRules,
                     nav: SiteNav,
@@ -77,8 +77,8 @@ export default [
                 }
             },
             {
-                path: 'security',
-                name: 'site_ssh_keys',
+                path: "security",
+                name: "site_ssh_keys",
                 components: {
                     default: SshKeys,
                     nav: SiteNav,
@@ -86,8 +86,8 @@ export default [
                 }
             },
             {
-                path: 'security/ssl-certificates',
-                name: 'site_ssl_certs',
+                path: "security/ssl-certificates",
+                name: "site_ssl_certs",
                 components: {
                     default: SslCertificates,
                     nav: SiteNav,
@@ -95,8 +95,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup',
-                name: 'site_environment_variables',
+                path: "server-setup",
+                name: "site_environment_variables",
                 components: {
                     default: EnvironmentVariables,
                     nav: SiteNav,
@@ -104,8 +104,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup/cron-jobs',
-                name: 'site_cron_jobs',
+                path: "server-setup/cron-jobs",
+                name: "site_cron_jobs",
                 components: {
                     default: CronJobs,
                     nav: SiteNav,
@@ -113,8 +113,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup/workers',
-                name: 'site_workers',
+                path: "server-setup/workers",
+                name: "site_workers",
                 components: {
                     default: Workers,
                     nav: SiteNav,
@@ -122,8 +122,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup/server-files',
-                name: 'site_server_files',
+                path: "server-setup/server-files",
+                name: "site_server_files",
                 components: {
                     default: SiteServerFiles,
                     nav: SiteNav,
@@ -131,8 +131,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup/language-settings',
-                name: 'site_language_settings',
+                path: "server-setup/language-settings",
+                name: "site_language_settings",
                 components: {
                     default: LanguageSettings,
                     nav: SiteNav,
@@ -140,8 +140,8 @@ export default [
                 }
             },
             {
-                path: 'server-setup/server-features',
-                name: 'site_server_features',
+                path: "server-setup/server-features",
+                name: "site_server_features",
                 components: {
                     default: ServerFeatures,
                     nav: SiteNav,
@@ -150,4 +150,4 @@ export default [
             }
         ]
     }
-]
+];

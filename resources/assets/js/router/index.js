@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import { default as routes } from '../app/routes.js'
+import Vue from "vue";
+import { default as routes } from "../app/routes.js";
 
-window.VueRouter = require('vue-router/dist/vue-router.common')
+window.VueRouter = require("vue-router/dist/vue-router.common");
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: "history",
     routes: routes
-})
+});
 
-export default router
+export default router;
