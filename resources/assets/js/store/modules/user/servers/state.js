@@ -3,4 +3,4 @@ export default {
     servers: [],
     trashed: [],
     listening_to: []
-}
+};

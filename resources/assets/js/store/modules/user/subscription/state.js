@@ -3,4 +3,4 @@ export default {
     subscription: null,
     valid_subscription: false,
     upcoming_subscription: null
-}
+};

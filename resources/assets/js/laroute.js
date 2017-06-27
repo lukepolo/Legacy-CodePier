@@ -1,48 +1,2784 @@
-(function () {
-
-    var laroute = (function () {
-
+(function() {
+    var laroute = function() {
         var routes = {
-
             absolute: false,
-            rootUrl: 'http://codepier.dev',
-            routes : [{"host":null,"methods":["GET","HEAD"],"uri":"oauth\/authorize","name":null,"action":"\Laravel\Passport\Http\Controllers\AuthorizationController@authorize"},{"host":null,"methods":["POST"],"uri":"oauth\/authorize","name":null,"action":"\Laravel\Passport\Http\Controllers\ApproveAuthorizationController@approve"},{"host":null,"methods":["DELETE"],"uri":"oauth\/authorize","name":null,"action":"\Laravel\Passport\Http\Controllers\DenyAuthorizationController@deny"},{"host":null,"methods":["POST"],"uri":"oauth\/token","name":null,"action":"\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken"},{"host":null,"methods":["GET","HEAD"],"uri":"oauth\/tokens","name":null,"action":"\Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@forUser"},{"host":null,"methods":["DELETE"],"uri":"oauth\/tokens\/{token_id}","name":null,"action":"\Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@destroy"},{"host":null,"methods":["POST"],"uri":"oauth\/token\/refresh","name":null,"action":"\Laravel\Passport\Http\Controllers\TransientTokenController@refresh"},{"host":null,"methods":["GET","HEAD"],"uri":"oauth\/clients","name":null,"action":"\Laravel\Passport\Http\Controllers\ClientController@forUser"},{"host":null,"methods":["POST"],"uri":"oauth\/clients","name":null,"action":"\Laravel\Passport\Http\Controllers\ClientController@store"},{"host":null,"methods":["PUT"],"uri":"oauth\/clients\/{client_id}","name":null,"action":"\Laravel\Passport\Http\Controllers\ClientController@update"},{"host":null,"methods":["DELETE"],"uri":"oauth\/clients\/{client_id}","name":null,"action":"\Laravel\Passport\Http\Controllers\ClientController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"oauth\/scopes","name":null,"action":"\Laravel\Passport\Http\Controllers\ScopeController@all"},{"host":null,"methods":["GET","HEAD"],"uri":"oauth\/personal-access-tokens","name":null,"action":"\Laravel\Passport\Http\Controllers\PersonalAccessTokenController@forUser"},{"host":null,"methods":["POST"],"uri":"oauth\/personal-access-tokens","name":null,"action":"\Laravel\Passport\Http\Controllers\PersonalAccessTokenController@store"},{"host":null,"methods":["DELETE"],"uri":"oauth\/personal-access-tokens\/{token_id}","name":null,"action":"\Laravel\Passport\Http\Controllers\PersonalAccessTokenController@destroy"},{"host":null,"methods":["POST"],"uri":"broadcasting\/auth","name":null,"action":"Illuminate\Broadcasting\BroadcastController@authenticate"},{"host":"provision.codepier.dev","methods":["GET","HEAD"],"uri":"\/","name":null,"action":"Server\CustomServerProvisioningController@provision"},{"host":"provision.codepier.dev","methods":["POST"],"uri":"start\/{provisioning_key}","name":null,"action":"Server\CustomServerProvisioningController@start"},{"host":"provision.codepier.dev","methods":["GET","HEAD"],"uri":"keys\/{provisioning_key}\/public","name":null,"action":"Server\CustomServerProvisioningController@returnPublicKey"},{"host":"provision.codepier.dev","methods":["GET","HEAD"],"uri":"keys\/{provisioning_key\/private}","name":null,"action":"Server\CustomServerProvisioningController@returnPrivateKey"},{"host":"provision.codepier.dev","methods":["GET","HEAD"],"uri":"end\/{provisioning_key}","name":null,"action":"Server\CustomServerProvisioningController@end"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/me","name":"me.index","action":"User\UserController@index"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/user","name":"user.index","action":"User\UserController@index"},{"host":null,"methods":["POST"],"uri":"api\/user","name":"user.store","action":"User\UserController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/user\/{user}","name":"user.show","action":"User\UserController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/user\/{user}","name":"user.update","action":"User\UserController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/user\/{user}","name":"user.destroy","action":"User\UserController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/categories","name":"categories.index","action":"CategoriesController@index"},{"host":null,"methods":["POST"],"uri":"api\/categories","name":"categories.store","action":"CategoriesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/categories\/{category}","name":"categories.show","action":"CategoriesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/categories\/{category}","name":"categories.update","action":"CategoriesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/categories\/{category}","name":"categories.destroy","action":"CategoriesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/buoy-apps\/buoyClasses","name":null,"action":"BuoyAppController@getBuoyClasses"},{"host":null,"methods":["POST"],"uri":"api\/buoy-apps\/{buoy_app}\/update","name":null,"action":"BuoyAppController@update"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/buoy-apps","name":"buoy-apps.index","action":"BuoyAppController@index"},{"host":null,"methods":["POST"],"uri":"api\/buoy-apps","name":"buoy-apps.store","action":"BuoyAppController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/buoy-apps\/{buoy_app}","name":"buoy-apps.show","action":"BuoyAppController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/buoy-apps\/{buoy_app}","name":"buoy-apps.update","action":"BuoyAppController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/buoy-apps\/{buoy_app}","name":"buoy-apps.destroy","action":"BuoyAppController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/bitts","name":"bitts.index","action":"BittsController@index"},{"host":null,"methods":["POST"],"uri":"api\/bitts","name":"bitts.store","action":"BittsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/bitts\/{bitt}","name":"bitts.show","action":"BittsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/bitts\/{bitt}","name":"bitts.update","action":"BittsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/bitts\/{bitt}","name":"bitts.destroy","action":"BittsController@destroy"},{"host":null,"methods":["POST"],"uri":"api\/bitt\/{bitt}\/run","name":null,"action":"BittsController@runOnServers"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/systems","name":null,"action":"SystemsController@index"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription\/invoices","name":"invoices.index","action":"User\Subscription\UserSubscriptionInvoiceController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/subscription\/invoices","name":"invoices.store","action":"User\Subscription\UserSubscriptionInvoiceController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription\/invoices\/{invoice}","name":"invoices.show","action":"User\Subscription\UserSubscriptionInvoiceController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/subscription\/invoices\/{invoice}","name":"invoices.update","action":"User\Subscription\UserSubscriptionInvoiceController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/subscription\/invoices\/{invoice}","name":"invoices.destroy","action":"User\Subscription\UserSubscriptionInvoiceController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/running-commands","name":null,"action":"User\UserController@getRunningCommands"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/running-deployments","name":null,"action":"User\UserController@getRunningDeployments"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/ssh-keys","name":"ssh-keys.index","action":"User\UserSshKeyController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/ssh-keys","name":"ssh-keys.store","action":"User\UserSshKeyController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/ssh-keys\/{ssh_key}","name":"ssh-keys.show","action":"User\UserSshKeyController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/ssh-keys\/{ssh_key}","name":"ssh-keys.update","action":"User\UserSshKeyController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/ssh-keys\/{ssh_key}","name":"ssh-keys.destroy","action":"User\UserSshKeyController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription","name":"subscription.index","action":"User\Subscription\UserSubscriptionController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/subscription","name":"subscription.store","action":"User\Subscription\UserSubscriptionController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription\/{subscription}","name":"subscription.show","action":"User\Subscription\UserSubscriptionController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/subscription\/{subscription}","name":"subscription.update","action":"User\Subscription\UserSubscriptionController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/subscription\/{subscription}","name":"subscription.destroy","action":"User\Subscription\UserSubscriptionController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/server-providers","name":"server-providers.index","action":"User\Providers\UserServerProviderController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/server-providers","name":"server-providers.store","action":"User\Providers\UserServerProviderController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/server-providers\/{server_provider}","name":"server-providers.show","action":"User\Providers\UserServerProviderController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/server-providers\/{server_provider}","name":"server-providers.update","action":"User\Providers\UserServerProviderController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/server-providers\/{server_provider}","name":"server-providers.destroy","action":"User\Providers\UserServerProviderController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/notification-settings","name":"notification-settings.index","action":"User\UserNotificationSettingsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/notification-settings","name":"notification-settings.store","action":"User\UserNotificationSettingsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/notification-settings\/{notification_setting}","name":"notification-settings.show","action":"User\UserNotificationSettingsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/notification-settings\/{notification_setting}","name":"notification-settings.update","action":"User\UserNotificationSettingsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/notification-settings\/{notification_setting}","name":"notification-settings.destroy","action":"User\UserNotificationSettingsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/repository-providers","name":"repository-providers.index","action":"User\Providers\UserRepositoryProviderController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/repository-providers","name":"repository-providers.store","action":"User\Providers\UserRepositoryProviderController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/repository-providers\/{repository_provider}","name":"repository-providers.show","action":"User\Providers\UserRepositoryProviderController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/repository-providers\/{repository_provider}","name":"repository-providers.update","action":"User\Providers\UserRepositoryProviderController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/repository-providers\/{repository_provider}","name":"repository-providers.destroy","action":"User\Providers\UserRepositoryProviderController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/notification-providers","name":"notification-providers.index","action":"User\Providers\UserNotificationProviderController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/notification-providers","name":"notification-providers.store","action":"User\Providers\UserNotificationProviderController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/notification-providers\/{notification_provider}","name":"notification-providers.show","action":"User\Providers\UserNotificationProviderController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/notification-providers\/{notification_provider}","name":"notification-providers.update","action":"User\Providers\UserNotificationProviderController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/notification-providers\/{notification_provider}","name":"notification-providers.destroy","action":"User\Providers\UserNotificationProviderController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription\/invoice\/next","name":"next.index","action":"User\Subscription\UserSubscriptionUpcomingInvoiceController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/subscription\/invoice\/next","name":"next.store","action":"User\Subscription\UserSubscriptionUpcomingInvoiceController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/subscription\/invoice\/next\/{next}","name":"next.show","action":"User\Subscription\UserSubscriptionUpcomingInvoiceController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/subscription\/invoice\/next\/{next}","name":"next.update","action":"User\Subscription\UserSubscriptionUpcomingInvoiceController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/subscription\/invoice\/next\/{next}","name":"next.destroy","action":"User\Subscription\UserSubscriptionUpcomingInvoiceController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/events","name":"events.index","action":"EventController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/events","name":"events.store","action":"EventController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/events\/{event}","name":"events.show","action":"EventController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/events\/{event}","name":"events.update","action":"EventController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/events\/{event}","name":"events.destroy","action":"EventController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/team","name":"team.index","action":"User\Team\UserTeamController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/team","name":"team.store","action":"User\Team\UserTeamController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/team\/{team}","name":"team.show","action":"User\Team\UserTeamController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/team\/{team}","name":"team.update","action":"User\Team\UserTeamController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/team\/{team}","name":"team.destroy","action":"User\Team\UserTeamController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/team\/team\/{team}\/members","name":"team.members.index","action":"User\Team\UserTeamMemberController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/team\/team\/{team}\/members","name":"team.members.store","action":"User\Team\UserTeamMemberController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/team\/team\/{team}\/members\/{member}","name":"team.members.show","action":"User\Team\UserTeamMemberController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/team\/team\/{team}\/members\/{member}","name":"team.members.update","action":"User\Team\UserTeamMemberController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/team\/team\/{team}\/members\/{member}","name":"team.members.destroy","action":"User\Team\UserTeamMemberController@destroy"},{"host":null,"methods":["POST"],"uri":"api\/my\/team\/switch\/{id?}","name":"teams.switch","action":"User\Team\UserTeamController@switchTeam"},{"host":null,"methods":["POST"],"uri":"api\/my\/team\/members","name":"teams.members.invite","action":"User\Team\UserTeamMemberController@invite"},{"host":null,"methods":["POST"],"uri":"api\/my\/team\/members\/resend\/{invite_id}","name":"teams.members.resend_invite","action":"User\Team\UserTeamMemberController@resendInvite"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/piles\/all","name":null,"action":"Pile\PileController@allPiles"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/piles","name":"piles.index","action":"Pile\PileController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/piles","name":"piles.store","action":"Pile\PileController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/piles\/{pile}","name":"piles.show","action":"Pile\PileController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/piles\/{pile}","name":"piles.update","action":"Pile\PileController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/piles\/{pile}","name":"piles.destroy","action":"Pile\PileController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/pile\/{pile}\/sites","name":"pile.sites.index","action":"Pile\PileSitesController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/pile\/{pile}\/sites","name":"pile.sites.store","action":"Pile\PileSitesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/pile\/{pile}\/sites\/{site}","name":"pile.sites.show","action":"Pile\PileSitesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/pile\/{pile}\/sites\/{site}","name":"pile.sites.update","action":"Pile\PileSitesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/pile\/{pile}\/sites\/{site}","name":"pile.sites.destroy","action":"Pile\PileSitesController@destroy"},{"host":null,"methods":["POST"],"uri":"api\/my\/change-pile","name":null,"action":"Pile\PileController@changePile"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers","name":"servers.index","action":"Server\ServerController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers","name":"servers.store","action":"Server\ServerController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}","name":"servers.show","action":"Server\ServerController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}","name":"servers.update","action":"Server\ServerController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}","name":"servers.destroy","action":"Server\ServerController@destroy"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/{server}\/find-file","name":null,"action":"Server\ServerFileController@find"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/{server}\/reload-file\/{file}","name":null,"action":"Server\ServerFileController@reloadFile"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/{server}\/custom","name":null,"action":"Server\ServerController@generateCustomServerSh"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/all_servers\/buoys","name":null,"action":"Server\ServerBuoyController@myServerBuoys"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/{server}\/file","name":null,"action":"Server\ServerController@getFile"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/restore\/{server}","name":null,"action":"Server\ServerController@restore"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/{server}\/file\/save","name":null,"action":"Server\ServerController@saveFile"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/disk-space\/{server}","name":null,"action":"Server\ServerController@getDiskSpace"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/restart-server\/{server}","name":null,"action":"Server\ServerController@restartServer"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/restart-database\/{server}","name":null,"action":"Server\ServerController@restartDatabases"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/restart-workers\/{server}","name":null,"action":"Server\ServerController@restartWorkerServices"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/ssh-connection\/{server}","name":null,"action":"Server\ServerSshKeyController@testSSHConnection"},{"host":null,"methods":["POST"],"uri":"api\/my\/server\/restart-web-services\/{server}","name":null,"action":"Server\ServerController@restartWebServices"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/file","name":"servers.file.index","action":"Server\ServerFileController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/file","name":"servers.file.store","action":"Server\ServerFileController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/file\/{file}","name":"servers.file.show","action":"Server\ServerFileController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/file\/{file}","name":"servers.file.update","action":"Server\ServerFileController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/file\/{file}","name":"servers.file.destroy","action":"Server\ServerFileController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/buoys","name":"servers.buoys.index","action":"Server\ServerBuoyController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/buoys","name":"servers.buoys.store","action":"Server\ServerBuoyController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/buoys\/{buoy}","name":"servers.buoys.show","action":"Server\ServerBuoyController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/buoys\/{buoy}","name":"servers.buoys.update","action":"Server\ServerBuoyController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/buoys\/{buoy}","name":"servers.buoys.destroy","action":"Server\ServerBuoyController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/sites","name":"servers.sites.index","action":"Server\ServerSiteController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/sites","name":"servers.sites.store","action":"Server\ServerSiteController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/sites\/{site}","name":"servers.sites.show","action":"Server\ServerSiteController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/sites\/{site}","name":"servers.sites.update","action":"Server\ServerSiteController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/sites\/{site}","name":"servers.sites.destroy","action":"Server\ServerSiteController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/workers","name":"servers.workers.index","action":"Server\ServerWorkerController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/workers","name":"servers.workers.store","action":"Server\ServerWorkerController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/workers\/{worker}","name":"servers.workers.show","action":"Server\ServerWorkerController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/workers\/{worker}","name":"servers.workers.update","action":"Server\ServerWorkerController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/workers\/{worker}","name":"servers.workers.destroy","action":"Server\ServerWorkerController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/schemas","name":"servers.schemas.index","action":"Server\ServerSchemaController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/schemas","name":"servers.schemas.store","action":"Server\ServerSchemaController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/schemas\/{schema}","name":"servers.schemas.show","action":"Server\ServerSchemaController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/schemas\/{schema}","name":"servers.schemas.update","action":"Server\ServerSchemaController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/schemas\/{schema}","name":"servers.schemas.destroy","action":"Server\ServerSchemaController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/ssh-keys","name":"servers.ssh-keys.index","action":"Server\ServerSshKeyController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/ssh-keys","name":"servers.ssh-keys.store","action":"Server\ServerSshKeyController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/ssh-keys\/{ssh_key}","name":"servers.ssh-keys.show","action":"Server\ServerSshKeyController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/ssh-keys\/{ssh_key}","name":"servers.ssh-keys.update","action":"Server\ServerSshKeyController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/ssh-keys\/{ssh_key}","name":"servers.ssh-keys.destroy","action":"Server\ServerSshKeyController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/features","name":"servers.features.index","action":"Server\ServerFeatureController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/features","name":"servers.features.store","action":"Server\ServerFeatureController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/features\/{feature}","name":"servers.features.show","action":"Server\ServerFeatureController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/features\/{feature}","name":"servers.features.update","action":"Server\ServerFeatureController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/features\/{feature}","name":"servers.features.destroy","action":"Server\ServerFeatureController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/cron-jobs","name":"servers.cron-jobs.index","action":"Server\ServerCronJobController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/cron-jobs","name":"servers.cron-jobs.store","action":"Server\ServerCronJobController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/cron-jobs\/{cron_job}","name":"servers.cron-jobs.show","action":"Server\ServerCronJobController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/cron-jobs\/{cron_job}","name":"servers.cron-jobs.update","action":"Server\ServerCronJobController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/cron-jobs\/{cron_job}","name":"servers.cron-jobs.destroy","action":"Server\ServerCronJobController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/ssl-certificate","name":"servers.ssl-certificate.index","action":"Server\ServerSslController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/ssl-certificate","name":"servers.ssl-certificate.store","action":"Server\ServerSslController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/ssl-certificate\/{ssl_certificate}","name":"servers.ssl-certificate.show","action":"Server\ServerSslController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/ssl-certificate\/{ssl_certificate}","name":"servers.ssl-certificate.update","action":"Server\ServerSslController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/ssl-certificate\/{ssl_certificate}","name":"servers.ssl-certificate.destroy","action":"Server\ServerSslController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/network","name":"servers.network.index","action":"Server\ServerNetworkRuleController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/network","name":"servers.network.store","action":"Server\ServerNetworkRuleController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/network\/{network}","name":"servers.network.show","action":"Server\ServerNetworkRuleController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/network\/{network}","name":"servers.network.update","action":"Server\ServerNetworkRuleController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/network\/{network}","name":"servers.network.destroy","action":"Server\ServerNetworkRuleController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/firewall-rules","name":"servers.firewall-rules.index","action":"Server\ServerFirewallRuleController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/firewall-rules","name":"servers.firewall-rules.store","action":"Server\ServerFirewallRuleController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/firewall-rules\/{firewall_rule}","name":"servers.firewall-rules.show","action":"Server\ServerFirewallRuleController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/firewall-rules\/{firewall_rule}","name":"servers.firewall-rules.update","action":"Server\ServerFirewallRuleController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/firewall-rules\/{firewall_rule}","name":"servers.firewall-rules.destroy","action":"Server\ServerFirewallRuleController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/provision-steps","name":"servers.provision-steps.index","action":"Server\ServerProvisionStepsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/provision-steps","name":"servers.provision-steps.store","action":"Server\ServerProvisionStepsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/provision-steps\/{provision_step}","name":"servers.provision-steps.show","action":"Server\ServerProvisionStepsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/provision-steps\/{provision_step}","name":"servers.provision-steps.update","action":"Server\ServerProvisionStepsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/provision-steps\/{provision_step}","name":"servers.provision-steps.destroy","action":"Server\ServerProvisionStepsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/language-settings","name":"servers.language-settings.index","action":"Server\ServerLanguageSettingsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/language-settings","name":"servers.language-settings.store","action":"Server\ServerLanguageSettingsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/language-settings\/{language_setting}","name":"servers.language-settings.show","action":"Server\ServerLanguageSettingsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/language-settings\/{language_setting}","name":"servers.language-settings.update","action":"Server\ServerLanguageSettingsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/language-settings\/{language_setting}","name":"servers.language-settings.destroy","action":"Server\ServerLanguageSettingsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/environment-variables","name":"servers.environment-variables.index","action":"Server\ServerEnvironmentVariablesController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/servers\/{server}\/environment-variables","name":"servers.environment-variables.store","action":"Server\ServerEnvironmentVariablesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/servers\/{server}\/environment-variables\/{environment_variable}","name":"servers.environment-variables.show","action":"Server\ServerEnvironmentVariablesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/servers\/{server}\/environment-variables\/{environment_variable}","name":"servers.environment-variables.update","action":"Server\ServerEnvironmentVariablesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/servers\/{server}\/environment-variables\/{environment_variable}","name":"servers.environment-variables.destroy","action":"Server\ServerEnvironmentVariablesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/server\/{server}\/language-settings","name":null,"action":"Server\ServerLanguageSettingsController@getLanguageSettings"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites","name":"sites.index","action":"Site\SiteController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites","name":"sites.store","action":"Site\SiteController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}","name":"sites.show","action":"Site\SiteController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}","name":"sites.update","action":"Site\SiteController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}","name":"sites.destroy","action":"Site\SiteController@destroy"},{"host":null,"methods":["POST"],"uri":"api\/my\/site\/{site}\/find-file","name":null,"action":"Site\SiteFileController@find"},{"host":null,"methods":["POST"],"uri":"api\/my\/site\/{site}\/refresh-ssh-keys","name":null,"action":"Site\SiteController@refreshPublicKey"},{"host":null,"methods":["POST"],"uri":"api\/my\/site\/{site}\/refresh-deploy-key","name":null,"action":"Site\SiteController@refreshDeployKey"},{"host":null,"methods":["POST"],"uri":"api\/my\/site\/{site}\/reload-file\/{file}\/server\/{server}","name":null,"action":"Site\SiteFileController@reloadFile"},{"host":null,"methods":["POST"],"uri":"api\/my\/deploy\/{site}","name":null,"action":"Site\SiteController@deploy"},{"host":null,"methods":["POST"],"uri":"api\/my\/rollback\/{site}","name":null,"action":"Site\SiteController@rollback"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/site\/{site}\/deployment-steps","name":null,"action":"Site\SiteDeploymentStepsController@getDeploymentSteps"},{"host":null,"methods":["POST"],"uri":"api\/my\/restart-server\/{site}","name":null,"action":"Site\SiteController@restartServer"},{"host":null,"methods":["POST"],"uri":"api\/my\/restart-database\/{site}","name":null,"action":"Site\SiteController@restartDatabases"},{"host":null,"methods":["POST"],"uri":"api\/my\/restart-workers\/{site}","name":null,"action":"Site\SiteController@restartWorkerServices"},{"host":null,"methods":["POST"],"uri":"api\/my\/restart-web-services\/{site}","name":null,"action":"Site\SiteController@restartWebServices"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/file","name":"sites.file.index","action":"Site\SiteFileController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/file","name":"sites.file.store","action":"Site\SiteFileController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/file\/{file}","name":"sites.file.show","action":"Site\SiteFileController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/file\/{file}","name":"sites.file.update","action":"Site\SiteFileController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/file\/{file}","name":"sites.file.destroy","action":"Site\SiteFileController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/buoys","name":"sites.buoys.index","action":"Site\SiteBuoyController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/buoys","name":"sites.buoys.store","action":"Site\SiteBuoyController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/buoys\/{buoy}","name":"sites.buoys.show","action":"Site\SiteBuoyController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/buoys\/{buoy}","name":"sites.buoys.update","action":"Site\SiteBuoyController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/buoys\/{buoy}","name":"sites.buoys.destroy","action":"Site\SiteBuoyController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/servers","name":"sites.servers.index","action":"Site\SiteServerController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/servers","name":"sites.servers.store","action":"Site\SiteServerController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/servers\/{server}","name":"sites.servers.show","action":"Site\SiteServerController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/servers\/{server}","name":"sites.servers.update","action":"Site\SiteServerController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/servers\/{server}","name":"sites.servers.destroy","action":"Site\SiteServerController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/workers","name":"sites.workers.index","action":"Site\SiteWorkerController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/workers","name":"sites.workers.store","action":"Site\SiteWorkerController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/workers\/{worker}","name":"sites.workers.show","action":"Site\SiteWorkerController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/workers\/{worker}","name":"sites.workers.update","action":"Site\SiteWorkerController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/workers\/{worker}","name":"sites.workers.destroy","action":"Site\SiteWorkerController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/schemas","name":"sites.schemas.index","action":"Site\SiteSchemaController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/schemas","name":"sites.schemas.store","action":"Site\SiteSchemaController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/schemas\/{schema}","name":"sites.schemas.show","action":"Site\SiteSchemaController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/schemas\/{schema}","name":"sites.schemas.update","action":"Site\SiteSchemaController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/schemas\/{schema}","name":"sites.schemas.destroy","action":"Site\SiteSchemaController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/ssh-keys","name":"sites.ssh-keys.index","action":"Site\SiteSshKeyController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/ssh-keys","name":"sites.ssh-keys.store","action":"Site\SiteSshKeyController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/ssh-keys\/{ssh_key}","name":"sites.ssh-keys.show","action":"Site\SiteSshKeyController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/ssh-keys\/{ssh_key}","name":"sites.ssh-keys.update","action":"Site\SiteSshKeyController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/ssh-keys\/{ssh_key}","name":"sites.ssh-keys.destroy","action":"Site\SiteSshKeyController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/cron-jobs","name":"sites.cron-jobs.index","action":"Site\SiteCronJobController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/cron-jobs","name":"sites.cron-jobs.store","action":"Site\SiteCronJobController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/cron-jobs\/{cron_job}","name":"sites.cron-jobs.show","action":"Site\SiteCronJobController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/cron-jobs\/{cron_job}","name":"sites.cron-jobs.update","action":"Site\SiteCronJobController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/cron-jobs\/{cron_job}","name":"sites.cron-jobs.destroy","action":"Site\SiteCronJobController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/ssl-certificate","name":"sites.ssl-certificate.index","action":"Site\SiteSslController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/ssl-certificate","name":"sites.ssl-certificate.store","action":"Site\SiteSslController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/ssl-certificate\/{ssl_certificate}","name":"sites.ssl-certificate.show","action":"Site\SiteSslController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/ssl-certificate\/{ssl_certificate}","name":"sites.ssl-certificate.update","action":"Site\SiteSslController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/ssl-certificate\/{ssl_certificate}","name":"sites.ssl-certificate.destroy","action":"Site\SiteSslController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/deployments","name":"sites.deployments.index","action":"Site\SiteDeploymentsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/deployments","name":"sites.deployments.store","action":"Site\SiteDeploymentsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/deployments\/{deployment}","name":"sites.deployments.show","action":"Site\SiteDeploymentsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/deployments\/{deployment}","name":"sites.deployments.update","action":"Site\SiteDeploymentsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/deployments\/{deployment}","name":"sites.deployments.destroy","action":"Site\SiteDeploymentsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/hooks","name":"sites.hooks.index","action":"Site\Repository\RepositoryHookController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/hooks","name":"sites.hooks.store","action":"Site\Repository\RepositoryHookController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/hooks\/{hook}","name":"sites.hooks.show","action":"Site\Repository\RepositoryHookController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/hooks\/{hook}","name":"sites.hooks.update","action":"Site\Repository\RepositoryHookController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/hooks\/{hook}","name":"sites.hooks.destroy","action":"Site\Repository\RepositoryHookController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/firewall-rules","name":"sites.firewall-rules.index","action":"Site\SiteFirewallRuleController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/firewall-rules","name":"sites.firewall-rules.store","action":"Site\SiteFirewallRuleController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/firewall-rules\/{firewall_rule}","name":"sites.firewall-rules.show","action":"Site\SiteFirewallRuleController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/firewall-rules\/{firewall_rule}","name":"sites.firewall-rules.update","action":"Site\SiteFirewallRuleController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/firewall-rules\/{firewall_rule}","name":"sites.firewall-rules.destroy","action":"Site\SiteFirewallRuleController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/server-features","name":"sites.server-features.index","action":"Site\SiteServerFeaturesController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/server-features","name":"sites.server-features.store","action":"Site\SiteServerFeaturesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/server-features\/{server_type}","name":"sites.server-features.show","action":"Site\SiteServerFeaturesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/server-features\/{server_type}","name":"sites.server-features.update","action":"Site\SiteServerFeaturesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/server-features\/{server_type}","name":"sites.server-features.destroy","action":"Site\SiteServerFeaturesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/deployment-steps","name":"sites.deployment-steps.index","action":"Site\SiteDeploymentStepsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/deployment-steps","name":"sites.deployment-steps.store","action":"Site\SiteDeploymentStepsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/deployment-steps\/{deployment_step}","name":"sites.deployment-steps.show","action":"Site\SiteDeploymentStepsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/deployment-steps\/{deployment_step}","name":"sites.deployment-steps.update","action":"Site\SiteDeploymentStepsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/deployment-steps\/{deployment_step}","name":"sites.deployment-steps.destroy","action":"Site\SiteDeploymentStepsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/language-settings","name":"sites.language-settings.index","action":"Site\SiteLanguageSettingsController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/language-settings","name":"sites.language-settings.store","action":"Site\SiteLanguageSettingsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/language-settings\/{language_setting}","name":"sites.language-settings.show","action":"Site\SiteLanguageSettingsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/language-settings\/{language_setting}","name":"sites.language-settings.update","action":"Site\SiteLanguageSettingsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/language-settings\/{language_setting}","name":"sites.language-settings.destroy","action":"Site\SiteLanguageSettingsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/environment-variables","name":"sites.environment-variables.index","action":"Site\SiteEnvironmentVariablesController@index"},{"host":null,"methods":["POST"],"uri":"api\/my\/sites\/{site}\/environment-variables","name":"sites.environment-variables.store","action":"Site\SiteEnvironmentVariablesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/sites\/{site}\/environment-variables\/{environment_variable}","name":"sites.environment-variables.show","action":"Site\SiteEnvironmentVariablesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/my\/sites\/{site}\/environment-variables\/{environment_variable}","name":"sites.environment-variables.update","action":"Site\SiteEnvironmentVariablesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/my\/sites\/{site}\/environment-variables\/{environment_variable}","name":"sites.environment-variables.destroy","action":"Site\SiteEnvironmentVariablesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/my\/site\/{site}\/language-settings","name":null,"action":"Site\SiteLanguageSettingsController@getLanguageSettings"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/notification-settings","name":"notification-settings.index","action":"NotificationSettingsController@index"},{"host":null,"methods":["POST"],"uri":"api\/notification-settings","name":"notification-settings.store","action":"NotificationSettingsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/notification-settings\/{notification_setting}","name":"notification-settings.show","action":"NotificationSettingsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/notification-settings\/{notification_setting}","name":"notification-settings.update","action":"NotificationSettingsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/notification-settings\/{notification_setting}","name":"notification-settings.destroy","action":"NotificationSettingsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/types","name":"types.index","action":"Server\ServerTypesController@index"},{"host":null,"methods":["POST"],"uri":"api\/server\/types","name":"types.store","action":"Server\ServerTypesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/types\/{type}","name":"types.show","action":"Server\ServerTypesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/server\/types\/{type}","name":"types.update","action":"Server\ServerTypesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/server\/types\/{type}","name":"types.destroy","action":"Server\ServerTypesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/features","name":null,"action":"Server\ServerFeatureController@getFeatures"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/languages","name":null,"action":"Server\ServerFeatureController@getLanguages"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/frameworks","name":null,"action":"Server\ServerFeatureController@getFrameworks"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/site\/{site}\/editable-files","name":null,"action":"Site\SiteFeatureController@getEditableFiles"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/{server}\/editable-files","name":null,"action":"Server\ServerFeatureController@getEditableFiles"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/site\/{site}\/framework\/editable-files","name":null,"action":"Site\SiteFeatureController@getEditableFrameworkFiles"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/server-providers","name":"server-providers.index","action":"Auth\Providers\ServerProvidersController@index"},{"host":null,"methods":["POST"],"uri":"api\/auth\/providers\/server-providers","name":"server-providers.store","action":"Auth\Providers\ServerProvidersController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/server-providers\/{server_provider}","name":"server-providers.show","action":"Auth\Providers\ServerProvidersController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/auth\/providers\/server-providers\/{server_provider}","name":"server-providers.update","action":"Auth\Providers\ServerProvidersController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/auth\/providers\/server-providers\/{server_provider}","name":"server-providers.destroy","action":"Auth\Providers\ServerProvidersController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/repository-providers","name":"repository-providers.index","action":"Auth\Providers\RepositoryProvidersController@index"},{"host":null,"methods":["POST"],"uri":"api\/auth\/providers\/repository-providers","name":"repository-providers.store","action":"Auth\Providers\RepositoryProvidersController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/repository-providers\/{repository_provider}","name":"repository-providers.show","action":"Auth\Providers\RepositoryProvidersController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/auth\/providers\/repository-providers\/{repository_provider}","name":"repository-providers.update","action":"Auth\Providers\RepositoryProvidersController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/auth\/providers\/repository-providers\/{repository_provider}","name":"repository-providers.destroy","action":"Auth\Providers\RepositoryProvidersController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/notification-providers","name":"notification-providers.index","action":"Auth\Providers\NotificationProvidersController@index"},{"host":null,"methods":["POST"],"uri":"api\/auth\/providers\/notification-providers","name":"notification-providers.store","action":"Auth\Providers\NotificationProvidersController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/auth\/providers\/notification-providers\/{notification_provider}","name":"notification-providers.show","action":"Auth\Providers\NotificationProvidersController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/auth\/providers\/notification-providers\/{notification_provider}","name":"notification-providers.update","action":"Auth\Providers\NotificationProvidersController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/auth\/providers\/notification-providers\/{notification_provider}","name":"notification-providers.destroy","action":"Auth\Providers\NotificationProvidersController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/options","name":"options.index","action":"Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@index"},{"host":null,"methods":["POST"],"uri":"api\/server\/providers\/digitalocean\/options","name":"options.store","action":"Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/options\/{option}","name":"options.show","action":"Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/server\/providers\/digitalocean\/options\/{option}","name":"options.update","action":"Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/server\/providers\/digitalocean\/options\/{option}","name":"options.destroy","action":"Server\Providers\DigitalOcean\DigitalOceanServerOptionsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/regions","name":"regions.index","action":"Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@index"},{"host":null,"methods":["POST"],"uri":"api\/server\/providers\/digitalocean\/regions","name":"regions.store","action":"Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/regions\/{region}","name":"regions.show","action":"Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/server\/providers\/digitalocean\/regions\/{region}","name":"regions.update","action":"Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/server\/providers\/digitalocean\/regions\/{region}","name":"regions.destroy","action":"Server\Providers\DigitalOcean\DigitalOceanServerRegionsController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/features","name":"features.index","action":"Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@index"},{"host":null,"methods":["POST"],"uri":"api\/server\/providers\/digitalocean\/features","name":"features.store","action":"Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"api\/server\/providers\/digitalocean\/features\/{feature}","name":"features.show","action":"Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@show"},{"host":null,"methods":["PUT","PATCH"],"uri":"api\/server\/providers\/digitalocean\/features\/{feature}","name":"features.update","action":"Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@update"},{"host":null,"methods":["DELETE"],"uri":"api\/server\/providers\/digitalocean\/features\/{feature}","name":"features.destroy","action":"Server\Providers\DigitalOcean\DigitalOceanServerFeaturesController@destroy"},{"host":null,"methods":["GET","HEAD"],"uri":"login","name":"login","action":"Auth\LoginController@showLoginForm"},{"host":null,"methods":["POST"],"uri":"login","name":null,"action":"Auth\LoginController@login"},{"host":null,"methods":["POST"],"uri":"logout","name":"logout","action":"Auth\LoginController@logout"},{"host":null,"methods":["GET","HEAD"],"uri":"register","name":"register","action":"Auth\RegisterController@showRegistrationForm"},{"host":null,"methods":["POST"],"uri":"register","name":null,"action":"Auth\RegisterController@register"},{"host":null,"methods":["GET","HEAD"],"uri":"password\/reset","name":"password.request","action":"Auth\ForgotPasswordController@showLinkRequestForm"},{"host":null,"methods":["POST"],"uri":"password\/email","name":"password.email","action":"Auth\ForgotPasswordController@sendResetLinkEmail"},{"host":null,"methods":["GET","HEAD"],"uri":"password\/reset\/{token}","name":"password.reset","action":"Auth\ResetPasswordController@showResetForm"},{"host":null,"methods":["POST"],"uri":"password\/reset","name":null,"action":"Auth\ResetPasswordController@reset"},{"host":null,"methods":["GET","HEAD"],"uri":"provider\/{provider}\/link","name":null,"action":"Auth\OauthController@newProvider"},{"host":null,"methods":["GET","HEAD"],"uri":"provider\/{provider}\/callback","name":null,"action":"Auth\OauthController@getHandleProviderCallback"},{"host":null,"methods":["POST"],"uri":"stripe\/webhook","name":null,"action":"\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook"},{"host":null,"methods":["GET","HEAD"],"uri":"subscription\/plans","name":"plans.index","action":"SubscriptionController@index"},{"host":null,"methods":["GET","HEAD"],"uri":"subscription\/plans\/create","name":"plans.create","action":"SubscriptionController@create"},{"host":null,"methods":["POST"],"uri":"subscription\/plans","name":"plans.store","action":"SubscriptionController@store"},{"host":null,"methods":["GET","HEAD"],"uri":"subscription\/plans\/{plan}","name":"plans.show","action":"SubscriptionController@show"},{"host":null,"methods":["GET","HEAD"],"uri":"subscription\/plans\/{plan}\/edit","name":"plans.edit","action":"SubscriptionController@edit"},{"host":null,"methods":["PUT","PATCH"],"uri":"subscription\/plans\/{plan}","name":"plans.update","action":"SubscriptionController@update"},{"host":null,"methods":["DELETE"],"uri":"subscription\/plans\/{plan}","name":"plans.destroy","action":"SubscriptionController@destroy"},{"host":null,"methods":["GET","HEAD","POST","PUT","PATCH","DELETE"],"uri":"webhook\/deploy\/{siteHashID}","name":null,"action":"WebHookController@deploy"},{"host":null,"methods":["GET","HEAD"],"uri":"webhook\/loads\/{serverHashID}","name":null,"action":"WebHookController@loadMonitor"},{"host":null,"methods":["GET","HEAD"],"uri":"webhook\/memory\/{serverHashID}","name":null,"action":"WebHookController@memoryMonitor"},{"host":null,"methods":["GET","HEAD"],"uri":"webhook\/diskusage\/{serverHashID}","name":null,"action":"WebHookController@diskUsageMonitor"},{"host":null,"methods":["GET","HEAD"],"uri":"teams\/accept\/{token}","name":"teams.accept_invite","action":"User\Team\UserTeamController@acceptInvite"},{"host":"style-guide.codepier.dev","methods":["GET","HEAD"],"uri":"\/","name":null,"action":"PublicController@styleGuide"},{"host":null,"methods":["GET","HEAD"],"uri":"\/","name":null,"action":"Controller@app"},{"host":null,"methods":["GET","HEAD"],"uri":"privacy","name":null,"action":"PublicController@privacy"},{"host":null,"methods":["POST"],"uri":"subscribe","name":null,"action":"PublicController@subscribe"},{"host":null,"methods":["GET","HEAD"],"uri":"terms-of-service","name":null,"action":"PublicController@termsOfService"},{"host":null,"methods":["GET","HEAD"],"uri":"slack-invite","name":null,"action":"User\UserController@slackInvite"},{"host":null,"methods":["GET","HEAD"],"uri":"subscription\/invoice\/{invoice}","name":null,"action":"User\Subscription\UserSubscriptionInvoiceController@show"},{"host":null,"methods":["GET","HEAD"],"uri":"{any}","name":null,"action":"Controller@app"}],
-            prefix: '',
+            rootUrl: "http://codepier.dev",
+            routes: [
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "oauth/authorize",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersAuthorizationController@authorize"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "oauth/authorize",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersApproveAuthorizationController@approve"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "oauth/authorize",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersDenyAuthorizationController@deny"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "oauth/token",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersAccessTokenController@issueToken"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "oauth/tokens",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersAuthorizedAccessTokenController@forUser"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "oauth/tokens/{token_id}",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersAuthorizedAccessTokenController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "oauth/token/refresh",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersTransientTokenController@refresh"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "oauth/clients",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersClientController@forUser"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "oauth/clients",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersClientController@store"
+                },
+                {
+                    host: null,
+                    methods: ["PUT"],
+                    uri: "oauth/clients/{client_id}",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersClientController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "oauth/clients/{client_id}",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersClientController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "oauth/scopes",
+                    name: null,
+                    action: "LaravelPassportHttpControllersScopeController@all"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "oauth/personal-access-tokens",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersPersonalAccessTokenController@forUser"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "oauth/personal-access-tokens",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersPersonalAccessTokenController@store"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "oauth/personal-access-tokens/{token_id}",
+                    name: null,
+                    action:
+                        "LaravelPassportHttpControllersPersonalAccessTokenController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "broadcasting/auth",
+                    name: null,
+                    action:
+                        "IlluminateBroadcastingBroadcastController@authenticate"
+                },
+                {
+                    host: "provision.codepier.dev",
+                    methods: ["GET", "HEAD"],
+                    uri: "/",
+                    name: null,
+                    action: "ServerCustomServerProvisioningController@provision"
+                },
+                {
+                    host: "provision.codepier.dev",
+                    methods: ["POST"],
+                    uri: "start/{provisioning_key}",
+                    name: null,
+                    action: "ServerCustomServerProvisioningController@start"
+                },
+                {
+                    host: "provision.codepier.dev",
+                    methods: ["GET", "HEAD"],
+                    uri: "keys/{provisioning_key}/public",
+                    name: null,
+                    action:
+                        "ServerCustomServerProvisioningController@returnPublicKey"
+                },
+                {
+                    host: "provision.codepier.dev",
+                    methods: ["GET", "HEAD"],
+                    uri: "keys/{provisioning_key/private}",
+                    name: null,
+                    action:
+                        "ServerCustomServerProvisioningController@returnPrivateKey"
+                },
+                {
+                    host: "provision.codepier.dev",
+                    methods: ["GET", "HEAD"],
+                    uri: "end/{provisioning_key}",
+                    name: null,
+                    action: "ServerCustomServerProvisioningController@end"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/me",
+                    name: "me.index",
+                    action: "UserUserController@index"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/user",
+                    name: "user.index",
+                    action: "UserUserController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/user",
+                    name: "user.store",
+                    action: "UserUserController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/user/{user}",
+                    name: "user.show",
+                    action: "UserUserController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/user/{user}",
+                    name: "user.update",
+                    action: "UserUserController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/user/{user}",
+                    name: "user.destroy",
+                    action: "UserUserController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/categories",
+                    name: "categories.index",
+                    action: "CategoriesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/categories",
+                    name: "categories.store",
+                    action: "CategoriesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/categories/{category}",
+                    name: "categories.show",
+                    action: "CategoriesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/categories/{category}",
+                    name: "categories.update",
+                    action: "CategoriesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/categories/{category}",
+                    name: "categories.destroy",
+                    action: "CategoriesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/buoy-apps/buoyClasses",
+                    name: null,
+                    action: "BuoyAppController@getBuoyClasses"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/buoy-apps/{buoy_app}/update",
+                    name: null,
+                    action: "BuoyAppController@update"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/buoy-apps",
+                    name: "buoy-apps.index",
+                    action: "BuoyAppController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/buoy-apps",
+                    name: "buoy-apps.store",
+                    action: "BuoyAppController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/buoy-apps/{buoy_app}",
+                    name: "buoy-apps.show",
+                    action: "BuoyAppController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/buoy-apps/{buoy_app}",
+                    name: "buoy-apps.update",
+                    action: "BuoyAppController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/buoy-apps/{buoy_app}",
+                    name: "buoy-apps.destroy",
+                    action: "BuoyAppController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/bitts",
+                    name: "bitts.index",
+                    action: "BittsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/bitts",
+                    name: "bitts.store",
+                    action: "BittsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/bitts/{bitt}",
+                    name: "bitts.show",
+                    action: "BittsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/bitts/{bitt}",
+                    name: "bitts.update",
+                    action: "BittsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/bitts/{bitt}",
+                    name: "bitts.destroy",
+                    action: "BittsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/bitt/{bitt}/run",
+                    name: null,
+                    action: "BittsController@runOnServers"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/systems",
+                    name: null,
+                    action: "SystemsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription/invoices",
+                    name: "invoices.index",
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/subscription/invoices",
+                    name: "invoices.store",
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription/invoices/{invoice}",
+                    name: "invoices.show",
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/subscription/invoices/{invoice}",
+                    name: "invoices.update",
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/subscription/invoices/{invoice}",
+                    name: "invoices.destroy",
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/running-commands",
+                    name: null,
+                    action: "UserUserController@getRunningCommands"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/running-deployments",
+                    name: null,
+                    action: "UserUserController@getRunningDeployments"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/ssh-keys",
+                    name: "ssh-keys.index",
+                    action: "UserUserSshKeyController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/ssh-keys",
+                    name: "ssh-keys.store",
+                    action: "UserUserSshKeyController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/ssh-keys/{ssh_key}",
+                    name: "ssh-keys.show",
+                    action: "UserUserSshKeyController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/ssh-keys/{ssh_key}",
+                    name: "ssh-keys.update",
+                    action: "UserUserSshKeyController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/ssh-keys/{ssh_key}",
+                    name: "ssh-keys.destroy",
+                    action: "UserUserSshKeyController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription",
+                    name: "subscription.index",
+                    action: "UserSubscriptionUserSubscriptionController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/subscription",
+                    name: "subscription.store",
+                    action: "UserSubscriptionUserSubscriptionController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription/{subscription}",
+                    name: "subscription.show",
+                    action: "UserSubscriptionUserSubscriptionController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/subscription/{subscription}",
+                    name: "subscription.update",
+                    action: "UserSubscriptionUserSubscriptionController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/subscription/{subscription}",
+                    name: "subscription.destroy",
+                    action: "UserSubscriptionUserSubscriptionController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/server-providers",
+                    name: "server-providers.index",
+                    action: "UserProvidersUserServerProviderController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server-providers",
+                    name: "server-providers.store",
+                    action: "UserProvidersUserServerProviderController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/server-providers/{server_provider}",
+                    name: "server-providers.show",
+                    action: "UserProvidersUserServerProviderController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/server-providers/{server_provider}",
+                    name: "server-providers.update",
+                    action: "UserProvidersUserServerProviderController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/server-providers/{server_provider}",
+                    name: "server-providers.destroy",
+                    action: "UserProvidersUserServerProviderController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/notification-settings",
+                    name: "notification-settings.index",
+                    action: "UserUserNotificationSettingsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/notification-settings",
+                    name: "notification-settings.store",
+                    action: "UserUserNotificationSettingsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/notification-settings/{notification_setting}",
+                    name: "notification-settings.show",
+                    action: "UserUserNotificationSettingsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/notification-settings/{notification_setting}",
+                    name: "notification-settings.update",
+                    action: "UserUserNotificationSettingsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/notification-settings/{notification_setting}",
+                    name: "notification-settings.destroy",
+                    action: "UserUserNotificationSettingsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/repository-providers",
+                    name: "repository-providers.index",
+                    action:
+                        "UserProvidersUserRepositoryProviderController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/repository-providers",
+                    name: "repository-providers.store",
+                    action:
+                        "UserProvidersUserRepositoryProviderController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/repository-providers/{repository_provider}",
+                    name: "repository-providers.show",
+                    action: "UserProvidersUserRepositoryProviderController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/repository-providers/{repository_provider}",
+                    name: "repository-providers.update",
+                    action:
+                        "UserProvidersUserRepositoryProviderController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/repository-providers/{repository_provider}",
+                    name: "repository-providers.destroy",
+                    action:
+                        "UserProvidersUserRepositoryProviderController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/notification-providers",
+                    name: "notification-providers.index",
+                    action:
+                        "UserProvidersUserNotificationProviderController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/notification-providers",
+                    name: "notification-providers.store",
+                    action:
+                        "UserProvidersUserNotificationProviderController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/notification-providers/{notification_provider}",
+                    name: "notification-providers.show",
+                    action:
+                        "UserProvidersUserNotificationProviderController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/notification-providers/{notification_provider}",
+                    name: "notification-providers.update",
+                    action:
+                        "UserProvidersUserNotificationProviderController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/notification-providers/{notification_provider}",
+                    name: "notification-providers.destroy",
+                    action:
+                        "UserProvidersUserNotificationProviderController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription/invoice/next",
+                    name: "next.index",
+                    action:
+                        "UserSubscriptionUserSubscriptionUpcomingInvoiceController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/subscription/invoice/next",
+                    name: "next.store",
+                    action:
+                        "UserSubscriptionUserSubscriptionUpcomingInvoiceController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/subscription/invoice/next/{next}",
+                    name: "next.show",
+                    action:
+                        "UserSubscriptionUserSubscriptionUpcomingInvoiceController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/subscription/invoice/next/{next}",
+                    name: "next.update",
+                    action:
+                        "UserSubscriptionUserSubscriptionUpcomingInvoiceController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/subscription/invoice/next/{next}",
+                    name: "next.destroy",
+                    action:
+                        "UserSubscriptionUserSubscriptionUpcomingInvoiceController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/events",
+                    name: "events.index",
+                    action: "EventController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/events",
+                    name: "events.store",
+                    action: "EventController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/events/{event}",
+                    name: "events.show",
+                    action: "EventController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/events/{event}",
+                    name: "events.update",
+                    action: "EventController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/events/{event}",
+                    name: "events.destroy",
+                    action: "EventController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/team",
+                    name: "team.index",
+                    action: "UserTeamUserTeamController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/team",
+                    name: "team.store",
+                    action: "UserTeamUserTeamController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/team/{team}",
+                    name: "team.show",
+                    action: "UserTeamUserTeamController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/team/{team}",
+                    name: "team.update",
+                    action: "UserTeamUserTeamController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/team/{team}",
+                    name: "team.destroy",
+                    action: "UserTeamUserTeamController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/team/team/{team}/members",
+                    name: "team.members.index",
+                    action: "UserTeamUserTeamMemberController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/team/team/{team}/members",
+                    name: "team.members.store",
+                    action: "UserTeamUserTeamMemberController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/team/team/{team}/members/{member}",
+                    name: "team.members.show",
+                    action: "UserTeamUserTeamMemberController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/team/team/{team}/members/{member}",
+                    name: "team.members.update",
+                    action: "UserTeamUserTeamMemberController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/team/team/{team}/members/{member}",
+                    name: "team.members.destroy",
+                    action: "UserTeamUserTeamMemberController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/team/switch/{id?}",
+                    name: "teams.switch",
+                    action: "UserTeamUserTeamController@switchTeam"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/team/members",
+                    name: "teams.members.invite",
+                    action: "UserTeamUserTeamMemberController@invite"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/team/members/resend/{invite_id}",
+                    name: "teams.members.resend_invite",
+                    action: "UserTeamUserTeamMemberController@resendInvite"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/piles/all",
+                    name: null,
+                    action: "PilePileController@allPiles"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/piles",
+                    name: "piles.index",
+                    action: "PilePileController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/piles",
+                    name: "piles.store",
+                    action: "PilePileController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/piles/{pile}",
+                    name: "piles.show",
+                    action: "PilePileController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/piles/{pile}",
+                    name: "piles.update",
+                    action: "PilePileController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/piles/{pile}",
+                    name: "piles.destroy",
+                    action: "PilePileController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/pile/{pile}/sites",
+                    name: "pile.sites.index",
+                    action: "PilePileSitesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/pile/{pile}/sites",
+                    name: "pile.sites.store",
+                    action: "PilePileSitesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/pile/{pile}/sites/{site}",
+                    name: "pile.sites.show",
+                    action: "PilePileSitesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/pile/{pile}/sites/{site}",
+                    name: "pile.sites.update",
+                    action: "PilePileSitesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/pile/{pile}/sites/{site}",
+                    name: "pile.sites.destroy",
+                    action: "PilePileSitesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/change-pile",
+                    name: null,
+                    action: "PilePileController@changePile"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers",
+                    name: "servers.index",
+                    action: "ServerServerController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers",
+                    name: "servers.store",
+                    action: "ServerServerController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}",
+                    name: "servers.show",
+                    action: "ServerServerController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}",
+                    name: "servers.update",
+                    action: "ServerServerController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}",
+                    name: "servers.destroy",
+                    action: "ServerServerController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/{server}/find-file",
+                    name: null,
+                    action: "ServerServerFileController@find"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/{server}/reload-file/{file}",
+                    name: null,
+                    action: "ServerServerFileController@reloadFile"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/{server}/custom",
+                    name: null,
+                    action: "ServerServerController@generateCustomServerSh"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/all_servers/buoys",
+                    name: null,
+                    action: "ServerServerBuoyController@myServerBuoys"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/{server}/file",
+                    name: null,
+                    action: "ServerServerController@getFile"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/restore/{server}",
+                    name: null,
+                    action: "ServerServerController@restore"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/{server}/file/save",
+                    name: null,
+                    action: "ServerServerController@saveFile"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/disk-space/{server}",
+                    name: null,
+                    action: "ServerServerController@getDiskSpace"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/restart-server/{server}",
+                    name: null,
+                    action: "ServerServerController@restartServer"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/restart-database/{server}",
+                    name: null,
+                    action: "ServerServerController@restartDatabases"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/restart-workers/{server}",
+                    name: null,
+                    action: "ServerServerController@restartWorkerServices"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/ssh-connection/{server}",
+                    name: null,
+                    action: "ServerServerSshKeyController@testSSHConnection"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/server/restart-web-services/{server}",
+                    name: null,
+                    action: "ServerServerController@restartWebServices"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/file",
+                    name: "servers.file.index",
+                    action: "ServerServerFileController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/file",
+                    name: "servers.file.store",
+                    action: "ServerServerFileController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/file/{file}",
+                    name: "servers.file.show",
+                    action: "ServerServerFileController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/file/{file}",
+                    name: "servers.file.update",
+                    action: "ServerServerFileController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/file/{file}",
+                    name: "servers.file.destroy",
+                    action: "ServerServerFileController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/buoys",
+                    name: "servers.buoys.index",
+                    action: "ServerServerBuoyController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/buoys",
+                    name: "servers.buoys.store",
+                    action: "ServerServerBuoyController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/buoys/{buoy}",
+                    name: "servers.buoys.show",
+                    action: "ServerServerBuoyController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/buoys/{buoy}",
+                    name: "servers.buoys.update",
+                    action: "ServerServerBuoyController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/buoys/{buoy}",
+                    name: "servers.buoys.destroy",
+                    action: "ServerServerBuoyController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/sites",
+                    name: "servers.sites.index",
+                    action: "ServerServerSiteController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/sites",
+                    name: "servers.sites.store",
+                    action: "ServerServerSiteController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/sites/{site}",
+                    name: "servers.sites.show",
+                    action: "ServerServerSiteController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/sites/{site}",
+                    name: "servers.sites.update",
+                    action: "ServerServerSiteController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/sites/{site}",
+                    name: "servers.sites.destroy",
+                    action: "ServerServerSiteController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/workers",
+                    name: "servers.workers.index",
+                    action: "ServerServerWorkerController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/workers",
+                    name: "servers.workers.store",
+                    action: "ServerServerWorkerController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/workers/{worker}",
+                    name: "servers.workers.show",
+                    action: "ServerServerWorkerController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/workers/{worker}",
+                    name: "servers.workers.update",
+                    action: "ServerServerWorkerController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/workers/{worker}",
+                    name: "servers.workers.destroy",
+                    action: "ServerServerWorkerController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/schemas",
+                    name: "servers.schemas.index",
+                    action: "ServerServerSchemaController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/schemas",
+                    name: "servers.schemas.store",
+                    action: "ServerServerSchemaController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/schemas/{schema}",
+                    name: "servers.schemas.show",
+                    action: "ServerServerSchemaController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/schemas/{schema}",
+                    name: "servers.schemas.update",
+                    action: "ServerServerSchemaController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/schemas/{schema}",
+                    name: "servers.schemas.destroy",
+                    action: "ServerServerSchemaController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/ssh-keys",
+                    name: "servers.ssh-keys.index",
+                    action: "ServerServerSshKeyController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/ssh-keys",
+                    name: "servers.ssh-keys.store",
+                    action: "ServerServerSshKeyController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/ssh-keys/{ssh_key}",
+                    name: "servers.ssh-keys.show",
+                    action: "ServerServerSshKeyController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/ssh-keys/{ssh_key}",
+                    name: "servers.ssh-keys.update",
+                    action: "ServerServerSshKeyController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/ssh-keys/{ssh_key}",
+                    name: "servers.ssh-keys.destroy",
+                    action: "ServerServerSshKeyController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/features",
+                    name: "servers.features.index",
+                    action: "ServerServerFeatureController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/features",
+                    name: "servers.features.store",
+                    action: "ServerServerFeatureController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/features/{feature}",
+                    name: "servers.features.show",
+                    action: "ServerServerFeatureController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/features/{feature}",
+                    name: "servers.features.update",
+                    action: "ServerServerFeatureController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/features/{feature}",
+                    name: "servers.features.destroy",
+                    action: "ServerServerFeatureController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/cron-jobs",
+                    name: "servers.cron-jobs.index",
+                    action: "ServerServerCronJobController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/cron-jobs",
+                    name: "servers.cron-jobs.store",
+                    action: "ServerServerCronJobController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/cron-jobs/{cron_job}",
+                    name: "servers.cron-jobs.show",
+                    action: "ServerServerCronJobController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/cron-jobs/{cron_job}",
+                    name: "servers.cron-jobs.update",
+                    action: "ServerServerCronJobController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/cron-jobs/{cron_job}",
+                    name: "servers.cron-jobs.destroy",
+                    action: "ServerServerCronJobController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/ssl-certificate",
+                    name: "servers.ssl-certificate.index",
+                    action: "ServerServerSslController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/ssl-certificate",
+                    name: "servers.ssl-certificate.store",
+                    action: "ServerServerSslController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/servers/{server}/ssl-certificate/{ssl_certificate}",
+                    name: "servers.ssl-certificate.show",
+                    action: "ServerServerSslController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/servers/{server}/ssl-certificate/{ssl_certificate}",
+                    name: "servers.ssl-certificate.update",
+                    action: "ServerServerSslController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/servers/{server}/ssl-certificate/{ssl_certificate}",
+                    name: "servers.ssl-certificate.destroy",
+                    action: "ServerServerSslController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/network",
+                    name: "servers.network.index",
+                    action: "ServerServerNetworkRuleController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/network",
+                    name: "servers.network.store",
+                    action: "ServerServerNetworkRuleController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/network/{network}",
+                    name: "servers.network.show",
+                    action: "ServerServerNetworkRuleController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/servers/{server}/network/{network}",
+                    name: "servers.network.update",
+                    action: "ServerServerNetworkRuleController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/servers/{server}/network/{network}",
+                    name: "servers.network.destroy",
+                    action: "ServerServerNetworkRuleController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/firewall-rules",
+                    name: "servers.firewall-rules.index",
+                    action: "ServerServerFirewallRuleController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/firewall-rules",
+                    name: "servers.firewall-rules.store",
+                    action: "ServerServerFirewallRuleController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/servers/{server}/firewall-rules/{firewall_rule}",
+                    name: "servers.firewall-rules.show",
+                    action: "ServerServerFirewallRuleController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/servers/{server}/firewall-rules/{firewall_rule}",
+                    name: "servers.firewall-rules.update",
+                    action: "ServerServerFirewallRuleController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/servers/{server}/firewall-rules/{firewall_rule}",
+                    name: "servers.firewall-rules.destroy",
+                    action: "ServerServerFirewallRuleController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/provision-steps",
+                    name: "servers.provision-steps.index",
+                    action: "ServerServerProvisionStepsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/provision-steps",
+                    name: "servers.provision-steps.store",
+                    action: "ServerServerProvisionStepsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/servers/{server}/provision-steps/{provision_step}",
+                    name: "servers.provision-steps.show",
+                    action: "ServerServerProvisionStepsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/servers/{server}/provision-steps/{provision_step}",
+                    name: "servers.provision-steps.update",
+                    action: "ServerServerProvisionStepsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/servers/{server}/provision-steps/{provision_step}",
+                    name: "servers.provision-steps.destroy",
+                    action: "ServerServerProvisionStepsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/language-settings",
+                    name: "servers.language-settings.index",
+                    action: "ServerServerLanguageSettingsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/language-settings",
+                    name: "servers.language-settings.store",
+                    action: "ServerServerLanguageSettingsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/servers/{server}/language-settings/{language_setting}",
+                    name: "servers.language-settings.show",
+                    action: "ServerServerLanguageSettingsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/servers/{server}/language-settings/{language_setting}",
+                    name: "servers.language-settings.update",
+                    action: "ServerServerLanguageSettingsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/servers/{server}/language-settings/{language_setting}",
+                    name: "servers.language-settings.destroy",
+                    action: "ServerServerLanguageSettingsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/servers/{server}/environment-variables",
+                    name: "servers.environment-variables.index",
+                    action: "ServerServerEnvironmentVariablesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/servers/{server}/environment-variables",
+                    name: "servers.environment-variables.store",
+                    action: "ServerServerEnvironmentVariablesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/servers/{server}/environment-variables/{environment_variable}",
+                    name: "servers.environment-variables.show",
+                    action: "ServerServerEnvironmentVariablesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/servers/{server}/environment-variables/{environment_variable}",
+                    name: "servers.environment-variables.update",
+                    action: "ServerServerEnvironmentVariablesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/servers/{server}/environment-variables/{environment_variable}",
+                    name: "servers.environment-variables.destroy",
+                    action: "ServerServerEnvironmentVariablesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/server/{server}/language-settings",
+                    name: null,
+                    action:
+                        "ServerServerLanguageSettingsController@getLanguageSettings"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites",
+                    name: "sites.index",
+                    action: "SiteSiteController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites",
+                    name: "sites.store",
+                    action: "SiteSiteController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}",
+                    name: "sites.show",
+                    action: "SiteSiteController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}",
+                    name: "sites.update",
+                    action: "SiteSiteController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}",
+                    name: "sites.destroy",
+                    action: "SiteSiteController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/site/{site}/find-file",
+                    name: null,
+                    action: "SiteSiteFileController@find"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/site/{site}/refresh-ssh-keys",
+                    name: null,
+                    action: "SiteSiteController@refreshPublicKey"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/site/{site}/refresh-deploy-key",
+                    name: null,
+                    action: "SiteSiteController@refreshDeployKey"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri:
+                        "api/my/site/{site}/reload-file/{file}/server/{server}",
+                    name: null,
+                    action: "SiteSiteFileController@reloadFile"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/deploy/{site}",
+                    name: null,
+                    action: "SiteSiteController@deploy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/rollback/{site}",
+                    name: null,
+                    action: "SiteSiteController@rollback"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/site/{site}/deployment-steps",
+                    name: null,
+                    action:
+                        "SiteSiteDeploymentStepsController@getDeploymentSteps"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/restart-server/{site}",
+                    name: null,
+                    action: "SiteSiteController@restartServer"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/restart-database/{site}",
+                    name: null,
+                    action: "SiteSiteController@restartDatabases"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/restart-workers/{site}",
+                    name: null,
+                    action: "SiteSiteController@restartWorkerServices"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/restart-web-services/{site}",
+                    name: null,
+                    action: "SiteSiteController@restartWebServices"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/file",
+                    name: "sites.file.index",
+                    action: "SiteSiteFileController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/file",
+                    name: "sites.file.store",
+                    action: "SiteSiteFileController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/file/{file}",
+                    name: "sites.file.show",
+                    action: "SiteSiteFileController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/file/{file}",
+                    name: "sites.file.update",
+                    action: "SiteSiteFileController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/file/{file}",
+                    name: "sites.file.destroy",
+                    action: "SiteSiteFileController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/buoys",
+                    name: "sites.buoys.index",
+                    action: "SiteSiteBuoyController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/buoys",
+                    name: "sites.buoys.store",
+                    action: "SiteSiteBuoyController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/buoys/{buoy}",
+                    name: "sites.buoys.show",
+                    action: "SiteSiteBuoyController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/buoys/{buoy}",
+                    name: "sites.buoys.update",
+                    action: "SiteSiteBuoyController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/buoys/{buoy}",
+                    name: "sites.buoys.destroy",
+                    action: "SiteSiteBuoyController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/servers",
+                    name: "sites.servers.index",
+                    action: "SiteSiteServerController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/servers",
+                    name: "sites.servers.store",
+                    action: "SiteSiteServerController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/servers/{server}",
+                    name: "sites.servers.show",
+                    action: "SiteSiteServerController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/servers/{server}",
+                    name: "sites.servers.update",
+                    action: "SiteSiteServerController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/servers/{server}",
+                    name: "sites.servers.destroy",
+                    action: "SiteSiteServerController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/workers",
+                    name: "sites.workers.index",
+                    action: "SiteSiteWorkerController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/workers",
+                    name: "sites.workers.store",
+                    action: "SiteSiteWorkerController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/workers/{worker}",
+                    name: "sites.workers.show",
+                    action: "SiteSiteWorkerController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/workers/{worker}",
+                    name: "sites.workers.update",
+                    action: "SiteSiteWorkerController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/workers/{worker}",
+                    name: "sites.workers.destroy",
+                    action: "SiteSiteWorkerController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/schemas",
+                    name: "sites.schemas.index",
+                    action: "SiteSiteSchemaController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/schemas",
+                    name: "sites.schemas.store",
+                    action: "SiteSiteSchemaController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/schemas/{schema}",
+                    name: "sites.schemas.show",
+                    action: "SiteSiteSchemaController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/schemas/{schema}",
+                    name: "sites.schemas.update",
+                    action: "SiteSiteSchemaController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/schemas/{schema}",
+                    name: "sites.schemas.destroy",
+                    action: "SiteSiteSchemaController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/ssh-keys",
+                    name: "sites.ssh-keys.index",
+                    action: "SiteSiteSshKeyController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/ssh-keys",
+                    name: "sites.ssh-keys.store",
+                    action: "SiteSiteSshKeyController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/ssh-keys/{ssh_key}",
+                    name: "sites.ssh-keys.show",
+                    action: "SiteSiteSshKeyController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/ssh-keys/{ssh_key}",
+                    name: "sites.ssh-keys.update",
+                    action: "SiteSiteSshKeyController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/ssh-keys/{ssh_key}",
+                    name: "sites.ssh-keys.destroy",
+                    action: "SiteSiteSshKeyController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/cron-jobs",
+                    name: "sites.cron-jobs.index",
+                    action: "SiteSiteCronJobController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/cron-jobs",
+                    name: "sites.cron-jobs.store",
+                    action: "SiteSiteCronJobController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/cron-jobs/{cron_job}",
+                    name: "sites.cron-jobs.show",
+                    action: "SiteSiteCronJobController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/cron-jobs/{cron_job}",
+                    name: "sites.cron-jobs.update",
+                    action: "SiteSiteCronJobController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/cron-jobs/{cron_job}",
+                    name: "sites.cron-jobs.destroy",
+                    action: "SiteSiteCronJobController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/ssl-certificate",
+                    name: "sites.ssl-certificate.index",
+                    action: "SiteSiteSslController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/ssl-certificate",
+                    name: "sites.ssl-certificate.store",
+                    action: "SiteSiteSslController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/sites/{site}/ssl-certificate/{ssl_certificate}",
+                    name: "sites.ssl-certificate.show",
+                    action: "SiteSiteSslController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/sites/{site}/ssl-certificate/{ssl_certificate}",
+                    name: "sites.ssl-certificate.update",
+                    action: "SiteSiteSslController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/sites/{site}/ssl-certificate/{ssl_certificate}",
+                    name: "sites.ssl-certificate.destroy",
+                    action: "SiteSiteSslController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/deployments",
+                    name: "sites.deployments.index",
+                    action: "SiteSiteDeploymentsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/deployments",
+                    name: "sites.deployments.store",
+                    action: "SiteSiteDeploymentsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/deployments/{deployment}",
+                    name: "sites.deployments.show",
+                    action: "SiteSiteDeploymentsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/deployments/{deployment}",
+                    name: "sites.deployments.update",
+                    action: "SiteSiteDeploymentsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/deployments/{deployment}",
+                    name: "sites.deployments.destroy",
+                    action: "SiteSiteDeploymentsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/hooks",
+                    name: "sites.hooks.index",
+                    action: "SiteRepositoryRepositoryHookController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/hooks",
+                    name: "sites.hooks.store",
+                    action: "SiteRepositoryRepositoryHookController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/hooks/{hook}",
+                    name: "sites.hooks.show",
+                    action: "SiteRepositoryRepositoryHookController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/hooks/{hook}",
+                    name: "sites.hooks.update",
+                    action: "SiteRepositoryRepositoryHookController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/hooks/{hook}",
+                    name: "sites.hooks.destroy",
+                    action: "SiteRepositoryRepositoryHookController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/firewall-rules",
+                    name: "sites.firewall-rules.index",
+                    action: "SiteSiteFirewallRuleController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/firewall-rules",
+                    name: "sites.firewall-rules.store",
+                    action: "SiteSiteFirewallRuleController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/firewall-rules/{firewall_rule}",
+                    name: "sites.firewall-rules.show",
+                    action: "SiteSiteFirewallRuleController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/firewall-rules/{firewall_rule}",
+                    name: "sites.firewall-rules.update",
+                    action: "SiteSiteFirewallRuleController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/firewall-rules/{firewall_rule}",
+                    name: "sites.firewall-rules.destroy",
+                    action: "SiteSiteFirewallRuleController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/server-features",
+                    name: "sites.server-features.index",
+                    action: "SiteSiteServerFeaturesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/server-features",
+                    name: "sites.server-features.store",
+                    action: "SiteSiteServerFeaturesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/server-features/{server_type}",
+                    name: "sites.server-features.show",
+                    action: "SiteSiteServerFeaturesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/my/sites/{site}/server-features/{server_type}",
+                    name: "sites.server-features.update",
+                    action: "SiteSiteServerFeaturesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/my/sites/{site}/server-features/{server_type}",
+                    name: "sites.server-features.destroy",
+                    action: "SiteSiteServerFeaturesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/deployment-steps",
+                    name: "sites.deployment-steps.index",
+                    action: "SiteSiteDeploymentStepsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/deployment-steps",
+                    name: "sites.deployment-steps.store",
+                    action: "SiteSiteDeploymentStepsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/sites/{site}/deployment-steps/{deployment_step}",
+                    name: "sites.deployment-steps.show",
+                    action: "SiteSiteDeploymentStepsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/sites/{site}/deployment-steps/{deployment_step}",
+                    name: "sites.deployment-steps.update",
+                    action: "SiteSiteDeploymentStepsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/sites/{site}/deployment-steps/{deployment_step}",
+                    name: "sites.deployment-steps.destroy",
+                    action: "SiteSiteDeploymentStepsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/language-settings",
+                    name: "sites.language-settings.index",
+                    action: "SiteSiteLanguageSettingsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/language-settings",
+                    name: "sites.language-settings.store",
+                    action: "SiteSiteLanguageSettingsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/sites/{site}/language-settings/{language_setting}",
+                    name: "sites.language-settings.show",
+                    action: "SiteSiteLanguageSettingsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/sites/{site}/language-settings/{language_setting}",
+                    name: "sites.language-settings.update",
+                    action: "SiteSiteLanguageSettingsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/sites/{site}/language-settings/{language_setting}",
+                    name: "sites.language-settings.destroy",
+                    action: "SiteSiteLanguageSettingsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/sites/{site}/environment-variables",
+                    name: "sites.environment-variables.index",
+                    action: "SiteSiteEnvironmentVariablesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/my/sites/{site}/environment-variables",
+                    name: "sites.environment-variables.store",
+                    action: "SiteSiteEnvironmentVariablesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/my/sites/{site}/environment-variables/{environment_variable}",
+                    name: "sites.environment-variables.show",
+                    action: "SiteSiteEnvironmentVariablesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/my/sites/{site}/environment-variables/{environment_variable}",
+                    name: "sites.environment-variables.update",
+                    action: "SiteSiteEnvironmentVariablesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/my/sites/{site}/environment-variables/{environment_variable}",
+                    name: "sites.environment-variables.destroy",
+                    action: "SiteSiteEnvironmentVariablesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/my/site/{site}/language-settings",
+                    name: null,
+                    action:
+                        "SiteSiteLanguageSettingsController@getLanguageSettings"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/notification-settings",
+                    name: "notification-settings.index",
+                    action: "NotificationSettingsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/notification-settings",
+                    name: "notification-settings.store",
+                    action: "NotificationSettingsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/notification-settings/{notification_setting}",
+                    name: "notification-settings.show",
+                    action: "NotificationSettingsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/notification-settings/{notification_setting}",
+                    name: "notification-settings.update",
+                    action: "NotificationSettingsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/notification-settings/{notification_setting}",
+                    name: "notification-settings.destroy",
+                    action: "NotificationSettingsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/types",
+                    name: "types.index",
+                    action: "ServerServerTypesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/server/types",
+                    name: "types.store",
+                    action: "ServerServerTypesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/types/{type}",
+                    name: "types.show",
+                    action: "ServerServerTypesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/server/types/{type}",
+                    name: "types.update",
+                    action: "ServerServerTypesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/server/types/{type}",
+                    name: "types.destroy",
+                    action: "ServerServerTypesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/features",
+                    name: null,
+                    action: "ServerServerFeatureController@getFeatures"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/languages",
+                    name: null,
+                    action: "ServerServerFeatureController@getLanguages"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/frameworks",
+                    name: null,
+                    action: "ServerServerFeatureController@getFrameworks"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/site/{site}/editable-files",
+                    name: null,
+                    action: "SiteSiteFeatureController@getEditableFiles"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/{server}/editable-files",
+                    name: null,
+                    action: "ServerServerFeatureController@getEditableFiles"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/site/{site}/framework/editable-files",
+                    name: null,
+                    action:
+                        "SiteSiteFeatureController@getEditableFrameworkFiles"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/auth/providers/server-providers",
+                    name: "server-providers.index",
+                    action: "AuthProvidersServerProvidersController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/auth/providers/server-providers",
+                    name: "server-providers.store",
+                    action: "AuthProvidersServerProvidersController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/auth/providers/server-providers/{server_provider}",
+                    name: "server-providers.show",
+                    action: "AuthProvidersServerProvidersController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/auth/providers/server-providers/{server_provider}",
+                    name: "server-providers.update",
+                    action: "AuthProvidersServerProvidersController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/auth/providers/server-providers/{server_provider}",
+                    name: "server-providers.destroy",
+                    action: "AuthProvidersServerProvidersController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/auth/providers/repository-providers",
+                    name: "repository-providers.index",
+                    action: "AuthProvidersRepositoryProvidersController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/auth/providers/repository-providers",
+                    name: "repository-providers.store",
+                    action: "AuthProvidersRepositoryProvidersController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/auth/providers/repository-providers/{repository_provider}",
+                    name: "repository-providers.show",
+                    action: "AuthProvidersRepositoryProvidersController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/auth/providers/repository-providers/{repository_provider}",
+                    name: "repository-providers.update",
+                    action: "AuthProvidersRepositoryProvidersController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/auth/providers/repository-providers/{repository_provider}",
+                    name: "repository-providers.destroy",
+                    action: "AuthProvidersRepositoryProvidersController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/auth/providers/notification-providers",
+                    name: "notification-providers.index",
+                    action: "AuthProvidersNotificationProvidersController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/auth/providers/notification-providers",
+                    name: "notification-providers.store",
+                    action: "AuthProvidersNotificationProvidersController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri:
+                        "api/auth/providers/notification-providers/{notification_provider}",
+                    name: "notification-providers.show",
+                    action: "AuthProvidersNotificationProvidersController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri:
+                        "api/auth/providers/notification-providers/{notification_provider}",
+                    name: "notification-providers.update",
+                    action:
+                        "AuthProvidersNotificationProvidersController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri:
+                        "api/auth/providers/notification-providers/{notification_provider}",
+                    name: "notification-providers.destroy",
+                    action:
+                        "AuthProvidersNotificationProvidersController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/options",
+                    name: "options.index",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerOptionsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/server/providers/digitalocean/options",
+                    name: "options.store",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerOptionsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/options/{option}",
+                    name: "options.show",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerOptionsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/server/providers/digitalocean/options/{option}",
+                    name: "options.update",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerOptionsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/server/providers/digitalocean/options/{option}",
+                    name: "options.destroy",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerOptionsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/regions",
+                    name: "regions.index",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerRegionsController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/server/providers/digitalocean/regions",
+                    name: "regions.store",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerRegionsController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/regions/{region}",
+                    name: "regions.show",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerRegionsController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/server/providers/digitalocean/regions/{region}",
+                    name: "regions.update",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerRegionsController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/server/providers/digitalocean/regions/{region}",
+                    name: "regions.destroy",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerRegionsController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/features",
+                    name: "features.index",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerFeaturesController@index"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "api/server/providers/digitalocean/features",
+                    name: "features.store",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerFeaturesController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "api/server/providers/digitalocean/features/{feature}",
+                    name: "features.show",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerFeaturesController@show"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "api/server/providers/digitalocean/features/{feature}",
+                    name: "features.update",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerFeaturesController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "api/server/providers/digitalocean/features/{feature}",
+                    name: "features.destroy",
+                    action:
+                        "ServerProvidersDigitalOceanDigitalOceanServerFeaturesController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "login",
+                    name: "login",
+                    action: "AuthLoginController@showLoginForm"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "login",
+                    name: null,
+                    action: "AuthLoginController@login"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "logout",
+                    name: "logout",
+                    action: "AuthLoginController@logout"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "register",
+                    name: "register",
+                    action: "AuthRegisterController@showRegistrationForm"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "register",
+                    name: null,
+                    action: "AuthRegisterController@register"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "password/reset",
+                    name: "password.request",
+                    action: "AuthForgotPasswordController@showLinkRequestForm"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "password/email",
+                    name: "password.email",
+                    action: "AuthForgotPasswordController@sendResetLinkEmail"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "password/reset/{token}",
+                    name: "password.reset",
+                    action: "AuthResetPasswordController@showResetForm"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "password/reset",
+                    name: null,
+                    action: "AuthResetPasswordController@reset"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "provider/{provider}/link",
+                    name: null,
+                    action: "AuthOauthController@newProvider"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "provider/{provider}/callback",
+                    name: null,
+                    action: "AuthOauthController@getHandleProviderCallback"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "stripe/webhook",
+                    name: null,
+                    action:
+                        "LaravelCashierHttpControllersWebhookController@handleWebhook"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "subscription/plans",
+                    name: "plans.index",
+                    action: "SubscriptionController@index"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "subscription/plans/create",
+                    name: "plans.create",
+                    action: "SubscriptionController@create"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "subscription/plans",
+                    name: "plans.store",
+                    action: "SubscriptionController@store"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "subscription/plans/{plan}",
+                    name: "plans.show",
+                    action: "SubscriptionController@show"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "subscription/plans/{plan}/edit",
+                    name: "plans.edit",
+                    action: "SubscriptionController@edit"
+                },
+                {
+                    host: null,
+                    methods: ["PUT", "PATCH"],
+                    uri: "subscription/plans/{plan}",
+                    name: "plans.update",
+                    action: "SubscriptionController@update"
+                },
+                {
+                    host: null,
+                    methods: ["DELETE"],
+                    uri: "subscription/plans/{plan}",
+                    name: "plans.destroy",
+                    action: "SubscriptionController@destroy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
+                    uri: "webhook/deploy/{siteHashID}",
+                    name: null,
+                    action: "WebHookController@deploy"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "webhook/loads/{serverHashID}",
+                    name: null,
+                    action: "WebHookController@loadMonitor"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "webhook/memory/{serverHashID}",
+                    name: null,
+                    action: "WebHookController@memoryMonitor"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "webhook/diskusage/{serverHashID}",
+                    name: null,
+                    action: "WebHookController@diskUsageMonitor"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "teams/accept/{token}",
+                    name: "teams.accept_invite",
+                    action: "UserTeamUserTeamController@acceptInvite"
+                },
+                {
+                    host: "style-guide.codepier.dev",
+                    methods: ["GET", "HEAD"],
+                    uri: "/",
+                    name: null,
+                    action: "PublicController@styleGuide"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "/",
+                    name: null,
+                    action: "Controller@app"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "privacy",
+                    name: null,
+                    action: "PublicController@privacy"
+                },
+                {
+                    host: null,
+                    methods: ["POST"],
+                    uri: "subscribe",
+                    name: null,
+                    action: "PublicController@subscribe"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "terms-of-service",
+                    name: null,
+                    action: "PublicController@termsOfService"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "slack-invite",
+                    name: null,
+                    action: "UserUserController@slackInvite"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "subscription/invoice/{invoice}",
+                    name: null,
+                    action:
+                        "UserSubscriptionUserSubscriptionInvoiceController@show"
+                },
+                {
+                    host: null,
+                    methods: ["GET", "HEAD"],
+                    uri: "{any}",
+                    name: null,
+                    action: "Controller@app"
+                }
+            ],
+            prefix: "",
 
-            route : function (name, parameters, route) {
+            route: function(name, parameters, route) {
                 route = route || this.getByName(name);
 
-                if ( ! route ) {
+                if (!route) {
                     return undefined;
                 }
 
                 return this.toRoute(route, parameters);
             },
 
-            url: function (url, parameters) {
+            url: function(url, parameters) {
                 parameters = parameters || [];
 
-                var uri = url + '/' + parameters.join('/');
+                var uri = url + "/" + parameters.join("/");
 
                 return this.getCorrectUrl(uri);
             },
 
-            toRoute : function (route, parameters) {
+            toRoute: function(route, parameters) {
                 var uri = this.replaceNamedParameters(route.uri, parameters);
-                var qs  = this.getRouteQueryString(parameters);
+                var qs = this.getRouteQueryString(parameters);
 
-                if (this.absolute && this.isOtherHost(route)){
+                if (this.absolute && this.isOtherHost(route)) {
                     return "//" + route.host + "/" + uri + qs;
                 }
 
                 return this.getCorrectUrl(uri + qs);
             },
 
-            isOtherHost: function (route){
+            isOtherHost: function(route) {
                 return route.host && route.host != window.location.hostname;
             },
 
-            replaceNamedParameters : function (uri, parameters) {
+            replaceNamedParameters: function(uri, parameters) {
                 uri = uri.replace(/\{(.*?)\??\}/g, function(match, key) {
                     if (parameters.hasOwnProperty(key)) {
                         var value = parameters[key];
@@ -54,56 +2790,62 @@
                 });
 
                 // Strip out any optional parameters that were not given
-                uri = uri.replace(/\/\{.*?\?\}/g, '');
+                uri = uri.replace(/\/\{.*?\?\}/g, "");
 
                 return uri;
             },
 
-            getRouteQueryString : function (parameters) {
+            getRouteQueryString: function(parameters) {
                 var qs = [];
                 for (var key in parameters) {
                     if (parameters.hasOwnProperty(key)) {
-                        qs.push(key + '=' + parameters[key]);
+                        qs.push(key + "=" + parameters[key]);
                     }
                 }
 
                 if (qs.length < 1) {
-                    return '';
+                    return "";
                 }
 
-                return '?' + qs.join('&');
+                return "?" + qs.join("&");
             },
 
-            getByName : function (name) {
+            getByName: function(name) {
                 for (var key in this.routes) {
-                    if (this.routes.hasOwnProperty(key) && this.routes[key].name === name) {
+                    if (
+                        this.routes.hasOwnProperty(key) &&
+                        this.routes[key].name === name
+                    ) {
                         return this.routes[key];
                     }
                 }
             },
 
-            getByAction : function(action) {
+            getByAction: function(action) {
                 for (var key in this.routes) {
-                    if (this.routes.hasOwnProperty(key) && this.routes[key].action === action) {
+                    if (
+                        this.routes.hasOwnProperty(key) &&
+                        this.routes[key].action === action
+                    ) {
                         return this.routes[key];
                     }
                 }
             },
 
-            getCorrectUrl: function (uri) {
-                var url = this.prefix + '/' + uri.replace(/^\/?/, '');
+            getCorrectUrl: function(uri) {
+                var url = this.prefix + "/" + uri.replace(/^\/?/, "");
 
-                if ( ! this.absolute) {
+                if (!this.absolute) {
                     return url;
                 }
 
-                return this.rootUrl.replace('/\/?$/', '') + url;
+                return this.rootUrl.replace("//?$/", "") + url;
             }
         };
 
         var getLinkAttributes = function(attributes) {
-            if ( ! attributes) {
-                return '';
+            if (!attributes) {
+                return "";
             }
 
             var attrs = [];
@@ -113,20 +2855,20 @@
                 }
             }
 
-            return attrs.join(' ');
+            return attrs.join(" ");
         };
 
-        var getHtmlLink = function (url, title, attributes) {
-            title      = title || url;
+        var getHtmlLink = function(url, title, attributes) {
+            title = title || url;
             attributes = getLinkAttributes(attributes);
 
-            return '<a href="' + url + '" ' + attributes + '>' + title + '</a>';
+            return '<a href="' + url + '" ' + attributes + ">" + title + "</a>";
         };
 
         return {
             // Generate a url for a given controller action.
             // laroute.action('HomeController@getIndex', [params = {}])
-            action : function (name, parameters) {
+            action: function(name, parameters) {
                 parameters = parameters || {};
 
                 return routes.route(name, parameters, routes.getByAction(name));
@@ -134,7 +2876,7 @@
 
             // Generate a url for a given named route.
             // laroute.route('routeName', [params = {}])
-            route : function (route, parameters) {
+            route: function(route, parameters) {
                 parameters = parameters || {};
 
                 return routes.route(route, parameters);
@@ -142,7 +2884,7 @@
 
             // Generate a fully qualified URL to the given path.
             // laroute.route('url', [params = {}])
-            url : function (route, parameters) {
+            url: function(route, parameters) {
                 parameters = parameters || {};
 
                 return routes.url(route, parameters);
@@ -150,7 +2892,7 @@
 
             // Generate a html link to the given url.
             // laroute.link_to('foo/bar', [title = url], [attributes = {}])
-            link_to : function (url, title, attributes) {
+            link_to: function(url, title, attributes) {
                 url = this.url(url);
 
                 return getHtmlLink(url, title, attributes);
@@ -158,7 +2900,7 @@
 
             // Generate a html link to the given route.
             // laroute.link_to_route('route.name', [title=url], [parameters = {}], [attributes = {}])
-            link_to_route : function (route, title, parameters, attributes) {
+            link_to_route: function(route, title, parameters, attributes) {
                 var url = this.route(route, parameters);
 
                 return getHtmlLink(url, title, attributes);
@@ -166,30 +2908,24 @@
 
             // Generate a html link to the given controller action.
             // laroute.link_to_action('HomeController@getIndex', [title=url], [parameters = {}], [attributes = {}])
-            link_to_action : function(action, title, parameters, attributes) {
+            link_to_action: function(action, title, parameters, attributes) {
                 var url = this.action(action, parameters);
 
                 return getHtmlLink(url, title, attributes);
             }
-
         };
-
-    }).call(this);
+    }.call(this);
 
     /**
      * Expose the class either via AMD, CommonJS or the global object
      */
-    if (typeof define === 'function' && define.amd) {
-        define(function () {
+    if (typeof define === "function" && define.amd) {
+        define(function() {
             return laroute;
         });
-    }
-    else if (typeof module === 'object' && module.exports){
+    } else if (typeof module === "object" && module.exports) {
         module.exports = laroute;
-    }
-    else {
+    } else {
         window.laroute = laroute;
     }
-
-}).call(this);
-
+}.call(this));
