@@ -1,47 +1,44 @@
 <template>
     <section>
-        <H3>User Section</H3>
+        <hr>
+        <h3><span class="h--label">Users</span></h3>
 
-        <div class="jcf-form-wrap">
-
-            <form @submit.prevent="createSchemaUser" class="floating-labels">
-                <div class="jcf-input-group">
-                    <input type="text" name="name" v-model="schemaUserForm.name">
-                    <label for="name">
-                        <span class="float-label">Name</span>
-                    </label>
+        <div class="grid-2">
+            <form @submit.prevent="createSchemaUser">
+                <div class="flyform--group">
+                    <input type="text" name="name" v-model="schemaUserForm.name" placeholder=" ">
+                    <label for="name">Name</label>
                 </div>
 
-                <div class="jcf-input-group">
-                    <input type="text" name="name" v-model="schemaUserForm.password">
-                    <label for="name">
-                        <span class="float-label">Password</span>
-                    </label>
+                <div class="flyform--group">
+                    <input type="password" name="password" v-model="schemaUserForm.password" placeholder=" ">
+                    <label for="password">Password</label>
                 </div>
 
-                <select multiple v-model="schemaUserForm.schema_ids">
-                    <optgroup :label="schemaType" v-for="schemaType in schemaTypes">
-                        {{ schemaType }}
-                        <option v-for="schema in getSchemasByType(schemaType)" :value="schema.id">{{ schema.name }}</option>
-                    </optgroup>
-                </select>
-
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Create User</button>
+                <div class="flyform--group">
+                    <label>Select Schema(s)</label>
+                    <select multiple v-model="schemaUserForm.schema_ids">
+                        <optgroup :label="schemaType" v-for="schemaType in schemaTypes">
+                            {{ schemaType }}
+                            <option v-for="schema in getSchemasByType(schemaType)" :value="schema.id">{{ schema.name }}</option>
+                        </optgroup>
+                    </select>
                 </div>
 
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary btn-small" type="submit">Create User</button>
+                </div>
             </form>
-        </div>
 
-        <table class="table">
-            <thead>
+            <table class="table">
+                <thead>
                 <tr>
-                    <th>user</th>
-                    <th>databases</th>
+                    <th>User</th>
+                    <th>Database - Schema</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr v-for="schemaUser in schemaUsers">
                     <td>
                         {{ schemaUser.name }}
@@ -62,8 +59,13 @@
                     </td>
                 </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
     </section>
 </template>
 

@@ -4871,6 +4871,10 @@ span {
   display: inline-block;
 }
 
+hr {
+  border-top-color: #2B2B2B;
+}
+
 pre {
   font-family: 'Cutive Mono', monospace;
 }
@@ -4950,6 +4954,18 @@ h6.heading {
   margin-bottom: 20px;
 }
 
+.h--label {
+  -webkit-box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  letter-spacing: .8px;
+  display: inline-block;
+  background-color: rgba(43, 43, 43, 0.7);
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
 a {
   display: inline-block;
   color: #48ACF0;
@@ -4966,6 +4982,40 @@ a:active {
 button {
   border: none;
   background-color: #2B2B2B;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 40px;
+  border: 1px solid #2B2B2B;
+  background-color: #3C3F41;
+}
+
+table + table {
+  margin-top: 40px;
+}
+
+th {
+  text-align: left;
+  letter-spacing: .5px;
+  border-bottom: 1px solid #2B2B2B;
+  color: #c8e6fb;
+  background-color: rgba(43, 43, 43, 0.5);
+}
+
+th,
+td {
+  padding: 8px 10px;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(43, 43, 43, 0.3);
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
 }
 
 #app-layout {
@@ -6549,7 +6599,12 @@ a.item:hover:before {
 .flyform--footer {
   text-align: center;
   border-top: 1px solid #2B2B2B;
+  margin-top: 40px;
   padding: 20px;
+}
+
+.flyform--footer-btns {
+  text-align: center;
 }
 
 .flyform--footer-btns + .flyform--footer-links {
@@ -6581,6 +6636,11 @@ a.item:hover:before {
 
 .flyform--group + .flyform--footer {
   margin-top: 40px;
+}
+
+.flyform--group + [class^="grid-"],
+.flyform--group + [class*=" grid-"] {
+  margin-top: -20px;
 }
 
 .flyform--group label {
@@ -6744,6 +6804,32 @@ a.item:hover:before {
   background-color: rgba(182, 182, 182, 0.05);
 }
 
+.flyform--group select[multiple=multiple] {
+  height: 125px;
+  padding: 10px 0px;
+}
+
+.flyform--group select[multiple=multiple] optgroup {
+  font-size: 14px;
+  padding: 0px 5px;
+}
+
+.flyform--group select[multiple=multiple] option {
+  font-weight: 300;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 10px;
+  padding-left: 10px;
+}
+
+.flyform--group select[multiple=multiple] option:checked {
+  background-color: #F4645F;
+}
+
+.flyform--group select[multiple=multiple] option:first-child {
+  margin-top: 5px;
+}
+
 .flyform--group option {
   font-size: 16px;
 }
@@ -6852,32 +6938,6 @@ a.item:hover:before {
 #forgot_form {
   background-color: #46494b;
   margin-bottom: 40px;
-}
-
-table {
-  width: 100%;
-  max-width: 100%;
-  margin-top: 40px;
-  border: 1px solid #2B2B2B;
-}
-
-table + table {
-  margin-top: 40px;
-}
-
-th {
-  text-align: left;
-  border-bottom: 1px solid #2B2B2B;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-th,
-td {
-  padding: 8px 10px;
-}
-
-tr:nth-child(even) {
-  background-color: rgba(43, 43, 43, 0.1);
 }
 
 .table--action {
