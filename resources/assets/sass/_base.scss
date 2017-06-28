@@ -40,6 +40,10 @@ p {
 
 }
 
+hr {
+  border-top-color: $color-divider;
+}
+
 pre {
   font-family: 'Cutive Mono', monospace;
 }
@@ -105,6 +109,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.h--label {
+  @include card(1);
+  color: rgba($white, .9);
+  font-weight: 600;
+  letter-spacing: .8px;
+  display: inline-block;
+  background-color: rgba($black, .7);
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
 
 
 // LINKS ---------------------------------------------------
@@ -129,4 +144,45 @@ a {
 button {
   border: none;
   background-color: $color-text-inverse;
+}
+
+
+// TABLES --------------------------------------------------
+// ---------------------------------------------------------
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-top: $spacing*2;
+  border: 1px solid $color-divider;
+  background-color: $color-background;
+
+  + table {
+    margin-top: $spacing*2;
+  }
+}
+
+th {
+  text-align: left;
+  letter-spacing: .5px;
+  border-bottom: 1px solid $color-divider;
+  color: mix($blue, $white, 30%);
+  background-color: rgba($black, .5);
+}
+
+th,
+td {
+  padding: 8px 10px;
+}
+
+
+tr {
+  &:nth-child(even) {
+    background-color: rgba($black, .3);
+  }
+
+  &:hover {
+    background-color: rgba($white, .1);
+    cursor: pointer;
+  }
+
 }

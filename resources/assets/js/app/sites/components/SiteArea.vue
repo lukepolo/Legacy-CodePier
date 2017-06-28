@@ -27,12 +27,13 @@
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h2>{{ workFlowName }}</h2>
                                         <h4 class="heading secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
+                                        <hr>
                                     </template>
                                     <router-view></router-view>
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <div class="flyform--footer">
                                             <div class="flyform--footer-btns">
-                                                <button @click="revertWorkFlow" class="btn" v-if="workflowStepsCompleted !== 1">back</button>
+                                                <button @click="revertWorkFlow" class="btn" v-if="workflowStepsCompleted !== 1">Previous</button>
                                                 <button @click="updateWorkFlow" class="btn btn-primary">Continue</button>
                                             </div>
                                         </div>
