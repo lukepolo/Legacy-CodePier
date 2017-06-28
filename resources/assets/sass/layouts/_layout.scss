@@ -34,6 +34,11 @@ footer {
 
 #left {
   flex: 0 0 275px;
+
+  .section-header,
+  .section-content {
+    width: 275px;
+  }
 }
 
 #middle {
@@ -42,4 +47,50 @@ footer {
 
 #right {
   flex: 0 0 325px;
+
+  .section-header,
+  .section-content {
+    width: 325px;
+  }
 }
+
+
+
+// RESPONSIVE STYLES ---------------------------------------
+// ---------------------------------------------------------
+#left {
+  flex-basis: 275px;
+  transition: all 4s ease;
+
+  .section-header,
+  .section-content {
+    opacity: 1;
+  }
+}
+
+@include breakpoint(lg) {
+  #left {
+    flex-basis: 40px;
+    overflow: hidden;
+    transition: all .5s ease;
+
+    .section-content {
+      width: 275px;
+      opacity: 0;
+    }
+  }
+}
+
+@include breakpoint(md) {
+  #right {
+    flex-basis: 40px;
+    overflow: hidden;
+    transition: all .5s ease;
+
+    .section-content {
+      width: 275px;
+      opacity: 0;
+    }
+  }
+}
+
