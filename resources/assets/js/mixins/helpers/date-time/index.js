@@ -1,28 +1,27 @@
 export const now = () => {
-    return moment()
-}
+    return moment();
+};
 
-export const timeAgo = (time) => {
-    time = moment(time)
+export const timeAgo = time => {
+    time = moment(time);
 
-    const currentTime = moment()
+    const currentTime = moment();
 
     if (currentTime.diff(time, 'hour') < 5) {
-        return time.fromNow()
+        return time.fromNow();
     }
 
-    return time.format('M-D-YY h:mm A')
-}
+    return time.format('M-D-YY h:mm A');
+};
 
 export const parseDate = (date, timezone) => {
     if (timezone) {
-        return moment(date).tz(timezone)
+        return moment(date).tz(timezone);
     }
 
-    return moment(date)
-}
+    return moment(date);
+};
 
 export const dateHumanize = (date, timezone) => {
-    return moment(date).tz(timezone).fromNow()
-}
-
+    return moment(date).tz(timezone).fromNow();
+};

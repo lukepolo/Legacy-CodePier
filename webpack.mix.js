@@ -1,6 +1,6 @@
-const { mix } = require('laravel-mix')
+const { mix } = require('laravel-mix');
 
-console.info(mix.config.Paths)
+console.info(mix.config.Paths);
 
 /*
  |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ mix
         'laravel-echo',
         'moment-timezone',
         'filesize-parser',
-        'lodash-inflection'
+        'lodash-inflection',
     ])
     .autoload({
         vue: 'Vue',
@@ -43,12 +43,12 @@ mix
         ace: 'brace',
         'pusher-js': 'Pusher',
         clipboard: 'Clipboard',
-        jquery: ['$', 'jQuery']
+        jquery: ['$', 'jQuery'],
     })
-    .sourceMaps()
+    .sourceMaps();
 
 if (mix.config.inProduction) {
-    mix.version()
+    mix.version();
 } else {
     mix.browserSync({
         open: 'external',
@@ -57,7 +57,7 @@ if (mix.config.inProduction) {
         files: [
             'resources/views/**/*.php',
             'public/js/**/*.js',
-            'public/css/**/*.css'
-        ]
-    })
+            'public/css/**/*.css',
+        ],
+    });
 }
