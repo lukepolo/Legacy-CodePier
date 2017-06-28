@@ -154,16 +154,6 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        if (empty($server->database_password)) {
-            $server->database_password = str_random(32);
-        }
-
-        if (empty($server->sudo_password)) {
-            $server->sudo_password = str_random(32);
-        }
-
-        $server->save();
-
         if (! $this->systemService->provision($server)) {
             return false;
         }

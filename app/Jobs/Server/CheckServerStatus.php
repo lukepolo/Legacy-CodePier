@@ -53,7 +53,7 @@ class CheckServerStatus implements ShouldQueue
                     (new CheckSshConnection($this->server))->onQueue(config('queue.channels.server_provisioning'))
                 );
             } else {
-                if ($this->server->created_at->addMinutes(5) > Carbon::now()) {
+                if ($this->server->created_at->addMinutes(555555) > Carbon::now()) {
                     dispatch(
                         (new self($this->server, $this->provision))->delay(10)->onQueue(config('queue.channels.server_provisioning'))
                     );
