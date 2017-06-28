@@ -81,15 +81,56 @@ class LinodeProvider implements ServerProviderContract
      */
     public function create(Server $server)
     {
-        $this->setToken($this->getTokenFromServer($server));
-        $this->setAction('avail.datacenters');
+        $token = $this->getTokenFromServer($server);
+        $this->setToken($token);
+        $this->setAction('linode.create');
+
+        $serverProviderOption = ServerProviderOption::findOrFail($server->options['server_option']);
 
         $data = [
             'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-            'PlanID' => ServerProviderOption::findOrFail($server->options['server_option'])->plan_id,
+            'PlanID' => $serverProviderOption->plan_id,
         ];
 
-        return $this->saveServer($server, $this->makeRequest('post', $data)->DATA->LinodeID);
+        $serverInfo = $this->makeRequest('post', $data);
+
+        $server = $this->saveServer($server, $serverInfo->LinodeID);
+
+        $this->url = 'https://api.linode.com';
+        $this->setToken($token);
+        $this->setAction('linode.disk.createfromdistribution');
+
+        $diskInfo = $this->makeRequest('post', [
+            'label' => 'Ubuntu 16.04',
+            'DistributionID'=> 146, // ubuntu 16.04
+            'LinodeID' => $serverInfo->LinodeID,
+            'rootPass' => $server->sudo_password,
+            'rootSSHKey' => $server->public_ssh_key,
+            'size' => $serverProviderOption->space * 1024,
+        ]);
+
+        $this->url = 'https://api.linode.com';
+        $this->setToken($token);
+        $this->setAction('linode.config.create');
+
+        $this->makeRequest('post', [
+            'LinodeID' => $serverInfo->LinodeID,
+            'KernelID' => null,
+            'Label' => 'My Ubuntu 16.04 Profile',
+            'DiskList' => '%s,%s,,,,,,,'.$diskInfo->DiskID,
+        ]);
+
+//  )
+
+        $this->url = 'https://api.linode.com';
+        $this->setToken($token);
+        $this->setAction('linode.boot');
+
+        $this->makeRequest('get', [
+            'LinodeID' => $serverInfo->LinodeID,
+        ]);
+
+        return $server;
     }
 
     /**
@@ -102,13 +143,13 @@ class LinodeProvider implements ServerProviderContract
     public function getStatus(Server $server)
     {
         $this->setToken($this->getTokenFromServer($server));
-        $this->setAction('avail.datacenters');
+        $this->setAction('linode.list');
 
         $this->url = $this->url.'&LinodeID='.$server->given_server_id;
 
-        $serverInfo = $this->makeRequest('get');
+        $serverInfo = $this->makeRequest('get')[0];
 
-        return $serverInfo->DATA->STATUS;
+        return $serverInfo->STATUS;
     }
 
     /**
@@ -118,9 +159,9 @@ class LinodeProvider implements ServerProviderContract
      */
     public function savePublicIP(Server $server)
     {
-        $serverInfo = $this->getServerInfo($server);
-
-        return $serverInfo->DATA->STATUS;
+        $server->update([
+            'ip' => $this->getPublicIP($server),
+        ]);
     }
 
     /**
@@ -132,9 +173,14 @@ class LinodeProvider implements ServerProviderContract
      */
     public function getPublicIP(Server $server)
     {
-        $serverInfo = $this->getServerInfo($server);
+        $this->setToken($this->getTokenFromServer($server));
+        $this->setAction('linode.ip.list');
 
-        return $serverInfo->DATA->STATUS;
+        $this->url = $this->url.'&LinodeID='.$server->given_server_id;
+
+        $serverInfo = $this->makeRequest('get')[0];
+
+        return $serverInfo->IPADDRESS;
     }
 
     /**
@@ -175,16 +221,24 @@ class LinodeProvider implements ServerProviderContract
      */
     public function readyForProvisioningStatus()
     {
-        return 1;
+        return 0;
     }
 
-    private function makeRequest($method)
+    private function makeRequest($method, $data = null)
     {
         $client = new Client();
 
         /** @var Response $response */
-        $response = $client->$method($this->url);
+        $response = $client->$method($this->url, [
+            'form_params' => $data,
+        ]);
 
-        return json_decode($response->getBody())->DATA;
+        $data = json_decode($response->getBody());
+
+        if (isset($data->DATA)) {
+            return $data->DATA;
+        }
+
+        throw new \Exception($data);
     }
 }
