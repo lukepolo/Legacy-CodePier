@@ -1,4 +1,4 @@
 export default {
     files: [],
-    editable_files: []
-}
+    editable_files: [],
+};
