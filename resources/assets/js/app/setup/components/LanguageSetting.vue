@@ -1,34 +1,41 @@
 <template>
     <section>
-        <h3>
+        <h3 class="heading">
             {{ setting.name }}
             <br>
             <small>{{ setting.description }}</small>
         </h3>
+
         <template v-for="param in setting.params">
-            <div class="jcf-input-group">
-                <input type="text" :name="param" v-model="form.params[param]">
-                <label>
-                    <span class="float-label">{{ ucwords(param) }}</span>
-                </label>
+            <div class="flyform--group">
+                <input type="text" :name="param" v-model="form.params[param]" placeholder=" ">
+                <label>{{ ucwords(param) }}</label>
             </div>
         </template>
 
-        <template v-if="isCommandCurrentlyRunning">
-            {{ isCommandCurrentlyRunning.status }}
-        </template>
-        <template v-else>
-            <div class="btn btn-primary" @click="runSetting">
-                <template v-if="setting.params.length">
-                    Update {{ setting.name }}
-                </template>
-                <template v-else>
-                    Run {{ setting.name }}
-                </template>
-            </div>
-        </template>
+        <div class="flyform--footer">
+            <template v-if="isCommandCurrentlyRunning">
+                <div class="flyform--footer-links">
+                    {{ isCommandCurrentlyRunning.status }}
+                </div>
+            </template>
+
+            <template v-else>
+                <div class="flyform--footer-btns">
+                    <span class="btn btn-primary" @click="runSetting">
+                        <template v-if="setting.params.length">
+                            Update {{ setting.name }}
+                        </template>
+                        <template v-else>
+                            Run {{ setting.name }}
+                        </template>
+                    </span>
+                </div>
+            </template>
+
+        </div>
+
     </section>
-
 </template>
 
 <script>
