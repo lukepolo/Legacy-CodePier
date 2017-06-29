@@ -165,6 +165,7 @@ $flyform-transition: all .5s;
         display: flex;
         align-items: baseline;
         border-bottom: 1px solid $flyform-color-divider;
+        white-space: nowrap;
 
         &-label {
             flex: 0 0 auto;

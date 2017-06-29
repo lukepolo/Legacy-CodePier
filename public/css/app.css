@@ -6772,6 +6772,7 @@ a.item:hover:before {
       -ms-flex-align: baseline;
           align-items: baseline;
   border-bottom: 1px solid #2B2B2B;
+  white-space: nowrap;
 }
 
 .flyform--group-prefix-label {
