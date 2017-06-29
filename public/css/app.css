@@ -7234,6 +7234,10 @@ textarea:focus {
   padding-right: 4px;
 }
 
+.icon-linode:before {
+  content: "\E91B";
+}
+
 .icon-unlink:before {
   content: "\E91A";
 }
@@ -8298,6 +8302,10 @@ a.list--item:hover:before {
   color: #48ACF0;
 }
 
+.providers--item:hover .providers--item-footer-disconnect h4 {
+  color: #F4645F;
+}
+
 .providers--item-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -8323,8 +8331,7 @@ a.list--item:hover:before {
   text-align: center;
 }
 
-.providers--item-footer-connected,
-.providers--item-footer-connect {
+.providers--item-footer > * {
   padding: 10px;
 }
 

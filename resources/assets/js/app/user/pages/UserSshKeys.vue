@@ -3,44 +3,53 @@
 
         <ssh-guide></ssh-guide>
 
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="createSshkey" class="floating-labels">
+        <form @submit.prevent="createSshkey">
 
-                <div class="jcf-input-group">
-                    <input name="name" type="text" v-model="form.name">
-                    <label for="name">
-                        <span class="float-label">Name</span>
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <input name="name" type="text" v-model="form.name" placeholder=" ">
+                <label for="name">Key Name</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <tooltip message="Usually located at ~/.ssh/id_rsa.pub" size="medium" placement="top-right">
-                        <span class="fa fa-info-circle"></span>
-                    </tooltip>
-                    <div class="input-question">Public Key</div>
-                    <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
-                </div>
+            <div class="flyform--group">
+                <tooltip message="Usually located at ~/.ssh/id_rsa.pub" size="medium" placement="top-right">
+                    <span class="fa fa-info-circle"></span>
+                </tooltip>
+                <label class="flyform--group-iconlabel">Public Key</label>
+                <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
+            </div>
 
-                <div class="btn-footer">
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
                     <button class="btn btn-primary" type="submit">Install SSH Key</button>
                 </div>
-            </form>
+            </div>
+        </form>
+
+        <div v-if="user_ssh_keys.length">
+            <h3>SSH Keys</h3>
+
+            <table class="">
+                <thead>
+                <tr>
+                    <th>Key Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="key in user_ssh_keys">
+                    <td>{{ key.name }}</td>
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click.prevent="deleteSshKey(key.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <table class="">
-            <thead>
-            <tr>
-                <th>Key Name</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="key in user_ssh_keys">
-                <td>{{ key.name }}</td>
-                <td><a @click.prevent="deleteSshKey(key.id)" class="fa fa-remove"></a></td>
-            </tr>
-            </tbody>
-        </table>
     </section>
 </template>
 
