@@ -1,53 +1,60 @@
 <template>
     <section>
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="installCertificate">
+        <form @submit.prevent="installCertificate">
 
-                <div class="jcf-input-group input-radio">
-                    <div class="input-question">Certificate Type</div>
-                    <label v-if="!serverId">
+            <div class="flyform--group">
+                <label>Certificate Type</label>
+            </div>
+
+            <div class="grid-2">
+                <div v-if="!serverId" class="flyform--group-radio">
+                    <label>
                         <input name="type" type="radio" v-model="form.type" value="Let's Encrypt">
                         <span class="icon"></span>
                         Let's Encrypt
                     </label>
+                </div>
+                <div class="flyform--group-radio">
                     <label>
                         <input name="type" type="radio" v-model="form.type" value="existing">
                         <span class="icon"></span>
                         Existing Certificate
                     </label>
                 </div>
+            </div>
 
-                <template v-if="form.type">
-                    <div class="jcf-input-group">
-                        <input type="text" v-model="form.domains" name="domains">
-                        <label for="domains">
-                            <span class="float-label">Domains</span>
-                        </label>
-                    </div>
-                </template>
+            <template v-if="form.type">
+                <div class="flyform--group">
+                    <input type="text" v-model="form.domains" name="domains" placeholder=" ">
+                    <label for="domains">Domain(s)</label>
+                </div>
+            </template>
 
-                <template v-if="form.type === 'existing'">
-                    <div class="jcf-input-group">
-                        <div class="input-question">Private Key</div>
-                        <textarea name="private_key" v-model="form.private_key"></textarea>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <div class="input-question">Certificate</div>
-                        <textarea name="certificate" v-model="form.certificate"></textarea>
-                    </div>
-                </template>
-
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Add Certificate</button>
+            <template v-if="form.type === 'existing'">
+                <div class="flyform--group">
+                    <label>Private Key</label>
+                    <textarea name="private_key" v-model="form.private_key"></textarea>
                 </div>
 
-            </form>
+                <div class="flyform--group">
+                    <label>Certificate</label>
+                    <textarea name="certificate" v-model="form.certificate"></textarea>
+                </div>
+            </template>
 
-        </div>
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary" type="submit">Add Certificate</button>
+                </div>
+            </div>
 
-        <table class="table">
-            <thead>
+        </form>
+
+        <div v-if="ssl_certificates.length">
+            <h3>SSL Certificates</h3>
+
+            <table class="table">
+                <thead>
                 <tr>
                     <th>Domains</th>
                     <th>Type</th>
@@ -55,8 +62,8 @@
                     <th>Key Path</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate">
                     <td>{{ ssl_certificate.domains }}</td>
                     <td>{{ ssl_certificate.type }}</td>
@@ -65,6 +72,12 @@
                     <td class="table--action">
                         <template v-if="isRunningCommandFor(ssl_certificate.id)">
                             {{ isRunningCommandFor(ssl_certificate.id).status }}
+
+                            <tooltip message="Delete">
+                                <span class="table--action-delete">
+                                    <a @click="deleteSslCertificate(ssl_certificate.id)"><span class="icon-trash"></span></a>
+                                </span>
+                            </tooltip>
                         </template>
                         <template v-else>
                             <template v-if="ssl_certificate.failed">
@@ -88,14 +101,16 @@
                             </template>
                             <tooltip message="Delete">
                                 <span class="table--action-delete">
-                                    <a @click="deleteSslCertificate(ssl_certificate.id)"><span class="fa fa-trash"></span></a>
+                                    <a @click="deleteSslCertificate(ssl_certificate.id)"><span class="icon-trash"></span></a>
                                 </span>
                             </tooltip>
                         </template>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
         <input type="hidden" v-if="site">
     </section>
 </template>

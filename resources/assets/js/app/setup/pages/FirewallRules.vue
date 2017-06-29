@@ -1,69 +1,75 @@
 <template>
     <section>
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="createFirewallRule" class="floating-labels">
-                <div class="jcf-input-group">
-                    <input type="text" name="description" v-model="form.description">
-                    <label for="description">
-                        <span class="float-label">Description</span>
-                    </label>
-                </div>
+        <form @submit.prevent="createFirewallRule">
+            <div class="flyform--group">
+                <input type="text" name="description" v-model="form.description" placeholder=" ">
+                <label for="description">Description</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <input type="text" name="port" v-model="form.port">
-                    <label for="port">
-                        <span class="float-label">Port</span>
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <input type="text" name="port" v-model="form.port" placeholder=" ">
+                <label for="port">Port</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <input type="text" name="from_ip" v-model="form.from_ip">
-                    <label for="from_ip">
-                        <span class="float-label">From IP</span>
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <input type="text" name="from_ip" v-model="form.from_ip" placeholder=" ">
+                <label for="from_ip">From IP</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Select Type</div>
-                    <div class="select-wrap">
-                        <select v-model="form.type" name="type">
-                            <option>tcp</option>
-                            <option>udp</option>
-                        </select>
-                    </div>
+            <div class="flyform--group">
+                <label>Select Type</label>
+                <div class="flyform--group-select">
+                    <select v-model="form.type" name="type">
+                        <option>TCP</option>
+                        <option>UDP</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="btn-footer">
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
                     <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Port</th>
-                <th>From IP</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="firewallRule in firewallRules">
-                <td>{{ firewallRule.description }}</td>
-                <td>{{ firewallRule.port }}  {{ firewallRule.type }}</td>
-                <td>{{ firewallRule.from_ip }}</td>
-                <td>
-                    <template v-if="isRunningCommandFor(firewallRule.id)">
+        <br>
+
+        <div v-if="firewallRules.length">
+            <h3>Firewall Rules</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Port</th>
+                    <th>From IP</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="firewallRule in firewallRules">
+                    <td>{{ firewallRule.description }}</td>
+                    <td>{{ firewallRule.port }}  {{ firewallRule.type }}</td>
+                    <td>{{ firewallRule.from_ip }}</td>
+                    <td>
+                        <template v-if="isRunningCommandFor(firewallRule.id)">
                         {{ isRunningCommandFor(firewallRule.id).status }}
-                    </template>
-                    <template v-else>
-                        <a class="fa fa-remove" @click.prevent="deleteFirewallRule(firewallRule.id)">remove</a>
-                    </template>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                        </template>
+                    </td>
+
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click.prevent="deleteFirewallRule(firewallRule.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     </section>
 </template>
