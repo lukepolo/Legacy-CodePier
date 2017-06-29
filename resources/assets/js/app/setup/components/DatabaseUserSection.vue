@@ -53,7 +53,7 @@
                     <td class="table--action">
                         <tooltip message="Delete">
                             <span class="table--action-delete">
-                                <a href="#" @click="deleteSchemaUser(schemaUser.id)"><span class="fa fa-trash"></span></a>
+                                <a href="#" @click="deleteSchemaUser(schemaUser.id)"><span class="icon-trash"></span></a>
                             </span>
                         </tooltip>
                     </td>
