@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="cronJob in cronJobs">
-                    <td>{{ cronJob.job }}</td>
+                    <td class="break-word">{{ cronJob.job }}</td>
                     <td>{{ cronJob.user }}</td>
                     <td>
                         <template v-if="isRunningCommandFor(cronJob.id)">
