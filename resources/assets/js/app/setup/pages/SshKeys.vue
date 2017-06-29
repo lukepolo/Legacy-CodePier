@@ -22,7 +22,7 @@
         </form>
 
         <br>
-        
+
         <div v-if="sshKeys.length">
             <h3>Installed SHH Keys</h3>
 
