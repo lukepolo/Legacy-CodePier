@@ -5236,6 +5236,7 @@ button[disabled=disabled] {
   bottom: 0px;
   left: 0px;
   font-weight: 400;
+  text-align: left;
   color: #c8e6fb;
   letter-spacing: .4px;
   pointer-events: none;
