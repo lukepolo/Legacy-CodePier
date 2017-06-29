@@ -91,7 +91,7 @@
                         </draggable>
 
                         <div class="btn-container text-center">
-                            <span @click="addCustomStep" class="btn">Add Custom Step</span>
+                            <span @click="addCustomStep" class="btn btn-small">Add Custom Step</span>
                         </div>
 
                     </div>
