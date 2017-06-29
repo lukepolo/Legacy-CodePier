@@ -5,14 +5,25 @@
 
             <form @submit.prevent="connectProvider">
 
-                <input type="text" v-model="form.token"> Api Token
+                <div class="flyform--group">
+                    <input type="text" v-model="form.token" placeholder=" ">
+                    <label>Api Token</label>
+                </div>
 
-                <template v-if="provider.secret_token">
-                    <input type="text" v-model="form.secret_token"> Secret Token
-                </template>
+                <div class="flyform--group" v-if="provider.secret_token">
+                    <input type="text" v-model="form.secret_token" placeholder=" ">
+                    <label>Secret Token</label>
+                </div>
+                <br>
+                <div class="providers--item-footer">
+                    <div class="flyform--footer-btns">
+                        <span class="btn" @click="adding = false">Cancel</span>
+                        <button class="btn btn-primary">Connect</button>
+                    </div>
+                </div>
 
-                <div class="btn btn-danger" @click="adding = false">Cancel</div>
-                <button class="btn btn-primary">Connect</button>
+
+
 
             </form>
 
@@ -24,6 +35,8 @@
 
     </section>
 </template>
+
+
 <script>
     export default {
         props: ['provider'],

@@ -25,34 +25,7 @@
 }
 
 
-table {
-  width: 100%;
-  max-width: 100%;
-  margin-top: $spacing*2;
-  border: 1px solid $color-divider;
 
-  + table {
-    margin-top: $spacing*2;
-  }
-}
-
-th {
-  text-align: left;
-  border-bottom: 1px solid $color-divider;
-  color: rgba($color-text-primary, .7);
-}
-
-th,
-td {
-  padding: 8px 10px;
-}
-
-
-tr {
-  &:nth-child(even) {
-    background-color: rgba($black, .1);
-  }
-}
 
 .table--action {
   text-align: right;

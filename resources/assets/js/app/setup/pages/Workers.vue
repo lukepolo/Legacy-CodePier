@@ -1,87 +1,97 @@
 <template>
     <section>
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="installWorker()" class="floating-labels">
+        <form @submit.prevent="installWorker()">
 
-                <div class="jcf-input-group">
-                    <input type="text" name="command" v-model="form.command">
-                    <label for="command">
-                        <span class="float-label">Command</span>
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <input type="text" name="command" v-model="form.command" placeholder=" ">
+                <label for="command">Command</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <input type="integer" name="number_of_workers" v-model="form.number_of_workers">
-                    <label for="number_of_workers">
-                        <span class="float-label">Number of Workers</span>
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <input type="integer" name="number_of_workers" v-model="form.number_of_workers" placeholder=" ">
+                <label for="number_of_workers">Number of Workers</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">
-                        Select User
-                    </div>
-                    <div class="select-wrap">
-                        <select name="user" v-model="form.user">
-                            <option value="root">Root User</option>
-                            <option value="codepier">CodePier User</option>
-                        </select>
-                    </div>
+            <div class="flyform--group">
+                <label>Select User</label>
+                <div class="flyform--group-select">
+                    <select name="user" v-model="form.user">
+                        <option value="root">Root User</option>
+                        <option value="codepier">CodePier User</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="jcf-input-group input-checkbox">
-                    <div class="input-question">Worker Options</div>
-                    <label>
-                        <input type="checkbox" name="auto_start" v-model="form.auto_start">
-                        <span class="icon"></span>
-                        Auto Start
-                    </label>
-                </div>
-                <div class="jcf-input-group input-checkbox">
-                    <label>
-                        <input type="checkbox" name="auto_restart" v-model="form.auto_restart">
-                        <span class="icon"></span>
-                        Auto Restart
-                    </label>
-                </div>
+            <div class="flyform--group">
+                <label>Worker Options</label>
+            </div>
+            <div class="flyform--group-checkbox">
+                <label>
+                    <input type="checkbox" name="auto_start" v-model="form.auto_start">
+                    <span class="icon"></span>
+                    Auto Start
+                </label>
+            </div>
 
-                <div class="btn-footer">
+            <div class="flyform--group-checkbox">
+                <label>
+                    <input type="checkbox" name="auto_restart" v-model="form.auto_restart">
+                    <span class="icon"></span>
+                    Auto Restart
+                </label>
+            </div>
+
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
                     <button class="btn btn-primary" type="submit">Create Queue Worker</button>
                 </div>
+            </div>
 
-            </form>
+        </form>
+
+
+        <br>
+
+        <div v-if="workers.length">
+            <h3>Workers</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>User</th>
+                    <th>Auto Start</th>
+                    <th>Auto Restart</th>
+                    <th># of Workers</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="worker in workers">
+                    <td class="break-word">{{ worker.command }}</td>
+                    <td>{{ worker.user }}</td>
+                    <td>{{ worker.auto_start }}</td>
+                    <td>{{ worker.auto_restart }}</td>
+                    <td>{{ worker.number_of_workers }}</td>
+                    <td>
+                        <template v-if="isRunningCommandFor(worker.id)">
+                            {{ isRunningCommandFor(worker.id).status }}
+                        </template>
+                    </td>
+
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click="deleteWorker(worker.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <br><br>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Command</th>
-                <th>User</th>
-                <th>Auto Start</th>
-                <th>Auto Restart</th>
-                <th>Number of Workers</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="worker in workers">
-                <td>{{ worker.command }}</td>
-                <td>{{ worker.user }}</td>
-                <td>{{ worker.auto_start }}</td>
-                <td>{{ worker.auto_restart }}</td>
-                <td>{{ worker.number_of_workers }}</td>
-                <td>
-                    <template v-if="isRunningCommandFor(worker.id)">
-                        {{ isRunningCommandFor(worker.id).status }}
-                    </template>
-                    <template v-else>
-                        <a @click="deleteWorker(worker.id)" href="#" class="fa fa-remove">X</a>
-                    </template>
-                </td>
-            </tr>
-            </tbody>
-        </table>
 
         <input type="hidden" v-if="site">
 

@@ -5,55 +5,48 @@
 </style>
 <template>
     <div v-if="site">
-
-        <form @submit.prevent="saveSiteDeploymentConfig">
-            <div class="jcf-input-group input-checkbox">
-
-                <div class="input-question">Repository Options</div>
-
-                <label>
-
-                    <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
-                        <span class="fa fa-info-circle"></span>
-                    </tooltip>
-
-                    <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
-                    <span class="icon"></span>
-                    Zerotime Deployment
-
-                </label>
-
-            </div>
-
-            <template v-if="form.zerotime_deployment">
-
-                <div class="jcf-input-group">
-
-                    <input type="number" v-model="form.keep_releases" name="keep_releases">
-
-                    <label for="keep_releases">
-
-                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
-                            <span class="fa fa-info-circle"></span>
-                        </tooltip>
-
-                        <span class="float-label">Number of Releases to keep</span>
-
-                    </label>
-
-                </div>
-
-            </template>
-
-            <button>Save Deployment Config</button>
-        </form>
-
-
         <p>
             Here we can customize how we deploy your application. We give you sensible defaults.
             By dragging steps from the inactive to the active we automatically suggest the order.
             Once in the active list you can change the order.
         </p>
+
+        <hr>
+
+        <form @submit.prevent="saveSiteDeploymentConfig">
+
+            <div class="flyform--group">
+                <label>Repository Options</label>
+            </div>
+            <div class="grid-2">
+                <div class="flyform--group-checkbox">
+                    <label>
+                        <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
+                        <span class="icon"></span>
+                        Zerotime Deployment
+
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                    </label>
+                </div>
+
+                <template v-if="form.zerotime_deployment">
+                    <div class="flyform--group">
+                        <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
+                        <label for="keep_releases"class="flyform--group-iconlabel">Number of Releases to keep</label>
+
+                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                    </div>
+                </template>
+            </div>
+
+            <div class="flyform--footer-btns">
+                <button class="btn btn-small">Update Deployment</button>
+            </div>
+        </form>
 
         <form @submit.prevent="updateSiteDeployment">
             <div class="col-split col-break-sm">
@@ -98,16 +91,18 @@
                         </draggable>
 
                         <div class="btn-container text-center">
-                            <span @click="addCustomStep" class="btn">Add Custom Step</span>
+                            <span @click="addCustomStep" class="btn btn-small">Add Custom Step</span>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="btn-footer">
-                <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
-                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
+                    <button type="submit" class="btn btn-primary">Update Deployment</button>
+                </div>
             </div>
         </form>
     </div>
