@@ -1,54 +1,57 @@
 <template>
     <section>
+        <form @submit.prevent="createCronJob">
+            <input type="hidden" name="cron_timing" v-model="form.cron_timing">
 
-        <div class="jcf-form-wrap">
-
-            <form @submit.prevent="createCronJob" class="floating-labels">
-
-                <input type="hidden" name="cron_timing" v-model="form.cron_timing">
-
-                <div class="jcf-input-group">
-                    <span class="input-group-addon">
-                        <span id="cron-preview"></span>
-                    </span>
-
-                    <input type="text" name="cron" v-model="form.cron">
-
-                    <label for="cron">
-                        <span class="float-label">Cron Job</span>
-                    </label>
+            <div class="flyform--group">
+                <div class="flyform--group-prefix">
+                    <input type="text" name="cron" v-model="form.cron" placeholder=" ">
+                    <label for="repository">Cron Job</label>
+                    <template v-if="!form.custom_provider">
+                        <div class="flyform--group-prefix-label">
+                            <span id="cron-preview"></span>
+                        </div>
+                    </template>
                 </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">
-                        Select User
-                    </div>
-                    <div class="select-wrap">
-                        <select name="user" v-model="form.user">
-                            <option value="root">Root User</option>
-                            <option value="codepier">CodePier User</option>
-                        </select>
-                    </div>
+            </div>
+
+            <div class="flyform--group">
+                <label>Select User</label>
+                <div class="flyform--group-select">
+                    <select name="user" v-model="form.user">
+                        <option value="root">Root User</option>
+                        <option value="codepier">CodePier User</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="select-wrap">
-                        <div id="cronjob-maker" v-cronjob></div>
-                    </div>
+
+
+            <div class="jcf-input-group">
+                <div class="select-wrap">
+                    <div id="cronjob-maker" v-cronjob></div>
                 </div>
+            </div>
 
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Create Cron</button>
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary" type="submit">Create Cron Job</button>
                 </div>
+            </div>
+        </form>
 
-            </form>
+        <br>
 
-            <br>
+        <div v-if="cronJobs.length">
+            <h3>Cron Jobs</h3>
+
             <table class="table" v-if="cronJobs">
                 <thead>
                 <tr>
                     <th>Job</th>
                     <th>User</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -60,9 +63,14 @@
                         <template v-if="isRunningCommandFor(cronJob.id)">
                             {{ isRunningCommandFor(cronJob.id).status }}
                         </template>
-                        <template v-else>
-                            <a @click="deleteCronJob(cronJob.id)" href="#" class="fa fa-remove">X</a>
-                        </template>
+                    </td>
+
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click="deleteCronJob(cronJob.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
                     </td>
                 </tr>
                 </tbody>

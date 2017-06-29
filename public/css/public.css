@@ -5296,6 +5296,7 @@ button[disabled=disabled] {
       -ms-flex-align: baseline;
           align-items: baseline;
   border-bottom: 1px solid #B6B6B6;
+  white-space: nowrap;
 }
 
 .flyform--group-prefix-label {
