@@ -3,47 +3,55 @@
 
         <ssh-guide></ssh-guide>
 
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="createKey" class="floating-labels">
-                <div class="jcf-input-group">
-                    <input type="text" name="name" v-model="form.name">
-                    <label for="name">
-                        <span class="float-label">Key Name</span>
-                    </label>
-                </div>
+        <form @submit.prevent="createKey">
+            <div class="flyform--group">
+                <input type="text" name="name" v-model="form.name" placeholder=" ">
+                <label for="name">Key Name</label>
+            </div>
 
-                <div class="jcf-input-group">
-                    <div class="input-question">Public Key</div>
-                    <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
-                </div>
+            <div class="flyform--group">
+                <label>Public Key</label>
+                <textarea name="ssh_key" v-model="form.ssh_key"></textarea>
+            </div>
 
-                <div class="btn-footer">
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
                     <button class="btn btn-primary" type="submit">Install SSH KEY</button>
                 </div>
-            </form>
+            </div>
+        </form>
+
+        <br>
+        
+        <div v-if="sshKeys.length">
+            <h3>Installed SHH Keys</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="3">Key Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="sshKey in sshKeys">
+                    <td>{{ sshKey.name }}</td>
+                    <template v-if="isRunningCommandFor(sshKey.id)">
+                        <td>
+                            {{ isRunningCommandFor(sshKey.id).status }}
+                        </td>
+                    </template>
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a href="#" @click="deleteKey(sshKey.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Key Name</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="sshKey in sshKeys">
-                <td>{{ sshKey.name }}</td>
-                <td>
-                    <template v-if="isRunningCommandFor(sshKey.id)">
-                        {{ isRunningCommandFor(sshKey.id).status }}
-                    </template>
-                    <template v-else>
-                        <a href="#" class="fa fa-remove" @click="deleteKey(sshKey.id)">remove</a>
-                    </template>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </section>
 </template>
 
