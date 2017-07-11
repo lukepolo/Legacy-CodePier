@@ -115,18 +115,17 @@ class LinodeProvider implements ServerProviderContract
 
         $this->makeRequest('post', [
             'LinodeID' => $serverInfo->LinodeID,
-            'KernelID' => null,
+            // https://www.linode.com/kernels
+            'KernelID' => 138, // Latest 64 bit (4.9.15-x86_64-linode81)
             'Label' => 'My Ubuntu 16.04 Profile',
-            'DiskList' => '%s,%s,,,,,,,'.$diskInfo->DiskID,
+            'DiskList' => $diskInfo->DiskID.',,,,,,,,',
         ]);
-
-//  )
 
         $this->url = 'https://api.linode.com';
         $this->setToken($token);
         $this->setAction('linode.boot');
 
-        $this->makeRequest('get', [
+        $this->makeRequest('post', [
             'LinodeID' => $serverInfo->LinodeID,
         ]);
 
@@ -221,7 +220,7 @@ class LinodeProvider implements ServerProviderContract
      */
     public function readyForProvisioningStatus()
     {
-        return 0;
+        return 1;
     }
 
     private function makeRequest($method, $data = null)
