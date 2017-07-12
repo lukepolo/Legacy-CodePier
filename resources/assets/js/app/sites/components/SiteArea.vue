@@ -110,7 +110,12 @@
                 this.transitionName = slide
                 this.fetchData()
             },
-            'site' : 'checkRedirect'
+            'site'() {
+                if(this.site && this.pileId !== this.site.pile_id) {
+                    this.$store.dispatch('user_piles/change', this.site.pile_id)
+                }
+                this.checkRedirect()
+            }
 
         },
         methods: {
@@ -144,8 +149,9 @@
                 let siteId = this.$route.params.site_id
                 if(!this.site || this.site.id !== parseInt(siteId)) {
                     this.$store.dispatch('user_sites/show', siteId)
+                } else {
+                    this.checkRedirect()
                 }
-                this.checkRedirect()
             },
             revertWorkFlow() {
                 let workflow = _.clone(this.site.workflow)
@@ -183,6 +189,9 @@
             }
         },
         computed: {
+            pileId() {
+                return this.$store.state.user.user.current_pile_id
+            },
             site() {
                 return this.$store.state.user_sites.site
             },
