@@ -169,6 +169,5 @@ class CreateSite implements ShouldQueue
                 );
             });
         }
-
     }
 }
