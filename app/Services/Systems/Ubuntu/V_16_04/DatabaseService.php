@@ -260,24 +260,18 @@ class DatabaseService
     {
         $this->connectToServer($this->server);
 
-        $databasePassword = $this->server->database_password;
-
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
+        $this->remoteTaskService->run("mysql --user=root --password=".$this->server->database_password." -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$schemaUser->password' WITH GRANT OPTION;\"");
     }
 
-    private function removeMySqlUser(SchemaUser $schemaUser, Schema $schema)
+    private function removeMySqlUser(SchemaUser $schemaUser)
     {
         $this->connectToServer($this->server);
-
-        $databasePassword = $this->server->database_password;
-
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"DROP USER IF EXISTS $schemaUser->name;\"");
+        $this->remoteTaskService->run("mysql --user=root --password=".$this->server->database_password." -e \"DROP USER IF EXISTS $schemaUser->name;\"");
     }
 
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
         $this->connectToServer($this->server);
-
 //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
     }
 
@@ -289,18 +283,12 @@ class DatabaseService
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
     {
         $this->connectToServer($this->server);
-
-        $databasePassword = $this->server->database_password;
-
-        $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.createUser({ user : \"$schemaUser->name\", pwd : \"$databasePassword\", roles : [ { role : \"readWrite\", db: \"$schema->name\" } ] });\"");
+        $this->remoteTaskService->run("mongo -u codepier -p ".$this->server->database_password." admin --eval \"db.createUser({ user : \"$schemaUser->name\", pwd : \"$schemaUser->password\", roles : [ { role : \"readWrite\", db: \"$schema->name\" } ] });\"");
     }
 
-    private function removeMongoDbUser(SchemaUser $schemaUser, Schema $schema)
+    private function removeMongoDbUser(SchemaUser $schemaUser)
     {
         $this->connectToServer($this->server);
-
-        $databasePassword = $this->server->database_password;
-
-        $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.removeUser($schemaUser->name);\"");
+        $this->remoteTaskService->run("mongo -u codepier -p ".$this->server->database_password." admin --eval \"db.removeUser($schemaUser->name);\"");
     }
 }
