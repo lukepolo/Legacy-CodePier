@@ -34,7 +34,7 @@ class User extends Authenticatable
         'second_auth_active',
         'second_auth_updated_at',
         'user_login_provider_id',
-        'referrer'
+        'referrer',
     ];
 
     /**
