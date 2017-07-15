@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -51,6 +52,8 @@ class ActivateServerSslCertificate implements ShouldQueue
         $this->runOnServer(function () use ($serverService, $siteService) {
             $serverService->activateSslCertificate($this->server, $this->sslCertificate);
         });
+
+        event(new SiteUpdatedWebConfig($this->site));
 
         if (! $this->wasSuccessful()) {
             throw new ServerCommandFailed($this->getCommandErrors());
