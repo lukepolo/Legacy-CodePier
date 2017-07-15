@@ -403,11 +403,15 @@ class ServerService implements ServerServiceContract
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
+        // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
             'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
         );
+
+        // TODO - this needs to happen differently since load balancers may control these values, so they need to trigger us
+        // to say its been changed or something?
 
         if (! $server->cronJobs
             ->where('job', '* */12 * * * letsencrypt renew')
@@ -429,6 +433,7 @@ class ServerService implements ServerServiceContract
 
         $sslCertificate->key = $this->getFile($server, $sslCertificate->key_path);
         $sslCertificate->cert = $this->getFile($server, $sslCertificate->cert_path);
+        $sslCertificate->save();
     }
 
     /**
