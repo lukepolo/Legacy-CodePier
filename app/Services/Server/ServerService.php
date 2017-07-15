@@ -375,9 +375,6 @@ class ServerService implements ServerServiceContract
 
         $this->remoteTaskService->writeToFile("$sslCertPath/server.key", $sslCertificate->key);
         $this->remoteTaskService->writeToFile("$sslCertPath/server.crt", $sslCertificate->cert);
-
-
-
     }
 
     /**

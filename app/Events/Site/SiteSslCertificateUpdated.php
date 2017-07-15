@@ -41,9 +41,7 @@ class SiteSslCertificateUpdated
                     ) ||
                     $serverType === SystemService::FULL_STACK_SERVER
                 ) {
-
                     if ($sslCertificate->active) {
-
                         if ($activeSsl->id != $sslCertificate->id) {
                             $activeSsl->update([
                                 'active' => false,

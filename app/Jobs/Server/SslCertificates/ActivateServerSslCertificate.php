@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
@@ -12,6 +11,7 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
