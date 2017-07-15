@@ -44,7 +44,7 @@ class InstallServerSslCertificate implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if(!empty($this->sslCertificate->key) && !empty($this->sslCertificate->cert)) {
+        if (! empty($this->sslCertificate->key) && ! empty($this->sslCertificate->cert)) {
             if ($this->server->sslCertificates->keyBy('id')->get($this->sslCertificate->id)) {
                 $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
             } else {
@@ -81,7 +81,6 @@ class InstallServerSslCertificate implements ShouldQueue
                 'active' => false,
             ]);
         }
-
     }
 
     private function updateWebConfigs()
