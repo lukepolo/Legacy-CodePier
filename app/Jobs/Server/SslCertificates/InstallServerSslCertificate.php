@@ -44,36 +44,44 @@ class InstallServerSslCertificate implements ShouldQueue
      */
     public function handle(ServerService $serverService)
     {
-        if ($this->server->sslCertificates->keyBy('id')->get($this->sslCertificate->id)) {
-            $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
-        } else {
-            $this->runOnServer(function () use ($serverService) {
-                $serverService->installSslCertificate($this->server, $this->sslCertificate);
-            });
+        if(!empty($this->sslCertificate->key) && !empty($this->sslCertificate->cert)) {
+            if ($this->server->sslCertificates->keyBy('id')->get($this->sslCertificate->id)) {
+                $this->updateServerCommand(0, 'Sever already has ssl certificate installed for '.$this->sslCertificate->domains);
+            } else {
+                $this->runOnServer(function () use ($serverService) {
+                    $serverService->installSslCertificate($this->server, $this->sslCertificate);
+                });
 
-            if (! $this->wasSuccessful()) {
-                $this->sslCertificate->update([
-                    'failed' => true,
-                ]);
-
-                if ($this->sslCertificate->active) {
+                if (! $this->wasSuccessful()) {
                     $this->sslCertificate->update([
-                        'active' => false,
+                        'failed' => true,
                     ]);
-                    $this->updateWebConfigs();
+
+                    if ($this->sslCertificate->active) {
+                        $this->sslCertificate->update([
+                            'active' => false,
+                        ]);
+                        $this->updateWebConfigs();
+                    }
+
+                    throw new ServerCommandFailed($this->getCommandErrors());
                 }
 
-                throw new ServerCommandFailed($this->getCommandErrors());
+                $this->sslCertificate->update([
+                    'failed' => false,
+                ]);
+
+                $this->server->sslCertificates()->save($this->sslCertificate);
+
+                $this->updateWebConfigs();
             }
-
+        } else {
+            $this->updateServerCommand(0, 'SSL Cert cannot be activated till its ran.');
             $this->sslCertificate->update([
-                'failed' => false,
+                'active' => false,
             ]);
-
-            $this->server->sslCertificates()->save($this->sslCertificate);
-
-            $this->updateWebConfigs();
         }
+
     }
 
     private function updateWebConfigs()
