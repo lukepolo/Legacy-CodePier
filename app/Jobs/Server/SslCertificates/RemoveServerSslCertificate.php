@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Server\SslCertificates;
 
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Models\Command;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -52,7 +53,7 @@ class RemoveServerSslCertificate implements ShouldQueue
                 $serverService->removeSslCertificate($this->server, $this->sslCertificate);
 
                 foreach ($this->sslCertificate->sites as $site) {
-                    $siteService->updateWebServerConfig($this->server, $site);
+                    event(new SiteUpdatedWebConfig($site));
                 }
             });
 
