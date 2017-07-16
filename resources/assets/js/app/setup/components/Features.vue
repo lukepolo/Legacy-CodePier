@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="tab-container tab-left">
+        <div class="tab-container tab-left tab-left-small">
 
             <ul class="nav nav-tabs">
 

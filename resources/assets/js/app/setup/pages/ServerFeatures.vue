@@ -1,28 +1,23 @@
 <template>
     <section>
-        <div class="jcf-form-wrap">
-
-            <template v-if="!server && update !==  false">
-
-                <form @submit.prevent="dispatchMethod" enctype="multipart/form-data" class="floating-labels">
-
-                    <features></features>
-
-                    <div class="btn-footer">
-                        <button class="btn btn-primary" type="submit">Update Site Server Features</button>
-                    </div>
-
-                </form>
-
-            </template>
-            <template v-else>
+        <template v-if="!server && update !==  false">
+            <form @submit.prevent="dispatchMethod" enctype="multipart/form-data" class="floating-labels">
 
                 <features></features>
 
-            </template>
+                <div class="flyform--footer">
+                    <div class="flyform--footer-btns">
+                        <button class="btn btn-primary" type="submit">Update Site Server Features</button>
+                    </div>
+                </div>
+            </form>
+        </template>
+        
+        <template v-else>
 
-        </div>
+            <features></features>
 
+        </template>
     </section>
 </template>
 
