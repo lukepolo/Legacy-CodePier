@@ -7,6 +7,12 @@
         <form @submit.prevent="updateSite">
 
             <repository-provider-selector :provider.sync="form.user_repository_provider_id">
+
+                <input
+                    type="radio"
+                    v-model="form.user_repository_provider_id"
+                >
+
                 <div class="providers--item providers--item-custom" @click="form.custom_provider = true">
                     <div class="providers--item-header">
                         <div class="providers--item-name"><h3>Custom</h3></div>

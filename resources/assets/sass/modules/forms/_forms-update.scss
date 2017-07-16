@@ -341,6 +341,15 @@ $flyform-transition: all .5s;
             display: block;
             padding-left: $flyform-spacing*1.5;
             cursor: pointer;
+
+            &.disabled {
+                opacity: .5;
+                cursor: not-allowed;
+
+                .icon:before {
+                    content: '\e835';
+                }
+            }
         }
 
         input {
@@ -401,3 +410,27 @@ $flyform-transition: all .5s;
 }
 
 
+// SUBFORM STYLES ==========================================
+// =========================================================
+.flyform--subform {
+    margin-left: $spacing*1.5;
+
+    .flyform--group {
+        margin: 10px 0px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+    input {
+        font-size: 13px;
+    }
+
+    input:placeholder-shown:not(:focus) + * {
+        font-size: 13px;
+    }
+}
+
+.flyform--group-checkbox + .flyform--subform {
+    margin-top: -$spacing/2;
+}

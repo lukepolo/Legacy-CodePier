@@ -6942,6 +6942,17 @@ a.item:hover:before {
   cursor: pointer;
 }
 
+.flyform--group-checkbox label.disabled,
+.flyform--group-radio label.disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.flyform--group-checkbox label.disabled .icon:before,
+.flyform--group-radio label.disabled .icon:before {
+  content: '\E835';
+}
+
 .flyform--group-checkbox input,
 .flyform--group-radio input {
   width: auto;
@@ -6995,6 +7006,30 @@ a.item:hover:before {
 
 .flyform--group-radio input:checked + .icon:before {
   content: '\E837';
+}
+
+.flyform--subform {
+  margin-left: 30px;
+}
+
+.flyform--subform .flyform--group {
+  margin: 10px 0px;
+}
+
+.flyform--subform label {
+  font-size: 13px;
+}
+
+.flyform--subform input {
+  font-size: 13px;
+}
+
+.flyform--subform input:placeholder-shown:not(:focus) + * {
+  font-size: 13px;
+}
+
+.flyform--group-checkbox + .flyform--subform {
+  margin-top: -10px;
 }
 
 #login_form,
@@ -8504,6 +8539,15 @@ a.list--item:hover:before {
   border-left: 15px solid #2B2B2B;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
+}
+
+.tab-left-small {
+  margin-left: -40px;
+}
+
+.tab-left-small .nav-tabs li a {
+  padding: 13.33333333px 20px;
+  font-size: .8em;
 }
 
 .wizard {
