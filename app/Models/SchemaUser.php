@@ -3,11 +3,18 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Traits\Encryptable;
 use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class SchemaUser extends Model
 {
+    use Encryptable;
+
+    protected $encryptable = [
+        'password',
+    ];
+
     protected $guarded = ['id'];
 
     protected $casts = [

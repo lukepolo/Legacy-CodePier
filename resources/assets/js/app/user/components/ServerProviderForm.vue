@@ -17,21 +17,18 @@
                 <br>
                 <div class="providers--item-footer">
                     <div class="flyform--footer-btns">
-                        <span class="btn" @click="adding = false">Cancel</span>
+                        <span class="btn" @click.prevent.stop="cancel">Cancel</span>
                         <button class="btn btn-primary">Connect</button>
                     </div>
                 </div>
-
-
-
 
             </form>
 
         </template>
 
-        <a class="btn btn-default" @click="adding = true" v-if="!adding">
-            {{ provider.name }}
-        </a>
+        <span v-if="!adding">
+            connect account
+        </span>
 
     </section>
 </template>
@@ -39,10 +36,16 @@
 
 <script>
     export default {
-        props: ['provider'],
+        props: {
+            provider : {
+                default : null
+            },
+            adding : {
+                default : false
+            }
+        },
         data() {
             return {
-                adding : false,
                 form : this.createForm({
                     token : null,
                     secret_token : null
@@ -50,6 +53,9 @@
             }
         },
         methods : {
+            cancel() {
+                this.$emit('update:adding', false)
+            },
             connectProvider() {
                 this.form.post('/api/server/providers/'+this.provider.provider_name+'/provider ').then(() => {
                     this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id);

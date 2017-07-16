@@ -71,7 +71,11 @@ class Site extends Model
 
     public function activeSsl()
     {
-        return $this->sslCertificates->where('active', true)->first();
+        return $this->sslCertificates
+            ->where('active', true)
+            ->where('key', '!=', null)
+            ->where('cert', '!=', null)
+            ->first();
     }
 
     public function letsEncryptSslCertificates()

@@ -24,6 +24,7 @@
 
         <div class="flyform--group">
             <label>Workflows</label>
+            <small>these help you build your site via tutorial style (recommended)</small>
         </div>
 
         <div class="flyform--group-checkbox">

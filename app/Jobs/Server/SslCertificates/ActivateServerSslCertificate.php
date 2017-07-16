@@ -11,6 +11,7 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -51,6 +52,8 @@ class ActivateServerSslCertificate implements ShouldQueue
         $this->runOnServer(function () use ($serverService, $siteService) {
             $serverService->activateSslCertificate($this->server, $this->sslCertificate);
         });
+
+        event(new SiteUpdatedWebConfig($this->site));
 
         if (! $this->wasSuccessful()) {
             throw new ServerCommandFailed($this->getCommandErrors());

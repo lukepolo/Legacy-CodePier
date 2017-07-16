@@ -144,15 +144,21 @@ class SiteController extends Controller
     /**
      * Deploys a site.
      * @param DeploySiteRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deploy(DeploySiteRequest $request, $siteId)
     {
         $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
-            $this->dispatch(
-                (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
-            );
+            $lastDeploymentStatus = $site->last_deployment_status;
+            if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
+                $this->dispatch(
+                    (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+                );
+            } else {
+                return response()->json('You have a deployment currently running', 409);
+            }
         }
     }
 

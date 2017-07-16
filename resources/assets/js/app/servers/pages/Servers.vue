@@ -81,10 +81,10 @@
                 showArchive : false
             }
         },
+        created() {
+            this.$store.dispatch('user_servers/getTrashed')
+        },
         computed: {
-            showArchived() {
-                return this.$route.name !==  'servers'
-            },
             servers() {
                 if(!this.showArchive) {
                     return this.$store.state.user_servers.servers;

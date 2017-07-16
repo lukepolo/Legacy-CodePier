@@ -10,6 +10,7 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
@@ -52,7 +53,7 @@ class RemoveServerSslCertificate implements ShouldQueue
                 $serverService->removeSslCertificate($this->server, $this->sslCertificate);
 
                 foreach ($this->sslCertificate->sites as $site) {
-                    $siteService->updateWebServerConfig($this->server, $site);
+                    event(new SiteUpdatedWebConfig($site));
                 }
             });
 
