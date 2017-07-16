@@ -152,7 +152,7 @@ class SiteController extends Controller
 
         if ($site->provisionedServers->count()) {
             $lastDeploymentStatus = $site->last_deployment_status;
-            if(empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
+            if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
                 $this->dispatch(
                     (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
                 );
