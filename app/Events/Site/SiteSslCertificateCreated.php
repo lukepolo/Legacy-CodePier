@@ -31,6 +31,7 @@ class SiteSslCertificateCreated
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;
 
+                dump($loadBalancerExists);
                 if (
                     (
                         empty($loadBalancerExists) &&

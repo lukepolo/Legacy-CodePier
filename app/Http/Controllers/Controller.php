@@ -27,6 +27,10 @@ class Controller extends BaseController
             );
         }
 
+        if ($request->has('ref')) {
+            return response()->view('landing')->withCookie(cookie('referrer', $request->input('ref')));
+        }
+
         return view('landing');
     }
 }

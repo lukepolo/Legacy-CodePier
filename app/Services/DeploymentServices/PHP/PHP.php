@@ -41,7 +41,7 @@ class PHP
     /**
      * @description Restart the deployment services
      *
-     * @order 600
+     * @order 500
      */
     public function restartPhpFpm()
     {

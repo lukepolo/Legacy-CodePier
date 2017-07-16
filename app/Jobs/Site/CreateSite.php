@@ -105,23 +105,6 @@ class CreateSite implements ShouldQueue
         });
 
         if (
-            (
-                ! $this->site->isLoadBalanced() &&
-                (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                )
-            ) ||
-            $serverType === SystemService::LOAD_BALANCER
-        ) {
-            $this->site->sslCertificates->each(function ($sslCertificate) {
-                dispatch(
-                    (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate, 'Setting up')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
-
-        if (
             $serverType === SystemService::WORKER_SERVER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
@@ -166,6 +149,23 @@ class CreateSite implements ShouldQueue
                 dispatch(
                     (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->makeCommand($this->site,
                         $languageSetting, 'Updating')))->onQueue(config('queue.channels.server_commands'))
+                );
+            });
+        }
+
+        if (
+            (
+                ! $this->site->isLoadBalanced() &&
+                (
+                    $serverType === SystemService::WEB_SERVER ||
+                    $serverType === SystemService::FULL_STACK_SERVER
+                )
+            ) ||
+            $serverType === SystemService::LOAD_BALANCER
+        ) {
+            $this->site->sslCertificates->each(function ($sslCertificate) {
+                dispatch(
+                    (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate, 'Setting up')))->onQueue(config('queue.channels.server_commands'))
                 );
             });
         }
