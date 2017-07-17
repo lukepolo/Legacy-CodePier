@@ -1,3 +1,3 @@
 export const set = (state, { response }) => {
-    Vue.set(state, 'user', response);
+  Vue.set(state, "user", response);
 };
