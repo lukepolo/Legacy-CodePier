@@ -113,7 +113,7 @@
                 })
             }
         },
-        mounted() {
+        created() {
             this.fetchData()
             this.siteChange()
         },

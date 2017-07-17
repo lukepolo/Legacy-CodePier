@@ -198,7 +198,7 @@
         components : {
             CpuLoads
         },
-        mounted() {
+        created() {
             this.showing = this.showInfo
 
             if(this.server.progress < 100) {
