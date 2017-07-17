@@ -1,2 +1,2 @@
-require('./cronjob');
-require('./file-editor');
+require("./cronjob");
+require("./file-editor");
