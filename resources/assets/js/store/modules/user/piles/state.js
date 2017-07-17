@@ -1,4 +1,4 @@
 export default {
-    piles: [],
-    pile_sites: {},
+  piles: [],
+  pile_sites: {}
 };
