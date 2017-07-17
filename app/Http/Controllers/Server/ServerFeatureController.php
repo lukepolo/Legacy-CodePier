@@ -55,7 +55,6 @@ class ServerFeatureController extends Controller
             ! isset($serverFeatures[$service][$feature]['enabled']) ||
             ! $serverFeatures[$service][$feature]['enabled']
         ) {
-
             $parameters = $request->get('parameters', []);
 
             $serverFeatures[$service][$feature] = [
@@ -76,7 +75,6 @@ class ServerFeatureController extends Controller
             );
 
             return response()->json($server);
-
         } else {
             return response()->json('This feature is already installed.', 409);
         }

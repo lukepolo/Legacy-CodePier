@@ -60,7 +60,6 @@ class InstallServerFeature implements ShouldQueue
         });
 
         if (! $this->wasSuccessful()) {
-
             $serverFeatures[$this->service][$this->feature] = [
                 'enabled' => false,
             ];
@@ -71,6 +70,5 @@ class InstallServerFeature implements ShouldQueue
 
             throw new ServerCommandFailed($this->getCommandErrors());
         }
-
     }
 }
