@@ -76,11 +76,6 @@
                 </div>
             </template>
 
-            <!--<template v-if="server && hasFeature(feature)">-->
-                <!--Im not sure if we are able to update or not-->
-                <!--<button class="btn btn-primary" @click="installFeature(feature)">Update</button>-->
-            <!--</template>-->
-
         </template>
 
         <template v-if="frameworks">

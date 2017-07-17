@@ -45,14 +45,41 @@ class ServerFeatureController extends Controller
      */
     public function store(ServerFeatureRequest $request, $serverId)
     {
-        return $this->dispatch(
-            (new InstallServerFeature(
-                Server::findOrFail($serverId),
-                $request->get('feature'),
-                $request->get('service'),
-                $request->get('parameters', [])
-            ))->onQueue(config('queue.channels.server_features'))
-        );
+        $feature = $request->get('feature');
+        $service = $request->get('service');
+
+        $server = Server::findOrFail($serverId);
+        $serverFeatures = $server->server_features;
+
+        if (! isset($serverFeatures[$service][$feature]) ||
+            ! isset($serverFeatures[$service][$feature]['enabled']) ||
+            ! $serverFeatures[$service][$feature]['enabled']
+        ) {
+
+            $parameters = $request->get('parameters', []);
+
+            $serverFeatures[$service][$feature] = [
+                'enabled' => true,
+            ];
+
+            $server->update([
+                'server_features' => $serverFeatures,
+            ]);
+
+            $this->dispatch(
+                (new InstallServerFeature(
+                    $server,
+                    $feature,
+                    $service,
+                    $parameters
+                ))->onQueue(config('queue.channels.server_features'))
+            );
+
+            return response()->json($server);
+
+        } else {
+            return response()->json('This feature is already installed.', 409);
+        }
     }
 
     /**
