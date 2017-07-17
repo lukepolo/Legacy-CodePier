@@ -70,47 +70,18 @@
             </template>
         </div>
 
+        <life-lines></life-lines>
 
-        <div>
-            <form @submit.prevent="createLifeline">
-                Name : <input type="text" v-model="lifeline_form.name">
-                <br>
-                Should check-in every <input type="text" v-model="lifeline_form.threshold"> minutes
-                <br>
-                <button type="submit">Create Life Line</button>
-            </form>
-
-            <p v-for="lifeLine in lifeLines">
-                {{ lifeLine.name }} - {{ lifeLine.url }}<br>
-                <template v-if="lifeLine.last_seen">
-                    <time-ago :time="lifeLine.last_seen"></time-ago>
-                </template>
-                <template v-else>
-                    Never Seen
-                </template>
-                <br>
-                <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
-                    delete
-                </confirm>
-
-            </p>
-
-        </div>
     </div>
 </template>
 
 <script>
+    import LifeLines from './../components/Lifelines'
     export default {
-        data() {
-            return {
-                lifeline_form: this.createForm({
-                    name : null,
-                    threshold : null,
-                    site : this.$route.params.site_id
-                })
-            }
+        components : {
+            LifeLines
         },
-        mounted() {
+        created() {
             this.fetchData()
         },
         watch: {
@@ -119,7 +90,6 @@
         methods: {
             fetchData() {
                 this.getDns()
-                this.$store.dispatch('user_site_life_lines/get', this.$route.params.site_id)
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
             },
             getDns(refresh) {
@@ -134,9 +104,6 @@
 
                 this.$store.dispatch('user_site_dns/get', data)
             },
-            createLifeline() {
-                this.$store.dispatch('user_site_life_lines/store', this.lifeline_form)
-            }
         },
         computed: {
             dns() {
@@ -144,9 +111,6 @@
             },
             site() {
                 return this.$store.state.user_sites.site
-            },
-            lifeLines() {
-                return this.$store.state.user_site_life_lines.life_lines
             },
             siteServers() {
                 return _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)
