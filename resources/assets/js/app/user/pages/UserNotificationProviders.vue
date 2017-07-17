@@ -80,7 +80,7 @@
                 this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el))
             }
         },
-        mounted() {
+        created() {
             this.$store.dispatch('notification_providers/get')
             this.$store.dispatch('user_notification_providers/get', this.$store.state.user.user.id)
 
