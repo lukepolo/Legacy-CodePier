@@ -83,7 +83,6 @@
             </template>
         </div>
 
-        <life-lines></life-lines>
 
     </div>
 </template>
