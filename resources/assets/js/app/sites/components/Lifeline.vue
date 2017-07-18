@@ -33,7 +33,7 @@
 
                     <tooltip message="Delete" class="flyform--btn-right">
                         <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
-                            <span class="icon-trash text-error"></span>
+                            <span class="icon-trash"></span>
                         </confirm>
                     </tooltip>
                 </div>
