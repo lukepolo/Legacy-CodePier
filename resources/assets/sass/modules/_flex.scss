@@ -10,4 +10,8 @@
     &--shrink {
         flex-shrink: 1;
     }
+
+    &--baseline {
+        align-items: baseline;
+    }
 }

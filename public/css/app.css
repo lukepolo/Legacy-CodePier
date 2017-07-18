@@ -6641,6 +6641,12 @@ a.item:hover:before {
       flex-shrink: 1;
 }
 
+.flex--baseline {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
 .flyform {
   background-color: transparent;
   margin: 0px auto 40px;
@@ -7909,6 +7915,22 @@ a.list--item:hover:before {
 
 .cpu-min {
   text-align: center;
+}
+
+.lifeline label {
+  top: -4px;
+}
+
+.lifeline--item:not(:last-child) {
+  border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+}
+
+.lifeline--btns span + span {
+  margin-left: 10px;
+}
+
+.lifeline .confirm-container {
+  margin: 0px;
 }
 
 /* Make clicks pass-through */
