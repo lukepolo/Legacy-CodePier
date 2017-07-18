@@ -5299,7 +5299,8 @@ button[disabled=disabled] {
   transition: all 0.5s;
 }
 
-.flyform--group-prefix {
+.flyform--group-prefix,
+.flyform--group-postfix {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5320,14 +5321,16 @@ button[disabled=disabled] {
   padding-right: 10px;
 }
 
-.flyform--group-prefix input {
+.flyform--group-prefix input,
+.flyform--group-postfix input {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
   border-bottom: none;
 }
 
-.flyform--group-prefix input + label + .flyform--group-prefix-label {
+.flyform--group-prefix input + label + .flyform--group-prefix-label,
+.flyform--group-postfix input + label + .flyform--group-prefix-label {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
@@ -5339,7 +5342,8 @@ button[disabled=disabled] {
   transition: all 0.5s;
 }
 
-.flyform--group-prefix input:placeholder-shown:not(:focus) + label + .flyform--group-prefix-label {
+.flyform--group-prefix input:placeholder-shown:not(:focus) + label + .flyform--group-prefix-label,
+.flyform--group-postfix input:placeholder-shown:not(:focus) + label + .flyform--group-prefix-label {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 0px;
           flex: 0 1 0px;
@@ -5351,14 +5355,25 @@ button[disabled=disabled] {
   transition: all 0.5s;
 }
 
-.flyform--group [class^="hint-"],
-.flyform--group [class*=" hint-"] {
+.flyform--group-postfix input {
+  -webkit-box-ordinal-group: inherit;
+      -ms-flex-order: inherit;
+          order: inherit;
+}
+
+.flyform--group-postfix-label,
+.flyform--group-postfix .flyform--group-prefix-label {
+  padding: 0px 10px;
+}
+
+.flyform--group [class^="hint-"]:not(.flyform--btn-right),
+.flyform--group [class*=" hint-"]:not(.flyform--btn-right) {
   position: absolute;
   top: 0px;
 }
 
-.flyform--group [class^="hint-"] + input + label,
-.flyform--group [class*=" hint-"] + input + label {
+.flyform--group [class^="hint-"]:not(.flyform--btn-right) + input + label,
+.flyform--group [class*=" hint-"]:not(.flyform--btn-right) + input + label {
   padding-left: 20px;
 }
 
@@ -5366,6 +5381,11 @@ button[disabled=disabled] {
   padding-left: 20px;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
+}
+
+.flyform--group .flyform--btn-right {
+  padding-top: 6px;
+  padding-left: 10px;
 }
 
 .flyform--group select {
@@ -5414,7 +5434,7 @@ button[disabled=disabled] {
   background-color: #F4645F;
 }
 
-.flyform--group select[multiple=multiple] option:first-child() {
+.flyform--group select[multiple=multiple] option:first-child {
   margin-top: 5px;
 }
 
