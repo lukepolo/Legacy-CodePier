@@ -65,7 +65,10 @@
         },
         methods : {
             createLifeline() {
-                this.$store.dispatch('user_site_life_lines/store', this.form)
+                this.$store.dispatch('user_site_life_lines/store', this.form).then(() => {
+                    this.form.reset()
+                    this.showLifelineForm = true
+                })
             }
         },
         computed : {

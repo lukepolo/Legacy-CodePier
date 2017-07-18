@@ -3,6 +3,12 @@
 
         <h2 class="heading">Site Overview</h2>
 
+        <div class="flyform--group">
+            <label>Repository @ Deploy Branch</label>
+            {{ site.repository }} @ {{ site.branch }}
+        </div>
+
+
 
         <hr>
 
@@ -23,12 +29,7 @@
         <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage</router-link>
 
         <div>
-            <h3>
-                Repository / Deploy Branch
-            </h3>
-            <p>
-                {{ site.repository }} @ {{ site.branch }}
-            </p>
+
         </div>
 
         <div>

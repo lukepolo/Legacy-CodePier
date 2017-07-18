@@ -5,7 +5,7 @@
             <div class="flex">
                 <div class="flex--grow flex--shrink">
                     <label>{{ lifeLine.name }}</label>
-                    <textarea class="flex--grow" rows="3" readonly>{{ lifeLine.url }}</textarea>
+                    <textarea class="flex--grow" rows="3" readonly>https://lifelines.codepier.io{{ lifeLine.url }}</textarea>
 
                     <div class="flex">
                         <div class="flex--grow flex--shrink">
