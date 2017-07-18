@@ -15,6 +15,31 @@
         <div class="grid-2">
             <div class="grid--item">
                 <h3 class="text-center">Recent Deployments</h3>
+
+                <template v-for="deploymentEvent in deploymentEvents">
+                    {{ deploymentEvent.status }} <time-ago :time="deploymentEvent.created_at"></time-ago>
+                    <br>
+                    <small>
+                        took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
+                    </small>
+                    <br>
+                </template>
+                <template v-for="recentDeployment in recentDeployments">
+                    {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
+                    <br>
+                    <small>
+                        took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
+                    </small>
+
+                    <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
+                        Rollback
+                    </confirm>
+                    <br>
+                </template>
+
+                <hr>
+                <h3 class="heading text-center">Recent Commands</h3>
+                <h3><small><em>coming soon!</em></small></h3>
             </div>
 
             <life-lines></life-lines>
@@ -28,42 +53,11 @@
 
         <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage</router-link>
 
-        <div>
 
-        </div>
-
-        <div>
-            <h3>Recent deployments</h3>
-            <template v-for="deploymentEvent in deploymentEvents">
-                {{ deploymentEvent.status }} <time-ago :time="deploymentEvent.created_at"></time-ago>
-                <br>
-                <small>
-                    took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
-                </small>
-                <br>
-            </template>
-            <template v-for="recentDeployment in recentDeployments">
-                {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
-                <br>
-                <small>
-                    took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
-                </small>
-
-                <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
-                    Rollback
-                </confirm>
-                <br>
-            </template>
-        </div>
 
         <br>
         <div>
-            <h3>
-                Recent Commands
-                <small>
-                    coming soon!
-                </small>
-            </h3>
+
         </div>
 
         <br>
