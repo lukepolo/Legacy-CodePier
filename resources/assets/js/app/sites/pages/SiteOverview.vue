@@ -1,7 +1,20 @@
 <template>
     <div v-if="site">
 
-        <h1>Site Overview</h1>
+        <h2 class="heading">Site Overview</h2>
+
+
+        <hr>
+
+        <div class="grid-2">
+            <div class="grid--item">
+                <h3 class="text-center">Recent Deployments</h3>
+            </div>
+
+            <life-lines></life-lines>
+        </div>
+
+        <br><br><hr>
 
         <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"> Delete Site </confirm>
         

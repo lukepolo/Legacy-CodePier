@@ -202,10 +202,24 @@ $flyform-transition: all .5s;
         }
     }
 
+    // PREFIXED INPUTS ----------------------------------------
+    &-postfix {
+        @extend .flyform--group-prefix;
+
+        input {
+            order: inherit;
+        }
+
+        &-label,
+        .flyform--group-prefix-label, {
+            padding: 0px $spacing/2;
+        }
+    }
+
 
 
     // INPUT HELP STYLES ----------------------------------------
-    [class^="hint-"], [class*=" hint-"] {
+    [class^="hint-"]:not(.flyform--btn-right), [class*=" hint-"]:not(.flyform--btn-right) {
         position: absolute;
         top: 0px;
 
@@ -218,6 +232,12 @@ $flyform-transition: all .5s;
     &-iconlabel {
         padding-left: $flyform-spacing;
         transition: $flyform-transition;
+    }
+
+    // buttons near inputs
+    .flyform--btn-right {
+        padding-top: 6px;
+        padding-left: $spacing/2;
     }
 }
 

@@ -99,6 +99,28 @@
 }
 
 
+.status {
+  flex: 0 0 auto;
+  margin-right: $spacing/2;
+
+  &--neutral {
+    @include status(null);
+  }
+
+  &--success {
+    @include status(success);
+  }
+
+  &--error {
+    @include status(error);
+  }
+
+  &--warning {
+    @include status(warning);
+  }
+}
+
+
 
 
 
