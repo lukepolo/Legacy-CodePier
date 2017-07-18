@@ -1,13 +1,25 @@
 <template>
-    <div class="lifeline">
+    <div class="lifeline--item">
+        <div class="lifeline--btns" style="margin-top: -10px; float: right;">
+            <tooltip message="Copy Lifeline URL" class="flyform--btn-right">
+                <clipboard :data="lifeLine.url"></clipboard>
+            </tooltip>
+
+
+            <tooltip message="Delete" class="flyform--btn-right">
+                <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
+                    <span class="icon-trash"></span>
+                </confirm>
+            </tooltip>
+        </div>
 
         <div class="flyform--group">
             <div class="flex">
                 <div class="flex--grow flex--shrink">
                     <label>{{ lifeLine.name }}</label>
-                    <textarea class="flex--grow" rows="3" readonly>https://lifelines.codepier.io{{ lifeLine.url }}</textarea>
+                    <!--<textarea class="flex&#45;&#45;grow" rows="3" readonly>https://lifelines.codepier.io{{ lifeLine.url }}</textarea>-->
 
-                    <div class="flex">
+                    <div class="flex flex--baseline">
                         <div class="flex--grow flex--shrink">
                             <template v-if="lifeLine.last_seen">
                                 <div class="status status--success"></div>
@@ -24,19 +36,6 @@
                     </div>
                 </div>
 
-                <div>
-                    <tooltip message="Copy to Clipboard" class="flyform--btn-right">
-                        <clipboard :data="lifeLine.url"></clipboard>
-                    </tooltip>
-
-                    <br>
-
-                    <tooltip message="Delete" class="flyform--btn-right">
-                        <confirm dispatch="user_site_life_lines/destroy" confirm_class="btn btn-small" :params="{ site : site.id, life_line : lifeLine.id }">
-                            <span class="icon-trash"></span>
-                        </confirm>
-                    </tooltip>
-                </div>
             </div>
         </div>
 

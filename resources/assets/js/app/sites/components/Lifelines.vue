@@ -1,8 +1,9 @@
 <template>
     <div class="grid--item">
         <h3 class="heading text-center">Lifelines</h3>
-
-        <life-line v-for="lifeLine in lifeLines" :key="lifeLine.id" :lifeLine="lifeLine" :site="site"></life-line>
+        <div class="lifeline">
+            <life-line v-for="lifeLine in lifeLines" :key="lifeLine.id" :lifeLine="lifeLine" :site="site"></life-line>
+        </div>
 
         <template v-if="!showLifelineForm">
             <hr style="margin-top: 40px">

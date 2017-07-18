@@ -359,3 +359,29 @@
 .cpu-min {
   text-align: center;
 }
+
+
+
+
+// LIFELINE STYLES -----------------------------------------
+// ---------------------------------------------------------
+.lifeline {
+
+  label {
+    top: -4px;
+  }
+
+  &--item:not(:last-child) {
+    border-bottom: 1px solid rgba($color-text-secondary, .2);
+  }
+
+  &--btns {
+    span + span {
+      margin-left: $spacing/2;
+    }
+  }
+
+  .confirm-container {
+    margin: 0px;
+  }
+}
