@@ -1,0 +1,17 @@
+// FLEX STYLES =============================================
+// =========================================================
+.flex {
+    display: flex;
+
+    &--grow {
+        flex-grow: 1;
+    }
+
+    &--shrink {
+        flex-shrink: 1;
+    }
+
+    &--baseline {
+        align-items: baseline;
+    }
+}

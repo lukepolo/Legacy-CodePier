@@ -4,7 +4,6 @@ namespace App\Services\Server\Providers;
 
 use Exception;
 use DigitalOcean;
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
@@ -13,8 +12,6 @@ use DigitalOceanV2\Entity\Droplet;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
 use GuzzleHttp\Exception\ClientException;
-use App\Http\Controllers\Auth\OauthController;
-use App\Models\Server\Provider\ServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
 
@@ -84,7 +81,7 @@ class DigitalOceanProvider implements ServerProviderContract
      *
      * @throws \Exception
      *
-     * @return static
+     * @return Server
      */
     public function create(Server $server)
     {
@@ -185,62 +182,6 @@ class DigitalOceanProvider implements ServerProviderContract
     public function setToken($token)
     {
         config(['digitalocean.connections.main.token' => $token]);
-    }
-
-    /**
-     * Gets the token from the server.
-     *
-     * @param \App\Models\Server\Server $server
-     *
-     * @throws \Exception
-     *
-     * @return mixed
-     */
-    private function getTokenFromServer(Server $server)
-    {
-        if ($serverProvider = $server->user->userServerProviders->where(
-            'server_provider_id',
-            $server->server_provider_id
-        )->first()
-        ) {
-            if (Carbon::now()->gte($serverProvider->expires_in)) {
-                return $this->refreshToken($serverProvider);
-            }
-
-            return $serverProvider->token;
-        }
-
-        throw new \Exception('No server provider found for this user');
-    }
-
-    /**
-     * Gets the token from the server.
-     *
-     * @param User $user
-     *
-     * @throws \Exception
-     *
-     * @return mixed
-     */
-    private function getTokenFromUser(User $user)
-    {
-        $server_provider_id = \Cache::rememberForever('digitalOceanId', function () {
-            return ServerProvider::where('provider_name', OauthController::DIGITAL_OCEAN)->first()->id;
-        });
-
-        if ($serverProvider = $user->userServerProviders->where(
-            'server_provider_id',
-            $server_provider_id
-        )->first()
-        ) {
-            if (Carbon::now()->gte($serverProvider->expires_in)) {
-                return $this->refreshToken($serverProvider);
-            }
-
-            return $serverProvider->token;
-        }
-
-        throw new \Exception('No server provider found for this user');
     }
 
     public function getUser(User $user)

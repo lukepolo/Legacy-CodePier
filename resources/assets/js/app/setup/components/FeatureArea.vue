@@ -2,7 +2,7 @@
     <section>
         <template v-for="feature in features">
 
-            <div class="jcf-input-group input-checkbox">
+            <div class="flyform--group-checkbox">
 
                 <label :class="{ disabled : hasConflicts(feature) }">
 
@@ -45,12 +45,12 @@
             </div>
 
             <template v-if="isObject(feature.parameters)">
-                <div class="jcf-sub-form">
+                <div class="flyform--subform">
                     <template v-for="(value, parameter) in feature.parameters">
                         <template v-if="feature.options">
-                            <div class="jcf-input-group">
-                                <div class="input-question">{{ parameter }}</div>
-                                <div class="select-wrap">
+                            <div class="flyform--group">
+                                <label>{{ parameter }}</label>
+                                <div class="flyform--group-select">
                                     <select :name="getInputName(feature, parameter)">
                                         <template v-for="option in feature.options">
                                             <option :selected="getParameterValue(feature, parameter, value) === option" :value="option">{{ option }}</option>
@@ -61,14 +61,15 @@
                         </template>
 
                         <template v-else>
-                            <div class="jcf-input-group">
+                            <div class="flyform--group">
                                 <input
                                         :id="parameter"
                                         :name="getInputName(feature, parameter)"
                                         type="text" :value="getParameterValue(feature, parameter, value)"
+                                        placeholder=" "
                                 >
                                 <label :for="parameter">
-                                    <span class="float-label">{{ parameter }}</span>
+                                    <span>{{ parameter }}</span>
                                 </label>
                             </div>
                         </template>
@@ -85,7 +86,7 @@
 
         <template v-if="frameworks">
             <hr>
-            <div class="jcf-input-group">
+            <div class="flyform--group">
                 <h3>Frameworks Features for {{ area }}</h3>
             </div>
             <feature-area

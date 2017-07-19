@@ -5,8 +5,13 @@
             <h3 class="section-header primary">My Piles</h3>
             <div class="section-content">
                 <div class="container">
-                    <h1>Welcome. Let's Get Started.</h1>
-                    <p class="info">Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.</p>
+                    <template v-if="!hasSites">
+                        <h1>Welcome. Let's Get Started.</h1>
+                        <p class="info">
+                            Piles are groupings for your sites. We've built defaults for you, but you can edit them to fit your needs.
+                            To get started create a site.
+                        </p>
+                    </template>
                     <div class="group">
                         <pile v-on:deletePile="deletePile(index)" :pile="pile" :index="index" :key="pile.id" v-for="(pile, index) in piles"></pile>
                         <div class="group--item">

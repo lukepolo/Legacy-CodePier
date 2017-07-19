@@ -37,4 +37,9 @@ class Worker extends Model
         $this->servers()->detach();
         parent::delete();
     }
+
+    public function commandDescription($status)
+    {
+        return $status.' '.$this->number_of_workers.' workers running '.$this->command.' ran by '.$this->user;
+    }
 }

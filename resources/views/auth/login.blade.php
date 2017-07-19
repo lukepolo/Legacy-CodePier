@@ -11,89 +11,46 @@
                         </router-link>
                     </div>
 
-                    <div class="jcf-form-wrap" id="login_form">
-                        <div class="heading">
+
+                    <div id="login_form">
+                        <div class="flyform--heading">
                             <h2>Login</h2>
                         </div>
 
-                        <form method="POST" class="validation-form floating-labels">
-                            @if (count($errors) > 0)
-                                <p class="text-error">
-                                    <div class="text-center">
-                                        <ul style="list-style: none; padding: 0">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    <br>
-                                </p>
-                            @endif
+                        <form method="POST">
+
+                            @include('auth.errors')
 
                             {{ csrf_field() }}
-                            <div class="jcf-input-group">
-                                <input type="email" name="email" required>
-                                <label for="email"><span class="float-label">Email</span></label>
+
+                            <div class="flyform--content">
+                                <div class="flyform--group">
+                                    <input type="email" name="email" placeholder="&nbsp;" required tabindex="1">
+                                    <label for="email">Email</label>
+                                </div>
+
+                                <div class="flyform--group">
+                                    <input type="password" name="password" placeholder="&nbsp;" required tabindex="2">
+                                    <label for="password">Password</label>
+                                </div>
                             </div>
-                            <div class="jcf-input-group">
-                                <input type="password" name="password" required>
-                                <label for="password"><span class="float-label">Password</span></label>
-                            </div>
-                            <div class="btn-footer">
-                                <span class="btn toggle-forms">Create Account</span>
-                                <button class="btn btn-primary" type="submit">Login</button>
-                                <small>
-                                    <a href="/password/reset">Forgot password?</a>
-                                </small>
+
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-btns">
+                                    <span class="btn js-toggle-forms" tabindex="4">Create Account</span>
+                                    <button class="btn btn-primary" tabindex="3">Login</button>
+                                </div>
+                                <div class="flyform--footer-links">
+                                    <a class="js-toggle-forgot">Forgot password?</a>
+                                </div>
                             </div>
                         </form>
-                    </div><!-- end form-wrap -->
+                    </div>
 
-                    <div id="register_form" class="jcf-form-wrap hide">
-                        <div class="heading">
-                            <h2>Create Account</h2>
-                            <p>Fill out the following fields to create your account.</p>
-                        </div>
-
-                        <form method="POST" action="{{ url('/register') }}" class="validation-form floating-labels">
-                            {{ csrf_field() }}
-                            <div class="jcf-input-group">
-                                <input type="text" name="name" required>
-                                <label for="name"><span class="float-label">Name</span></label>
-                            </div>
-                            <div class="jcf-input-group">
-                                <input type="email" name="email" required>
-                                <label for="email"><span class="float-label">Email</span></label>
-                            </div>
-                            <div class="jcf-input-group">
-                                <input type="password" name="password" required>
-                                <label for="password"><span class="float-label">Password</span></label>
-                            </div>
-                            <div class="jcf-input-group">
-                                <input type="password" name="password_confirmation" required>
-                                <label for="password_confirmation"><span class="float-label">Confirm Password</span></label>
-                            </div>
-                            <div class="btn-footer">
-                                <span class="btn toggle-forms">Cancel</span>
-                                <button class="btn btn-primary" type="submit">Sign Up</button>
-                            </div>
-                        </form>
-                    </div><!-- end form-wrap -->
+                    @include('auth.create')
+                    @include('auth.reset')
 
                     <h5 class="text-center"> - Or sign in using -</h5>
-
-                    @if (count($errors) > 0)
-                        <p class="text-error">
-                            <div class="text-center">
-                                <ul style="list-style: none; padding: 0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <br>
-                        </p>
-                    @endif
 
                     <ul class="list-inline text-center">
                         <li>

@@ -225,7 +225,7 @@
             </h2>
 
             <p>
-                The Terms of Service and the relationship between you and CodePier shall be governed by the laws of the State of Arkansas without regard to its conflict of law provisions. You and CodePier agree to submit to the personal and exclusive jurisdiction of the courts located within the county of Saline, Arkansas.
+                The Terms of Service and the relationship between you and CodePier shall be governed by the laws of the State of Indiana without regard to its conflict of law provisions. You and CodePier agree to submit to the personal and exclusive jurisdiction of the courts located within the county of Marion, Indiana.
             </p>
 
             <h2>

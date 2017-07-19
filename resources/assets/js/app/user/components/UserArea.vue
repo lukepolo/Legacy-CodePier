@@ -38,6 +38,7 @@
 
             <template>
                 <h3 class="section-header primary">
+                    <back></back>
                     My Account
                 </h3>
             </template>

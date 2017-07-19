@@ -2,18 +2,15 @@
 
 namespace App\Observers\Site;
 
-use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
+use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
-use App\Jobs\Site\UpdateWebConfig;
-use App\Jobs\Site\RenameSiteDomain;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
-use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Services\Systems\SystemService;
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -83,8 +80,8 @@ class SiteObserver
         remove_events($site);
 
         if ($site->isDirty('domain')) {
-            dispatch(
-                (new RenameSiteDomain($site, $site->domain, $site->getOriginal('domain')))->onQueue(config('queue.channels.server_commands'))
+            event(
+                new SiteRenamed($site, $site->domain, $site->getOriginal('domain'))
             );
         }
 
@@ -102,33 +99,10 @@ class SiteObserver
                     }
                 }
             }
-
-            foreach ($this->siteFeatureService->getSuggestedCronJobs($site) as $cronJob) {
-                $cronJob = CronJob::create([
-                    'user' => 'codepier',
-                    'job' => $cronJob,
-                ]);
-
-                $site->cronJobs()->save($cronJob);
-
-                event(new SiteCronJobCreated($site, $cronJob));
-            }
         }
 
         if ($site->isDirty('web_directory')) {
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new UpdateWebConfig($server, $site))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
-            }
+            event(new SiteUpdatedWebConfig($site));
         }
 
         if ($site->isDirty('type') || $site->isDirty('framework')) {

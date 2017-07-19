@@ -3,8 +3,8 @@
       <template v-if="deploymentStep.internal_deployment_function || deploymentStep.editing === false">
 
           <template v-if="!deploymentStep.internal_deployment_function">
-              <a class="text-error pull-right" @click="deleteStep"><span class="icon-cancel"></span></a>
-              <a class="text-success pull-right" @click="edit"><span class="fa fa-edit"></span></a>
+              <a class="text-error pull-right" @click="deleteStep"><span class="icon-trash"></span></a>
+              <a class="text-success pull-right" @click="edit"><span class="icon-pencil"></span></a>
           </template>
 
           <div class="drag-name">
@@ -25,38 +25,28 @@
 
       <template v-else>
 
-          <div class="jcf-form-wrap">
+        <form @submit.prevent>
+            <div class="flyform--group">
+                <input type="text" name="step" v-model="step" placeholder=" ">
+                <label for="step">Step Name</label>
+            </div>
 
-              <form @submit.prevent class="floating-labels">
+            <div class="flyform--group">
+                <input type="text" name="script" v-model="script" placeholder=" ">
+                <label for="script">Script</label>
+            </div>
 
-                  <div class="jcf-input-group">
-                      <input type="text" name="step" v-model="step">
-                      <label for="step">
-                          <span class="float-label">Step Name</span>
-                      </label>
-                  </div>
+            <div class="flyform--group">
+                <label>Description</label>
+                <textarea rows="2" v-model="description"></textarea>
+            </div>
 
-                  <div class="jcf-input-group">
-                      <input type="text" name="script" v-model="script">
-                      <label for="script">
-                          <span class="float-label">Script</span>
-                      </label>
-                  </div>
-
-                  <div class="jcf-input-group">
-                      <div class="input-question" >Description</div>
-                      <textarea rows="2" v-model="description"></textarea>
-                  </div>
-
-                  <div class="btn-footer">
-                      <!--<a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>-->
-                      <a class="btn btn-small" @click="cancel">Cancel</a>
-                      <a class="btn btn-primary btn-small" @click="save">Save</a>
-
-                  </div>
-              </form>
-
-          </div>
+            <div class="flyform--footer-btns">
+                <!--<a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>-->
+                <a class="btn btn-small" @click="cancel">Cancel</a>
+                <a class="btn btn-primary btn-small" @click="save">Save</a>
+            </div>
+        </form>
 
       </template>
 

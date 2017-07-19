@@ -28,9 +28,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'workflow',
         'current_pile_id',
         'invited_to_slack',
+        'second_auth_active',
+        'second_auth_updated_at',
         'user_login_provider_id',
+        'referrer',
     ];
 
     /**
@@ -41,6 +45,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'second_auth_secret',
     ];
 
     /*

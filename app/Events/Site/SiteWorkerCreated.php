@@ -22,7 +22,7 @@ class SiteWorkerCreated
     public function __construct(Site $site, Worker $worker)
     {
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $worker);
+            $siteCommand = $this->makeCommand($site, $worker, 'Installing');
 
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;

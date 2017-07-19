@@ -30,10 +30,12 @@
         </template>
         <template v-else>
             <div class="events--item-pile"><span class="icon-layers"></span> {{ getPile(getServer(event.server_id, 'pile_id'), 'name') }}</div>
-            <div class="events--item-site"><span class="icon-browser"></span> {{ getServer(event.server_id, 'name') }}</div>
+            <div class="events--item-site"><span class="icon-server"></span> {{ getServer(event.server_id, 'name') }}</div>
             <div class="events--item-commit"></div>
         </template>
-        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
+        <div class="events--item-time">
+            <time-ago :timeago="event.created_at"></time-ago>
+        </div>
     </section>
 </template>
 
@@ -69,12 +71,7 @@
         },
         computed : {
             eventTitle() {
-                let str = this.event.commandable_type;
-                let title = str.substring(str.lastIndexOf('\\') + 1);
-
-                return title.replace(/([A-Z])/g, ' $1').replace(/^./, function(str) {
-                    return str.toUpperCase();
-                });
+               return this.event.description
             }
         }
     }

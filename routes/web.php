@@ -1,17 +1,17 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Auth Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of the routes that are handled
-| by your application. Just tell Laravel the URIs it should respond
-| to using a Closure or controller method. Build something great!
-|
-*/
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Auth::routes();
+// Registration Routes...
+Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +56,17 @@ Route::group(['prefix' => 'webhook'], function () {
 
 /*
 |--------------------------------------------------------------------------
+| LifeLine Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::group(['domain' => config('app.url_lifelines')], function () {
+    Route::get('{lifelineHashId}', 'LifeLineController@update');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Accept Team Request Route
 |--------------------------------------------------------------------------
 |
@@ -80,7 +91,6 @@ Route::group(['domain' => 'style-guide.codepier.dev'], function () {
 |
 */
 
-Route::get('/', 'Controller@app');
 Route::get('/privacy', 'PublicController@privacy');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
@@ -92,7 +102,14 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::get('/', 'Controller@app');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('second-auth', 'Auth\SecondAuthController@show');
+    Route::post('second-auth', 'Auth\SecondAuthController@store');
+});
+
+Route::group(['middleware' => ['auth', 'second_auth']], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');

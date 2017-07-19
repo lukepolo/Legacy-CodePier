@@ -5,7 +5,7 @@
     flex-wrap: wrap;
 
     &--item {
-        flex: 0 1 380px;
+        flex: 0 1 320px;
         display: flex;
         flex-direction: column;
         @include card(1);
@@ -17,12 +17,14 @@
             border-bottom: 1px solid mix($black, $gray, 10%);
             padding: $spacing;
             position: relative;
+            min-height: 61px;
 
             &-name {
                 white-space: nowrap;
-                max-width: 288px;
+                max-width: 192px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                vertical-align: bottom;
             }
 
             h4 {
@@ -36,7 +38,7 @@
                 letter-spacing: .5px;
                 background-color: transparent;
                 border: 1px solid $black;
-                width: calc(100% - 35px);
+                width: calc(100% - 72px);
                 margin: -10px;
                 padding: 9px;
 
@@ -90,6 +92,40 @@
             }
         }
 
+        &-link {
+            font-weight: 600;
+            letter-spacing: .5px;
+            margin-top:  $spacing;
+            padding: 0px $spacing;
+
+            [class^="icon-"], [class*=" icon-"] {
+                color: $white;
+                position: relative;
+                background-color: $blue;
+                border-radius: 50%;
+                height: 25px;
+                width: 25px;
+                position: relative;
+                top: -6px;
+                text-align: center;
+                margin-right: 5px;
+
+                &:before {
+                    position: relative;
+                    top: 6px;
+                }
+            }
+
+            &:hover {
+                color: mix($blue, $white, 80%);
+                cursor: pointer;
+
+                [class^="icon-"], [class*=" icon-"] {
+                    background-color: mix($blue, $white, 80%);
+                }
+            }
+        }
+
         .add-pile {
             flex: 1 1 auto;
             display: flex;
@@ -110,5 +146,15 @@
         @include breakpoint(md) {
             flex-grow: 1;
         }
+    }
+}
+
+
+
+// PILE ADDITIONAL STYLES ----------------------------------
+// ---------------------------------------------------------
+.group--item-content .list + form  {
+    .flyform--group:first-child() {
+        margin-top: 0px;
     }
 }

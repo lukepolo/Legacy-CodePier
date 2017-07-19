@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Socialite;
-use Bitbucket\API\Users;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\RepositoryProvider;
@@ -12,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationProvider;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
+use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\User\UserRepositoryProvider;
 use App\Models\User\UserNotificationProvider;
@@ -42,12 +42,14 @@ class OauthController extends Controller
     /**
      * Handles provider requests.
      *
+     * @param Request $request
      * @param $provider
-     *
      * @return mixed
      */
-    public function newProvider($provider)
+    public function newProvider(Request $request, $provider)
     {
+        Session::put('url.intended', $request->headers->get('referer'));
+
         $scopes = null;
 
         $providerDriver = Socialite::driver($provider);
@@ -136,7 +138,11 @@ class OauthController extends Controller
                 dd($e->getMessage());
             }
 
-            return redirect(\Auth::check() ? url('my/account') : '/login')->withErrors($e->getMessage());
+            if (\Auth::check()) {
+                return redirect()->intended()->withErrors($e->getMessage());
+            } else {
+                return redirect('/login')->withErrors($e->getMessage());
+            }
         }
     }
 
@@ -212,7 +218,7 @@ class OauthController extends Controller
             'token'         => $user->token,
             'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userLoginProvider->save();
@@ -242,7 +248,7 @@ class OauthController extends Controller
             'user_id'       => \Auth::user()->id,
             'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
             'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userRepositoryProvider->save();
@@ -284,7 +290,7 @@ class OauthController extends Controller
             'expires_in'    => $expiresIn,
             'user_id'       => \Auth::user()->id,
             'refresh_token' => $refreshToken,
-            'tokenSecret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
         ]);
 
         $userServerProvider->save();
@@ -314,7 +320,7 @@ class OauthController extends Controller
             'user_id'       => \Auth::user()->id,
             'expires_in'    => isset($tokenData->expiresIn) ? $tokenData->expiresIn : null,
             'refresh_token' => isset($tokenData->refreshToken) ? $tokenData->refreshToken : null,
-            'tokenSecret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
+            'token_secret'   => isset($tokenData->tokenSecret) ? $tokenData->tokenSecret : null,
         ]);
 
         $userNotificationProvider->save();

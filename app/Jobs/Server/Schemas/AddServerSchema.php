@@ -33,7 +33,7 @@ class AddServerSchema implements ShouldQueue
     {
         $this->server = $server;
         $this->schema = $schema;
-        $this->makeCommand($server, $schema, $siteCommand);
+        $this->makeCommand($server, $schema, $siteCommand, 'Adding');
     }
 
     /**

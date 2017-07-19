@@ -61,13 +61,13 @@
                     @yield('content')
                 </div>
 
-                <events-bar></events-bar>
+                <events-bar v-if="hasSites"></events-bar>
 
             </div>
         </div>
         @stack('scripts')
 
-        @if(\Auth::check())
+        @if(\Auth::check() && second_authed())
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>

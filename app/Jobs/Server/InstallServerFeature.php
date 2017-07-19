@@ -37,6 +37,8 @@ class InstallServerFeature implements ShouldQueue
         $this->feature = $feature;
         $this->service = $service;
         $this->parameters = $parameters;
+
+        $this->makeCommand($server, $server, null, 'Installing new server feature '.implode(' ', explode('_', snake_case($feature))).' on server');
     }
 
     /**
@@ -50,7 +52,10 @@ class InstallServerFeature implements ShouldQueue
     {
         $serverFeatures = $this->server->server_features;
 
-        if (! isset($serverFeatures[$this->service][$this->feature]) || ! $serverFeatures[$this->service][$this->feature]['enabled']) {
+        if (! isset($serverFeatures[$this->service][$this->feature]) ||
+            ! isset($serverFeatures[$this->service][$this->feature]['enabled']) ||
+            ! $serverFeatures[$this->service][$this->feature]['enabled']
+        ) {
             $this->runOnServer(function () use ($serverService, $serverFeatures) {
                 $serverFeatures[$this->service][$this->feature] = [
                     'enabled' => true,

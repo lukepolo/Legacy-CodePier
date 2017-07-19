@@ -35,6 +35,8 @@ class ServerProvisioned extends Notification
             ->line($server->name.' ('.$server->ip.') has been provisioned.')
             ->line('Here is your Root and Mysql Password.')
             ->line('SUDO Password : '.$server->sudo_password)
+            ->line('To login into your server make sure you have a SSH in your account')
+            ->line('Then you can use `ssh coderpi@'.$server->ip.'`')
             ->line('Database Password : '.$server->database_password)
             ->line('Thank you for using our application!');
     }

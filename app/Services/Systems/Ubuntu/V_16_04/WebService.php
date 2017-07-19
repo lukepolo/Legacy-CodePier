@@ -64,6 +64,34 @@ class WebService
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
 
+        $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/catch-all', '
+server {
+    root /opt/codepier/landing;
+}');
+
+        $this->remoteTaskService->writeToFile('/opt/codepier/landing/index.html', '
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            html {
+                background: url("https://cdn.codepier.io/assets/img/docked-with-codepier.png") no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+        </style>
+    </head>
+    <body>
+    </body>
+</html>');
+
         $this->remoteTaskService->run('mkdir -p /etc/nginx/codepier-conf');
 
         $this->remoteTaskService->appendTextToFile('/etc/nginx/fastcgi_params', 'fastcgi_param HTTP_PROXY "";');
@@ -82,7 +110,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
 
         $this->remoteTaskService->run('service nginx restart');
 
-        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'nginx -t && service nginx restart');
+        $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'nginx -t && service nginx reload');
     }
 
     /**
@@ -97,6 +125,7 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         if ($serverType === SystemService::LOAD_BALANCER) {
             $httpPort = '';
             $httpType = 'http';
+
             if ($site->hasActiveSSL()) {
                 $httpPort = ':443';
                 $httpType = 'https';

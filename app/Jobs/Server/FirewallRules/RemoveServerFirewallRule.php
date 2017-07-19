@@ -5,7 +5,6 @@ namespace App\Jobs\Server\FirewallRules;
 use App\Models\Command;
 use App\Models\FirewallRule;
 use App\Models\Server\Server;
-use App\Models\ServerCommand;
 use Illuminate\Bus\Queueable;
 use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
@@ -30,18 +29,12 @@ class RemoveServerFirewallRule implements ShouldQueue
      * @param Server $server
      * @param FirewallRule $firewallRule
      * @param Command $siteCommand
-     * @param ServerCommand|null $serverCommand
      */
-    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null, ServerCommand $serverCommand = null)
+    public function __construct(Server $server, FirewallRule $firewallRule, Command $siteCommand = null)
     {
         $this->server = $server;
         $this->firewallRule = $firewallRule;
-
-        if (empty($severCommand)) {
-            $this->makeCommand($server, $firewallRule, $siteCommand);
-        } else {
-            $this->serverCommand = $serverCommand;
-        }
+        $this->makeCommand($server, $firewallRule, $siteCommand, 'Closing');
     }
 
     /**

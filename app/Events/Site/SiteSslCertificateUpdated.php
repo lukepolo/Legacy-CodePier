@@ -24,7 +24,7 @@ class SiteSslCertificateUpdated
     {
         if ($site->provisionedServers->count()) {
             $activeSsl = $site->activeSsl();
-            $siteCommand = $this->makeCommand($site, $sslCertificate);
+            $siteCommand = $this->makeCommand($site, $sslCertificate, $sslCertificate->active ? 'Activating' : 'Deactivating');
 
             $loadBalancerExists = $site->provisionedServers->first(function ($server) {
                 return $server->type === SystemService::LOAD_BALANCER;
@@ -43,9 +43,14 @@ class SiteSslCertificateUpdated
                 ) {
                     if ($sslCertificate->active) {
                         if ($activeSsl->id != $sslCertificate->id) {
+                            $activeSsl->update([
+                                'active' => false,
+                            ]);
+
                             dispatch(
                                 (new DeactivateServerSslCertificate(
                                     $server,
+                                    $site,
                                     $activeSsl,
                                     $siteCommand
                                 ))->onQueue(config('queue.channels.server_commands'))

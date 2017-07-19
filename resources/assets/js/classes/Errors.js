@@ -2,8 +2,8 @@ class Errors {
     /**
      * Create a new Errors instance.
      */
-    constructor () {
-        this.errors = {}
+    constructor() {
+        this.errors = {};
     }
 
     /**
@@ -11,15 +11,15 @@ class Errors {
      *
      * @param {string} field
      */
-    has (field) {
-        return this.errors.hasOwnProperty(field)
+    has(field) {
+        return this.errors.hasOwnProperty(field);
     }
 
     /**
      * Determine if we have any errors.
      */
-    any () {
-        return Object.keys(this.errors).length > 0
+    any() {
+        return Object.keys(this.errors).length > 0;
     }
 
     /**
@@ -27,9 +27,9 @@ class Errors {
      *
      * @param {string} field
      */
-    get (field) {
+    get(field) {
         if (this.errors[field]) {
-            return this.errors[field][0]
+            return this.errors[field][0];
         }
     }
 
@@ -38,8 +38,8 @@ class Errors {
      *
      * @param {object} errors
      */
-    record (errors) {
-        this.errors = errors
+    record(errors) {
+        this.errors = errors;
     }
 
     /**
@@ -47,15 +47,15 @@ class Errors {
      *
      * @param {string|null} field
      */
-    clear (field) {
+    clear(field) {
         if (field) {
-            delete this.errors[field]
+            delete this.errors[field];
 
-            return
+            return;
         }
 
-        this.errors = {}
+        this.errors = {};
     }
 }
 
-export default Errors
+export default Errors;

@@ -4,10 +4,9 @@
 @import 'base/bootstrap';
 @import 'base/variables';
 @import 'base/mixins';
+@import 'base/transitions/slide';
 
 @import './../../../node_modules/font-awesome/scss/font-awesome';
-@import './../../../node_modules/jcf-forms/scss/jcf_forms';
-
 
 // BASICS --------------------------------------------------
 // ---------------------------------------------------------
@@ -41,14 +40,38 @@ p {
 
 }
 
+hr {
+  border-top-color: $color-divider;
+}
+
 pre {
   font-family: 'Cutive Mono', monospace;
+}
+
+small {
+  color: $color-text-secondary;
 }
 
 .break-word {
   word-break: break-word;
 }
 
+.text-clip {
+  max-width: 185px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: bottom
+}
+
+.placeholder {
+  font-size: 18px;
+  font-family: $font-heading;
+  font-weight: 400;
+  color: $color-text-secondary;
+  letter-spacing: .5px;
+  margin: $spacing 0px;
+}
 
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
@@ -78,12 +101,35 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
   font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: .5px;
   color: rgba($color-text-primary, .5);
   margin: 0px;
 
   &.primary {
     font-weight: 700;
   }
+
+  &.secondary {
+    color: mix($blue, $white, 30%);
+  }
+
+  &.heading {
+    margin-bottom: $spacing;
+  }
+
+  small {
+    text-transform: none;
+    letter-spacing: 0px;
+  }
+}
+
+.h--label {
+  color: rgba($white, .9);
+  font-weight: 600;
+  letter-spacing: .8px;
+  display: inline-block;
+  padding: 5px 10px;
+  border-bottom: 2px solid $color-text-secondary;
 }
 
 
@@ -103,6 +149,16 @@ a {
   }
 }
 
+.text-link {
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: mix($color-primary, $color-text-primary, 50%);
+  }
+}
+
 
 
 // LISTS ---------------------------------------------------
@@ -110,4 +166,45 @@ a {
 button {
   border: none;
   background-color: $color-text-inverse;
+}
+
+
+// TABLES --------------------------------------------------
+// ---------------------------------------------------------
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-top: $spacing;
+  border: 1px solid $color-divider;
+  background-color: $color-background;
+
+  + table {
+    margin-top: $spacing*2;
+  }
+}
+
+th {
+  text-align: left;
+  letter-spacing: .5px;
+  border-bottom: 1px solid $color-divider;
+  color: mix($blue, $white, 30%);
+  background-color: rgba($black, .5);
+}
+
+th,
+td {
+  padding: 8px 10px;
+}
+
+
+tr {
+  &:nth-child(even) {
+    background-color: rgba($black, .3);
+  }
+
+  &:hover {
+    background-color: rgba($white, .1);
+    cursor: pointer;
+  }
+
 }

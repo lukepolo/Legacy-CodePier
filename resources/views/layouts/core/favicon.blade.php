@@ -6,4 +6,4 @@
 <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg" color="#48acf0">
 <link rel="shortcut icon" href="/assets/img/favicon/favicon.ico">
 <meta name="msapplication-config" content="/assets/img/favicon/browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#48acf0">

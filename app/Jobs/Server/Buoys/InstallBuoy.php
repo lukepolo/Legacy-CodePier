@@ -33,7 +33,7 @@ class InstallBuoy implements ShouldQueue
     {
         $this->server = $server;
         $this->buoy = $buoy;
-        $this->makeCommand($server, $buoy, $siteCommand);
+        $this->makeCommand($server, $buoy, $siteCommand, 'Installing');
     }
 
     /**
@@ -42,18 +42,13 @@ class InstallBuoy implements ShouldQueue
      */
     public function handle(BuoyService $buoyService)
     {
-        if ($this->server->buoys->keyBy('id')->get($this->buoy->id)) {
-            $this->updateServerCommand(0, 'Sever already has buoy installed.');
-        } else {
-            $this->runOnServer(function () use ($buoyService) {
-                $buoyService->installBuoy($this->server, $this->buoy);
-            });
+        $this->runOnServer(function () use ($buoyService) {
+            $buoyService->installBuoy($this->server, $this->buoy);
+        });
 
-            if (! $this->wasSuccessful()) {
-                throw new ServerCommandFailed($this->getCommandErrors());
-            }
-
-            $this->server->buoys()->save($this->buoy);
+        if (! $this->wasSuccessful()) {
+            $this->server->buoys()->detach($this->buoy);
+            throw new ServerCommandFailed($this->getCommandErrors());
         }
     }
 }

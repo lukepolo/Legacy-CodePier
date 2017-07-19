@@ -1,44 +1,41 @@
 <template>
     <section>
-        <H3>{{ database }}</H3>
+        <h3><span class="h--label">{{ database }}</span></h3>
 
-        <div class="jcf-form-wrap">
+        <div class="grid-2">
 
             <form @submit.prevent="createSchema" class="floating-labels">
-                <div class="jcf-input-group">
-                    <input type="text" name="name" v-model="schemaForm.name">
-                    <label for="name">
-                        <span class="float-label">Name</span>
-                    </label>
+                <div class="flyform--group">
+                    <input type="text" name="name" v-model="schemaForm.name" placeholder=" ">
+                    <label for="name">Schema Name</label>
                 </div>
 
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Create Schema</button>
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary btn-small" type="submit">Create Schema</button>
                 </div>
-
             </form>
-        </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Schemas</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="schema in schemas">
-                    <td>{{ schema.name }}</td>
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a href="#" @click="deleteSchema(schema.id)"><span class="fa fa-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="table" v-if="schemas.length">
+                <thead>
+                    <tr>
+                        <th>Schemas</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="schema in schemas">
+                        <td>{{ schema.name }}</td>
+                        <td class="table--action">
+                            <tooltip message="Delete">
+                                <span class="table--action-delete">
+                                    <a href="#" @click="deleteSchema(schema.id)"><span class="icon-trash"></span></a>
+                                </span>
+                            </tooltip>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </template>
 

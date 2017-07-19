@@ -14,7 +14,7 @@
             <tbody>
                 <tr v-if="sites" v-for="site in sites">
                     <td>
-                        <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
+                        <router-link :to="{ name: 'site_overview', params : { site_id : site.id} }">
                             {{ site.name }}
                         </router-link>
                     </td>
