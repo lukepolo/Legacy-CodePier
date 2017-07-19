@@ -113,3 +113,27 @@
 .span-12 {
     @include span(12);
 }
+
+
+
+// DROPDOWN INSIDE OF GRID ---------------------------------
+// ---------------------------------------------------------
+.grid--item {
+    + .dropdown-menu {
+        width: 100%;
+        top: calc(100% + 10px);
+        padding: $spacing/2;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            transform: translateX(-50%);
+            border: 10px solid $color-text-inverse;
+            border-top: none;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+    }
+}
