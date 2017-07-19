@@ -4,7 +4,16 @@
 
         <label v-for="provider in server_providers">
 
-            <div class="providers--item" @click="connectOrDisconnectProvider(provider)">
+            <template v-if="isConnected(provider.id)">
+                <input
+                    type="radio"
+                    :value="provider.id"
+                    name="server_provider_id"
+                    v-model="server_provider_id"
+                >
+            </template>
+
+            <div class="providers--item" @click="connectOrSelectProvider(provider)">
 
                 <div class="providers--item-header">
                     <div class="providers--item-icon"><span :class="'icon-' + provider.name.toLowerCase().replace(/\s+/g, '-')"></span></div>
@@ -13,14 +22,12 @@
 
                 <div class="providers--item-footer">
 
-                    <template v-if="isConnected(provider.id)">
-                        <div class="providers--item-footer-disconnect"><h4><span class="icon-check_circle"></span> Disconnect</h4></div>
-                    </template>
-
-                    <template v-else>
-
-                        <div class="providers--item-footer-connect">
-                            <h4>
+                    <div class="providers--item-footer-connect">
+                        <h4>
+                            <template v-if="isConnected(provider.id)">
+                                select
+                            </template>
+                            <template v-else>
                                 <span v-if="provider.oauth">
                                    connect account
                                 </span>
@@ -28,10 +35,9 @@
                                 <template v-else>
                                     <server-provider-form :adding.sync="adding_provider[provider.id]" :provider="provider"></server-provider-form>
                                 </template>
-                            </h4>
-                        </div>
-
-                    </template>
+                            </template>
+                        </h4>
+                    </div>
 
                 </div>
 
@@ -39,20 +45,52 @@
 
         </label>
 
+        <label>
+            <input
+                type="radio"
+                value="custom"
+                name="server_provider_id"
+                v-model="server_provider_id"
+            >
+
+            <template v-if="is_custom">
+                <input type="hidden" name="custom" value="true">
+            </template>
+
+            <div class="providers--item" @click="selectCustom">
+
+                <div class="providers--item-header">
+                    <div class="providers--item-name">Custom</div>
+                    <small>
+                        This must be a fresh Ubuntu 16.04 system
+                    </small>
+                </div>
+
+                <div class="providers--item-footer">
+                    <div class="providers--item-footer-connect">
+                        <h4>
+                            select
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+        </label>
+
     </div>
 
 </template>
 
 <script>
-    import ServerProviderForm from '../components/ServerProviderForm.vue'
+    import ServerProviderForm from './../../user/components/ServerProviderForm.vue'
     export default {
-        props: [],
+        props: ['server_provider_id', 'is_custom'],
         components : {
             ServerProviderForm
         },
         data() {
           return {
-              adding_provider : {}
+              adding_provider : {},
           }
         },
         computed: {
@@ -64,9 +102,14 @@
             }
         },
         methods: {
-            connectOrDisconnectProvider(provider) {
+            selectCustom() {
+                this.$emit('update:is_custom', true)
+                this.$emit('update:server_provider_id', null)
+            },
+            connectOrSelectProvider(provider) {
                 if(this.isConnected(provider.id)) {
-                    this.disconnectProvider(provider)
+                    this.$emit('update:is_custom', false)
+                    this.$emit('update:server_provider_id', provider.id)
                 } else {
                     if(provider.oauth) {
                         window.location = this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
@@ -78,25 +121,9 @@
             isConnected: function (server_provider_id) {
                 return _.find(this.user_server_providers, {'server_provider_id': server_provider_id});
             },
-            disconnectProvider: function (provider) {
-                let server_provider = _.find(this.user_server_providers, function (server_provider) {
-                    return server_provider.server_provider_id === provider.id;
-                }).id;
-
-                this.$store.dispatch('user_server_providers/destroy', {
-                    user: this.$store.state.user.user.id,
-                    server_provider: server_provider
-                });
-            },
             user_repository_providers() {
                 return this.$store.state.user_server_providers.providers
-            },
-
-            registerProvider(provider) {
-                window.location.href = this.action('Auth\OauthController@newProvider', {
-                    provider : provider
-                })
-            },
+            }
         },
         created() {
             this.$store.dispatch('server_providers/get');
