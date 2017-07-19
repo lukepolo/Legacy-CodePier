@@ -7978,7 +7978,7 @@ a.list--item:hover:before {
 }
 
 .lifeline--item:not(:last-child) {
-  border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+  border-bottom: 1px solid transparent;
 }
 
 .lifeline--btns span + span {
@@ -7987,6 +7987,54 @@ a.list--item:hover:before {
 
 .lifeline .confirm-container {
   margin: 0px;
+}
+
+.server-type-list {
+  min-width: 230px;
+}
+
+.server-type-list p {
+  padding: 0px 20px;
+}
+
+.server-type-list ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+.server-type-list li a {
+  cursor: pointer;
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  color: #B6B6B6;
+  padding: 13.33333333px 20px;
+  position: relative;
+}
+
+.server-type-list li a:hover,
+.server-type-list li a:active,
+.server-type-list li a:focus {
+  color: #48ACF0;
+}
+
+.server-type-list li a:hover:after,
+.server-type-list li a:active:after,
+.server-type-list li a:focus:after {
+  content: '\F105';
+  font-family: 'icomoon';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  color: #48ACF0;
+  font-size: 1.5em;
+}
+
+.server-type-list li:not(:last-child) {
+  border-bottom: 1px solid #2B2B2B;
 }
 
 /* Make clicks pass-through */
