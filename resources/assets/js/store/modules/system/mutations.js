@@ -1,3 +1,3 @@
 export const setVersion = (state, version) => {
-    state.version = version;
+  state.version = version;
 };
