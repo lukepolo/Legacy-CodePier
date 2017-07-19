@@ -4,7 +4,7 @@
             Select the tasks needed to create your site.
         </h2>
 
-        <form @submit.prevent="saveWorkflow" class="floating-labels">
+        <form @submit.prevent="saveWorkflow">
             <div class="grid-2">
                 <div class="grid-item">
                     <div class="flyform--group">

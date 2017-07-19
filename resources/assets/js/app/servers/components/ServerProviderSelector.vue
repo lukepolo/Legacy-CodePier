@@ -61,10 +61,11 @@
 
                 <div class="providers--item-header">
                     <div class="providers--item-name">Custom</div>
-                    <small>
-                        This must be a fresh Ubuntu 16.04 system
-                    </small>
                 </div>
+
+                <small>
+                    This must be a fresh Ubuntu 16.04 system
+                </small>
 
                 <div class="providers--item-footer">
                     <div class="providers--item-footer-connect">
