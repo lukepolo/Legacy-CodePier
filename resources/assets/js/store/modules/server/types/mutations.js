@@ -1,3 +1,3 @@
 export const setAll = (state, { response }) => {
-    state.types = response;
+  state.types = response;
 };
