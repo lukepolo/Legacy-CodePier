@@ -22,7 +22,7 @@
                         <div class="providers--item-footer-connect">
                             <h4>
                                 <span v-if="provider.oauth">
-                                   connect account
+                                   <span class="icon-link"></span> Connect Account
                                 </span>
 
                                 <template v-else>

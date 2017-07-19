@@ -111,7 +111,6 @@
 // SMALL LEFT TABS -----------------------------------------
 // ---------------------------------------------------------
 .tab-left-small {
-  margin-left: -$spacing*2;
 
   .nav-tabs {
     li a {
@@ -119,6 +118,10 @@
       font-size: .8em;
     }
   }
+}
+
+.tab-content .tab-left-small {
+  margin-left: -$spacing*2;
 }
 
 

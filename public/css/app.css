@@ -4974,15 +4974,12 @@ h6 small {
 }
 
 .h--label {
-  -webkit-box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
-          box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
   color: rgba(255, 255, 255, 0.9);
   font-weight: 600;
   letter-spacing: .8px;
   display: inline-block;
-  background-color: rgba(43, 43, 43, 0.7);
   padding: 5px 10px;
-  border-radius: 3px;
+  border-bottom: 2px solid #B6B6B6;
 }
 
 a {
@@ -7892,6 +7889,10 @@ textarea:focus {
   position: relative;
 }
 
+.server-status-text {
+  padding-bottom: 10px;
+}
+
 .server-progress-number {
   position: absolute;
   right: 0px;
@@ -8613,6 +8614,12 @@ a.list--item:hover:before {
           flex: 1 0 auto;
 }
 
+.providers--item small {
+  display: block;
+  text-align: center;
+  padding: 5px 10px;
+}
+
 @media (max-width: 1900px) {
   .tab-container:not(.in-workflow) .providers label {
     grid-column-end: span 2;
@@ -8754,13 +8761,13 @@ a.list--item:hover:before {
   border-bottom: 15px solid transparent;
 }
 
-.tab-left-small {
-  margin-left: -40px;
-}
-
 .tab-left-small .nav-tabs li a {
   padding: 13.33333333px 20px;
   font-size: .8em;
+}
+
+.tab-content .tab-left-small {
+  margin-left: -40px;
 }
 
 .wizard {

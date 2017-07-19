@@ -4974,15 +4974,12 @@ h6 small {
 }
 
 .h--label {
-  -webkit-box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
-          box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
   color: rgba(255, 255, 255, 0.9);
   font-weight: 600;
   letter-spacing: .8px;
   display: inline-block;
-  background-color: rgba(43, 43, 43, 0.7);
   padding: 5px 10px;
-  border-radius: 3px;
+  border-bottom: 2px solid #3C3F41;
 }
 
 a {

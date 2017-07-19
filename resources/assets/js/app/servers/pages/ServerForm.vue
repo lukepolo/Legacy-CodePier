@@ -23,88 +23,95 @@
                         <server-provider-selector :server_provider_id.sync="server_provider_id" :is_custom.sync="is_custom"></server-provider-selector>
 
                         <template v-if="is_custom || server_provider_id">
-
-                            <div class="jcf-input-group">
-                                <input type="text" id="server_name" name="server_name" required>
-                                <label for="server_name"><span class="float-label">Name</span></label>
+                            <div class="grid-2">
+                                <div class="flyform--group">
+                                    <input type="text" id="server_name" name="server_name" placeholder=" " required>
+                                    <label for="server_name">Server Name</label>
+                                </div>
                             </div>
 
-                            <div class="jcf-input-group" v-if="is_custom">
-                                <input type="number" name="port" required value="22">
-                                <label for="port">
+                            <div class="grid-2">
+                                <div class="flyform--group" v-if="is_custom">
+
+                                    <input type="number" name="port" required value="22" placeholder=" ">
+                                    <label for="port"class="flyform--group-iconlabel">Number of Releases to keep</label>
+
+
                                     <tooltip message="We will use this port ssh connections" size="medium">
                                         <span class="fa fa-info-circle"></span>
                                     </tooltip>
-                                    <span class="float-label">SSH Port</span>
-                                </label>
+                                </div>
                             </div>
 
                             <template v-if="server_provider_id && server_options.length && server_regions.length">
 
-                                <div class="jcf-input-group">
-                                    <div class="input-question">Size</div>
-
-                                    <div class="select-wrap">
+                                <div class="flyform--group">
+                                    <label>Server Size</label>
+                                    <div class="flyform--group-select">
                                         <select name="server_option">
                                             <option v-for="option in server_options" :value="option.id">
                                                 {{ option.memory }} MB RAM
-                                                 - {{ option.cpus }} CPUS
-                                                 - {{ option.space }} SSD
-                                                 - ${{ option.priceHourly }} / Hour
-                                                 - ${{ option.priceMonthly }} / Month
+                                                - {{ option.cpus }} CPUS
+                                                - {{ option.space }} SSD
+                                                - ${{ option.priceHourly }} / Hour
+                                                - ${{ option.priceMonthly }} / Month
                                             </option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="jcf-input-group">
-                                    <div class="input-question">Region</div>
-
-                                    <div class="select-wrap">
+                                <div class="flyform--group">
+                                    <label>Region</label>
+                                    <div class="flyform--group-select">
                                         <select name="server_region">
                                             <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="input-group input-checkbox" v-if="server_provider_features.length">
-                                    <div class="input-question">Features</div>
-                                    <template v-for="feature in server_provider_features">
+                                <div class="flyform--group">
+                                    <label>Server Features</label>
+                                </div>
+
+                                <template v-for="feature in server_provider_features">
+                                    <div class="flyform--group-checkbox">
                                         <label>
                                             <input
-                                                type="checkbox"
-                                                name="server_provider_features[]"
-                                                :value="feature.id"
+                                                    type="checkbox"
+                                                    name="server_provider_features[]"
+                                                    :value="feature.id"
                                             >
                                             <span class="icon"></span>{{ 'Enable ' + feature.feature }}
                                             <small>{{ feature.cost }}</small>
                                         </label>
-                                    </template>
-                                </div>
+                                    </div>
+                                </template>
                             </template>
 
-                            <div class="jcf-input-group">
-                                <label for="web_directory">
+
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-links">
                                     <h3 v-if="$route.params.site_id">
-                                        <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
+                                        <tooltip message="We have configured your server based on your application language and framework." size="large">
                                             <span class="fa fa-info-circle"></span>
                                         </tooltip>
                                         Your server has been customized for your application<br>
                                         <small>
-                                            <a @click="customize_server = !customize_server">(customize)</a>
+                                            <a @click="customize_server = !customize_server">Customize Server Settings (Advanced Users)</a>
                                         </small>
                                     </h3>
                                     <h3 v-else>
-                                        Setup your server :
+                                        Set up your server :
                                     </h3>
-                                </label>
+                                </div>
                             </div>
 
                             <server-features :update="false" v-show="customize_server"></server-features>
 
-                            <br><br><br>
-                            <div class="btn-footer">
-                                <button type="submit" class="btn btn-primary">Create Server</button>
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-btns">
+                                    <button type="submit" class="btn btn-primary">Create Server</button>
+                                </div>
                             </div>
 
                         </template>

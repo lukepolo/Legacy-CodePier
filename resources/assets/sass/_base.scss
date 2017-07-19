@@ -124,14 +124,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .h--label {
-  @include card(1);
   color: rgba($white, .9);
   font-weight: 600;
   letter-spacing: .8px;
   display: inline-block;
-  background-color: rgba($black, .7);
   padding: 5px 10px;
-  border-radius: 3px;
+  border-bottom: 2px solid $color-text-secondary;
 }
 
 

@@ -272,6 +272,10 @@
   position: relative;
 }
 
+.server-status-text {
+  padding-bottom: $spacing/2;
+}
+
 .server-progress-number {
   position: absolute;
   right: 0px;
