@@ -48,7 +48,7 @@
         <label>
             <input
                 type="radio"
-                value="custom"
+                value="3"
                 name="server_provider_id"
                 v-model="server_provider_id"
             >

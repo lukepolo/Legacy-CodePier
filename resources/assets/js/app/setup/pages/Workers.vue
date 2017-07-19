@@ -177,7 +177,7 @@
                 let site = this.$store.state.user_sites.site
 
                 if(site) {
-                    this.form.command = site.path
+                    this.form.command = site.path + (site.zerotime_deployment ? '/current/' : '/')
                 }
 
                 return site
