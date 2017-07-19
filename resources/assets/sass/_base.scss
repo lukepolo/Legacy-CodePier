@@ -64,6 +64,15 @@ small {
   vertical-align: bottom
 }
 
+.placeholder {
+  font-size: 18px;
+  font-family: $font-heading;
+  font-weight: 400;
+  color: $color-text-secondary;
+  letter-spacing: .5px;
+  margin: $spacing 0px;
+}
+
 // FORMS ---------------------------------------------------
 // ---------------------------------------------------------
 input {
@@ -139,6 +148,16 @@ a {
     color: mix($white, $blue, 50%);
     text-decoration: none;
     cursor: pointer;
+  }
+}
+
+.text-link {
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: mix($color-primary, $color-text-primary, 50%);
   }
 }
 

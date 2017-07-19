@@ -4895,6 +4895,15 @@ small {
   vertical-align: bottom;
 }
 
+.placeholder {
+  font-size: 18px;
+  font-family: "Open Sans", serif;
+  font-weight: 400;
+  color: #B6B6B6;
+  letter-spacing: .5px;
+  margin: 20px 0px;
+}
+
 input {
   background-color: transparent;
 }
@@ -4987,6 +4996,16 @@ a:active {
   color: #a4d6f8;
   text-decoration: none;
   cursor: pointer;
+}
+
+.text-link {
+  cursor: pointer;
+}
+
+.text-link:hover,
+.text-link:focus,
+.text-link:active {
+  color: #a4d6f8;
 }
 
 button {
@@ -5794,6 +5813,25 @@ a.item:hover:before {
   grid-column-end: span 12;
 }
 
+.grid--item + .dropdown-menu {
+  width: 100%;
+  top: calc(100% + 10px);
+  padding: 10px;
+}
+
+.grid--item + .dropdown-menu:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border: 10px solid #2B2B2B;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
 .group {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -6329,7 +6367,7 @@ a.item:hover:before {
   font-weight: normal;
   margin: 0px;
   padding: 0px;
-  z-index: 90;
+  z-index: 160;
 }
 
 .dropdown-menu.dropup {
@@ -6801,6 +6839,11 @@ a.item:hover:before {
   transition: all 0.5s;
 }
 
+.flyform--group-nomargin {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .flyform--group-prefix,
 .flyform--group-postfix {
   display: -webkit-box;
@@ -6972,6 +7015,19 @@ a.item:hover:before {
 .tab-content .flyform--footer {
   margin-left: -40px;
   margin-right: -40px;
+}
+
+.dropdown .flyform--group input,
+.dropdown .flyform--group textarea {
+  border-color: #3C3F41;
+}
+
+.dropdown .btn:not(.btn-success):not(.btn-danger) {
+  background-color: #3C3F41;
+}
+
+.dropdown .confirm--btns > .btn:not(.btn-success):not(.btn-danger) {
+  background-color: #2B2B2B;
 }
 
 .flyform--group-checkbox,

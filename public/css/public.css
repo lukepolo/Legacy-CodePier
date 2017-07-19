@@ -4895,6 +4895,15 @@ small {
   vertical-align: bottom;
 }
 
+.placeholder {
+  font-size: 18px;
+  font-family: "Open Sans", serif;
+  font-weight: 400;
+  color: #3C3F41;
+  letter-spacing: .5px;
+  margin: 20px 0px;
+}
+
 input {
   background-color: transparent;
 }
@@ -4987,6 +4996,16 @@ a:active {
   color: #a4d6f8;
   text-decoration: none;
   cursor: pointer;
+}
+
+.text-link {
+  cursor: pointer;
+}
+
+.text-link:hover,
+.text-link:focus,
+.text-link:active {
+  color: #3a6c8e;
 }
 
 button {
@@ -5299,6 +5318,11 @@ button[disabled=disabled] {
   transition: all 0.5s;
 }
 
+.flyform--group-nomargin {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .flyform--group-prefix,
 .flyform--group-postfix {
   display: -webkit-box;
@@ -5470,6 +5494,19 @@ button[disabled=disabled] {
 .tab-content .flyform--footer {
   margin-left: -40px;
   margin-right: -40px;
+}
+
+.dropdown .flyform--group input,
+.dropdown .flyform--group textarea {
+  border-color: #FFFFFF;
+}
+
+.dropdown .btn:not(.btn-success):not(.btn-danger) {
+  background-color: #FFFFFF;
+}
+
+.dropdown .confirm--btns > .btn:not(.btn-success):not(.btn-danger) {
+  background-color: #FFFFFF;
 }
 
 .flyform--group-checkbox,

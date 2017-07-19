@@ -1,6 +1,15 @@
 <template>
     <div class="grid--item">
         <h3 class="heading text-center">Lifelines</h3>
+
+        <div v-if="!lifeLines.length">
+            <p>Lifelines enable you to add monitoring to your services by pinging a URL periodically. If the time goes over your set threshold, CodePier will let you know.</p>
+            <div class="placeholder text-center">You don't have any lifelines active.</div>
+        </div>
+        <div v-else>
+            <p>Add the provided URL (<span class="icon-clipboard"></span>) to your service to start monitoring.<br></p>
+        </div>
+
         <div class="lifeline">
             <life-line v-for="lifeLine in lifeLines" :key="lifeLine.id" :lifeLine="lifeLine" :site="site"></life-line>
         </div>
@@ -38,7 +47,7 @@
         <template v-else>
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <span class="btn btn-primary" @click="showLifelineForm= !showLifelineForm">Add Lifeline</span>
+                    <span class="btn btn-small btn-primary" @click="showLifelineForm= !showLifelineForm">Add Lifeline</span>
                 </div>
             </div>
         </template>
