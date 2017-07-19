@@ -91,7 +91,10 @@ class ServerController extends Controller
         }
 
         if ($request->has('custom')) {
-            $key = ProvisioningKey::generate(\Auth::user(), $server);
+
+            ProvisioningKey::generate(\Auth::user(), $server);
+
+            $server->refresh();
 
             $server->update([
                 'custom_server_url' => $this->getCustomServerScriptUrl(
