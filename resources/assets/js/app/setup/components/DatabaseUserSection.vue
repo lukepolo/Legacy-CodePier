@@ -30,7 +30,7 @@
                 </div>
             </form>
 
-            <table class="table">
+            <table class="table" v-if="schemaUsers.length">
                 <thead>
                 <tr>
                     <th>User</th>

@@ -15,7 +15,7 @@
                 </div>
             </form>
 
-            <table class="table">
+            <table class="table" v-if="schemas.length">
                 <thead>
                     <tr>
                         <th>Schemas</th>
