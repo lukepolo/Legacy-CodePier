@@ -91,7 +91,6 @@ class ServerController extends Controller
         }
 
         if ($request->has('custom')) {
-
             ProvisioningKey::generate(\Auth::user(), $server);
 
             $server->refresh();
