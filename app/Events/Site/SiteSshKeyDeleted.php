@@ -24,7 +24,7 @@ class SiteSshKeyDeleted
         $site->sshKeys()->detach($sshKey);
 
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $sshKey);
+            $siteCommand = $this->makeCommand($site, $sshKey, 'Removing');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(

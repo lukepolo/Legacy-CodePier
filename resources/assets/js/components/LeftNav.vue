@@ -1,126 +1,62 @@
 <template>
-    <section id="left" class="section-column">
-        <h3 class="section-header">{{ currentPile.name }} Sites</h3>
+
+    <section id="left" class="section-column" v-if="hasSites">
+
+        <h3 class="section-header">
+            <template v-if="currentPile.name && currentPile.name.length > 17">
+                <tooltip :message="currentPile.name" placement="bottom-right">
+                    <span class="text-clip">{{ currentPile.name }}</span>
+                </tooltip>
+            </template>
+            <template v-else>
+                <span class="text-clip">{{ currentPile.name }}</span>
+            </template>
+
+            Sites
+        </h3>
 
         <div class="section-content">
+
             <div class="site-container">
+
                 <div class="site" v-for="site in sites">
-                    <router-link :to="{ name: 'site_repository', params : { site_id : site.id} }">
-                    <div class="site-name">
-                        <tooltip
-                            class="event-status"
-                            :class="{
-                                'event-status-neutral' : site.last_deployment_status === 'Queued',
-                                'event-status-success' : site.last_deployment_status === 'Completed',
-                                'event-status-error' : site.last_deployment_status === 'Failed',
-                                'icon-spinner' : site.last_deployment_status === 'Running'
-                            }"
-                            :message="getDeploymentStatusText(site)"
-                            placement="right"
-                        >
-                        </tooltip>
-                        {{ site.name }}
-                        <site-deploy :site="site"></site-deploy>
-                    </div>
-                </router-link>
-                </div>
-                <div class="jcf-form-wrap">
-                    <form @submit.prevent="saveSite" v-if="adding_site" class="floating-labels">
-                        <div class="jcf-input-group">
-                            <input name="domain" v-model="form.domain" type="text">
-                            <label for="domain">
-                                <span class="float-label">
-                                    <template v-if="!form.domainless">
-                                        Domain
-                                    </template>
-                                    <template v-else>
-                                        Alias
-                                    </template>
-                                </span>
-                            </label>
-                        </div>
-
-                        <input type="checkbox" v-model="form.domainless"> Not a domain
-                        <button class="btn btn-primary">Save</button>
-                    </form>
+                    <site :site="site"></site>
                 </div>
 
-                <div class="btn-container text-center" v-if="current_pile_id">
-                    <div @click="adding_site = !adding_site" class="btn" :class="{ 'btn-primary' : !adding_site}">
-                        <template v-if="!adding_site">
-                            Create Site
-                        </template>
-                        <template v-else>
-                            Cancel
-                        </template>
+                <site-form :pile="currentPile.id"></site-form>
 
-                    </div>
-                </div>
-
-                <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
-                    <router-link :to="{ name : 'user_ssh_keys' }">
-                        Create A SSH Key
-                        <div class="small">You have not created an account ssh key</div>
-                    </router-link>
-                </div>
-
-                <div class="slack-invite" v-if="!user.invited_to_slack">
-                    <a :href="slackInviteLink()">
-                        <i class="fa fa-slack" aria-hidden="true"></i>
-                        Get Invite to Slack
-                    </a>
-                </div>
             </div>
 
+            <div class="slack-invite" v-if="userSshKeys && !userSshKeys.length">
+                <router-link :to="{ name : 'user_ssh_keys' }">
+                    Create A SSH Key
+                    <div class="small">You have not created an account ssh key</div>
+                </router-link>
+            </div>
+
+            <div class="slack-invite" v-if="!user.invited_to_slack">
+                <a :href="slackInviteLink()">
+                    <i class="fa fa-slack" aria-hidden="true"></i>
+                    Get Invite to Slack
+                </a>
+            </div>
         </div>
 
     </section>
+
 </template>
 
 <script>
-    import SiteDeploy from './SiteDeploy.vue'
+
+    import SiteForm from './SiteForm.vue'
+    import Site from './left-nav-components/Site.vue'
+
     export default {
         components: {
-            SiteDeploy
-        },
-        data () {
-            return {
-                adding_site: false,
-                form: {
-                    domain: null,
-                    domainless: false,
-                    pile_id: this.$store.state.user.user.current_pile_id
-                }
-            }
+            Site,
+            SiteForm
         },
         methods: {
-            saveSite () {
-                this.$store.dispatch('user_sites/store', this.form).then((site) => {
-                    if (site) {
-                        this.adding_site = false
-                    }
-                })
-            },
-            getDeploymentStatusText (site) {
-                let status = null
-
-                switch (site.last_deployment_status) {
-                    case 'Completed':
-                        status = 'All Good'
-                        break
-                    case 'Failed' :
-                        status = 'Something Failed'
-                        break
-                    case 'Queued' :
-                        status = 'Queued'
-                        break
-                    default :
-                        status = 'Deploying'
-                        break
-                }
-
-                return status
-            },
             slackInviteLink () {
                 return this.action('User\UserController@slackInvite')
             }

@@ -55,6 +55,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
     'url_stats' => env('APP_STATS_URL'),
     'url_provision' => env('APP_PROVISION_URL'),
+    'url_lifelines' => env('APP_LIFELINE_URL'),
 
     /*
     |--------------------------------------------------------------------------

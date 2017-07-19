@@ -9,6 +9,7 @@ use App\Models\CronJob;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use App\Classes\DiskSpace;
+use App\Models\SchemaUser;
 use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
@@ -59,12 +60,12 @@ class ServerService implements ServerServiceContract
      */
     public function create(ServerProvider $serverProvider, Server $server)
     {
-        $sshKey = $this->remoteTaskService->createSshKey();
-
-        $server->public_ssh_key = $sshKey['publickey'];
-        $server->private_ssh_key = $sshKey['privatekey'];
-
-        $server->save();
+        if (empty($server->public_ssh_key) || empty($server->private_ssh_key)) {
+            $sshKey = $this->remoteTaskService->createSshKey();
+            $server->public_ssh_key = $sshKey['publickey'];
+            $server->private_ssh_key = $sshKey['privatekey'];
+            $server->save();
+        }
 
         return $this->getProvider($serverProvider)->create($server);
     }
@@ -153,16 +154,6 @@ class ServerService implements ServerServiceContract
      */
     public function provision(Server $server)
     {
-        if (empty($server->database_password)) {
-            $server->database_password = str_random(32);
-        }
-
-        if (empty($server->sudo_password)) {
-            $server->sudo_password = str_random(32);
-        }
-
-        $server->save();
-
         if (! $this->systemService->provision($server)) {
             return false;
         }
@@ -364,6 +355,10 @@ class ServerService implements ServerServiceContract
                 $this->remoteTaskService->writeToFile($sslCertificate->cert_path, $sslCertificate->cert);
                 break;
         }
+
+        $sslCertificate->update([
+            'active' => true,
+        ]);
     }
 
     /**
@@ -408,11 +403,15 @@ class ServerService implements ServerServiceContract
      */
     private function installLetsEncryptSsl(Server $server, SslCertificate $sslCertificate)
     {
+        // TODO - if we already have the key and cert we dont need to run this,
         $this->remoteTaskService->ssh($server);
 
         $this->remoteTaskService->run(
             'letsencrypt certonly --non-interactive --agree-tos --email '.$server->user->email.' --rsa-key-size 4096 --webroot -w /home/codepier/ --expand -d '.implode(' -d', explode(',', $sslCertificate->domains))
         );
+
+        // TODO - this needs to happen differently since load balancers may control these values, so they need to trigger us
+        // to say its been changed or something?
 
         if (! $server->cronJobs
             ->where('job', '* */12 * * * letsencrypt renew')
@@ -434,6 +433,7 @@ class ServerService implements ServerServiceContract
 
         $sslCertificate->key = $this->getFile($server, $sslCertificate->key_path);
         $sslCertificate->cert = $this->getFile($server, $sslCertificate->cert_path);
+        $sslCertificate->save();
     }
 
     /**
@@ -492,6 +492,16 @@ class ServerService implements ServerServiceContract
     public function removeSchema(Server $server, Schema $schema)
     {
         $this->getService(SystemService::DATABASE, $server)->removeSchema($schema);
+    }
+
+    public function addSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->addSchemaUser($schemaUser);
+    }
+
+    public function removeSchemaUser(Server $server, SchemaUser $schemaUser)
+    {
+        $this->getService(SystemService::DATABASE, $server)->removeSchemaUser($schemaUser);
     }
 
     /**

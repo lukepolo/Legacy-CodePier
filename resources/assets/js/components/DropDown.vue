@@ -5,7 +5,15 @@
             <a href="#" class="dropdown-toggle">
                 <span :class="icon"></span>
                 <span class="muted" v-if="muted">{{ muted }} :</span>
-                {{ name }}
+
+                <template v-if="name && name.length > 18">
+                    <tooltip :message="name" placement="bottom">
+                        <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
+                    </tooltip>
+                </template>
+                <template v-else>
+                    <span @click.stop="show($event.target)" class="text-clip">{{ name }}</span>
+                </template>
             </a>
         </slot>
 

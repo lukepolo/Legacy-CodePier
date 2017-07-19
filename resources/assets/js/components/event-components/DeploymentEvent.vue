@@ -50,11 +50,13 @@
         <div class="events--item-commit">
             <a target="_blank" :href="getRepositoryUrl(event)"><span class="icon-github"></span> </a>
 
-            <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } ">
+            <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : event.id, site : event.site_id } " v-if="event.status === 'Completed'">
                 Rollback
             </confirm>
         </div>
-        <div class="events--item-time">{{ timeAgo(event.created_at) }}</div>
+        <div class="events--item-time">
+            <time-ago :time="event.created_at"></time-ago>
+        </div>
     </div>
 </template>
 

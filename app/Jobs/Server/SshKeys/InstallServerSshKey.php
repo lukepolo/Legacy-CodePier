@@ -33,7 +33,7 @@ class InstallServerSshKey implements ShouldQueue
     {
         $this->server = $server;
         $this->sshKey = $sshKey;
-        $this->makeCommand($server, $sshKey, $siteCommand);
+        $this->makeCommand($server, $sshKey, $siteCommand, 'Installing');
     }
 
     /**

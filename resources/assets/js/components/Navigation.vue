@@ -7,7 +7,7 @@
             </router-link>
         </div>
 
-        <ul class="nav nav-left nav-piles">
+        <ul class="nav nav-left nav-piles" v-if="hasSites">
             <drop-down :name="currentPile ? currentPile.name : '-'" icon="icon-layers" class="arrow">
                 <li>
                     <span class="dropdown-heading">Change Pile</span>
@@ -17,7 +17,16 @@
                         <a @click="changePile(pile.id)"
                            :class="{ selected : (currentPile && currentPile.id === pile.id) }">
                             <span class="icon-layers"></span>
-                            {{ pile.name }}
+
+                            <template v-if="pile.name && pile.name.length > 18">
+                                <tooltip :message="pile.name" placement="bottom">
+                                    <span  class="text-clip">{{ pile.name }}</span>
+                                </tooltip>
+                            </template>
+                            <template v-else>
+                                <span  class="text-clip">{{ pile.name }}</span>
+                            </template>
+
                         </a>
                     </li>
                 </template>
@@ -32,24 +41,23 @@
 
         <ul class="nav navbar-right nav-right">
 
-            <template v-if="local()">
-                <li class="search-container">
-                    <div class="search-form" :class="{ open : search }">
-                        <input ref='search' type="text" placeholder="search..." v-model="form.query">
-                    </div>
-                    <a @click="toggleSearch()"><span class="icon-search"></span></a>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>
-                </li>
-
+            <template>
+                <!--<li class="search-container">-->
+                    <!--<div class="search-form" :class="{ open : search }">-->
+                        <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->
+                    <!--</div>-->
+                    <!--<a @click="toggleSearch()"><span class="icon-search"></span></a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<router-link :to="{ name: 'bitts_market_place' }"><span class="icon-bitts"></span> Bitts</router-link>-->
+                <!--</li>-->
                 <li>
                     <router-link :to="{ name: 'buoy_market_place' }"><span class="icon-buoy"></span> Buoys</router-link>
                 </li>
             </template>
 
 
-            <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled()">
+            <drop-down muted="Team" :name="currentTeam" v-if="teamsEnabled">
                 <li>
                     <span class="dropdown-heading">Change Team</span>
                 </li>
@@ -68,7 +76,7 @@
                <li>
                    <router-link :to="{ name: 'my_account' }"><span class="icon-person"></span>My Account</router-link>
                </li>
-               <li v-if="teamsEnabled()">
+               <li v-if="teamsEnabled">
                    <router-link :to="{ name: 'teams' }"><span class="icon-people"></span>My Teams</router-link>
                </li>
                <li>
@@ -77,7 +85,7 @@
                <li>
                    <router-link :to="{ name: 'servers' }"><span class="icon-server"></span>My Servers</router-link>
                </li>
-               <template v-if="isAdmin()">
+               <template v-if="isAdmin">
                    <br>
                    Admin
                    <li>

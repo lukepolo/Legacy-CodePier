@@ -7,6 +7,7 @@ use App\Models\Site\Site;
 use App\Models\User\User;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
+use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
@@ -17,6 +18,7 @@ use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\Server\ServerObserver;
+use App\Observers\Site\LifelineObserver;
 use App\Models\Site\SiteServerDeployment;
 use App\Observers\SslCertificateObserver;
 use Illuminate\Support\Facades\Validator;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Site::observe(SiteObserver::class);
         Server::observe(ServerObserver::class);
+        Lifeline::observe(LifelineObserver::class);
         SslCertificate::observe(SslCertificateObserver::class);
         ServerCommand::observe(ServerCommandObserver::class);
         SiteServerDeployment::observe(ServerDeploymentObserver::class);
@@ -56,9 +59,17 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
         });
 
+        Validator::extend('greaterThanZero', function ($attribute, $value) {
+            return $value > 0;
+        });
+
         // http://stackoverflow.com/questions/2821043/allowed-characters-in-linux-environment-variable-names
         // https://regex101.com/r/nBGmWp/1
         Validator::extend('environmentVariable', function ($attribute, $value) {
+            return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
+        });
+
+        Validator::extend('databaseName', function ($attribute, $value) {
             return preg_match('/^([a-zA-Z_])([a-zA-Z0-9_])+$/', $value) > 0;
         });
 

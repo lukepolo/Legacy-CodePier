@@ -56,11 +56,17 @@ class SiteController extends Controller
      */
     public function store(SiteRequest $request)
     {
+        $isDomain = is_domain($request->get('domain'));
+
         $site = Site::create([
             'user_id'             => \Auth::user()->id,
-            'domain'              => $request->get('domainless') == true ? 'default' : $request->get('domain'),
+            'domain'              => $isDomain ? $request->get('domain') : 'default',
             'pile_id'             => $request->get('pile_id'),
             'name'                => $request->get('domain'),
+            'workflow'            => \Auth::user()->workflow ? null : [],
+            'wildcard_domain'     => $request->get('wildcard_domain', 0),
+            'keep_releases'       => 10,
+            'zerotime_deployment' => true,
         ]);
 
         return response()->json($site);
@@ -97,9 +103,6 @@ class SiteController extends Controller
             'framework'                   => $request->get('framework'),
             'repository'                  => $request->get('repository'),
             'web_directory'               => $request->get('web_directory'),
-            'keep_releases'               => $request->get('keep_releases', 10),
-            'wildcard_domain'             => $request->get('wildcard_domain', 0),
-            'zerotime_deployment'         => $request->get('zerotime_deployment', 0),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
 
@@ -141,15 +144,21 @@ class SiteController extends Controller
     /**
      * Deploys a site.
      * @param DeploySiteRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deploy(DeploySiteRequest $request, $siteId)
     {
         $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
-            $this->dispatch(
-                (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
-            );
+            $lastDeploymentStatus = $site->last_deployment_status;
+            if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
+                $this->dispatch(
+                    (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
+                );
+            } else {
+                return response()->json('You have a deployment currently running', 409);
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\SecondAuthController;
+
 if (! function_exists('current_version')) {
 
     /**
@@ -64,5 +66,38 @@ if (! function_exists('create_redis_hash')) {
     function create_redis_hash($key = 'default')
     {
         return \Vinkla\Hashids\Facades\Hashids::encode(Illuminate\Support\Facades\Redis::command('INCR', [$key]));
+    }
+}
+
+if (! function_exists('is_domain')) {
+
+    /**
+     * Gets Makes a new hash based on redis.
+     * @param string $domain
+     * @return bool
+     */
+    function is_domain($domain)
+    {
+        return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $domain) > 0;
+    }
+}
+
+if (! function_exists('second_authed')) {
+
+    /**
+     * Checks to see if the user has been second authed.
+     * @return bool
+     */
+    function second_authed()
+    {
+        $user = \Auth::user();
+
+        if ($user && $user->second_auth_active) {
+            return
+                ! empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
+                Session::get(SecondAuthController::SECOND_AUTH_SESSION) === $user->second_auth_updated_at;
+        }
+
+        return true;
     }
 }

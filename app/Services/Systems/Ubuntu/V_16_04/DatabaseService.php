@@ -3,12 +3,18 @@
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
 use App\Models\Schema;
+use App\Models\SchemaUser;
 use App\Exceptions\UnknownDatabase;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
 
 class DatabaseService
 {
+    const MYSQL = 'MySQL';
+    const MARIADB = 'MariaDB';
+    const MONGODB = 'MongoDB';
+    const POSTGRESQL = 'PostgreSQL';
+
     use ServiceConstructorTrait;
 
     /**
@@ -28,9 +34,10 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server');
 
         $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
+
+        $this->remoteTaskService->updateText('/etc/mysql/mariadb.conf.d', 'bind-address            = 127.0.0.1', 'bind-address            = 0.0.0.0');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mysql restart');
     }
@@ -64,7 +71,6 @@ class DatabaseService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server');
 
         $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
-        $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e \"GRANT ALL ON *.* TO codepier_servers@'%' IDENTIFIED BY '$databasePassword' WITH GRANT OPTION;\"");
 
         $this->remoteTaskService->run("mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=$databasePassword mysql");
 
@@ -84,7 +90,6 @@ class DatabaseService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
-        $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier_servers LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
         $this->remoteTaskService->run('service postgresql restart');
     }
@@ -115,14 +120,19 @@ class DatabaseService
      */
     public function installMongoDB()
     {
+        $databasePassword = $this->server->database_password;
+
         $this->connectToServer();
 
         $this->remoteTaskService->makeDirectory('/data/db');
-        $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927');
-        $this->remoteTaskService->run('echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list');
+        $this->remoteTaskService->run('apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6');
+        $this->remoteTaskService->run('echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list');
         $this->remoteTaskService->run('apt-get update');
-        $this->remoteTaskService->run('apt-get install -y mongodb-org php-mongodb ');
-        $this->remoteTaskService->run('systemctl enable mongod.service');
+        $this->remoteTaskService->run('apt-get install -y mongodb-org');
+        $this->remoteTaskService->updateText('/etc/mongod.conf', 'bind_ip', '# bind_ip = 127.0.0.1');
+
+        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : \"codepier\", pwd : \"$databasePassword\", roles : [ { role : \"userAdminAnyDatabase\", db: \"admin\" } ] });\"");
+
         $this->remoteTaskService->run('service mongod start');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
@@ -140,13 +150,15 @@ class DatabaseService
         $database = $schema->name;
 
         switch ($schema->database) {
-            case 'MariaDB':
-            case 'MySQL':
+            case self::MARIADB:
+            case self::MYSQL:
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'CREATE DATABASE IF NOT EXISTS $database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'");
                 break;
-            case 'PostgreSQL':
+            case self::POSTGRESQL:
                 $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=codepier $database --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
                 break;
+            case self::MONGODB:
+                // we don't need to create one , it will create itself based on the user permissions if needed
             default:
                 throw new UnknownDatabase($schema->database);
                 break;
@@ -165,16 +177,120 @@ class DatabaseService
         $databasePassword = $this->server->database_password;
 
         switch ($schema->database) {
-            case 'MariaDB':
-            case 'MySQL':
+            case self::MARIADB:
+            case self::MYSQL:
                 $this->remoteTaskService->run("mysql --user=root --password=$databasePassword -e 'DROP DATABASE $database'");
                 break;
-            case 'PostgreSQL':
+            case self::POSTGRESQL:
                 $this->remoteTaskService->run('sudo -u postgres /usr/bin/dropdb '.$database);
+                break;
+            case self::MONGODB:
+                $this->remoteTaskService->run("mongo -u codepier -p $databasePassword admin --eval \"db.dropDatabase('$database');\"");
                 break;
             default:
                 throw new UnknownDatabase($schema->database);
                 break;
         }
+    }
+
+    /**
+     * @param SchemaUser $schemaUser
+     * @throws UnknownDatabase
+     */
+    public function addSchemaUser(SchemaUser $schemaUser)
+    {
+        foreach ($schemaUser->schema_ids as $schemaId) {
+            $schema = Schema::findOrFail($schemaId);
+            switch ($schema->database) {
+                case self::MARIADB:
+                case self::MYSQL:
+                    $this->addMySqlUser($schemaUser, $schema);
+                    break;
+                case self::POSTGRESQL:
+                    $this->addPostgreSQLUser($schemaUser, $schema);
+                    break;
+                case self::MONGODB:
+                    $this->addMongoDbUser($schemaUser, $schema);
+                default:
+                    throw new UnknownDatabase($schema->database);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @param SchemaUser $schemaUser
+     * @throws UnknownDatabase
+     */
+    public function removeSchemaUser(SchemaUser $schemaUser)
+    {
+        foreach ($schemaUser->schema_ids as $schemaId) {
+            $schema = Schema::findOrFail($schemaId);
+            switch ($schema->database) {
+                case self::MARIADB:
+                case self::MYSQL:
+                    $this->removeMySqlUser($schemaUser, $schema);
+                    break;
+                case self::POSTGRESQL:
+                    $this->removePostgreSQLUser($schemaUser, $schema);
+                    break;
+                case self::MONGODB:
+                    $this->removeMongoDbUser($schemaUser, $schema);
+                default:
+                    throw new UnknownDatabase($schema->database);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @param $database
+     * @return bool
+     */
+    private function hasDatabaseInstalled($database)
+    {
+        $databaseServices = $this->server->server_features['DatabaseService'];
+
+        if (isset($databaseServices[$database]) && $databaseServices[$database]['enabled'] === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function addMySqlUser(SchemaUser $schemaUser, Schema $schema)
+    {
+        $this->connectToServer($this->server);
+
+        $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$schemaUser->password' WITH GRANT OPTION;\"");
+    }
+
+    private function removeMySqlUser(SchemaUser $schemaUser)
+    {
+        $this->connectToServer($this->server);
+        $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"DROP USER IF EXISTS $schemaUser->name;\"");
+    }
+
+    private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
+    {
+        $this->connectToServer($this->server);
+//        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+    }
+
+    private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
+    {
+        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=$schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+    }
+
+    private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
+    {
+        $this->connectToServer($this->server);
+        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : \"$schemaUser->name\", pwd : \"$schemaUser->password\", roles : [ { role : \"readWrite\", db: \"$schema->name\" } ] });\"");
+    }
+
+    private function removeMongoDbUser(SchemaUser $schemaUser)
+    {
+        $this->connectToServer($this->server);
+        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.removeUser($schemaUser->name);\"");
     }
 }

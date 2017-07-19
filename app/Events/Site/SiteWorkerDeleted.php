@@ -24,7 +24,7 @@ class SiteWorkerDeleted
         $site->workers()->detach($worker);
 
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $worker);
+            $siteCommand = $this->makeCommand($site, $worker, 'Removing');
 
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;

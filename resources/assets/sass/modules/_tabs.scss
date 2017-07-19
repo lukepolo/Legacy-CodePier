@@ -108,6 +108,22 @@
 }
 
 
+// SMALL LEFT TABS -----------------------------------------
+// ---------------------------------------------------------
+.tab-left-small {
+
+  .nav-tabs {
+    li a {
+      padding: $spacing/1.5 $spacing;
+      font-size: .8em;
+    }
+  }
+}
+
+.tab-content .tab-left-small {
+  margin-left: -$spacing*2;
+}
+
 
 // HORIZONTAL (wizard) TABS --------------------------------
 // ---------------------------------------------------------

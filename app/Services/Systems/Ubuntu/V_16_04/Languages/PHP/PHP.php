@@ -76,6 +76,7 @@ class PHP
                 break;
             default:
                 $installVersion = $version;
+                $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common python-software-properties');
                 // https://github.com/oerdnj/deb.sury.org/issues/56#issuecomment-191748654
                 $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php');
                 $this->remoteTaskService->run('apt-get update');
@@ -87,7 +88,7 @@ class PHP
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', 'memory_limit =', 'memory_limit = 512M');
         $this->remoteTaskService->updateText('/etc/php/'.$version.'/cli/php.ini', ';date.timezone.', 'date.timezone = UTC');
 
-        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm restart');
+        $this->addToServiceRestartGroup(SystemService::DEPLOYMENT_SERVICE_GROUP, 'service php'.$version.'-fpm reload');
     }
 
     /**

@@ -34,7 +34,7 @@ class InstallServerWorker implements ShouldQueue
     {
         $this->server = $server;
         $this->worker = $worker;
-        $this->makeCommand($server, $worker, $siteCommand);
+        $this->makeCommand($server, $worker, $siteCommand, 'Installing');
     }
 
     /**

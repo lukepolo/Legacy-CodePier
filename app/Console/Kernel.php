@@ -2,11 +2,14 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckLifeLines;
 use App\Console\Commands\SendBetaEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
 use App\Console\Commands\ClearFailedCommands;
+use App\Console\Commands\StartDevEnvironment;
+use App\Console\Commands\ProvisionDevEnvironment;
 use App\Console\Commands\GetServerProviderOptions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\Tests\ServerEvents\ServerCommandUpdated;
@@ -23,12 +26,17 @@ class Kernel extends ConsoleKernel
         TestMonitorScripts::class,
         ClearFailedCommands::class,
         GetServerProviderOptions::class,
+        CheckLifeLines::class,
 
         // REACTIVITY TESTS
         ServerCommandUpdated::class,
 
         // BETA - Emails - TEMP
         SendBetaEmails::class,
+
+        ProvisionDevEnvironment::class,
+        StartDevEnvironment::class,
+
     ];
 
     /**
@@ -40,6 +48,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(CheckLifeLines::class)->everyMinute();
     }
 
     /**

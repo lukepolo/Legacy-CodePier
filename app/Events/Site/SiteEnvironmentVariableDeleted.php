@@ -23,7 +23,7 @@ class SiteEnvironmentVariableDeleted
         $site->firewallRules()->detach($environmentVariable);
 
         if ($site->provisionedServers->count()) {
-            $siteCommand = $this->makeCommand($site, $environmentVariable);
+            $siteCommand = $this->makeCommand($site, $environmentVariable, 'Removing');
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(

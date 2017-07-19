@@ -6,146 +6,116 @@
 
             <div class="section-content">
                 <div class="container">
-                    <div class="jcf-form-wrap">
-                        <form @submit.prevent="createServer()" class="validation-form floating-labels">
+                    <form @submit.prevent="createServer()" class="validation-form floating-labels">
 
-                            <template v-if="siteId">
-                                <input type="hidden" name="site" :value="siteId">
-                            </template>
-                            <template v-else>
-                                <input type="hidden" name="pile_id" :value="pile">
-                            </template>
+                        <template v-if="siteId">
+                            <input type="hidden" name="site" :value="siteId">
+                        </template>
+                        <template v-else>
+                            <input type="hidden" name="pile_id" :value="pile">
+                        </template>
 
-                            <template v-if="$route.params.type">
-                                <input type="hidden" name="type" :value="$route.params.type">
-                            </template>
+                        <template v-if="$route.params.type">
+                            <input type="hidden" name="type" :value="$route.params.type">
+                        </template>
 
-                            <div class="input-group input-radio">
-                                <div class="input-question">Server Provider</div>
-                                <template v-if="user_server_providers.length">
-                                    <template v-for="user_server_provider in user_server_providers">
-                                        <label>
-                                            <input
-                                                @change="getProviderData(user_server_provider.server_provider_id)"
-                                                type="radio"
-                                                name="server_provider_id"
-                                                :value="user_server_provider.server_provider_id"
-                                                v-model="server_provider"
-                                            >
-                                            <span class="icon"></span>
-                                            {{ getServerProviderName(user_server_provider.server_provider_id) }}
-                                        </label>
-                                    </template>
-                                </template>
-                                <template v-else>
-                                    You can connect other server providers through your
-                                    <router-link :to="{ name : 'user_server_providers' }">
-                                        profile
-                                    </router-link>
-                                </template>
 
-                                <label>
-                                    <input type="radio" @click="is_custom=true" value="" v-model="server_provider">
-                                    <span class="icon"></span>
-                                    Custom Server
-                                    <template v-if="is_custom">
-                                        <input type="hidden" name="custom" value="true">
-                                    </template>
-                                    <small>
-                                        This must be a fresh Ubuntu 16.04 system
-                                    </small>
-                                </label>
+                        <server-provider-selector :server_provider_id.sync="server_provider_id" :is_custom.sync="is_custom"></server-provider-selector>
 
+                        <template v-if="is_custom || server_provider_id">
+                            <div class="grid-2">
+                                <div class="flyform--group">
+                                    <input type="text" id="server_name" name="server_name" placeholder=" " required>
+                                    <label for="server_name">Server Name</label>
+                                </div>
                             </div>
 
-                            <template v-if="is_custom || server_provider">
+                            <div class="grid-2">
+                                <div class="flyform--group" v-if="is_custom">
 
-                                <div class="jcf-input-group">
-                                    <input type="text" id="server_name" name="server_name" required>
-                                    <label for="server_name"><span class="float-label">Name</span></label>
+                                    <input type="number" name="port" required value="22" placeholder=" ">
+                                    <label for="port"class="flyform--group-iconlabel">Number of Releases to keep</label>
+
+
+                                    <tooltip message="We will use this port ssh connections" size="medium">
+                                        <span class="fa fa-info-circle"></span>
+                                    </tooltip>
+                                </div>
+                            </div>
+
+                            <template v-if="server_provider_id && server_options.length && server_regions.length">
+
+                                <div class="flyform--group">
+                                    <label>Server Size</label>
+                                    <div class="flyform--group-select">
+                                        <select name="server_option">
+                                            <option v-for="option in server_options" :value="option.id">
+                                                {{ option.memory }} MB RAM
+                                                - {{ option.cpus }} CPUS
+                                                - {{ option.space }} SSD
+                                                - ${{ option.priceHourly }} / Hour
+                                                - ${{ option.priceMonthly }} / Month
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <div class="jcf-input-group" v-if="is_custom">
-                                    <input type="number" name="port" required value="22">
-                                    <label for="port">
-                                        <tooltip message="We will use this port ssh connections" size="medium">
-                                            <span class="fa fa-info-circle"></span>
-                                        </tooltip>
-                                        <span class="float-label">SSH Port</span>
-                                    </label>
+                                <div class="flyform--group">
+                                    <label>Region</label>
+                                    <div class="flyform--group-select">
+                                        <select name="server_region">
+                                            <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <template v-if="server_provider && server_options.length && server_regions.length && server_provider_features.length">
+                                <div class="flyform--group">
+                                    <label>Server Features</label>
+                                </div>
 
-                                    <div class="jcf-input-group">
-                                        <div class="input-question">Size</div>
-
-                                        <div class="select-wrap">
-                                            <select name="server_option">
-                                                <option v-for="option in server_options" :value="option.id">
-                                                    {{ option.memory }} MB RAM
-                                                    - {{ option.cpus }} CPUS
-                                                    - {{ option.space }} SSD
-                                                    - ${{ option.priceHourly }} / Hour
-                                                    - ${{ option.priceMonthly }} / Month
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="jcf-input-group">
-                                        <div class="input-question">Region</div>
-
-                                        <div class="select-wrap">
-                                            <select name="server_region">
-                                                <option v-for="region in server_regions" :value="region.id">{{ region.name }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group input-checkbox">
-                                        <div class="input-question">Features</div>
-                                        <template v-for="feature in server_provider_features">
-                                            <label>
-                                                <input
+                                <template v-for="feature in server_provider_features">
+                                    <div class="flyform--group-checkbox">
+                                        <label>
+                                            <input
                                                     type="checkbox"
                                                     name="server_provider_features[]"
                                                     :value="feature.id"
-                                                >
-                                                <span class="icon"></span>{{ 'Enable ' + feature.feature }}
-                                                <small>{{ feature.cost }}</small>
-                                            </label>
-                                        </template>
+                                            >
+                                            <span class="icon"></span>{{ 'Enable ' + feature.feature }}
+                                            <small>{{ feature.cost }}</small>
+                                        </label>
                                     </div>
                                 </template>
+                            </template>
 
-                                <div class="jcf-input-group">
-                                    <label for="web_directory">
-                                        <h3 v-if="$route.params.site_id">
-                                            <tooltip message="We have configured your site based on your apps language and framework, thus you do not need to modify the server if you do not want to" size="medium">
-                                                <span class="fa fa-info-circle"></span>
-                                            </tooltip>
-                                            Your server has been customized for your application<br>
-                                            <small>
-                                                <a @click="customize_server = !customize_server">(customize)</a>
-                                            </small>
-                                        </h3>
-                                        <h3 v-else>
-                                            Setup your server :
-                                        </h3>
-                                    </label>
+
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-links">
+                                    <h3 v-if="$route.params.site_id">
+                                        <tooltip message="We have configured your server based on your application language and framework." size="large">
+                                            <span class="fa fa-info-circle"></span>
+                                        </tooltip>
+                                        Your server has been customized for your application<br>
+                                        <small>
+                                            <a @click="customize_server = !customize_server">Customize Server Settings (Advanced Users)</a>
+                                        </small>
+                                    </h3>
+                                    <h3 v-else>
+                                        Set up your server :
+                                    </h3>
                                 </div>
+                            </div>
 
-                                <server-features :update="false" v-show="customize_server"></server-features>
+                            <server-features :update="false" v-show="customize_server"></server-features>
 
-                                <br><br><br>
-                                <div class="btn-footer">
+                            <div class="flyform--footer">
+                                <div class="flyform--footer-btns">
                                     <button type="submit" class="btn btn-primary">Create Server</button>
                                 </div>
+                            </div>
 
-                            </template>
-                        </form>
-                    </div>
+                        </template>
+                    </form>
                 </div>
             </div>
         </section>
@@ -153,32 +123,31 @@
 </template>
 
 <script>
-    import LeftNav from '../../../components/LeftNav.vue'
-    import {ServerFeatures} from '../../setup/pages'
 
+    import {ServerFeatures} from '../../setup/pages'
+    import LeftNav from '../../../components/LeftNav.vue'
+    import ServerProviderSelector from './../components/ServerProviderSelector.vue'
     export default {
         components: {
             LeftNav,
-            ServerFeatures
-        },
-        created() {
-            this.fetchData()
-        },
-        watch: {
-            '$route': 'fetchData'
+            ServerFeatures,
+            ServerProviderSelector
         },
         data() {
          return {
             is_custom : false,
-            server_provider : null,
+            server_provider_id : null,
             customize_server : !this.$route.params.site_id,
          }
         },
+        watch : {
+            'server_provider_id' : function() {
+                if(this.server_provider_id) {
+                    this.getProviderData(this.server_provider_id)
+                }
+            }
+        },
         methods: {
-            fetchData() {
-                this.$store.dispatch('server_providers/get')
-                this.$store.dispatch('user_server_providers/get', this.$store.state.user.user.id)
-            },
             getProviderData(server_provider_id) {
                 this.is_custom = false
                 let provider = _.find(this.server_providers, { id : server_provider_id}).provider_name
@@ -192,20 +161,12 @@
                 this.$store.dispatch('user_servers/store', this.getFormData(this.$el)).then((server) => {
                     if(server.id) {
                         if (this.siteId) {
-                            app.$router.push({ name : 'site_repository', params : { site_id : this.siteId}})
+                            app.$router.push({ name : 'site_overview', params : { site_id : this.siteId}})
                         } else {
                             app.$router.push('/')
                         }
                     }
                 })
-            },
-            getServerProviderName(server_provider_id) {
-                if(this.server_providers) {
-                    let server_provider = _.find(this.server_providers, { id : server_provider_id})
-                    if(server_provider) {
-                        return server_provider.name
-                    }
-                }
             }
         },
         computed: {
@@ -223,9 +184,6 @@
             },
             server_providers() {
                 return this.$store.state.server_providers.providers
-            },
-            user_server_providers() {
-                return this.$store.state.user_server_providers.providers
             },
             server_provider_features() {
                 return this.$store.state.server_providers.features

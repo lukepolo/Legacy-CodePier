@@ -33,7 +33,7 @@ class RemoveServerEnvironmentVariable implements ShouldQueue
     {
         $this->server = $server;
         $this->environmentVariable = $environmentVariable;
-        $this->makeCommand($server, $environmentVariable, $siteCommand);
+        $this->makeCommand($server, $environmentVariable, $siteCommand, 'Removing');
     }
 
     /**

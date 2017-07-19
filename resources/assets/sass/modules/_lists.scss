@@ -23,8 +23,27 @@
   font-size: 1.2em;
   margin-bottom: $spacing/4;
 
+  // EVENTS ITEM STATUS
   .event-status {
-    margin-right: 10px;
+    flex: 0 0 auto;
+    margin-right: $spacing;
+
+
+    &-neutral {
+      @include status(null);
+    }
+
+    &-success {
+      @include status(success);
+    }
+
+    &-error {
+      @include status(error);
+    }
+
+    &-warning {
+      @include status(warning);
+    }
   }
 
   .deploy-status {
@@ -76,6 +95,28 @@
 
   &:hover {
     background-color: rgba($white, .05);
+  }
+}
+
+
+.status {
+  flex: 0 0 auto;
+  margin-right: $spacing/2;
+
+  &--neutral {
+    @include status(null);
+  }
+
+  &--success {
+    @include status(success);
+  }
+
+  &--error {
+    @include status(error);
+  }
+
+  &--warning {
+    @include status(warning);
   }
 }
 
@@ -231,6 +272,10 @@
   position: relative;
 }
 
+.server-status-text {
+  padding-bottom: $spacing/2;
+}
+
 .server-progress-number {
   position: absolute;
   right: 0px;
@@ -317,4 +362,97 @@
 
 .cpu-min {
   text-align: center;
+}
+
+
+
+
+// LIFELINE STYLES -----------------------------------------
+// ---------------------------------------------------------
+.lifeline {
+
+  label {
+    top: -4px;
+  }
+
+  &--item:not(:last-child) {
+    border-bottom: 1px solid transparent;
+  }
+
+  &--btns {
+    span + span {
+      margin-left: $spacing/2;
+    }
+  }
+
+  .confirm-container {
+    margin: 0px;
+  }
+}
+
+
+// SERVER TYPE LIST STYLES ---------------------------------
+// ---------------------------------------------------------
+.server-type-list {
+  min-width: 230px;
+  
+  p {
+    padding: 0px $spacing;
+  }
+
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+
+  li a {
+    cursor: pointer;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: $color-text-secondary;
+    padding: $spacing/1.5 $spacing;
+    position: relative;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $blue;
+      
+      &:after {
+        content: '\f105';
+        font-family: 'icomoon';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $blue;
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  li:not(:last-child) {
+    border-bottom: 1px solid $color-divider;
+  }
+
+  //.btn {
+  //  display: block;
+  //  text-align: center;
+  //  background-color: rgba($color-text-inverse, .2);
+  //  text-transform: none;
+  //
+  //  + .btn {
+  //    margin: 0px;
+  //  }
+  //
+  //  &:hover,
+  //  &:active,
+  //  &:focus {
+  //    background-color: rgba($color-text-inverse, .4);
+  //
+  //
+  //  }
+  //}
 }

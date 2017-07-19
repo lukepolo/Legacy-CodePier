@@ -11,6 +11,7 @@ use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
+use App\Models\SchemaUser;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -58,6 +59,7 @@ class Site extends Model
     ];
 
     protected $casts = [
+        'workflow' => 'array',
         'server_features' => 'array',
     ];
 
@@ -69,7 +71,11 @@ class Site extends Model
 
     public function activeSsl()
     {
-        return $this->sslCertificates->where('active', true)->first();
+        return $this->sslCertificates
+            ->where('active', true)
+            ->where('key', '!=', null)
+            ->where('cert', '!=', null)
+            ->first();
     }
 
     public function letsEncryptSslCertificates()
@@ -157,6 +163,11 @@ class Site extends Model
         return $this->morphToMany(Schema::class, 'schemable');
     }
 
+    public function schemaUsers()
+    {
+        return $this->morphToMany(SchemaUser::class, 'schema_userable');
+    }
+
     public function environmentVariables()
     {
         return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
@@ -165,6 +176,11 @@ class Site extends Model
     public function languageSettings()
     {
         return $this->morphToMany(LanguageSetting::class, 'language_settingable');
+    }
+
+    public function lifelines()
+    {
+        return $this->hasMany(Lifeline::class);
     }
 
     /*

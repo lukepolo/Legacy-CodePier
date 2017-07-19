@@ -9,8 +9,10 @@ use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\CronJob;
+use App\Traits\Hashable;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use App\Models\SchemaUser;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -30,7 +32,7 @@ use App\Models\Server\Provider\ServerProviderFeatures;
 
 class Server extends Model
 {
-    use SoftDeletes, UsedByTeams, Notifiable, Encryptable, ConnectedToUser;
+    use SoftDeletes, UsedByTeams, Notifiable, Encryptable, ConnectedToUser, Hashable;
 
     protected $guarded = [
         'id',
@@ -153,6 +155,11 @@ class Server extends Model
         return $this->morphToMany(Schema::class, 'schemable');
     }
 
+    public function schemaUsers()
+    {
+        return $this->morphToMany(SchemaUser::class, 'schema_userable');
+    }
+
     public function environmentVariables()
     {
         return $this->morphToMany(EnvironmentVariable::class, 'environmentable');
@@ -203,16 +210,6 @@ class Server extends Model
         }
 
         return collect($hasLanguages);
-    }
-
-    public function encode()
-    {
-        return \Hashids::encode($this->id);
-    }
-
-    public function decode($hash)
-    {
-        return $this->findOrFail(\Hashids::decode($hash));
     }
 
     /**

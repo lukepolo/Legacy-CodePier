@@ -72,9 +72,7 @@
 
                    <template v-else>
                        <h3 class="section-header--secondary">Lets create your first Server</h3>
-                       <ul style="list-style: none; padding-left: 2em;">
-                           <server-create-list classes="btn"></server-create-list>
-                       </ul>
+                       <server-create-list classes="btn"></server-create-list>
                    </template>
                </template>
 

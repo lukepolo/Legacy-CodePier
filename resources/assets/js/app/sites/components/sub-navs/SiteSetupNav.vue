@@ -1,6 +1,7 @@
 <template>
     <div class="tab-container tab-left">
-        <ul class="nav nav-tabs" v-if="site.repository">
+        <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
+
             <router-link :to="{ name : 'site_repository', params : { site_id : siteId } }" tag="li" exact>
                 <a>
                     Repository
@@ -29,6 +30,7 @@
                 </a>
             </router-link>
         </ul>
+
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active">
                 <slot></slot>

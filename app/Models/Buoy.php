@@ -22,4 +22,9 @@ class Buoy extends Model
     {
         return $this->belongsTo(BuoyApp::class);
     }
+
+    public function commandDescription($status)
+    {
+        return $status.' buoy '.$this->buoyApp->title;
+    }
 }

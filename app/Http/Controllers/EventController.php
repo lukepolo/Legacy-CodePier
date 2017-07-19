@@ -10,9 +10,11 @@ use App\Models\SshKey;
 use App\Models\Worker;
 use App\Models\Command;
 use App\Models\CronJob;
+use App\Models\Site\Site;
 use App\Models\SchemaUser;
 use App\Models\FirewallRule;
 use Illuminate\Http\Request;
+use App\Models\Server\Server;
 use App\Models\SslCertificate;
 use App\Models\LanguageSetting;
 use Illuminate\Support\Collection;
@@ -29,12 +31,14 @@ class EventController extends Controller
 
     const DEFAULT_TYPES = [
         self::COMMANDS => [
+            Site::class,
             Bitt::class,
             Buoy::class,
             File::class,
             Worker::class,
             SshKey::class,
             Schema::class,
+            Server::class,
             CronJob::class,
             SchemaUser::class,
             FirewallRule::class,

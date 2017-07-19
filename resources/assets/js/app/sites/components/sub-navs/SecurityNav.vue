@@ -1,6 +1,6 @@
 <template>
     <div class="tab-container tab-left">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" v-if="workFlowCompleted === true">
 
             <router-link :to="{ name : 'site_ssh_keys', params : { site_id : siteId } }" tag="li" class="wizard-item" exact>
                 <a>

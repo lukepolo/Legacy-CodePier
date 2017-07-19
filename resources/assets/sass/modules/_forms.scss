@@ -2,36 +2,30 @@
 // =========================================================
 
 
+@import 'forms/forms-update';
+
+//@import 'forms/forms_variables';
+//@import 'forms/check_radio';
+//@import 'forms/icons';
+//@import 'forms/select';
+//@import 'forms/structure';
+//@import 'forms/validation';
+
+
+
+
 // FORMS OVERRIDE ------------------------------------------
 // ---------------------------------------------------------
-table {
-  width: 100%;
-  max-width: 100%;
-  margin-top: $spacing*2;
-  border: 1px solid $color-divider;
 
-  + table {
-    margin-top: $spacing*2;
-  }
-}
-
-th {
-  text-align: left;
-  border-bottom: 1px solid $color-divider;
-  color: rgba($color-text-primary, .7);
-}
-
-th,
-td {
-  padding: 8px 10px;
+#login_form,
+#register_form,
+#forgot_form {
+  background-color: mix($color-background, $white, 95%);
+  margin-bottom: $spacing*2;
 }
 
 
-tr {
-  &:nth-child(even) {
-    background-color: rgba($black, .1);
-  }
-}
+
 
 .table--action {
   text-align: right;
@@ -192,7 +186,9 @@ tr {
 .jcf-form-wrap {
   box-shadow: none;
 }
-.jcf-form-wrap input[type="text"]:valid + label:before, .jcf-form-wrap input[type="email"]:valid + label:before, .jcf-form-wrap input[type="password"]:valid + label:before {
+.jcf-form-wrap input[type="text"]:valid + label:before,
+.jcf-form-wrap input[type="email"]:valid + label:before,
+.jcf-form-wrap input[type="password"]:valid + label:before {
   display: none;
 }
 .jcf-form-wrap .input-checkbox .icon:before, .jcf-form-wrap .input-radio .icon:before {

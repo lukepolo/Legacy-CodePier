@@ -24,7 +24,7 @@ class UserSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'required' => 'plan',
+            'plan' => 'required',
             'number'    => 'integer',
             'exp_month' => 'required_with:number|integer',
             'exp_year'  => 'required_with:number|integer',

@@ -62,6 +62,11 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
+        $location = '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
+
+        $this->remoteTaskService->makeDirectory($location);
+        $this->remoteTaskService->run("ln -s /opt/codepier/landing/index.html $location/index.html");
+
         $this->serverService->restartWebServices($server);
     }
 
@@ -127,7 +132,7 @@ class SiteService implements SiteServiceContract
 
         $deploymentService = $this->getDeploymentService($server, $site, $oldSiteDeployment);
 
-        foreach ($siteServerDeployment->events as $event) {
+        foreach ($siteServerDeployment->events as $index => $event) {
             try {
                 if (empty($event->step)) {
                     $event->delete();
@@ -147,21 +152,23 @@ class SiteService implements SiteServiceContract
                     $deploymentStepResult = $deploymentService->$internalFunction();
                 }
 
+                if ($index === 0) {
+                    $releaseFolder = $deploymentService->releaseTime;
+                    $siteServerDeployment->siteDeployment->update([
+                        'folder_name' => $releaseFolder,
+                        'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
+                        'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
+                    ]);
+                }
+
                 event(new DeploymentStepCompleted($site, $server, $event, $event->step, collect($deploymentStepResult)->filter()->implode("\n"), microtime(true) - $start));
             } catch (FailedCommand $e) {
                 $log = collect($e->getMessage())->filter()->implode("\n");
 
-                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log));
+                event(new DeploymentStepFailed($site, $server, $event, $event->step, $log, microtime(true) - $start));
                 throw new DeploymentFailed($e->getMessage());
             }
         }
-
-        $releaseFolder = $deploymentService->releaseTime;
-        $siteServerDeployment->siteDeployment->update([
-            'folder_name' => $releaseFolder,
-            'git_commit' =>  $this->remoteTaskService->run("git --git-dir $deploymentService->release/.git rev-parse HEAD"),
-            'commit_message' =>  trim($this->remoteTaskService->run("cd $deploymentService->release; git log -1 | sed -e '1,/Date/d'")),
-        ]);
 
         event(new DeploymentCompleted($site, $server, $siteServerDeployment));
     }

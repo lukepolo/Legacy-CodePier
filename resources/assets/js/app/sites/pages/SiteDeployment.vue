@@ -11,6 +11,43 @@
             Once in the active list you can change the order.
         </p>
 
+        <hr>
+
+        <form @submit.prevent="saveSiteDeploymentConfig">
+
+            <div class="flyform--group">
+                <label>Repository Options</label>
+            </div>
+            <div class="grid-2">
+                <div class="flyform--group-checkbox">
+                    <label>
+                        <input type="checkbox" v-model="form.zerotime_deployment" name="zerotime_deployment" value="1">
+                        <span class="icon"></span>
+                        Zerotime Deployment
+
+                        <tooltip message="Your app can be deployed in zerotime deployment, we suggest you go for it!" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                    </label>
+                </div>
+
+                <template v-if="form.zerotime_deployment">
+                    <div class="flyform--group">
+                        <input type="number" v-model="form.keep_releases" name="keep_releases" placeholder=" ">
+                        <label for="keep_releases"class="flyform--group-iconlabel">Number of Releases to keep</label>
+
+                        <tooltip message="When using zerotime deployments you can keep a number of releases, if set to zero we will keep them all" size="medium">
+                            <span class="fa fa-info-circle"></span>
+                        </tooltip>
+                    </div>
+                </template>
+            </div>
+
+            <div class="flyform--footer-btns">
+                <button class="btn btn-small">Update Deployment</button>
+            </div>
+        </form>
+
         <form @submit.prevent="updateSiteDeployment">
             <div class="col-split col-break-sm">
                 <div class="drag">
@@ -54,16 +91,18 @@
                         </draggable>
 
                         <div class="btn-container text-center">
-                            <span @click="addCustomStep" class="btn">Add Custom Step</span>
+                            <span @click="addCustomStep" class="btn btn-small">Add Custom Step</span>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="btn-footer">
-                <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
-                <button type="submit" class="btn btn-primary">Update Deployment</button>
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn" @click.prevent="clearChanges">Discard Changes</button>
+                    <button type="submit" class="btn btn-primary">Update Deployment</button>
+                </div>
             </div>
         </form>
     </div>
@@ -85,15 +124,34 @@
             return {
                 active: [],
                 inactive: [],
+                form : this.createForm({
+                    keep_releases : 10,
+                    zerotime_deployment: true,
+                    site : this.$route.params.site_id,
+                })
             }
         },
         created() {
-            this.fetchData();
+            this.fetchData()
+            this.siteChange()
         },
         watch: {
-            '$route': 'fetchData'
+            '$route': 'fetchData',
+            'site' : 'siteChange',
         },
         methods: {
+            siteChange() {
+
+                this.form.empty()
+
+                let site = this.site
+
+                this.form.keep_releases = site.keep_releases
+                this.form.zerotime_deployment = site.zerotime_deployment
+
+                this.form.setOriginalData()
+
+            },
             fetchData() {
                 this.$store.dispatch('user_site_deployments/getDeploymentSteps', this.$route.params.site_id).then(() => {
                     this.$store.dispatch('user_site_deployments/getSiteDeploymentSteps', this.$route.params.site_id).then(() => {
@@ -107,6 +165,9 @@
                     site : this.$route.params.site_id,
                     deployment_steps : this.active
                 })
+            },
+            saveSiteDeploymentConfig() {
+                this.$store.dispatch('user_site_deployments/updateSiteDeploymentConfig', this.form)
             },
             hasStep(task) {
                 if(this.currentSiteDeploymentSteps.length) {

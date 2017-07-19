@@ -1,38 +1,35 @@
 <template>
     <section>
+        <form @submit.prevent="createEnvironmentVariable">
+            <div class="flyform--group">
+                <input type="text" name="variable" v-model="form.variable" placeholder=" ">
+                <label for="variable">Variable</label>
+            </div>
 
-        <div class="jcf-form-wrap">
+            <div class="flyform--group">
+                <input type="text" name="value" v-model="form.value" placeholder=" ">
+                <label for="value">Value</label>
+            </div>
 
-            <form @submit.prevent="createEnvironmentVariable" class="floating-labels">
-
-                <div class="jcf-input-group">
-                    <input type="text" name="variable" v-model="form.variable">
-
-                    <label for="variable">
-                        <span class="float-label">Variable</span>
-                    </label>
-                </div>
-
-                <div class="jcf-input-group">
-                    <input type="text" name="value" v-model="form.value">
-
-                    <label for="value">
-                        <span class="float-label">Value</span>
-                    </label>
-                </div>
-
-                <div class="btn-footer">
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
                     <button class="btn btn-primary" type="submit">Create Environment Variable</button>
+
                 </div>
+            </div>
+        </form>
 
-            </form>
+        <br>
 
-            <br>
+        <div v-if="environmentVariables.length">
+            <h3>Environment Variables</h3>
+
             <table class="table" v-if="environmentVariables">
                 <thead>
                 <tr>
                     <th>Variable</th>
                     <th>Value</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -44,9 +41,13 @@
                         <template v-if="isRunningCommandFor(environmentVariable.id)">
                             {{ isRunningCommandFor(environmentVariable.id).status }}
                         </template>
-                        <template v-else>
-                            <a @click="deleteEnvironmentVariable(environmentVariable.id)" href="#" class="fa fa-remove">X</a>
-                        </template>
+                    </td>
+                    <td class="table--action">
+                        <tooltip message="Delete">
+                            <span class="table--action-delete">
+                                <a @click="deleteEnvironmentVariable(environmentVariable.id)"><span class="icon-trash"></span></a>
+                            </span>
+                        </tooltip>
                     </td>
                 </tr>
                 </tbody>
@@ -54,7 +55,6 @@
         </div>
 
         <input type="hidden" v-if="site">
-
     </section>
 </template>
 

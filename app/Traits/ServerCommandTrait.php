@@ -25,16 +25,22 @@ trait ServerCommandTrait
      * @param Server $server
      * @param Model $model
      * @param Command $command
+     * @param null $status
      * @return ServerCommand
      */
-    public function makeCommand(Server $server, Model $model, Command $command = null)
+    public function makeCommand(Server $server, Model $model, Command $command = null, $status = null)
     {
         if (empty($command)) {
+            if (empty($status)) {
+                \Log::critical('missing status for '.get_class($model));
+            }
+
             $command = Command::create([
                 'server_id' => $server->id,
                 'commandable_id' => $model->id,
                 'commandable_type' => get_class($model),
                 'status' => 'Queued',
+                'description' => method_exists($model, 'commandDescription') ? $model->commandDescription($status) : $status,
             ]);
         }
 

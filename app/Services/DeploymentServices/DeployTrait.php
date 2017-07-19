@@ -119,7 +119,12 @@ trait DeployTrait
     public function setupFolders()
     {
         if ($this->zerotimeDeployment) {
-            return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$this->siteFolder.($this->zerotimeDeployment ? '/current' : null));
+            $currentFolder = $this->siteFolder.'/current';
+
+            // Remove the docked with codepier index
+            $this->remoteTaskService->run('ls -l '.$currentFolder.' | grep -v "\->" && rm -rf '.$currentFolder.' || echo true');
+
+            return $this->remoteTaskService->run('ln -sfn '.$this->release.' '.$currentFolder);
         }
     }
 
@@ -128,7 +133,7 @@ trait DeployTrait
      *
      * @zerotime-deployment
      *
-     * @order 500
+     * @order 600
      */
     public function cleanup()
     {

@@ -1,27 +1,27 @@
 <template>
-
     <div class="server-type-list">
+        <p>Select the type of server you need.</p>
 
-        <template v-if="site.repository">
-
+        <ul>
             <li v-for="(serverType, serverTypeText) in serverTypes">
+                <template v-if="site.repository">
 
-                <router-link
-                    :class="classes"
-                    :to="{ name : 'server_form_with_site' , params : {
-                        site_id : site.id ,
-                         type : serverType
-                    }
-                }">
-                    <span class="icon-server"></span> Create {{ serverTypeText }}
-                </router-link>
+                    <router-link
+                        :to="{
+                            name : 'server_form_with_site' ,
+                            params : {
+                                site_id : site.id ,
+                                type : serverType
+                            }
+                        }">
 
+                        {{ serverTypeText }} Server
+                    </router-link>
+
+                </template>
             </li>
-
-        </template>
-
+        </ul>
     </div>
-
 </template>
 
 <script>

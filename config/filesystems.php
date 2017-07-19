@@ -63,6 +63,11 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'dev-env' => [
+            'driver' => 'local',
+            'root' => storage_path('dev-environment'),
+        ],
+
     ],
 
 ];
