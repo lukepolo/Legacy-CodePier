@@ -90,8 +90,7 @@ class OauthController extends Controller
 
                     $socialUser = Socialite::driver($provider)->user();
 
-                    if (!\Auth::user()) {
-
+                    if (! \Auth::user()) {
                         $userProvider = UserLoginProvider::withTrashed()
                             ->with('user')
                             ->has('user')
@@ -104,8 +103,7 @@ class OauthController extends Controller
                             $newUserModel = $this->createUser($socialUser, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id, true);
                         } else {
-
-                            if($userProvider->deleted_at) {
+                            if ($userProvider->deleted_at) {
                                 $userProvider->restore();
                             }
 
