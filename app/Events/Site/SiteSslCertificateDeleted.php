@@ -26,7 +26,7 @@ class SiteSslCertificateDeleted
         if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Removing');
 
-            $loadBalancerExists = $site->provisionedServers->first(function ($server) {
+            $loadBalancerExists = $site->servers->first(function ($server) {
                 return $server->type === SystemService::LOAD_BALANCER;
             });
 

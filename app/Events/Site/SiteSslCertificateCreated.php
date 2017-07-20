@@ -24,14 +24,13 @@ class SiteSslCertificateCreated
         if ($site->provisionedServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Setting Up');
 
-            $loadBalancerExists = $site->provisionedServers->first(function ($server) {
+            $loadBalancerExists = $site->servers->first(function ($server) {
                 return $server->type === SystemService::LOAD_BALANCER;
             });
 
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;
 
-                dump($loadBalancerExists);
                 if (
                     (
                         empty($loadBalancerExists) &&
