@@ -1,3 +1,3 @@
 export const setAll = (state, { response }) => {
-    state.plans = response;
+  state.plans = response;
 };
