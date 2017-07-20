@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.27 on 2017-06-23.
+ * Generated for Laravel 5.4.30 on 2017-07-20.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -3618,7 +3618,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the PDO connection.
          *
-         * @param \PDO|null $pdo
+         * @param \PDO|\Closure|null $pdo
          * @return $this 
          * @static 
          */ 
@@ -3631,7 +3631,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the PDO connection used for reading.
          *
-         * @param \PDO|null $pdo
+         * @param \PDO|\Closure|null $pdo
          * @return $this 
          * @static 
          */ 
@@ -13197,7 +13197,7 @@ namespace  {
              * Save a new model and return the instance.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model 
+             * @return \Illuminate\Database\Eloquent\Model|$this 
              * @static 
              */ 
             public static function create($attributes = array())
@@ -13209,7 +13209,7 @@ namespace  {
              * Save a new model and return the instance. Allow mass-assignment.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model 
+             * @return \Illuminate\Database\Eloquent\Model|$this 
              * @static 
              */ 
             public static function forceCreate($attributes)
@@ -13418,6 +13418,20 @@ namespace  {
             public static function when($value, $callback, $default = null)
             {    
                 return \Illuminate\Database\Eloquent\Builder::when($value, $callback, $default);
+            }
+         
+            /**
+             * Apply the callback's query changes if the given "value" is false.
+             *
+             * @param mixed $value
+             * @param callable $callback
+             * @param callable $default
+             * @return mixed 
+             * @static 
+             */ 
+            public static function unless($value, $callback, $default = null)
+            {    
+                return \Illuminate\Database\Eloquent\Builder::unless($value, $callback, $default);
             }
          
             /**
@@ -15120,6 +15134,20 @@ if (! function_exists('array_pull')) {
     }
 }
 
+if (! function_exists('array_random')) {
+    /**
+     * Get a random value from an array.
+     *
+     * @param  array  $array
+     * @param  int|null  $num
+     * @return mixed
+     */
+    function array_random($array, $num = null)
+    {
+        return Arr::random($array, $num);
+    }
+}
+
 if (! function_exists('array_set')) {
     /**
      * Set an array item to a given value using "dot" notation.
@@ -15980,7 +16008,7 @@ if (! function_exists('second_authed')) {
         if ($user && $user->second_auth_active) {
             return
                 ! empty(Session::get(SecondAuthController::SECOND_AUTH_SESSION)) &&
-                Session::get(SecondAuthController::SECOND_AUTH_SESSION)->timestamp === $user->second_auth_updated_at->timestamp;
+                Session::get(SecondAuthController::SECOND_AUTH_SESSION) === $user->second_auth_updated_at;
         }
 
         return true;
