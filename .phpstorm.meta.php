@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-06-23.
+    * Generated on 2017-07-20.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -51,7 +51,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -204,7 +203,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -357,7 +355,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -510,7 +507,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -663,7 +659,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -816,7 +811,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
@@ -969,7 +963,6 @@ namespace PHPSTORM_META {
         'Lord\Laroute\Compilers\CompilerInterface' => Lord\Laroute\Compilers\TemplateCompiler::class,
         'command.laroute.generate' => Lord\Laroute\Console\Commands\LarouteGeneratorCommand::class,
         'teamwork' => Mpociot\Teamwork\Teamwork::class,
-        'League\OAuth2\Server\AuthorizationServer' => League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => League\OAuth2\Server\ResourceServer::class,
         'hashids.factory' => Vinkla\Hashids\HashidsFactory::class,
         'hashids' => Vinkla\Hashids\HashidsManager::class,
