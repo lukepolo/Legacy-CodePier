@@ -27,9 +27,17 @@ class SiteWorkerCreated
             foreach ($site->provisionedServers as $server) {
                 $serverType = $server->type;
 
+                $workerServerExists = $site->servers->first(function ($server) {
+                    return $server->type === SystemService::WORKER_SERVER;
+                });
+
                 if (
                     $serverType === SystemService::WORKER_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
+                    (
+                        empty($workerServerExists) &&
+                        $serverType === SystemService::FULL_STACK_SERVER
+                    )
+
                 ) {
                     dispatch(
                         (

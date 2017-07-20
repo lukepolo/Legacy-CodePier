@@ -60,6 +60,7 @@ class Deploy implements ShouldQueue
         $success = true;
 
         try {
+            $start = microtime(true);
             $siteService->deploy($this->server, $this->site, $this->serverDeployment, $this->oldSiteDeployment);
         } catch (\Exception $e) {
             \Log::error($e);
@@ -82,7 +83,7 @@ class Deploy implements ShouldQueue
             }
 
             if (! $event->failed) {
-                event(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message));
+                event(new DeploymentStepFailed($this->site, $this->server, $event, $event->step, $message, microtime(true) - $start));
             }
 
             $this->site->notify(new SiteDeploymentFailed($this->serverDeployment, $message));
