@@ -26,7 +26,7 @@ class SiteSslCertificateUpdated
             $activeSsl = $site->activeSsl();
             $siteCommand = $this->makeCommand($site, $sslCertificate, $sslCertificate->active ? 'Activating' : 'Deactivating');
 
-            $loadBalancerExists = $site->provisionedServers->first(function ($server) {
+            $loadBalancerExists = $site->servers->first(function ($server) {
                 return $server->type === SystemService::LOAD_BALANCER;
             });
 
