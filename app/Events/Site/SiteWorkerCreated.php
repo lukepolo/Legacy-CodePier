@@ -25,7 +25,6 @@ class SiteWorkerCreated
             $siteCommand = $this->makeCommand($site, $worker, 'Installing');
 
             foreach ($site->provisionedServers as $server) {
-
                 $serverType = $server->type;
 
                 $workerServerExists = $site->servers->first(function ($server) {
