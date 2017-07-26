@@ -162,18 +162,10 @@
             <div class="grid--item">
                 <h3 class="text-center">Recent Deployments</h3>
 
-                <div v-if="!deploymentEvents.length">
+                <div v-if="!recentDeployments">
                     <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
                 </div>
                 <template v-else>
-                    <template v-for="deploymentEvent in deploymentEvents">
-                        {{ deploymentEvent.status }} <time-ago :time="deploymentEvent.created_at"></time-ago>
-                        <br>
-                        <small>
-                            took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
-                        </small>
-                        <br>
-                    </template>
                     <template v-for="recentDeployment in recentDeployments">
                         {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
                         <br>
@@ -279,15 +271,7 @@
                 }
             },
             recentDeployments() {
-                return this.$store.state.user_site_deployments.deployments
-            },
-            deploymentEvents() {
-                if(this.site && this.recentDeployments) {
-                    return _.filter(this.$store.state.events.events, (event) => {
-                        return event.event_type === 'App\\Models\\Site\\SiteDeployment' &&
-                            event.site_id ===  this.site.id
-                    })
-                }
+                return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5)
             }
         },
     }
