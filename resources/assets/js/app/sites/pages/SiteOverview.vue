@@ -283,9 +283,16 @@
             },
             deploymentEvents() {
                 if(this.site && this.recentDeployments) {
+
+                    let latestDeployment = this.recentDeployments[0]
+
                     return _.filter(this.$store.state.events.events, (event) => {
                         return event.event_type === 'App\\Models\\Site\\SiteDeployment' &&
-                            event.site_id ===  this.site.id
+                            event.site_id ===  this.site.id &&
+                            (
+                                !latestDeployment ||
+                                (latestDeployment.created_at) < event.created_at
+                            )
                     })
                 }
             }
