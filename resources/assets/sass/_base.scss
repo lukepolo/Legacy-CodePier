@@ -208,3 +208,20 @@ tr {
   }
 
 }
+
+.table--light {
+  border: none;
+  background-color: $white;
+
+  th {
+    color: $color-primary;
+    background-color: $white;
+    text-align: center;
+  }
+
+  tr {
+    &:nth-child(even) {
+      background-color: rgba($grayLight, .1);
+    }
+  }
+}
