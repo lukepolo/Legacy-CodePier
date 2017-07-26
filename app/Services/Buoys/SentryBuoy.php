@@ -29,10 +29,7 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->removeDirectory('onpremise');
         $this->remoteTaskService->run('git clone https://github.com/getsentry/onpremise');
 
-        // https://github.com/getsentry/onpremise/blob/master/Dockerfile
-        $this->remoteTaskService->findTextAndAppend('~/onpremise/sentry.conf.py', 'system.secret-key', "SENTRY_FEATURES['auth:register'] = False");
-
-        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.17-onbuild');
+        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.18-onbuild');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install make');
 
         $this->remoteTaskService->run('cd onpremise && mkdir -p /data/{sentry,postgres} && make build');
