@@ -38,7 +38,7 @@ class ServerRequest extends FormRequest
     public function messages()
     {
         return [
-            'server_name' => 'Your server name can only contain alphanumeric characters, dashes, and periods.'
+            'server_name' => 'Your server name can only contain alphanumeric characters, dashes, and periods.',
         ];
     }
 }
