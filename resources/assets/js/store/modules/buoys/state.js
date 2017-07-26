@@ -1,4 +1,4 @@
 export default {
-    buoy_apps: [],
-    buoy_app: null,
+  buoy_apps: [],
+  buoy_app: null
 };
