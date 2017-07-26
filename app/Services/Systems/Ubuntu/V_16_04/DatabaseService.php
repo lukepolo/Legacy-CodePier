@@ -133,6 +133,8 @@ class DatabaseService
 
         $this->remoteTaskService->run('service mongod start');
 
+        sleep(2);
+
         $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
