@@ -131,9 +131,9 @@ class DatabaseService
         $this->remoteTaskService->run('apt-get install -y mongodb-org');
         $this->remoteTaskService->updateText('/etc/mongod.conf', 'bind_ip', '# bind_ip = 127.0.0.1');
 
-        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : \"codepier\", pwd : \"$databasePassword\", roles : [ { role : \"userAdminAnyDatabase\", db: \"admin\" } ] });\"");
-
         $this->remoteTaskService->run('service mongod start');
+
+        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
     }
@@ -211,6 +211,7 @@ class DatabaseService
                     break;
                 case self::MONGODB:
                     $this->addMongoDbUser($schemaUser, $schema);
+                    break;
                 default:
                     throw new UnknownDatabase($schema->database);
                     break;
@@ -236,6 +237,7 @@ class DatabaseService
                     break;
                 case self::MONGODB:
                     $this->removeMongoDbUser($schemaUser, $schema);
+                    break;
                 default:
                     throw new UnknownDatabase($schema->database);
                     break;
@@ -285,7 +287,7 @@ class DatabaseService
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
     {
         $this->connectToServer($this->server);
-        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : \"$schemaUser->name\", pwd : \"$schemaUser->password\", roles : [ { role : \"readWrite\", db: \"$schema->name\" } ] });\"");
+        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : '$schemaUser->name', pwd : '$schemaUser->password', roles : [ { role : 'readWrite', db: '$schema->name' } ] });\"");
     }
 
     private function removeMongoDbUser(SchemaUser $schemaUser)
