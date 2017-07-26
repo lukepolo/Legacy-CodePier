@@ -243,7 +243,7 @@ class Server extends Model
             return $provisionStep->completed;
         })->count();
 
-        if($totalDone == 0) {
+        if ($totalDone == 0) {
             $totalDone = 1;
         }
 
