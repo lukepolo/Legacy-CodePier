@@ -243,6 +243,10 @@ class Server extends Model
             return $provisionStep->completed;
         })->count();
 
+        if($totalDone == 0) {
+            $totalDone = 1;
+        }
+
         return floor(($totalDone / $this->provisionSteps->count()) * 100);
     }
 
