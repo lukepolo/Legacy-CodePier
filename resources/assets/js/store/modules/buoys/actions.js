@@ -47,5 +47,9 @@ export const installOnServer = (context, data) => {
         name: "server_buoys",
         params: { server_id: data.server }
       });
+
+      app.showSuccess(
+        "You will receive and email when the buoy is completed it's installation."
+      );
     });
 };
