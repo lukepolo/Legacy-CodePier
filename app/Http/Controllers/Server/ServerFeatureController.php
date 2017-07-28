@@ -65,7 +65,6 @@ class ServerFeatureController extends Controller
             ! isset($serverFeatures[$service][$feature]['installing']) ||
             ! $serverFeatures[$service][$feature]['installing']
         )) {
-
             $serverFeatures[$service][$feature] = [
                 'installing' => true,
             ];
