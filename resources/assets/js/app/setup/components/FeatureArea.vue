@@ -27,7 +27,12 @@
                     </small>
 
                     <template v-if="server && hasFeature(feature)">
-                        [Installed]
+                        <template v-if="isInstalling(feature)">
+                            [Installing]
+                        </template>
+                        <template v-else>
+                            [Installed]
+                        </template>
                     </template>
                     <template v-else-if="server && !hasFeature(feature)">
                         <template v-if="hasConflicts(feature)">
@@ -128,29 +133,43 @@
             },
             hasFeature: function (feature) {
 
-                let areaFeatures = null;
+                let areaFeatures = this.getAreaFeatures(feature, this.server.server_features)
 
-                if (this.server && this.server.server_features) {
-                    areaFeatures = _.get(this.server.server_features, feature.service);
-                } else if (this.selected_server_features) {
-                    areaFeatures = _.get(this.selected_server_features, feature.service);
-                }
-
-                if(areaFeatures && _.has(areaFeatures, feature.input_name) && areaFeatures[feature.input_name].enabled) {
+                if(
+                    areaFeatures &&
+                    _.has(areaFeatures, feature.input_name) &&
+                    (
+                        areaFeatures[feature.input_name].enabled ||
+                        areaFeatures[feature.input_name].installing
+                    )
+                ) {
                     return _.get(areaFeatures, feature.input_name);
                 }
 
                 return false;
             },
-            currentlySelectedHasFeature: function (service, feature) {
+            isInstalling: function(feature) {
+                let foundFeature = this.hasFeature(feature)
+                if(foundFeature) {
+                    return foundFeature.installing;
+                }
+                return false
+            },
+            getAreaFeatures(feature, serverFeatures) {
 
                 let areaFeatures = null;
 
-                if(this.current_selected_features) {
-                    areaFeatures = _.get(this.current_selected_features, service);
-                } else {
-                    areaFeatures = _.get(this.selected_server_features, service);
+                if (this.server && serverFeatures) {
+                    areaFeatures = _.get(serverFeaturess, feature.service);
+                } else if (this.selected_server_features) {
+                    areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
+
+                return areaFeatures
+            },
+            currentlySelectedHasFeature: function (service, feature) {
+
+                let areaFeatures = this.getAreaFeatures(feature, this.current_selected_features)
 
                 if(_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
                     return feature;
@@ -180,6 +199,7 @@
                     server: this.server.id,
                     service: feature.service,
                 });
+
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];
