@@ -257,7 +257,7 @@ export default {
                 windowWidth: 0,
                 showEvents: false,
                 defaultNotificationTypes: Laravel.defaultNotificationTypes,
-                form: {
+                form: this.createForm({
                     page: 1,
                     filters: {
                         types: {
@@ -268,7 +268,7 @@ export default {
                         sites: [],
                         servers: []
                     }
-                },
+                }),
                 prev_filters: {
                     types: {
                         commands: [],

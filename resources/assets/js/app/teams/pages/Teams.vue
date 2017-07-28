@@ -115,16 +115,16 @@
             return {
                 updating_team: false,
                 creating_team: false,
-                create_form: {
+                create_form: this.createForm({
                     piles: [],
                     name: null
 
-                },
-                edit_form: {
+                }),
+                edit_form: this.createForm({
                     piles: [],
                     name: null,
                     team: null
-                }
+                })
             }
         },
         methods: {
