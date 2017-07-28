@@ -27,9 +27,9 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     file : ''
-                }
+                })
             }
         },
         components : {
