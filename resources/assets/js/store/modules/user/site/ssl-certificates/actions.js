@@ -6,7 +6,7 @@ export const get = ({ dispatch }, site) => {
     )
     .then(sslCertificates => {
       _.each(sslCertificates, sslCertificate => {
-        dispatch("listenToSslCerificate", sslCertificate);
+        dispatch("listenToSslCertificate", sslCertificate);
       });
       return sslCertificates;
     });
@@ -20,7 +20,7 @@ export const store = ({ dispatch }, data) => {
     )
     .then(sslCertificate => {
       if (sslCertificate !== "OK") {
-        dispatch("listenToSslCerificate", sslCertificate);
+        dispatch("listenToSslCertificate", sslCertificate);
         return sslCertificate;
       }
     });
@@ -46,7 +46,7 @@ export const destroy = (context, data) => {
   );
 };
 
-export const listenToSslCerificate = ({ commit }, sslCertificate) => {
+export const listenToSslCertificate = ({ commit }, sslCertificate) => {
   Echo.private(
     "App.Models.SslCertificate." + sslCertificate.id
   ).listen("SslCertificate\\SslCertificateUpdated", data => {
