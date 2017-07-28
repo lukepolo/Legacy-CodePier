@@ -86,11 +86,11 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     cron: null,
                     user: 'root',
                     cron_timing: null
-                },
+                }),
             }
         },
         created() {

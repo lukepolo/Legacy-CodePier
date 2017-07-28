@@ -27,7 +27,12 @@
                     </small>
 
                     <template v-if="server && hasFeature(feature)">
-                        [Installed]
+                        <template v-if="isInstalling(feature)">
+                            [Installing]
+                        </template>
+                        <template v-else>
+                            [Installed]
+                        </template>
                     </template>
                     <template v-else-if="server && !hasFeature(feature)">
                         <template v-if="hasConflicts(feature)">
@@ -136,14 +141,27 @@
                     areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
 
-                if(areaFeatures && _.has(areaFeatures, feature.input_name) && areaFeatures[feature.input_name].enabled) {
+                if(
+                    areaFeatures &&
+                    _.has(areaFeatures, feature.input_name) &&
+                    (
+                        areaFeatures[feature.input_name].enabled ||
+                        areaFeatures[feature.input_name].installing
+                    )
+                ) {
                     return _.get(areaFeatures, feature.input_name);
                 }
 
                 return false;
             },
+            isInstalling: function(feature) {
+                let foundFeature = this.hasFeature(feature)
+                if(foundFeature) {
+                    return foundFeature.installing;
+                }
+                return false
+            },
             currentlySelectedHasFeature: function (service, feature) {
-
                 let areaFeatures = null;
 
                 if(this.current_selected_features) {
@@ -156,7 +174,8 @@
                     return feature;
                 }
 
-                return false;
+                return false
+
             },
             getParameterValue: function (feature, parameter, default_value) {
                 let area = this.hasFeature(feature);
@@ -180,6 +199,7 @@
                     server: this.server.id,
                     service: feature.service,
                 });
+
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];

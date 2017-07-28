@@ -44,10 +44,10 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     bitt : null,
                     servers : [],
-                }
+                })
             }
         },
         methods: {

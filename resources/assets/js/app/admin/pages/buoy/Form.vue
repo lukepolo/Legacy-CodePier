@@ -114,7 +114,7 @@
         },
         data() {
             return {
-                form : {
+                form : this.createForm({
                     ports : [],
                     icon : null,
                     options : [],
@@ -123,7 +123,7 @@
                     category : null,
                     buoy_class : null,
                     description : null,
-                },
+                }),
                 image : null
             }
         },

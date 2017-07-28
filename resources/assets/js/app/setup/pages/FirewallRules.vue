@@ -78,12 +78,12 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     port: null,
                     type : 'tcp',
                     from_ip: null,
                     description: null
-                }
+                })
             }
         },
         created() {
