@@ -45,14 +45,48 @@ class ServerFeatureController extends Controller
      */
     public function store(ServerFeatureRequest $request, $serverId)
     {
-        return $this->dispatch(
-            (new InstallServerFeature(
-                Server::findOrFail($serverId),
-                $request->get('feature'),
-                $request->get('service'),
-                $request->get('parameters', [])
-            ))->onQueue(config('queue.channels.server_features'))
-        );
+        $feature = $request->get('feature');
+        $service = $request->get('service');
+
+        $server = Server::findOrFail($serverId);
+        $serverFeatures = $server->server_features;
+
+        $serverFeatures[$service][$feature] = [
+            'installing' => true,
+        ];
+
+        return response()->json($serverFeatures);
+
+        if ((
+            ! isset($serverFeatures[$service][$feature]) ||
+            ! isset($serverFeatures[$service][$feature]['enabled']) ||
+            ! $serverFeatures[$service][$feature]['enabled']
+        ) && (
+            ! isset($serverFeatures[$service][$feature]['installing']) ||
+            ! $serverFeatures[$service][$feature]['installing']
+        )) {
+
+            $serverFeatures[$service][$feature] = [
+                'installing' => true,
+            ];
+
+            $this->dispatch(
+                (new InstallServerFeature(
+                    $server,
+                    $feature,
+                    $service,
+                    $request->get('parameters', [])
+                ))->onQueue(config('queue.channels.server_features'))
+            );
+
+            $server->update([
+                'server_features' => $serverFeatures,
+            ]);
+
+            return response()->json($serverFeatures);
+        }
+
+        return response()->json('It is currntly being installed', 409);
     }
 
     /**
