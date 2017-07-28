@@ -133,7 +133,13 @@
             },
             hasFeature: function (feature) {
 
-                let areaFeatures = this.getAreaFeatures(feature, this.server.server_features)
+                let areaFeatures = null;
+
+                if (this.server && this.server.server_features) {
+                    areaFeatures = _.get(this.server.server_features, feature.service);
+                } else if (this.selected_server_features) {
+                    areaFeatures = _.get(this.selected_server_features, feature.service);
+                }
 
                 if(
                     areaFeatures &&
@@ -155,27 +161,21 @@
                 }
                 return false
             },
-            getAreaFeatures(feature, serverFeatures) {
-
+            currentlySelectedHasFeature: function (service, feature) {
                 let areaFeatures = null;
 
-                if (this.server && serverFeatures) {
-                    areaFeatures = _.get(serverFeaturess, feature.service);
-                } else if (this.selected_server_features) {
-                    areaFeatures = _.get(this.selected_server_features, feature.service);
+                if(this.current_selected_features) {
+                    areaFeatures = _.get(this.current_selected_features, service);
+                } else {
+                    areaFeatures = _.get(this.selected_server_features, service);
                 }
-
-                return areaFeatures
-            },
-            currentlySelectedHasFeature: function (service, feature) {
-
-                let areaFeatures = this.getAreaFeatures(feature, this.current_selected_features)
 
                 if(_.has(areaFeatures, feature) && areaFeatures[feature].enabled) {
                     return feature;
                 }
 
-                return false;
+                return false
+
             },
             getParameterValue: function (feature, parameter, default_value) {
                 let area = this.hasFeature(feature);
