@@ -102,12 +102,12 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     command: null,
                     auto_start: true,
                     auto_restart: true,
                     number_of_workers: 1,
-                }
+                })
             }
         },
         created() {

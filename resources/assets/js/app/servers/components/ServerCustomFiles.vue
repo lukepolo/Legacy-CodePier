@@ -30,9 +30,9 @@
         },
         data() {
             return {
-                form : {
+                form : this.createForm({
                     file : ''
-                }
+                })
             }
         },
         methods: {

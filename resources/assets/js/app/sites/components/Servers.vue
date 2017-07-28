@@ -102,9 +102,9 @@
         data()  {
             return {
                 connectServers : false,
-                form: {
+                form: this.createForm({
                     connected_servers: []
-                },
+                }),
                 showInfo : false
             }
         },

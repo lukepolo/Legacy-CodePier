@@ -59,10 +59,10 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     name: null,
                     ssh_key: null
-                }
+                })
             }
         },
         created() {

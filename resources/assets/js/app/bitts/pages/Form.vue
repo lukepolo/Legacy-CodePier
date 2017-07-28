@@ -106,14 +106,14 @@
         },
         data() {
             return {
-                form : {
+                form : this.createForm({
                     title : null,
                     script: null,
                     systems : [],
                     private : true,
                     category : null,
                     description : null,
-                },
+                }),
             }
         },
         methods: {
