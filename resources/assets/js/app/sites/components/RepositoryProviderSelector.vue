@@ -70,14 +70,10 @@ export default {
             })
 
         },
-        user_repository_providers() {
-            return this.$store.state.user_repository_providers.providers
-        },
-
         registerProvider(provider) {
-            window.location.href = this.action('Auth\OauthController@newProvider', {
+            window.location.replace(this.action('Auth\OauthController@newProvider', {
                 provider : provider
-            })
+            }))
         },
     },
     computed: {

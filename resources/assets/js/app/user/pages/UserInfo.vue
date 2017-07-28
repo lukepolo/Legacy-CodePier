@@ -108,7 +108,7 @@
     export default {
         data() {
             return {
-                form: this.form({
+                form: this.createForm({
                     user : user.id,
                     name: null,
                     email: null,
