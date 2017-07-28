@@ -63,7 +63,7 @@ class InstallServerFeature implements ShouldQueue
             'installing' => false,
         ];
 
-        if($this->wasSuccessful()) {
+        if ($this->wasSuccessful()) {
             $serverFeatures[$this->service][$this->feature] = [
                 'enabled' => true,
             ];
