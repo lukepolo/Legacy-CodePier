@@ -51,12 +51,6 @@ class ServerFeatureController extends Controller
         $server = Server::findOrFail($serverId);
         $serverFeatures = $server->server_features;
 
-        $serverFeatures[$service][$feature] = [
-            'installing' => true,
-        ];
-
-        return response()->json($serverFeatures);
-
         if ((
             ! isset($serverFeatures[$service][$feature]) ||
             ! isset($serverFeatures[$service][$feature]['enabled']) ||
