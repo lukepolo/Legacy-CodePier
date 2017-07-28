@@ -112,7 +112,14 @@
             },
             'site'() {
                 if(this.site && this.pileId !== this.site.pile_id) {
-                    this.$store.dispatch('user_piles/change', this.site.pile_id)
+                    this.$store.dispatch('user_piles/change', this.site.pile_id).then(() => {
+                        app.$router.push({
+                            name : 'site_overview',
+                            params : {
+                                site_id : this.site.id
+                            }
+                        })
+                    })
                 }
                 this.checkRedirect()
             }
