@@ -166,7 +166,7 @@
                 return this.isCommandRunning('App\\Models\\Worker', id)
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.form.reset()
                 if(this.site) {
                     this.form.command = this.site.path
                 }

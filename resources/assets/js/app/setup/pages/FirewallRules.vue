@@ -144,7 +144,7 @@
                 return this.isCommandRunning('App\\Models\\FirewallRule', id)
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.form.reset()
             }
         },
         computed: {
