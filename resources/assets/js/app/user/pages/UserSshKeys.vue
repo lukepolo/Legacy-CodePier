@@ -72,7 +72,7 @@
             },
             createSshkey() {
                 this.$store.dispatch('user_ssh_keys/store', this.form).then(() => {
-                    this.form = this.$options.data().form
+                    this.form.reset()
                 })
             },
             deleteSshKey: function (sshKeyId) {

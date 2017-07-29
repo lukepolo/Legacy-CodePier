@@ -83,7 +83,7 @@
                             <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
                                         :deployment-step="deploymentStep"
-                                        :key="deploymentStep"
+                                        :key="deploymentStep.step"
                                         v-on:updateStep="updateStep('active')"
                                         v-on:deleteStep="deleteStep(key, 'active')"
                                 ></deployment-step-card>
