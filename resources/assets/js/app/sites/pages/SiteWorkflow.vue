@@ -153,7 +153,7 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     workflow: [
                         'site_databases',
                         'site_workers',
@@ -161,7 +161,7 @@
                         'site_files',
                         'site_ssl_certs'
                     ]
-                }
+                })
             }
         },
         methods: {

@@ -59,10 +59,10 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     name: null,
                     ssh_key: null
-                }
+                })
             }
         },
         created() {
@@ -121,7 +121,7 @@
                 return this.isCommandRunning('App\\Models\\SshKey', id)
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.form.reset()
             }
         },
         computed: {

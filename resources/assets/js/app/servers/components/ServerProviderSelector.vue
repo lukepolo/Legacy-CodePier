@@ -113,7 +113,7 @@
                     this.$emit('update:server_provider_id', provider.id)
                 } else {
                     if(provider.oauth) {
-                        window.location = this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
+                        window.location.replace(this.action('Auth\OauthController@newProvider', { provider : provider.provider_name}))
                     } else {
                         Vue.set(this.adding_provider, provider.id, true)
                     }

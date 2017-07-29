@@ -13,6 +13,6 @@ export const destroy = (context, data) => {
       user: data.user,
       notification_provider: data.notification_provider
     }),
-    "user_notification_providers/destroy"
+    "user_notification_providers/remove"
   );
 };

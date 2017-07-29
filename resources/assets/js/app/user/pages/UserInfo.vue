@@ -108,7 +108,7 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     user : user.id,
                     name: null,
                     email: null,
@@ -116,7 +116,7 @@
                     confirm_password: null,
                     workflow : null,
                     second_auth_active : null
-                },
+                }),
                 token : null,
                 secondAuthImage : null,
                 secondAuthSecret : null

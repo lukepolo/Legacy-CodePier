@@ -4300,16 +4300,16 @@
         },
         {
             "name": "socialiteproviders/manager",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SocialiteProviders/Manager.git",
-                "reference": "f57877e96c46f0f9157fcd8fa68a547f6d344ed5"
+                "reference": "d394a29963e51f2659a55d6e8df5d928d4cdb8de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/f57877e96c46f0f9157fcd8fa68a547f6d344ed5",
-                "reference": "f57877e96c46f0f9157fcd8fa68a547f6d344ed5",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/d394a29963e51f2659a55d6e8df5d928d4cdb8de",
+                "reference": "d394a29963e51f2659a55d6e8df5d928d4cdb8de",
                 "shasum": ""
             },
             "require": {
@@ -4338,7 +4338,7 @@
                 }
             ],
             "description": "Easily add new or override built-in providers in Laravel Socialite.",
-            "time": "2017-02-07T07:26:42+00:00"
+            "time": "2017-07-27T08:25:15+00:00"
         },
         {
             "name": "socialiteproviders/slack",
