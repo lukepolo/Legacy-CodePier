@@ -59,7 +59,7 @@
                     </template>
 
                     <template v-else>
-                        <div class="grid--item" @click="createDeployHook">
+                        <div class="grid--item" @click="removeDeployHook">
                             <div class="providers--item">
                                 <div class="providers--item-header">
                                     <div class="providers--item-icon">
