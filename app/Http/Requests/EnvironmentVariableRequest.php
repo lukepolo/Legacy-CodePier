@@ -32,7 +32,7 @@ class EnvironmentVariableRequest extends FormRequest
     public function messages()
     {
         return [
-            'environment_variable' => 'Please enter a valid environment variable name. Must not start with a number, contain special characters or spaces.'
+            'environment_variable' => 'Please enter a valid environment variable name. Must not start with a number, contain special characters or spaces.',
         ];
     }
 }
