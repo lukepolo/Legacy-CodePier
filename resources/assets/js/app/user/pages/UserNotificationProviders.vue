@@ -1,48 +1,42 @@
 <template>
-    <div class="providers grid-4">
-        <label v-for="provider in notification_providers">
-            <div class="providers--item" >
-                <!--@click="!isConnected(provider.id) ? registerProvider(provider.provider_name) : disconnectProvider(provider.id)"-->
-                <div class="providers--item-header">
-                    <div class="providers--item-icon"><span :class="'icon-' + provider.name.toLowerCase()"></span></div>
-                    <div class="providers--item-name">{{provider.name}}</div>
-                </div>
-                <div class="providers--item-footer">
-                    <template v-if="isConnected(provider.id)">
-                        <div class="providers--item-footer-disconnect"><h4><span class="icon-check_circle"></span> Disconnect</h4></div>
 
-                        <a @click="disconnectProvider(provider.id)" class="btn btn-default">{{
-                        provider.name}}</a>
-                    </template>
-                    <template v-else>
-                        <div class="providers--item-footer-connect"><h4><span class="icon-link"></span> Connect Account</h4></div>
+   <section>
+       <div class="providers grid-4">
+           <label v-for="provider in notification_providers">
+               <div class="providers--item" @click="isConnected(provider.id) ? disconnectProvider(provider.id) : connectProvider(provider)">
+                   <div class="providers--item-header">
+                       <div class="providers--item-icon"><span :class="'icon-' + provider.name.toLowerCase()"></span></div>
+                       <div class="providers--item-name">{{provider.name}}</div>
+                   </div>
+                   <div class="providers--item-footer">
+                       <template v-if="isConnected(provider.id)">
+                           <div class="providers--item-footer-disconnect"><h4><span class="icon-check_circle"></span> Disconnect</h4></div>
+                       </template>
+                       <template v-else>
+                           <div class="providers--item-footer-connect">
+                               <h4><span class="icon-link"></span> Connect Account</h4>
+                           </div>
+                       </template>
+                   </div>
+               </div>
+           </label>
+       </div>
 
-                        <a
-                            :href="action('Auth\OauthController@newProvider', { provider : provider.provider_name})"
-                            class="btn btn-default">{{ provider.name}}</a>
-                    </template>
-                </div>
-            </div>
+       <div>
+           <form @submit.prevent="updateUserNotifications">
+               <template v-for="notification_setting in notification_settings">
+                   {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
+                   <template v-for="service in notification_setting.services">
+                       <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
+                       {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
+                   </template>
+                   <br>
+               </template>
+               <button class="btn btn-primary" type="submit">Update Settings</button>
+           </form>
+       </div>
+   </section>
 
-
-
-                <br>
-                <br>
-                <br>
-            <form @submit.prevent="updateUserNotifications">
-                <template v-for="notification_setting in notification_settings">
-                    {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
-                    <template v-for="service in notification_setting.services">
-                        <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
-                        {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
-                    </template>
-                    <br>
-                </template>
-                <button class="btn btn-primary" type="submit">Update Settings</button>
-            </form>
-
-        </label>
-    </div>
 </template>
 
 <script>
@@ -62,6 +56,11 @@
             },
         },
         methods: {
+            connectProvider(provider) {
+                window.location.replace(
+                    this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
+                )
+            },
             hasNotificationSetting(notification_setting, service) {
                 let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id})
 
