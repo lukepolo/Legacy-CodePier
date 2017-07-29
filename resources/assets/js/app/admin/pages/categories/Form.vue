@@ -44,9 +44,9 @@
         },
         data() {
           return {
-              form : {
+              form : this.createForm({
                   name : null,
-              }
+              })
           }
         },
         methods: {

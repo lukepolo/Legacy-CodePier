@@ -62,10 +62,10 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     value: '',
                     variable: null,
-                }
+                })
             }
         },
         created() {

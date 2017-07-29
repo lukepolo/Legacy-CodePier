@@ -20,11 +20,7 @@ export const install = (context, data) => {
       Vue.action("ServerServerFeatureController@store", {
         server: data.server
       }),
-      {
-        service: data.service,
-        feature: data.feature,
-        parameters: data.parameters
-      }
+      "user_server_features/setAll"
     )
     .then(() => {
       app.showSuccess("You have queued a server feature install");

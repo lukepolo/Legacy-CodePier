@@ -58,12 +58,12 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     ports : [],
                     options : [],
                     server : null,
                     buoy_app_id : null,
-                }
+                })
             }
         },
         methods: {
