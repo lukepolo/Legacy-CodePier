@@ -60,7 +60,7 @@
                 @yield('content')
             </div>
 
-            <footer class="footer">
+            <div class="footer">
                 <div class="footer--links">
                     <h4 class="footer--links-heading">Resources</h4>
                     <ul class="footer--links-list">
@@ -90,10 +90,14 @@
                 <div class="footer--img">
                     <img src="/assets/img/boats.png">
                 </div>
-            </footer>
+            </div>
         </div>
 
 
+        <script
+                src="http://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+                crossorigin="anonymous"></script>
         <!-- Scripts -->
         @stack('scripts')
     </body>

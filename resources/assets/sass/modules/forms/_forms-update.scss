@@ -215,7 +215,7 @@ $flyform-transition: all .5s;
         }
 
         &-label,
-        .flyform--group-prefix-label, {
+        .flyform--group-prefix-label {
             padding: 0px $spacing/2;
         }
     }
@@ -292,7 +292,7 @@ $flyform-transition: all .5s;
                     background-color: $red;
                 }
 
-                &:first-child() {
+                &:first-child {
                     margin-top: 5px;
                 }
             }

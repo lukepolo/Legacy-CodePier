@@ -3,6 +3,12 @@
 @import 'modules/buttons';
 @import 'modules/forms';
 
+@import 'layouts/footer';
+@import 'modules/_search-filter.scss';
+@import 'modules/icons';
+@import 'modules/_dropdowns.scss';
+@import 'modules/_events.scss';
+
 body {
   display: flex;
   flex-direction: column;
@@ -425,4 +431,10 @@ header {
 
 .error {
   color : $red
+}
+
+
+// Lukes hacks
+.events {
+  color : $white !important;;
 }
