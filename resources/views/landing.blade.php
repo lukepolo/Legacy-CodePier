@@ -45,7 +45,7 @@
                         <td>
                             GO, Java, Node.js, PHP, Python,Ruby <br>
                             <b>
-                                <small>Durring beta we will only be supporting PHP</small>
+                                <small>During beta we will only be supporting PHP</small>
                             </b>
                         </td>
                         <td>PHP</td>
