@@ -53,7 +53,7 @@ trait HasServers
                 return false;
             }
 
-            return !$types->contains($server->type);
+            return ! $types->contains($server->type);
         });
     }
 
