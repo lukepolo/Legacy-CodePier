@@ -30,7 +30,11 @@ trait ServerCommandTrait
      */
     public function makeCommand(Server $server, Model $model, Command $command = null, $status = null)
     {
+        $hasCommand = !empty($command);
+        $description = method_exists($model, 'commandDescription') ? $model->commandDescription($status) : $status;
+
         if (empty($command)) {
+
             if (empty($status)) {
                 \Log::critical('missing status for '.get_class($model));
             }
@@ -40,13 +44,14 @@ trait ServerCommandTrait
                 'commandable_id' => $model->id,
                 'commandable_type' => get_class($model),
                 'status' => 'Queued',
-                'description' => method_exists($model, 'commandDescription') ? $model->commandDescription($status) : $status,
+                'description' => $description,
             ]);
         }
 
         $this->serverCommand = ServerCommand::create([
             'server_id' => $server->id,
             'command_id' => $command->id,
+            'description' => $hasCommand ? $description : null
         ]);
 
         return $this->serverCommand;
