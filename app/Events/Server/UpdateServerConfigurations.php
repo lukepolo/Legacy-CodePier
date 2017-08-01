@@ -2,7 +2,6 @@
 
 namespace App\Events\Server;
 
-use function event;
 use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;

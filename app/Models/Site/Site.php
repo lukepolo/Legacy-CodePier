@@ -12,8 +12,8 @@ use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
 use App\Models\SchemaUser;
-use App\Traits\Encryptable;
 use App\Traits\HasServers;
+use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
 use App\Models\SlackChannel;
@@ -23,14 +23,12 @@ use App\Models\LanguageSetting;
 use App\Traits\ConnectedToUser;
 use App\Models\EnvironmentVariable;
 use App\Services\Server\ServerService;
-use App\Services\Systems\SystemService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Models\User\UserRepositoryProvider;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Site\Deployment\DeploymentStep;
-use function in_array;
 
 class Site extends Model
 {

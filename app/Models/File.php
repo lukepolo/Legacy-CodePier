@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Traits\HasServers;
 use App\Traits\Encryptable;
 use App\Models\Server\Server;
-use App\Traits\HasServers;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
