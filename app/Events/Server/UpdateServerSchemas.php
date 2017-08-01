@@ -56,6 +56,8 @@ class UpdateServerSchemas
      */
     private function addSchema(Schema $schema)
     {
+        //        $siteCommand = $this->makeCommand($site, $schema, 'Creating');
+
         dispatch(
             (new AddServerSchema($this->server, $schema, $this->command))->onQueue(config('queue.channels.server_commands'))
         );

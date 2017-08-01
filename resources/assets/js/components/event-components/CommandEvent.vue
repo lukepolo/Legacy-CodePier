@@ -3,23 +3,47 @@
         <div class="events--item-status" :class="{'events--item-status-neutral' : event.status === 'Queued', 'events--item-status-success' : event.status === 'Completed', 'events--item-status-error' : event.status === 'Failed', 'icon-spinner' : event.status === 'Running'}"></div>
         <div class="events--item-name">
             <drop-down-event
-                    :title="eventTitle"
-                    :event="event"
-                    :type="event.commandable_type"
-                    :prefix="event.id"
+                :title="eventTitle"
+                :event="event"
+                :type="event.commandable_type"
+                :prefix="event.id"
             >
-                <template v-for="command in event.server_commands">
-                    <drop-down-event
+                <template v-if="shouldGroupServers">
+                    <template v-for="(commands, serverId) in servers">
+                        <drop-down-event
+                            :title="getServer(serverId, 'name') + ' (' + getServer(serverId, 'ip') + ')'"
+                            :type="event.commandable_type"
+                            :event="event"
+                            :status="commandsStatus(commands)"
+                            :prefix="'event_'+event.id+'_server_'+serverId"
+                            :dropdown="true"
+                        >
+                            <template v-for="command in commands">
+                                <drop-down-event
+                                    :title="command.description"
+                                    :event="command"
+                                    :type="event.commandable_type"
+                                    :prefix="'command_'+command.id"
+                                    :dropdown="getLog(command.log).length"
+                                >
+                                    <span v-html="getLog(command.log)"></span>
+                                </drop-down-event>
+                            </template>
+                        </drop-down-event>
+                    </template>
+                </template>
+                <template v-else>
+                    <template v-for="command in event.server_commands">
+                        <drop-down-event
                             :title="getServer(command.server_id, 'name') + ' (' + getServer(command.server_id, 'ip') + ')'"
                             :event="command"
                             :type="event.commandable_type"
                             :prefix="'command_'+command.id"
-                            :dropdown="command.failed"
-                    >
-                        <template v-if="command.failed">
+                            :dropdown="getLog(command.log).length"
+                        >
                             <span v-html="getLog(command.log)"></span>
-                        </template>
-                    </drop-down-event>
+                        </drop-down-event>
+                    </template>
                 </template>
             </drop-down-event>
         </div>
@@ -67,11 +91,38 @@
                 if(!isNaN(seconds)) {
                     return seconds;
                 }
+            },
+            commandsStatus(commands) {
+                let total = commands.length
+                let failed = _.sumBy(commands, 'failed')
+                let started = _.sumBy(commands, 'started')
+                let completed = _.sumBy(commands, 'completed')
+                if (failed > 0) {
+
+                    return 'events--item-status-error'
+                } else if (total === completed) {
+                    return 'events--item-status-success'
+                } else if (started > 0) {
+                    return 'icon-spinner'
+                }
+                return 'events--item-status-neutral'
             }
         },
         computed : {
             eventTitle() {
                return this.event.description
+            },
+            servers() {
+                return _.groupBy(this.event.server_commands, 'server_id')
+            },
+            shouldGroupServers() {
+                let serverKeys = Object.keys(this.servers)
+                if(serverKeys.length >= 1) {
+                    if(serverKeys.length > 1 || Object.keys(_.values(this.servers)[0]).length > 1) {
+                        return true
+                    }
+                }
+                return false;
             }
         }
     }

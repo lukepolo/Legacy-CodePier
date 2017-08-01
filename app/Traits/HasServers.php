@@ -33,23 +33,27 @@ trait HasServers
 
     public function filterServersByType($types, $provisionedOnly = true)
     {
+        $types = collect($types);
+
         return $this->servers->filter(function ($server) use ($types, $provisionedOnly) {
             if ($provisionedOnly && $server->progress < 100) {
                 return false;
             }
 
-            return in_array($server->type, $types);
+            return $types->contains($server->type);
         });
     }
 
     public function excludeServersByType($types, $provisionedOnly = true)
     {
+        $types = collect($types);
+
         return $this->servers->filter(function ($server) use ($types, $provisionedOnly) {
             if ($provisionedOnly && $server->progress < 100) {
                 return false;
             }
 
-            return ! in_array($server->type, $types);
+            return !$types->contains($server->type);
         });
     }
 

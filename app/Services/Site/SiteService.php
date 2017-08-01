@@ -65,7 +65,7 @@ class SiteService implements SiteServiceContract
         $location = '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
 
         $this->remoteTaskService->makeDirectory($location);
-        $this->remoteTaskService->run("ln -s /opt/codepier/landing/index.html $location/index.html");
+        $this->remoteTaskService->run("ln -sf /opt/codepier/landing/index.html $location/index.html");
 
         $this->serverService->restartWebServices($server);
     }
