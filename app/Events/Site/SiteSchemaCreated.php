@@ -23,10 +23,10 @@ class SiteSchemaCreated
     {
         $availableServers = $site->filterServersByType([
             SystemService::DATABASE_SERVER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $schema, 'Creating');
 
             foreach ($availableServers as $server) {
@@ -36,6 +36,5 @@ class SiteSchemaCreated
                 );
             }
         }
-
     }
 }
