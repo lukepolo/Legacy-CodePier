@@ -23,11 +23,11 @@ class SiteSslCertificateUpdated
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
         if($site->isLoadBalanced()) {
-            $availableServers = $site->filterServerByType([
+            $availableServers = $site->filterServersByType([
                 SystemService::LOAD_BALANCER
             ]);
         } else {
-            $availableServers = $site->filterServerByType([
+            $availableServers = $site->filterServersByType([
                 SystemService::WEB_SERVER,
                 SystemService::FULL_STACK_SERVER
             ]);

@@ -21,7 +21,7 @@ class SiteSchemaUserCreated
      */
     public function __construct(Site $site, SchemaUser $schemaUser)
     {
-        $availableServers = $site->filterServerByType([
+        $availableServers = $site->filterServersByType([
             SystemService::DATABASE_SERVER,
             SystemService::FULL_STACK_SERVER
         ]);

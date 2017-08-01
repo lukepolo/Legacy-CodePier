@@ -21,7 +21,7 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
-        $availableServers = $site->filterServerByType([
+        $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::FULL_STACK_SERVER
         ]);

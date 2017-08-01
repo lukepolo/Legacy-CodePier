@@ -21,7 +21,7 @@ class SiteLanguageSettingUpdated
      */
     public function __construct(Site $site, LanguageSetting $languageSetting)
     {
-        $availableServers = $site->filterServerByType([
+        $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::FULL_STACK_SERVER
         ]);

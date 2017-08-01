@@ -22,11 +22,11 @@ class SiteWorkerCreated
     public function __construct(Site $site, Worker $worker)
     {
         if($site->hasWorkerServers()) {
-            $availableServers = $site->filterServerByType([
+            $availableServers = $site->filterServersByType([
                 SystemService::WORKER_SERVER,
             ]);
         } else {
-            $availableServers = $site->filterServerByType([
+            $availableServers = $site->filterServersByType([
                 SystemService::FULL_STACK_SERVER,
             ]);
         }

@@ -13,6 +13,7 @@ use App\Models\CronJob;
 use App\Models\User\User;
 use App\Models\SchemaUser;
 use App\Traits\Encryptable;
+use App\Traits\HasServers;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
 use App\Models\SlackChannel;
@@ -33,7 +34,7 @@ use function in_array;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable;
+    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable, HasServers;
 
     protected $guarded = [
         'id',
@@ -277,40 +278,4 @@ class Site extends Model
             return str_replace('.', '\\Frameworks\\', $this->framework);
         }
     }
-
-    public function isLoadBalanced()
-    {
-        return $this->filterServerByType(SystemService::LOAD_BALANCER, false)->count() ? true : false;
-    }
-
-    public function hasWorkerServers()
-    {
-        return $this->filterServerByType(SystemService::WORKER_SERVER, false)->count() ? true : false;
-    }
-
-    public function hasDatabaseServers()
-    {
-        return $this->filterServerByType(SystemService::DATABASE_SERVER, false)->count() ? true : false;
-    }
-
-    public function hasFullStackServers()
-    {
-        return $this->filterServerByType(SystemService::FULL_STACK_SERVER, false)->count() ? true : false;
-    }
-
-    public function hasWebServers()
-    {
-        return $this->filterServerByType(SystemService::WEB_SERVER, false)->count() ? true : false;
-    }
-
-    public function filterServerByType($types, $provisionedOnly = true)
-    {
-        return $this->servers->filter(function($server) use($types, $provisionedOnly) {
-            if($provisionedOnly && $server->progress < 100) {
-                return false;
-            }
-            return in_array($server->type, $types);
-        });
-    }
-
 }
