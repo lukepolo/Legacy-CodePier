@@ -34,12 +34,12 @@ class UpdateServerLanguageSettings
         $this->serverType = $server->type;
 
         $this->site->languageSettings->each(function (LanguageSetting $languageSettings) {
-            if(!$languageSettings->hasServer($this->server) && (
+            if (! $languageSettings->hasServer($this->server) && (
                 $this->serverType == SystemService::WEB_SERVER ||
                 $this->serverType == SystemService::WORKER_SERVER ||
                 $this->serverType == SystemService::FULL_STACK_SERVER
             )) {
-              $this->updateServerLanguageSetting($languageSettings);
+                $this->updateServerLanguageSetting($languageSettings);
             }
         });
     }

@@ -48,5 +48,4 @@ class UpdateServerFiles
             (new UpdateServerFile($this->server, $file, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }
-
 }

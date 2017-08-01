@@ -35,15 +35,15 @@ class UpdateServerWorkers
         $this->serverType = $server->type;
 
         $this->site->workers->each(function (Worker $worker) {
-            if($this->site->hasWorkerServers()) {
-                if($this->serverType == SystemService::WORKER_SERVER) {
-                    if(!$worker->hasServer($this->server)) {
+            if ($this->site->hasWorkerServers()) {
+                if ($this->serverType == SystemService::WORKER_SERVER) {
+                    if (! $worker->hasServer($this->server)) {
                         $this->addServerWorker($worker);
                     }
                 } else {
-                   $this->removeServerWorker($worker);
+                    $this->removeServerWorker($worker);
                 }
-            } else if(!$worker->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+            } elseif (! $worker->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
                 $this->addServerWorker($worker);
             }
         });

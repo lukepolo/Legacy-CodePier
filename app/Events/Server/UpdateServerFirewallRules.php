@@ -35,7 +35,6 @@ class UpdateServerFirewallRules
         $this->site->firewallRules->each(function (FirewallRule $firewallRule) {
             $this->installFirewallRule($firewallRule);
         });
-
     }
 
     /**

@@ -36,21 +36,19 @@ class UpdateServerSchemas
         $this->serverType = $server->type;
 
         $this->site->schemas->each(function (Schema $schema) {
-
-            if($this->site->hasDatabaseServers()) {
-                if($this->serverType == SystemService::DATABASE_SERVER) {
-                    if(!$schema->hasServer($this->server)) {
+            if ($this->site->hasDatabaseServers()) {
+                if ($this->serverType == SystemService::DATABASE_SERVER) {
+                    if (! $schema->hasServer($this->server)) {
                         $this->addSchema($schema);
                     }
                 } else {
                     // TODO - we should allow them to migrate from here , so should we remove it? Probably not
                     // $this->removeSchema($schema);
                 }
-            } else if(!$schema->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
+            } elseif (! $schema->hasServer($this->server) && $this->serverType == SystemService::FULL_STACK_SERVER) {
                 $this->addSchema($schema);
             }
         });
-
     }
 
     /**

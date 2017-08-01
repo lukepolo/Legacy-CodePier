@@ -34,12 +34,11 @@ class UpdateServerSslCertificates
         $this->serverType = $server->type;
 
         $this->site->sslCertificates->each(function (SslCertificate $sslCertificate) {
-
-            if($this->site->isLoadBalanced()) {
-                if(!$sslCertificate->hasServer($this->server) && $this->serverType == SystemService::LOAD_BALANCER) {
+            if ($this->site->isLoadBalanced()) {
+                if (! $sslCertificate->hasServer($this->server) && $this->serverType == SystemService::LOAD_BALANCER) {
                     $this->installSslCertificate($sslCertificate);
                 }
-            } else if(!$sslCertificate->hasServer($this->server) && (
+            } elseif (! $sslCertificate->hasServer($this->server) && (
                 $this->serverType == SystemService::WEB_SERVER ||
                 $this->serverType == SystemService::FULL_STACK_SERVER
             )) {

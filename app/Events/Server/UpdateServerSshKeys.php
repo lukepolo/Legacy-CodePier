@@ -33,7 +33,7 @@ class UpdateServerSshKeys
         $this->serverType = $server->type;
 
         $this->site->sshKeys->each(function (SshKey $sshKey) {
-            if(!$sshKey->hasServer($this->server)) {
+            if (! $sshKey->hasServer($this->server)) {
                 $this->installSshKey($sshKey);
             }
         });
@@ -48,5 +48,4 @@ class UpdateServerSshKeys
             (new InstallServerSshKey($this->server, $sshKey, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }
-
 }
