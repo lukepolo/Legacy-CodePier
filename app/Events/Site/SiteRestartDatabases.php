@@ -21,7 +21,7 @@ class SiteRestartDatabases
      */
     public function __construct(Site $site)
     {
-        $availableServers = $site->filterServerByType([
+        $availableServers = $site->filterServersByType([
             SystemService::DATABASE_SERVER,
             SystemService::FULL_STACK_SERVER
         ]);

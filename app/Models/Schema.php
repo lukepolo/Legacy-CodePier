@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Models\Site\Site;
 use App\Models\Server\Server;
+use App\Traits\HasServers;
 use Illuminate\Database\Eloquent\Model;
 
 class Schema extends Model
 {
+    use HasServers;
+
     protected $guarded = ['id'];
 
     /*

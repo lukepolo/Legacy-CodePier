@@ -68,26 +68,6 @@ class CreateSite implements ShouldQueue
             $siteService->create($this->server, $this->site);
         }
 
-        $this->site->files->each(function ($file) {
-            if (! empty($file->content)) {
-                dispatch(
-                    (new UpdateServerFile($this->server, $file, $this->command))->onQueue(config('queue.channels.server_commands'))
-                );
-            }
-        });
-
-        $this->site->sshKeys->each(function ($sshKey) {
-            dispatch(
-                (new InstallServerSshKey($this->server, $sshKey, $this->command))->onQueue(config('queue.channels.server_commands'))
-            );
-        });
-
-        $this->site->environmentVariables->each(function ($environmentVariable) {
-            dispatch(
-                (new InstallServerEnvironmentVariable($this->server, $environmentVariable, $this->command))->onQueue(config('queue.channels.server_commands'))
-            );
-        });
-
         event(new UpdateServerConfigurations($this->server, $this->site, $this->command));
     }
 }

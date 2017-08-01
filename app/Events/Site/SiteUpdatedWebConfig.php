@@ -19,7 +19,7 @@ class SiteUpdatedWebConfig
      */
     public function __construct(Site $site)
     {
-        $availableServers = $site->filterServerByType([
+        $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::LOAD_BALANCER,
             SystemService::FULL_STACK_SERVER,
