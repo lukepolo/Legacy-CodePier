@@ -29,7 +29,6 @@ use App\Models\User\UserRepositoryProvider;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\Auth\OauthController;
 use App\Models\Site\Deployment\DeploymentStep;
-use function in_array;
 
 class Site extends Model
 {
@@ -305,12 +304,12 @@ class Site extends Model
 
     public function filterServerByType($types, $provisionedOnly = true)
     {
-        return $this->servers->filter(function($server) use($types, $provisionedOnly) {
-            if($provisionedOnly && $server->progress < 100) {
+        return $this->servers->filter(function ($server) use ($types, $provisionedOnly) {
+            if ($provisionedOnly && $server->progress < 100) {
                 return false;
             }
+
             return in_array($server->type, $types);
         });
     }
-
 }

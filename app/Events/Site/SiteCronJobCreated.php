@@ -23,11 +23,10 @@ class SiteCronJobCreated
     {
         $availableServers = $site->filterServerByType([
             SystemService::WEB_SERVER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
-
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob, 'Installing');
 
             foreach ($availableServers as $server) {
@@ -35,7 +34,6 @@ class SiteCronJobCreated
                     (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
-
         }
     }
 }

@@ -21,19 +21,18 @@ class SiteSslCertificateCreated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        if($site->isLoadBalanced()) {
+        if ($site->isLoadBalanced()) {
             $availableServers = $site->filterServerByType([
-                SystemService::LOAD_BALANCER
+                SystemService::LOAD_BALANCER,
             ]);
         } else {
             $availableServers = $site->filterServerByType([
                 SystemService::WEB_SERVER,
-                SystemService::FULL_STACK_SERVER
+                SystemService::FULL_STACK_SERVER,
             ]);
         }
 
-        if($availableServers->count()) {
-
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Setting Up');
 
             foreach ($availableServers as $server) {

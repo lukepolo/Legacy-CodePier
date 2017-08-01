@@ -21,7 +21,7 @@ class SiteWorkerCreated
      */
     public function __construct(Site $site, Worker $worker)
     {
-        if($site->hasWorkerServers()) {
+        if ($site->hasWorkerServers()) {
             $availableServers = $site->filterServerByType([
                 SystemService::WORKER_SERVER,
             ]);
@@ -32,7 +32,6 @@ class SiteWorkerCreated
         }
 
         if ($availableServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $worker, 'Installing');
 
             foreach ($availableServers as $server) {
