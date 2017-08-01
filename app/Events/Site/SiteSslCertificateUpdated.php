@@ -22,28 +22,25 @@ class SiteSslCertificateUpdated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        if($site->isLoadBalanced()) {
+        if ($site->isLoadBalanced()) {
             $availableServers = $site->filterServerByType([
-                SystemService::LOAD_BALANCER
+                SystemService::LOAD_BALANCER,
             ]);
         } else {
             $availableServers = $site->filterServerByType([
                 SystemService::WEB_SERVER,
-                SystemService::FULL_STACK_SERVER
+                SystemService::FULL_STACK_SERVER,
             ]);
         }
 
-        if($availableServers->count()) {
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, $sslCertificate->active ? 'Activating' : 'Deactivating');
 
             $activeSsl = $site->activeSsl();
 
-            foreach($availableServers as $server) {
-
+            foreach ($availableServers as $server) {
                 if ($sslCertificate->active) {
-
                     if ($activeSsl->id != $sslCertificate->id) {
-
                         $activeSsl->update([
                             'active' => false,
                         ]);
@@ -66,7 +63,6 @@ class SiteSslCertificateUpdated
                             $siteCommand
                         ))->onQueue(config('queue.channels.server_commands'))
                     );
-
                 } else {
                     dispatch(
                         (new DeactivateServerSslCertificate(

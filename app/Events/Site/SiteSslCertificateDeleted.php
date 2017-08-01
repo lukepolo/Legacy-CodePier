@@ -6,7 +6,6 @@ use App\Models\Site\Site;
 use App\Models\SslCertificate;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 
 class SiteSslCertificateDeleted
@@ -23,11 +22,10 @@ class SiteSslCertificateDeleted
     {
         $site->sslCertificates()->detach($sslCertificate);
 
-        if($sslCertificate->servers->count()) {
-
+        if ($sslCertificate->servers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Removing');
 
-            foreach($sslCertificate->servers as $server) {
+            foreach ($sslCertificate->servers as $server) {
                 dispatch(
                     (new RemoveServerSslCertificate(
                         $server,
