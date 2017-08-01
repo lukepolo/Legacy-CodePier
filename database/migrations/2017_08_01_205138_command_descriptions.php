@@ -13,7 +13,7 @@ class CommandDescriptions extends Migration
      */
     public function up()
     {
-        Schema::table('server_commands', function(Blueprint $table) {
+        Schema::table('server_commands', function (Blueprint $table) {
             $table->string('description')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class CommandDescriptions extends Migration
      */
     public function down()
     {
-        Schema::table('server_commands', function(Blueprint $table) {
+        Schema::table('server_commands', function (Blueprint $table) {
             $table->dropColumn('description')->nullable();
         });
     }
