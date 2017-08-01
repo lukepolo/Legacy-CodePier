@@ -36,16 +36,15 @@ class UpdateServerCronJobs
 
         // TODO - cronjobs have the ability to select what server types they are installed on
         $this->site->cronJobs->each(function (CronJob $cronJob) {
-
-            if($this->site->hasWorkerServers()) {
-                if($this->serverType == SystemService::WORKER_SERVER) {
-                    if(!$cronJob->hasServer($this->server)) {
+            if ($this->site->hasWorkerServers()) {
+                if ($this->serverType == SystemService::WORKER_SERVER) {
+                    if (! $cronJob->hasServer($this->server)) {
                         $this->installCronJob($cronJob);
                     }
                 } else {
                     $this->removeCronJob($cronJob);
                 }
-            } else if(!$cronJob->hasServer($this->server)) {
+            } elseif (! $cronJob->hasServer($this->server)) {
                 $this->installCronJob($cronJob);
             }
         });
