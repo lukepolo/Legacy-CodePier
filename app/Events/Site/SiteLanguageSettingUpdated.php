@@ -23,11 +23,10 @@ class SiteLanguageSettingUpdated
     {
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
-
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $languageSetting, 'Updating');
 
             foreach ($availableServers as $server) {
