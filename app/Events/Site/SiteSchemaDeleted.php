@@ -22,16 +22,14 @@ class SiteSchemaDeleted
     {
         $site->schemas()->detach($schema);
 
-        if($schema->servers->count()) {
-
+        if ($schema->servers->count()) {
             $siteCommand = $this->makeCommand($site, $schema, 'Deleting');
 
-            foreach($schema->servers as $server) {
+            foreach ($schema->servers as $server) {
                 dispatch(
                     (new RemoveServerSchema($server, $schema, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }
-
     }
 }

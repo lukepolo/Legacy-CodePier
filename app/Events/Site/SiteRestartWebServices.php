@@ -24,10 +24,10 @@ class SiteRestartWebServices
         $availableServers = $site->filterServerByType([
             SystemService::WEB_SERVER,
             SystemService::LOAD_BALANCER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
+        if ($availableServers->count()) {
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Web Services');
 

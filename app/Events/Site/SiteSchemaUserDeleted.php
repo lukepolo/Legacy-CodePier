@@ -22,9 +22,9 @@ class SiteSchemaUserDeleted
     {
         $site->schemaUsers()->detach($schemaUser);
 
-        if($schemaUser->servers->count()) {
+        if ($schemaUser->servers->count()) {
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Deleting');
-            foreach($schemaUser->servers as $server) {
+            foreach ($schemaUser->servers as $server) {
                 dispatch(
                     (new RemoveServerSchemaUser($server, $schemaUser,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))

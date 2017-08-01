@@ -24,11 +24,10 @@ class SiteRenamed
         $availableServers = $site->filterServerByType([
             SystemService::WEB_SERVER,
             SystemService::LOAD_BALANCER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
-
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.'to'.$newDomain);
 
             foreach ($availableServers as $server) {

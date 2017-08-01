@@ -26,7 +26,6 @@ class SiteUpdatedWebConfig
         ]);
 
         if ($availableServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $site, 'Updating Web Config');
 
             foreach ($availableServers as $server) {
@@ -34,7 +33,6 @@ class SiteUpdatedWebConfig
                     (new UpdateWebConfig($server, $site, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
-
         }
     }
 }

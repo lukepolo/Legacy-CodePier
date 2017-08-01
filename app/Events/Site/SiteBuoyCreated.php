@@ -21,7 +21,6 @@ class SiteBuoyCreated
     public function __construct(Site $site, Buoy $buoy)
     {
         if ($site->provisionedServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $buoy, 'Creating');
 
             foreach ($site->provisionedServers as $server) {

@@ -18,7 +18,7 @@ class FixSiteServerConfigurations
      */
     public function __construct(Site $site)
     {
-        foreach($site->servers as $server) {
+        foreach ($site->servers as $server) {
             $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
             event(new UpdateServerConfigurations($server, $site, $siteCommand));
         }

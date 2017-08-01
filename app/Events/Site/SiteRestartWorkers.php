@@ -23,10 +23,10 @@ class SiteRestartWorkers
     {
         $availableServers = $site->filterServerByType([
             SystemService::WORKER_SERVER,
-            SystemService::FULL_STACK_SERVER
+            SystemService::FULL_STACK_SERVER,
         ]);
 
-        if($availableServers->count()) {
+        if ($availableServers->count()) {
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Workers');
                 dispatch(
@@ -34,6 +34,5 @@ class SiteRestartWorkers
                 );
             }
         }
-
     }
 }
