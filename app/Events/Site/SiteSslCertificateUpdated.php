@@ -22,59 +22,60 @@ class SiteSslCertificateUpdated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        if ($site->provisionedServers->count()) {
-            $activeSsl = $site->activeSsl();
+        if($site->isLoadBalanced()) {
+            $availableServers = $site->filterServerByType([
+                SystemService::LOAD_BALANCER
+            ]);
+        } else {
+            $availableServers = $site->filterServerByType([
+                SystemService::WEB_SERVER,
+                SystemService::FULL_STACK_SERVER
+            ]);
+        }
+
+        if($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, $sslCertificate->active ? 'Activating' : 'Deactivating');
 
-            $loadBalancerExists = $site->servers->first(function ($server) {
-                return $server->type === SystemService::LOAD_BALANCER;
-            });
+            $activeSsl = $site->activeSsl();
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
+            foreach($availableServers as $server) {
 
-                if (
-                    (
-                        empty($loadBalancerExists) &&
-                        $serverType === SystemService::WEB_SERVER ||
-                        $serverType === SystemService::LOAD_BALANCER
-                    ) ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    if ($sslCertificate->active) {
-                        if ($activeSsl->id != $sslCertificate->id) {
-                            $activeSsl->update([
-                                'active' => false,
-                            ]);
+                if ($sslCertificate->active) {
 
-                            dispatch(
-                                (new DeactivateServerSslCertificate(
-                                    $server,
-                                    $site,
-                                    $activeSsl,
-                                    $siteCommand
-                                ))->onQueue(config('queue.channels.server_commands'))
-                            );
-                        }
+                    if ($activeSsl->id != $sslCertificate->id) {
 
-                        dispatch(
-                            (new ActivateServerSslCertificate(
-                                $server,
-                                $site,
-                                $sslCertificate,
-                                $siteCommand
-                            ))->onQueue(config('queue.channels.server_commands'))
-                        );
-                    } else {
+                        $activeSsl->update([
+                            'active' => false,
+                        ]);
+
                         dispatch(
                             (new DeactivateServerSslCertificate(
                                 $server,
                                 $site,
-                                $sslCertificate,
+                                $activeSsl,
                                 $siteCommand
                             ))->onQueue(config('queue.channels.server_commands'))
                         );
                     }
+
+                    dispatch(
+                        (new ActivateServerSslCertificate(
+                            $server,
+                            $site,
+                            $sslCertificate,
+                            $siteCommand
+                        ))->onQueue(config('queue.channels.server_commands'))
+                    );
+
+                } else {
+                    dispatch(
+                        (new DeactivateServerSslCertificate(
+                            $server,
+                            $site,
+                            $sslCertificate,
+                            $siteCommand
+                        ))->onQueue(config('queue.channels.server_commands'))
+                    );
                 }
             }
         }
