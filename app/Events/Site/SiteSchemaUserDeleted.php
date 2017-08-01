@@ -6,7 +6,6 @@ use App\Models\Site\Site;
 use App\Models\SchemaUser;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\Schemas\RemoveServerSchemaUser;
 
 class SiteSchemaUserDeleted
@@ -23,21 +22,13 @@ class SiteSchemaUserDeleted
     {
         $site->schemaUsers()->detach($schemaUser);
 
-        if ($site->provisionedServers->count()) {
+        if($schemaUser->servers->count()) {
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Deleting');
-
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::DATABASE_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new RemoveServerSchemaUser($server, $schemaUser,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach($schemaUser->servers as $server) {
+                dispatch(
+                    (new RemoveServerSchemaUser($server, $schemaUser,
+                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }
