@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Site;
 
-use App\Events\Site\FixSiteServerConfigurations;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -11,16 +10,9 @@ use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Jobs\Server\Schemas\RemoveServerSchema;
-use App\Jobs\Server\SshKeys\RemoveServerSshKey;
-use App\Jobs\Server\Workers\RemoveServerWorker;
-use App\Jobs\Server\CronJobs\RemoveServerCronJob;
-use App\Jobs\Server\Schemas\RemoveServerSchemaUser;
+use App\Events\Site\FixSiteServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Jobs\Server\FirewallRules\RemoveServerFirewallRule;
-use App\Jobs\Server\SslCertificates\RemoveServerSslCertificate;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Jobs\Server\EnvironmentVariables\RemoveServerEnvironmentVariable;
 
 class DeleteSite implements ShouldQueue
 {
