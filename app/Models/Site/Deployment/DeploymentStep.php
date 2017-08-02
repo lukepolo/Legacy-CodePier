@@ -14,7 +14,7 @@ class DeploymentStep extends Model
 
     protected $casts = [
         'servers' => 'array',
-        'server_types' => 'array'
+        'server_types' => 'array',
     ];
 
     /*
