@@ -137,10 +137,9 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         $activeSsl = false;
 
         if ($site->hasActiveSSL()) {
-
             $activeSsl = $site->activeSsl();
 
-            if($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
+            if ($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
                 $httpPort = ':443';
                 $httpType = 'https';
             } else {
@@ -149,7 +148,6 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
         }
 
         if ($serverType === SystemService::LOAD_BALANCER) {
-
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
             // TODO - for now we will do it by what servers are connected to that site
@@ -183,7 +181,6 @@ location / {
         $site->load('sslCertificates');
 
         if ($activeSsl) {
-
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
             
 gzip off; 
