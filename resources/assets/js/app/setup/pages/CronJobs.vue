@@ -33,7 +33,7 @@
             </div>
 
             <template v-if="site">
-                we got a site
+                {{ displayServerSelection }}
             </template>
 
             <div class="flyform--footer">
@@ -204,7 +204,20 @@
                 if(this.serverId) {
                     return this.$store.state.user_server_cron_jobs.cron_jobs
                 }
-            }
+            },
+            displayServerSelection() {
+                if(this.$route.params.site_id) {
+                    let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+
+                    if(servers) {
+                        if(_.map(_.uniqBy(servers, 'type'), 'type').length > 1) {
+                            return true
+                        }
+                    }
+
+                    return false
+                }
+            },
         }
     }
 </script>
