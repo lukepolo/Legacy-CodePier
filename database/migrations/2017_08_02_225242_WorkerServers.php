@@ -13,7 +13,7 @@ class WorkerServers extends Migration
      */
     public function up()
     {
-        Schema::table('workers', function(Blueprint $table) {
+        Schema::table('workers', function (Blueprint $table) {
             $table->json('servers')->nullable();
             $table->json('server_types')->nullable();
         });
@@ -26,7 +26,7 @@ class WorkerServers extends Migration
      */
     public function down()
     {
-        Schema::table('workers', function(Blueprint $table) {
+        Schema::table('workers', function (Blueprint $table) {
             $table->dropColumn('servers');
             $table->dropColumn('server_types');
         });
