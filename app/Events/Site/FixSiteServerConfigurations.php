@@ -2,6 +2,7 @@
 
 namespace App\Events\Site;
 
+use App\Models\Server\Server;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
@@ -15,12 +16,15 @@ class FixSiteServerConfigurations
      * Create a new job instance.
      *
      * @param Site $site
+     * @param Server $excludeServer
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, Server $excludeServer = null)
     {
         foreach ($site->servers as $server) {
-            $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
-            event(new UpdateServerConfigurations($server, $site, $siteCommand));
+            if($server->id != $excludeServer->id) {
+                $siteCommand = $this->makeCommand($site, $server, 'Updating Server '.$server->name.' for '.$site->name);
+                event(new UpdateServerConfigurations($server, $site, $siteCommand));
+            }
         }
     }
 }
