@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Site;
 
-use App\Events\Site\FixSiteServerConfigurations;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -11,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\Site\FixSiteServerConfigurations;
 use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
