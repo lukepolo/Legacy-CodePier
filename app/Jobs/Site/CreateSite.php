@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Site;
 
+use App\Events\Site\FixSiteServerConfigurations;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
@@ -66,5 +67,6 @@ class CreateSite implements ShouldQueue
         }
 
         event(new UpdateServerConfigurations($this->server, $this->site, $this->command));
+        event(new FixSiteServerConfigurations($this->site, $this->server));
     }
 }
