@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Server\SslCertificates\ActivateServerSslCertificate;
-use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 use App\Models\Site\Site;
-use App\Services\RemoteTaskService;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
 use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
 use App\Http\Controllers\Auth\OauthController;
+use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 
 class WebHookController extends Controller
 {
@@ -130,7 +128,7 @@ class WebHookController extends Controller
         /** @var Server $server */
         $server = Server::with('sslCertificates')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
-        foreach($server->sslCertificates as $sslCertificate) {
+        foreach ($server->sslCertificates as $sslCertificate) {
             dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
         }
     }
