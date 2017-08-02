@@ -34,6 +34,7 @@ class SiteSslCertificateUpdated
         }
 
         if ($availableServers->count()) {
+
             $siteCommand = $this->makeCommand($site, $sslCertificate, $sslCertificate->active ? 'Activating' : 'Deactivating');
 
             $activeSsl = $site->activeSsl();
@@ -41,6 +42,7 @@ class SiteSslCertificateUpdated
             foreach ($availableServers as $server) {
                 if ($sslCertificate->active) {
                     if ($activeSsl->id != $sslCertificate->id) {
+
                         $activeSsl->update([
                             'active' => false,
                         ]);
