@@ -245,7 +245,7 @@ class SiteService implements SiteServiceContract
      * @param $description
      * @param null $fromIp
      *
-     * return FirewallRule | null
+     * @return FirewallRule | null
      */
     public function createFirewallRule(Site $site, $port, $type, $description, $fromIp = null)
     {

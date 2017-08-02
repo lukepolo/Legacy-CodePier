@@ -12,6 +12,7 @@ use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
 use App\Models\SchemaUser;
+use App\Services\Systems\SystemService;
 use App\Traits\HasServers;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
@@ -275,5 +276,15 @@ class Site extends Model
         if ($this->framework) {
             return str_replace('.', '\\Frameworks\\', $this->framework);
         }
+    }
+
+    public function getDatabases()
+    {
+        return collect($this->server_features[SystemService::DATABASE])->keys();
+    }
+
+    public function getWorkers()
+    {
+        return collect($this->server_features[SystemService::WORKERS])->keys();
     }
 }

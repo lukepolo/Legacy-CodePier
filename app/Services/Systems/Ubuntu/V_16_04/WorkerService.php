@@ -30,6 +30,7 @@ class WorkerService
      */
     public function installSupervisor()
     {
+        // TODO - open port
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
