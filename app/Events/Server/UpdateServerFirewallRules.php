@@ -55,8 +55,8 @@ class UpdateServerFirewallRules
                             $siteService->createFirewallRule(
                                 $this->site,
                                 $port,
-                                'both',
-                                'Opening port '.$port.' to '.$server->ip.' for '.$database,
+                                'tcp',
+                                'Opening port '.$port.' for '.$database,
                                 $this->server->ip
                             );
                         }
@@ -71,8 +71,8 @@ class UpdateServerFirewallRules
                             $siteService->createFirewallRule(
                                 $this->site,
                                 $port,
-                                'both',
-                                'Opening port '.$port.' to '.$server->ip.' for '.$worker,
+                                'tcp',
+                                'Opening port '.$port.' for '.$worker,
                                 $this->server->ip
                             );
                         }

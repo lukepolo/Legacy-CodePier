@@ -26,13 +26,15 @@
                 </div>
             </div>
 
-
-
             <div class="jcf-input-group">
                 <div class="select-wrap">
                     <div id="cronjob-maker" v-cronjob></div>
                 </div>
             </div>
+
+            <template v-if="site">
+                we got a site
+            </template>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">

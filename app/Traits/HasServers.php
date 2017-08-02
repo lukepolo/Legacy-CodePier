@@ -59,6 +59,7 @@ trait HasServers
 
     public function hasServer($server)
     {
-        return $this->servers->pluck('id')->contains($server->id);
+        $servers = $this->servers;
+        return !empty($servers) && $servers->count() && $servers->pluck('id')->contains($server->id);
     }
 }

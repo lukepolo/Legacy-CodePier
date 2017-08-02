@@ -132,14 +132,23 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        if ($serverType === SystemService::LOAD_BALANCER) {
-            $httpPort = '';
-            $httpType = 'http';
+        $httpPort = '';
+        $httpType = 'http';
+        $activeSsl = false;
 
-            if ($site->hasActiveSSL()) {
+        if ($site->hasActiveSSL()) {
+
+            $activeSsl = $site->activeSsl();
+
+            if($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
                 $httpPort = ':443';
                 $httpType = 'https';
+            } else {
+                $activeSsl = false;
             }
+        }
+
+        if ($serverType === SystemService::LOAD_BALANCER) {
 
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
@@ -173,8 +182,7 @@ location / {
 
         $site->load('sslCertificates');
 
-        if ($site->hasActiveSSL()) {
-            $activeSsl = $site->activeSsl();
+        if ($activeSsl) {
 
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
             

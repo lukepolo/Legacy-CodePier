@@ -13,6 +13,11 @@ class Worker extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'servers' => 'array',
+        'server_types' => 'array'
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relations
