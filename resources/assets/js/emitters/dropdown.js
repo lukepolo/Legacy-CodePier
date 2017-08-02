@@ -1,7 +1,5 @@
 document.onclick = event => {
   const target = event.target;
-
-  console.info(target);
   if (
     !app.hasClass(target, [
       "fa",

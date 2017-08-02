@@ -66,7 +66,6 @@
         },
         created () {
             app.$on('close-dropdowns', () => {
-                console.info('should close')
                 this.open = false
             })
         },
