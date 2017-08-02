@@ -24,7 +24,7 @@
                                     :event="command"
                                     :type="event.commandable_type"
                                     :prefix="'command_'+command.id"
-                                    :dropdown="getLog(command.log).length"
+                                    :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                                 >
                                     <span v-html="getLog(command.log)"></span>
                                 </drop-down-event>
@@ -39,7 +39,7 @@
                             :event="command"
                             :type="event.commandable_type"
                             :prefix="'command_'+command.id"
-                            :dropdown="getLog(command.log).length"
+                            :dropdown="getLog(command.log) ? getLog(command.log).length : false"
                         >
                             <span v-html="getLog(command.log)"></span>
                         </drop-down-event>
