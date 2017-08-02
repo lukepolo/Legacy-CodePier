@@ -11,8 +11,10 @@ use App\Services\Systems\ServiceConstructorTrait;
 class DatabaseService
 {
     const MYSQL = 'MySQL';
+    const REDIS = 'Redis';
     const MARIADB = 'MariaDB';
     const MONGODB = 'MongoDB';
+    const MEMCACHED = 'Memcached';
     const POSTGRESQL = 'PostgreSQL';
 
     use ServiceConstructorTrait;
@@ -47,6 +49,7 @@ class DatabaseService
      */
     public function installMemcached()
     {
+        // TODO - need to open port
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
@@ -84,6 +87,9 @@ class DatabaseService
      */
     public function installPostgreSQL()
     {
+
+        // TODO - open up ports for postgres
+
         $this->connectToServer();
 
         $databasePassword = $this->server->database_password;

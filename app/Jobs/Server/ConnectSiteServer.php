@@ -41,7 +41,6 @@ class ConnectSiteServer implements ShouldQueue
     public function handle(SiteService $siteService)
     {
         if ($this->server->ip) {
-            // This creates a server command inside createFirewallRule
             $siteService->createFirewallRule(
                $this->site,
                '*',
