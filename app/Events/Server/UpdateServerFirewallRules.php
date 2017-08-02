@@ -39,21 +39,19 @@ class UpdateServerFirewallRules
             $this->installFirewallRule($firewallRule);
         });
 
-        if(
+        if (
             $this->serverType === SystemService::WEB_SERVER ||
             $this->serverType === SystemService::FULL_STACK_SERVER
         ) {
-
             $servicesPorts = SystemService::SERVICES_PORTS;
 
             /** @var SiteService $siteService */
             $siteService = app(SiteServiceContract::class);
 
-            if($this->site->hasDatabaseServers()) {
-
-                foreach($site->getDatabases() as $database) {
-                    if(isset($servicesPorts[$database])) {
-                        foreach($servicesPorts[$database] as $port) {
+            if ($this->site->hasDatabaseServers()) {
+                foreach ($site->getDatabases() as $database) {
+                    if (isset($servicesPorts[$database])) {
+                        foreach ($servicesPorts[$database] as $port) {
                             $siteService->createFirewallRule(
                                 $this->site,
                                 $port,
@@ -66,10 +64,10 @@ class UpdateServerFirewallRules
                 }
             }
 
-            if($this->site->hasWorkerServers()) {
-                foreach($site->getWorkers() as $worker) {
-                    if(isset($servicesPorts[$worker])) {
-                        foreach($servicesPorts[$worker] as $port) {
+            if ($this->site->hasWorkerServers()) {
+                foreach ($site->getWorkers() as $worker) {
+                    if (isset($servicesPorts[$worker])) {
+                        foreach ($servicesPorts[$worker] as $port) {
                             $siteService->createFirewallRule(
                                 $this->site,
                                 $port,
