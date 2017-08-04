@@ -1,6 +1,6 @@
 export const getCurrentStep = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerProvisionStepsController@index", {
+    Vue.action("ServerServerProvisionStepsController@index", {
       server: server
     }),
     "user_server_provisioning/setCurrentStep"
@@ -14,7 +14,7 @@ export const setVersion = ({ commit }, data) => {
 export const retry = (context, server) => {
   Vue.request()
     .post(
-      Vue.action("Server\ServerProvisionStepsController@store", {
+      Vue.action("ServerServerProvisionStepsController@store", {
         server: server
       }),
       "user_server_provisioning/setCurrentStep"

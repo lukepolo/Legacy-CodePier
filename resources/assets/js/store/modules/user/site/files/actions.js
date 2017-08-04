@@ -1,6 +1,6 @@
 export const get = (context, site) => {
   return Vue.request().get(
-    Vue.action("Site\SiteFileController@index", { site: site }),
+    Vue.action("SiteSiteFileController@index", { site: site }),
     "user_site_files/setAll"
   );
 };
@@ -8,7 +8,7 @@ export const get = (context, site) => {
 export const update = (context, data) => {
   return Vue.request(data)
     .patch(
-      Vue.action("Site\SiteFileController@update", {
+      Vue.action("SiteSiteFileController@update", {
         site: data.site,
         file: data.file_id
       }),
@@ -25,7 +25,7 @@ export const destroy = (context, data) => {
 
 export const getEditableFiles = (context, site) => {
   Vue.request().get(
-    Vue.action("Site\SiteFeatureController@getEditableFiles", {
+    Vue.action("SiteSiteFeatureController@getEditableFiles", {
       site: site
     }),
     "user_site_files/setEditableFiles"
@@ -34,7 +34,7 @@ export const getEditableFiles = (context, site) => {
 
 export const getEditableFrameworkFiles = (context, site) => {
   return Vue.request().get(
-    Vue.action("Site\SiteFeatureController@getEditableFrameworkFiles", {
+    Vue.action("SiteSiteFeatureController@getEditableFrameworkFiles", {
       site: site
     }),
     "user_site_files/setEditableFrameworkFiles"
@@ -43,7 +43,7 @@ export const getEditableFrameworkFiles = (context, site) => {
 
 export const find = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("Site\SiteFileController@find", {
+    Vue.action("SiteSiteFileController@find", {
       site: data.site
     }),
     "user_site_files/add"
@@ -53,7 +53,7 @@ export const find = (context, data) => {
 export const reload = (context, data) => {
   return Vue.request(data)
     .post(
-      Vue.action("Site\SiteFileController@reloadFile", {
+      Vue.action("SiteSiteFileController@reloadFile", {
         site: data.site,
         file: data.file,
         server: data.server

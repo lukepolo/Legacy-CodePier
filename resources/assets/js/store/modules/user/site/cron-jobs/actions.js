@@ -1,27 +1,27 @@
 export const get = (context, site) => {
   return Vue.request().get(
-    Vue.action("Site\SiteCronJobController@index", { site: site }),
+    Vue.action("SiteSiteCronJobController@index", { site: site }),
     "user_site_cron_jobs/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("Site\SiteCronJobController@store", { site: data.site }),
+    Vue.action("SiteSiteCronJobController@store", { site: data.site }),
     "user_site_cron_jobs/add"
   );
 };
 
 export const patch = data => {
   return Vue.request(data).put(
-    Vue.action("Site\SiteCronJobController@update", { site: data.site }),
+    Vue.action("SiteSiteCronJobController@update", { site: data.site }),
     "user_site_cron_jobs/update"
   );
 };
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("Site\SiteCronJobController@destroy", {
+    Vue.action("SiteSiteCronJobController@destroy", {
       site: data.site,
       cron_job: data.cron_job
     }),

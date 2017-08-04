@@ -1,7 +1,7 @@
 export const restart = (context, server) => {
   Vue.request()
     .post(
-      Vue.action("Server\ServerController@restartServer", {
+      Vue.action("ServerServerController@restartServer", {
         server: server
       })
     )
@@ -12,7 +12,7 @@ export const restart = (context, server) => {
 export const restartWebServices = (context, server) => {
   Vue.request()
     .post(
-      Vue.action("Server\ServerController@restartWebServices", {
+      Vue.action("ServerServerController@restartWebServices", {
         server: server
       })
     )
@@ -24,7 +24,7 @@ export const restartWebServices = (context, server) => {
 export const restartDatabases = (context, server) => {
   Vue.request()
     .post(
-      Vue.action("Server\ServerController@restartDatabases", {
+      Vue.action("ServerServerController@restartDatabases", {
         server: server
       })
     )
@@ -36,7 +36,7 @@ export const restartDatabases = (context, server) => {
 export const restartWorkers = (context, server) => {
   Vue.request()
     .post(
-      Vue.action("Server\ServerController@restartWorkerServices", {
+      Vue.action("ServerServerController@restartWorkerServices", {
         server: server
       })
     )

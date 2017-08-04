@@ -1,13 +1,13 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerWorkerController@index", { server: server }),
+    Vue.action("ServerServerWorkerController@index", { server: server }),
     "user_server_workers/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("Server\ServerWorkerController@store", {
+    Vue.action("ServerServerWorkerController@store", {
       server: data.server
     }),
     "user_server_workers/add"
@@ -16,7 +16,7 @@ export const store = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("Server\ServerWorkerController@destroy", {
+    Vue.action("ServerServerWorkerController@destroy", {
       server: data.server,
       worker: data.worker
     }),
