@@ -34,10 +34,10 @@ class UpdateServerCronJobs
         $this->serverType = $server->type;
 
         $this->site->cronJobs->each(function (CronJob $cronJob) {
-            if(
+            if (
                 (empty($cronJob->servers) && empty($cronJob->server_types)) ||
-                (!empty($cronJob->servers) && collect($cronJob->servers)->contains($this->server->id)) ||
-                (!empty($cronJob->server_types) && collect($cronJob->server_types)->contains($this->server->type))
+                (! empty($cronJob->servers) && collect($cronJob->servers)->contains($this->server->id)) ||
+                (! empty($cronJob->server_types) && collect($cronJob->server_types)->contains($this->server->type))
             ) {
                 $this->installCronJob($cronJob);
             }
