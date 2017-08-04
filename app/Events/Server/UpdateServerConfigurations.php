@@ -20,6 +20,7 @@ class UpdateServerConfigurations
     public function __construct(Server $server, Site $site, Command $siteCommand)
     {
         event(new UpdateServerFiles($server, $site, $siteCommand));
+        event(new UpdateServerDaemons($server, $site, $siteCommand));
         event(new UpdateServerSchemas($server, $site, $siteCommand));
         event(new UpdateServerSshKeys($server, $site, $siteCommand));
         event(new UpdateServerWorkers($server, $site, $siteCommand));

@@ -3,6 +3,7 @@
 namespace App\Models\Server;
 
 use App\Models\Buoy;
+use App\Models\Daemon;
 use App\Models\File;
 use App\Models\Pile;
 use App\Models\Schema;
@@ -113,6 +114,11 @@ class Server extends Model
     public function workers()
     {
         return $this->morphToMany(Worker::class, 'workerable');
+    }
+
+    public function daemons()
+    {
+        return $this->morphToMany(Daemon::class, 'daemonable');
     }
 
     public function sslCertificates()

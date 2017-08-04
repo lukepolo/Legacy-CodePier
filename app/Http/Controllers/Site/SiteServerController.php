@@ -50,6 +50,29 @@ class SiteServerController extends Controller
             );
         }
 
+        // This reset their workflow as they may need to update these areas of their sites configuration
+        if($site->servers->count() > 1) {
+            $site->update([
+                'workflow' => [
+                    'site_deployment' => [
+                        "step" => "site_deployment",
+                        "order" => 1,
+                        "completed" => false
+                    ],
+                    'site_cron_jobs' => [
+                        "step" => "site_cron_jobs",
+                        "order" => 2,
+                        "completed" => false
+                    ],
+                    'site_daemons' => [
+                        "step" => "site_daemons",
+                        "order" => 3,
+                        "completed" => false
+                    ]
+                ]
+            ]);
+        }
+
         return response()->json($site);
     }
 }
