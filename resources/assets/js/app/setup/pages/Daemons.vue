@@ -1,8 +1,5 @@
 <template>
     <section>
-
-
-        DAEMONS GO HERE
         <form @submit.prevent="installDaemon()">
 
             <div class="flyform--group">
