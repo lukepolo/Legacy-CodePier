@@ -23,7 +23,6 @@ class SiteDaemonDeleted
         $site->daemons()->detach($daemon);
 
         if ($daemon->servers()->count()) {
-
             $siteCommand = $this->makeCommand($site, $daemon, 'Removing');
 
             foreach ($daemon->servers as $server) {
