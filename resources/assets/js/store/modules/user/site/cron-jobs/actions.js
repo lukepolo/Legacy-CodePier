@@ -12,6 +12,13 @@ export const store = (context, data) => {
   );
 };
 
+export const patch = (data) => {
+    return Vue.request(data).put(
+        Vue.action("SiteSiteCronJobController@update", { site: data.site }),
+        "user_site_cron_jobs/update"
+    )
+}
+
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
     Vue.action("SiteSiteCronJobController@destroy", {

@@ -7,7 +7,6 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
@@ -34,19 +33,16 @@ class UpdateServerCronJobs
         $this->command = $siteCommand;
         $this->serverType = $server->type;
 
-        // TODO - cronjobs have the ability to select what server types they are installed on
         $this->site->cronJobs->each(function (CronJob $cronJob) {
-            if ($this->site->hasWorkerServers()) {
-                if ($this->serverType == SystemService::WORKER_SERVER) {
-                    if (! $cronJob->hasServer($this->server)) {
-                        $this->installCronJob($cronJob);
-                    }
-                } else {
-                    $this->removeCronJob($cronJob);
-                }
-            } elseif (! $cronJob->hasServer($this->server)) {
+            if(
+                (empty($cronJob->servers) && empty($cronJob->server_types)) ||
+                (!empty($cronJob->servers) && collect($cronJob->servers)->contains($this->server->id)) ||
+                (!empty($cronJob->server_types) && collect($cronJob->server_types)->contains($this->server->type))
+            ) {
                 $this->installCronJob($cronJob);
             }
+
+            $this->removeCronJob($cronJob);
         });
     }
 
