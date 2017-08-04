@@ -1,13 +1,13 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("ServerServerSslController@index", { server: server }),
+    Vue.action("Server\ServerSslController@index", { server: server }),
     "user_server_ssl_certificates/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("ServerServerSslController@store", {
+    Vue.action("Server\ServerSslController@store", {
       server: data.server_id
     }),
     "user_server_ssl_certificates/add"
@@ -16,7 +16,7 @@ export const store = (context, data) => {
 
 export const update = (context, data) => {
   return Vue.request(data).patch(
-    Vue.action("ServerServerSslController@update", {
+    Vue.action("Server\ServerSslController@update", {
       server: data.server,
       ssl_certificate: data.ssl_certificate
     }),
@@ -26,7 +26,7 @@ export const update = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("ServerServerSslController@destroy", {
+    Vue.action("Server\ServerSslController@destroy", {
       server: data.server,
       ssl_certificate: data.ssl_certificate
     }),

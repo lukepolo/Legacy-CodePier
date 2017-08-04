@@ -1,13 +1,13 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("ServerServerCronJobController@index", { server: server }),
+    Vue.action("Server\ServerCronJobController@index", { server: server }),
     "user_server_cron_jobs/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("ServerServerCronJobController@store", {
+    Vue.action("Server\ServerCronJobController@store", {
       server: data.server
     }),
     "user_server_cron_jobs/add"
@@ -16,7 +16,7 @@ export const store = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("ServerServerCronJobController@destroy", {
+    Vue.action("Server\ServerCronJobController@destroy", {
       server: data.server,
       cron_job: data.cron_job
     }),

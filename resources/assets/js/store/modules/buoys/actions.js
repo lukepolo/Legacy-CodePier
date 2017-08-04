@@ -38,7 +38,7 @@ export const destroy = (context, buoyApp) => {
 export const installOnServer = (context, data) => {
   return Vue.request(data)
     .post(
-      Vue.action("ServerServerBuoyController@store", {
+      Vue.action("Server\ServerBuoyController@store", {
         server: data.server
       })
     )

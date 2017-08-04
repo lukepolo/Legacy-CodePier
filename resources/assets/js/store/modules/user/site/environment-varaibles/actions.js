@@ -1,6 +1,6 @@
 export const get = (context, site) => {
   return Vue.request().get(
-    Vue.action("SiteSiteEnvironmentVariablesController@index", {
+    Vue.action("Site\SiteEnvironmentVariablesController@index", {
       site: site
     }),
     "user_site_environment_variables/setAll"
@@ -9,7 +9,7 @@ export const get = (context, site) => {
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("SiteSiteEnvironmentVariablesController@store", {
+    Vue.action("Site\SiteEnvironmentVariablesController@store", {
       site: data.site
     }),
     "user_site_environment_variables/add"
@@ -18,7 +18,7 @@ export const store = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("SiteSiteEnvironmentVariablesController@destroy", {
+    Vue.action("Site\SiteEnvironmentVariablesController@destroy", {
       site: data.site,
       environment_variable: data.environment_variable
     }),

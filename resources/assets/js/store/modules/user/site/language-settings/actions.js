@@ -1,13 +1,13 @@
 export const get = (context, site) => {
   return Vue.request().get(
-    Vue.action("SiteSiteLanguageSettingsController@index", { site: site }),
+    Vue.action("Site\SiteLanguageSettingsController@index", { site: site }),
     "user_site_language_settings/setAll"
   );
 };
 
 export const getAvailable = (context, site) => {
   Vue.request().get(
-    Vue.action("SiteSiteLanguageSettingsController@getLanguageSettings", {
+    Vue.action("Site\SiteLanguageSettingsController@getLanguageSettings", {
       site: site
     }),
     "user_site_language_settings/setAvailableLanguageSettings"
@@ -17,7 +17,7 @@ export const getAvailable = (context, site) => {
 export const run = (context, data) => {
   Vue.request(data)
     .post(
-      Vue.action("SiteSiteLanguageSettingsController@store", {
+      Vue.action("Site\SiteLanguageSettingsController@store", {
         site: data.site
       })
     )

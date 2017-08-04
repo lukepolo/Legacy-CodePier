@@ -1,13 +1,13 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("ServerServerFeatureController@index", { server: server }),
+    Vue.action("Server\ServerFeatureController@index", { server: server }),
     "user_server_features/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("ServerServerFeatureController@store", {
+    Vue.action("Server\ServerFeatureController@store", {
       server: data.server
     }),
     "user_server_features/setAll"
@@ -17,7 +17,7 @@ export const store = (context, data) => {
 export const install = (context, data) => {
   return Vue.request(data)
     .post(
-      Vue.action("ServerServerFeatureController@store", {
+      Vue.action("Server\ServerFeatureController@store", {
         server: data.server
       }),
       "user_server_features/setAll"

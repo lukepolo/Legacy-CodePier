@@ -1,6 +1,6 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
-    .get(Vue.action("SiteSiteController@index"), "user_sites/setAll")
+    .get(Vue.action("Site\SiteController@index"), "user_sites/setAll")
     .then(sites => {
       _.each(sites, function(site) {
         dispatch("listen", site);
@@ -10,14 +10,14 @@ export const get = ({ dispatch }) => {
 
 export const show = (context, site) => {
   return Vue.request().get(
-    Vue.action("SiteSiteController@show", { site: site }),
+    Vue.action("Site\SiteController@show", { site: site }),
     "user_sites/set"
   );
 };
 
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
-    .post(Vue.action("SiteSiteController@store"), "user_sites/add")
+    .post(Vue.action("Site\SiteController@store"), "user_sites/add")
     .then(site => {
       dispatch("user_piles/change", data.pile_id, {
         root: true
@@ -35,7 +35,7 @@ export const store = ({ dispatch }, data) => {
 
 export const update = (context, data) => {
   return Vue.request(data)
-    .patch(Vue.action("SiteSiteController@update", { site: data.site }), [
+    .patch(Vue.action("Site\SiteController@update", { site: data.site }), [
       "user_sites/set",
       "user_sites/update"
     ])
@@ -46,7 +46,7 @@ export const update = (context, data) => {
 
 export const destroy = ({ dispatch }, site) => {
   return Vue.request(site)
-    .delete(Vue.action("SiteSiteController@destroy", { site: site }), [
+    .delete(Vue.action("Site\SiteController@destroy", { site: site }), [
       "user_sites/remove"
     ])
     .then(() => {
@@ -133,7 +133,7 @@ export const listen = ({ commit, state, dispatch }, site) => {
 
 export const updateWorkflow = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("SiteSiteWorkflowController@store", { site: data.site }),
+    Vue.action("Site\SiteWorkflowController@store", { site: data.site }),
     ["user_sites/set", "user_sites/update"]
   );
 };

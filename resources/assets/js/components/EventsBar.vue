@@ -162,7 +162,7 @@
                 </section>
                 <section v-else>
                     <template  v-for="event in events">
-                        <template v-if="event.event_type === 'App\\Models\\Site\\SiteDeployment'">
+                        <template v-if="event.event_type === 'App\\Models\\Site\SiteDeployment'">
                             <deployment-event :event="event" :key="event.event_type+event.id"></deployment-event>
                         </template>
                         <template v-else-if="event.event_type === 'App\\Models\\Command'">
