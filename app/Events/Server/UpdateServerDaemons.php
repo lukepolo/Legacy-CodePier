@@ -2,8 +2,8 @@
 
 namespace App\Events\Server;
 
-use App\Models\Command;
 use App\Models\Daemon;
+use App\Models\Command;
 use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Queue\SerializesModels;
@@ -34,10 +34,10 @@ class UpdateServerDaemons
         $this->serverType = $server->type;
 
         $this->site->daemons->each(function (Daemon $daemon) {
-            if(
+            if (
                 (empty($daemon->servers) && empty($daemon->server_types)) ||
-                (!empty($daemon->servers) && collect($daemon->servers)->contains($this->server->id)) ||
-                (!empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
+                (! empty($daemon->servers) && collect($daemon->servers)->contains($this->server->id)) ||
+                (! empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
             ) {
                 $this->installDaemon($daemon);
             }
