@@ -134,13 +134,13 @@ export default [
         }
       },
       {
-          path: "server-setup/daemons",
-          name: "site_daemons",
-          components: {
-              default: Daemons,
-              nav: SiteNav,
-              subNav: ServerSetupNav
-          }
+        path: "server-setup/daemons",
+        name: "site_daemons",
+        components: {
+          default: Daemons,
+          nav: SiteNav,
+          subNav: ServerSetupNav
+        }
       },
       {
         path: "server-setup/workers",
