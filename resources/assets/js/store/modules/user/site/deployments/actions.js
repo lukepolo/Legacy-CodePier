@@ -54,7 +54,7 @@ export const refreshDeployKey = (context, site) => {
 export const createDeployHook = (context, site) => {
   return Vue.request()
     .post(
-      Vue.action("SiteSiteRepositoryRepositoryHookController@store", {
+      Vue.action("SiteRepositoryRepositoryHookController@store", {
         site: site
       }),
       "user_sites/set"
@@ -67,7 +67,7 @@ export const createDeployHook = (context, site) => {
 export const removeDeployHook = (context, data) => {
   return Vue.request(data)
     .delete(
-      Vue.action("SiteSiteRepositoryRepositoryHookController@destroy", {
+      Vue.action("SiteRepositoryRepositoryHookController@destroy", {
         site: data.site,
         hook: data.hook
       }),

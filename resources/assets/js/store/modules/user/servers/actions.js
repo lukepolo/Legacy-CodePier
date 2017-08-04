@@ -124,9 +124,9 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
       })
       .notification(notification => {
         switch (notification.type) {
-          case "App\\Notifications\\ServerServerMemory":
-          case "App\\Notifications\\ServerServerDiskUsage":
-          case "App\\Notifications\\ServerServerLoad":
+          case "App\\Notifications\\Server\\ServerMemory":
+          case "App\\Notifications\\Server\\ServerDiskUsage":
+          case "App\\Notifications\\Server\\ServerLoad":
             commit(
               "user_servers/updateStats",
               {
