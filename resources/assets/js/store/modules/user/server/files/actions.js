@@ -1,6 +1,6 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerFileController@index", { server: server }),
+    Vue.action("ServerServerFileController@index", { server: server }),
     "user_server_files/setAll"
   );
 };
@@ -8,7 +8,7 @@ export const get = (context, server) => {
 export const update = (context, data) => {
   return Vue.request(data)
     .patch(
-      Vue.action("Server\ServerFileController@update", {
+      Vue.action("ServerServerFileController@update", {
         file: data.file_id,
         server: data.server
       }),
@@ -25,7 +25,7 @@ export const destroy = (context, data) => {
 
 export const getEditableFiles = (context, server) => {
   Vue.request().get(
-    Vue.action("Server\ServerFeatureController@getEditableFiles", {
+    Vue.action("ServerServerFeatureController@getEditableFiles", {
       server: server
     }),
     "user_server_files/setEditableFiles"
@@ -34,7 +34,7 @@ export const getEditableFiles = (context, server) => {
 
 export const find = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("Server\ServerFileController@find", { server: data.server }),
+    Vue.action("ServerServerFileController@find", { server: data.server }),
     "user_server_files/add"
   );
 };
@@ -42,7 +42,7 @@ export const find = (context, data) => {
 export const reload = (context, data) => {
   return Vue.request()
     .post(
-      Vue.action("Server\ServerFileController@reloadFile", {
+      Vue.action("ServerServerFileController@reloadFile", {
         file: data.file,
         server: data.server
       }),

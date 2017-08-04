@@ -1,6 +1,6 @@
 export const get = ({ dispatch }) => {
   return Vue.request()
-    .get(Vue.action("Server\ServerController@index"), "user_servers/setAll")
+    .get(Vue.action("ServerServerController@index"), "user_servers/setAll")
     .then(servers => {
       _.each(servers, function(server) {
         dispatch("listenTo", server);
@@ -10,14 +10,14 @@ export const get = ({ dispatch }) => {
 
 export const show = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerController@show", { server: server }),
+    Vue.action("ServerServerController@show", { server: server }),
     "user_servers/set"
   );
 };
 
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
-    .post(Vue.action("Server\ServerController@store"), "user_servers/add")
+    .post(Vue.action("ServerServerController@store"), "user_servers/add")
     .then(server => {
       dispatch("listenTo", server);
       app.showSuccess("Your server is in queue to be provisioned");
@@ -27,7 +27,7 @@ export const store = ({ dispatch }, data) => {
 
 export const archive = (context, server) => {
   return Vue.request(server)
-    .delete(Vue.action("Server\ServerController@destroy", { server: server }), [
+    .delete(Vue.action("ServerServerController@destroy", { server: server }), [
       "user_servers/remove",
       "user_site_servers/remove"
     ])
@@ -41,14 +41,14 @@ export const archive = (context, server) => {
 
 export const getTrashed = () => {
   return Vue.request().get(
-    Vue.action("Server\ServerController@index", { trashed: true }),
+    Vue.action("ServerServerController@index", { trashed: true }),
     "user_servers/setTrashed"
   );
 };
 
 export const restore = ({ dispatch }, server) => {
   return Vue.request(server)
-    .post(Vue.action("Server\ServerController@restore", { server: server }), [
+    .post(Vue.action("ServerServerController@restore", { server: server }), [
       "user_servers/add",
       "user_servers/removeFromTrash"
     ])
@@ -69,7 +69,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
     }
 
     Echo.private("App.Models.Server.Server." + server.id)
-      .listen("Server\ServerProvisionStatusChanged", data => {
+      .listen("ServerServerProvisionStatusChanged", data => {
         commit(
           "user_servers/update",
           {
@@ -100,7 +100,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           }
         );
       })
-      .listen("Server\ServerSshConnectionFailed", data => {
+      .listen("ServerServerSshConnectionFailed", data => {
         commit(
           "user_servers/update",
           {
@@ -109,7 +109,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("Server\ServerFailedToCreate", data => {
+      .listen("ServerServerFailedToCreate", data => {
         commit(
           "user_servers/update",
           {
@@ -118,15 +118,15 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("Server\ServerCommandUpdated", data => {
+      .listen("ServerServerCommandUpdated", data => {
         commit("user_commands/update", data.command, { root: true });
         commit("events/update", data.command, { root: true });
       })
       .notification(notification => {
         switch (notification.type) {
-          case "App\\Notifications\\Server\ServerMemory":
-          case "App\\Notifications\\Server\ServerDiskUsage":
-          case "App\\Notifications\\Server\ServerLoad":
+          case "App\\Notifications\\ServerServerMemory":
+          case "App\\Notifications\\ServerServerDiskUsage":
+          case "App\\Notifications\\ServerServerLoad":
             commit(
               "user_servers/updateStats",
               {

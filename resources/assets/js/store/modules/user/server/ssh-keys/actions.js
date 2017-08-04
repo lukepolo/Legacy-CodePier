@@ -1,13 +1,13 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerSshKeyController@index", { server: server }),
+    Vue.action("ServerServerSshKeyController@index", { server: server }),
     "user_server_ssh_keys/setAll"
   );
 };
 
 export const store = (context, data) => {
   return Vue.request(data).post(
-    Vue.action("Server\ServerSshKeyController@store", {
+    Vue.action("ServerServerSshKeyController@store", {
       server: data.server
     }),
     "user_server_ssh_keys/add"
@@ -16,7 +16,7 @@ export const store = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("Server\ServerSshKeyController@destroy", {
+    Vue.action("ServerServerSshKeyController@destroy", {
       server: data.server,
       ssh_key: data.ssh_key
     }),
