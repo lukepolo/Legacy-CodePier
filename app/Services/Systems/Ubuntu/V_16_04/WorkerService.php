@@ -74,7 +74,6 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
         $this->remoteTaskService->run('supervisorctl update');
     }
 
-
     public function addDaemon(Daemon $daemon, $sshUser = 'root')
     {
         $this->connectToServer($sshUser);

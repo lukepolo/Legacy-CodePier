@@ -2,11 +2,11 @@
 
 namespace App\Events\Site;
 
-use App\Jobs\Server\Daemons\InstallServerDaemon;
 use App\Models\Daemon;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
+use App\Jobs\Server\Daemons\InstallServerDaemon;
 
 class SiteDaemonCreated
 {
@@ -20,17 +20,17 @@ class SiteDaemonCreated
      */
     public function __construct(Site $site, Daemon $daemon)
     {
-        $availableServers = $site->provisionedServers->filter(function($server) use($daemon) {
-            if(!empty($daemon->server_types)) {
+        $availableServers = $site->provisionedServers->filter(function ($server) use ($daemon) {
+            if (! empty($daemon->server_types)) {
                 return collect($daemon->server_types)->contains($server->type);
-            } else if(!empty($daemon->servers)) {
+            } elseif (! empty($daemon->servers)) {
                 return collect($daemon->servers)->contains($server->id);
             }
+
             return false;
         });
 
         if ($availableServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $daemon, 'Installing');
 
             foreach ($availableServers as $server) {
