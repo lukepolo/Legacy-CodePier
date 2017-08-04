@@ -11,6 +11,19 @@
                         <label>Common Tasks Needed</label>
                     </div>
 
+
+                    <div class="flyform--group-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="form.workflow" name="workflow[]" value="site_deployment">
+                            <span class="icon"></span>
+                            Setup Site Deployment
+
+                            <tooltip message="" size="medium">
+                                <span class="fa fa-info-circle"></span>
+                            </tooltip>
+                        </label>
+                    </div>
+
                     <div class="flyform--group-checkbox">
                         <label>
                             <input type="checkbox" v-model="form.workflow" name="workflow[]" value="site_databases">
@@ -155,6 +168,7 @@
             return {
                 form : this.createForm({
                     workflow: [
+                        'site_deployment',
                         'site_databases',
                         'site_workers',
                         'site_cron_jobs',

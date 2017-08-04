@@ -7,11 +7,16 @@ use App\Traits\HasServers;
 use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
-class Worker extends Model
+class Daemon extends Model
 {
     use HasServers;
 
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'servers' => 'array',
+        'server_types' => 'array',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -21,12 +26,12 @@ class Worker extends Model
 
     public function sites()
     {
-        return $this->morphedByMany(Site::class, 'workerable');
+        return $this->morphedByMany(Site::class, 'daemonable');
     }
 
     public function servers()
     {
-        return $this->morphedByMany(Server::class, 'workerable');
+        return $this->morphedByMany(Server::class, 'daemonable');
     }
 
     /*
@@ -43,6 +48,6 @@ class Worker extends Model
 
     public function commandDescription($status)
     {
-        return $status.' '.$this->number_of_workers.' workers running '.$this->command.' ran by '.$this->user;
+        return $status.' daemon running '.$this->command.' ran by '.$this->user;
     }
 }
