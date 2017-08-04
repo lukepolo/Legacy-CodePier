@@ -23,7 +23,7 @@ export const destroy = (context, data) => {
   return Vue.request(data).delete(
     Vue.action("SiteSiteDaemonsController@destroy", {
       site: data.site,
-      daemons: data.daemons
+      daemon: data.daemon
     }),
     "user_site_daemons/remove"
   );

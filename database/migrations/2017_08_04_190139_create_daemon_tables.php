@@ -22,7 +22,7 @@ class CreateDaemonTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('daemonable', function (Blueprint $table) {
+        Schema::create('daemonables', function (Blueprint $table) {
             $table->integer('daemon_id');
             $table->integer('daemonable_id');
             $table->string('daemonable_type');
