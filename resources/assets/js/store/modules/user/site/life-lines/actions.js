@@ -1,7 +1,7 @@
 export const get = ({ dispatch }, site) => {
   return Vue.request()
     .get(
-      Vue.action("Site\SiteLifelinesController@index", { site: site }),
+      Vue.action("SiteSiteLifelinesController@index", { site: site }),
       "user_site_life_lines/setAll"
     )
     .then(lifelines => {
@@ -16,7 +16,7 @@ export const get = ({ dispatch }, site) => {
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(
-      Vue.action("Site\SiteLifelinesController@store", {
+      Vue.action("SiteSiteLifelinesController@store", {
         site: data.site
       }),
       "user_site_life_lines/add"
@@ -29,7 +29,7 @@ export const store = ({ dispatch }, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("Site\SiteLifelinesController@destroy", {
+    Vue.action("SiteSiteLifelinesController@destroy", {
       site: data.site,
       life_line: data.life_line
     }),

@@ -1,13 +1,13 @@
 export const restartServers = (context, site) => {
   Vue.request()
-    .post(Vue.action("Site\SiteController@restartServer", { site: site }))
+    .post(Vue.action("SiteSiteController@restartServer", { site: site }))
     .then(() => {
       app.showSuccess("You have restarted your sites servers.");
     });
 };
 export const restartWebServices = (context, site) => {
   Vue.request()
-    .post(Vue.action("Site\SiteController@restartWebServices", { site: site }))
+    .post(Vue.action("SiteSiteController@restartWebServices", { site: site }))
     .then(() => {
       app.showSuccess("You have restarted your web services");
     });
@@ -15,7 +15,7 @@ export const restartWebServices = (context, site) => {
 
 export const restartDatabases = (context, site) => {
   Vue.request()
-    .post(Vue.action("Site\SiteController@restartDatabases", { site: site }))
+    .post(Vue.action("SiteSiteController@restartDatabases", { site: site }))
     .then(() => {
       app.showSuccess("You have restarted your databases");
     });
@@ -24,7 +24,7 @@ export const restartDatabases = (context, site) => {
 export const restartWorkers = (context, site) => {
   Vue.request()
     .post(
-      Vue.action("Site\SiteController@restartWorkerServices", {
+      Vue.action("SiteSiteController@restartWorkerServices", {
         site: site
       })
     )

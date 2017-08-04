@@ -1,6 +1,6 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("Server\ServerSiteController@index", { server: server }),
+    Vue.action("ServerServerSiteController@index", { server: server }),
     "user_server_sites/setAll"
   );
 };
