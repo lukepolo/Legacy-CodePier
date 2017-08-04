@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.31 on 2017-08-02.
+ * Generated for Laravel 5.4.32 on 2017-08-04.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -10141,6 +10141,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get the full path for the file at the given "short" path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function path($path)
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::path($path);
+        }
+        
+        /**
          * Get the contents of a file.
          *
          * @param string $path
@@ -10340,12 +10352,13 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $path
          * @param \DateTimeInterface $expiration
+         * @param array $options
          * @return string 
          * @static 
          */ 
-        public static function temporaryUrl($path, $expiration)
+        public static function temporaryUrl($path, $expiration, $options = array())
         {
-            return \Illuminate\Filesystem\FilesystemAdapter::temporaryUrl($path, $expiration);
+            return \Illuminate\Filesystem\FilesystemAdapter::temporaryUrl($path, $expiration, $options);
         }
         
         /**

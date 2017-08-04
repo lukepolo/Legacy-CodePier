@@ -21,10 +21,14 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
-        $availableServers = $site->filterServersByType([
-            SystemService::WEB_SERVER,
-            SystemService::FULL_STACK_SERVER,
-        ]);
+        $availableServers = $site->provisionedServers->filter(function($server) use($cronJob) {
+            if(!empty($cronJob->server_types)) {
+                return collect($cronJob->server_types)->contains($server->type);
+            } else if(!empty($cronJob->servers)) {
+                return collect($cronJob->servers)->contains($server->id);
+            }
+            return false;
+        });
 
         if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob, 'Installing');

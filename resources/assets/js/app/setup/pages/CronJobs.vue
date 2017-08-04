@@ -32,8 +32,20 @@
                 </div>
             </div>
 
-            <template v-if="site">
-                {{ displayServerSelection }}
+            <template v-if="site && displayServerSelection">
+                <br>
+                <br>
+                <br>
+                <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
+                <template v-for="server in servers">
+                    <div class="flyform--group-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="form.servers" :value="server.id">
+                            <span class="icon"></span>
+                            {{ server.name }} ({{ server.ip }})
+                        </label>
+                    </div>
+                </template>
             </template>
 
             <div class="flyform--footer">
@@ -91,7 +103,9 @@
                 form : this.createForm({
                     cron: null,
                     user: 'root',
-                    cron_timing: null
+                    cron_timing: null,
+                    servers : [],
+                    server_types : [],
                 }),
             }
         },
@@ -122,7 +136,9 @@
                         this.$store.dispatch('user_site_cron_jobs/store', {
                             job: job,
                             site: this.siteId,
-                            user: this.form.user
+                            user: this.form.user,
+                            servers : this.form.servers,
+                            server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
                                 this.resetForm()
@@ -135,6 +151,8 @@
                             job: job,
                             user: this.form.user,
                             server: this.serverId,
+                            servers : this.form.servers,
+                            server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
                                 this.resetForm()
@@ -170,8 +188,8 @@
                 return this.isCommandRunning('App\\Models\\CronJob', id)
             },
             resetForm() {
+                this.form.reset()
                 this.form.user = 'root';
-                this.form.cron_timing = null;
                 if(this.site) {
                     this.form.cron = this.site.path
                 } else {
@@ -205,16 +223,14 @@
                     return this.$store.state.user_server_cron_jobs.cron_jobs
                 }
             },
+            servers() {
+                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+            },
             displayServerSelection() {
                 if(this.$route.params.site_id) {
-                    let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-
-                    if(servers) {
-                        if(_.map(_.uniqBy(servers, 'type'), 'type').length > 1) {
-                            return true
-                        }
+                    if(this.servers && this.servers.length > 1) {
+                        return true
                     }
-
                     return false
                 }
             },

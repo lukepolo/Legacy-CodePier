@@ -22,7 +22,7 @@ class SiteWorkerDeleted
     {
         $site->workers()->detach($worker);
 
-        if ($worker->servers->count()) {
+        if ($worker->servers()->count()) {
             $siteCommand = $this->makeCommand($site, $worker, 'Removing');
 
             foreach ($worker->servers as $server) {

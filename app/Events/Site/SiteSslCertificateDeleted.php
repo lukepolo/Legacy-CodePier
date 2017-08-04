@@ -22,7 +22,7 @@ class SiteSslCertificateDeleted
     {
         $site->sslCertificates()->detach($sslCertificate);
 
-        if ($sslCertificate->servers->count()) {
+        if ($sslCertificate->servers()->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Removing');
 
             foreach ($sslCertificate->servers as $server) {

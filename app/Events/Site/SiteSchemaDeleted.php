@@ -22,7 +22,7 @@ class SiteSchemaDeleted
     {
         $site->schemas()->detach($schema);
 
-        if ($schema->servers->count()) {
+        if ($schema->servers()->count()) {
             $siteCommand = $this->makeCommand($site, $schema, 'Deleting');
 
             foreach ($schema->servers as $server) {
