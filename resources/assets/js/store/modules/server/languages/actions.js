@@ -1,6 +1,6 @@
 export const get = () => {
   return Vue.request().get(
-    Vue.action("ServerServerFeatureController@getLanguages"),
+    Vue.action("Server\ServerFeatureController@getLanguages"),
     "server_languages/setAll"
   );
 };

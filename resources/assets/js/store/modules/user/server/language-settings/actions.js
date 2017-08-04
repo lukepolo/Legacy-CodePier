@@ -1,6 +1,6 @@
 export const get = (context, server) => {
   return Vue.request().get(
-    Vue.action("ServerServerLanguageSettingsController@index", {
+    Vue.action("Server\ServerLanguageSettingsController@index", {
       server: server
     }),
     "user_server_language_settings/setAll"
@@ -9,7 +9,7 @@ export const get = (context, server) => {
 
 export const getAvailable = (context, server) => {
   Vue.request().get(
-    Vue.action("ServerServerLanguageSettingsController@getLanguageSettings", {
+    Vue.action("Server\ServerLanguageSettingsController@getLanguageSettings", {
       server: server
     }),
     "user_server_language_settings/setAvailableLanguageSettings"
@@ -19,7 +19,7 @@ export const getAvailable = (context, server) => {
 export const run = (context, data) => {
   Vue.request(data)
     .post(
-      Vue.action("ServerServerLanguageSettingsController@store", {
+      Vue.action("Server\ServerLanguageSettingsController@store", {
         server: data.server
       })
     )

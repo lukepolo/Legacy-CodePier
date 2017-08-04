@@ -1,7 +1,7 @@
 export const get = ({ dispatch }, site) => {
   return Vue.request()
     .get(
-      Vue.action("SiteSiteSslController@index", { site: site }),
+      Vue.action("Site\SiteSslController@index", { site: site }),
       "user_site_ssl_certificates/setAll"
     )
     .then(sslCertificates => {
@@ -15,7 +15,7 @@ export const get = ({ dispatch }, site) => {
 export const store = ({ dispatch }, data) => {
   return Vue.request(data)
     .post(
-      Vue.action("SiteSiteSslController@store", { site: data.site_id }),
+      Vue.action("Site\SiteSslController@store", { site: data.site_id }),
       "user_site_ssl_certificates/add"
     )
     .then(sslCertificate => {
@@ -28,7 +28,7 @@ export const store = ({ dispatch }, data) => {
 
 export const update = (context, data) => {
   return Vue.request(data).patch(
-    Vue.action("SiteSiteSslController@update", {
+    Vue.action("Site\SiteSslController@update", {
       site: data.site,
       ssl_certificate: data.ssl_certificate
     }),
@@ -38,7 +38,7 @@ export const update = (context, data) => {
 
 export const destroy = (context, data) => {
   return Vue.request(data).delete(
-    Vue.action("SiteSiteSslController@destroy", {
+    Vue.action("Site\SiteSslController@destroy", {
       site: data.site,
       ssl_certificate: data.ssl_certificate
     }),
