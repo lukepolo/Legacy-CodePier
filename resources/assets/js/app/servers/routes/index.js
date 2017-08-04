@@ -16,6 +16,7 @@ import {
 } from "../components";
 
 import {
+  Daemons,
   SshKeys,
   Workers,
   CronJobs,
@@ -122,6 +123,15 @@ export default [
           subNav: ServerSetupNav
         }
       },
+        {
+            path: "setup/daemons",
+            name: "server_daemons",
+            components: {
+                default: Daemons,
+                nav: ServerNav,
+                subNav: ServerSetupNav
+            }
+        },
       {
         path: "setup/workers",
         name: "server_workers",

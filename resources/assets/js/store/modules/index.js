@@ -30,6 +30,7 @@ import user_sites from "./user/sites";
 import user_commands from "./user/commands";
 import user_site_dns from "./user/site/dns";
 import user_site_files from "./user/site/files";
+import user_site_daemons from "./user/site/daemons";
 import user_site_servers from "./user/site/servers";
 import user_site_workers from "./user/site/workers";
 import user_site_schemas from "./user/site/schemas";
@@ -50,6 +51,7 @@ import user_servers from "./user/servers";
 import user_server_buoys from "./user/server/buoys";
 import user_server_files from "./user/server/files";
 import user_server_sites from "./user/server/sites";
+import user_server_daemons from "./user/server/daemons";
 import user_server_schemas from "./user/server/schemas";
 import user_server_workers from "./user/server/workers";
 import user_server_features from "./user/server/features";
@@ -97,6 +99,7 @@ export default {
   user_commands,
   user_site_dns,
   user_site_files,
+  user_site_daemons,
   user_site_servers,
   user_site_workers,
   user_site_schemas,
@@ -117,6 +120,7 @@ export default {
   user_server_buoys,
   user_server_files,
   user_server_sites,
+  user_server_daemons,
   user_server_schemas,
   user_server_workers,
   user_server_features,
