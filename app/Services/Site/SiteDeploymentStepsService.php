@@ -79,7 +79,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                 'script' => empty($internalStep) ? $deploymentStep['script'] : null,
                 'internal_deployment_function' => ! empty($internalStep) ? $internalStep['internal_deployment_function'] : null,
                 'servers' => $deploymentStep['servers'],
-                'server_types' => $deploymentStep['server_types']
+                'server_types' => $deploymentStep['server_types'],
             ]);
 
             $deploymentStepModel->order = ++$order;
