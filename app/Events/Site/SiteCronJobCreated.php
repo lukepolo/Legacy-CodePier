@@ -27,7 +27,7 @@ class SiteCronJobCreated
                 return collect($cronJob->servers)->contains($server->id);
             }
 
-            return false;
+            return true;
         });
 
         if ($availableServers->count()) {
