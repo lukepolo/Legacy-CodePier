@@ -27,7 +27,7 @@ class SiteDaemonCreated
                 return collect($daemon->servers)->contains($server->id);
             }
 
-            return false;
+            return true;
         });
 
         if ($availableServers->count()) {
