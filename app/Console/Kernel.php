@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckLifeLines;
-use App\Console\Commands\SendBetaEmails;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\ReleasedNewVersion;
 use App\Console\Commands\TestMonitorScripts;
