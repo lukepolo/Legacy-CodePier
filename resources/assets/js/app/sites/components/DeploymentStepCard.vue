@@ -17,6 +17,23 @@
                   <span class="fa fa-info-circle"></span>
               </tooltip>
               {{ deploymentStep.step }}
+
+              <template v-if="displayServerSelection">
+                  <br>
+                  <br>
+                  <br>
+                  <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
+                  <template v-for="server in siteServers">
+                      <div class="flyform--group-checkbox">
+                          <label>
+                              <input type="checkbox" v-model="servers" :value="server.id">
+                              <span class="icon"></span>
+                              {{ server.name }} ({{ server.ip }})
+                          </label>
+                      </div>
+                  </template>
+              </template>
+
           </div>
 
           <div class="small">{{ deploymentStep.description }}</div>
@@ -42,14 +59,12 @@
             </div>
 
             <div class="flyform--footer-btns">
-                <!--<a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>-->
                 <a class="btn btn-small" @click="cancel">Cancel</a>
                 <a class="btn btn-primary btn-small" @click="save">Save</a>
             </div>
         </form>
 
       </template>
-
   </div>
 
 </template>
@@ -59,9 +74,11 @@
         props : ['deploymentStep'],
         data() {
             return {
+                servers : this.deploymentStep.servers ? this.deploymentStep.servers : [],
+                server_types : [],
                 step : this.deploymentStep.step,
                 script : this.deploymentStep.script,
-                description : this.deploymentStep.description
+                description : this.deploymentStep.description,
             }
         },
         watch : {
@@ -70,6 +87,9 @@
             },
             'script' : function() {
                 this.deploymentStep.script = this.script;
+            },
+            'servers' : function() {
+                this.deploymentStep.servers = this.servers
             }
         },
         methods: {
@@ -81,6 +101,7 @@
                 this.deploymentStep.editing = false
                 this.deploymentStep.step = this.step
                 this.deploymentStep.script = this.script
+                this.deploymentStep.servers = this.servers
                 this.deploymentStep.description = this.description
                 this.updateStep()
             },
@@ -89,12 +110,24 @@
                 this.updateStep()
             },
             updateStep() {
-
                 this.$emit('updateStep', this.deploymentStep)
             },
             deleteStep() {
                 this.$emit('deleteStep')
             }
+        },
+        computed: {
+            siteServers() {
+                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+            },
+            displayServerSelection() {
+                if(this.$route.params.site_id) {
+                    if(this.siteServers && this.siteServers.length > 1) {
+                        return true
+                    }
+                    return false
+                }
+            },
         }
     }
 </script>
