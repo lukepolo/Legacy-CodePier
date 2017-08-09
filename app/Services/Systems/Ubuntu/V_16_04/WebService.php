@@ -321,6 +321,6 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
             return 'Nginx';
         }
 
-        dd('we dont have apache setup yet');
+        throw new \Exception('we dont have apache setup yet');
     }
 }

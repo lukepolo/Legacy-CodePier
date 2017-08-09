@@ -31,9 +31,6 @@ class Kernel extends ConsoleKernel
         // REACTIVITY TESTS
         ServerCommandUpdated::class,
 
-        // BETA - Emails - TEMP
-        SendBetaEmails::class,
-
         ProvisionDevEnvironment::class,
         StartDevEnvironment::class,
 
