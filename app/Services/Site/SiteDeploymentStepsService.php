@@ -78,8 +78,11 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                 'step' => ! empty($internalStep) ? $internalStep['step'] : $deploymentStep['step'],
                 'script' => empty($internalStep) ? $deploymentStep['script'] : null,
                 'internal_deployment_function' => ! empty($internalStep) ? $internalStep['internal_deployment_function'] : null,
-                'servers' => $deploymentStep['servers'],
-                'server_types' => $deploymentStep['server_types'],
+            ]);
+
+            $deploymentStepModel->fill([
+                'servers' => isset($deploymentStep['servers']) ? $deploymentStep['servers'] : [],
+                'server_types' => isset($deploymentStep['server_types']) ? $deploymentStep['server_types'] : [],
             ]);
 
             $deploymentStepModel->order = ++$order;
@@ -123,6 +126,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                         'internal_deployment_function' => $method->name,
                         'step' => ucwords(str_replace('_', ' ', snake_case($method->name))),
                         'enabled' => $this->getFirstDocParam($method, 'not_default') ? false : true,
+                        'blah' => null,
                     ];
                 }
             }
