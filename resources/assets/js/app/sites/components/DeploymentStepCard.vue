@@ -53,11 +53,6 @@
                 <label for="script">Script</label>
             </div>
 
-            <div class="flyform--group">
-                <label>Description</label>
-                <textarea rows="2" v-model="description"></textarea>
-            </div>
-
             <div class="flyform--footer-btns">
                 <a class="btn btn-small" @click="cancel">Cancel</a>
                 <a class="btn btn-primary btn-small" @click="save">Save</a>
@@ -65,6 +60,7 @@
         </form>
 
       </template>
+
   </div>
 
 </template>
@@ -78,7 +74,6 @@
                 server_types : [],
                 step : this.deploymentStep.step,
                 script : this.deploymentStep.script,
-                description : this.deploymentStep.description,
             }
         },
         watch : {

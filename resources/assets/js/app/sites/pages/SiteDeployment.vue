@@ -211,14 +211,10 @@
 
                 _.each(this.currentSiteDeploymentSteps, (step) => {
                     if(step.script) {
+                        console.info(step)
                         step.editing = false;
-                        this.active.push(step);
-                    } else {
-                        step = _.find(this.deploymentSteps, { internal_deployment_function : step.internal_deployment_function });
-                        if(step) {
-                            this.active.push(step);
-                        }
                     }
+                    this.active.push(step);
                 });
 
                 _.each(this.deploymentSteps, (step) => {
