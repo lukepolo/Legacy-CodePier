@@ -271,4 +271,43 @@ class SiteService implements SiteServiceContract
             return $firewallRule;
         }
     }
+
+    /**
+     * @param Site $site
+     */
+    public function resetWorkflow(Site $site)
+    {
+        if ($site->servers->count() > 1) {
+
+            $workflow = [
+                'site_cron_jobs' => [
+                    'step' => 'site_cron_jobs',
+                    'order' => 2,
+                    'completed' => false,
+                ],
+                'site_daemons' => [
+                    'step' => 'site_daemons',
+                    'order' => 3,
+                    'completed' => false,
+                ],
+            ];
+
+            if($site->filterServersByType([
+                SystemService::WEB_SERVER,
+                SystemService::WORKER_SERVER,
+                SystemService::FULL_STACK_SERVER,
+            ])) {
+                $workflow['site_deployment'] = [
+                    'step' => 'site_deployment',
+                    'order' => 1,
+                    'completed' => false,
+                ];
+            }
+
+            $site->update([
+                'workflow' => $workflow,
+            ]);
+        }
+    }
+
 }
