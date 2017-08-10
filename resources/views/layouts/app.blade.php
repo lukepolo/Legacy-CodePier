@@ -24,6 +24,7 @@
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
                 'version' => app()->make('gitCommit'),
                 'teams' => config('app.teams'),
+                'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES
             ]); ?>
         </script>
         @if(config('app.env') == 'production' && \Auth::check())

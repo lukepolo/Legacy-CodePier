@@ -211,7 +211,6 @@
 
                 _.each(this.currentSiteDeploymentSteps, (step) => {
                     if(step.script) {
-                        console.info(step)
                         step.editing = false;
                     }
                     this.active.push(step);

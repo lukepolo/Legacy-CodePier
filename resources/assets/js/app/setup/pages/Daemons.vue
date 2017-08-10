@@ -17,21 +17,7 @@
                 </div>
             </div>
 
-            <template v-if="site && displayServerSelection">
-                <br>
-                <br>
-                <br>
-                <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
-                <template v-for="server in servers">
-                    <div class="flyform--group-checkbox">
-                        <label>
-                            <input type="checkbox" v-model="form.servers" :value="server.id">
-                            <span class="icon"></span>
-                            {{ server.name }} ({{ server.ip }})
-                        </label>
-                    </div>
-                </template>
-            </template>
+            <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
@@ -85,7 +71,11 @@
 </template>
 
 <script>
+    import { ServerSelection } from "./../components"
     export default {
+        components: {
+            ServerSelection
+        },
         data() {
             return {
                 form: this.createForm({
@@ -183,19 +173,7 @@
                 if(this.serverId) {
                     return this.$store.state.user_server_daemons.daemons
                 }
-
-            },
-            servers() {
-                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-            },
-            displayServerSelection() {
-                if(this.$route.params.site_id) {
-                    if(this.servers && this.servers.length > 1) {
-                        return true
-                    }
-                    return false
-                }
-            },
+            }
         }
     }
 </script>

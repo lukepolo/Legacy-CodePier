@@ -18,21 +18,7 @@
               </tooltip>
               {{ deploymentStep.step }}
 
-              <template v-if="displayServerSelection">
-                  <br>
-                  <br>
-                  <br>
-                  <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
-                  <template v-for="server in siteServers">
-                      <div class="flyform--group-checkbox">
-                          <label>
-                              <input type="checkbox" v-model="servers" :value="server.id">
-                              <span class="icon"></span>
-                              {{ server.name }} ({{ server.ip }})
-                          </label>
-                      </div>
-                  </template>
-              </template>
+              <server-selection :availableServerTypes="availableServerTypes" :servers.sync="servers" :server_types.sync="server_types"></server-selection>
 
           </div>
 
@@ -66,14 +52,20 @@
 </template>
 
 <script>
+
+    import { ServerSelection } from "./../../setup/components"
+
     export default {
+        components : {
+            ServerSelection
+        },
         props : ['deploymentStep'],
         data() {
             return {
-                servers : this.deploymentStep.servers ? this.deploymentStep.servers : [],
-                server_types : [],
                 step : this.deploymentStep.step,
                 script : this.deploymentStep.script,
+                servers : this.deploymentStep.servers ? this.deploymentStep.servers : [],
+                server_types : this.deploymentStep.servers ? this.deploymentStep.server_types : [],
             }
         },
         watch : {
@@ -123,6 +115,11 @@
                     return false
                 }
             },
+            availableServerTypes() {
+                return _.pickBy(window.Laravel.serverTypes, function(serverType) {
+                    return serverType === 'web' || serverType === 'full_stack' || serverType === 'worker'
+                })
+            }
         }
     }
 </script>
