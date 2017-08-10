@@ -8,9 +8,21 @@ use App\Jobs\Site\DeleteSite;
 use App\Models\Server\Server;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Site\SiteServerRequest;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class SiteServerController extends Controller
 {
+    private $siteService;
+
+    /**
+     * SiteServerController constructor.
+     * @param \App\Services\Site\SiteService | SiteService $siteService
+     */
+    public function __construct(SiteService $siteService)
+    {
+        $this->siteService = $siteService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,6 +61,8 @@ class SiteServerController extends Controller
                 (new DeleteSite(Server::findOrFail($detached), $site))->onQueue(config('queue.channels.server_commands'))
             );
         }
+
+        $this->siteService->resetWorkflow($site);
 
         return response()->json($site);
     }

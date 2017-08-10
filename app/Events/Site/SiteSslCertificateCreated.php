@@ -21,35 +21,30 @@ class SiteSslCertificateCreated
      */
     public function __construct(Site $site, SslCertificate $sslCertificate)
     {
-        if ($site->provisionedServers->count()) {
+        if ($site->isLoadBalanced()) {
+            $availableServers = $site->filterServersByType([
+                SystemService::LOAD_BALANCER,
+            ]);
+        } else {
+            $availableServers = $site->filterServersByType([
+                SystemService::WEB_SERVER,
+                SystemService::FULL_STACK_SERVER,
+            ]);
+        }
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Setting Up');
 
-            $loadBalancerExists = $site->provisionedServers->first(function ($server) {
-                return $server->type === SystemService::LOAD_BALANCER;
-            });
-
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                dump($loadBalancerExists);
-                if (
+            foreach ($availableServers as $server) {
+                dispatch(
                     (
-                        empty($loadBalancerExists) &&
-                        $serverType === SystemService::WEB_SERVER ||
-                        $serverType === SystemService::LOAD_BALANCER
-                    ) ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (
-                        new InstallServerSslCertificate(
-                            $server,
-                            $sslCertificate,
-                            $siteCommand
-                        )
-                        )->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+                    new InstallServerSslCertificate(
+                        $server,
+                        $sslCertificate,
+                        $siteCommand
+                    )
+                    )->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

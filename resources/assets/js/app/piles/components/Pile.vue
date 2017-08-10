@@ -73,10 +73,10 @@
         },
         data () {
             return {
-                form: {
+                form: this.createForm({
                     pile: this.pile.id,
                     name: this.pile.name
-                },
+                }),
                 addingSite: false,
                 editing: this.pile.editing
             }

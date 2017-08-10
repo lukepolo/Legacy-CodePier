@@ -13,11 +13,13 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Server\ServerRequest;
 use App\Models\Server\Provider\ServerProvider;
 use App\Services\Server\Providers\CustomProvider;
+use App\Contracts\Site\SiteServiceContract as SiteService;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class ServerController extends Controller
 {
+    private $siteService;
     private $serverService;
     private $remoteTaskService;
 
@@ -26,9 +28,11 @@ class ServerController extends Controller
      *
      * @param \App\Services\Server\ServerService | ServerService $serverService
      * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
+     * @param \App\Services\Site\SiteService| SiteService $siteService
      */
-    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService)
+    public function __construct(ServerService $serverService, RemoteTaskService $remoteTaskService, SiteService $siteService)
     {
+        $this->siteService = $siteService;
         $this->serverService = $serverService;
         $this->remoteTaskService = $remoteTaskService;
     }
@@ -88,10 +92,13 @@ class ServerController extends Controller
 
         if (! empty($site)) {
             $site->servers()->save($server);
+            $this->siteService->resetWorkflow($site);
         }
 
         if ($request->has('custom')) {
-            $key = ProvisioningKey::generate(\Auth::user(), $server);
+            ProvisioningKey::generate(\Auth::user(), $server);
+
+            $server->refresh();
 
             $server->update([
                 'custom_server_url' => $this->getCustomServerScriptUrl(
