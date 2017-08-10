@@ -24,8 +24,8 @@ class DaemonUpdatedRequest extends FormRequest
     public function rules()
     {
         return [
-            'servers' => 'required',
-            'server_types' => 'required',
+            'servers.*' => 'required',
+            'server_types.*' => 'required',
         ];
     }
 }

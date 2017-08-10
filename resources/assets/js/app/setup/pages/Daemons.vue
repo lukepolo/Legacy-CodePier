@@ -43,23 +43,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="daemon in daemons">
-                    <td class="break-word">{{ daemon.command }}</td>
-                    <td>{{ daemon.user }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(daemon.id)">
-                            {{ isRunningCommandFor(daemon.id).status }}
-                        </template>
-                    </td>
-
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a @click="deleteDaemon(daemon.id)"><span class="icon-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
+                    <daemon :daemon="daemon" v-for="daemon in daemons" :key="daemon.id"></daemon>
                 </tbody>
             </table>
         </div>
@@ -71,9 +55,10 @@
 </template>
 
 <script>
-    import { ServerSelection } from "./../components"
+    import { ServerSelection, Daemon } from "./../components"
     export default {
         components: {
+            Daemon,
             ServerSelection
         },
         data() {
@@ -123,22 +108,6 @@
                 }
 
             },
-            deleteDaemon: function (daemon_id) {
-
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_daemons/destroy', {
-                        daemon: daemon_id,
-                        site: this.siteId,
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_daemons/destroy', {
-                        daemon: daemon_id,
-                        server: this.serverId
-                    });
-                }
-            },
             isRunningCommandFor(id) {
                 return this.isCommandRunning('App\\Models\\Daemon', id)
             },
@@ -147,7 +116,7 @@
                 if(this.site) {
                     this.form.command = this.site.path
                 }
-            }
+            },
         },
         computed: {
             site() {

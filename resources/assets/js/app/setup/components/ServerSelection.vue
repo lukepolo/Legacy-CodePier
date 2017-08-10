@@ -4,7 +4,7 @@
             <br>
             <br>
             <h3>By default we install these all on all servers, you show pick the servers that you want these to run on</h3>
-            <template v-for="server in servers">
+            <template v-for="server in siteServers">
                 <div class="flyform--group-checkbox">
                     <label>
                         <input type="checkbox" v-model="form.servers" :value="server.id" :disabled="serverTypeSelected(server.type)">
@@ -30,15 +30,21 @@
 <script>
     export default {
         props : {
+            servers : {
+                default : () => []
+            },
+            server_types : {
+                default : () => []
+            },
             availableServerTypes : {
                 default : () => window.Laravel.serverTypes
-            }
+            },
         },
         data() {
             return {
                 form : {
-                    servers : [],
-                    server_types : []
+                    servers : this.servers,
+                    server_types : this.server_types
                 }
             }
         },
@@ -61,7 +67,7 @@
             site() {
                 return this.$store.state.user_sites.site
             },
-            servers() {
+            siteServers() {
                 return _.filter(this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id), (server) => {
                     return _.find(this.availableServerTypes, (serverType) => {
                         return server.type === serverType
@@ -70,7 +76,7 @@
             },
             displayServerSelection() {
                 if(this.$route.params.site_id) {
-                    if(this.servers && this.servers.length > 1) {
+                    if(this.siteServers && this.siteServers.length > 1) {
                         return true
                     }
                     return false

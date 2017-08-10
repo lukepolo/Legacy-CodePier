@@ -56,23 +56,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="cronJob in cronJobs">
-                    <td class="break-word">{{ cronJob.job }}</td>
-                    <td>{{ cronJob.user }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(cronJob.id)">
-                            {{ isRunningCommandFor(cronJob.id).status }}
-                        </template>
-                    </td>
-
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a @click="deleteCronJob(cronJob.id)"><span class="icon-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
+                    <cron-job :cronJob="cronJob" v-for="cronJob in cronJobs" :key="cronJob.id"></cron-job>
                 </tbody>
             </table>
         </div>
@@ -84,10 +68,11 @@
 
 <script>
 
-    import { ServerSelection } from "./../components"
+    import { ServerSelection, CronJob } from "./../components"
 
     export default {
         components : {
+            CronJob,
             ServerSelection
         },
         data() {
@@ -158,26 +143,6 @@
             },
             getCronTimings() {
                 return $('#cronjob-maker').cron('value')
-            },
-            deleteCronJob(cronJobId) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_cron_jobs/destroy', {
-                        site : this.siteId,
-                        cron_job : cronJobId
-
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_cron_jobs/destroy', {
-                        cron_job : cronJobId,
-                        server : this.serverId
-                    });
-                }
-
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\CronJob', id)
             },
             resetForm() {
                 this.form.reset()
