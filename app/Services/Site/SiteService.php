@@ -278,7 +278,6 @@ class SiteService implements SiteServiceContract
     public function resetWorkflow(Site $site)
     {
         if ($site->servers->count() > 1) {
-
             $workflow = [
                 'site_cron_jobs' => [
                     'step' => 'site_cron_jobs',
@@ -292,7 +291,7 @@ class SiteService implements SiteServiceContract
                 ],
             ];
 
-            if($site->filterServersByType([
+            if ($site->filterServersByType([
                 SystemService::WEB_SERVER,
                 SystemService::WORKER_SERVER,
                 SystemService::FULL_STACK_SERVER,
@@ -309,5 +308,4 @@ class SiteService implements SiteServiceContract
             ]);
         }
     }
-
 }
