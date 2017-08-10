@@ -110,9 +110,9 @@ export default {
         },
         data () {
             return {
-                form: {
+                form: this.createForm({
                     query: 'Sorry, its coming soon!'
-                },
+                }),
                 search: false,
                 current_version: Laravel.version
             }

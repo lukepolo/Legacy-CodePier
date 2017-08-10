@@ -88,24 +88,35 @@ class OauthController extends Controller
                     break;
                 default:
 
-                    $user = Socialite::driver($provider)->user();
+                    $socialUser = Socialite::driver($provider)->user();
 
                     if (! \Auth::user()) {
-                        if (! $userProvider = UserLoginProvider::has('user')->where('provider_id', $user->getId())->first()) {
-                            $newLoginProvider = $this->createLoginProvider($provider, $user);
-                            $newUserModel = $this->createUser($user, $newLoginProvider);
+                        $userProvider = UserLoginProvider::withTrashed()
+                            ->with('user')
+                            ->has('user')
+                            ->where('provider', $provider)
+                            ->where('provider_id', $socialUser->getId())
+                            ->first();
+
+                        if (empty($userProvider)) {
+                            $newLoginProvider = $this->createLoginProvider($provider, $socialUser);
+                            $newUserModel = $this->createUser($socialUser, $newLoginProvider);
                             \Auth::loginUsingId($newUserModel->id, true);
                         } else {
+                            if ($userProvider->deleted_at) {
+                                $userProvider->restore();
+                            }
+
                             \Auth::loginUsingId($userProvider->user->id, true);
                         }
                     }
 
                     if (in_array($provider, static::$repositoryProviders)) {
-                        $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $user);
+                        $newUserRepositoryProvider = $this->saveRepositoryProvider($provider, $socialUser);
                     }
 
                     if (in_array($provider, static::$serverProviders)) {
-                        $newUserServerProvider = $this->saveServerProvider($provider, $user);
+                        $newUserServerProvider = $this->saveServerProvider($provider, $socialUser);
                     }
 
                     break;
@@ -203,27 +214,25 @@ class OauthController extends Controller
      * Creates a login provider.
      *
      * @param $provider
-     * @param $user
+     * @param $socialUser
      *
      * @return mixed
      */
-    private function createLoginProvider($provider, $user)
+    private function createLoginProvider($provider, $socialUser)
     {
         $userLoginProvider = UserLoginProvider::withTrashed()->firstOrNew([
             'provider'    => $provider,
-            'provider_id' => $user->getId(),
+            'provider_id' => $socialUser->getId(),
         ]);
 
         $userLoginProvider->fill([
-            'token'         => $user->token,
-            'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
-            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token'         => $socialUser->token,
+            'expires_in'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
+            'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
+            'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
         ]);
 
         $userLoginProvider->save();
-
-        $userLoginProvider->restore();
 
         return $userLoginProvider;
     }
@@ -232,23 +241,23 @@ class OauthController extends Controller
      * Saves the users repository provider.
      *
      * @param $provider
-     * @param $user
+     * @param $socialUser
      *
      * @return mixed
      */
-    private function saveRepositoryProvider($provider, $user)
+    private function saveRepositoryProvider($provider, $socialUser)
     {
         $userRepositoryProvider = UserRepositoryProvider::withTrashed()->firstOrNew([
             'repository_provider_id' => RepositoryProvider::where('provider_name', $provider)->first()->id,
-            'provider_id'            => $user->getId(),
+            'provider_id'            => $socialUser->getId(),
         ]);
 
         $userRepositoryProvider->fill([
-            'token'         => $user->token,
+            'token'         => $socialUser->token,
             'user_id'       => \Auth::user()->id,
-            'expires_in'    => isset($user->expiresIn) ? $user->expiresIn : null,
-            'refresh_token' => isset($user->refreshToken) ? $user->refreshToken : null,
-            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'expires_in'    => isset($socialUser->expiresIn) ? $socialUser->expiresIn : null,
+            'refresh_token' => isset($socialUser->refreshToken) ? $socialUser->refreshToken : null,
+            'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
         ]);
 
         $userRepositoryProvider->save();
@@ -262,26 +271,26 @@ class OauthController extends Controller
      * Saves the users server provider.
      *
      * @param $provider
-     * @param $user
+     * @param $socialUser
      *
      * @return mixed
      */
-    private function saveServerProvider($provider, $user)
+    private function saveServerProvider($provider, $socialUser)
     {
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
             'server_provider_id' => ServerProvider::where('provider_name', $provider)->first()->id,
-            'provider_id'        => $user->getId(),
+            'provider_id'        => $socialUser->getId(),
         ]);
 
         switch ($userServerProvider->serverProvider->provider_name) {
             case self::DIGITAL_OCEAN:
-                $token = $user->accessTokenResponseBody['access_token'];
-                $refreshToken = $user->accessTokenResponseBody['refresh_token'];
-                $expiresIn = $user->accessTokenResponseBody['expires_in'];
+                $token = $socialUser->accessTokenResponseBody['access_token'];
+                $refreshToken = $socialUser->accessTokenResponseBody['refresh_token'];
+                $expiresIn = $socialUser->accessTokenResponseBody['expires_in'];
                 break;
             default:
                 // TODO - other server providers
-                dd($user);
+                dd($socialUser);
                 break;
         }
 
@@ -290,7 +299,7 @@ class OauthController extends Controller
             'expires_in'    => $expiresIn,
             'user_id'       => \Auth::user()->id,
             'refresh_token' => $refreshToken,
-            'token_secret'   => isset($user->tokenSecret) ? $user->tokenSecret : null,
+            'token_secret'   => isset($socialUser->tokenSecret) ? $socialUser->tokenSecret : null,
         ]);
 
         $userServerProvider->save();

@@ -24,7 +24,7 @@ class ServerRequest extends FormRequest
     public function rules()
     {
         return [
-            'server_name' => 'required:server_name',
+            'server_name' => 'required|server_name',
             'server_provider_id' => 'required_without:custom',
             'services' => 'required',
             'server_region' => 'required_without:custom|integer',
@@ -32,6 +32,13 @@ class ServerRequest extends FormRequest
             'pile_id' => 'required_without:site',
             'site' => 'integer',
             'type' => 'valid_server_type',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'server_name' => 'Your server name can only contain alphanumeric characters, dashes, and periods.',
         ];
     }
 }

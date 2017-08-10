@@ -17,6 +17,9 @@
                   <span class="fa fa-info-circle"></span>
               </tooltip>
               {{ deploymentStep.step }}
+
+              <server-selection :availableServerTypes="availableServerTypes" :servers.sync="servers" :server_types.sync="server_types"></server-selection>
+
           </div>
 
           <div class="small">{{ deploymentStep.description }}</div>
@@ -36,13 +39,7 @@
                 <label for="script">Script</label>
             </div>
 
-            <div class="flyform--group">
-                <label>Description</label>
-                <textarea rows="2" v-model="description"></textarea>
-            </div>
-
             <div class="flyform--footer-btns">
-                <!--<a class="btn btn-danger btn-small pull-left"><span class="icon-cancel"></span></a>-->
                 <a class="btn btn-small" @click="cancel">Cancel</a>
                 <a class="btn btn-primary btn-small" @click="save">Save</a>
             </div>
@@ -55,13 +52,20 @@
 </template>
 
 <script>
+
+    import { ServerSelection } from "./../../setup/components"
+
     export default {
+        components : {
+            ServerSelection
+        },
         props : ['deploymentStep'],
         data() {
             return {
                 step : this.deploymentStep.step,
                 script : this.deploymentStep.script,
-                description : this.deploymentStep.description
+                servers : this.deploymentStep.servers ? this.deploymentStep.servers : [],
+                server_types : this.deploymentStep.servers ? this.deploymentStep.server_types : [],
             }
         },
         watch : {
@@ -70,6 +74,9 @@
             },
             'script' : function() {
                 this.deploymentStep.script = this.script;
+            },
+            'servers' : function() {
+                this.deploymentStep.servers = this.servers
             }
         },
         methods: {
@@ -81,6 +88,7 @@
                 this.deploymentStep.editing = false
                 this.deploymentStep.step = this.step
                 this.deploymentStep.script = this.script
+                this.deploymentStep.servers = this.servers
                 this.deploymentStep.description = this.description
                 this.updateStep()
             },
@@ -89,11 +97,28 @@
                 this.updateStep()
             },
             updateStep() {
-
                 this.$emit('updateStep', this.deploymentStep)
             },
             deleteStep() {
                 this.$emit('deleteStep')
+            }
+        },
+        computed: {
+            siteServers() {
+                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+            },
+            displayServerSelection() {
+                if(this.$route.params.site_id) {
+                    if(this.siteServers && this.siteServers.length > 1) {
+                        return true
+                    }
+                    return false
+                }
+            },
+            availableServerTypes() {
+                return _.pickBy(window.Laravel.serverTypes, function(serverType) {
+                    return serverType === 'web' || serverType === 'full_stack' || serverType === 'worker'
+                })
             }
         }
     }

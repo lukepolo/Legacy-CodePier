@@ -91,13 +91,13 @@
         data() {
             return {
                 showCardForm: user.card_brand ? false : true,
-                form: {
+                form: this.createForm({
                     cvc: 123,
                     plan: null,
                     number: "4242424242424242",
                     exp_year: 2022,
                     exp_month: 11
-                }
+                })
             }
         },
         created() {

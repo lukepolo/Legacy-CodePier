@@ -106,7 +106,13 @@
                 Vue.set(this, 'section', area)
             },
             updateSelectedFeatures(feature, enabled) {
+
+                if(!this.currentSelectedFeatures[feature.service]) {
+                    Vue.set(this.currentSelectedFeatures, feature.service, {})
+                }
+
                 let areaFeatures = this.currentSelectedFeatures[feature.service];
+
                 if(!_.has(areaFeatures, feature.name)) {
                     Vue.set(areaFeatures, feature.name, { enabled : enabled })
                 } else {
@@ -127,7 +133,7 @@
                 return this.$route.params.server_id
             },
             serverFeatures() {
-                let serverFeatures = null
+                let serverFeatures = {}
                 if(this.siteId) {
                     serverFeatures = this.$store.state.user_site_server_features.features;
                 }

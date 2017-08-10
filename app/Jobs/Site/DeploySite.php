@@ -42,20 +42,18 @@ class DeploySite implements ShouldQueue
             'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
         ]);
 
-        foreach ($this->servers as $server) {
-            $serverType = $server->type;
+        $availableServers = $site->filterServersByType([
+            SystemService::WEB_SERVER,
+            SystemService::WORKER_SERVER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
 
-            if (
-                $serverType === SystemService::WEB_SERVER ||
-                $serverType === SystemService::WORKER_SERVER ||
-                $serverType === SystemService::FULL_STACK_SERVER
-            ) {
-                SiteServerDeployment::create([
-                    'server_id' => $server->id,
-                    'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
-                    'site_deployment_id' => $this->siteDeployment->id,
-                ])->createSteps();
-            }
+        foreach ($availableServers as $server) {
+            SiteServerDeployment::create([
+                'server_id' => $server->id,
+                'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
+                'site_deployment_id' => $this->siteDeployment->id,
+            ])->createSteps();
         }
 
         $site->notify(new NewSiteDeployment($this->siteDeployment));

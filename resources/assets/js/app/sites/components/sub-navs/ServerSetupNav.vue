@@ -16,10 +16,17 @@
                 </a>
             </router-link>
 
+            <router-link :to="{ name : 'site_daemons', params : { site_id : siteId } }" tag="li" exact>
+                <a>
+                    Daemons
+                    <div class="small">Configure daemons processes</div>
+                </a>
+            </router-link>
+
             <router-link :to="{ name : 'site_workers', params : { site_id : siteId } }" tag="li" exact>
                 <a>
                     Workers
-                    <div class="small">Configure workers / daemons services</div>
+                    <div class="small">Configure workers processes</div>
                 </a>
             </router-link>
 

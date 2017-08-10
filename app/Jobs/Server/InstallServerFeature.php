@@ -52,24 +52,25 @@ class InstallServerFeature implements ShouldQueue
     {
         $serverFeatures = $this->server->server_features;
 
-        if (! isset($serverFeatures[$this->service][$this->feature]) ||
-            ! isset($serverFeatures[$this->service][$this->feature]['enabled']) ||
-            ! $serverFeatures[$this->service][$this->feature]['enabled']
-        ) {
-            $this->runOnServer(function () use ($serverService, $serverFeatures) {
-                $serverFeatures[$this->service][$this->feature] = [
-                    'enabled' => true,
-                ];
+        $this->runOnServer(function () use ($serverService, $serverFeatures) {
+            call_user_func_array([
+                    $serverService->getService($this->service, $this->server),
+                    'install'.$this->feature,
+            ], $this->parameters);
+        });
 
-                call_user_func_array([
-                        $serverService->getService($this->service, $this->server),
-                        'install'.$this->feature,
-                ], $this->parameters);
+        $serverFeatures[$this->service][$this->feature] = [
+            'installing' => false,
+        ];
 
-                $this->server->update([
-                    'server_features' => $serverFeatures,
-                ]);
-            });
+        if ($this->wasSuccessful()) {
+            $serverFeatures[$this->service][$this->feature] = [
+                'enabled' => true,
+            ];
         }
+
+        $this->server->update([
+            'server_features' => $serverFeatures,
+        ]);
     }
 }

@@ -63,9 +63,9 @@
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
                             <div class="drag-element" v-for="(deploymentStep, key) in inactive"  v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
-                                        :deployment-step="deploymentStep"
-                                        v-on:updateStep="updateStep('inactive')"
-                                        v-on:deleteStep="deleteStep(key, 'inactive')"
+                                    :deployment-step="deploymentStep"
+                                    v-on:updateStep="updateStep('inactive')"
+                                    v-on:deleteStep="deleteStep(key, 'inactive')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -82,10 +82,10 @@
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
                             <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
-                                        :deployment-step="deploymentStep"
-                                        :key="deploymentStep"
-                                        v-on:updateStep="updateStep('active')"
-                                        v-on:deleteStep="deleteStep(key, 'active')"
+                                    :deployment-step="deploymentStep"
+                                    :key="deploymentStep.step"
+                                    v-on:updateStep="updateStep('active')"
+                                    v-on:deleteStep="deleteStep(key, 'active')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -212,13 +212,8 @@
                 _.each(this.currentSiteDeploymentSteps, (step) => {
                     if(step.script) {
                         step.editing = false;
-                        this.active.push(step);
-                    } else {
-                        step = _.find(this.deploymentSteps, { internal_deployment_function : step.internal_deployment_function });
-                        if(step) {
-                            this.active.push(step);
-                        }
                     }
+                    this.active.push(step);
                 });
 
                 _.each(this.deploymentSteps, (step) => {

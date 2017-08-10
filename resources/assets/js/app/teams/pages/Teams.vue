@@ -115,27 +115,27 @@
             return {
                 updating_team: false,
                 creating_team: false,
-                create_form: {
+                create_form: this.createForm({
                     piles: [],
                     name: null
 
-                },
-                edit_form: {
+                }),
+                edit_form: this.createForm({
                     piles: [],
                     name: null,
                     team: null
-                }
+                })
             }
         },
         methods: {
             createTeam() {
                 this.$store.dispatch('createTeam', this.create_form).then(() => {
-                    this.create_form = this.$options.data().create_form;
+                    this.create_form.reset()
                 });
             },
             updateTeam() {
                 this.$store.dispatch('updateTeam', this.edit_form).then(() => {
-                    this.edit_form = this.$options.data().edit_form;
+                    this.edit_form.reset()
                 });
             },
             deleteTeam: function (team_id) {
@@ -145,17 +145,17 @@
                 return team.owner_id === this.$store.state.user.user.id;
             },
             createTeamForm() {
-                this.create_form = this.$options.data().create_form;
-                this.edit_form = this.$options.data().create_form;
-                this.creating_team = true;
-                this.updating_team = false;
+                this.create_form.reset()
+                this.edit_form.reset()
+                this.creating_team = true
+                this.updating_team = false
             },
             editTeam: function (team) {
 
                 this.updating_team = true;
                 this.creating_team = false;
 
-                this.create_form = this.$options.data().create_form;
+                this.create_form.reset()
 
                 this.edit_form.team = team.id;
                 this.edit_form.name = team.name;

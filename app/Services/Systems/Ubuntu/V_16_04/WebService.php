@@ -34,6 +34,16 @@ class WebService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+
+        $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
+letsencrypt renew | grep Congratulations &> /dev/null
+
+if [ $? == 0 ]; then
+    curl "'.config('app.url_stats').'/webhook/server/'.$this->server->encode().'/ssl/updated/"
+fi
+');
+
+        $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
     }
 
     /**
@@ -122,15 +132,22 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        if ($serverType === SystemService::LOAD_BALANCER) {
-            $httpPort = '';
-            $httpType = 'http';
+        $httpPort = '';
+        $httpType = 'http';
+        $activeSsl = false;
 
-            if ($site->hasActiveSSL()) {
+        if ($site->hasActiveSSL()) {
+            $activeSsl = $site->activeSsl();
+
+            if ($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
                 $httpPort = ':443';
                 $httpType = 'https';
+            } else {
+                $activeSsl = false;
             }
+        }
 
+        if ($serverType === SystemService::LOAD_BALANCER) {
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
             // TODO - for now we will do it by what servers are connected to that site
@@ -163,9 +180,7 @@ location / {
 
         $site->load('sslCertificates');
 
-        if ($site->hasActiveSSL()) {
-            $activeSsl = $site->activeSsl();
-
+        if ($activeSsl) {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
             
 gzip off; 
@@ -306,6 +321,6 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
             return 'Nginx';
         }
 
-        dd('we dont have apache setup yet');
+        throw new \Exception('we dont have apache setup yet');
     }
 }

@@ -413,12 +413,14 @@ class ServerService implements ServerServiceContract
         // TODO - this needs to happen differently since load balancers may control these values, so they need to trigger us
         // to say its been changed or something?
 
+        $letsEncryptJob = '0 12 * * * /opt/codepier/./lets_encrypt_renewals';
+
         if (! $server->cronJobs
-            ->where('job', '* */12 * * * letsencrypt renew')
+            ->where('job', $letsEncryptJob)
             ->count()
         ) {
             $cronJob = CronJob::create([
-                'job' => '* */12 * * * letsencrypt renew',
+                'job' => $letsEncryptJob,
                 'user' => 'root',
             ]);
 

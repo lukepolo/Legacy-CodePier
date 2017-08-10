@@ -43,9 +43,9 @@
         props : ['setting', 'params', 'languageSettings'],
         data() {
             return {
-                form : {
+                form : this.createForm({
                     params : {}
-                }
+                })
             }
         },
         created() {

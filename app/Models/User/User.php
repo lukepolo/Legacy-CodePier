@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Models\Pile;
 use App\Models\SshKey;
+use App\Traits\HasServers;
 use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -17,7 +18,7 @@ class User extends Authenticatable
     const USER = 'user';
     const ADMIN = 'admin';
 
-    use Notifiable, UserHasTeams, Billable, HasApiTokens;
+    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers;
 
     /**
      * The attributes that are mass assignable.

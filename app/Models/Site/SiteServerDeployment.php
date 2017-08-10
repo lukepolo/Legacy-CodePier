@@ -32,10 +32,20 @@ class SiteServerDeployment extends Model
     public function createSteps()
     {
         foreach ($this->siteDeployment->site->deploymentSteps as $deploymentStep) {
-            DeploymentEvent::create([
-                'site_server_deployment_id' => $this->id,
-                'deployment_step_id' => $deploymentStep->id,
-            ]);
+            $skipStep = false;
+
+            if (! empty($deploymentStep->server_types)) {
+                $skipStep = ! collect($deploymentStep->server_types)->contains($this->server->type);
+            } elseif (! empty($deploymentStep->servers)) {
+                $skipStep = ! collect($deploymentStep->servers)->contains($this->server_id);
+            }
+
+            if ($skipStep === false) {
+                DeploymentEvent::create([
+                    'site_server_deployment_id' => $this->id,
+                    'deployment_step_id' => $deploymentStep->id,
+                ]);
+            }
         }
 
         return $this;

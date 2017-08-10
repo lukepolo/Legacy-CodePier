@@ -163,10 +163,10 @@
                 <section v-else>
                     <template  v-for="event in events">
                         <template v-if="event.event_type === 'App\\Models\\Site\\SiteDeployment'">
-                            <deployment-event :event="event" :key="event"></deployment-event>
+                            <deployment-event :event="event" :key="event.event_type+event.id"></deployment-event>
                         </template>
                         <template v-else-if="event.event_type === 'App\\Models\\Command'">
-                            <command-event :event="event" :key="event"></command-event>
+                            <command-event :event="event" :key="event.event_type+event.id"></command-event>
                         </template>
                         <template v-else>
                             Invalid type {{ event.event_type }}
@@ -257,7 +257,7 @@ export default {
                 windowWidth: 0,
                 showEvents: false,
                 defaultNotificationTypes: Laravel.defaultNotificationTypes,
-                form: {
+                form: this.createForm({
                     page: 1,
                     filters: {
                         types: {
@@ -268,7 +268,7 @@ export default {
                         sites: [],
                         servers: []
                     }
-                },
+                }),
                 prev_filters: {
                     types: {
                         commands: [],

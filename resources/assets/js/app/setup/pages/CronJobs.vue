@@ -26,13 +26,13 @@
                 </div>
             </div>
 
-
-
             <div class="jcf-input-group">
                 <div class="select-wrap">
                     <div id="cronjob-maker" v-cronjob></div>
                 </div>
             </div>
+
+            <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
@@ -56,23 +56,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="cronJob in cronJobs">
-                    <td class="break-word">{{ cronJob.job }}</td>
-                    <td>{{ cronJob.user }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(cronJob.id)">
-                            {{ isRunningCommandFor(cronJob.id).status }}
-                        </template>
-                    </td>
-
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a @click="deleteCronJob(cronJob.id)"><span class="icon-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
+                    <cron-job :cronJob="cronJob" v-for="cronJob in cronJobs" :key="cronJob.id"></cron-job>
                 </tbody>
             </table>
         </div>
@@ -83,14 +67,23 @@
 </template>
 
 <script>
+
+    import { ServerSelection, CronJob } from "./../components"
+
     export default {
+        components : {
+            CronJob,
+            ServerSelection
+        },
         data() {
             return {
-                form : {
+                form : this.createForm({
                     cron: null,
                     user: 'root',
-                    cron_timing: null
-                },
+                    cron_timing: null,
+                    servers : [],
+                    server_types : [],
+                }),
             }
         },
         created() {
@@ -120,7 +113,9 @@
                         this.$store.dispatch('user_site_cron_jobs/store', {
                             job: job,
                             site: this.siteId,
-                            user: this.form.user
+                            user: this.form.user,
+                            servers : this.form.servers,
+                            server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
                                 this.resetForm()
@@ -133,6 +128,8 @@
                             job: job,
                             user: this.form.user,
                             server: this.serverId,
+                            servers : this.form.servers,
+                            server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
                                 this.resetForm()
@@ -147,29 +144,9 @@
             getCronTimings() {
                 return $('#cronjob-maker').cron('value')
             },
-            deleteCronJob(cronJobId) {
-                if(this.siteId) {
-                    this.$store.dispatch('user_site_cron_jobs/destroy', {
-                        site : this.siteId,
-                        cron_job : cronJobId
-
-                    });
-                }
-
-                if(this.serverId) {
-                    this.$store.dispatch('user_server_cron_jobs/destroy', {
-                        cron_job : cronJobId,
-                        server : this.serverId
-                    });
-                }
-
-            },
-            isRunningCommandFor(id) {
-                return this.isCommandRunning('App\\Models\\CronJob', id)
-            },
             resetForm() {
+                this.form.reset()
                 this.form.user = 'root';
-                this.form.cron_timing = null;
                 if(this.site) {
                     this.form.cron = this.site.path
                 } else {
