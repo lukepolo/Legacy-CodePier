@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Server;
 
-
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Models\Server\Server;
@@ -23,7 +22,6 @@ class ServerController extends Controller
     private $siteService;
     private $serverService;
     private $remoteTaskService;
-
 
     /**
      * ServerController constructor.
