@@ -51,9 +51,9 @@
                 return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
             },
             hasLoadBalancer() {
-                return _.first(this.siteServers, function(server) {
+                return _.filter(this.siteServers, function(server) {
                     return server.type === 'load_balancer'
-                })
+                }).length > 0
             }
         }
     }

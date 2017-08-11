@@ -40,9 +40,9 @@ class UpdateServerCronJobs
                 (! empty($cronJob->server_types) && collect($cronJob->server_types)->contains($this->server->type))
             ) {
                 $this->installCronJob($cronJob);
+            } else {
+                $this->removeCronJob($cronJob);
             }
-
-            $this->removeCronJob($cronJob);
         });
     }
 

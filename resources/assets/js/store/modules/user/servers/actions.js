@@ -69,7 +69,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
     }
 
     Echo.private("App.Models.Server.Server." + server.id)
-      .listen("ServerServerProvisionStatusChanged", data => {
+      .listen("Server\\ServerProvisionStatusChanged", data => {
         commit(
           "user_servers/update",
           {
@@ -100,7 +100,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           }
         );
       })
-      .listen("ServerServerSshConnectionFailed", data => {
+      .listen("Server\\ServerSshConnectionFailed", data => {
         commit(
           "user_servers/update",
           {
@@ -109,7 +109,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("ServerServerFailedToCreate", data => {
+      .listen("Server\\ServerFailedToCreate", data => {
         commit(
           "user_servers/update",
           {
@@ -118,7 +118,7 @@ export const listenTo = ({ commit, state, dispatch }, server) => {
           { root: true }
         );
       })
-      .listen("ServerServerCommandUpdated", data => {
+      .listen("Server\\ServerCommand\\Updated", data => {
         commit("user_commands/update", data.command, { root: true });
         commit("events/update", data.command, { root: true });
       })
