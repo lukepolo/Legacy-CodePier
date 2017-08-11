@@ -66,9 +66,12 @@
 
             </div>
         </div>
+
         @stack('scripts')
 
         @if(\Auth::check() && second_authed())
+
+            <script src="https://js.stripe.com/v3/"></script>
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>
@@ -84,6 +87,7 @@
                     $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
                 </script>
             @endif
+
         @endif
 
         @if($errors->count())

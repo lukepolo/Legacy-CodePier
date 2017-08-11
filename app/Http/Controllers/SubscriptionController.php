@@ -25,8 +25,10 @@ class SubscriptionController extends Controller
         // TODO - add in an admin panel
 //        \Cache::forget('plans');
 
-        return response()->json(\Cache::rememberForever('plans', function () {
-            return collect(Plan::all()->data)->sortBy('metadata.order');
-        }));
+        return response()->json(
+            \Cache::rememberForever('plans', function () {
+                return collect(Plan::all()->data)->sortBy('amount');
+            })
+        );
     }
 }
