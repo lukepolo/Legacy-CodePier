@@ -35,18 +35,18 @@
     </head>
     <body>
         <header>
-            <ul class="nav left">
+            <ul class="nav nav--left">
                 <li>
-                    <div class="nav--logo-container">
+                    <div class="nav--logo">
                         @if(url('/') != url()->current())
                             <a href="{{ url('/') }}" style="width:100%">
-                                <img src="assets/img/codepier.svg">
+                                <img src="assets/img/CP_Logo_TX_Beta-onWhite.svg">
                             </a>
                         @endif
                     </div>
                 </li>
             </ul>
-            <ul class="nav right">
+            <ul class="nav nav--right">
                 {{--<li><a href="#" class="nav--link">Features</a></li>--}}
                 {{--<li><a href="#" class="nav--link">Pricing</a></li>--}}
                 {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
@@ -88,7 +88,7 @@
                     </ul>
                 </div>
                 <div class="footer--img">
-                    <img src="/assets/img/boats.png">
+                    <img src="/assets/img/Sailboats.png">
                 </div>
             </div>
         </div>

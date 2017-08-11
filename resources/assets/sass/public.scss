@@ -22,21 +22,42 @@ a {
   }
 }
 
-.btn-primary {
-  color: $white !important;
-}
-
-
 h1 {
   color: $color-text-primary;
   font-weight: 700;
 }
 
+.btn-primary {
+  color: $white !important;
+}
+
+.error {
+  color : $red
+}
+
+.subheading {
+  font-size: 1.4em;
+}
+
+.small-caps {
+  font-size: .8em;
+  letter-spacing: 1.5px;
+}
+
+
+// Main Layout ========================
+// ====================================
 header {
   flex: 0 0 auto;
   border-bottom: 1px solid $color-divider;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: $white;
+  z-index: 99999;
 }
 
 #content {
@@ -44,6 +65,12 @@ header {
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
+
+  &:before {
+    content: '';
+    display: block;
+    min-height: 61px;
+  }
 }
 
 #main {
@@ -51,6 +78,9 @@ header {
   -webkit-overflow-scrolling: touch;
 }
 
+
+// Main Navigation ====================
+// ====================================
 .nav {
   display: flex;
   list-style: none;
@@ -58,11 +88,11 @@ header {
   margin: 0px;
   padding: 0px;
 
-  &.right {
+  &--right {
     justify-content: flex-end;
   }
 
-  &--logo-container {
+  &--logo {
     width: 250px;
     margin-left: $spacing/2;
     padding: 0px $spacing;
@@ -107,22 +137,12 @@ header {
 }
 
 
-.jcf-form-wrap {
-  box-shadow: none;
-  border: 1px solid $color-divider;
-  background-color: $white;
-  text-align: left;
-  padding: 30px 20px 20px;
-}
-
-.cover .jcf-input-group {
-  margin: 0px;
-}
-
+// Hero Section =======================
+// ====================================
 .cover {
   width: 100%;
-  max-width: 1400px;
-  min-height: 650px;
+  max-width: 1200px;
+  min-height: 400px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top left;
@@ -131,14 +151,7 @@ header {
   align-items: center;
   margin: 0px auto;
 
-  &--content {
-    padding-right: 10%;
-    width: 50%;
-    text-align: center;
-    font-size: 1.2em;
-  }
-
-  &--logo-container {
+  &--logo {
     border-bottom: 1px solid $color-divider;
     margin: 0px 0px $spacing;
     padding-bottom: $spacing/2;
@@ -146,6 +159,13 @@ header {
     img {
       max-width: 350px;
     }
+  }
+
+  &--content {
+    padding-right: 10%;
+    width: 50%;
+    text-align: center;
+    font-size: 1.2em;
   }
 
   @include breakpoint(lg) {
@@ -196,18 +216,18 @@ header {
   }
 }
 
-#cover-main {
-  background-image: url('/assets/img/dock.svg');
-}
 
-#section-video {
-  background-color: $blue;
-}
-
-
-
+// Section Styles =====================
+// ====================================
 .section {
   padding: $spacing*4;
+
+  &--header {
+    font-weight: 400;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
   &--content {
     max-width: 800px;
@@ -219,6 +239,44 @@ header {
   }
 }
 
+
+// Section Specific Styles ============
+// ====================================
+#section--hero {
+  padding: 30px 0px 0px;
+  background-image: url('/assets//img/Boat_Dock.svg');
+  background-size: 55%;
+}
+
+#section--events {
+  background-color: rgba($gray, .15);
+
+  .section--header {
+    margin-top: -50px;
+  }
+
+  .events {
+    @include card(2);
+    color : $white;
+    margin-bottom: -120px;
+
+    &--collapse {
+      height: 40vh;
+    }
+  }
+}
+
+#section--video {
+  background-color: $blue;
+}
+
+#section--comparison {
+
+}
+
+
+// Video Container Styles =============
+// ====================================
 .video {
   max-width: 800px;
   margin: 0px auto;
@@ -230,7 +288,7 @@ header {
   }
 
   &--item {
-
+    //video container
     &-embed {
       // styles for responsive embed
       position: relative;
@@ -288,6 +346,9 @@ header {
 
 }
 
+
+// Table Styles =======================
+// ====================================
 .table {
   &--responsive {
     display: flex;
@@ -357,6 +418,83 @@ header {
   }
 }
 
+
+// Tabs Styles ========================
+// ====================================
+.tabs {
+  display: flex;
+  margin-bottom: $spacing;
+  justify-content: center;
+
+  &--item {
+    font-size: 1.1em;
+    font-weight: 400;
+    letter-spacing: .1px;
+    border-radius: 20px;
+    background-color: $white;
+    margin-right: 20px;
+    padding: 5px 20px;
+    position: relative;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 10px solid $color-primary;
+      border-bottom: none;
+      border-right-color: transparent;
+      border-left-color: transparent;
+      border-top-width: 0px;
+      transition: all .3s ease;
+    }
+
+    &-selected {
+      background-color: $color-primary;
+      color: $color-text-inverse;
+      cursor: pointer;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all .3s ease;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      height: 0px;
+      background-color: $color-primary;
+      transition: all .2s ease;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: $color-primary;
+      cursor: pointer;
+
+      &:before {
+        border-top-width: 10px;
+        transition: all .3s ease;
+      }
+
+      &:after {
+        height: 3px;
+        transition: all .2s ease;
+      }
+    }
+  }
+}
+
+
+// Footer Styles ======================
+// ====================================
 .footer {
   flex: 0 0 auto;
   display: flex;
@@ -427,14 +565,4 @@ header {
       max-width: 100%;
     }
   }
-}
-
-.error {
-  color : $red
-}
-
-
-// Lukes hacks
-.events {
-  color : $white !important;;
 }
