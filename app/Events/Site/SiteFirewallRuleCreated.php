@@ -20,7 +20,7 @@ class SiteFirewallRuleCreated
      */
     public function __construct(Site $site, FirewallRule $firewallRule)
     {
-        $availableServers = $site->provisionedServers->filter(function($server) use($firewallRule) {
+        $availableServers = $site->provisionedServers->filter(function ($server) use ($firewallRule) {
             return $server->ip !== $firewallRule->from_ip;
         });
 
