@@ -1,122 +1,111 @@
 <template>
     <section>
-        <template v-if="validSubscription">
-            <p v-if="isCanceled">
-                Your subscription has been canceled and will end on {{ user_subscription.ends_at }}
-            </p>
-            <p v-else>
-                <template v-if="upcomingSubscription">
-                    Your next billing is on {{ upcomingSubscription.date }}
-                </template>
-            </p>
-        </template>
+        <form @submit.prevent="createToken" method="post" id="card-form">
 
-        <div class="jcf-form-wrap">
-            <form @submit.prevent="createSubscription" class="floating-labels">
 
+            <template v-for="plan in plans">
                 <div class="jcf-input-group input-radio">
                     <div class="input-question">Select your plan</div>
-                    <label v-for="plan in plans">
-                        <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
-                        <span class="icon"></span>
+                    <input v-model="form.plan" type="radio" name="plan" :value="plan.id">
+                    <span class="icon"></span>
 
-                        <p>
-                            {{ plan.name }} ({{ plan.amount }} / {{ plan.interval }}
-                        </p>
+                    <p>
+                        {{ plan.name }} ({{ plan.amount }} / {{ plan.interval }}
+                    </p>
 
-                        <b v-if="plan.metadata.save">
-                            SAVE {{ plan.metadata.save }} per {{ plan.interval }}
-                        </b>
-                    </label>
+                    <b v-if="plan.metadata.save">
+                        SAVE {{ plan.metadata.save }} per {{ plan.interval }}
+                    </b>
                 </div>
+            </template>
 
-
-                <template v-if="user.card_brand">
-                    Use your {{ user.card_brand }} {{ user.card_last_four }}
-                    <div @click="showCardForm = !showCardForm" class="btn btn-link new-card">new card</div>
-                </template>
-
-                <div id="card-info" :class="{hide : !showCardForm}">
-
-                    <div class="jcf-input-group">
-                        <input v-model="form.number" type="text" name="number">
-                        <label for="number">
-                            <span class="float-label">Number</span>
-                        </label>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <input v-model="form.exp_month" type="text" name="exp_month">
-                        <label for="exp_month">
-                            <span class="float-label">Exp Month</span>
-                        </label>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <input v-model="form.exp_year" type="text" name="exp_year">
-                        <label for="exp_year">
-                            <span class="float-label">Exp Year</span>
-                        </label>
-                    </div>
-
-                    <div class="jcf-input-group">
-                        <input v-model="form.cvc" type="password" name="cvc">
-                        <label for="cvc">
-                            <span class="float-label">CVC</span>
-                        </label>
-                    </div>
+            <div class="flyform--group">
+                <div id="card-element" class="margin-top-1 margin-bottom-1"></div>
+                <div id="card-errors" class="alert alert-danger" role="alert" v-if="error">
+                    {{ error }}
                 </div>
+            </div>
 
-                <div class="btn-footer">
-                    <button class="btn btn-primary" type="submit">Save Subscription</button>
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn btn-primary">Update Subscription</button>
                 </div>
-            </form>
-        </div>
-
-        <a @click="cancelSubscription" v-if="validSubscription && !isCanceled">Cancel Subscription</a>
-
-        <template v-if="invoices.length">
-            <table>
-                <tr v-for="invoice in invoices">
-                    <td> {{ invoice.date }}</td>
-                    <td> {{ invoice.total }}</td>
-                    <td><a :href="downloadLink(invoice.id)">Download</a></td>
-                </tr>
-            </table>
-        </template>
+            </div>
+        </form>
     </section>
 </template>
 <script>
     export default {
         data() {
             return {
-                showCardForm: user.card_brand ? false : true,
+                card : null,
+                error : null,
+                stripe : null,
                 form: this.createForm({
-                    cvc: 123,
                     plan: null,
-                    number: "4242424242424242",
-                    exp_year: 2022,
-                    exp_month: 11
+                    token : null,
                 })
             }
         },
         created() {
-            this.fetchData();
+            this.$store.dispatch('subscriptions/plans');
+            this.$store.dispatch('user_subscription/get');
+            this.$store.dispatch('user_subscription/getInvoices');
+            this.$store.dispatch('user_subscription/getUpcomingSubscription');
+        },
+        mounted() {
+            this.stripe = Stripe('pk_test_qJVytxReNpHC00dFe8Eegy6Q');
+
+            this.card = this.stripe.elements().create('card', {
+                style : {
+                    base: {
+                        color: '#fff',
+                        iconColor: '#fff',
+                        lineHeight: '24px',
+                        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                        fontSmoothing: 'antialiased',
+                        fontSize: '16px',
+                    },
+                    invalid: {
+                        color: '#F4645F',
+                        iconColor: '#F4645F'
+                    }
+                }
+            });
+
+            this.card.mount('#card-element');
+
+            this.card.addEventListener('change', (event) => {
+                this.error = null
+                if (event.error) {
+                    this.error = event.error.message;
+                }
+            });
+        },
+        methods: {
+            createToken() {
+                this.stripe.createToken(this.card).then((result) => {
+                    if (result.error) {
+                        this.error = result.error.message;
+                    } else {
+                        this.updateSubscription(result.token);
+                    }
+                });
+            },
+            updateSubscription(token) {
+                console.info(token)
+                this.token = token
+            },
         },
         computed: {
-            user() {
-                return this.$store.state.user.user;
-            },
             plans() {
                 let plans = this.$store.state.subscriptions.plans;
-
                 if(this.validSubscription) {
                     let plan = _.find(plans, { id : this.user_subscription.stripe_plan});
                     if(plan) {
                         this.form.plan = plan.id
                     }
                 }
-
                 return plans;
             },
             invoices() {
@@ -135,22 +124,7 @@
                 return this.user_subscription.ends_at !==  null;
             }
         },
-        methods: {
-            fetchData() {
-                this.$store.dispatch('subscriptions/plans');
-                this.$store.dispatch('user_subscription/get');
-                this.$store.dispatch('user_subscription/getInvoices');
-                this.$store.dispatch('user_subscription/getUpcomingSubscription');
-            },
-            createSubscription() {
-                this.$store.dispatch('user_subscription/store', this.form)
-            },
-            cancelSubscription() {
-                this.$store.dispatch('cancelSubscription', this.user_subscription.id);
-            },
-            downloadLink: function (invoice) {
-                return this.action('User\Subscription\UserSubscriptionInvoiceController@show', { invoice: invoice });
-            }
-        }
     }
 </script>
+
+<!--return ;-->
