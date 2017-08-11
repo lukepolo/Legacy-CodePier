@@ -36,7 +36,7 @@ class UpdateServerFirewallRules
         $this->serverType = $server->type;
 
         $this->site->firewallRules->each(function (FirewallRule $firewallRule) {
-            if($this->server->ip !== $firewallRule->from_ip) {
+            if ($this->server->ip !== $firewallRule->from_ip) {
                 $this->installFirewallRule($firewallRule);
             }
         });
