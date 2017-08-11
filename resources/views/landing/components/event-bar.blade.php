@@ -1,4 +1,17 @@
-<section class="section">
+<section id="section--events" class="section">
+    <div class="section--header">A powerful event system helps you monitor what's going on.</div>
+    <div class="tabs">
+        <div class="tabs--item">
+            Deployment Error
+        </div>
+        <div class="tabs--item tabs--item-selected">
+            Full Stack Server Deployment
+        </div>
+        <div class="tabs--item">
+            Multiple Server Deployment
+        </div>
+    </div>
+
     <footer class="events">
         <div class="header events--header">
             <h4>
