@@ -6,6 +6,7 @@ use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ModelCommandTrait;
+use App\Jobs\Server\InstallPublicKey;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
@@ -55,7 +56,7 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+            event(new InstallPublicKey($this->server, $this->site));
         }
 
         if (

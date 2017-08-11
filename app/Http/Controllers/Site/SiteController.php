@@ -257,6 +257,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
+        $site->private = 0;
         $site->public_ssh_key = null;
 
         if (empty($site->userRepositoryProvider)) {
