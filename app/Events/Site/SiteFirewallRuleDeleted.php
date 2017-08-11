@@ -22,7 +22,7 @@ class SiteFirewallRuleDeleted
     {
         $site->firewallRules()->detach($firewallRule);
 
-        $availableServers = $site->provisionedServers->filter(function($server) use($firewallRule) {
+        $availableServers = $site->provisionedServers->filter(function ($server) use ($firewallRule) {
             return $server->ip !== $firewallRule->from_ip;
         });
 
