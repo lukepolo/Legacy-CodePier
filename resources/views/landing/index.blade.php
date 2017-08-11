@@ -1,22 +1,23 @@
 @extends('layouts.public')
 
 @section('content')
-    <section id="cover-main" class="cover">
-        <div class="cover--content">
-            <div class="cover--logo-container">
-                <img src="assets/img/codepier.svg">
-            </div>
-            <h1>You Build it. We Deploy it.</h1>
-            <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
-            <div class="btn-container">
-                <a href="{{ route('login') }}" class="btn btn-primary btn-large">Join our Beta</a>
-            </div>
+    <section>
+        <div class="cover--logo-container">
+            <img src="{{ url('assets/img/codepier.svg') }}">
+        </div>
+        <h1>You Build it. We Deploy it.</h1>
+        <p>You're here to build apps. CodePier is here to help you manage your infrastructure, allow custom provisioning for each application, and eliminate downtime with zerotime deployments, plus, so much more. Come check it out.</p>
+        <div class="btn-container">
+            <a href="{{ route('login') }}" class="btn btn-primary btn-large">Join our Beta</a>
         </div>
     </section>
+
+    @include('landing.components.event-bar')
+
     <section id="section-video" class="section">
         <div class="section--content">
             <div class="video">
-                <h2 class="video--header">Deploying Your App</h2>
+                <h2 class="video--header">Features here</h2>
                 <div class="video--item">
                     <div class="video--item-embed">
                         <div id='deploy_app_url'></div>
