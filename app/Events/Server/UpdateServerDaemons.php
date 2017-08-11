@@ -40,9 +40,9 @@ class UpdateServerDaemons
                 (! empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
             ) {
                 $this->installDaemon($daemon);
+            } else {
+                $this->removeDeamon($daemon);
             }
-
-            $this->removeDeamon($daemon);
         });
     }
 

@@ -38,6 +38,6 @@ class CreateDaemonTables extends Migration
     public function down()
     {
         Schema::dropIfExists('daemons');
-        Schema::dropIfExists('daemonable');
+        Schema::dropIfExists('daemonables');
     }
 }
