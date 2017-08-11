@@ -27,5 +27,4 @@ class ServerProviderRequest extends FormRequest
             'token' => 'required',
         ];
     }
-
 }
