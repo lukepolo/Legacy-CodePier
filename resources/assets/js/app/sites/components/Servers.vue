@@ -131,6 +131,9 @@
             }
         },
         computed: {
+            user() {
+                return this.$store.state.user.user
+            },
             site() {
                 return this.$store.state.user_sites.site;
             },
@@ -147,8 +150,8 @@
                 return servers
             },
             availableServers() {
-                return _.filter(this.$store.state.user_servers.servers, function(server){
-                    if(server.progress >= 100) {
+                return _.filter(this.$store.state.user_servers.servers, (server) => {
+                    if(server.progress >= 100 && server.pile_id === this.user.current_pile_id) {
                         return true
                     }
                 });
