@@ -46,7 +46,6 @@ class RepositoryService implements RepositoryServiceContract
         }
 
         if (! $site->private && $this->isPrivate($site)) {
-
             \Log::info('we should be importing');
 
             try {
