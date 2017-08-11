@@ -31,7 +31,6 @@ export NVM_DIR="$HOME/.nvm"
 
         $this->remoteTaskService->run('nvm install '.$version);
         $this->remoteTaskService->run('nvm alias default '.$version);
-
     }
 
     /**
