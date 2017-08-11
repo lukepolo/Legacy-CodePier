@@ -55,7 +55,6 @@ class User extends Authenticatable
         'trial_ends_at',
     ];
 
-
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -209,7 +208,7 @@ class User extends Authenticatable
 
     public function canSeePublicRepositories()
     {
-        if (\Auth::user()->repositoryProviders->count() && !empty(\Auth::user()->repositoryProviders->first()->scopes) && str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
+        if (\Auth::user()->repositoryProviders->count() && ! empty(\Auth::user()->repositoryProviders->first()->scopes) && str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
             return true;
         }
 
@@ -218,7 +217,7 @@ class User extends Authenticatable
 
     public function canSeePrivateRepositories()
     {
-        if (\Auth::user()->repositoryProviders->count() && !empty(\Auth::user()->repositoryProviders->first()->scopes) && !str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
+        if (\Auth::user()->repositoryProviders->count() && ! empty(\Auth::user()->repositoryProviders->first()->scopes) && ! str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
             return true;
         }
 
@@ -232,7 +231,7 @@ class User extends Authenticatable
 
             $discount = $this->getSubscriptionDiscount();
 
-            if (!empty($discount)) {
+            if (! empty($discount)) {
                 if (is_int($discount)) {
                     $price -= $discount;
                 } else {
@@ -255,7 +254,7 @@ class User extends Authenticatable
 
             $discount = $this->getSubscriptionDiscount();
 
-            if (!empty($discount)) {
+            if (! empty($discount)) {
                 if (is_int($discount)) {
                     return $subscriptionName.' - $'.$discount.'.00 off';
                 } else {
@@ -282,7 +281,7 @@ class User extends Authenticatable
     {
         if ($this->subscription()) {
             $discountObject = $this->getStripeSubscription()->discount;
-            if (!empty($discountObject->start)) {
+            if (! empty($discountObject->start)) {
                 $coupon = $discountObject->coupon;
                 if ($coupon->amount_off) {
                     return $coupon->amount_off;
