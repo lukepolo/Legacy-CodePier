@@ -101,3 +101,16 @@ if (! function_exists('second_authed')) {
         return true;
     }
 }
+
+if (!function_exists('cents_to_dollars')) {
+    /**
+     * Converts cents to dollars.
+     *
+     * @return mixed
+     */
+    function cents_to_dollars($cents)
+    {
+        return '$'.number_format(($cents / 100), 2, '.', ' ');
+    }
+}
+
