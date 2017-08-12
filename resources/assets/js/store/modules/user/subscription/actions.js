@@ -17,14 +17,14 @@ export const cancel = (context, data) => {
     Vue.action("UserSubscriptionUserSubscriptionController@destroy", {
       subscription: subscription
     }),
-    "tAll/remove"
+    "user_subscription/remove"
   );
 };
 
 export const getInvoices = () => {
   return Vue.request().get(
     Vue.action("UserSubscriptionUserSubscriptionInvoiceController@index"),
-    "user_subscription/setUpcoming"
+    "user_subscription/setInvoices"
   );
 };
 

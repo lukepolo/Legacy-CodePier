@@ -6,6 +6,7 @@ use App\Models\Pile;
 use App\Models\SshKey;
 use App\Traits\HasServers;
 use App\Models\Server\Server;
+use Carbon\Carbon;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
@@ -19,6 +20,8 @@ class User extends Authenticatable
     const ADMIN = 'admin';
 
     use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers;
+
+    protected $subscription;
 
     /**
      * The attributes that are mass assignable.
@@ -205,24 +208,6 @@ class User extends Authenticatable
 
         return $subscription->valid() &&
             $subscription->stripe_plan === $plan;
-    }
-
-    public function canSeePublicRepositories()
-    {
-        if (\Auth::user()->repositoryProviders->count() && !empty(\Auth::user()->repositoryProviders->first()->scopes) && str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function canSeePrivateRepositories()
-    {
-        if (\Auth::user()->repositoryProviders->count() && !empty(\Auth::user()->repositoryProviders->first()->scopes) && !str_contains(\Auth::user()->repositoryProviders->first()->scopes, 'public_repo')) {
-            return true;
-        }
-
-        return false;
     }
 
     public function getSubscriptionPrice()

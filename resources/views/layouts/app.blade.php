@@ -20,11 +20,12 @@
             window.Laravel = <?php echo json_encode([
                 'env' => config('app.env'),
                 'csrfToken' => csrf_token(),
-                'pusherKey' => config('broadcasting.connections.pusher.key'),
-                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'version' => app()->make('gitCommit'),
                 'teams' => config('app.teams'),
+                'version' => app()->make('gitCommit'),
+                'stripeKey' => config('services.stripe.key'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
+                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
             ]); ?>
         </script>
         @if(config('app.env') == 'production' && \Auth::check())

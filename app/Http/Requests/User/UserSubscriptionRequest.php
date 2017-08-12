@@ -25,10 +25,6 @@ class UserSubscriptionRequest extends FormRequest
     {
         return [
             'plan' => 'required',
-            'number'    => 'integer',
-            'exp_month' => 'required_with:number|integer',
-            'exp_year'  => 'required_with:number|integer',
-            'cvc'       => 'required_with:number|integer',
         ];
     }
 }

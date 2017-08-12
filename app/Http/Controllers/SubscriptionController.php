@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
 
         return response()->json(
             \Cache::rememberForever('plans', function () {
-                return collect(Plan::all()->data)->sortBy('amount');
+                return collect(Plan::all()->data)->sortBy('amount')->values();
             })
         );
     }
