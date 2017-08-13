@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.32 on 2017-08-12.
+ * Generated for Laravel 5.4.32 on 2017-08-13.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -16049,6 +16049,18 @@ if (! function_exists('second_authed')) {
         }
 
         return true;
+    }
+}
+
+if (! function_exists('cents_to_dollars')) {
+    /**
+     * Converts cents to dollars.
+     *
+     * @return mixed
+     */
+    function cents_to_dollars($cents)
+    {
+        return '$'.number_format(($cents / 100), 2, '.', ' ');
     }
 }
  
