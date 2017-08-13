@@ -59,6 +59,22 @@ class User extends Authenticatable
         'trial_ends_at',
     ];
 
+    protected $appends = [
+        'is_subscribed'
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getIsSubscribedAttribute()
+    {
+        return $this->attributes['is_subscribed'] = $this->subscribed();
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | Relations
@@ -292,8 +308,8 @@ class User extends Authenticatable
 
         if (! empty($card)) {
             return [
-                'brand' => $card->brand,
-                'last4' => $card->last4,
+                'brand' => $card['brand'],
+                'last4' => $card['last4'],
             ];
         }
     }
@@ -302,7 +318,10 @@ class User extends Authenticatable
     {
         if (empty($this->subscription)) {
             $this->subscription = \Cache::rememberForever($this->id.'.subscription', function () {
-                return $this->subscription()->asStripeSubscription();
+                $subscription = $this->subscription();
+                if(!empty($subscription)) {
+                    return $this->subscription()->asStripeSubscription();
+                }
             });
         }
 
@@ -311,13 +330,17 @@ class User extends Authenticatable
 
     public function getNextBillingCycle()
     {
-        return Carbon::createFromTimestamp(
-            $this->getStripeSubscription()->current_period_end
-        );
+        if($this->getStripeSubscription()) {
+            return Carbon::createFromTimestamp(
+                $this->getStripeSubscription()->current_period_end
+            );
+        }
     }
 
     public function subscriptionInfo()
     {
+        $this->refresh();
+
         return [
             'card'                 => $this->card(),
             'subscribed'           => $this->subscribed(),

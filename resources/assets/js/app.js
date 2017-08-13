@@ -7,6 +7,8 @@ require("./directives");
 require("./emitters");
 require("./mixins");
 
+window.store = store
+
 const app = new Vue({
   store,
   router
