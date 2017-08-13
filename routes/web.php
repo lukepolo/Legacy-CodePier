@@ -112,6 +112,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['auth', 'second_auth']], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
-    Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
+    Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });
