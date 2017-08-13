@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IsSubscribed;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,5 +65,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\CheckRole::class,
         'auth.provisioning-key' => \App\Http\Middleware\VerifyProvisioningKey::class,
         'second_auth' => \App\Http\Middleware\VerifySecondAuth::class,
+        'subscribed' =>  \App\Http\Middleware\IsSubscribed::class,
     ];
 }
