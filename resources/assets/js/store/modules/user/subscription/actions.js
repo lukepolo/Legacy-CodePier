@@ -12,6 +12,15 @@ export const store = (context, data) => {
   );
 };
 
+export const patch = (context, data) => {
+    return Vue.request(data).patch(
+        Vue.action("UserSubscriptionUserSubscriptionController@update", {
+            subscription : data.subscription
+        }),
+        "user_subscription/set"
+    );
+};
+
 export const cancel = (context, data) => {
   return Vue.request(data).delete(
     Vue.action("UserSubscriptionUserSubscriptionController@destroy", {
@@ -28,11 +37,9 @@ export const getInvoices = () => {
   );
 };
 
-export const getUpcomingSubscription = () => {
-  return Vue.request().get(
-    Vue.action(
-      "UserSubscriptionUserSubscriptionUpcomingInvoiceController@index"
-    ),
-    "user_subscription/setUpcoming"
-  );
-};
+export const updateCard = (context, data) => {
+    return Vue.request(data).post(
+        Vue.action("UserSubscriptionUserSubscriptionCardController@store"),
+        "user_subscription/set"
+    );
+}

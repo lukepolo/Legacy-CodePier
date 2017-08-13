@@ -95,9 +95,9 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
+            Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
             Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
-            Route::apiResource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
         });
 
         /*
