@@ -7,6 +7,8 @@ require("./directives");
 require("./emitters");
 require("./mixins");
 
+window.store = store
+
 const app = new Vue({
   store,
   router
@@ -14,9 +16,15 @@ const app = new Vue({
 
 window.app = app;
 
-app.$store.dispatch("user_sites/get");
-app.$store.dispatch("user_commands/get");
-app.$store.dispatch("user_ssh_keys/get");
+if(app.$store.state.user.user.is_subscribed) {
+    app.$store.dispatch("user_sites/get");
+    app.$store.dispatch("user_commands/get");
+    app.$store.dispatch("user_ssh_keys/get");
+    app.$store.dispatch('user_piles/get')
+}
+
+app.$store.dispatch('user_teams/get')
+
 
 Echo.channel("app").listen("ReleasedNewVersion", data => {
   app.$store.dispatch("system/setVersion", data);

@@ -16,7 +16,7 @@ import { getBytesFromString } from "./file-size";
 
 import { local } from "./environment";
 
-import { isAdmin, teamsEnabled } from "./permissions";
+import { isAdmin, isSubscribed, teamsEnabled } from "./permissions";
 
 import { showError, showSuccess, handleApiError } from "./notifications";
 
@@ -51,6 +51,7 @@ Vue.mixin({
     isAdmin,
     hasSites,
     teamsEnabled,
+    isSubscribed,
     workFlowCompleted
   }
 });

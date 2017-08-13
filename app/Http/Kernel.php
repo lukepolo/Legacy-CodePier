@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\CheckRole::class,
         'auth.provisioning-key' => \App\Http\Middleware\VerifyProvisioningKey::class,
         'second_auth' => \App\Http\Middleware\VerifySecondAuth::class,
+        'subscribed' =>  \App\Http\Middleware\IsSubscribed::class,
     ];
 }
