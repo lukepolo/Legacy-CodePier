@@ -60,7 +60,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'is_subscribed'
+        'is_subscribed',
     ];
 
     /*
@@ -73,7 +73,6 @@ class User extends Authenticatable
     {
         return $this->attributes['is_subscribed'] = $this->subscribed();
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -319,7 +318,7 @@ class User extends Authenticatable
         if (empty($this->subscription)) {
             $this->subscription = \Cache::rememberForever($this->id.'.subscription', function () {
                 $subscription = $this->subscription();
-                if(!empty($subscription)) {
+                if (! empty($subscription)) {
                     return $this->subscription()->asStripeSubscription();
                 }
             });
@@ -330,7 +329,7 @@ class User extends Authenticatable
 
     public function getNextBillingCycle()
     {
-        if($this->getStripeSubscription()) {
+        if ($this->getStripeSubscription()) {
             return Carbon::createFromTimestamp(
                 $this->getStripeSubscription()->current_period_end
             );
