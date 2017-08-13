@@ -14,7 +14,7 @@
 
 Route::group(['middleware' => [
         'auth:api',
-    ]
+    ],
 ], function () {
     Route::apiResource('2fa', 'Auth\SecondAuthController', [
             'parameters' => [
@@ -76,8 +76,8 @@ Route::group(['middleware' => [
 
 Route::group(['middleware' => [
         'auth:api',
-        'subscribed'
-    ]
+        'subscribed',
+    ],
 ], function () {
 
     /*
@@ -126,7 +126,6 @@ Route::group(['middleware' => [
     */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
