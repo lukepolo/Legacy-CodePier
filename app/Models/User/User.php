@@ -207,8 +207,7 @@ class User extends Authenticatable
      */
     public function subscribed($subscription = 'default', $plan = null)
     {
-
-        if(!config('app.subscriptions')) {
+        if (! config('app.subscriptions')) {
             return true;
         }
 
