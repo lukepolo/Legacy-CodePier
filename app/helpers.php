@@ -102,7 +102,7 @@ if (! function_exists('second_authed')) {
     }
 }
 
-if (!function_exists('cents_to_dollars')) {
+if (! function_exists('cents_to_dollars')) {
     /**
      * Converts cents to dollars.
      *
@@ -113,4 +113,3 @@ if (!function_exists('cents_to_dollars')) {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
     }
 }
-

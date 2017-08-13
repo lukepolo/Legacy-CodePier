@@ -32,7 +32,7 @@ class UserSubscriptionInvoiceController extends Controller
                 $invoices[] = [
                     'id' => $invoice->id,
                     'date' => $invoice->date(),
-                    'total' => $invoice->rawTotal()
+                    'total' => $invoice->rawTotal(),
                 ];
             }
         }
