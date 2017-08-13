@@ -11,17 +11,17 @@ const router = new VueRouter({
 });
 
 router.beforeResolve((to, from, next) => {
-    if(!store.state.user.user.is_subscribed) {
-        if(to.name !== 'subscription') {
-            next({
-                name : 'subscription'
-            })
-        } else {
-          next()
-        }
+  if (!store.state.user.user.is_subscribed) {
+    if (to.name !== "subscription") {
+      next({
+        name: "subscription"
+      });
     } else {
-        next()
+      next();
     }
-})
+  } else {
+    next();
+  }
+});
 
 export default router;

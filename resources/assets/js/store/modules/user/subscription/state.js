@@ -1,4 +1,4 @@
 export default {
   invoices: [],
-  subscription: null,
+  subscription: null
 };
