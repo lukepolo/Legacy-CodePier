@@ -12,7 +12,10 @@
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => [
+        'auth:api',
+    ]
+], function () {
     Route::apiResource('2fa', 'Auth\SecondAuthController', [
             'parameters' => [
                 '2fa' => 'fa',
@@ -35,6 +38,47 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('user', 'User\UserController', [
         'except' => 'index',
     ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'my'], function () {
+        Route::group(['namespace' => 'User'], function () {
+            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
+                'except' => [
+                    'show',
+                ],
+            ]);
+            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
+            Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
+        });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Teamwork Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::apiResource('team', 'User\Team\UserTeamController');
+
+    Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
+        Route::apiResource('team.members', 'UserTeamMemberController');
+        Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
+        Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
+        Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+    });
+});
+
+Route::group(['middleware' => [
+        'auth:api',
+        'subscribed'
+    ]
+], function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -82,20 +126,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
-                'except' => [
-                    'show',
-                ],
-            ]);
 
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
             Route::apiResource('ssh-keys', 'UserSshKeyController');
-            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
-            Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
             Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
         });
@@ -108,22 +145,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         */
 
         Route::apiResource('events', 'EventController');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Teamwork Routes
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        Route::apiResource('team', 'User\Team\UserTeamController');
-
-        Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::apiResource('team.members', 'UserTeamMemberController');
-            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
-            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
-        });
 
         /*
         |--------------------------------------------------------------------------

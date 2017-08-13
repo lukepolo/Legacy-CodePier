@@ -5,3 +5,7 @@ export const isAdmin = function() {
 export const teamsEnabled = () => {
   return false; // Laravel.teams
 };
+
+export const isSubscribed = function() {
+    return this.$store.state.user.user.is_subscribed;
+};
