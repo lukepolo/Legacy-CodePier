@@ -9,7 +9,3 @@ export const remove = state => {
 export const setInvoices = (state, { response }) => {
   state.invoices = response;
 };
-
-export const setUpcoming = (state, { response }) => {
-  state.upcoming_subscription = response;
-};

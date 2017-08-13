@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSubscriptionRequest extends FormRequest
+class UserSubscriptionCardUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class UserSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan' => 'required',
             'token' => 'required',
         ];
     }

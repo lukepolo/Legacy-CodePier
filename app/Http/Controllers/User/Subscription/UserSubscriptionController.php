@@ -7,6 +7,7 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserSubscriptionRequest;
+use App\Http\Requests\User\UserSubscriptionUpdateRequest;
 
 class UserSubscriptionController extends Controller
 {
@@ -21,15 +22,9 @@ class UserSubscriptionController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        return response()->json([
-            'card'                 => $user->card(),
-            'subscribed'           => $user->subscribed(),
-            'subscription'         => $user->subscription(),
-            'subscriptionEnds'     => $user->getNextBillingCycle(),
-            'subscriptionName'     => $user->getSubscriptionName(),
-            'subscriptionPrice'    => $user->getSubscriptionPrice(),
-            'subscriptionInterval' => $user->getSubscriptionInterval(),
-        ]);
+        return response()->json(
+            $user->subscriptionInfo()
+        );
     }
 
     /**
@@ -41,26 +36,54 @@ class UserSubscriptionController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
+
+        if ($user->subscriptions->count()) {
+            return response()->json('You already have a subscription. You need to update it instead of creating a new one.', 400);
+        }
+
         $plan = $request->get('plan');
 
         Cache::forget($user->id.'.card');
         Cache::forget($user->id.'.subscription');
 
-        if ($user->subscriptions->count()) {
-            $user->subscription('default')->swap($plan);
-        } else {
-            $subscription = $user->newSubscription('default', $plan);
+        $subscription = $user->newSubscription('default', $plan);
 
-            $subscription->trialDays(5);
+        $subscription->trialDays(5);
 
-            if ($request->has('coupon')) {
-                $subscription->withCoupon($request->get('coupon'));
-            }
-
-            $subscription->create($request->get('token'));
+        if ($request->has('coupon')) {
+            $subscription->withCoupon($request->get('coupon'));
         }
 
-        return response()->json($user->subscription());
+        $subscription->create($request->get('token'));
+
+        return response()->json(
+            $user->subscriptionInfo()
+        );
+    }
+
+    /**
+     * @param UserSubscriptionUpdateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UserSubscriptionUpdateRequest $request)
+    {
+        /** @var User $user */
+        $user = $request->user();
+
+        if (!$user->subscriptions->count()) {
+            return response()->json('You do not have a subscription. You need to create one.', 400);
+        }
+
+        $plan = $request->get('plan');
+
+        Cache::forget($user->id.'.card');
+        Cache::forget($user->id.'.subscription');
+
+        $user->subscription('default')->swap($plan);
+
+        return response()->json(
+            $user->subscriptionInfo()
+        );
     }
 
     /**
@@ -79,6 +102,8 @@ class UserSubscriptionController extends Controller
 
         Cache::forget($user->id.'.subscription');
 
-        return response()->json($user->subscription());
+        return response()->json(
+            $user->subscriptionInfo()
+        );
     }
 }

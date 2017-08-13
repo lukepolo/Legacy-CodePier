@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserSubscriptionRequest extends FormRequest
+class UserSubscriptionUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,6 @@ class UserSubscriptionRequest extends FormRequest
     {
         return [
             'plan' => 'required',
-            'token' => 'required',
         ];
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Models\User;
 
+use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
 use App\Traits\HasServers;
 use App\Models\Server\Server;
-use Carbon\Carbon;
 use Laravel\Cashier\Billable;
+use Laravel\Cashier\Card;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
@@ -281,9 +282,20 @@ class User extends Authenticatable
     public function card()
     {
         if ($this->subscribed() && $this->hasStripeId()) {
-            return \Cache::rememberForever($this->id.'.card', function () {
-                return $this->cards()->first();
+            $card = \Cache::rememberForever($this->id.'.card', function () {
+                /** @var Card $card */
+                $card = $this->cards()->first();
+                if(!empty($card)) {
+                    return $card->asStripeCard()->jsonSerialize();
+                }
             });
+        }
+
+        if(!empty($card)) {
+            return [
+                'brand' => $card->brand,
+                'last4' => $card->last4
+            ];
         }
     }
 
@@ -303,5 +315,18 @@ class User extends Authenticatable
         return Carbon::createFromTimestamp(
             $this->getStripeSubscription()->current_period_end
         );
+    }
+
+    public function subscriptionInfo()
+    {
+        return [
+            'card'                 => $this->card(),
+            'subscribed'           => $this->subscribed(),
+            'subscription'         => $this->subscription(),
+            'subscriptionEnds'     => $this->getNextBillingCycle(),
+            'subscriptionName'     => $this->getSubscriptionName(),
+            'subscriptionPrice'    => $this->getSubscriptionPrice(),
+            'subscriptionInterval' => $this->getSubscriptionInterval(),
+        ];
     }
 }
