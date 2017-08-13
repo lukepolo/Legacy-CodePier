@@ -1,6 +1,5 @@
 <template>
     <section>
-
         <template v-if="userSubscription">
 
             <div class="alert alert-warning" v-if="userSubscription.trial_ends_at">
@@ -42,11 +41,9 @@
             </div>
         </form>
 
-        <form @submit.prevent="updateCard" method="post">
+        <form @submit.prevent="updateCard" method="post" v-if="currentCard">
 
-            <template v-if="currentCard">
-                Current Card : {{ currentCard.brand }} {{ currentCard.last4 }}
-            </template>
+            Current Card : {{ currentCard.brand }} {{ currentCard.last4 }}
 
             <card cardType="updateCardForm" :card.sync="updateCardForm.card" :error.sync="updateCardForm.error" :instance.sync="updateCardForm.instance"></card>
 
@@ -57,7 +54,7 @@
             </div>
         </form>
 
-        <a @click="cancelSubscription" v-if="!isCanceled">Cancel Subscription</a>
+        <a @click="cancelSubscription" v-if="userSubscription && !isCanceled">Cancel Subscription</a>
 
         <template v-if="invoices.length">
             <table>
@@ -140,8 +137,9 @@
                 this.createToken(this.createCardForm).then(() => {
                     if(!this.createCardForm.error && this.form.token) {
                         this.$store.dispatch('user_subscription/store', this.form).then(() => {
-                            this.$store.dispatch('user_subscription/getInvoices');
-                            this.processing = false;
+                            this.$store.dispatch('user/get').then(() => {
+                                this.$router.push('/')
+                            })
                         }).catch(() => {
                             this.processing = false;
                         })
@@ -176,7 +174,7 @@
                 })
             },
             cancelSubscription() {
-                this.$store.dispatch('cancelSubscription', this.userSubscription.id);
+                this.$store.dispatch('user_subscription/cancel', this.userSubscription.id);
             },
             downloadLink: function (invoice) {
                 return '/subscription/invoices/'+invoice;
@@ -194,7 +192,6 @@
             },
             currentCard() {
                 if(this.userSubscriptionData) {
-                    console.info(this.userSubscriptionData)
                     return this.userSubscriptionData.card
                 }
             },
