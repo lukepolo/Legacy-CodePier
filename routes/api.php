@@ -276,7 +276,6 @@ Route::group(['middleware' => [
     });
 
     Route::group(['prefix' => 'server/providers'], function () {
-
         Route::group([
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
@@ -305,6 +304,5 @@ Route::group(['middleware' => [
             Route::apiResource('regions', 'AmazonServerRegionsController');
             Route::apiResource('features', 'AmazonServerFeaturesController');
         });
-
     });
 });

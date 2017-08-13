@@ -3,9 +3,7 @@
 namespace App\Services\Server\Providers;
 
 use Aws\Ec2\Ec2Client;
-use GuzzleHttp\Client;
 use App\Models\Server\Server;
-use GuzzleHttp\Psr7\Response;
 use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
@@ -91,14 +89,14 @@ class AmazonProvider implements ServerProviderContract
         $token = $this->getTokenFromServer($server);
         $this->setToken($token);
 
-//        $serverProviderOption = ServerProviderOption::findOrFail($server->options['server_option']);
-//
-//        $data = [
-//            'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
-//            'PlanID' => $serverProviderOption->plan_id,
-//        ];
-//
-//
+        //        $serverProviderOption = ServerProviderOption::findOrFail($server->options['server_option']);
+        //
+        //        $data = [
+        //            'DatacenterID' => ServerProviderRegion::findOrFail($server->options['server_region'])->region_id,
+        //            'PlanID' => $serverProviderOption->plan_id,
+        //        ];
+        //
+        //
 
         return $server;
     }
@@ -176,6 +174,7 @@ class AmazonProvider implements ServerProviderContract
     public function readyForProvisioningStatus()
     {
         dd('find out the status it should be');
+
         return 1;
     }
 }
