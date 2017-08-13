@@ -276,6 +276,7 @@ Route::group(['middleware' => [
     });
 
     Route::group(['prefix' => 'server/providers'], function () {
+
         Route::group([
             'prefix' => \App\Http\Controllers\Auth\OauthController::DIGITAL_OCEAN,
             'namespace' => 'Server\Providers\DigitalOcean',
@@ -294,5 +295,16 @@ Route::group(['middleware' => [
             Route::apiResource('regions', 'LinodeServerRegionsController');
             Route::apiResource('features', 'LinodeServerFeaturesController');
         });
+
+        Route::group([
+            'prefix' => \App\Http\Controllers\Server\Providers\Amazon\AmazonController::AMAZON,
+            'namespace' => 'Server\Providers\Amazon',
+        ], function () {
+            Route::apiResource('provider', 'AmazonController');
+            Route::apiResource('options', 'AmazonServerOptionsController');
+            Route::apiResource('regions', 'AmazonServerRegionsController');
+            Route::apiResource('features', 'AmazonServerFeaturesController');
+        });
+
     });
 });

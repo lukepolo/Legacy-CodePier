@@ -96,11 +96,6 @@ class CustomProvider implements ServerProviderContract
     {
     }
 
-    public function getUser(User $user)
-    {
-        return $user;
-    }
-
     /**
      * Refreshes the token.
      *

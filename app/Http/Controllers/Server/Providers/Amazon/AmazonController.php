@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Server\Providers\Linode;
+namespace App\Http\Controllers\Server\Providers\Amazon;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProvider;
 use App\Http\Requests\Server\ServerProviderRequest;
 
-class LinodeController extends Controller
+class AmazonController extends Controller
 {
-    const LINODE = 'linode';
+    const AMAZON = 'amazon';
 
     /**
      * @param ServerProviderRequest $request
@@ -20,7 +20,7 @@ class LinodeController extends Controller
         $userId = \Auth::user()->id;
 
         $userServerProvider = UserServerProvider::withTrashed()->firstOrNew([
-            'server_provider_id' => ServerProvider::where('provider_name', self::LINODE)->first()->id,
+            'server_provider_id' => ServerProvider::where('provider_name', self::AMAZON)->first()->id,
             'provider_id'        => $userId,
         ]);
 

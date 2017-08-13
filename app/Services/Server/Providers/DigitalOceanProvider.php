@@ -184,13 +184,6 @@ class DigitalOceanProvider implements ServerProviderContract
         config(['digitalocean.connections.main.token' => $token]);
     }
 
-    public function getUser(User $user)
-    {
-        $this->setToken($this->getTokenFromUser($user));
-
-        return DigitalOcean::account()->getUserInformation();
-    }
-
     /**
      * Refreshes the token.
      *

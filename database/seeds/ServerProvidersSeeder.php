@@ -26,6 +26,13 @@ class ServerProvidersSeeder extends Seeder
                 'oauth' => true,
                 'secret_token' => false,
             ],
+            \App\Http\Controllers\Server\Providers\Amazon\AmazonController::AMAZON => [
+                'name'     => 'Amazon AWS',
+                'features' => [],
+                'class' => \App\Services\Server\Providers\AmazonProvider::class,
+                'oauth' => false,
+                'secret_token' => true,
+            ],
             \App\Http\Controllers\Server\Providers\Linode\LinodeController::LINODE => [
                 'name'     => 'Linode',
                 'features' => [],
