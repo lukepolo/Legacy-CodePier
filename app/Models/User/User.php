@@ -5,10 +5,10 @@ namespace App\Models\User;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
+use Laravel\Cashier\Card;
 use App\Traits\HasServers;
 use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
-use Laravel\Cashier\Card;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
@@ -58,7 +58,6 @@ class User extends Authenticatable
         'created_at',
         'trial_ends_at',
     ];
-
 
     /*
     |--------------------------------------------------------------------------
@@ -218,7 +217,7 @@ class User extends Authenticatable
 
             $discount = $this->getSubscriptionDiscount();
 
-            if (!empty($discount)) {
+            if (! empty($discount)) {
                 if (is_int($discount)) {
                     $price -= $discount;
                 } else {
@@ -241,7 +240,7 @@ class User extends Authenticatable
 
             $discount = $this->getSubscriptionDiscount();
 
-            if (!empty($discount)) {
+            if (! empty($discount)) {
                 if (is_int($discount)) {
                     return $subscriptionName.' - $'.$discount.'.00 off';
                 } else {
@@ -268,7 +267,7 @@ class User extends Authenticatable
     {
         if ($this->subscription()) {
             $discountObject = $this->getStripeSubscription()->discount;
-            if (!empty($discountObject->start)) {
+            if (! empty($discountObject->start)) {
                 $coupon = $discountObject->coupon;
                 if ($coupon->amount_off) {
                     return $coupon->amount_off;
@@ -285,16 +284,16 @@ class User extends Authenticatable
             $card = \Cache::rememberForever($this->id.'.card', function () {
                 /** @var Card $card */
                 $card = $this->cards()->first();
-                if(!empty($card)) {
+                if (! empty($card)) {
                     return $card->asStripeCard()->jsonSerialize();
                 }
             });
         }
 
-        if(!empty($card)) {
+        if (! empty($card)) {
             return [
                 'brand' => $card->brand,
-                'last4' => $card->last4
+                'last4' => $card->last4,
             ];
         }
     }

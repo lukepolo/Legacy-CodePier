@@ -70,7 +70,7 @@ class UserSubscriptionController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if (!$user->subscriptions->count()) {
+        if (! $user->subscriptions->count()) {
             return response()->json('You do not have a subscription. You need to create one.', 400);
         }
 
