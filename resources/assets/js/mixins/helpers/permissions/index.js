@@ -7,5 +7,5 @@ export const teamsEnabled = () => {
 };
 
 export const isSubscribed = function() {
-    return this.$store.state.user.user.is_subscribed;
+  return this.$store.state.user.user.is_subscribed;
 };
