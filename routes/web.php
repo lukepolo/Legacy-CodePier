@@ -48,10 +48,11 @@ Route::resource('subscription/plans', 'SubscriptionController');
 
 // TODO - put into microservice
 Route::group(['prefix' => 'webhook'], function () {
-    Route::any('/deploy/{siteHashID}', 'WebHookController@deploy');
-    Route::get('/loads/{serverHashID}', 'WebHookController@loadMonitor');
-    Route::get('/memory/{serverHashID}', 'WebHookController@memoryMonitor');
-    Route::get('/diskusage/{serverHashID}', 'WebHookController@diskUsageMonitor');
+    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
+    Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
+    Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
 });
 
 /*
@@ -111,6 +112,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['auth', 'second_auth']], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
-    Route::get('subscription/invoice/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
+    Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
 });

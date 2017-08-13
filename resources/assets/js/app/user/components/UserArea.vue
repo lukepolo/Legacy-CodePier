@@ -38,7 +38,7 @@
 
             <template>
                 <h3 class="section-header primary">
-                    <back></back>
+                    <back v-if="isSubscribed"></back>
                     My Account
                 </h3>
             </template>
@@ -49,7 +49,7 @@
                     <div class="tab-container tab-left">
 
                         <transition >
-                            <router-view name="nav"></router-view>
+                            <router-view name="nav" v-if="isSubscribed"></router-view>
                         </transition>
 
                         <transition >

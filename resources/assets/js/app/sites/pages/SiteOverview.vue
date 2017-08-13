@@ -91,7 +91,7 @@
                         </div>
                         <div class="providers--item-footer">
                             <div class="providers--item-footer-connect">
-                                <h4>Site SSH Key</h4>
+                                <h4 class="providers--title">Site SSH Key</h4>
                             </div>
                         </div>
                     </div>

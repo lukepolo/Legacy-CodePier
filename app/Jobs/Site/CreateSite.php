@@ -6,29 +6,23 @@ use App\Models\Site\Site;
 use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use App\Traits\ModelCommandTrait;
-use App\Jobs\Server\UpdateServerFile;
+use App\Jobs\Server\InstallPublicKey;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Jobs\Server\Schemas\AddServerSchema;
-use App\Jobs\Server\Schemas\AddServerSchemaUser;
-use App\Jobs\Server\SshKeys\InstallServerSshKey;
-use App\Jobs\Server\UpdateServerLanguageSetting;
-use App\Jobs\Server\Workers\InstallServerWorker;
-use App\Jobs\Server\CronJobs\InstallServerCronJob;
+use App\Events\Site\FixSiteServerConfigurations;
+use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Jobs\Server\FirewallRules\InstallServerFirewallRule;
-use App\Jobs\Server\SslCertificates\InstallServerSslCertificate;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
-use App\Jobs\Server\EnvironmentVariables\InstallServerEnvironmentVariable;
 
 class CreateSite implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
 
-    private $server;
     private $site;
+    private $server;
+    private $command;
 
     public $tries = 1;
     public $timeout = 60;
@@ -41,8 +35,9 @@ class CreateSite implements ShouldQueue
      */
     public function __construct(Server $server, Site $site)
     {
-        $this->server = $server;
         $this->site = $site;
+        $this->server = $server;
+        $this->command = $this->makeCommand($this->site, $this->server, 'Setting up Server '.$server->name.' for '.$site->name);
     }
 
     /**
@@ -61,7 +56,7 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            $remoteTaskService->saveSshKeyToServer($this->site, $this->server);
+            event(new InstallPublicKey($this->server, $this->site));
         }
 
         if (
@@ -72,102 +67,7 @@ class CreateSite implements ShouldQueue
             $siteService->create($this->server, $this->site);
         }
 
-        if (
-            $serverType === SystemService::WEB_SERVER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            $this->site->cronJobs->each(function ($cronJob) {
-                dispatch(
-                    (new InstallServerCronJob($this->server, $cronJob,
-                        $this->makeCommand($this->site, $cronJob, 'Installing')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
-
-        $this->site->files->each(function ($file) {
-            if (! empty($file->content)) {
-                dispatch(
-                    (new UpdateServerFile($this->server, $file, $this->makeCommand($this->site, $file, 'Updating')))->onQueue(config('queue.channels.server_commands'))
-                );
-            }
-        });
-
-        $this->site->firewallRules->each(function ($firewallRule) {
-            dispatch(
-                (new InstallServerFirewallRule($this->server, $firewallRule, $this->makeCommand($this->site, $firewallRule, 'Opening')))->onQueue(config('queue.channels.server_commands'))
-            );
-        });
-
-        $this->site->sshKeys->each(function ($sshKey) {
-            dispatch(
-                (new InstallServerSshKey($this->server, $sshKey, $this->makeCommand($this->site, $sshKey, 'Installing')))->onQueue(config('queue.channels.server_commands'))
-            );
-        });
-
-        if (
-            $serverType === SystemService::WORKER_SERVER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            $this->site->workers->each(function ($worker) {
-                dispatch(
-                    (new InstallServerWorker($this->server, $worker,
-                        $this->makeCommand($this->site, $worker, 'Installing')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
-
-        if (
-            $serverType === SystemService::DATABASE_SERVER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            $this->site->schemas->each(function ($schema) {
-                dispatch(
-                    (new AddServerSchema($this->server, $schema,
-                        $this->makeCommand($this->site, $schema, 'Creating')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-
-            $this->site->schemaUsers->each(function ($schemaUser) {
-                dispatch(
-                    (new AddServerSchemaUser($this->server, $schemaUser,
-                        $this->makeCommand($this->site, $schemaUser, 'Creating')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
-
-        $this->site->environmentVariables->each(function ($environmentVariable) {
-            dispatch(
-                (new InstallServerEnvironmentVariable($this->server, $environmentVariable, $this->makeCommand($this->site, $environmentVariable, 'Adding')))->onQueue(config('queue.channels.server_commands'))
-            );
-        });
-
-        if (
-            $serverType === SystemService::WORKER_SERVER ||
-            $serverType === SystemService::FULL_STACK_SERVER
-        ) {
-            $this->site->languageSettings->each(function ($languageSetting) {
-                dispatch(
-                    (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->makeCommand($this->site,
-                        $languageSetting, 'Updating')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
-
-        if (
-            (
-                ! $this->site->isLoadBalanced() &&
-                (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                )
-            ) ||
-            $serverType === SystemService::LOAD_BALANCER
-        ) {
-            $this->site->sslCertificates->each(function ($sslCertificate) {
-                dispatch(
-                    (new InstallServerSslCertificate($this->server, $sslCertificate, $this->makeCommand($this->site, $sslCertificate, 'Setting up')))->onQueue(config('queue.channels.server_commands'))
-                );
-            });
-        }
+        event(new UpdateServerConfigurations($this->server, $this->site, $this->command));
+        event(new FixSiteServerConfigurations($this->site, $this->server));
     }
 }

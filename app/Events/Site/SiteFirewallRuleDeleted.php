@@ -22,10 +22,14 @@ class SiteFirewallRuleDeleted
     {
         $site->firewallRules()->detach($firewallRule);
 
-        if ($site->provisionedServers->count()) {
+        $availableServers = $site->provisionedServers->filter(function ($server) use ($firewallRule) {
+            return $server->ip !== $firewallRule->from_ip;
+        });
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $firewallRule, 'Closing');
 
-            foreach ($site->provisionedServers as $server) {
+            foreach ($availableServers as $server) {
                 dispatch(
                     (new RemoveServerFirewallRule($server, $firewallRule,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))

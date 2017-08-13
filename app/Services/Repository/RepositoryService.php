@@ -46,6 +46,8 @@ class RepositoryService implements RepositoryServiceContract
         }
 
         if (! $site->private && $this->isPrivate($site)) {
+            \Log::info('we should be importing');
+
             try {
                 $providerService->importSshKey($site);
             } catch (\Exception $e) {

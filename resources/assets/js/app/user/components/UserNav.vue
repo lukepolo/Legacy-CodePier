@@ -8,7 +8,7 @@
             </a>
         </router-link>
 
-        <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }" v-if="local()">
+        <router-link tag="li" class="wizard-item" :to="{ name : 'subscription' }">
             <a>
                 Subscription
                 <div class="small">Sadly we require a subscription, but there are options for everyone!</div>

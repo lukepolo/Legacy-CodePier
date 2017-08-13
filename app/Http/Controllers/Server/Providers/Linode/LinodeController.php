@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Server\Providers\Linode;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProvider;
+use App\Http\Requests\Server\ServerProviderRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class LinodeController extends Controller
@@ -34,7 +34,7 @@ class LinodeController extends Controller
         return $this->serverService->getServerProviderUser(ServerProvider::where('provider_name', self::LINODE)->firstOrFail());
     }
 
-    public function store(Request $request)
+    public function store(ServerProviderRequest $request)
     {
         $userId = \Auth::user()->id;
 

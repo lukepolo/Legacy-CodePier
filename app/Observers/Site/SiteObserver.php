@@ -151,7 +151,6 @@ class SiteObserver
         });
 
         $site->buoys()->delete();
-        $site->commands()->delete();
         $site->deployments()->delete();
         $site->deploymentSteps()->delete();
     }
