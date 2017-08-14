@@ -7,6 +7,7 @@ use App\Models\Server\Server;
 use App\Models\User\UserServerProvider;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
+use GuzzleHttp\Client;
 
 class AmazonProvider implements ServerProviderContract
 {
@@ -23,10 +24,39 @@ class AmazonProvider implements ServerProviderContract
      */
     public function getOptions()
     {
-        $e2Client = new Ec2Client([
-            'key' => '',
-            'secret' => '',
-        ]);
+        ini_set('memory_limit','-1');
+
+        $awsPricing = \Cache::rememberForever('aws-pricing102', function() {
+            $url = 'https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/index.json';
+
+            $client = new Client();
+
+            $response = $client->get($url);
+
+            return json_decode($response->getBody()->getContents());
+        });
+
+        $instances = collect();
+
+        foreach($awsPricing->products as $product) {
+
+            if(str_contains($product->productFamily, [
+                'General Purpose',
+            ])) {
+                $attributes = $product->attributes;
+                $instances->push([
+                    'name' => $attributes->instanceType,
+                    'cpus' => $attributes->vcpu,
+                    'memory' => $attributes->memory,
+                ]);
+            }
+        }
+
+        dd($instances);
+        die;
+
+
+
 
         dd('gettting options');
         $this->setToken($this->getTokenFromUser(\Auth::user()));

@@ -27,15 +27,15 @@ class AmazonServerRegionsController extends Controller
      */
     public function index()
     {
-        $regions = ServerProvider::with(['serverRegions' => function ($query) {
-            $query->orderBy('name');
-        }])->where('provider_name', AmazonController::AMAZON)->firstOrFail()->serverRegions;
-
-        if ($regions->isEmpty()) {
-            return $this->store();
-        }
-
-        return response()->json($regions);
+//        $regions = ServerProvider::with(['serverRegions' => function ($query) {
+//            $query->orderBy('name');
+//        }])->where('provider_name', AmazonController::AMAZON)->firstOrFail()->serverRegions;
+//
+//        if ($regions->isEmpty()) {
+//            return $this->store();
+//        }
+//
+//        return response()->json($regions);
     }
 
     /**
