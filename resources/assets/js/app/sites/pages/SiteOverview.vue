@@ -199,6 +199,31 @@
             <div class="flyform--footer-btns">
                 <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name">Delete Site</confirm>
             </div>
+
+            <form @submit.prevent="updateNotificationChannels">
+                <p>Here, you'll be able to configure the channels that CodePier will use to send notifications to your Slack team. The default channel for all site related notifications, is #sites. However each of these are easily overwritten. If you haven't already you'll need to <a href="/my/notification-providers">link your Slack account</a> first.</p>
+
+                <div class="flyform--group">
+                    <input type="text" name="deployments" v-model="notificationChannelsForm.deployments" placeholder=" " value="#sites">
+                    <label>Deployments Channel</label>
+                </div>
+
+                <div class="flyform--group">
+                    <input type="text" name="lifelines" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
+                    <label>Lifelines Updates Channel</label>
+                </div>
+
+                <div class="flyform--group">
+                    <input type="text" name="status" v-model="notificationChannelsForm.status" placeholder=" " value="#sites">
+                    <label>Servers Status Channel</label>
+                </div>
+
+                <div class="flyform-footer">
+                    <div class="flyform--footer-btns">
+                        <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
+                    </div>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -211,6 +236,14 @@
             return {
                 webhook : false,
                 sshKey: false,
+                notificationChannelsForm: this.createForm({
+                    name : null,
+                    threshold : 5,
+                    site : this.$route.params.site_id,
+                    deployments : '#sites',
+                    lifelines : '#sites',
+                    status : '#sites'
+                })
             }
         },
         components : {
@@ -248,6 +281,9 @@
 
                 this.$store.dispatch('user_site_dns/get', data)
             },
+            updateNotificationChannels() {
+                this.$store.dispatch('user_site_notification_channels/store', this.notificationChannelsForm)
+            }
         },
         computed: {
             site() {
