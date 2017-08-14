@@ -22,9 +22,9 @@ class WebService
 
     const NGINX_SERVER_FILES = '/etc/nginx/codepier-conf';
 
-//    public function installApache()
-//    {
-//    }
+    //    public function installApache()
+    //    {
+    //    }
 
     /**
      * @description Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
