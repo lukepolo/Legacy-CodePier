@@ -14,6 +14,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
 {
     private $user;
     private $server;
+    /** @var  SSH2 */
     private $session;
     private $errors = [];
 
@@ -71,6 +72,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
         }
 
         if ($this->session->getExitStatus() != 0) {
+
             \Log::critical('Error while running Command '.$command);
             \Log::critical($output);
 
@@ -158,7 +160,9 @@ echo \"Wrote\"", $read);
      */
     public function makeDirectory($directory)
     {
-        return $this->run("mkdir -p $directory");
+        if(!$this->hasDirectory($directory)) {
+            return $this->run("mkdir -p $directory");
+        }
     }
 
     /**

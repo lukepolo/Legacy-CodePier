@@ -60,12 +60,12 @@ class SiteService implements SiteServiceContract
 
         $this->remoteTaskService->ssh($server, 'codepier');
 
-        $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
+//        $this->remoteTaskService->makeDirectory('/home/codepier/'.$site->domain);
 
         $location = '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
 
-        $this->remoteTaskService->makeDirectory($location);
-        $this->remoteTaskService->run("ln -sf /opt/codepier/landing/index.html $location/index.html");
+//        $this->remoteTaskService->makeDirectory($location);
+//        $this->remoteTaskService->run("ln -sf /opt/codepier/landing/index.html $location/index.html");
 
         $this->serverService->restartWebServices($server);
     }
