@@ -117,6 +117,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
                 $order = $this->getFirstDocParam($method, 'order');
 
                 if (! empty($order)) {
+
                     $description = $this->getFirstDocParam($method, 'description');
 
                     $deploymentSteps[] = [
