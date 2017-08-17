@@ -180,10 +180,10 @@
                     </template>
                 </template>
 
-                <br>
-                <hr>
-                <h3 class="heading text-center">Recent Commands</h3>
-                <h3 class="text-center"><small><em>coming soon!</em></small></h3>
+                <!--<br>-->
+                <!--<hr>-->
+                <!--<h3 class="heading text-center">Recent Commands</h3>-->
+                <!--<h3 class="text-center"><small><em>coming soon!</em></small></h3>-->
             </div>
 
             <life-lines></life-lines>
