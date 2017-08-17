@@ -46,7 +46,6 @@ class RepositoryService implements RepositoryServiceContract
 
         // We only import to github if we haven't said its private
         if (! $site->private && $this->isPrivate($site)) {
-
             \Log::info('we should be importing');
 
             try {
