@@ -42,10 +42,11 @@ class RepositoryService implements RepositoryServiceContract
 
         if (empty($site->public_ssh_key) || empty($site->private_ssh_key)) {
             $this->generateNewSshKeys($site);
-            $this->saveKeysToServer($site);
         }
 
+        // We only import to github if we haven't said its private
         if (! $site->private && $this->isPrivate($site)) {
+
             \Log::info('we should be importing');
 
             try {
@@ -134,6 +135,8 @@ class RepositoryService implements RepositoryServiceContract
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
+
+        $this->saveKeysToServer($site);
     }
 
     /**

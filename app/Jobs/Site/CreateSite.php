@@ -14,7 +14,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\Site\FixSiteServerConfigurations;
 use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
-use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class CreateSite implements ShouldQueue
 {
@@ -44,9 +43,8 @@ class CreateSite implements ShouldQueue
      * Execute the job.
      *
      * @param \App\Services\Site\SiteService | SiteService $siteService
-     * @param \App\Services\RemoteTaskService | RemoteTaskService $remoteTaskService
      */
-    public function handle(SiteService $siteService, RemoteTaskService $remoteTaskService)
+    public function handle(SiteService $siteService)
     {
         $serverType = $this->server->type;
 
@@ -56,7 +54,7 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            event(new InstallPublicKey($this->server, $this->site));
+            dispatch(new InstallPublicKey($this->server, $this->site));
         }
 
         if (
