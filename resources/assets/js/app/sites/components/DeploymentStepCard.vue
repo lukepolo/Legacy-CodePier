@@ -10,14 +10,13 @@
           <div class="drag-name">
               <tooltip
                   v-if="internalStep"
-                  :message="'Suggested order ' + internalStep.order"
+                  :message="'Suggested order ' + suggestedOrder"
                   class="pull-right"
                   placement="top-left"
               >
                   <span class="fa fa-info-circle"></span>
               </tooltip>
               <span v-if="order">{{ order }}.</span> {{ deploymentStep.step }}
-
               <server-selection :availableServerTypes="availableServerTypes" :servers.sync="servers" :server_types.sync="server_types"></server-selection>
 
           </div>
@@ -59,7 +58,7 @@
         components : {
             ServerSelection
         },
-        props : ['deploymentStep', 'order'],
+        props : ['deploymentStep', 'order', 'suggestedOrder'],
         data() {
             return {
                 step : this.deploymentStep.step,
