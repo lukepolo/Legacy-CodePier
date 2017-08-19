@@ -207,12 +207,12 @@ header {
     }
   }
   @include breakpoint(sm) {
-    background-size: cover;
-    background-position: center center;
-
-    &--content {
-      width: 100%;
-    }
+    //background-size: cover;
+    //background-position: center center;
+    //
+    //&--content {
+    //  width: 100%;
+    //}
   }
 }
 
@@ -243,16 +243,25 @@ header {
 // Section Specific Styles ============
 // ====================================
 #section--hero {
-  padding: 30px 0px 0px;
+  padding: 30px 0px 30px;
   background-image: url('/assets//img/Boat_Dock.svg');
   background-size: 55%;
+
+  @include breakpoint(lg) {
+    background-size: contain;
+  }
 }
 
 #section--events {
-  background-color: rgba($gray, .15);
+  background-color: rgba($white, 1);
+  border-top: 1px solid $color-divider;
 
   .section--header {
     margin-top: -50px;
+
+    @include breakpoint(sm) {
+      margin-top: 0px;
+    }
   }
 
   .events {
@@ -260,9 +269,37 @@ header {
     color : $white;
     margin-bottom: -120px;
 
+    @include breakpoint(md) {
+      .filter {
+        display: none;
+      }
+      &--item {
+        &-pile, 
+        &-site, 
+        &-time {
+          display: none;
+        }
+      }
+    }
+
+    @include breakpoint(sm) {
+      margin-bottom: 0px;
+    }
+
     &--collapse {
       height: 40vh;
+      min-height: 420px;
     }
+  }
+}
+
+#section--features {
+  background-color: $color-primary;
+
+  .section--header {
+    color: $color-text-inverse;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
 
@@ -274,6 +311,83 @@ header {
 
 }
 
+
+// Feature Styles =====================
+// ====================================
+.feature {
+  color: $color-text-inverse;
+  font-size: 1.4em;
+
+  &--item {
+    display: flex;
+
+    + .feature--item {
+      margin-top: 40px;
+    }
+
+    &:nth-child(even) {
+
+      .feature--info {
+        order: 1;
+      }
+
+      .feature--img {
+        order: 2;
+      }
+    }
+  }
+  
+  &--img {
+    flex: 0 0 50%;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      border-left: 80px solid transparent;
+      border-bottom: 80px solid $green;
+      opacity: 0;
+      transition: all .4s ease;
+    }
+
+    &:after {
+      content: '\e91d';
+      font-family: 'icomoon';
+      font-size: 1.5em;
+      color: $color-text-inverse;
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      padding: 5px;
+      opacity: 0;
+      transition: all .4s ease;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &:before,
+      &:after {
+        opacity: 1;
+        transition: all .4s ease;
+      }
+    }
+  }
+
+  &--info {
+    padding: 10px 0px 10px 40px;
+  }
+
+  &--heading {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: $font-heading;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+}
 
 // Video Container Styles =============
 // ====================================
@@ -429,12 +543,14 @@ header {
   &--item {
     font-size: 1.1em;
     font-weight: 400;
+    text-align: center;
     letter-spacing: .1px;
     border-radius: 20px;
-    background-color: $white;
+    background-color: rgba($gray, .1);
     margin-right: 20px;
     padding: 5px 20px;
     position: relative;
+    transition: all .2s ease;
 
     &:before {
       content: '';
@@ -443,12 +559,12 @@ header {
       left: 50%;
       top: 100%;
       transform: translateX(-50%);
-      border: 10px solid $color-primary;
+      border: 10px solid mix($color-primary, $white, 30%);
       border-bottom: none;
       border-right-color: transparent;
       border-left-color: transparent;
       border-top-width: 0px;
-      transition: all .3s ease;
+      transition: all .2s ease;
     }
 
     &-selected {
@@ -458,34 +574,20 @@ header {
 
       &:before {
         border-top-width: 10px;
-        transition: all .3s ease;
+        transition: all .2s ease;
+        border-top-color: $color-primary;
       }
     }
 
-    &:after {
-      content: '';
-      position: absolute;
-      right: 0px;
-      bottom: 0px;
-      left: 0px;
-      height: 0px;
-      background-color: $color-primary;
-      transition: all .2s ease;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-      border-color: $color-primary;
+    &:hover:not(.tabs--item-selected),
+    &:active:not(.tabs--item-selected),
+    &:focus:not(.tabs--item-selected) {
       cursor: pointer;
+      background-color: mix($color-primary, $white, 30%);
+      transition: all .2s ease;
 
       &:before {
         border-top-width: 10px;
-        transition: all .3s ease;
-      }
-
-      &:after {
-        height: 3px;
         transition: all .2s ease;
       }
     }
