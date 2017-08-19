@@ -26,7 +26,7 @@ class SiteDaemonDeleted
             $siteCommand = $this->makeCommand($site, $daemon, 'Removing');
 
             foreach ($daemon->servers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (
                     new RemoveServerDaemon($server, $daemon, $siteCommand)
                     )->onQueue(config('queue.channels.server_commands'))

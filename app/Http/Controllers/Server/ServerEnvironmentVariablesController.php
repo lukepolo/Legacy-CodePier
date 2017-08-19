@@ -46,7 +46,7 @@ class ServerEnvironmentVariablesController extends Controller
                 'value' => $request->get('value'),
             ]);
 
-            $this->dispatch(
+            rollback_dispatch(
                 (new InstallServerEnvironmentVariable($server, $environmentVariable))->onQueue(config('queue.channels.server_commands'))
             );
 
@@ -67,7 +67,7 @@ class ServerEnvironmentVariablesController extends Controller
     {
         $server = Server::with('environmentVariables')->findOrFail($serverId);
 
-        $this->dispatch(
+        rollback_dispatch(
             (new RemoveServerEnvironmentVariable($server, $server->environmentVariables->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );
 

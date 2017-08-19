@@ -31,7 +31,7 @@ class SiteRenamed
             $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.'to'.$newDomain);
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new RenameSiteDomain($server, $site, $newDomain, $oldDomain,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

@@ -52,7 +52,7 @@ class UpdateServerSslCertificates
      */
     public function installSslCertificate(SslCertificate $sslCertificate)
     {
-        dispatch(
+        rollback_dispatch(
             (new InstallServerSslCertificate($this->server, $sslCertificate, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

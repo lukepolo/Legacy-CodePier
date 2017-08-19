@@ -26,7 +26,7 @@ class SiteSchemaDeleted
             $siteCommand = $this->makeCommand($site, $schema, 'Deleting');
 
             foreach ($schema->servers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new RemoveServerSchema($server, $schema, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

@@ -31,7 +31,7 @@ class SiteRestartWebServices
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Web Services');
 
-                dispatch(
+                rollback_dispatch(
                     (new RestartWebServices($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

@@ -102,7 +102,7 @@ class BittsController extends Controller
         $bitt = Bitt::findOrFail($bitt);
 
         foreach ($request->get('servers') as $server) {
-            dispatch((new RunBitt(Server::findOrFail($server), $bitt))->onQueue(config('queue.channels.server_commands')));
+            rollback_dispatch((new RunBitt(Server::findOrFail($server), $bitt))->onQueue(config('queue.channels.server_commands')));
         }
 
         return response()->json('OK');

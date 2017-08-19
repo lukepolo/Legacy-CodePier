@@ -9,6 +9,7 @@ use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
@@ -35,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        DB::beginTransaction();
+
         Passport::tokensCan([
             'create-custom-server' => 'Allows creation of a custom server',
         ]);

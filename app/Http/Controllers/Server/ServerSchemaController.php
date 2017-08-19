@@ -49,7 +49,7 @@ class ServerSchemaController extends Controller
                 'database' =>  $database,
             ]);
 
-            $this->dispatch(
+            rollback_dispatch(
                 (new AddServerSchema($server, $schema))->onQueue(config('queue.channels.server_commands'))
             );
 
@@ -71,7 +71,7 @@ class ServerSchemaController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->dispatch(
+        rollback_dispatch(
             (new RemoveServerSchema($server, $server->schemas->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );
 

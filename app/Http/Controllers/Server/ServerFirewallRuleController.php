@@ -53,7 +53,7 @@ class ServerFirewallRuleController extends Controller
                 'description' => $request->get('description'),
             ]);
 
-            dispatch(
+            rollback_dispatch(
                 (new InstallServerFirewallRule($server, $firewallRule))->onQueue(config('queue.channels.server_commands'))
             );
 
@@ -75,7 +75,7 @@ class ServerFirewallRuleController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        dispatch(
+        rollback_dispatch(
             (new RemoveServerFirewallRule($server,
                 $server->firewallRules->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );

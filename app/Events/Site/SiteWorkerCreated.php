@@ -35,7 +35,7 @@ class SiteWorkerCreated
             $siteCommand = $this->makeCommand($site, $worker, 'Installing');
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (
                     new InstallServerWorker($server, $worker, $siteCommand)
                     )->onQueue(config('queue.channels.server_commands'))

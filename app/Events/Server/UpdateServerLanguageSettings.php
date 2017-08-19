@@ -49,7 +49,7 @@ class UpdateServerLanguageSettings
      */
     private function updateServerLanguageSetting(LanguageSetting $languageSetting)
     {
-        dispatch(
+        rollback_dispatch(
             (new UpdateServerLanguageSetting($this->server, $languageSetting, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

@@ -26,7 +26,7 @@ class SiteBuoyDeleted
             $siteCommand = $this->makeCommand($site, $buoy, 'Deleting');
 
             foreach ($site->provisionedServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new RemoveBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

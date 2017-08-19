@@ -30,7 +30,7 @@ class SiteFirewallRuleDeleted
             $siteCommand = $this->makeCommand($site, $firewallRule, 'Closing');
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new RemoveServerFirewallRule($server, $firewallRule,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

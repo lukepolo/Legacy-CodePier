@@ -57,7 +57,7 @@ class ServerSslController extends Controller
             $server->sslCertificates()->attach($sslCertificate);
         }
 
-        dispatch(
+        rollback_dispatch(
             (new InstallServerSslCertificate($server, $sslCertificate))->onQueue(config('queue.channels.server_commands'))
         );
 
@@ -76,7 +76,7 @@ class ServerSslController extends Controller
     {
         $server = Server::with('sslCertificates')->findOrFail($serverId);
 
-        dispatch(
+        rollback_dispatch(
             (new RemoveServerSslCertificate($server, $server->sslCertificates->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );
 

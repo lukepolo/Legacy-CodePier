@@ -29,7 +29,7 @@ class SiteRestartWorkers
         if ($availableServers->count()) {
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Workers');
-                dispatch(
+                rollback_dispatch(
                     (new RestartWorkers($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
