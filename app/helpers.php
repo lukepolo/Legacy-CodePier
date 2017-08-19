@@ -126,11 +126,10 @@ if (! function_exists('rollback_dispatch')) {
     {
         try {
             return app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($job);
-        } catch(\Pheanstalk\Exception\ConnectionException $e) {
+        } catch (\Pheanstalk\Exception\ConnectionException $e) {
             DB::rollBack();
 
             throw new \Exception('We lost connection to the queue system, please contact support.');
         }
-
     }
 }

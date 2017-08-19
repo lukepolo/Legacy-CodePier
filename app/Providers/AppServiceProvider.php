@@ -9,9 +9,9 @@ use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
-use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
+use Illuminate\Support\Facades\DB;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
@@ -36,7 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         DB::beginTransaction();
 
         Passport::tokensCan([
