@@ -97,7 +97,9 @@ class ServerFileController extends Controller
             'content' => $request->get('content'),
         ]);
 
-        dispatch(new UpdateServerFile($server, $file));
+        rollback_dispatch(
+            new UpdateServerFile($server, $file)
+        );
 
         return response()->json($file);
     }

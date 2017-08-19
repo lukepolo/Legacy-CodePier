@@ -28,7 +28,7 @@ class SiteFirewallRuleCreated
             $siteCommand = $this->makeCommand($site, $firewallRule, 'Opening');
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new InstallServerFirewallRule($server, $firewallRule,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

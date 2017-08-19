@@ -158,7 +158,7 @@ class SiteObserver
     public function deleted(Site $site)
     {
         foreach ($site->provisionedServers as $server) {
-            dispatch(
+            rollback_dispatch(
                 (new DeleteSite($server, $site))->onQueue(config('queue.channels.server_commands'))
             );
         }

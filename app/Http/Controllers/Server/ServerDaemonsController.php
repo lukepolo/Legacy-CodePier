@@ -47,7 +47,9 @@ class ServerDaemonsController extends Controller
 
         $server->daemons()->save($daemon);
 
-        dispatch(new InstallServerDaemon($server, $daemon));
+        rollback_dispatch(
+            new InstallServerDaemon($server, $daemon)
+        );
 
         return response()->json($daemon);
     }

@@ -89,7 +89,7 @@ class UpdateServerFirewallRules
      */
     private function installFirewallRule(FirewallRule $firewallRule)
     {
-        dispatch(
+        rollback_dispatch(
             (new InstallServerFirewallRule($this->server, $firewallRule, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

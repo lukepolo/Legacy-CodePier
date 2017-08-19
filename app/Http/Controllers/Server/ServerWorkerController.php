@@ -44,7 +44,7 @@ class ServerWorkerController extends Controller
             'number_of_workers' => $request->get('number_of_workers'),
         ]);
 
-        dispatch(
+        rollback_dispatch(
             (new InstallServerWorker($server, $worker))->onQueue(config('queue.channels.server_commands'))
         );
 
@@ -63,7 +63,7 @@ class ServerWorkerController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        dispatch(
+        rollback_dispatch(
             (new RemoveServerWorker($server,
                 $server->workers->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );

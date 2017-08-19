@@ -26,7 +26,7 @@ class SiteCronJobDeleted
             $siteCommand = $this->makeCommand($site, $cronJob, 'Removing');
 
             foreach ($cronJob->servers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new RemoveServerCronJob($server, $cronJob,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

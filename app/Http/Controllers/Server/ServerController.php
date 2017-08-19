@@ -106,7 +106,7 @@ class ServerController extends Controller
                 ),
             ]);
         } else {
-            $this->dispatch((new CreateServer(
+            rollback_dispatch((new CreateServer(
                 ServerProvider::findorFail($request->get('server_provider_id')),
                 $server
             ))->onQueue(config('queue.channels.server_provisioning')));

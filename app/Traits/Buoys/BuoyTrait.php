@@ -45,7 +45,9 @@ trait BuoyTrait
                 'description' => ucwords($container),
             ]);
 
-            dispatch(new InstallServerFirewallRule($server, $firewallRule));
+            rollback_dispatch(
+                new InstallServerFirewallRule($server, $firewallRule)
+            );
         }
     }
 

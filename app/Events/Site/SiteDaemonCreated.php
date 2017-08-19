@@ -34,7 +34,7 @@ class SiteDaemonCreated
             $siteCommand = $this->makeCommand($site, $daemon, 'Installing');
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (
                     new InstallServerDaemon($server, $daemon, $siteCommand)
                     )->onQueue(config('queue.channels.server_commands'))

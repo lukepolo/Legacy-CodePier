@@ -44,7 +44,7 @@ class UpdateServerSshKeys
      */
     private function installSshKey(SshKey $sshKey)
     {
-        dispatch(
+        rollback_dispatch(
             (new InstallServerSshKey($this->server, $sshKey, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

@@ -42,7 +42,7 @@ class UpdateServerEnvironmentVariables
      */
     private function setEnvironmentVariable(EnvironmentVariable $environmentVariable)
     {
-        dispatch(
+        rollback_dispatch(
             (new InstallServerEnvironmentVariable($this->server, $environmentVariable, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

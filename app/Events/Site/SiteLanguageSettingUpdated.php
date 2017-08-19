@@ -30,7 +30,7 @@ class SiteLanguageSettingUpdated
             $siteCommand = $this->makeCommand($site, $languageSetting, 'Updating');
 
             foreach ($availableServers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (new UpdateServerLanguageSetting($server, $languageSetting, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

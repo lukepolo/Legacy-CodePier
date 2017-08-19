@@ -26,7 +26,7 @@ class SiteWorkerDeleted
             $siteCommand = $this->makeCommand($site, $worker, 'Removing');
 
             foreach ($worker->servers as $server) {
-                dispatch(
+                rollback_dispatch(
                     (
                     new RemoveServerWorker($server, $worker, $siteCommand)
                     )->onQueue(config('queue.channels.server_commands'))

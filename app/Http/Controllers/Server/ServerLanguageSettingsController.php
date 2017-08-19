@@ -66,7 +66,7 @@ class ServerLanguageSettingsController extends Controller
             'params' => $request->get('params', []),
         ]);
 
-        dispatch(
+        rollback_dispatch(
             (new UpdateServerLanguageSetting($server, $languageSetting))->onQueue(config('queue.channels.server_commands'))
         );
 

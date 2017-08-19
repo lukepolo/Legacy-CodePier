@@ -32,7 +32,7 @@ class ServerProvisionStepsController extends Controller
     {
         $server = Server::with(['provisionSteps'])->findOrFail($serverId);
 
-        dispatch(
+        rollback_dispatch(
             (new ProvisionServer($server))->onQueue(config('queue.channels.server_provisioning'))
         );
 

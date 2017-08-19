@@ -20,7 +20,7 @@ class SiteRestartServers
     public function __construct(Site $site)
     {
         foreach ($site->provisionedServers as $server) {
-            dispatch(
+            rollback_dispatch(
                 (new RestartServer($server))->onQueue(config('queue.channels.server_commands'))
             );
         }

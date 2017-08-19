@@ -36,7 +36,7 @@ class UserSshKeyController extends Controller
         \Auth::user()->sshKeys()->save($sshKey);
 
         foreach (\Auth::user()->provisionedServers as $server) {
-            dispatch(
+            rollback_dispatch(
                 (new InstallServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
             );
         }
@@ -56,7 +56,7 @@ class UserSshKeyController extends Controller
         $sshKey = \Auth::user()->sshKeys->keyBy('id')->get($id);
 
         foreach (\Auth::user()->provisionedServers as $server) {
-            dispatch(
+            rollback_dispatch(
                 (new RemoveServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
             );
         }
