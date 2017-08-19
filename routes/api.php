@@ -218,6 +218,7 @@ Route::group(['middleware' => [
         Route::post('site/{site}/workflow', 'Site\SiteWorkflowController@store');
         Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
         Route::post('site/{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
+        Route::delete('site/{site}/clear-commands', 'Site\SiteServerCommandsController@destroy');
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {
