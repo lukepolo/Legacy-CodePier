@@ -53,8 +53,68 @@
 }
 
 
+.icon-zoom_out:before {
+  content: "\e91c";
+}
+.icon-zoom_in:before {
+  content: "\e91d";
+}
 .icon-linode:before {
   content: "\e91b";
+}
+.icon-users:before {
+  content: "\e911";
+}
+.icon-mail:before {
+  content: "\e912";
+}
+.icon-web:before {
+  content: "\e90d";
+}
+.icon-check_box:before {
+  content: "\e834";
+}
+.icon-check_box_outline_blank:before {
+  content: "\e835";
+}
+.icon-indeterminate_check_box:before {
+  content: "\e909";
+}
+.icon-radio_button_checked:before {
+  content: "\e837";
+}
+.icon-radio_button_unchecked:before {
+  content: "\e836";
+}
+.icon-check_circle:before {
+  content: "\e86c";
+}
+.icon-cancel:before {
+  content: "\e5c9";
+}
+.icon-person:before {
+  content: "\e7fd";
+}
+.icon-people:before {
+  content: "\e7fb";
+}
+.icon-group_add:before {
+  content: "\e7f0";
+}
+.icon-layers:before {
+  content: "\e53b";
+}
+.icon-search:before {
+  content: "\e8b6";
+}
+.icon-backup:before {
+  content: "\e864";
+}
+.icon-power:before {
+  content: "\e8ac";
+}
+.icon-settings:before {
+  content: "\e8b8";
 }
 .icon-unlink:before {
   content: "\e91a";
@@ -142,60 +202,6 @@
 }
 .icon-trash:before {
   content: "\e914";
-}
-.icon-users:before {
-  content: "\e911";
-}
-.icon-mail:before {
-  content: "\e912";
-}
-.icon-web:before {
-  content: "\e90d";
-}
-.icon-check_box:before {
-  content: "\e834";
-}
-.icon-check_box_outline_blank:before {
-  content: "\e835";
-}
-.icon-indeterminate_check_box:before {
-  content: "\e909";
-}
-.icon-radio_button_checked:before {
-  content: "\e837";
-}
-.icon-radio_button_unchecked:before {
-  content: "\e836";
-}
-.icon-check_circle:before {
-  content: "\e86c";
-}
-.icon-cancel:before {
-  content: "\e5c9";
-}
-.icon-person:before {
-  content: "\e7fd";
-}
-.icon-people:before {
-  content: "\e7fb";
-}
-.icon-group_add:before {
-  content: "\e7f0";
-}
-.icon-layers:before {
-  content: "\e53b";
-}
-.icon-search:before {
-  content: "\e8b6";
-}
-.icon-backup:before {
-  content: "\e864";
-}
-.icon-power:before {
-  content: "\e8ac";
-}
-.icon-settings:before {
-  content: "\e8b8";
 }
 .icon-info:before {
   content: "\e913";

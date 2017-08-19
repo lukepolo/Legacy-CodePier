@@ -3,7 +3,7 @@
         <notifications></notifications>
         <div class="logo-container">
             <router-link to="/">
-                <img src="/assets/img/codepier_w.svg">
+                <img src="/assets/img/CP_Logo_TX_Beta-onGray.svg">
             </router-link>
         </div>
 
