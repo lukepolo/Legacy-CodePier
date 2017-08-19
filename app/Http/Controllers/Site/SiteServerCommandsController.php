@@ -22,11 +22,10 @@ class SiteServerCommandsController extends Controller
             ->where('completed', false)
             ->get();
 
-
-        \DB::table('server_commands')->where('id',18)->delete();
+        \DB::table('server_commands')->where('id', 18)->delete();
 
         dd('here');
-        foreach($serverCommands as $serverCommand) {
+        foreach ($serverCommands as $serverCommand) {
             dump('Deleting '.$serverCommand->id);
             dd('Results : '.$serverCommand->delete());
         }

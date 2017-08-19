@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServerCommand extends Model
 {
-//    use ConnectedToUser;
+    //    use ConnectedToUser;
 
     public static $userModel = 'server';
 
@@ -28,7 +28,7 @@ class ServerCommand extends Model
         return $this->belongsTo(Command::class);
     }
 
-//    public function delete()
+    //    public function delete()
 //    {
 //        $this->command()->delete();
 //        return parent::delete();
