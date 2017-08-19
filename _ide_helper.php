@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.33 on 2017-08-15.
+ * Generated for Laravel 5.4.33 on 2017-08-19.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -16063,7 +16063,27 @@ if (! function_exists('cents_to_dollars')) {
         return '$'.number_format(($cents / 100), 2, '.', ' ');
     }
 }
- 
+
+if (! function_exists('rollback_dispatch')) {
+    /**
+     * Dispatch a job to its appropriate handler.
+     *
+     * @param  mixed $job
+     * @return mixed
+     * @throws Exception
+     */
+    function rollback_dispatch($job)
+    {
+        try {
+            return app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($job);
+        } catch(\Pheanstalk\Exception\ConnectionException $e) {
+            DB::rollBack();
+
+            throw new \Exception('We lost connection to the queue system, please contact support.');
+        }
+
+    }
+} 
 }
 
 namespace Illuminate\Support {

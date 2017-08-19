@@ -21,4 +21,5 @@ class ServerCommandObserver
         $serverCommand->command->updateStatus();
         event(new ServerCommandUpdated($serverCommand));
     }
+
 }

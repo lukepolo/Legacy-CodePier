@@ -42,6 +42,7 @@ import user_site_deployments from "./user/site/deployments";
 import user_site_schema_users from "./user/site/schema-users";
 import user_site_firewall_rules from "./user/site/firewall-rules";
 import user_repository_providers from "./user/repository/providers";
+import user_site_server_commands from "./user/site/server-commands";
 import user_site_server_features from "./user/site/server-features";
 import user_site_ssl_certificates from "./user/site/ssl-certificates";
 import user_site_language_settings from "./user/site/language-settings";
@@ -111,6 +112,7 @@ export default {
   user_site_schema_users,
   user_site_firewall_rules,
   user_repository_providers,
+  user_site_server_commands,
   user_site_server_features,
   user_site_ssl_certificates,
   user_site_language_settings,
