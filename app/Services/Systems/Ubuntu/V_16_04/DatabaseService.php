@@ -284,7 +284,7 @@ class DatabaseService
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
         $this->connectToServer($this->server);
-//        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
     }
 
     private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
