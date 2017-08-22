@@ -26,7 +26,7 @@ class SiteSslCertificateDeleted
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Removing');
 
             foreach ($sslCertificate->servers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new RemoveServerSslCertificate(
                         $server,
                         $sslCertificate,

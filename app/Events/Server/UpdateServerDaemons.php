@@ -51,7 +51,7 @@ class UpdateServerDaemons
      */
     private function installDaemon(Daemon $daemon)
     {
-        rollback_dispatch(
+        dispatch(
             (new InstallServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }
@@ -61,7 +61,7 @@ class UpdateServerDaemons
      */
     private function removeDeamon(Daemon $daemon)
     {
-        rollback_dispatch(
+        dispatch(
             (new RemoveServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

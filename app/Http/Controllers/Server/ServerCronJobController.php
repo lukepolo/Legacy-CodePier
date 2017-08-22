@@ -51,7 +51,7 @@ class ServerCronJobController extends Controller
 
             $server->cronJobs()->save($cronJob);
 
-            rollback_dispatch(
+            dispatch(
                 (new InstallServerCronJob($server, $cronJob))->onQueue(config('queue.channels.server_commands'))
             );
 
@@ -73,7 +73,7 @@ class ServerCronJobController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        rollback_dispatch(
+        dispatch(
             (new RemoveServerCronJob($server, $server->cronJobs->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );
 

@@ -46,7 +46,7 @@ class ServerSshKeyController extends Controller
                 'ssh_key' => $sshKey,
             ]);
 
-            rollback_dispatch(
+            dispatch(
                 (new InstallServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
             );
 
@@ -68,7 +68,7 @@ class ServerSshKeyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        rollback_dispatch(
+        dispatch(
             (new RemoveServerSshKey($server,
                 $server->sshKeys->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );

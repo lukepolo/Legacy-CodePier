@@ -6,6 +6,8 @@ export const clearStuckCommands = (context, site) => {
     .then(() => {
       app.showSuccess("You have cleared your stuck commands for this site.");
 
+      location.reload();
+
       return true;
     });
 };

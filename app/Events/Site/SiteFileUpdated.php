@@ -23,7 +23,7 @@ class SiteFileUpdated
             $siteCommand = $this->makeCommand($site, $file, 'Updating');
 
             foreach ($site->provisionedServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new UpdateServerFile($server, $file,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

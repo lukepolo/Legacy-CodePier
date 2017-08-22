@@ -54,7 +54,7 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            rollback_dispatch(new InstallPublicKey($this->server, $this->site));
+            dispatch(new InstallPublicKey($this->server, $this->site));
         }
 
         if (

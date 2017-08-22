@@ -58,12 +58,12 @@ class UpdateServerSchemas
     {
         //        $siteCommand = $this->makeCommand($site, $schema, 'Creating');
 
-        rollback_dispatch(
+        dispatch(
             (new AddServerSchema($this->server, $schema, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
 
         $this->site->schemaUsers->each(function ($schemaUser) {
-            rollback_dispatch(
+            dispatch(
                 (new AddServerSchemaUser($this->server, $schemaUser, $this->command))->onQueue(config('queue.channels.server_commands'))
             );
         });
@@ -74,7 +74,7 @@ class UpdateServerSchemas
      */
     private function removeSchema(Schema $schema)
     {
-        rollback_dispatch(
+        dispatch(
             (new RemoveServerSchema($this->server, $schema, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

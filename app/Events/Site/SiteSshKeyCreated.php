@@ -25,7 +25,7 @@ class SiteSshKeyCreated
             $siteCommand = $this->makeCommand($site, $sshKey, 'Adding');
 
             foreach ($site->provisionedServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new InstallServerSshKey($server, $sshKey,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

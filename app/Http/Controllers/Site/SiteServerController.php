@@ -51,13 +51,13 @@ class SiteServerController extends Controller
         $changes = $site->servers()->sync($request->get('connected_servers', []));
 
         foreach ($changes['attached'] as $attached) {
-            rollback_dispatch(
+            dispatch(
                 (new CreateSite(Server::findOrFail($attached), $site))->onQueue(config('queue.channels.server_commands'))
             );
         }
 
         foreach ($changes['detached'] as $detached) {
-            rollback_dispatch(
+            dispatch(
                 (new DeleteSite(Server::findOrFail($detached), $site))->onQueue(config('queue.channels.server_commands'))
             );
         }

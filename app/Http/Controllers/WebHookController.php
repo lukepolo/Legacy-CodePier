@@ -39,7 +39,7 @@ class WebHookController extends Controller
         }
 
         if (empty($branch) || $site->branch === $branch) {
-            rollback_dispatch(
+            dispatch(
                 (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
             );
         }
@@ -129,7 +129,7 @@ class WebHookController extends Controller
         $server = Server::with('sslCertificates')->findOrFail(\Hashids::decode($serverHashId)[0]);
 
         foreach ($server->sslCertificates as $sslCertificate) {
-            rollback_dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
+            dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
         }
     }
 

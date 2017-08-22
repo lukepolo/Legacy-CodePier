@@ -34,7 +34,7 @@ class SiteCronJobCreated
             $siteCommand = $this->makeCommand($site, $cronJob, 'Installing');
 
             foreach ($availableServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

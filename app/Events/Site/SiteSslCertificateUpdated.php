@@ -45,7 +45,7 @@ class SiteSslCertificateUpdated
                             'active' => false,
                         ]);
 
-                        rollback_dispatch(
+                        dispatch(
                             (new DeactivateServerSslCertificate(
                                 $server,
                                 $site,
@@ -55,7 +55,7 @@ class SiteSslCertificateUpdated
                         );
                     }
 
-                    rollback_dispatch(
+                    dispatch(
                         (new ActivateServerSslCertificate(
                             $server,
                             $site,
@@ -64,7 +64,7 @@ class SiteSslCertificateUpdated
                         ))->onQueue(config('queue.channels.server_commands'))
                     );
                 } else {
-                    rollback_dispatch(
+                    dispatch(
                         (new DeactivateServerSslCertificate(
                             $server,
                             $site,

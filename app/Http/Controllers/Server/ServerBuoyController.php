@@ -72,7 +72,7 @@ class ServerBuoyController extends Controller
 
         $buoyApp->increment('installs');
 
-        rollback_dispatch(
+        dispatch(
             new InstallBuoy($server, $buoy)
         );
 
@@ -104,7 +104,7 @@ class ServerBuoyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        rollback_dispatch(
+        dispatch(
             new RemoveBuoy($server, $server->buoys->keyBy('id')->get($id))
         );
 

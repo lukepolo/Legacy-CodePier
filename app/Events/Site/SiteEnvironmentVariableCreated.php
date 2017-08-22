@@ -24,7 +24,7 @@ class SiteEnvironmentVariableCreated
             $siteCommand = $this->makeCommand($site, $environmentVariable, 'Adding');
 
             foreach ($site->provisionedServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new InstallServerEnvironmentVariable($server, $environmentVariable,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

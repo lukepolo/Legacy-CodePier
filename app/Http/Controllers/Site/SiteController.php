@@ -110,7 +110,7 @@ class SiteController extends Controller
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new CreateSite(
                         Server::findOrFail($server), $site)
                     )->onQueue(config('queue.channels.server_commands'))
@@ -153,7 +153,7 @@ class SiteController extends Controller
         if ($site->provisionedServers->count()) {
             $lastDeploymentStatus = $site->last_deployment_status;
             if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
-                rollback_dispatch(
+                dispatch(
                     (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
                 );
             } else {
@@ -171,7 +171,7 @@ class SiteController extends Controller
         $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
-            rollback_dispatch(
+            dispatch(
                 (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
             );
         }

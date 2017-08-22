@@ -86,7 +86,7 @@ class CustomServerProvisioningController extends Controller
 
         $server = $provisioningKey->server;
 
-        rollback_dispatch(
+        dispatch(
             (new CheckServerStatus($server, true))->delay(5)->onQueue(config('queue.channels.server_commands'))
         );
 

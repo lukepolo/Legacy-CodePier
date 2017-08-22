@@ -36,7 +36,7 @@ class SiteSslCertificateCreated
             $siteCommand = $this->makeCommand($site, $sslCertificate, 'Setting Up');
 
             foreach ($availableServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (
                     new InstallServerSslCertificate(
                         $server,
