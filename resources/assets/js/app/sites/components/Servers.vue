@@ -22,7 +22,7 @@
 
             <template v-if="!connectServers && siteServers">
                 <template v-for="server in siteServers">
-                    <server-info :server="server" :showInfo="showInfo"></server-info>
+                    <server-info :server="server" :showInfo="siteServers.length < 2" :key="server.id"></server-info>
                 </template>
             </template>
            <template v-else>
@@ -46,9 +46,9 @@
                                        <div class="jcf-input-group input-checkbox">
                                            <label>
                                                <input
-                                                       type="checkbox"
-                                                       :value="server.id"
-                                                       v-model="form.connected_servers"
+                                                   type="checkbox"
+                                                   :value="server.id"
+                                                   v-model="form.connected_servers"
                                                >
                                                <span class="icon"></span>
                                                {{ server.name }} ({{ server.ip }})
@@ -94,6 +94,7 @@
 <script>
     import ServerInfo from './ServerInfo.vue';
     import ServerCreateList from './ServerCreateList.vue'
+
     export default {
         components : {
             ServerInfo,
@@ -105,14 +106,13 @@
                 form: this.createForm({
                     connected_servers: []
                 }),
-                showInfo : false
             }
         },
         created() {
             this.fetchData();
         },
         watch: {
-            '$route': 'fetchData'
+            '$route': 'fetchData',
         },
         methods: {
             fetchData() {
@@ -138,16 +138,7 @@
                 return this.$store.state.user_sites.site;
             },
             siteServers() {
-
-                let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
-
-                if(servers && servers.length === 1) {
-                    this.showInfo = true
-                }
-
-                this.form.connected_servers = _.map(servers, 'id')
-
-                return servers
+                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
             },
             availableServers() {
                 return _.filter(this.$store.state.user_servers.servers, (server) => {
