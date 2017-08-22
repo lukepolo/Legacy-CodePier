@@ -22,22 +22,22 @@ class SiteServerCommandsController extends Controller
             ->where('completed', false)
             ->get();
 
-        foreach($serverCommands as $serverCommand) {
+        foreach ($serverCommands as $serverCommand) {
             $serverCommand->update([
-                'failed' => true
+                'failed' => true,
             ]);
         }
 
         $siteDeployments = SiteDeployment::where('site_id', $site->id)
             ->whereNotIn('status', [
                 'Failed',
-                'Completed'
+                'Completed',
             ])
             ->get();
 
-        foreach($siteDeployments as $siteDeployment) {
+        foreach ($siteDeployments as $siteDeployment) {
             $siteDeployment->update([
-                'status' => 'Failed'
+                'status' => 'Failed',
             ]);
         }
 
