@@ -11,7 +11,6 @@ use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
-use Illuminate\Support\Facades\DB;
 use App\Observers\Site\SiteObserver;
 use App\Models\User\UserLoginProvider;
 use App\Models\User\UserServerProvider;
