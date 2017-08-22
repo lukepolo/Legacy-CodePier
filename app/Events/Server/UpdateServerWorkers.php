@@ -54,14 +54,14 @@ class UpdateServerWorkers
      */
     private function addServerWorker(Worker $worker)
     {
-        rollback_dispatch(
+        dispatch(
             (new RemoveServerWorker($this->server, $worker, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }
 
     private function removeServerWorker(Worker $worker)
     {
-        rollback_dispatch(
+        dispatch(
             (new InstallServerWorker($this->server, $worker, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

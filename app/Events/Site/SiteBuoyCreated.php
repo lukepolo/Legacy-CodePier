@@ -24,7 +24,7 @@ class SiteBuoyCreated
             $siteCommand = $this->makeCommand($site, $buoy, 'Creating');
 
             foreach ($site->provisionedServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new InstallBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

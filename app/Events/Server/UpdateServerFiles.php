@@ -44,7 +44,7 @@ class UpdateServerFiles
      */
     private function updateFile(File $file)
     {
-        rollback_dispatch(
+        dispatch(
             (new UpdateServerFile($this->server, $file, $this->command))->onQueue(config('queue.channels.server_commands'))
         );
     }

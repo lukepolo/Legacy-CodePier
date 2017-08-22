@@ -29,7 +29,7 @@ class SiteUpdatedWebConfig
             $siteCommand = $this->makeCommand($site, $site, 'Updating Web Config');
 
             foreach ($availableServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new UpdateWebConfig($server, $site, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }

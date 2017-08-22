@@ -26,7 +26,7 @@ class SiteEnvironmentVariableDeleted
             $siteCommand = $this->makeCommand($site, $environmentVariable, 'Removing');
 
             foreach ($site->provisionedServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new RemoveServerEnvironmentVariable($server, $environmentVariable,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

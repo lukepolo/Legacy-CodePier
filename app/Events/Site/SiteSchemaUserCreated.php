@@ -30,7 +30,7 @@ class SiteSchemaUserCreated
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Creating');
 
             foreach ($availableServers as $server) {
-                rollback_dispatch(
+                dispatch(
                     (new AddServerSchemaUser($server, $schemaUser,
                         $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );

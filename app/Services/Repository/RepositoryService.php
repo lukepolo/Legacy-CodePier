@@ -146,7 +146,7 @@ class RepositoryService implements RepositoryServiceContract
     {
         foreach ($site->provisionedServers as $server) {
             try {
-                rollback_dispatch(
+                dispatch(
                     (
                         new InstallPublicKey($server, $site)
                     )->onQueue(config('queue.channels.server_commands'))

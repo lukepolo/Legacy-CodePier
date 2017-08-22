@@ -29,7 +29,7 @@ class SiteRestartDatabases
         if ($availableServers->count()) {
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Databases');
-                rollback_dispatch(
+                dispatch(
                     (new RestartDatabases($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
                 );
             }
