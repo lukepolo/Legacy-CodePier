@@ -56,7 +56,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('domain', function ($attribute, $value) {
-            return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
+            if(str_contains($value, [
+                '.',
+                'http',
+                ':',
+                'www'
+            ])) {
+                return preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $value) > 0;
+            } else {
+                return true;
+            }
         });
 
         Validator::extend('greaterThanZero', function ($attribute, $value) {
