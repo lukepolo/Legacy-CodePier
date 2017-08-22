@@ -36,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        DB::beginTransaction();
-
         Passport::tokensCan([
             'create-custom-server' => 'Allows creation of a custom server',
         ]);
