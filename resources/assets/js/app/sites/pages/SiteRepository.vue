@@ -24,7 +24,7 @@
 
                 <div class="flyform--group">
                     <div class="flyform--group-prefix">
-                        <input type="text" v-model="form.repository" name="repository" placeholder=" " required>
+                        <input ref="repository" type="text" v-model="form.repository" name="repository" placeholder=" " required>
                         <label for="repository">Repository URL</label>
                         <template v-if="!form.custom_provider">
                             <div class="flyform--group-prefix-label">
