@@ -54,11 +54,10 @@ Route::group([
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
-
 // TODO - put into microservice
 Route::group([
     'prefix' => 'webhook',
-    'domain' => config('app.url_stats')
+    'domain' => config('app.url_stats'),
 ], function () {
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
@@ -74,7 +73,7 @@ Route::group([
 */
 
 Route::group([
-    'domain' => config('app.url_lifelines')
+    'domain' => config('app.url_lifelines'),
 ], function () {
     Route::get('{lifelineHashId}', 'LifeLineController@update');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
@@ -96,7 +95,7 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 */
 
 Route::group([
-    'domain' => 'style-guide.codepier.dev'
+    'domain' => 'style-guide.codepier.dev',
 ], function () {
     Route::get('/', 'PublicController@styleGuide');
 });
@@ -123,8 +122,8 @@ Route::get('/', 'Controller@app');
 
 Route::group([
     'middleware' => [
-        'auth'
-    ]
+        'auth',
+    ],
 ], function () {
     Route::get('second-auth', 'Auth\SecondAuthController@show');
     Route::post('second-auth', 'Auth\SecondAuthController@store');
@@ -133,8 +132,8 @@ Route::group([
 Route::group([
     'middleware' => [
         'auth',
-        'second_auth'
-    ]
+        'second_auth',
+    ],
 ], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
