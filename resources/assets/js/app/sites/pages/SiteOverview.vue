@@ -195,6 +195,30 @@
             </div>
         </div>
 
+        <hr>
+
+        <h3>Site Rename Form</h3>
+        <form @submit.prevent>
+            <div class="flyform--group">
+                <input ref="domain" name="domain" v-model="renameForm.domain" type="text" placeholder=" ">
+                <label for="domain">Domain / Alias</label>
+            </div>
+
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <confirm
+                        dispatch="user_sites/renameSite"
+                        :params="{
+                            site : this.site.id,
+                            domain : this.renameForm.domain,
+                        }"
+                        :confirm_with_text="renameForm.domain"
+                    >
+                        Rename Site {{ renameForm.site }}
+                    </confirm>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -205,6 +229,9 @@
             return {
                 webhook : false,
                 sshKey: false,
+                renameForm : {
+                    domain : null,
+                }
             }
         },
         components : {
@@ -229,6 +256,7 @@
             fetchData() {
                 this.getDns()
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
+                Vue.set(this.renameForm, 'domain', null)
             },
             getDns(refresh) {
 
