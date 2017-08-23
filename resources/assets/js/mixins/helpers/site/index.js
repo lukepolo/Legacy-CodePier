@@ -39,7 +39,7 @@ export const workFlowCompleted = function() {
     });
 
     if (currentWorkflow) {
-      return currentWorkflow.step
+      return currentWorkflow.step;
     }
 
     return true;
