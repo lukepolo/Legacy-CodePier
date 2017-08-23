@@ -46,13 +46,24 @@ Route::resource('subscription/plans', 'SubscriptionController');
 |
 */
 
-// TODO - put into microservice
-Route::group(['prefix' => 'webhook'], function () {
-    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+Route::group([
+    'prefix' => 'webhook',
+], function () {
     Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
+    Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
+});
+
+
+// TODO - put into microservice
+Route::group([
+    'prefix' => 'webhook',
+    'domain' => config('app.url_stats')
+], function () {
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
+    Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
 /*
@@ -62,8 +73,11 @@ Route::group(['prefix' => 'webhook'], function () {
 |
 */
 
-Route::group(['domain' => config('app.url_lifelines')], function () {
+Route::group([
+    'domain' => config('app.url_lifelines')
+], function () {
     Route::get('{lifelineHashId}', 'LifeLineController@update');
+    Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
 /*
@@ -81,7 +95,9 @@ Route::get('teams/accept/{token}', 'User\Team\UserTeamController@acceptInvite')-
 |
 */
 
-Route::group(['domain' => 'style-guide.codepier.dev'], function () {
+Route::group([
+    'domain' => 'style-guide.codepier.dev'
+], function () {
     Route::get('/', 'PublicController@styleGuide');
 });
 
@@ -105,12 +121,21 @@ Route::get('/terms-of-service', 'PublicController@termsOfService');
 
 Route::get('/', 'Controller@app');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group([
+    'middleware' => [
+        'auth'
+    ]
+], function () {
     Route::get('second-auth', 'Auth\SecondAuthController@show');
     Route::post('second-auth', 'Auth\SecondAuthController@store');
 });
 
-Route::group(['middleware' => ['auth', 'second_auth']], function () {
+Route::group([
+    'middleware' => [
+        'auth',
+        'second_auth'
+    ]
+], function () {
     Route::get('slack-invite', 'User\UserController@slackInvite');
     Route::get('subscription/invoices/{invoice}', 'User\Subscription\UserSubscriptionInvoiceController@show');
     Route::get('/{any}', 'Controller@app')->where('any', '.*');
