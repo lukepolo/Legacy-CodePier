@@ -214,6 +214,7 @@ Route::group(['middleware' => [
 
         Route::apiResource('sites', 'Site\SiteController');
 
+        Route::post('site/{site}/rename', 'Site\SiteController@rename');
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
         Route::post('site/{site}/workflow', 'Site\SiteWorkflowController@store');
         Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');

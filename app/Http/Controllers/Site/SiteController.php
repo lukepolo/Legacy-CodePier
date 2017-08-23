@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Events\Site\SiteRenamed;
 use App\Models\Site\Site;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
@@ -19,6 +20,7 @@ use App\Http\Requests\Site\SiteRepositoryRequest;
 use App\Http\Requests\Site\SiteServerFeatureRequest;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 use App\Contracts\Repository\RepositoryServiceContract as RepositoryService;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -290,6 +292,33 @@ class SiteController extends Controller
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }
+
+        return response()->json($site);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rename(Request $request, $siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->validate($request, [
+            'domain' => 'required|domain'
+        ]);
+
+        $oldDomain = $site->domain;
+        $isDomain = is_domain($request->get('domain'));
+
+        $site->update([
+            'domain' => $isDomain ? $request->get('domain') : 'default',
+            'name' => $request->get('domain'),
+        ]);
+
+        event(new SiteRenamed($site, $site->domain, $oldDomain));
 
         return response()->json($site);
     }
