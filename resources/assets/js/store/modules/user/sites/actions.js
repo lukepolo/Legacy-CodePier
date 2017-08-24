@@ -139,8 +139,8 @@ export const updateWorkflow = (context, data) => {
 };
 
 export const renameSite = (context, data) => {
-    Vue.request(data).post(
-        Vue.action('SiteSiteController@rename', { site : data.site }),
-        ["user_sites/set", "user_sites/update"]
-    )
-}
+  Vue.request(data).post(
+    Vue.action("SiteSiteController@rename", { site: data.site }),
+    ["user_sites/set", "user_sites/update"]
+  );
+};
