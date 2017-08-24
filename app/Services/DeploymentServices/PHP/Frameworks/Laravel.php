@@ -2,6 +2,8 @@
 
 namespace App\Services\DeploymentServices\PHP\Frameworks;
 
+use App\Services\RemoteTaskService;
+
 trait Laravel
 {
     /**
@@ -9,16 +11,22 @@ trait Laravel
      *
      * @zerotime-deployment
      *
-     * @order 110
+     * @order 210
      */
     public function laravelCreateSymbolicEnv()
     {
         if ($this->remoteTaskService->isFileEmpty($this->siteFolder.'/.env') && $this->remoteTaskService->hasFile($this->release.'/.env.example')) {
-            $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->release.'/.env');
+            $this->remoteTaskService->run('cp '.$this->release.'/.env.example '.$this->siteFolder.'/.env');
         }
 
+        $appKey = str_after($this->remoteTaskService->getFileLine($this->siteFolder.'/.env', '^APP_KEY='), '=');
+
         if ($this->zerotimeDeployment) {
-            return $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+            $this->remoteTaskService->run('ln -sfn '.$this->siteFolder.'/.env '.$this->release.'/.env');
+        }
+
+        if (empty($appKey)) {
+            $this->remoteTaskService->run('cd '.$this->release.'; php artisan key:generate');
         }
     }
 
@@ -45,7 +53,7 @@ trait Laravel
     /**
      * @description Creates a symbolic link for the storage folder to the public directory
      *
-     * @order 205
+     * @order 220
      */
     public function laravelMapStorageFolderToPublic()
     {
@@ -55,7 +63,7 @@ trait Laravel
     /**
      * @description Runs the migrations
      *
-     * @order 210
+     * @order 230
      */
     public function laravelRunMigrations()
     {

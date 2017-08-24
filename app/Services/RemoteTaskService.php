@@ -96,6 +96,18 @@ class RemoteTaskService implements RemoteTaskServiceContract
 
     /**
      * @param $file
+     * @param $string
+     *
+     * @return bool
+     */
+    public function getFileLine($file, $string)
+    {
+        return $this->run("grep -R \"$string\" \"$file\"");
+    }
+
+
+    /**
+     * @param $file
      * @param $contents
      * @param bool $read
      *
