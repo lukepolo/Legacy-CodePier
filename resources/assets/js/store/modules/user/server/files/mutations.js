@@ -8,9 +8,9 @@ export const add = (state, { response }) => {
 
 export const update = (state, { response }) => {
   Vue.set(
-    state.files[_.findKey(state.files, { id: response.id })],
-    "unencrypted_content",
-    response.unencrypted_content
+    state.files,
+    _.findKey(state.files, { id: response.id }),
+    response
   );
 };
 
