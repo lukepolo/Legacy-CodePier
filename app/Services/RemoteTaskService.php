@@ -105,7 +105,6 @@ class RemoteTaskService implements RemoteTaskServiceContract
         return $this->run("grep -R \"$string\" \"$file\"");
     }
 
-
     /**
      * @param $file
      * @param $contents
