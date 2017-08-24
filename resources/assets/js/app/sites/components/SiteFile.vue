@@ -49,7 +49,7 @@
             'fileModel' : function() {
                 if(_.isObject(this.fileModel)) {
                     let editor = this.$refs.editor;
-                    ace.edit(editor).setValue(this.fileModel.unencrypted_content);
+                    ace.edit(editor).setValue(this.fileModel.unencrypted_content ? this.fileModel.unencrypted_content : '');
                     ace.edit(editor).clearSelection(1);
                 }
             }
