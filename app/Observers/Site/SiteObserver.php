@@ -79,12 +79,6 @@ class SiteObserver
     {
         remove_events($site);
 
-        if ($site->isDirty('domain')) {
-            event(
-                new SiteRenamed($site, $site->domain, $site->getOriginal('domain'))
-            );
-        }
-
         if ($site->isDirty('framework')) {
             $tempSite = clone $site;
 
