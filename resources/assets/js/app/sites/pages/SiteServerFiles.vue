@@ -33,7 +33,6 @@
                         return this.isCommandRunning('App\\Models\\File', foundFile.id);
                     }
                 }
-
                 return false;
             }
         },
@@ -48,7 +47,7 @@
                 return this.$store.state.user_site_files.editable_files;
             },
             siteFiles() {
-                return this.$store.state.user_site_files.site_files;
+                return this.$store.state.user_site_files.files;
             }
         },
     }
