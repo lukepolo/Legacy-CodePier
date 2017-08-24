@@ -5,7 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
-use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
