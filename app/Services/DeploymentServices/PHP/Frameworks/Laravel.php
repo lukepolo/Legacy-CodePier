@@ -2,8 +2,6 @@
 
 namespace App\Services\DeploymentServices\PHP\Frameworks;
 
-use App\Services\RemoteTaskService;
-
 trait Laravel
 {
     /**
