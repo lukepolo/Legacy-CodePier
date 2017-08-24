@@ -64,15 +64,3 @@ export const reload = (context, data) => {
       app.showSuccess("You have reloaded the file");
     });
 };
-
-//     addCustomFile: ({ commit }, site) => {
-//     Vue.http.get().then((response) => {
-//         commit('ADD_SITE_FILE', response.data)
-//     }, (errors) => {
-//         app.handleApiError(errors)
-//     })
-// },
-//
-//
-// },
-//
