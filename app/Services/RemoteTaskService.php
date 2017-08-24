@@ -91,7 +91,7 @@ class RemoteTaskService implements RemoteTaskServiceContract
      */
     public function doesFileHaveLine($file, $string)
     {
-        return filter_var($this->run("grep -R \"$string\" \"$file\" | wc -l"), FILTER_VALIDATE_INT) > 1;
+        return filter_var($this->run("grep -R \"$string\" \"$file\" | wc -l"), FILTER_VALIDATE_INT) >= 1;
     }
 
     /**
