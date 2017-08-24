@@ -28,7 +28,6 @@ class SiteRenamed
         ]);
 
         if ($availableServers->count()) {
-
             $siteCommand = $this->makeCommand($site, $site, 'Renaming site '.$oldDomain.' to '.$newDomain);
 
             foreach ($availableServers as $server) {
