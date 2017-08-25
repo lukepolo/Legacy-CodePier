@@ -27,13 +27,14 @@
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h2>{{ workFlowName }}</h2>
                                         <h4 class="heading secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
+                                        <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
                                         <hr>
                                     </template>
                                     <router-view></router-view>
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <div class="flyform--footer">
                                             <div class="flyform--footer-btns">
-                                                <button @click="revertWorkFlow" class="btn" v-if="workflowStepsCompleted !== 1">Previous</button>
+                                                <button @click="revertWorkFlow" class="btn" :disabled="workflowStepsCompleted === 1" :class="{ disabled : workflowStepsCompleted === 1}">Previous</button>
                                                 <button @click="updateWorkFlow" class="btn btn-primary">Continue</button>
                                             </div>
                                         </div>
@@ -137,6 +138,9 @@
 
                             if(site.workflow) {
                                 if(this.workFlowCompleted !== this.$route.name) {
+
+                                    console.info(this.workFlowCompleted)
+
                                     this.$router.push({ name: this.workFlowCompleted, params: { site_id: site.id }})
                                 }
 
@@ -208,7 +212,17 @@
                 }).length + 1
             },
             totalWorkflowSteps() {
-                return _.keys(this.site.workflow).length
+                let count = _.keys(this.site.workflow).length;
+                if(this.site.workflow && this.site.workflow.message) {
+                    count--;
+                }
+
+                return count;
+            },
+            workflowMessage() {
+                if(this.site.workflow) {
+                    return this.site.workflow.message
+                }
             },
             notOverview() {
                 return this.$route.name !== 'site_overview'

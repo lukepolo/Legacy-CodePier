@@ -28,6 +28,8 @@ return [
 
     'teams' => env('APP_ENV') == 'local' ? true : false,
 
+    'subscriptions' => env('APP_SUBSCRIPTIONS', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -188,7 +190,6 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
          * Custom Service Providers

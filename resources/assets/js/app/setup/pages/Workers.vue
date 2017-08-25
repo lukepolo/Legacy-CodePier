@@ -103,6 +103,7 @@
         data() {
             return {
                 form: this.createForm({
+                    user : null,
                     command: null,
                     auto_start: true,
                     auto_restart: true,

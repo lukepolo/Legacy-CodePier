@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
+use Illuminate\Http\Request;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
 use App\Jobs\Site\DeploySite;
 use App\Models\Server\Server;
+use App\Events\Site\SiteRenamed;
 use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
 use App\Events\Site\SiteRestartServers;
@@ -110,7 +112,7 @@ class SiteController extends Controller
             $changes = $site->servers()->sync($request->get('servers', []));
 
             foreach ($changes['attached'] as $server) {
-                $this->dispatch(
+                dispatch(
                     (new CreateSite(
                         Server::findOrFail($server), $site)
                     )->onQueue(config('queue.channels.server_commands'))
@@ -153,7 +155,7 @@ class SiteController extends Controller
         if ($site->provisionedServers->count()) {
             $lastDeploymentStatus = $site->last_deployment_status;
             if (empty($lastDeploymentStatus) || $lastDeploymentStatus === SiteDeployment::FAILED || $lastDeploymentStatus === SiteDeployment::COMPLETED) {
-                $this->dispatch(
+                dispatch(
                     (new DeploySite($site))->onQueue(config('queue.channels.server_commands'))
                 );
             } else {
@@ -171,7 +173,7 @@ class SiteController extends Controller
         $site = Site::with('provisionedServers')->findOrFail($siteId);
 
         if ($site->provisionedServers->count()) {
-            $this->dispatch(
+            dispatch(
                 (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
             );
         }
@@ -257,6 +259,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($siteId);
 
+        $site->private = 0;
         $site->public_ssh_key = null;
 
         if (empty($site->userRepositoryProvider)) {
@@ -289,6 +292,32 @@ class SiteController extends Controller
             $this->repositoryService->deleteDeployHook($site);
             $this->repositoryService->createDeployHook($site);
         }
+
+        return response()->json($site);
+    }
+
+    /**
+     * @param Request $request
+     * @param $siteId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rename(Request $request, $siteId)
+    {
+        $site = Site::findOrFail($siteId);
+
+        $this->validate($request, [
+            'domain' => 'required|domain',
+        ]);
+
+        $oldDomain = $site->domain;
+        $isDomain = is_domain($request->get('domain'));
+
+        $site->update([
+            'domain' => $isDomain ? $request->get('domain') : 'default',
+            'name' => $request->get('domain'),
+        ]);
+
+        event(new SiteRenamed($site, $site->domain, $oldDomain));
 
         return response()->json($site);
     }

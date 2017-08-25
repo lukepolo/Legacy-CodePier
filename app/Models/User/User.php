@@ -2,8 +2,11 @@
 
 namespace App\Models\User;
 
+use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
+use Laravel\Cashier\Card;
+use App\Traits\HasServers;
 use App\Models\Server\Server;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
@@ -17,7 +20,9 @@ class User extends Authenticatable
     const USER = 'user';
     const ADMIN = 'admin';
 
-    use Notifiable, UserHasTeams, Billable, HasApiTokens;
+    use Notifiable, UserHasTeams, Billable, HasApiTokens, HasServers;
+
+    protected $subscription;
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +52,27 @@ class User extends Authenticatable
         'remember_token',
         'second_auth_secret',
     ];
+
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'trial_ends_at',
+    ];
+
+    protected $appends = [
+        'is_subscribed',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getIsSubscribedAttribute()
+    {
+        return $this->attributes['is_subscribed'] = $this->subscribed();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -163,5 +189,169 @@ class User extends Authenticatable
         }
 
         return collect($deploymentsRunning);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subscription Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Determine if the Stripe model has a given subscription.
+     *
+     * @param string      $subscription
+     * @param string|null $plan
+     *
+     * @return bool
+     */
+    public function subscribed($subscription = 'default', $plan = null)
+    {
+        if (! config('app.subscriptions')) {
+            return true;
+        }
+
+        if ($this->onTrial()) {
+            return true;
+        }
+
+        $subscription = $this->subscription($subscription);
+
+        if (is_null($subscription)) {
+            return false;
+        }
+
+        if (is_null($plan)) {
+            return $subscription->valid();
+        }
+
+        return $subscription->valid() &&
+            $subscription->stripe_plan === $plan;
+    }
+
+    public function getSubscriptionPrice()
+    {
+        if ($this->subscription()) {
+            $price = $this->getStripeSubscription()->items->data[0]->plan->amount;
+
+            $discount = $this->getSubscriptionDiscount();
+
+            if (! empty($discount)) {
+                if (is_int($discount)) {
+                    $price -= $discount;
+                } else {
+                    if ($discount === '.100') {
+                        $discount = 1;
+                    }
+
+                    $price = $price - ($price * $discount);
+                }
+            }
+
+            return cents_to_dollars($price);
+        }
+    }
+
+    public function getSubscriptionName()
+    {
+        if ($this->subscription()) {
+            $subscriptionName = $this->getStripeSubscription()->plan->name;
+
+            $discount = $this->getSubscriptionDiscount();
+
+            if (! empty($discount)) {
+                if (is_int($discount)) {
+                    return $subscriptionName.' - $'.$discount.'.00 off';
+                } else {
+                    if ($discount === '.100') {
+                        $discount = 1;
+                    }
+
+                    return $subscriptionName.' - %'.($discount * 100).' off';
+                }
+            }
+
+            return $subscriptionName;
+        }
+    }
+
+    public function getSubscriptionInterval()
+    {
+        if ($this->subscription()) {
+            return $this->getStripeSubscription()->plan->interval;
+        }
+    }
+
+    public function getSubscriptionDiscount()
+    {
+        if ($this->subscription()) {
+            $discountObject = $this->getStripeSubscription()->discount;
+            if (! empty($discountObject->start)) {
+                $coupon = $discountObject->coupon;
+                if ($coupon->amount_off) {
+                    return $coupon->amount_off;
+                } else {
+                    return '.'.$coupon->percent_off;
+                }
+            }
+        }
+    }
+
+    public function card()
+    {
+        if ($this->subscribed() && $this->hasStripeId()) {
+            $card = \Cache::rememberForever($this->id.'.card', function () {
+                /** @var Card $card */
+                $card = $this->cards()->first();
+                if (! empty($card)) {
+                    return $card->asStripeCard()->jsonSerialize();
+                }
+            });
+        }
+
+        if (! empty($card)) {
+            return [
+                'brand' => $card['brand'],
+                'last4' => $card['last4'],
+            ];
+        }
+    }
+
+    public function getStripeSubscription()
+    {
+        if (empty($this->subscription)) {
+            $this->subscription = \Cache::rememberForever($this->id.'.subscription', function () {
+                $subscription = $this->subscription();
+                if (! empty($subscription)) {
+                    return $this->subscription()->asStripeSubscription();
+                }
+            });
+        }
+
+        return $this->subscription;
+    }
+
+    public function getNextBillingCycle()
+    {
+        if ($this->getStripeSubscription()) {
+            return Carbon::createFromTimestamp(
+                $this->getStripeSubscription()->current_period_end
+            );
+        }
+    }
+
+    public function subscriptionInfo()
+    {
+        $this->refresh();
+
+        return [
+            'card'                 => $this->card(),
+            'subscribed'           => $this->subscribed(),
+            'subscription'         => $this->subscription(),
+            'subscriptionEnds'     => $this->getNextBillingCycle(),
+            'subscriptionName'     => $this->getSubscriptionName(),
+            'subscriptionPrice'    => $this->getSubscriptionPrice(),
+            'subscriptionInterval' => $this->getSubscriptionInterval(),
+        ];
     }
 }

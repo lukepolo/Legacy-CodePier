@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id = null)
     {
-        $user = empty($id) ? \Auth::user() : User::findOrFail($id);
+        $user = empty($id) ? $request->user() : User::findOrFail($id);
 
         $user->fill([
             'name' => $request->get('name'),

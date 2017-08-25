@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Traits\HasServers;
 use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class EnvironmentVariable extends Model
 {
+    use HasServers;
+
     protected $guarded = ['id'];
 
     /*

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Site\Site;
+use App\Traits\HasServers;
 use App\Traits\Encryptable;
 use App\Models\Server\Server;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    use Encryptable;
+    use Encryptable, HasServers;
 
     protected $guarded = [
         'id',

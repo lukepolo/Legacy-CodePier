@@ -21,13 +21,13 @@ class SiteRestartWorkers
      */
     public function __construct(Site $site)
     {
-        foreach ($site->provisionedServers as $server) {
-            $serverType = $server->type;
+        $availableServers = $site->filterServersByType([
+            SystemService::WORKER_SERVER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
 
-            if (
-                $serverType === SystemService::WORKER_SERVER ||
-                $serverType === SystemService::FULL_STACK_SERVER
-            ) {
+        if ($availableServers->count()) {
+            foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Workers');
                 dispatch(
                     (new RestartWorkers($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))

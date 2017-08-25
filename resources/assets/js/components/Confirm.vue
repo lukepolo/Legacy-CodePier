@@ -9,10 +9,10 @@
                     <h4 class="confirm-header">Are you sure?</h4>
                     <div class="confirm-content">
                         <p>Please confirm by typing in: {{ confirm_with_text }}</p>
-                        <div class="jcf-input-group">
+                         <div class="flyform--group">
                             <form @submit.prevent.stop="confirmMethod">
-                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name">
-                                <label for="confirm-name"><span class="float-label"></span></label>
+                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name" placeholder=" ">
+                                <label for="confirm-name">Confirm</label>
                             </form>
                         </div>
                     </div>

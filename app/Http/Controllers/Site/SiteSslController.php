@@ -55,7 +55,7 @@ class SiteSslController extends Controller
                     $sslCertificate = SslCertificate::create([
                         'domains' => $domains,
                         'type' => $type,
-                        'active' => false,
+                        'active' => true,
                         'key_path' => "/etc/letsencrypt/live/$folder/privkey.pem",
                         'cert_path' => "/etc/letsencrypt/live/$folder/fullchain.pem",
                     ]);
@@ -66,7 +66,7 @@ class SiteSslController extends Controller
                 $sslCertificate = SslCertificate::create([
                     'domains' => $domains,
                     'type' => $request->get('type'),
-                    'active' => false,
+                    'active' => true,
                     'key' => $request->get('private_key'),
                     'cert' => $request->get('certificate'),
                 ]);

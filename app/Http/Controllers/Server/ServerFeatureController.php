@@ -63,7 +63,7 @@ class ServerFeatureController extends Controller
                 'installing' => true,
             ];
 
-            $this->dispatch(
+            dispatch(
                 (new InstallServerFeature(
                     $server,
                     $feature,
