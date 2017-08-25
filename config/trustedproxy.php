@@ -32,13 +32,13 @@ return [
      * Or, to trust all proxies that connect
      * directly to your server, uncomment this:
      */
-     # 'proxies' => '*',
+     // 'proxies' => '*',
 
     /*
      * Or, to trust ALL proxies, including those that
      * are in a chain of forwarding, uncomment this:
     */
-    # 'proxies' => '**',
+    // 'proxies' => '**',
 
     /*
      * Default Header Names
@@ -56,9 +56,9 @@ return [
      * for them to be considered untrusted instead. Ex:
      *
      * Illuminate\Http\Request::HEADER_CLIENT_HOST  => null,
-     * 
+     *
      * WARNING: If you're using AWS Elastic Load Balancing or Heroku,
-     * the FORWARDED and X_FORWARDED_HOST headers should be set to null 
+     * the FORWARDED and X_FORWARDED_HOST headers should be set to null
      * as they are currently unsupported there.
      */
     'headers' => [
@@ -67,5 +67,5 @@ return [
         Illuminate\Http\Request::HEADER_X_FORWARDED_HOST  => 'X_FORWARDED_HOST',
         Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
         Illuminate\Http\Request::HEADER_X_FORWARDED_PORT  => 'X_FORWARDED_PORT',
-    ]
+    ],
 ];
