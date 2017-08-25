@@ -33,11 +33,11 @@ class ServerProvisioned extends Notification
         return (new MailMessage())
             ->subject($server->name.' ('.$server->ip.') has been provisioned.')
             ->line($server->name.' ('.$server->ip.') has been provisioned.')
-            ->line('Here is your Root and Mysql Password.')
-            ->line('SUDO Password : '.$server->sudo_password)
-            ->line('To login into your server make sure you have a SSH in your account')
-            ->line('Then you can use `ssh coderpi@'.$server->ip.'`')
-            ->line('Database Password : '.$server->database_password)
+            ->line('Here are your passwords:')
+            ->line('sudo Password: '.$server->sudo_password)
+            ->line('In order to login to your server, make sure that you have added an SSH key to your account.')
+            ->line('Then you can run: "ssh codepier@'.$server->ip.'"')
+            ->line('MySQL Password (user: codepier): '.$server->database_password)
             ->line('Thank you for using our application!');
     }
 }
