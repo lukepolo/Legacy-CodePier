@@ -8,7 +8,7 @@
         { "type": "vcs", "url": "https://github.com/lukepolo/dbal" }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.0",
         "bacon/bacon-qr-code": "~1.0",
         "barryvdh/laravel-ide-helper": "^2.4.1",
         "doctrine/dbal": "dev-mysql57-json",
@@ -21,6 +21,7 @@
         "guzzlehttp/guzzle": "~6.2",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.5.*",
+        "laravel/horizon": "^0.2.0",
         "laravel/passport": "3.0.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
