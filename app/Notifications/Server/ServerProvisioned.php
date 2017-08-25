@@ -37,7 +37,7 @@ class ServerProvisioned extends Notification
             ->line('sudo Password: '.$server->sudo_password)
             ->line('In order to login to your server, make sure that you have added an SSH key to your account.')
             ->line('Then you can run: "ssh codepier@'.$server->ip.'"')
-            ->line('MySQL Password (user: codepier): '.$server->database_password)
+            ->line('Database Password (user: codepier): '.$server->database_password)
             ->line('Thank you for using our application!');
     }
 }
