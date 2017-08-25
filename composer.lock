@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8c7b13c72936a009936b80ab57c8592",
+    "content-hash": "63c1d5933cbfb8b974fae9546fff5b92",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1977,12 +1977,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8f288019886e91ffce5d4cbebcd4281f51b5b31a"
+                "reference": "df9e97990393100f42b142a9ff5fb459f87e5fd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8f288019886e91ffce5d4cbebcd4281f51b5b31a",
-                "reference": "8f288019886e91ffce5d4cbebcd4281f51b5b31a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/df9e97990393100f42b142a9ff5fb459f87e5fd6",
+                "reference": "df9e97990393100f42b142a9ff5fb459f87e5fd6",
                 "shasum": ""
             },
             "require": {
@@ -2101,7 +2101,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-08-25T13:21:28+00:00"
+            "time": "2017-08-25T15:30:43+00:00"
         },
         {
             "name": "laravel/passport",
