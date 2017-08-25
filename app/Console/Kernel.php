@@ -21,18 +21,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ReleasedNewVersion::class,
-        TestMonitorScripts::class,
-        ClearFailedCommands::class,
-        GetServerProviderOptions::class,
-        CheckLifeLines::class,
-
-        // REACTIVITY TESTS
-        ServerCommandUpdated::class,
-
-        ProvisionDevEnvironment::class,
-        StartDevEnvironment::class,
-
     ];
 
     /**
@@ -55,6 +43,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+        $this->load(__DIR__.'/Commands');
+
         require base_path('routes/console.php');
     }
 }
