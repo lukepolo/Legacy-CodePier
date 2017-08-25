@@ -125,10 +125,14 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Horizon::auth(function ($request) {
-            if(config('app.env') === 'local') {
-                return true;
+            if($request->user()) {
+                if(config('app.env') === 'local') {
+                    return true;
+                }
+                return strtolower($request->user()->role) === 'admin';
             }
-            return strtolower($request->user()->role) === 'admin';
         });
+
+        Horizon::routeSlackNotificationsTo(config('services.slack.horizon'));
     }
 }

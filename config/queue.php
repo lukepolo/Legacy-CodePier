@@ -89,8 +89,9 @@ return [
     |
     */
     'channels' => [
-        'server_features' => env('SERVER_FEATURE_QUEUE', 'default'),
-        'server_commands' => env('SERVER_COMMAND_QUEUE', 'default'),
-        'server_provisioning' => env('SERVER_PROVISIONING_QUEUE', 'default'),
+        'default'         => 'default',
+        'server_features' => 'server_features',
+        'server_commands' => 'server_commands',
+        'server_provisioning' => 'server_provisioning',
     ],
 ];

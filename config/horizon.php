@@ -43,20 +43,62 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'default-1' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
-                'balance' => 'simple',
+                'balance' => 'auto',
                 'processes' => 10,
+                'tries' => 3,
+            ],
+            'server_features-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_features'],
+                'balance' => 'auto',
+                'processes' => 10,
+                'tries' => 3,
+            ],
+            'server_commands-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_commands'],
+                'balance' => 'auto',
+                'processes' => 40,
+                'tries' => 3,
+            ],
+            'server_provisioning-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_provisioning'],
+                'balance' => 'auto',
+                'processes' => 20,
                 'tries' => 3,
             ],
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'default-1' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
-                'balance' => 'simple',
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'server_features-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_features'],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'server_commands-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_commands'],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'server_provisioning-1' => [
+                'connection' => 'redis',
+                'queue' => ['server_provisioning'],
+                'balance' => 'auto',
                 'processes' => 3,
                 'tries' => 3,
             ],
