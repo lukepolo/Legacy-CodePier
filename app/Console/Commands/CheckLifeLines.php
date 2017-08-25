@@ -34,10 +34,14 @@ class CheckLifeLines extends Command
         $lifelineModel = new Lifeline();
 
         DB::table('lifelines')
-            ->selectRaw('id, DATE_ADD(last_seen, INTERVAL threshold MINUTE) as threshold')
+            ->selectRaw('lifelines.id, DATE_ADD(last_seen, INTERVAL threshold MINUTE) as threshold')
+            ->join('sites', function($join) {
+                $join->on('lifelines.site_id', '=', 'sites.id')
+                    ->whereNull('sites.deleted_at');
+            })
             ->where('sent_notifications', '<', 3)
             ->having('threshold', '<', Carbon::now()->subSeconds(15))
-            ->orderBy('id')
+            ->orderBy('lifelines.id')
                 ->chunk(1000, function ($lifelines) use ($lifelineModel) {
                     foreach ($lifelines as $lifeline) {
                         $lifelineModel->id = $lifeline->id;
