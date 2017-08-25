@@ -5,11 +5,11 @@ namespace App\Providers;
 use Carbon\Carbon;
 use App\Models\Site\Site;
 use App\Models\User\User;
+use Laravel\Horizon\Horizon;
 use App\Models\Server\Server;
 use App\Models\ServerCommand;
 use App\Models\Site\Lifeline;
 use App\Models\SslCertificate;
-use Laravel\Horizon\Horizon;
 use Laravel\Passport\Passport;
 use App\Observers\UserObserver;
 use App\Observers\Site\SiteObserver;
@@ -125,10 +125,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Horizon::auth(function ($request) {
-            if($request->user()) {
-                if(config('app.env') === 'local') {
+            if ($request->user()) {
+                if (config('app.env') === 'local') {
                     return true;
                 }
+
                 return strtolower($request->user()->role) === 'admin';
             }
         });
