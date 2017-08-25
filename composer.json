@@ -10,7 +10,7 @@
     "require": {
         "php": ">=7.0.0",
         "bacon/bacon-qr-code": "~1.0",
-        "barryvdh/laravel-ide-helper": "^2.3",
+        "barryvdh/laravel-ide-helper": "^2.4.1",
         "doctrine/dbal": "dev-mysql57-json",
         "dompdf/dompdf": "~0.8",
         "fideloper/proxy": "~3.3",
@@ -24,7 +24,7 @@
         "laravel/passport": "3.0.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
-        "lord/laroute": "^2.4.4",
+        "lord/laroute": "^2.4.5",
         "mpociot/teamwork": "~5.0",
         "pda/pheanstalk": "^3.1",
         "php-http/guzzle6-adapter": "^1.1",

@@ -182,14 +182,8 @@ return [
          * Third Party Service Providers...
          */
         SocialiteProviders\Manager\ServiceProvider::class,
-        GrahamCampbell\DigitalOcean\DigitalOceanServiceProvider::class,
-        GrahamCampbell\GitHub\GitHubServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         Mpociot\Teamwork\TeamworkServiceProvider::class,
-        Laravel\Cashier\CashierServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
-        Vinkla\Hashids\HashidsServiceProvider::class,
-        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
          * Custom Service Providers
@@ -248,15 +242,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        /*
-         * Third Party Facades
-         */
-        'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-        'DigitalOcean' => GrahamCampbell\DigitalOcean\Facades\DigitalOcean::class,
-        'GitHub'       => GrahamCampbell\GitHub\Facades\GitHub::class,
-        'Hashids'      => Vinkla\Hashids\Facades\Hashids::class,
-        'Sentry'       => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];
