@@ -190,7 +190,6 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
          * Custom Service Providers
