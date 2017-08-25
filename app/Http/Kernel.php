@@ -62,11 +62,11 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-        /** Passport */
+        /* Passport */
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 
-        /** Custom */
+        /* Custom */
         'role' => \App\Http\Middleware\CheckRole::class,
         'subscribed' =>  \App\Http\Middleware\IsSubscribed::class,
         'second_auth' => \App\Http\Middleware\VerifySecondAuth::class,
