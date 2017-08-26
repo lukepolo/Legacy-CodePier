@@ -42,7 +42,7 @@ class SiteDaemonsController extends Controller
         $daemon = Daemon::create([
             'user' => $request->get('user'),
             'command' => $request->get('command'),
-            'servers' => $request->get('servers', []),
+            'server_ids' => $request->get('servers', []),
             'server_types' => $request->get('server_types', []),
         ]);
 
@@ -67,7 +67,7 @@ class SiteDaemonsController extends Controller
         $daemon = Daemon::findOrFail($cronJobId);
 
         $daemon->update([
-            'servers' => $request->get('servers', []),
+            'server_ids' => $request->get('servers', []),
             'server_types' => $request->get('server_types', []),
         ]);
 

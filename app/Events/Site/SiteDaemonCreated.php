@@ -23,8 +23,8 @@ class SiteDaemonCreated
         $availableServers = $site->provisionedServers->filter(function ($server) use ($daemon) {
             if (! empty($daemon->server_types)) {
                 return collect($daemon->server_types)->contains($server->type);
-            } elseif (! empty($daemon->servers)) {
-                return collect($daemon->servers)->contains($server->id);
+            } elseif (! empty($daemon->server_ids)) {
+                return collect($daemon->server_ids)->contains($server->id);
             }
 
             return true;
