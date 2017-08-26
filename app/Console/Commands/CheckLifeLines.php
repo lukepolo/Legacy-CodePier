@@ -35,7 +35,7 @@ class CheckLifeLines extends Command
 
         DB::table('lifelines')
             ->selectRaw('lifelines.id, DATE_ADD(last_seen, INTERVAL threshold MINUTE) as threshold')
-            ->join('sites', function($join) {
+            ->join('sites', function ($join) {
                 $join->on('lifelines.site_id', '=', 'sites.id')
                     ->whereNull('sites.deleted_at');
             })
