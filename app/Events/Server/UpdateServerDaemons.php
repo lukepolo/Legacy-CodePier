@@ -35,8 +35,8 @@ class UpdateServerDaemons
 
         $this->site->daemons->each(function (Daemon $daemon) {
             if (
-                (empty($daemon->servers) && empty($daemon->server_types)) ||
-                (! empty($daemon->servers) && collect($daemon->servers)->contains($this->server->id)) ||
+                (empty($daemon->server_ids) && empty($daemon->server_types)) ||
+                (! empty($daemon->server_ids) && collect($daemon->server_ids)->contains($this->server->id)) ||
                 (! empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
             ) {
                 $this->installDaemon($daemon);

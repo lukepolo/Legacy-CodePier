@@ -23,8 +23,8 @@ class SiteCronJobCreated
         $availableServers = $site->provisionedServers->filter(function ($server) use ($cronJob) {
             if (! empty($cronJob->server_types)) {
                 return collect($cronJob->server_types)->contains($server->type);
-            } elseif (! empty($cronJob->servers)) {
-                return collect($cronJob->servers)->contains($server->id);
+            } elseif (! empty($cronJob->server_ids)) {
+                return collect($cronJob->server_ids)->contains($server->id);
             }
 
             return true;
