@@ -36,8 +36,8 @@ class SiteServerDeployment extends Model
 
             if (! empty($deploymentStep->server_types)) {
                 $skipStep = ! collect($deploymentStep->server_types)->contains($this->server->type);
-            } elseif (! empty($deploymentStep->servers)) {
-                $skipStep = ! collect($deploymentStep->servers)->contains($this->server_id);
+            } elseif (! empty($deploymentStep->server_ids)) {
+                $skipStep = ! collect($deploymentStep->server_ids)->contains($this->server_id);
             }
 
             if ($skipStep === false) {
