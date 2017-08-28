@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Requests\Site\SiteRename;
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
 use App\Jobs\Site\DeploySite;
@@ -12,6 +10,7 @@ use App\Models\Server\Server;
 use App\Events\Site\SiteRenamed;
 use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteRename;
 use App\Events\Site\SiteRestartServers;
 use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
