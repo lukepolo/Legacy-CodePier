@@ -108,10 +108,9 @@ trait SystemFiles
 
                 $inputName = str_replace('install', '', $method->name);
 
-
                 $parameterOptions = [];
 
-                foreach($parameters as $parameter => $value) {
+                foreach ($parameters as $parameter => $value) {
                     $parameterOptions[$parameter] = json_decode($this->getFirstDocParam($method, $parameter), true);
                 }
 

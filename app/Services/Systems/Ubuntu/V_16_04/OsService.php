@@ -83,7 +83,7 @@ class OsService
     {
         $this->connectToServer();
 
-        if(!is_numeric($size)) {
+        if (! is_numeric($size)) {
             $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo')) * 2;
         }
 
