@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Server;
 
+use App\Rules\ServerName;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ServerRequest extends FormRequest
@@ -24,7 +25,7 @@ class ServerRequest extends FormRequest
     public function rules()
     {
         return [
-            'server_name' => 'required|server_name',
+            'server_name' => ['required', new ServerName],
             'server_provider_id' => 'required_without:custom',
             'services' => 'required',
             'server_region' => 'required_without:custom|integer',
@@ -35,10 +36,4 @@ class ServerRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'server_name' => 'Your server name can only contain alphanumeric characters, dashes, and periods.',
-        ];
-    }
 }

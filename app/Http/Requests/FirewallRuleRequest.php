@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FirewallPort;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FirewallRuleRequest extends FormRequest
@@ -27,7 +28,7 @@ class FirewallRuleRequest extends FormRequest
             'from_ip' => 'nullable|ip',
             'description' => 'required',
             'type' => 'required|string',
-            'port' => 'required|valid_firewall_port',
+            'port' => ['required', new FirewallPort],
         ];
     }
 }
