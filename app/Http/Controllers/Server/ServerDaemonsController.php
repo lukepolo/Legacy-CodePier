@@ -45,8 +45,6 @@ class ServerDaemonsController extends Controller
             'server_types' => $request->get('server_types', []),
         ]);
 
-        $server->daemons()->save($daemon);
-
         dispatch(
             (new InstallServerDaemon($server, $daemon))
                 ->onQueue(config('queue.channels.server_commands'))
@@ -88,7 +86,10 @@ class ServerDaemonsController extends Controller
     {
         $server = Server::with('daemons')->findOrFail($serverId);
 
-        event(new RemoveServerDaemon($server, $server->daemons->keyBy('id')->get($id)));
+        dispatch(
+            (new RemoveServerDaemon($server, $server->daemons->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json('OK');
     }

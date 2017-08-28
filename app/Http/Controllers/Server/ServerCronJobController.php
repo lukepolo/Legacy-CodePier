@@ -49,8 +49,6 @@ class ServerCronJobController extends Controller
                 'user' => $user,
             ]);
 
-            $server->cronJobs()->save($cronJob);
-
             dispatch(
                 (new InstallServerCronJob($server, $cronJob))
                     ->onQueue(config('queue.channels.server_commands'))
