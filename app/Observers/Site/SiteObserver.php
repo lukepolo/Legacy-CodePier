@@ -152,7 +152,8 @@ class SiteObserver
     {
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new DeleteSite($server, $site))->onQueue(config('queue.channels.server_commands'))
+                (new DeleteSite($server, $site))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

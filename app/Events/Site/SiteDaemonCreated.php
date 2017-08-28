@@ -35,9 +35,8 @@ class SiteDaemonCreated
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (
-                    new InstallServerDaemon($server, $daemon, $siteCommand)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new InstallServerDaemon($server, $daemon, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

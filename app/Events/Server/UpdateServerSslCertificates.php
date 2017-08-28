@@ -53,7 +53,8 @@ class UpdateServerSslCertificates
     public function installSslCertificate(SslCertificate $sslCertificate)
     {
         dispatch(
-            (new InstallServerSslCertificate($this->server, $sslCertificate, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerSslCertificate($this->server, $sslCertificate, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

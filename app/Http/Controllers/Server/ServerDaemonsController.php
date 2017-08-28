@@ -48,7 +48,8 @@ class ServerDaemonsController extends Controller
         $server->daemons()->save($daemon);
 
         dispatch(
-            new InstallServerDaemon($server, $daemon)
+            (new InstallServerDaemon($server, $daemon))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json($daemon);

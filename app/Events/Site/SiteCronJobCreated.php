@@ -35,7 +35,8 @@ class SiteCronJobCreated
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new InstallServerCronJob($server, $cronJob, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new InstallServerCronJob($server, $cronJob, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

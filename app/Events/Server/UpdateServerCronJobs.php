@@ -52,14 +52,16 @@ class UpdateServerCronJobs
     private function installCronJob(CronJob $cronJob)
     {
         dispatch(
-            (new InstallServerCronJob($this->server, $cronJob, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerCronJob($this->server, $cronJob, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 
     private function removeCronJob(CronJob $cronJob)
     {
         dispatch(
-            (new RemoveServerCronJob($this->server, $cronJob, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerCronJob($this->server, $cronJob, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

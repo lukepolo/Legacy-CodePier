@@ -67,7 +67,8 @@ class ServerLanguageSettingsController extends Controller
         ]);
 
         dispatch(
-            (new UpdateServerLanguageSetting($server, $languageSetting))->onQueue(config('queue.channels.server_commands'))
+            (new UpdateServerLanguageSetting($server, $languageSetting))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json($languageSetting);

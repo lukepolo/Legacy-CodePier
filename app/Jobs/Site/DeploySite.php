@@ -69,7 +69,10 @@ class DeploySite implements ShouldQueue
     public function handle()
     {
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
-            dispatch(new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment));
+            dispatch(
+                (new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment))
+                    ->onQueue(config('queue.channels.server_commands'))
+            );
         }
     }
 }
