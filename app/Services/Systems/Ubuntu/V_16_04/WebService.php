@@ -53,11 +53,11 @@ fi
     {
         $this->connectToServer();
 
-        if(!is_numeric($workerProcesses)) {
+        if (! is_numeric($workerProcesses)) {
             $workerProcesses = $this->remoteTaskService->run('grep processor /proc/cpuinfo | wc -l');
         }
 
-        if(!is_numeric($workerConnections)) {
+        if (! is_numeric($workerConnections)) {
             $workerConnections = $this->remoteTaskService->run('ulimit -n') * 2;
         }
 
