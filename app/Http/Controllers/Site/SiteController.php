@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Requests\Site\SiteRename;
 use App\Models\Site\Site;
 use Illuminate\Http\Request;
 use App\Jobs\Site\CreateSite;
@@ -296,17 +297,13 @@ class SiteController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SiteRename $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function rename(Request $request, $siteId)
+    public function rename(SiteRename $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
-
-        $this->validate($request, [
-            'domain' => 'required|domain',
-        ]);
 
         $oldDomain = $site->domain;
         $isDomain = is_domain($request->get('domain'));

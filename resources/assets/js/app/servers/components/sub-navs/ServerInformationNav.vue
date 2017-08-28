@@ -10,7 +10,7 @@
                     </a>
                 </router-link>
 
-                <router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local()">
+                <router-link :to="{ name : 'server_monitoring', params : { server_id : serverId } }" tag="li" class="wizard-item" v-if="local">
                     <a>
                         Monitoring
                         <div class="small">Server statistics</div>
