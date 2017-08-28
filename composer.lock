@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "764999dfe93e4c2cfd7a97b3fbd9c063",
+    "content-hash": "7f99c9cdad6cb32625ea299256346045",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2034,12 +2034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7baac947aa98a293cbc780a8f4d0eec9c91a2928"
+                "reference": "3d8ae049e84f5ed06107bd0bbf9a68538576f5d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7baac947aa98a293cbc780a8f4d0eec9c91a2928",
-                "reference": "7baac947aa98a293cbc780a8f4d0eec9c91a2928",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3d8ae049e84f5ed06107bd0bbf9a68538576f5d2",
+                "reference": "3d8ae049e84f5ed06107bd0bbf9a68538576f5d2",
                 "shasum": ""
             },
             "require": {
@@ -2158,7 +2158,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-08-26T22:48:39+00:00"
+            "time": "2017-08-28T07:58:42+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -2226,16 +2226,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v3.0.1",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "d19a6b60503cb416fe55507684699de35239681f"
+                "reference": "44209f4119fefa65bf17c885881918eb95fd1131"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/d19a6b60503cb416fe55507684699de35239681f",
-                "reference": "d19a6b60503cb416fe55507684699de35239681f",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/44209f4119fefa65bf17c885881918eb95fd1131",
+                "reference": "44209f4119fefa65bf17c885881918eb95fd1131",
                 "shasum": ""
             },
             "require": {
@@ -2262,7 +2262,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "4.0-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2291,7 +2291,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2017-08-04T14:03:52+00:00"
+            "time": "2017-08-28T10:28:42+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -6367,16 +6367,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "5a94651b7a2b004d1495a86a810658a7f132c8b9"
+                "reference": "7f75d602dd6d59311ff46777eff44fa14d39e5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/5a94651b7a2b004d1495a86a810658a7f132c8b9",
-                "reference": "5a94651b7a2b004d1495a86a810658a7f132c8b9",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/7f75d602dd6d59311ff46777eff44fa14d39e5af",
+                "reference": "7f75d602dd6d59311ff46777eff44fa14d39e5af",
                 "shasum": ""
             },
             "require": {
@@ -6424,7 +6424,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-08-24T12:12:38+00:00"
+            "time": "2017-08-28T10:03:58+00:00"
         },
         {
             "name": "mockery/mockery",
