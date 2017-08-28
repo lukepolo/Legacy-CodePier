@@ -11,14 +11,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ProvisionServer implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 
