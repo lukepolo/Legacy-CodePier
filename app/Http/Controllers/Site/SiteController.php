@@ -113,16 +113,14 @@ class SiteController extends Controller
 
             foreach ($changes['attached'] as $server) {
                 dispatch(
-                    (new CreateSite(
-                        Server::findOrFail($server), $site)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new CreateSite(Server::findOrFail($server), $site))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
             foreach ($changes['detached'] as $server) {
-                (new DeleteSite(
-                    Server::findOrFail($server), $site)
-                )->onQueue(config('queue.channels.server_commands'));
+                (new DeleteSite(Server::findOrFail($server), $site))
+                    ->onQueue(config('queue.channels.server_commands'));
             }
         }
 
@@ -174,7 +172,8 @@ class SiteController extends Controller
 
         if ($site->provisionedServers->count()) {
             dispatch(
-                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
+                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

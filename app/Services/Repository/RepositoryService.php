@@ -147,9 +147,8 @@ class RepositoryService implements RepositoryServiceContract
         foreach ($site->provisionedServers as $server) {
             try {
                 dispatch(
-                    (
-                        new InstallPublicKey($server, $site)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new InstallPublicKey($server, $site))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             } catch (SshConnectionFailed $sshConnectionFailed) {
                 continue;

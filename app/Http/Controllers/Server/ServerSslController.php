@@ -58,7 +58,8 @@ class ServerSslController extends Controller
         }
 
         dispatch(
-            (new InstallServerSslCertificate($server, $sslCertificate))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerSslCertificate($server, $sslCertificate))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');
@@ -77,7 +78,8 @@ class ServerSslController extends Controller
         $server = Server::with('sslCertificates')->findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerSslCertificate($server, $server->sslCertificates->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerSslCertificate($server, $server->sslCertificates->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json($server->sslCertificates()->detach($id));

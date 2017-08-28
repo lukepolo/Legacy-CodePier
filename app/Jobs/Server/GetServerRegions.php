@@ -5,13 +5,14 @@ namespace App\Jobs\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Server\Provider\ServerProvider;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class GetServerRegions implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 

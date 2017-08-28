@@ -36,9 +36,8 @@ class SiteWorkerCreated
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (
-                    new InstallServerWorker($server, $worker, $siteCommand)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new InstallServerWorker($server, $worker, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

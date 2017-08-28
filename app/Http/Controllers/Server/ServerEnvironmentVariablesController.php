@@ -47,7 +47,8 @@ class ServerEnvironmentVariablesController extends Controller
             ]);
 
             dispatch(
-                (new InstallServerEnvironmentVariable($server, $environmentVariable))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerEnvironmentVariable($server, $environmentVariable))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($environmentVariable);

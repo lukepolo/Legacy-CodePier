@@ -46,7 +46,8 @@ trait BuoyTrait
             ]);
 
             dispatch(
-                new InstallServerFirewallRule($server, $firewallRule)
+                (new InstallServerFirewallRule($server, $firewallRule))
+                    ->onQueue(config('queue.channels.server_provisioning'))
             );
         }
     }

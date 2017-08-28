@@ -27,9 +27,8 @@ class SiteDaemonDeleted
 
             foreach ($daemon->servers as $server) {
                 dispatch(
-                    (
-                    new RemoveServerDaemon($server, $daemon, $siteCommand)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveServerDaemon($server, $daemon, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

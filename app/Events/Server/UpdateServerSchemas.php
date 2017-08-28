@@ -59,12 +59,14 @@ class UpdateServerSchemas
         //        $siteCommand = $this->makeCommand($site, $schema, 'Creating');
 
         dispatch(
-            (new AddServerSchema($this->server, $schema, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new AddServerSchema($this->server, $schema, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         $this->site->schemaUsers->each(function ($schemaUser) {
             dispatch(
-                (new AddServerSchemaUser($this->server, $schemaUser, $this->command))->onQueue(config('queue.channels.server_commands'))
+                (new AddServerSchemaUser($this->server, $schemaUser, $this->command))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         });
     }
@@ -75,7 +77,8 @@ class UpdateServerSchemas
     private function removeSchema(Schema $schema)
     {
         dispatch(
-            (new RemoveServerSchema($this->server, $schema, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerSchema($this->server, $schema, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

@@ -52,7 +52,8 @@ class UpdateServerDaemons
     private function installDaemon(Daemon $daemon)
     {
         dispatch(
-            (new InstallServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerDaemon($this->server, $daemon, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 
@@ -62,7 +63,8 @@ class UpdateServerDaemons
     private function removeDeamon(Daemon $daemon)
     {
         dispatch(
-            (new RemoveServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerDaemon($this->server, $daemon, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

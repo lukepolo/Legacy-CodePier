@@ -27,7 +27,8 @@ class SiteSchemaDeleted
 
             foreach ($schema->servers as $server) {
                 dispatch(
-                    (new RemoveServerSchema($server, $schema, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveServerSchema($server, $schema, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

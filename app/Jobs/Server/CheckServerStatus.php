@@ -7,13 +7,14 @@ use App\Models\Server\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Contracts\Server\ServerServiceContract;
 use App\Events\Server\ServerSshConnectionFailed;
 
 class CheckServerStatus implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
     protected $provision;
@@ -50,12 +51,15 @@ class CheckServerStatus implements ShouldQueue
             if ($serverProviderClass->readyForProvisioningStatus() == $serverStatus) {
                 $serverService->saveInfo($this->server);
                 dispatch(
-                    (new CheckSshConnection($this->server))->onQueue(config('queue.channels.server_provisioning'))
+                    (new CheckSshConnection($this->server))
+                        ->onQueue(config('queue.channels.server_provisioning'))
                 );
             } else {
                 if ($this->server->created_at->addMinutes(555555) > Carbon::now()) {
                     dispatch(
-                        (new self($this->server, $this->provision))->delay(10)->onQueue(config('queue.channels.server_provisioning'))
+                        (new self($this->server, $this->provision))
+                            ->delay(10)
+                            ->onQueue(config('queue.channels.server_provisioning'))
                     );
 
                     return;

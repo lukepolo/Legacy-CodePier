@@ -45,7 +45,8 @@ class UpdateServerFiles
     private function updateFile(File $file)
     {
         dispatch(
-            (new UpdateServerFile($this->server, $file, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new UpdateServerFile($this->server, $file, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

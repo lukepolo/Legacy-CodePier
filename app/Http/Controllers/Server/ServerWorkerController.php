@@ -45,7 +45,8 @@ class ServerWorkerController extends Controller
         ]);
 
         dispatch(
-            (new InstallServerWorker($server, $worker))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerWorker($server, $worker))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json($worker);
@@ -65,7 +66,8 @@ class ServerWorkerController extends Controller
 
         dispatch(
             (new RemoveServerWorker($server,
-                $server->workers->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+                $server->workers->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');
