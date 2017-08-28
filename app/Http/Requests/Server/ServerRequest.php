@@ -36,5 +36,4 @@ class ServerRequest extends FormRequest
             'type' => [new ServerType],
         ];
     }
-
 }
