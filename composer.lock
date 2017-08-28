@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f99c9cdad6cb32625ea299256346045",
+    "content-hash": "60e75a328801a2751a8a0c7c66f6efa8",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2034,12 +2034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3d8ae049e84f5ed06107bd0bbf9a68538576f5d2"
+                "reference": "7c94fb3f1daf48f39ad1898e13f952052a4b7fcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3d8ae049e84f5ed06107bd0bbf9a68538576f5d2",
-                "reference": "3d8ae049e84f5ed06107bd0bbf9a68538576f5d2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7c94fb3f1daf48f39ad1898e13f952052a4b7fcb",
+                "reference": "7c94fb3f1daf48f39ad1898e13f952052a4b7fcb",
                 "shasum": ""
             },
             "require": {
@@ -2158,7 +2158,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-08-28T07:58:42+00:00"
+            "time": "2017-08-28T17:49:59+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -2226,16 +2226,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v4.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "44209f4119fefa65bf17c885881918eb95fd1131"
+                "reference": "d19a6b60503cb416fe55507684699de35239681f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/44209f4119fefa65bf17c885881918eb95fd1131",
-                "reference": "44209f4119fefa65bf17c885881918eb95fd1131",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/d19a6b60503cb416fe55507684699de35239681f",
+                "reference": "d19a6b60503cb416fe55507684699de35239681f",
                 "shasum": ""
             },
             "require": {
@@ -2262,7 +2262,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "3.0-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2291,7 +2291,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2017-08-28T10:28:42+00:00"
+            "time": "2017-08-04T14:03:52+00:00"
         },
         {
             "name": "laravel/socialite",
