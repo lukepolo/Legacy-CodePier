@@ -35,5 +35,4 @@ class ServerRequest extends FormRequest
             'type' => 'valid_server_type',
         ];
     }
-
 }
