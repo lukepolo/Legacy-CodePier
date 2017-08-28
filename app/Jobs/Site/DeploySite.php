@@ -6,12 +6,12 @@ use App\Models\Site\Site;
 use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteDeployment;
 use App\Exceptions\DeploymentFailed;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Notifications\Site\NewSiteDeployment;
 
 class DeploySite implements ShouldQueue
