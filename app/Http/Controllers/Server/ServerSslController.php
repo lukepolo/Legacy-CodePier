@@ -82,6 +82,6 @@ class ServerSslController extends Controller
                 ->onQueue(config('queue.channels.server_commands'))
         );
 
-        return response()->json($server->sslCertificates()->detach($id));
+        return response()->json('OK');
     }
 }
