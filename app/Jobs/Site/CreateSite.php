@@ -39,10 +39,10 @@ class CreateSite implements ShouldQueue
         $this->server = $server;
         $this->command = $this->makeCommand($this->site, $this->server, 'Setting up Server '.$server->name.' for '.$site->name);
 
-        if(!empty($this->site->repository)) {
+        if (! empty($this->site->repository)) {
             $this->chain([
                 DeploySite::dispatch($site)
-                    ->onQueue(config('queue.channels.server_commands'))
+                    ->onQueue(config('queue.channels.server_commands')),
             ]);
         }
     }
