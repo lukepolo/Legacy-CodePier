@@ -108,11 +108,19 @@ trait SystemFiles
 
                 $inputName = str_replace('install', '', $method->name);
 
+
+                $parameterOptions = [];
+
+                foreach($parameters as $parameter => $value) {
+                    $parameterOptions[$parameter] = json_decode($this->getFirstDocParam($method, $parameter), true);
+                }
+
                 $features->get($reflection->getShortName())->put($inputName, collect([
                     'name' => $this->getFirstDocParam($method, 'name', $inputName),
                     'input_name' => $inputName,
                     'required' => in_array($method->name, $required),
                     'parameters' => $parameters,
+                    'parameter_options' => $parameterOptions,
                     'service' => str_replace('App\Services\Systems\Ubuntu\V_16_04\\', '', $reflection->getName()),
                     'description' => $this->getFirstDocParam($method, 'description'),
                     'options' => $options,
