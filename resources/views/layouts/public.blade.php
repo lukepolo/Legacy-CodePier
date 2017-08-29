@@ -47,8 +47,8 @@
                 </li>
             </ul>
             <ul class="nav nav--right">
-                <li><a href="#section--features" class="nav--link">Features</a></li>
-                <li><a href="#" class="nav--link">Pricing</a></li>
+                <li><a href="/#section--features" class="nav--link">Features</a></li>
+                <li><a href="{{ action('PricingController@index') }}" class="nav--link">Pricing</a></li>
                 {{--<li><a href="#" class="nav--link">Documentation</a></li>--}}
                 {{--<li><a href="#" class="nav--link">FAQs</a></li>--}}
                 <li><a href="{{ action('Auth\LoginController@login') }}" class="nav--link nav--link-highlight">Login</a></li>
