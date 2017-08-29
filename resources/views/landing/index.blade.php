@@ -26,14 +26,35 @@
                     <div class="feature--img"><img src="assets/img/features/site-first.png"></div>
                     <div class="feature--info">
                         <div class="feature--heading">Site priority design</div>
-                        <div class="feature--description">Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming set up. </div>
+                        <div class="feature--description">Server provisioning is customized based on your application's framework and requirements, alleviating you of time-consuming setup. </div>
                     </div>
                 </div>
                 <div class="feature--item">
-                    <div class="feature--img" href="#"><img src=""></div>
+                    <div class="feature--img" href="#"><img src="assets/img/features/servers.png"></div>
                     <div class="feature--info">
-                        <div class="feature--heading">Advanced Server Configuration</div>
+                        <div class="feature--heading">Select the server setup you need</div>
                         <div class="feature--description">description</div>
+                    </div>
+                </div>
+                <div class="feature--item">
+                    <div class="feature--img" href="#"><img src="assets/img/features/server.png"></div>
+                    <div class="feature--info">
+                        <div class="feature--heading">Advanced server configuration</div>
+                        <div class="feature--description">description</div>
+                    </div>
+                </div>
+                <div class="feature--item">
+                    <div class="feature--img" href="#"><img src="assets/img/features/deployment.png"></div>
+                    <div class="feature--info">
+                        <div class="feature--heading">Customize your deployment</div>
+                        <div class="feature--description">description</div>
+                    </div>
+                </div>
+                <div class="feature--item">
+                    <div class="feature--img" href="#"><img src="assets/img/features/buoys.png"></div>
+                    <div class="feature--info">
+                        <div class="feature--heading">One click add-ons for your application</div>
+                        <div class="feature--description">Buoys are .... . . to install an add-on like Elasticsearch or Sentry in an a single click.</div>
                     </div>
                 </div>
             </div>

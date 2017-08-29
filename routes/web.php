@@ -92,6 +92,7 @@ Route::group(['domain' => 'style-guide.codepier.dev'], function () {
 |
 */
 
+Route::get('/pricing', 'PricingController@index');
 Route::get('/privacy', 'PublicController@privacy');
 Route::post('/subscribe', 'PublicController@subscribe');
 Route::get('/terms-of-service', 'PublicController@termsOfService');
