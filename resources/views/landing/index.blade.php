@@ -11,7 +11,7 @@
             <p class="subheading">Build, Deploy & Mange your applications easily, all on your own servers.</p>
 
             <div class="cover--btns">
-                <a href="{{ route('login') }}" class="btn btn-primary btn-large">Join our Beta</a>
+                <a href="{{ action('PricingController@index') }}" class="btn btn-primary btn-large">Join our Beta</a>
             </div>
         </div>
     </section>

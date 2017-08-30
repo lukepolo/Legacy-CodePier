@@ -21,7 +21,7 @@
                     </ul>
                 </div>
                 <div class="pricing--footer">
-                    <a class="btn btn-primary btn-large">Select</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-large">Select</a>
                 </div>
             </div>
             <div class="pricing--item">
