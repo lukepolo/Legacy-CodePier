@@ -3863,8 +3863,8 @@ laravel-echo@1.3.0:
   resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.3.0.tgz#790c9a0d01b69c835d2303dc1d003e8818438e74"
 
 laravel-mix@1.*:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-1.4.2.tgz#5fff0434c98c027e68ffb28c3f54bac95d7e2d1f"
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-1.4.3.tgz#7e42888bb1663026a3cea57af4dc5dcae2ffab3b"
   dependencies:
     autoprefixer "^7.1.1"
     babel-core "^6.24.1"
@@ -3893,8 +3893,8 @@ laravel-mix@1.*:
     uglify-js "^2.8.28"
     uglifyjs-webpack-plugin "^0.4.6"
     vue-loader "^12.1.1"
-    vue-template-compiler "^2.3.3"
-    webpack "^3.4.0"
+    vue-template-compiler "^2.4.2"
+    webpack "^3.5.0"
     webpack-chunk-hash "^0.4.0"
     webpack-dev-server "^2.5.1"
     webpack-merge "^4.1.0"
@@ -4860,8 +4860,8 @@ npm-user-validate@~1.0.0:
   resolved "https://registry.yarnpkg.com/npm-user-validate/-/npm-user-validate-1.0.0.tgz#8ceca0f5cea04d4e93519ef72d0557a75122e951"
 
 npm@^5.3.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/npm/-/npm-5.4.0.tgz#5c09862da1430aa17a070fd1d353054d807f7ad3"
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/npm/-/npm-5.4.1.tgz#6ff580f4895b0bb9ca7c6c64291944e36a2bf053"
   dependencies:
     JSONStream "~1.3.1"
     abbrev "~1.1.0"
@@ -4918,7 +4918,7 @@ npm@^5.3.0:
     once "~1.4.0"
     opener "~1.4.3"
     osenv "~0.1.4"
-    pacote "~6.0.1"
+    pacote "~6.0.2"
     path-is-inside "~1.0.2"
     promise-inflight "~1.0.1"
     read "~1.0.7"
@@ -5140,9 +5140,9 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pacote@~6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/pacote/-/pacote-6.0.1.tgz#4428b8d763f9a141ad32123948eedd5f697449b5"
+pacote@~6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/pacote/-/pacote-6.0.2.tgz#c618a3c08493aeb390e79aa73f95af331ffc6171"
   dependencies:
     bluebird "^3.5.0"
     cacache "^9.2.9"
@@ -7358,7 +7358,7 @@ vue-style-loader@^3.0.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.3.3:
+vue-template-compiler@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.4.2.tgz#5a45d843f148b098f6c1d1e35ac20c4956d30ad1"
   dependencies:
@@ -7380,8 +7380,8 @@ vuedraggable@^2.9.0:
     sortablejs "^1.6.0"
 
 vuex@^2.2.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.3.1.tgz#cde8e997c1f9957719bc7dea154f9aa691d981a6"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.4.0.tgz#e1d0430646282b40007fdd06ec6ae88a9f5a1e14"
 
 w3c-blob@0.0.1:
   version "0.0.1"
@@ -7476,9 +7476,9 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^3.4.0:
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.5.5.tgz#3226f09fc8b3e435ff781e7af34f82b68b26996c"
+webpack@^3.5.0:
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.5.6.tgz#a492fb6c1ed7f573816f90e00c8fbb5a20cc5c36"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"
