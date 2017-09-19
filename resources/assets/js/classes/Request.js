@@ -121,8 +121,7 @@ class Request {
     return new Promise((resolve, reject) => {
       const data = this.formData ? this.formData : this.data();
 
-      axios
-        [requestType](url, data, config)
+      axios[requestType](url, data, config)
         .then(response => {
           if (response.config.responseType === "arraybuffer") {
             const a = document.createElement("a");
