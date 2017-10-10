@@ -29,7 +29,6 @@ Vue.mixin({
     now,
     back,
     diff,
-    local,
     isTag,
     action,
     getPile,
@@ -48,6 +47,7 @@ Vue.mixin({
     getRepositoryProvider
   },
   computed: {
+    local,
     isAdmin,
     hasSites,
     teamsEnabled,

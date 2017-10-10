@@ -30,7 +30,8 @@ class SiteUpdatedWebConfig
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new UpdateWebConfig($server, $site, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new UpdateWebConfig($server, $site, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

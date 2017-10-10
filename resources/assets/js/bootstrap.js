@@ -87,3 +87,19 @@ window.Echo = new Echo({
   broadcaster: "pusher",
   key: Laravel.pusherKey
 });
+
+/*
+ |--------------------------------------------------------------------------
+ | Sentry + Raven Setup
+ |--------------------------------------------------------------------------
+ |
+ */
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
+
+if(Laravel.env !== 'local') {
+    Raven
+        .config('https://50124e89d68945bb8f787666f0482807@sentry.codepier.io/4')
+        .addPlugin(RavenVue, Vue)
+        .install();
+}

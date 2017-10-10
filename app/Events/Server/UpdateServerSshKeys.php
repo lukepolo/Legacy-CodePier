@@ -45,7 +45,8 @@ class UpdateServerSshKeys
     private function installSshKey(SshKey $sshKey)
     {
         dispatch(
-            (new InstallServerSshKey($this->server, $sshKey, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerSshKey($this->server, $sshKey, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

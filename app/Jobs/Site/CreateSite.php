@@ -11,13 +11,14 @@ use Illuminate\Queue\SerializesModels;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Site\FixSiteServerConfigurations;
 use App\Events\Server\UpdateServerConfigurations;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class CreateSite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ModelCommandTrait;
 
     private $site;
     private $server;
@@ -37,6 +38,13 @@ class CreateSite implements ShouldQueue
         $this->site = $site;
         $this->server = $server;
         $this->command = $this->makeCommand($this->site, $this->server, 'Setting up Server '.$server->name.' for '.$site->name);
+
+        if (! empty($this->site->repository)) {
+            $this->chain([
+                DeploySite::dispatch($site)
+                    ->onQueue(config('queue.channels.server_commands')),
+            ]);
+        }
     }
 
     /**
@@ -54,7 +62,10 @@ class CreateSite implements ShouldQueue
             $serverType === SystemService::LOAD_BALANCER ||
             $serverType === SystemService::FULL_STACK_SERVER
         ) {
-            dispatch(new InstallPublicKey($this->server, $this->site));
+            dispatch(
+                (new InstallPublicKey($this->server, $this->site))
+                    ->onQueue(config('queue.channels.server_commands'))
+            );
         }
 
         if (

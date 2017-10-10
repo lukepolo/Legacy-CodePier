@@ -123,30 +123,8 @@ class Request {
 
       axios[requestType](url, data, config)
         .then(response => {
-          if (response.config.responseType === "arraybuffer") {
-            const a = document.createElement("a");
-            document.body.appendChild(a);
 
-            const blob = new Blob([response.data], {
-              type: response.headers["content-type"]
-            });
-
-            url = window.URL.createObjectURL(blob);
-
-            a.style = "display: none";
-            a.href = url;
-            a.download = response.headers["content-disposition"].match(
-              /"(.*?)"/
-            )[1];
-            a.click();
-
-            window.URL.revokeObjectURL(url);
-          } else {
-            this.onSuccess(response.data);
-
-            if (!this.resetData) {
-              this.setOriginalData();
-            }
+            this.onSuccess();
 
             if (_.isString(mutations)) {
               mutations = [mutations];
@@ -160,7 +138,10 @@ class Request {
                 });
               });
             }
-          }
+
+            if (!this.resetData) {
+                this.setOriginalData();
+            }
 
           resolve(response.data);
         })
@@ -179,10 +160,8 @@ class Request {
 
   /**
      * Handle a successful form submission.
-     *
-     * @param {object} data
      */
-  onSuccess(data) {
+  onSuccess() {
     this.errors.clear();
   }
 
@@ -206,7 +185,7 @@ class Request {
      * Generates a query string for the data given
      */
   dataQueryString() {
-    var str = [];
+    let str = [];
     let data = this.data();
     for (let datum in data)
       if (data.hasOwnProperty(datum)) {

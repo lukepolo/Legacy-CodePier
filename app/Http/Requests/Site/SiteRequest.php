@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Site;
 
+use App\Rules\Domain;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SiteRequest extends FormRequest
@@ -24,7 +25,7 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-            'domain' => 'required|domain',
+            'domain' => ['required', new Domain],
             'pile_id' => 'required|integer',
             'wildcard_domain' => 'nullable|boolean',
         ];

@@ -49,9 +49,17 @@ fi
     /**
      * @description NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server.
      */
-    public function installNginx($workerProcesses = 'auto', $workerConnections = 512)
+    public function installNginx($workerProcesses = 'auto', $workerConnections = 'auto')
     {
         $this->connectToServer();
+
+        if (! is_numeric($workerProcesses)) {
+            $workerProcesses = $this->remoteTaskService->run('grep processor /proc/cpuinfo | wc -l');
+        }
+
+        if (! is_numeric($workerConnections)) {
+            $workerConnections = $this->remoteTaskService->run('ulimit -n') * 2;
+        }
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 

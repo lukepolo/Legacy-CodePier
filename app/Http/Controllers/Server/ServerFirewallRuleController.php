@@ -54,7 +54,8 @@ class ServerFirewallRuleController extends Controller
             ]);
 
             dispatch(
-                (new InstallServerFirewallRule($server, $firewallRule))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerFirewallRule($server, $firewallRule))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($firewallRule);
@@ -76,8 +77,8 @@ class ServerFirewallRuleController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerFirewallRule($server,
-                $server->firewallRules->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerFirewallRule($server, $server->firewallRules->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');

@@ -31,8 +31,8 @@ class SiteFirewallRuleDeleted
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new RemoveServerFirewallRule($server, $firewallRule,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveServerFirewallRule($server, $firewallRule, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

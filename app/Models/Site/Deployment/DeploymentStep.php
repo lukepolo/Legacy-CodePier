@@ -13,7 +13,7 @@ class DeploymentStep extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'servers' => 'array',
+        'server_ids' => 'array',
         'server_types' => 'array',
     ];
 

@@ -14,7 +14,7 @@ class CronJobServers extends Migration
     public function up()
     {
         Schema::table('cron_jobs', function (Blueprint $table) {
-            $table->json('servers')->nullable();
+            $table->json('server_ids')->nullable();
             $table->json('server_types')->nullable();
         });
     }
@@ -27,7 +27,7 @@ class CronJobServers extends Migration
     public function down()
     {
         Schema::table('cron_jobs', function (Blueprint $table) {
-            $table->dropColumn('servers');
+            $table->dropColumn('server_ids');
             $table->dropColumn('server_types');
         });
     }

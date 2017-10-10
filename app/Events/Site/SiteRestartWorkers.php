@@ -30,7 +30,8 @@ class SiteRestartWorkers
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Workers');
                 dispatch(
-                    (new RestartWorkers($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RestartWorkers($server, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

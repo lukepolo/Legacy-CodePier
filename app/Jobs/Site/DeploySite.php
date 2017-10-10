@@ -11,11 +11,12 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Notifications\Site\NewSiteDeployment;
 
 class DeploySite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $site;
     public $servers = [];
@@ -69,7 +70,10 @@ class DeploySite implements ShouldQueue
     public function handle()
     {
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
-            dispatch(new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment));
+            dispatch(
+                (new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment))
+                    ->onQueue(config('queue.channels.server_commands'))
+            );
         }
     }
 }
