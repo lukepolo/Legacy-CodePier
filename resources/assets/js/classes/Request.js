@@ -123,25 +123,24 @@ class Request {
 
       axios[requestType](url, data, config)
         .then(response => {
+          this.onSuccess();
 
-            this.onSuccess();
+          if (_.isString(mutations)) {
+            mutations = [mutations];
+          }
 
-            if (_.isString(mutations)) {
-              mutations = [mutations];
-            }
-
-            if (mutations && mutations.length) {
-              _.each(mutations, mutation => {
-                app.$store.commit(mutation, {
-                  response: response.data,
-                  requestData: this.data()
-                });
+          if (mutations && mutations.length) {
+            _.each(mutations, mutation => {
+              app.$store.commit(mutation, {
+                response: response.data,
+                requestData: this.data()
               });
-            }
+            });
+          }
 
-            if (!this.resetData) {
-                this.setOriginalData();
-            }
+          if (!this.resetData) {
+            this.setOriginalData();
+          }
 
           resolve(response.data);
         })
