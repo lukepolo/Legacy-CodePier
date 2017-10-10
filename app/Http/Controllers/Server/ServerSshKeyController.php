@@ -47,7 +47,8 @@ class ServerSshKeyController extends Controller
             ]);
 
             dispatch(
-                (new InstallServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerSshKey($server, $sshKey))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($sshKey);
@@ -70,7 +71,8 @@ class ServerSshKeyController extends Controller
 
         dispatch(
             (new RemoveServerSshKey($server,
-                $server->sshKeys->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+                $server->sshKeys->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');

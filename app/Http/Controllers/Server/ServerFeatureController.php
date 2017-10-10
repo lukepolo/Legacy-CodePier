@@ -63,13 +63,9 @@ class ServerFeatureController extends Controller
                 'installing' => true,
             ];
 
-            $this->dispatch(
-                (new InstallServerFeature(
-                    $server,
-                    $feature,
-                    $service,
-                    $request->get('parameters', [])
-                ))->onQueue(config('queue.channels.server_features'))
+            dispatch(
+                (new InstallServerFeature($server, $feature, $service, $request->get('parameters', [])))
+                    ->onQueue(config('queue.channels.server_features'))
             );
 
             $server->update([

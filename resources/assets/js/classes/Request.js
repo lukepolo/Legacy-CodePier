@@ -121,46 +121,25 @@ class Request {
     return new Promise((resolve, reject) => {
       const data = this.formData ? this.formData : this.data();
 
-      axios
-        [requestType](url, data, config)
+      axios[requestType](url, data, config)
         .then(response => {
-          if (response.config.responseType === "arraybuffer") {
-            const a = document.createElement("a");
-            document.body.appendChild(a);
+          this.onSuccess();
 
-            const blob = new Blob([response.data], {
-              type: response.headers["content-type"]
-            });
+          if (_.isString(mutations)) {
+            mutations = [mutations];
+          }
 
-            url = window.URL.createObjectURL(blob);
-
-            a.style = "display: none";
-            a.href = url;
-            a.download = response.headers["content-disposition"].match(
-              /"(.*?)"/
-            )[1];
-            a.click();
-
-            window.URL.revokeObjectURL(url);
-          } else {
-            this.onSuccess(response.data);
-
-            if (!this.resetData) {
-              this.setOriginalData();
-            }
-
-            if (_.isString(mutations)) {
-              mutations = [mutations];
-            }
-
-            if (mutations && mutations.length) {
-              _.each(mutations, mutation => {
-                app.$store.commit(mutation, {
-                  response: response.data,
-                  requestData: this.data()
-                });
+          if (mutations && mutations.length) {
+            _.each(mutations, mutation => {
+              app.$store.commit(mutation, {
+                response: response.data,
+                requestData: this.data()
               });
-            }
+            });
+          }
+
+          if (!this.resetData) {
+            this.setOriginalData();
           }
 
           resolve(response.data);
@@ -180,10 +159,8 @@ class Request {
 
   /**
      * Handle a successful form submission.
-     *
-     * @param {object} data
      */
-  onSuccess(data) {
+  onSuccess() {
     this.errors.clear();
   }
 
@@ -207,7 +184,7 @@ class Request {
      * Generates a query string for the data given
      */
   dataQueryString() {
-    var str = [];
+    let str = [];
     let data = this.data();
     for (let datum in data)
       if (data.hasOwnProperty(datum)) {

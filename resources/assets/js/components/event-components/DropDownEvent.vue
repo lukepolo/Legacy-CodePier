@@ -81,27 +81,27 @@
         },
         computed : {
             eventName : function() {
-                return (this.prefix ? this.prefix : 'event') + '_' + this.event.id + '_' + this.type.replace(/\\/g, '_');
+                return (this.prefix ? this.prefix : 'event') + '_' + this.event.id + '_' + this.type.replace(/\\/g, '_')
             },
             statusClass: function() {
                 if(typeof this.status === 'undefined') {
                     if(this.event.hasOwnProperty('failed') && this.event.hasOwnProperty('completed') && this.event.hasOwnProperty('started')) {
                         if(!this.event.failed && ! this.event.completed && !this.event.started) {
-                            return 'events--item-status-neutral';
+                            return 'events--item-status-neutral'
                         } else if(this.event.failed) {
-                            return 'events--item-status-error';
+                            return 'events--item-status-error'
                         } else if(this.event.completed) {
-                            return 'events--item-status-success';
+                            return 'events--item-status-success'
                         } else if(!this.event.failed && !this.event.completed && this.event.started) {
-                            return 'icon-spinner';
+                            return 'icon-spinner'
                         }
                     }
                 }
 
-                return this.status;
+                return this.status
             },
             showDropDown() {
-                return typeof this.dropdown !==  'undefined' ? this.dropdown : true;
+                return typeof this.dropdown !==  'undefined' ? this.dropdown : true
             }
         }
     }

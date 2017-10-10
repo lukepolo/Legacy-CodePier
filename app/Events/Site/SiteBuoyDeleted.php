@@ -27,7 +27,8 @@ class SiteBuoyDeleted
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new RemoveBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveBuoy($server, $buoy, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

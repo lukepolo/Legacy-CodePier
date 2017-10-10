@@ -25,7 +25,8 @@ class SiteBuoyCreated
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new InstallBuoy($server, $buoy, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new InstallBuoy($server, $buoy, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

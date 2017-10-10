@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -14,12 +13,17 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -50,62 +54,5 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param \Illuminate\Http\Request                 $request
-     * @param \Illuminate\Auth\AuthenticationException $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest(route('login'));
-    }
-
-    /**
-     * Create a Symfony response for the given exception.
-     *
-     * @param \Exception $exception
-     *
-     * @return mixed
-     */
-    protected function convertExceptionToResponse(Exception $exception)
-    {
-        if (config('app.debug')) {
-            $this->unsetSensitiveData();
-
-            $whoops = new \Whoops\Run();
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-
-            return new \Illuminate\Http\Response(
-                $whoops->handleException($exception),
-                $exception->getStatusCode(),
-                $exception->getHeaders()
-            );
-        }
-
-        if (\Request::expectsJson()) {
-            return response()->json('We have an error', 500);
-        }
-
-        return response()->view('errors.500', ['exception' => $exception], 500);
-    }
-
-    /**
-     * Don't ever display sensitive data in Whoops pages.
-     */
-    protected function unsetSensitiveData()
-    {
-        foreach ($_ENV as $key => $value) {
-            unset($_SERVER[$key]);
-        }
-        $_ENV = [];
     }
 }

@@ -6,7 +6,6 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\CronJobs\InstallServerCronJob;
 
 class SiteCronJobCreated
@@ -21,21 +20,24 @@ class SiteCronJobCreated
      */
     public function __construct(Site $site, CronJob $cronJob)
     {
-        if ($site->provisionedServers->count()) {
+        $availableServers = $site->provisionedServers->filter(function ($server) use ($cronJob) {
+            if (! empty($cronJob->server_types)) {
+                return collect($cronJob->server_types)->contains($server->type);
+            } elseif (! empty($cronJob->server_ids)) {
+                return collect($cronJob->server_ids)->contains($server->id);
+            }
+
+            return true;
+        });
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob, 'Installing');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new InstallServerCronJob($server, $cronJob,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($availableServers as $server) {
+                dispatch(
+                    (new InstallServerCronJob($server, $cronJob, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

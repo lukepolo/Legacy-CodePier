@@ -17,7 +17,6 @@
             <div class="flex">
                 <div class="flex--grow flex--shrink">
                     <label>{{ lifeLine.name }}</label>
-                    <!--<textarea class="flex&#45;&#45;grow" rows="3" readonly>https://lifelines.codepier.io{{ lifeLine.url }}</textarea>-->
 
                     <div class="flex flex--baseline">
                         <div class="flex--grow flex--shrink">

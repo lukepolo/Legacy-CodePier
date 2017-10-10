@@ -119,12 +119,12 @@
     export default {
         data() {
             return {
-                form  : {
+                form  : this.createForm({
                     type : null,
                     domains : null,
                     private_key : null,
                     certificate : null,
-                }
+                })
             }
         },
         created() {

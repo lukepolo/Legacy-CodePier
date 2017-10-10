@@ -1,5 +1,5 @@
 export const getRepositoryProvider = function(providerId, attribute) {
-  const provider = _.find(this.$store.state.user.repository_providers, {
+  const provider = _.find(this.$store.state.repository_providers.providers, {
     id: providerId
   });
   if (provider) {
