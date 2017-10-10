@@ -138,12 +138,8 @@
 
                             if(site.workflow) {
                                 if(this.workFlowCompleted !== this.$route.name) {
-
-                                    console.info(this.workFlowCompleted)
-
                                     this.$router.push({ name: this.workFlowCompleted, params: { site_id: site.id }})
                                 }
-
                             } else {
                                 this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
                             }
