@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Site\Site;
-use Illuminate\Http\Request;
 use App\Jobs\Site\CreateSite;
 use App\Jobs\Site\DeleteSite;
 use App\Jobs\Site\DeploySite;
@@ -11,6 +10,7 @@ use App\Models\Server\Server;
 use App\Events\Site\SiteRenamed;
 use App\Models\Site\SiteDeployment;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Site\SiteRename;
 use App\Events\Site\SiteRestartServers;
 use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
@@ -113,16 +113,14 @@ class SiteController extends Controller
 
             foreach ($changes['attached'] as $server) {
                 dispatch(
-                    (new CreateSite(
-                        Server::findOrFail($server), $site)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new CreateSite(Server::findOrFail($server), $site))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
 
             foreach ($changes['detached'] as $server) {
-                (new DeleteSite(
-                    Server::findOrFail($server), $site)
-                )->onQueue(config('queue.channels.server_commands'));
+                (new DeleteSite(Server::findOrFail($server), $site))
+                    ->onQueue(config('queue.channels.server_commands'));
             }
         }
 
@@ -174,7 +172,8 @@ class SiteController extends Controller
 
         if ($site->provisionedServers->count()) {
             dispatch(
-                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))->onQueue(config('queue.channels.server_commands'))
+                (new DeploySite($site, SiteDeployment::findOrFail($request->get('siteDeployment'))))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }
@@ -297,17 +296,13 @@ class SiteController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param SiteRename $request
      * @param $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function rename(Request $request, $siteId)
+    public function rename(SiteRename $request, $siteId)
     {
         $site = Site::findOrFail($siteId);
-
-        $this->validate($request, [
-            'domain' => 'required|domain',
-        ]);
 
         $oldDomain = $site->domain;
         $isDomain = is_domain($request->get('domain'));

@@ -74,12 +74,20 @@ class OsService
 
     /**
      *  @description SWAP is a virtual space to help guard against memory errors in applications.
+     *
+     * @size { "suffix" : "GB" }
+     * @swappiness { "type" : "number" }
+     * @vfsCachePressure { "type" : "number" }
      */
-    public function installSwap($size = '1G', $swappiness = 10, $vfsCachePressure = 50)
+    public function installSwap($size = 'auto', $swappiness = 10, $vfsCachePressure = 50)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('fallocate -l '.$size.' /swapfile');
+        if (! is_numeric($size)) {
+            $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo')) * 2;
+        }
+
+        $this->remoteTaskService->run('fallocate -l '.$size.'G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
         $this->remoteTaskService->run('mkswap /swapfile');
         $this->remoteTaskService->run('swapon /swapfile');

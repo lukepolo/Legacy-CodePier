@@ -31,8 +31,8 @@ class SiteSchemaUserCreated
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new AddServerSchemaUser($server, $schemaUser,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new AddServerSchemaUser($server, $schemaUser, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

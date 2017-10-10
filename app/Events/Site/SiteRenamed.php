@@ -32,7 +32,8 @@ class SiteRenamed
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new RenameSiteDomain($server, $site, $newDomain, $oldDomain, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RenameSiteDomain($server, $site, $newDomain, $oldDomain, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

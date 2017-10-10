@@ -47,7 +47,8 @@ class ServerSchemaUserController extends Controller
             ]);
 
             dispatch(
-                (new AddServerSchemaUser($server, $schemaUser))->onQueue(config('queue.channels.server_commands'))
+                (new AddServerSchemaUser($server, $schemaUser))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($schemaUser);
@@ -68,7 +69,8 @@ class ServerSchemaUserController extends Controller
         $server = Server::findOrFail($serverId);
 
         dispatch(
-            (new RemoveServerSchemaUser($server, $server->schemaUsers->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerSchemaUser($server, $server->schemaUsers->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');

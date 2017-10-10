@@ -9,12 +9,13 @@ use App\Traits\ServerCommandTrait;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Site\SiteSslCertificateUpdated;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class UpdateServerSslCertificate implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $server;
     private $sslCertificate;

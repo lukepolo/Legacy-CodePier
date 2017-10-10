@@ -11,11 +11,12 @@ use Illuminate\Queue\SerializesModels;
 use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\BuoyServiceContract as BuoyService;
 
 class RemoveBuoy implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $buoy;
     private $server;

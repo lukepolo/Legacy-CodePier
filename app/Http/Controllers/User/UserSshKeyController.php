@@ -37,7 +37,8 @@ class UserSshKeyController extends Controller
 
         foreach (\Auth::user()->provisionedServers as $server) {
             dispatch(
-                (new InstallServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
+                (new InstallServerSshKey($server, $sshKey))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
 
@@ -57,7 +58,8 @@ class UserSshKeyController extends Controller
 
         foreach (\Auth::user()->provisionedServers as $server) {
             dispatch(
-                (new RemoveServerSshKey($server, $sshKey))->onQueue(config('queue.channels.server_commands'))
+                (new RemoveServerSshKey($server, $sshKey))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
 

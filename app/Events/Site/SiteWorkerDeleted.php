@@ -27,9 +27,8 @@ class SiteWorkerDeleted
 
             foreach ($worker->servers as $server) {
                 dispatch(
-                    (
-                    new RemoveServerWorker($server, $worker, $siteCommand)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveServerWorker($server, $worker, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

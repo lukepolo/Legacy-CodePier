@@ -27,8 +27,8 @@ class SiteEnvironmentVariableDeleted
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new RemoveServerEnvironmentVariable($server, $environmentVariable,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RemoveServerEnvironmentVariable($server, $environmentVariable, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

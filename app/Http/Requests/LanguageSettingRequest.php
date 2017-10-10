@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\LanguageType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LanguageSettingRequest extends FormRequest
@@ -26,7 +27,7 @@ class LanguageSettingRequest extends FormRequest
         return [
             'params' => 'array|nullable',
             'setting' => 'required|string',
-            'language' => 'required|valid_language_type',
+            'language' => ['required', new LanguageType],
         ];
     }
 }

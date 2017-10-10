@@ -40,7 +40,8 @@ class WebHookController extends Controller
 
         if (empty($branch) || $site->branch === $branch) {
             dispatch(
-                (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
+                (new \App\Jobs\Site\DeploySite($site, null, true))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
 

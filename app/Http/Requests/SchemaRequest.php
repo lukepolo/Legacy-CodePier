@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DatabaseName;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SchemaRequest extends FormRequest
@@ -25,7 +26,7 @@ class SchemaRequest extends FormRequest
     {
         return [
             'name' => 'required:alpha',
-            'database' => 'required:alpha',
+            'database' => ['required', new DatabaseName],
         ];
     }
 }

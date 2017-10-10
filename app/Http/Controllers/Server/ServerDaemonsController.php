@@ -41,14 +41,13 @@ class ServerDaemonsController extends Controller
         $daemon = Daemon::create([
             'user' => $request->get('user'),
             'command' => $request->get('command'),
-            'servers' => $request->get('servers', []),
+            'server_ids' => $request->get('servers', []),
             'server_types' => $request->get('server_types', []),
         ]);
 
-        $server->daemons()->save($daemon);
-
         dispatch(
-            new InstallServerDaemon($server, $daemon)
+            (new InstallServerDaemon($server, $daemon))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json($daemon);
@@ -68,7 +67,7 @@ class ServerDaemonsController extends Controller
         $daemon = Daemon::findOrFail($cronJobId);
 
         $daemon->update([
-            'servers' => $request->get('servers', []),
+            'server_ids' => $request->get('servers', []),
             'server_types' => $request->get('server_types', []),
         ]);
 
@@ -87,7 +86,10 @@ class ServerDaemonsController extends Controller
     {
         $server = Server::with('daemons')->findOrFail($serverId);
 
-        event(new RemoveServerDaemon($server, $server->daemons->keyBy('id')->get($id)));
+        dispatch(
+            (new RemoveServerDaemon($server, $server->daemons->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json('OK');
     }
