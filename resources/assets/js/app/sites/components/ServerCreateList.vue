@@ -39,7 +39,21 @@
                 return this.$store.state.user_sites.site;
             },
             serverTypes() {
-                return this.$store.state.server_types.types
+                return _.pickBy(this.$store.state.server_types.types, (type) => {
+                    if(this.hasLoadBalancer && type === 'load_balancer') {
+                        return false;
+                    }
+
+                    return true;
+                })
+            },
+            siteServers() {
+                return this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
+            },
+            hasLoadBalancer() {
+                return _.filter(this.siteServers, function(server) {
+                    return server.type === 'load_balancer'
+                }).length > 0
             }
         }
     }

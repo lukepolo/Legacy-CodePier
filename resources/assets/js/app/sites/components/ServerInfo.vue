@@ -199,15 +199,8 @@
             CpuLoads
         },
         created() {
-            this.showing = this.showInfo
-
             if(this.server.progress < 100) {
                 this.$store.dispatch('user_server_provisioning/getCurrentStep', this.server.id)
-            }
-        },
-        data() {
-            return {
-                showing : null
             }
         },
         computed : {
@@ -218,7 +211,7 @@
                 if(this.server.progress < 100) {
                     return true
                 }
-                return this.showing
+                return this.showInfo
             },
             currentProvisioningStep() {
                 return this.$store.state.user_server_provisioning.current_step;
@@ -226,7 +219,7 @@
         },
         methods : {
             toggle() {
-                this.showing = !this.showing
+               this.showInfo = !this.showInfo
             },
             retryProvision() {
                 this.$store.dispatch('user_server_provisioning/retry', this.server.id);

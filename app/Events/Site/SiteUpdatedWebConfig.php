@@ -19,20 +19,20 @@ class SiteUpdatedWebConfig
      */
     public function __construct(Site $site)
     {
-        if ($site->provisionedServers->count()) {
+        $availableServers = $site->filterServersByType([
+            SystemService::WEB_SERVER,
+            SystemService::LOAD_BALANCER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $site, 'Updating Web Config');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::LOAD_BALANCER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new UpdateWebConfig($server, $site, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($availableServers as $server) {
+                dispatch(
+                    (new UpdateWebConfig($server, $site, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

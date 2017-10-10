@@ -96,6 +96,9 @@ class ProvisionDevEnvironment extends Command
         $process->setTimeout(0);
         $process->run();
 
-        return dispatch((new CreateServer(ServerProvider::findOrFail(2), $server))->onQueue(config('queue.channels.server_provisioning')));
+        return dispatch(
+            (new CreateServer(ServerProvider::findOrFail(2), $server))
+                ->onQueue(config('queue.channels.server_provisioning'))
+        );
     }
 }

@@ -20,10 +20,12 @@
             window.Laravel = <?php echo json_encode([
                 'env' => config('app.env'),
                 'csrfToken' => csrf_token(),
-                'pusherKey' => config('broadcasting.connections.pusher.key'),
-                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
-                'version' => app()->make('gitCommit'),
                 'teams' => config('app.teams'),
+                'version' => app()->make('gitCommit'),
+                'stripeKey' => config('services.stripe.key'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
+                'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
+                'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
             ]); ?>
         </script>
         @if(config('app.env') == 'production' && \Auth::check())
@@ -65,9 +67,12 @@
 
             </div>
         </div>
+
         @stack('scripts')
 
         @if(\Auth::check() && second_authed())
+
+            <script src="https://js.stripe.com/v3/"></script>
 
             <!-- Scripts -->
             <script src="{{ mix('/js/manifest.js') }}"></script>
@@ -83,6 +88,7 @@
                     $crisp.push(["set", "user:nickname", "({{ auth()->user()->id }} ) {{ auth()->user()->name }} "]);
                 </script>
             @endif
+
         @endif
 
         @if($errors->count())

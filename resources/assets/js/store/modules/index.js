@@ -30,6 +30,7 @@ import user_sites from "./user/sites";
 import user_commands from "./user/commands";
 import user_site_dns from "./user/site/dns";
 import user_site_files from "./user/site/files";
+import user_site_daemons from "./user/site/daemons";
 import user_site_servers from "./user/site/servers";
 import user_site_workers from "./user/site/workers";
 import user_site_schemas from "./user/site/schemas";
@@ -41,6 +42,7 @@ import user_site_deployments from "./user/site/deployments";
 import user_site_schema_users from "./user/site/schema-users";
 import user_site_firewall_rules from "./user/site/firewall-rules";
 import user_repository_providers from "./user/repository/providers";
+import user_site_server_commands from "./user/site/server-commands";
 import user_site_server_features from "./user/site/server-features";
 import user_site_ssl_certificates from "./user/site/ssl-certificates";
 import user_site_language_settings from "./user/site/language-settings";
@@ -50,6 +52,7 @@ import user_servers from "./user/servers";
 import user_server_buoys from "./user/server/buoys";
 import user_server_files from "./user/server/files";
 import user_server_sites from "./user/server/sites";
+import user_server_daemons from "./user/server/daemons";
 import user_server_schemas from "./user/server/schemas";
 import user_server_workers from "./user/server/workers";
 import user_server_features from "./user/server/features";
@@ -97,6 +100,7 @@ export default {
   user_commands,
   user_site_dns,
   user_site_files,
+  user_site_daemons,
   user_site_servers,
   user_site_workers,
   user_site_schemas,
@@ -108,6 +112,7 @@ export default {
   user_site_schema_users,
   user_site_firewall_rules,
   user_repository_providers,
+  user_site_server_commands,
   user_site_server_features,
   user_site_ssl_certificates,
   user_site_language_settings,
@@ -117,6 +122,7 @@ export default {
   user_server_buoys,
   user_server_files,
   user_server_sites,
+  user_server_daemons,
   user_server_schemas,
   user_server_workers,
   user_server_features,

@@ -1,7 +1,7 @@
 <template>
     <h3 class="section-header primary" v-if="site">
 
-        <back></back>
+        <back v-if="workFlowCompleted"></back>
 
         <a :href="'http://'+site.domain" target="_blank">
             {{ site.name }}
@@ -31,7 +31,25 @@
                 </ul>
 
             </drop-down>
+
+
+            <drop-down tag="span" v-if="siteServers">
+
+                <button slot="header" class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="fa fa-life-buoy"></span>
+                </button>
+
+                <ul slot="content" class="dropdown-menu nowrap dropdown-list">
+                    <li>
+                        <confirm-dropdown dispatch="user_site_server_commands/clearStuckCommands" :params="site.id"><a href="#"><span class="fa fa-bomb"></span> Clear Stuck Commands</a></confirm-dropdown>
+                    </li>
+                </ul>
+
+            </drop-down>
+
         </div>
+
+
     </h3>
 </template>
 

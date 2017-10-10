@@ -6,7 +6,6 @@ use App\Models\CronJob;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\CronJobs\RemoveServerCronJob;
 
 class SiteCronJobDeleted
@@ -23,27 +22,15 @@ class SiteCronJobDeleted
     {
         $site->cronJobs()->detach($cronJob);
 
-        if ($site->provisionedServers->count()) {
+        if ($cronJob->servers()->count()) {
             $siteCommand = $this->makeCommand($site, $cronJob, 'Removing');
 
             foreach ($cronJob->servers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new RemoveServerCronJob($server, $cronJob,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+                dispatch(
+                    (new RemoveServerCronJob($server, $cronJob, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
-    }
-
-    public function commandDescription($status)
-    {
-        return ucwords($status).' file '.$this->path;
     }
 }

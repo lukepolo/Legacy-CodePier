@@ -18,7 +18,7 @@
             </form>
         </div>
 
-        <div v-file-editor class="editor"></div>
+        <div ref="editor" v-file-editor class="editor"></div>
 
         <div class="btn-footer">
             <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
@@ -41,22 +41,17 @@
         },
         data() {
             return {
-                file_model: null,
                 reload_server : null,
             }
         },
         watch: {
-            'file_model.unencrypted_content'() {
-                if(_.isObject(this.file_model)) {
-                    let editor = $(this.$el).find('.editor')[0];
-                    if(this.file_model.unencrypted_content) {
-                        ace.edit(editor).setValue(this.file_model.unencrypted_content);
-                        ace.edit(editor).clearSelection(1);
-                    }
+            '$route': 'fetchData',
+            'fileModel' : function() {
+                if(_.isObject(this.fileModel)) {
+                    let editor = this.$refs.editor;
+                    ace.edit(editor).setValue(this.fileModel.unencrypted_content ? this.fileModel.unencrypted_content : '');
+                    ace.edit(editor).clearSelection(1);
                 }
-            },
-            watch: {
-                '$route': 'fetchData'
             }
         },
         methods: {
@@ -65,41 +60,35 @@
                     site: this.site.id,
                     file_path: this.file,
                     content: this.getContent(),
-                    file_id: this.file_model.id,
+                    file_id: this.fileModel.id,
                 });
             },
             fetchData() {
-
-                this.file_model = this.file;
-
-                if(!_.isObject(this.file_model)) {
-                    this.file_model = _.find(this.siteFiles, (file) => {
-                        return this.file_model ===  file.file_path;
-                    });
-
-                    if(!this.file_model) {
-                        this.$store.dispatch('user_site_files/find', {
-                            custom : false,
-                            file : this.file,
-                            site : this.$route.params.site_id
-                        }).then((file) => {
-                            this.file_model = file;
-                        });
-                    }
+                if(!_.isObject(this.file)) {
+                    this.$store.dispatch('user_site_files/find', {
+                        custom : false,
+                        file : this.file,
+                        site : this.$route.params.site_id
+                    })
                 }
             },
             reloadFile() {
                 this.$store.dispatch('user_site_files/reload', {
-                    file : this.file_model.id,
+                    file : this.fileModel.id,
                     server : this.reload_server,
                     site : this.$route.params.site_id,
                 })
             },
             getContent() {
-                return ace.edit($(this.$el).find('.editor')[0]).getValue();
+                return ace.edit(this.$refs.editor).getValue();
             },
         },
         computed : {
+            fileModel() {
+                return _.find(this.siteFiles, (file) => {
+                    return this.file ===  file.file_path;
+                });
+            },
             site_servers() {
 
                 let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)

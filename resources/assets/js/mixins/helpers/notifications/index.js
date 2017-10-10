@@ -31,7 +31,7 @@ export const handleApiError = function(response) {
       message = response.errors;
     } else if (_.isObject(response.data)) {
       message = "";
-      _.each(response.data, function(error) {
+      _.each(response.data.errors, function(error) {
         message += error + "<br>";
       });
     } else {

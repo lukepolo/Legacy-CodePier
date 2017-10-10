@@ -9,18 +9,19 @@ use App\Notifications\Server\ServerLoad;
 use App\Notifications\Server\ServerMemory;
 use App\Notifications\Server\ServerDiskUsage;
 use App\Http\Controllers\Auth\OauthController;
+use App\Jobs\Server\SslCertificates\UpdateServerSslCertificate;
 
 class WebHookController extends Controller
 {
     /**
      * @param Request $request
-     * @param $siteHashID
+     * @param $siteHashId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deploy(Request $request, $siteHashID)
+    public function deploy(Request $request, $siteHashId)
     {
         $site = Site::with('userRepositoryProvider.repositoryProvider')
-            ->where('hash', $siteHashID)
+            ->where('hash', $siteHashId)
             ->firstOrFail();
 
         $branch = null;
@@ -39,7 +40,8 @@ class WebHookController extends Controller
 
         if (empty($branch) || $site->branch === $branch) {
             dispatch(
-                (new \App\Jobs\Site\DeploySite($site, null, true))->onQueue(config('queue.channels.server_commands'))
+                (new \App\Jobs\Site\DeploySite($site, null, true))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
 
@@ -48,12 +50,12 @@ class WebHookController extends Controller
 
     /**
      * @param Request $request
-     * @param $serverHasId
+     * @param $serverHashId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function loadMonitor(Request $request, $serverHasId)
+    public function loadMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
         $stats = $this->getStats($request->get('loads'));
 
@@ -71,9 +73,14 @@ class WebHookController extends Controller
         return response()->json('Malformed Data sent', 400);
     }
 
-    public function memoryMonitor(Request $request, $serverHasId)
+    /**
+     * @param Request $request
+     * @param $serverHashId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function memoryMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
         $memoryStats = $this->getStats($request->get('memory'));
 
@@ -90,9 +97,14 @@ class WebHookController extends Controller
         return response()->json('Malformed Data sent', 400);
     }
 
-    public function diskUsageMonitor(Request $request, $serverHasId)
+    /**
+     * @param Request $request
+     * @param $serverHashId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function diskUsageMonitor(Request $request, $serverHashId)
     {
-        $server = Server::findOrFail(\Hashids::decode($serverHasId)[0]);
+        $server = Server::findOrFail(\Hashids::decode($serverHashId)[0]);
 
         $diskStats = $this->getStats($request->get('disk_usage'));
 
@@ -109,6 +121,23 @@ class WebHookController extends Controller
         return response()->json('Malformed Data sent', 400);
     }
 
+    /**
+     * @param $serverHashId
+     */
+    public function serverSslCertificateUpdated($serverHashId)
+    {
+        /** @var Server $server */
+        $server = Server::with('sslCertificates')->findOrFail(\Hashids::decode($serverHashId)[0]);
+
+        foreach ($server->sslCertificates as $sslCertificate) {
+            dispatch(new UpdateServerSslCertificate($server, $sslCertificate));
+        }
+    }
+
+    /**
+     * @param $items
+     * @return array
+     */
     private function getStats($items)
     {
         $stats = [];

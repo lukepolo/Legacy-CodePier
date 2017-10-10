@@ -11,11 +11,12 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Notifications\Site\NewSiteDeployment;
 
 class DeploySite implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $site;
     public $servers = [];
@@ -42,20 +43,18 @@ class DeploySite implements ShouldQueue
             'status'  => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
         ]);
 
-        foreach ($this->servers as $server) {
-            $serverType = $server->type;
+        $availableServers = $site->filterServersByType([
+            SystemService::WEB_SERVER,
+            SystemService::WORKER_SERVER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
 
-            if (
-                $serverType === SystemService::WEB_SERVER ||
-                $serverType === SystemService::WORKER_SERVER ||
-                $serverType === SystemService::FULL_STACK_SERVER
-            ) {
-                SiteServerDeployment::create([
-                    'server_id' => $server->id,
-                    'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
-                    'site_deployment_id' => $this->siteDeployment->id,
-                ])->createSteps();
-            }
+        foreach ($availableServers as $server) {
+            SiteServerDeployment::create([
+                'server_id' => $server->id,
+                'status' => SiteDeployment::QUEUED_FOR_DEPLOYMENT,
+                'site_deployment_id' => $this->siteDeployment->id,
+            ])->createSteps();
         }
 
         $site->notify(new NewSiteDeployment($this->siteDeployment));
@@ -71,7 +70,10 @@ class DeploySite implements ShouldQueue
     public function handle()
     {
         foreach ($this->siteDeployment->serverDeployments as $serverDeployment) {
-            dispatch(new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment));
+            dispatch(
+                (new Deploy($this->site, $serverDeployment, $this->oldSiteDeployment))
+                    ->onQueue(config('queue.channels.server_commands'))
+            );
         }
     }
 }

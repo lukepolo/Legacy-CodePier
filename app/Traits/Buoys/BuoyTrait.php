@@ -45,7 +45,10 @@ trait BuoyTrait
                 'description' => ucwords($container),
             ]);
 
-            dispatch(new InstallServerFirewallRule($server, $firewallRule));
+            dispatch(
+                (new InstallServerFirewallRule($server, $firewallRule))
+                    ->onQueue(config('queue.channels.server_provisioning'))
+            );
         }
     }
 

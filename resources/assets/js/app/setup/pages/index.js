@@ -1,3 +1,4 @@
+export const Daemons = require("./Daemons.vue");
 export const SshKeys = require("./SshKeys.vue");
 export const Workers = require("./Workers.vue");
 export const CronJobs = require("./CronJobs.vue");

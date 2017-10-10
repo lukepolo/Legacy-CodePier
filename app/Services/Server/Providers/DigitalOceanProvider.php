@@ -3,7 +3,6 @@
 namespace App\Services\Server\Providers;
 
 use Exception;
-use DigitalOcean;
 use GuzzleHttp\Client;
 use phpseclib\Crypt\RSA;
 use App\Models\User\User;
@@ -14,6 +13,7 @@ use App\Models\User\UserServerProvider;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
+use GrahamCampbell\DigitalOcean\Facades\DigitalOcean;
 
 /**
  * Class DigitalOcean.

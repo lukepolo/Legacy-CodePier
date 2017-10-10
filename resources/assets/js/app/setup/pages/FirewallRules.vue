@@ -20,8 +20,8 @@
                 <label>Select Type</label>
                 <div class="flyform--group-select">
                     <select v-model="form.type" name="type">
-                        <option>TCP</option>
-                        <option>UDP</option>
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
                     </select>
                 </div>
             </div>

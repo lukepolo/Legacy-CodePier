@@ -33,7 +33,8 @@ class ServerProvisionStepsController extends Controller
         $server = Server::with(['provisionSteps'])->findOrFail($serverId);
 
         dispatch(
-            (new ProvisionServer($server))->onQueue(config('queue.channels.server_provisioning'))
+            (new ProvisionServer($server))
+                ->onQueue(config('queue.channels.server_provisioning'))
         );
 
         $currentStep = $server->currentProvisioningStep();

@@ -10,14 +10,14 @@ use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Server\ServerProvisionStep;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Jobs\Server\SshKeys\InstallServerSshKey;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class ProvisionServer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, DispatchesJobs;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
 
@@ -51,21 +51,17 @@ class ProvisionServer implements ShouldQueue
             $this->server->user->load('sshKeys');
 
             foreach ($this->server->user->sshKeys as $sshKey) {
-                dispatch(new InstallServerSshKey($this->server, $sshKey));
+                dispatch(
+                    (new InstallServerSshKey($this->server, $sshKey))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
 
             foreach ($this->server->sites as $site) {
                 dispatch(
-                    (new CreateSite($this->server, $site))->onQueue(config('queue.channels.server_commands'))
+                    (new CreateSite($this->server, $site))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
-
-                foreach ($site->servers as $server) {
-                    if ($this->server !== $server->id) {
-                        dispatch(
-                            (new ConnectSiteServer($site, $server))->onQueue(config('queue.channels.server_commands'))
-                        );
-                    }
-                }
             }
 
             event(new ServerProvisionStatusChanged($this->server, 'Provisioned', 100));

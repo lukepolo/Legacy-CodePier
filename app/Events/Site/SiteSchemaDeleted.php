@@ -6,7 +6,6 @@ use App\Models\Schema;
 use App\Models\Site\Site;
 use App\Traits\ModelCommandTrait;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Systems\SystemService;
 use App\Jobs\Server\Schemas\RemoveServerSchema;
 
 class SiteSchemaDeleted
@@ -23,21 +22,14 @@ class SiteSchemaDeleted
     {
         $site->schemas()->detach($schema);
 
-        if ($site->provisionedServers->count()) {
+        if ($schema->servers()->count()) {
             $siteCommand = $this->makeCommand($site, $schema, 'Deleting');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::DATABASE_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new RemoveServerSchema($server, $schema,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($schema->servers as $server) {
+                dispatch(
+                    (new RemoveServerSchema($server, $schema, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }
