@@ -46,14 +46,6 @@ Route::resource('subscription/plans', 'SubscriptionController');
 |
 */
 
-Route::group([
-    'prefix' => 'webhook',
-], function () {
-    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
-    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
-    Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
-});
-
 // TODO - put into microservice
 Route::group([
     'prefix' => 'webhook',
@@ -62,6 +54,14 @@ Route::group([
     Route::get('/loads/{serverHashId}', 'WebHookController@loadMonitor');
     Route::get('/memory/{serverHashId}', 'WebHookController@memoryMonitor');
     Route::get('/diskusage/{serverHashId}', 'WebHookController@diskUsageMonitor');
+    Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
+});
+
+Route::group([
+    'prefix' => 'webhook',
+], function () {
+    Route::any('/deploy/{siteHashId}', 'WebHookController@deploy');
+    Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
