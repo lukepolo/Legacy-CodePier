@@ -140,16 +140,12 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        $httpPort = '';
-        $httpType = 'http';
         $activeSsl = false;
 
         if ($site->hasActiveSSL()) {
             $activeSsl = $site->activeSsl();
 
             if ($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
-                $httpPort = ':443';
-                $httpType = 'https';
             } else {
                 $activeSsl = false;
             }
@@ -163,8 +159,8 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
 upstream '.$upstreamName.' {
     ip_hash;
-    '.$site->servers->map(function ($server) use ($httpPort) {
-                $server->ip = 'server '.$server->ip.$httpPort.';';
+    '.$site->servers->map(function ($server) {
+                $server->ip = 'server '.$server->ip.';';
 
                 return $server;
             })->filter(function ($server) {
@@ -176,7 +172,11 @@ upstream '.$upstreamName.' {
             $location = '
 location / {
     include proxy_params;
-    proxy_pass '.$httpType.'://'.$upstreamName.';
+    proxy_pass http://'.$upstreamName.';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
 }
 ';
         } else {
