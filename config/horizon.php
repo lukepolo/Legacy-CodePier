@@ -28,7 +28,6 @@ return [
 
     'waits' => [
         'redis:default' => 60,
-        'redis:default' => 60,
     ],
 
     /*
@@ -48,7 +47,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
-                'processes' => 30,
+                'processes' => 20,
                 'tries' => 3,
             ],
             'server_features-1' => [
@@ -62,14 +61,14 @@ return [
                 'connection' => 'redis',
                 'queue' => ['server_commands'],
                 'balance' => 'auto',
-                'processes' => 40,
+                'processes' => 10,
                 'tries' => 3,
             ],
             'server_provisioning-1' => [
                 'connection' => 'redis',
                 'queue' => ['server_provisioning'],
                 'balance' => 'auto',
-                'processes' => 20,
+                'processes' => 10,
                 'tries' => 3,
             ],
         ],
