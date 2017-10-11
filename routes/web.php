@@ -57,7 +57,6 @@ Route::group([
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
 
-
 Route::group([
     'prefix' => 'webhook',
 ], function () {
@@ -65,7 +64,6 @@ Route::group([
     Route::any('/server/{serverHashId}/ssl/updated', 'WebHookController@serverSslCertificateUpdated');
     Route::get('/{any}', 'Controller@redirectToApp')->where('any', '.*');
 });
-
 
 /*
 |--------------------------------------------------------------------------
