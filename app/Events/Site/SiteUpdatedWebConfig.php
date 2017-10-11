@@ -20,7 +20,6 @@ class SiteUpdatedWebConfig
     public function __construct(Site $site)
     {
         $site->refresh();
-        dump($site->web_directory);
 
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
