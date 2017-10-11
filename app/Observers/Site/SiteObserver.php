@@ -78,6 +78,10 @@ class SiteObserver
     {
         remove_events($site);
 
+        if ($site->isDirty('web_directory')) {
+            event(new SiteUpdatedWebConfig($site));
+        }
+
         if ($site->isDirty('framework')) {
             $tempSite = clone $site;
 
@@ -94,21 +98,12 @@ class SiteObserver
             }
         }
 
-        if ($site->isDirty('web_directory')) {
-            event(new SiteUpdatedWebConfig($site));
-        }
-
         if ($site->isDirty('type') || $site->isDirty('framework')) {
             $site->deploymentSteps()->delete();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
-    }
-
-    public function updated(Site $site)
-    {
-        remove_events($site);
 
         if ($site->isDirty('repository')) {
             $site->private = false;
