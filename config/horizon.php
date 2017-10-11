@@ -47,7 +47,7 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
-                'processes' => 20,
+                'processes' => 5,
                 'tries' => 3,
             ],
             'server_features-1' => [
