@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User\Subscription;
 
+use App\Models\User\User;
+use Illuminate\Http\Request;
 use Laravel\Cashier\Invoice;
 use App\Http\Controllers\Controller;
 
@@ -29,6 +31,8 @@ class UserSubscriptionInvoiceController extends Controller
             foreach (\Auth::user()->invoices() as $invoice) {
                 $invoices[] = [
                     'id' => $invoice->id,
+                    'date' => $invoice->date(),
+                    'total' => $invoice->rawTotal(),
                 ];
             }
         }
@@ -39,17 +43,20 @@ class UserSubscriptionInvoiceController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param int $id
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-        return \Auth::user()->downloadInvoice($id, [
-            'vendor'  => 'CodePier',
-            'product' => 'Server Management',
+        /** @var User $user */
+        $user = $request->user();
+
+        return $user->downloadInvoice($id, [
+            'vendor'  => 'CodePier LLC',
+            'product' => $user->getSubscriptionName(),
         ]);
     }
 }

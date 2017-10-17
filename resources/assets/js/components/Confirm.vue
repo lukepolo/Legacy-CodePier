@@ -8,11 +8,11 @@
                 <template v-if="confirm_with_text">
                     <h4 class="confirm-header">Are you sure?</h4>
                     <div class="confirm-content">
-                        <p><div class="text-error">This action cannot be undone.</div> Please confirm by typing in: {{ confirm_with_text }}</p>
-                        <div class="flyform--group">
+                        <p>Please confirm by typing in: {{ confirm_with_text }}</p>
+                         <div class="flyform--group">
                             <form @submit.prevent.stop="confirmMethod">
-                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name">
-                                <label for="confirm-name"></label>
+                                <input ref="confirm_input" v-model="confirmedText" type="text" name="confirm-name" placeholder=" ">
+                                <label for="confirm-name">Confirm</label>
                             </form>
                         </div>
                     </div>

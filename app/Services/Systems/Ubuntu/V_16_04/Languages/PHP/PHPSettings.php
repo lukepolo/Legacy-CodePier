@@ -28,7 +28,7 @@ class PHPSettings
         if ($this->remoteTaskService->doesFileHaveLine($nginxConfig, 'client_max_body_size')) {
             $this->remoteTaskService->updateText($nginxConfig, 'client_max_body_size', 'client_max_body_size '.$data->params['max size'].'m;');
         } else {
-            $this->remoteTaskService->findTextAndAppend($nginxConfig, 'http', 'client_max_body_size '.$data->params['max size'].'m;');
+            $this->remoteTaskService->findTextAndAppend($nginxConfig, 'http {', 'client_max_body_size '.$data->params['max size'].'m;');
         }
 
         $this->restartWebServices();

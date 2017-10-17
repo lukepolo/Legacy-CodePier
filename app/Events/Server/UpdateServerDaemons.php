@@ -35,14 +35,14 @@ class UpdateServerDaemons
 
         $this->site->daemons->each(function (Daemon $daemon) {
             if (
-                (empty($daemon->servers) && empty($daemon->server_types)) ||
-                (! empty($daemon->servers) && collect($daemon->servers)->contains($this->server->id)) ||
+                (empty($daemon->server_ids) && empty($daemon->server_types)) ||
+                (! empty($daemon->server_ids) && collect($daemon->server_ids)->contains($this->server->id)) ||
                 (! empty($daemon->server_types) && collect($daemon->server_types)->contains($this->server->type))
             ) {
                 $this->installDaemon($daemon);
+            } else {
+                $this->removeDeamon($daemon);
             }
-
-            $this->removeDeamon($daemon);
         });
     }
 
@@ -52,7 +52,8 @@ class UpdateServerDaemons
     private function installDaemon(Daemon $daemon)
     {
         dispatch(
-            (new InstallServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerDaemon($this->server, $daemon, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 
@@ -62,7 +63,8 @@ class UpdateServerDaemons
     private function removeDeamon(Daemon $daemon)
     {
         dispatch(
-            (new RemoveServerDaemon($this->server, $daemon, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerDaemon($this->server, $daemon, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

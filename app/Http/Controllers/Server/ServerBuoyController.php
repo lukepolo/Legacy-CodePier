@@ -72,7 +72,10 @@ class ServerBuoyController extends Controller
 
         $buoyApp->increment('installs');
 
-        dispatch(new InstallBuoy($server, $buoy));
+        dispatch(
+            (new InstallBuoy($server, $buoy))
+                ->onQueue(config('queue.channels.server_provisioning'))
+        );
 
         return response()->json($buoy);
     }
@@ -102,7 +105,10 @@ class ServerBuoyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        dispatch(new RemoveBuoy($server, $server->buoys->keyBy('id')->get($id)));
+        dispatch(
+            (new RemoveBuoy($server, $server->buoys->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json('OK');
     }

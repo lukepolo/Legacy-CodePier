@@ -27,9 +27,9 @@
         <link href="{{ mix('css/public.css') }}" rel="stylesheet">
 
         @if(env('APP_ENV') == 'production')
-            <script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
+            <script src="https://cdn.ravenjs.com/3.15.0/raven.min.js"></script>
             <script>
-                Raven.config('{{ env('SENTRY_JS') }}').install()
+                Raven.config('{{ config('sentry.js_dsn') }}').install()
             </script>
         @endif
     </head>

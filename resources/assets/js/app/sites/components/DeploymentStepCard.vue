@@ -1,28 +1,27 @@
 <template>
   <div>
-      <template v-if="deploymentStep.internal_deployment_function || deploymentStep.editing === false">
+      <template v-if="internalStep || deploymentStep.editing === false">
 
-          <template v-if="!deploymentStep.internal_deployment_function">
+          <template v-if="!internalStep">
               <a class="text-error pull-right" @click="deleteStep"><span class="icon-trash"></span></a>
               <a class="text-success pull-right" @click="edit"><span class="icon-pencil"></span></a>
           </template>
 
           <div class="drag-name">
               <tooltip
-                  v-if="deploymentStep.internal_deployment_function"
-                  :message="'Suggested order ' + deploymentStep.order"
+                  v-if="internalStep"
+                  :message="'Suggested order ' + suggestedOrder"
                   class="pull-right"
                   placement="top-left"
               >
                   <span class="fa fa-info-circle"></span>
               </tooltip>
-              {{ deploymentStep.step }}
-
+              <span v-if="order">{{ order }}.</span> {{ deploymentStep.step }}
               <server-selection :availableServerTypes="availableServerTypes" :servers.sync="servers" :server_types.sync="server_types"></server-selection>
 
           </div>
 
-          <div class="small">{{ deploymentStep.description }}</div>
+          <div class="small">{{ internalStep ? internalStep.description : deploymentStep.description }}</div>
 
       </template>
 
@@ -59,7 +58,7 @@
         components : {
             ServerSelection
         },
-        props : ['deploymentStep'],
+        props : ['deploymentStep', 'order', 'suggestedOrder'],
         data() {
             return {
                 step : this.deploymentStep.step,
@@ -119,6 +118,18 @@
                 return _.pickBy(window.Laravel.serverTypes, function(serverType) {
                     return serverType === 'web' || serverType === 'full_stack' || serverType === 'worker'
                 })
+            },
+            deploymentSteps() {
+                return this.$store.state.user_site_deployments.deployment_steps;
+            },
+            internalStep() {
+                if(this.deploymentStep.internal_deployment_function && this.deploymentSteps) {
+                    return _.find(this.deploymentSteps, (step) => {
+                        return step.internal_deployment_function === this.deploymentStep.internal_deployment_function
+                    })
+                }
+
+                return false
             }
         }
     }

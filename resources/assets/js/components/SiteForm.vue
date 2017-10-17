@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="saveSite" v-if="adding && form.pile_id">
         <div class="flyform--group">
-            <input name="domain" v-model="form.domain" type="text" placeholder=" ">
+            <input ref="domain" name="domain" v-model="form.domain" type="text" placeholder=" ">
             <label for="domain">Domain / Alias</label>
         </div>
         <div class="flyform--group-checkbox">
@@ -40,6 +40,15 @@
                     domain: null,
                     wildcard_domain : false,
                     pile_id: this.pile && this.pile.id,
+                })
+            }
+        },
+        watch :  {
+            'adding' : function() {
+                Vue.nextTick(() => {
+                    if(this.adding) {
+                        this.$refs.domain.focus()
+                    }
                 })
             }
         },

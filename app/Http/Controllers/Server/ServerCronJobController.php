@@ -49,10 +49,9 @@ class ServerCronJobController extends Controller
                 'user' => $user,
             ]);
 
-            $server->cronJobs()->save($cronJob);
-
-            $this->dispatch(
-                (new InstallServerCronJob($server, $cronJob))->onQueue(config('queue.channels.server_commands'))
+            dispatch(
+                (new InstallServerCronJob($server, $cronJob))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($cronJob);
@@ -73,8 +72,9 @@ class ServerCronJobController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->dispatch(
-            (new RemoveServerCronJob($server, $server->cronJobs->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+        dispatch(
+            (new RemoveServerCronJob($server, $server->cronJobs->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');

@@ -7,15 +7,8 @@
             <h3 class="section-header primary">Buoys</h3>
             <div class="section-content">
                 <div class="container">
-
-                    <transition >
-                        <router-view name="nav"></router-view>
-                    </transition>
-
-                    <transition >
-                        <router-view></router-view>
-                    </transition>
-
+                    <router-view name="nav"></router-view>
+                    <router-view></router-view>
                 </div>
             </div>
         </section>
@@ -28,19 +21,6 @@
 
 <script>
     export default {
-        data() {
-            return {
-                transitionName : null
-            }
-        },
-        watch: {
-            '$route' (to, from) {
-                const toDepth = to.path.split('/').length
-                const fromDepth = from.path.split('/').length
-//                this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-                this.transitionName = 'bounce';
-            }
-        },
         computed: {
             buoy() {
                 return this.$store.state.buoys.buoy_app
