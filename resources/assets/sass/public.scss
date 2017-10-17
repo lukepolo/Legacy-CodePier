@@ -237,6 +237,10 @@ header {
   &--content {
     max-width: 800px;
     margin: 0px auto;
+
+    &-large {
+      max-width: 1300px;
+    }
   }
 
   @include breakpoint(sm) {
@@ -325,15 +329,16 @@ header {
 
   &--item {
     display: flex;
-
-    + .feature--item {
-      margin-top: 40px;
-    }
+    align-items: center;
+    border-bottom: 3px solid rgba($white, .4);
+    margin: 50px 0px;
+    padding: 50px 0px 100px;
 
     &:nth-child(even) {
 
       .feature--info {
         order: 1;
+        margin-top: -30px;
         padding: 10px 40px 10px  0px;
       }
 
@@ -345,42 +350,8 @@ header {
   }
   
   &--img {
-      flex: 0 0 50%;
+    flex: 0 0 50%;
     position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      border-left: 80px solid transparent;
-      border-bottom: 80px solid $green;
-      opacity: 0;
-      transition: all .4s ease;
-    }
-
-    &:after {
-      content: '\e91d';
-      font-family: 'icomoon';
-      font-size: 1.5em;
-      color: $color-text-inverse;
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      padding: 5px;
-      opacity: 0;
-      transition: all .4s ease;
-    }
-
-    &:hover {
-      cursor: pointer;
-
-      &:before,
-      &:after {
-        opacity: 1;
-        transition: all .4s ease;
-      }
-    }
   }
 
   &--info {

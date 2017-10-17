@@ -19,7 +19,7 @@
     @include('landing.components.event-bar')
 
     <section id="section--features" class="section">
-        <div class="section--content">
+        <div class="section--content-large">
             <div class="section--header">Features</div>
             <div class="feature">
                 <div class="feature--item">
@@ -30,10 +30,10 @@
                     </div>
                 </div>
                 <div class="feature--item">
-                    <div class="feature--img" href="#"><img src="assets/img/features/servers.png"></div>
+                    <div class="feature--img" href="#"><img src="assets/img/features/ServerTypes.png"></div>
                     <div class="feature--info">
                         <div class="feature--heading">Select the server setup you need</div>
-                        <div class="feature--description">description</div>
+                        <div class="feature--description">Whether you need a straight forward full stack server or multiple servers to handle your databases and workers, CodePier can configure them for you.</div>
                     </div>
                 </div>
                 <div class="feature--item">
