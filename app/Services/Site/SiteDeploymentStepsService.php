@@ -81,7 +81,7 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
             ]);
 
             $deploymentStepModel->fill([
-                'servers' => isset($deploymentStep['servers']) ? $deploymentStep['servers'] : [],
+                'server_ids' => isset($deploymentStep['servers']) ? $deploymentStep['servers'] : [],
                 'server_types' => isset($deploymentStep['server_types']) ? $deploymentStep['server_types'] : [],
             ]);
 

@@ -25,8 +25,8 @@ class SiteEnvironmentVariableCreated
 
             foreach ($site->provisionedServers as $server) {
                 dispatch(
-                    (new InstallServerEnvironmentVariable($server, $environmentVariable,
-                        $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new InstallServerEnvironmentVariable($server, $environmentVariable, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

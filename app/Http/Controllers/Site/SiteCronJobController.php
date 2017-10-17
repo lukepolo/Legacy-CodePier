@@ -47,7 +47,7 @@ class SiteCronJobController extends Controller
             $cronJob = CronJob::create([
                 'job' => $job,
                 'user' => $user,
-                'servers' => $request->get('servers', []),
+                'server_ids' => $request->get('servers', []),
                 'server_types' => $request->get('server_types', []),
             ]);
 
@@ -75,7 +75,7 @@ class SiteCronJobController extends Controller
         $cronJob = CronJob::findOrFail($cronJobId);
 
         $cronJob->update([
-            'servers' => $request->get('servers', []),
+            'server_ids' => $request->get('servers', []),
             'server_types' => $request->get('server_types', []),
         ]);
 

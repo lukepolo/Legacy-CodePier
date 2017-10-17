@@ -13,7 +13,7 @@
 
                 <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
 
-                <div class="btn btn-success" @click="updateCronJob(cronJob)">update</div>
+                <div class="btn btn-success" v-if="form.diff().length" @click="updateCronJob(cronJob)">update</div>
 
 
                 <tooltip message="Delete">

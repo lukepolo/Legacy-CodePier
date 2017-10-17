@@ -22,7 +22,7 @@ trait ServiceConstructorTrait
 
     public function connectToServer($user = 'root')
     {
-        $this->remoteTaskService->ssh($this->server);
+        $this->remoteTaskService->ssh($this->server, $user);
     }
 
     public function getErrors()

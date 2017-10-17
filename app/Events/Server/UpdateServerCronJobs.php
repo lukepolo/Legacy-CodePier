@@ -35,14 +35,14 @@ class UpdateServerCronJobs
 
         $this->site->cronJobs->each(function (CronJob $cronJob) {
             if (
-                (empty($cronJob->servers) && empty($cronJob->server_types)) ||
-                (! empty($cronJob->servers) && collect($cronJob->servers)->contains($this->server->id)) ||
+                (empty($cronJob->server_ids) && empty($cronJob->server_types)) ||
+                (! empty($cronJob->server_ids) && collect($cronJob->server_ids)->contains($this->server->id)) ||
                 (! empty($cronJob->server_types) && collect($cronJob->server_types)->contains($this->server->type))
             ) {
                 $this->installCronJob($cronJob);
+            } else {
+                $this->removeCronJob($cronJob);
             }
-
-            $this->removeCronJob($cronJob);
         });
     }
 
@@ -52,14 +52,16 @@ class UpdateServerCronJobs
     private function installCronJob(CronJob $cronJob)
     {
         dispatch(
-            (new InstallServerCronJob($this->server, $cronJob, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerCronJob($this->server, $cronJob, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 
     private function removeCronJob(CronJob $cronJob)
     {
         dispatch(
-            (new RemoveServerCronJob($this->server, $cronJob, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new RemoveServerCronJob($this->server, $cronJob, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

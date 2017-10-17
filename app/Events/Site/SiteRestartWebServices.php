@@ -32,7 +32,8 @@ class SiteRestartWebServices
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Web Services');
 
                 dispatch(
-                    (new RestartWebServices($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RestartWebServices($server, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

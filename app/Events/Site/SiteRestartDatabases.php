@@ -30,7 +30,8 @@ class SiteRestartDatabases
             foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Databases');
                 dispatch(
-                    (new RestartDatabases($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RestartDatabases($server, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

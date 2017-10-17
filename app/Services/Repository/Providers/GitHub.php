@@ -3,11 +3,11 @@
 namespace App\Services\Repository\Providers;
 
 use App\Models\Site\Site;
-use GitHub as GitHubService;
 use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
+use GrahamCampbell\GitHub\Facades\GitHub as GitHubService;
 
 class GitHub implements RepositoryContract
 {

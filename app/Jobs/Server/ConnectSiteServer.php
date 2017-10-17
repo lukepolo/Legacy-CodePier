@@ -9,11 +9,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Site\SiteServiceContract as SiteService;
 
 class ConnectSiteServer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $site;
     protected $server;
@@ -51,7 +52,9 @@ class ConnectSiteServer implements ShouldQueue
         } else {
             if ($this->server->created_at->addMinutes(5) > Carbon::now()) {
                 dispatch(
-                    (new self($this->site, $this->server))->delay(30)->onQueue(config('queue.channels.server_commands'))
+                    (new self($this->site, $this->server))
+                        ->delay(30)
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
 
                 return;

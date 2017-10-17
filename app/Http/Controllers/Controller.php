@@ -14,6 +14,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServerCommandTrait;
 
+    /**
+     * @param Request $request
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View|mixed
+     */
     public function app(Request $request)
     {
         if (\Auth::check()) {
@@ -32,5 +36,13 @@ class Controller extends BaseController
         }
 
         return view('landing.index');
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function redirectToApp()
+    {
+        return redirect(config('app.url'));
     }
 }

@@ -17,7 +17,7 @@ class CreateDaemonTables extends Migration
             $table->string('user');
             $table->increments('id');
             $table->string('command');
-            $table->json('servers')->nullable();
+            $table->json('server_ids')->nullable();
             $table->json('server_types')->nullable();
             $table->timestamps();
         });
@@ -38,6 +38,6 @@ class CreateDaemonTables extends Migration
     public function down()
     {
         Schema::dropIfExists('daemons');
-        Schema::dropIfExists('daemonable');
+        Schema::dropIfExists('daemonables');
     }
 }

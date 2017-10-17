@@ -36,7 +36,9 @@ class UpdateServerFirewallRules
         $this->serverType = $server->type;
 
         $this->site->firewallRules->each(function (FirewallRule $firewallRule) {
-            $this->installFirewallRule($firewallRule);
+            if ($this->server->ip !== $firewallRule->from_ip) {
+                $this->installFirewallRule($firewallRule);
+            }
         });
 
         if (
@@ -88,7 +90,8 @@ class UpdateServerFirewallRules
     private function installFirewallRule(FirewallRule $firewallRule)
     {
         dispatch(
-            (new InstallServerFirewallRule($this->server, $firewallRule, $this->command))->onQueue(config('queue.channels.server_commands'))
+            (new InstallServerFirewallRule($this->server, $firewallRule, $this->command))
+                ->onQueue(config('queue.channels.server_commands'))
         );
     }
 }

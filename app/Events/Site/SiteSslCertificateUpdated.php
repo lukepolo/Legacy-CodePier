@@ -46,31 +46,19 @@ class SiteSslCertificateUpdated
                         ]);
 
                         dispatch(
-                            (new DeactivateServerSslCertificate(
-                                $server,
-                                $site,
-                                $activeSsl,
-                                $siteCommand
-                            ))->onQueue(config('queue.channels.server_commands'))
+                            (new DeactivateServerSslCertificate($server, $site, $activeSsl, $siteCommand))
+                                ->onQueue(config('queue.channels.server_commands'))
                         );
                     }
 
                     dispatch(
-                        (new ActivateServerSslCertificate(
-                            $server,
-                            $site,
-                            $sslCertificate,
-                            $siteCommand
-                        ))->onQueue(config('queue.channels.server_commands'))
+                        (new ActivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))
+                            ->onQueue(config('queue.channels.server_commands'))
                     );
                 } else {
                     dispatch(
-                        (new DeactivateServerSslCertificate(
-                            $server,
-                            $site,
-                            $sslCertificate,
-                            $siteCommand
-                        ))->onQueue(config('queue.channels.server_commands'))
+                        (new DeactivateServerSslCertificate($server, $site, $sslCertificate, $siteCommand))
+                            ->onQueue(config('queue.channels.server_commands'))
                     );
                 }
             }

@@ -19,6 +19,8 @@ class SiteUpdatedWebConfig
      */
     public function __construct(Site $site)
     {
+        $site->refresh();
+
         $availableServers = $site->filterServersByType([
             SystemService::WEB_SERVER,
             SystemService::LOAD_BALANCER,
@@ -30,7 +32,8 @@ class SiteUpdatedWebConfig
 
             foreach ($availableServers as $server) {
                 dispatch(
-                    (new UpdateWebConfig($server, $site, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new UpdateWebConfig($server, $site, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

@@ -5,7 +5,6 @@ namespace App\Observers\Site;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
-use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
@@ -79,10 +78,8 @@ class SiteObserver
     {
         remove_events($site);
 
-        if ($site->isDirty('domain')) {
-            event(
-                new SiteRenamed($site, $site->domain, $site->getOriginal('domain'))
-            );
+        if ($site->isDirty('web_directory')) {
+            event(new SiteUpdatedWebConfig($site));
         }
 
         if ($site->isDirty('framework')) {
@@ -101,21 +98,12 @@ class SiteObserver
             }
         }
 
-        if ($site->isDirty('web_directory')) {
-            event(new SiteUpdatedWebConfig($site));
-        }
-
         if ($site->isDirty('type') || $site->isDirty('framework')) {
             $site->deploymentSteps()->delete();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
         }
-    }
-
-    public function updated(Site $site)
-    {
-        remove_events($site);
 
         if ($site->isDirty('repository')) {
             $site->private = false;
@@ -151,7 +139,6 @@ class SiteObserver
         });
 
         $site->buoys()->delete();
-        $site->commands()->delete();
         $site->deployments()->delete();
         $site->deploymentSteps()->delete();
     }
@@ -160,7 +147,8 @@ class SiteObserver
     {
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new DeleteSite($server, $site))->onQueue(config('queue.channels.server_commands'))
+                (new DeleteSite($server, $site))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

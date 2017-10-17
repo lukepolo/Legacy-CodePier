@@ -289,6 +289,7 @@ class SiteService implements SiteServiceContract
                     'order' => 3,
                     'completed' => false,
                 ],
+                'message' => 'You have multiple servers and may have to update your settings because.',
             ];
 
             if ($site->filterServersByType([

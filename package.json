@@ -32,5 +32,10 @@
     "vue-router": "^2.3.0",
     "vuedraggable": "^2.9.0",
     "vuex": "^2.2.1"
+  },
+  "dependencies": {
+    "install": "^0.10.1",
+    "npm": "^5.3.0",
+    "raven-js": "^3.17.0"
   }
 }
