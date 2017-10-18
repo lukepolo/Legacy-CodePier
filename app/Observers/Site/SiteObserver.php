@@ -9,7 +9,6 @@ use App\Traits\ModelCommandTrait;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;

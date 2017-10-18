@@ -166,6 +166,7 @@ class SiteFeatureService implements SiteFeatureServiceContract
             'server_features' => $this->getSuggestedFeatures($site),
         ]);
         $site->setEventDispatcher($dispatcher);
+
         return $site;
     }
 
