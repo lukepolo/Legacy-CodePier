@@ -7,7 +7,7 @@ import { getSite, hasSites, workFlowCompleted } from "./site";
 import { back, action } from "./routes";
 
 import { getServer, serverHasFeature } from "./server";
-
+{ action}
 import { isTag, hasClass } from "./elements";
 
 import { now, diff, parseDate } from "./date-time";
