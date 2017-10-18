@@ -76,12 +76,6 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        remove_events($site);
-
-        if ($site->isDirty('web_directory')) {
-            event(new SiteUpdatedWebConfig($site));
-        }
-
         if ($site->isDirty('framework')) {
             $tempSite = clone $site;
 
@@ -103,13 +97,6 @@ class SiteObserver
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
-        }
-
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
-            $site->save();
         }
     }
 

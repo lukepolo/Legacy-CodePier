@@ -15,6 +15,7 @@ use App\Events\Site\SiteRestartServers;
 use App\Events\Site\SiteRestartWorkers;
 use App\Http\Requests\Site\SiteRequest;
 use App\Events\Site\SiteRestartDatabases;
+use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteRestartWebServices;
 use App\Http\Requests\Site\DeploySiteRequest;
 use App\Http\Requests\Site\SiteRepositoryRequest;
@@ -99,7 +100,7 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
 
-        $site->update([
+        $site->fill([
             'type'                        => $request->get('type'),
             'branch'                      => $request->get('branch'),
             'framework'                   => $request->get('framework'),
@@ -107,6 +108,18 @@ class SiteController extends Controller
             'web_directory'               => $request->get('web_directory'),
             'user_repository_provider_id' => $request->get('user_repository_provider_id'),
         ]);
+
+        if ($site->isDirty('web_directory')) {
+            event(new SiteUpdatedWebConfig($site));
+        }
+
+        if ($site->isDirty('repository')) {
+            $site->private = false;
+            $site->public_ssh_key = null;
+            $site->private_ssh_key = null;
+        }
+
+        $site->save();
 
         if ($request->has('servers')) {
             $changes = $site->servers()->sync($request->get('servers', []));
