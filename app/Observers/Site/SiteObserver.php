@@ -9,7 +9,6 @@ use App\Traits\ModelCommandTrait;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -76,12 +75,6 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        remove_events($site);
-
-        if ($site->isDirty('web_directory')) {
-            event(new SiteUpdatedWebConfig($site));
-        }
-
         if ($site->isDirty('framework')) {
             $tempSite = clone $site;
 
@@ -103,13 +96,6 @@ class SiteObserver
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
-        }
-
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
-            $site->save();
         }
     }
 
