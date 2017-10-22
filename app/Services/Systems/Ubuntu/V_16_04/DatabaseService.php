@@ -49,10 +49,11 @@ class DatabaseService
      */
     public function installMemcached()
     {
-        // TODO - need to open port
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
+
+        $this->remoteTaskService->updateText('/etc/memcached.conf ', '-l 127.0.0.1', '#-l 127.0.0.1');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
     }
