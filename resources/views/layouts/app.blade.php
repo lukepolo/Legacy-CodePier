@@ -25,6 +25,7 @@
                 'stripeKey' => config('services.stripe.key'),
                 'pusherKey' => config('broadcasting.connections.pusher.key'),
                 'serverTypes' => \App\Services\Systems\SystemService::SERVER_TYPES,
+                'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
                 'defaultNotificationTypes' => \App\Http\Controllers\EventController::DEFAULT_TYPES,
             ]); ?>
         </script>
