@@ -88,14 +88,11 @@ class DatabaseService
      */
     public function installPostgreSQL()
     {
-
-        // TODO - open up ports for postgres
-
         $this->connectToServer();
 
         $databasePassword = $this->server->database_password;
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
         $this->remoteTaskService->run('service postgresql restart');
