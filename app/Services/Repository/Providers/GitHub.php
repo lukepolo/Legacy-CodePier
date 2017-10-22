@@ -23,10 +23,8 @@ class GitHub implements RepositoryContract
 
     /**
      * GitHub constructor.
-     *
-     * @param $token
      */
-    public function __construct($token)
+    public function __construct()
     {
         /* @var Client $client */
         $this->client = new Client();
@@ -68,6 +66,8 @@ class GitHub implements RepositoryContract
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
         $this->client->authenticate($userRepositoryProvider->token, 'http_token');
+        $this->meApi = $this->client->currentUser();
+        $this->repositoryApi = $this->client->repository();
     }
 
     /**
