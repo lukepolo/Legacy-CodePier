@@ -85,8 +85,9 @@ Pusher.log = msg => {
 };
 
 window.Echo = new Echo({
+  cluster : Laravel.pusherCluster,
   broadcaster: "pusher",
-  key: Laravel.pusherKey
+  key: Laravel.pusherKey,
 });
 
 /*
