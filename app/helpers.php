@@ -41,21 +41,6 @@ if (! function_exists('create_system_service')) {
     }
 }
 
-if (! function_exists('remove_events')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return mixed
-     */
-    function remove_events(\Illuminate\Database\Eloquent\Model $model)
-    {
-        $model->flushEventListeners();
-
-        return $model;
-    }
-}
-
 if (! function_exists('create_redis_hash')) {
 
     /**

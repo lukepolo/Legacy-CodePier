@@ -40,6 +40,11 @@ class WorkerService
         $this->remoteTaskService->run('systemctl enable supervisor');
         $this->remoteTaskService->run('service supervisor start');
 
+        $this->remoteTaskService->appendTextToFile('/etc/supervisor/supervisord.conf', '
+[inet_http_server]
+port = :9001
+');
+
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
 

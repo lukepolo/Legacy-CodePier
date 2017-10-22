@@ -65,6 +65,7 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
+      NProgress.done();
     return Promise.reject(error);
   }
 );
@@ -84,8 +85,9 @@ Pusher.log = msg => {
 };
 
 window.Echo = new Echo({
+  cluster : Laravel.pusherCluster,
   broadcaster: "pusher",
-  key: Laravel.pusherKey
+  key: Laravel.pusherKey,
 });
 
 /*

@@ -61,8 +61,7 @@
 
                 <div class="flyform--group">
                     <label>Language & Framework</label>
-                    <div class="flyform--group-select">
-
+                    <div class="flyform--group-select" v-if="Object.keys(availableLanguages).length && Object.keys(availableFrameworks).length">
                         <select v-model="form.type" name="type" required>
                             <option value=""></option>
                             <template v-for="(features, language) in availableLanguages">
