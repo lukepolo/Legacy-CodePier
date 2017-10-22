@@ -2,16 +2,35 @@
 
 namespace App\Services\Repository\Providers;
 
+use Github\Client;
+use Github\Api\Repo;
 use App\Models\Site\Site;
+use Github\Api\CurrentUser;
 use App\Exceptions\DeployHookFailed;
 use Github\Exception\RuntimeException;
 use App\Models\User\UserRepositoryProvider;
 use Github\Exception\ValidationFailedException;
-use GrahamCampbell\GitHub\Facades\GitHub as GitHubService;
 
 class GitHub implements RepositoryContract
 {
     use RepositoryTrait;
+
+    /** @var  CurrentUser */
+    private $meApi;
+    private $client;
+    /** @var  Repo */
+    private $repositoryApi;
+
+    /**
+     * GitHub constructor.
+     *
+     * @param $token
+     */
+    public function __construct($token)
+    {
+        /* @var Client $client */
+        $this->client = new Client();
+    }
 
     /**
      * Imports a deploy key so we can clone the repositories.
@@ -24,7 +43,7 @@ class GitHub implements RepositoryContract
         $this->setToken($site->userRepositoryProvider);
 
         try {
-            GitHubService::me()->keys()->create([
+            $this->meApi->keys()->create([
                 'title' => $this->sshKeyLabel($site),
                 'key'   => $site->public_ssh_key,
             ]);
@@ -48,7 +67,7 @@ class GitHub implements RepositoryContract
      */
     public function setToken(UserRepositoryProvider $userRepositoryProvider)
     {
-        return config(['github.connections.main.token' => $userRepositoryProvider->token]);
+        $this->client->authenticate($userRepositoryProvider->token, 'http_token');
     }
 
     /**
@@ -64,7 +83,7 @@ class GitHub implements RepositoryContract
         $slug = $this->getRepositorySlug($site->repository);
 
         try {
-            $webhook = GitHubService::api('repo')->hooks()->create($owner, $slug, [
+            $webhook = $this->repositoryApi->hooks()->create($owner, $slug, [
                 'name'   => 'web',
                 'active' => true,
                 'events' => [
@@ -104,7 +123,7 @@ class GitHub implements RepositoryContract
         $this->setToken($site->userRepositoryProvider);
 
         try {
-            $repository = GitHubService::api('repo')->show(
+            $repository = $this->repositoryApi->show(
                 $this->getRepositoryUser($site->repository),
                 $this->getRepositorySlug($site->repository)
             );
@@ -129,7 +148,7 @@ class GitHub implements RepositoryContract
     {
         $this->setToken($site->userRepositoryProvider);
 
-        GitHubService::api('repo')->hooks()->remove(
+        $this->repositoryApi->hooks()->remove(
             $this->getRepositoryUser($site->repository),
             $this->getRepositorySlug($site->repository),
             $site->automatic_deployment_id
