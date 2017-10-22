@@ -45,8 +45,6 @@ class WorkerService
 port = :9001
 ');
 
-
-
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
 
