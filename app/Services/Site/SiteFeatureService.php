@@ -156,17 +156,18 @@ class SiteFeatureService implements SiteFeatureServiceContract
     /**
      * Saves the suggested defaults to their site.
      * @param Site $site
-     * @return mixed
+     * @return $site
      */
     public function saveSuggestedFeaturesDefaults(Site $site)
     {
-        //        return $site->update([
-        //            'server_features' => [],
-        //        ]);
-
-        return $site->update([
+        $dispatcher = $site->getEventDispatcher();
+        $site->unsetEventDispatcher();
+        $site->update([
             'server_features' => $this->getSuggestedFeatures($site),
         ]);
+        $site->setEventDispatcher($dispatcher);
+
+        return $site;
     }
 
     public function getSuggestedCronJobs(Site $site)

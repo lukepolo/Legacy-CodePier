@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.14 on 2017-10-11.
+ * Generated for Laravel 5.5.18 on 2017-10-22.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -5263,7 +5263,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param array $replace
          * @param string $locale
-         * @return string 
+         * @return string|array|null 
          * @static 
          */ 
         public static function getFromJson($key, $replace = array(), $locale = null)
@@ -6765,6 +6765,43 @@ namespace Illuminate\Support\Facades {
         public static function setSession($session)
         {
             \Illuminate\Routing\Redirector::setSession($session);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Routing\Redirector::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @return void 
+         * @static 
+         */ 
+        public static function mixin($mixin)
+        {
+            \Illuminate\Routing\Redirector::mixin($mixin);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Routing\Redirector::hasMacro($name);
         }
          
     }
@@ -13088,6 +13125,14 @@ namespace Vinkla\Hashids\Facades {
  
 }
 
+namespace Laravel\Horizon { 
+
+    class Horizon {
+         
+    }
+ 
+}
+
 namespace Mpociot\Teamwork\Facades { 
 
     class Teamwork {
@@ -15305,6 +15350,8 @@ namespace  {
 
     class Hashids extends \Vinkla\Hashids\Facades\Hashids {}
 
+    class Horizon extends \Laravel\Horizon\Horizon {}
+
     class Teamwork extends \Mpociot\Teamwork\Facades\Teamwork {}
  
 }
@@ -15401,7 +15448,7 @@ if (! function_exists('array_dot')) {
 
 if (! function_exists('array_except')) {
     /**
-     * Get all of the given array except for a specified array of items.
+     * Get all of the given array except for a specified array of keys.
      *
      * @param  array  $array
      * @param  array|string  $keys
@@ -16518,21 +16565,6 @@ if (! function_exists('create_system_service')) {
         $systemService = app(\App\Contracts\Systems\SystemServiceContract::class);
 
         return $systemService->createSystemService($service, $server);
-    }
-}
-
-if (! function_exists('remove_events')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return mixed
-     */
-    function remove_events(\Illuminate\Database\Eloquent\Model $model)
-    {
-        $model->flushEventListeners();
-
-        return $model;
     }
 }
 
