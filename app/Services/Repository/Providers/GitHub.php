@@ -15,10 +15,10 @@ class GitHub implements RepositoryContract
 {
     use RepositoryTrait;
 
-    /** @var  CurrentUser */
+    /** @var CurrentUser */
     private $meApi;
     private $client;
-    /** @var  Repo */
+    /** @var Repo */
     private $repositoryApi;
 
     /**
