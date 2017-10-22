@@ -8,12 +8,14 @@ use phpseclib\Crypt\RSA;
 use App\Models\User\User;
 use App\Models\Server\Server;
 use DigitalOceanV2\Entity\Droplet;
+use DigitalOceanV2\DigitalOceanV2;
 use App\Services\Server\ServerService;
 use App\Models\User\UserServerProvider;
+use DigitalOceanV2\Adapter\BuzzAdapter;
 use GuzzleHttp\Exception\ClientException;
 use App\Models\Server\Provider\ServerProviderOption;
 use App\Models\Server\Provider\ServerProviderRegion;
-use GrahamCampbell\DigitalOcean\Facades\DigitalOcean;
+
 
 /**
  * Class DigitalOcean.
@@ -21,6 +23,10 @@ use GrahamCampbell\DigitalOcean\Facades\DigitalOcean;
 class DigitalOceanProvider implements ServerProviderContract
 {
     const OAUTH_TOKEN_URL = 'https://cloud.digitalocean.com/v1/oauth/token';
+
+    /** @var DigitalOceanV2 */
+    private $client;
+
     use ServerProviderTrait;
 
     /**
@@ -36,7 +42,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
-        foreach (DigitalOcean::size()->getAll() as $size) {
+        foreach ($this->client->size()->getAll() as $size) {
             $options[] = ServerProviderOption::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
                 'memory' => $size->memory,
@@ -63,7 +69,7 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $this->setToken($this->getTokenFromUser(\Auth::user()));
 
-        foreach (DigitalOcean::region()->getAll() as $region) {
+        foreach ($this->client->region()->getAll() as $region) {
             $regions[] = ServerProviderRegion::firstOrCreate([
                 'server_provider_id' => $this->getServerProviderID(),
                 'name' => $region->name,
@@ -102,10 +108,10 @@ class DigitalOceanProvider implements ServerProviderContract
 
         $this->setToken($this->getTokenFromServer($server));
 
-        DigitalOcean::key()->create($server->name, $server->public_ssh_key);
+        $this->client->key()->create($server->name, $server->public_ssh_key);
 
         /** @var Droplet $droplet */
-        $droplet = DigitalOcean::droplet()->create(
+        $droplet = $this->client->droplet()->create(
             $server->name,
             $serverRegion->provider_name,
             strtolower($serverOption->getRamString()),
@@ -133,7 +139,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        return DigitalOcean::droplet()->getById($server->given_server_id)->status;
+        return $this->client->droplet()->getById($server->given_server_id)->status;
     }
 
     /**
@@ -161,7 +167,7 @@ class DigitalOceanProvider implements ServerProviderContract
     {
         $this->setToken($this->getTokenFromServer($server));
 
-        $droplet = DigitalOcean::droplet()->getById($server->given_server_id);
+        $droplet = $this->client->droplet()->getById($server->given_server_id);
 
         foreach ($droplet->networks as $network) {
             if ($network->type == 'public') {
@@ -181,14 +187,14 @@ class DigitalOceanProvider implements ServerProviderContract
      */
     public function setToken($token)
     {
-        config(['digitalocean.connections.main.token' => $token]);
+        $this->client = new DigitalOceanV2(new BuzzAdapter($token));
     }
 
     public function getUser(User $user)
     {
         $this->setToken($this->getTokenFromUser($user));
 
-        return DigitalOcean::account()->getUserInformation();
+        return $this->client->account()->getUserInformation();
     }
 
     /**
