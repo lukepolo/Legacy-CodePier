@@ -161,7 +161,7 @@
 
             </div>
 
-            <div class="btn-container">
+            <div class="btn-container" v-if="server.progress >= 100">
                 <tooltip message="Restart web services" placement="top-right">
                     <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
                 </tooltip>

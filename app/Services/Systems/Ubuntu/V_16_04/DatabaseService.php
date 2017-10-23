@@ -49,10 +49,11 @@ class DatabaseService
      */
     public function installMemcached()
     {
-        // TODO - need to open port
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
+
+        $this->remoteTaskService->updateText('/etc/memcached.conf ', '-l 127.0.0.1', '#-l 127.0.0.1');
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
     }
@@ -87,14 +88,11 @@ class DatabaseService
      */
     public function installPostgreSQL()
     {
-
-        // TODO - open up ports for postgres
-
         $this->connectToServer();
 
         $databasePassword = $this->server->database_password;
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
         $this->remoteTaskService->run('service postgresql restart');
@@ -284,12 +282,14 @@ class DatabaseService
 
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
-        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"CREATE ROLE $schemaUser->name LOGIN UNENCRYPTED PASSWORD '$schemaUser->password';\"");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"GRANT CONNECT ON DATABASE $schema->name TO $schemaUser->name;\"");
     }
 
     private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
-        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=$schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"REVOKE ALL PRIVILEGES ON DATABASE $schema->name from $schemaUser->name;\"");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"DROP ROLE $schemaUser->name;\"");
     }
 
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)

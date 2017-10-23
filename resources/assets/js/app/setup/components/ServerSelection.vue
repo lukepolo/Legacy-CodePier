@@ -7,7 +7,7 @@
             <template v-for="server in siteServers">
                 <div class="flyform--group-checkbox">
                     <label>
-                        <input type="checkbox" v-model="form.servers" :value="server.id" :disabled="serverTypeSelected(server.type)">
+                        <input type="checkbox" v-model="form.server_ids" :value="server.id" :disabled="serverTypeSelected(server.type)">
                         <span class="icon"></span>
                         {{ server.name }} - {{ server.type }} -({{ server.ip }})
                     </label>
@@ -30,7 +30,7 @@
 <script>
     export default {
         props : {
-            servers : {
+            server_ids : {
                 default : () => []
             },
             server_types : {
@@ -43,14 +43,14 @@
         data() {
             return {
                 form : {
-                    servers : this.servers,
+                    server_ids : this.server_ids,
                     server_types : this.server_types
                 }
             }
         },
         watch: {
-            'form.servers': function() {
-                this.$emit('update:servers', this.form.servers)
+            'form.server_ids': function() {
+                this.$emit('update:server_ids', this.form.server_ids)
             },
             'form.server_types': function() {
                 this.$emit('update:server_types', this.form.server_types)

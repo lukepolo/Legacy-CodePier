@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
+            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
@@ -81,7 +81,7 @@
                     cron: null,
                     user: 'root',
                     cron_timing: null,
-                    servers : [],
+                    server_ids : [],
                     server_types : [],
                 }),
             }
@@ -114,7 +114,7 @@
                             job: job,
                             site: this.siteId,
                             user: this.form.user,
-                            servers : this.form.servers,
+                            server_ids : this.form.server_ids,
                             server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
@@ -128,7 +128,7 @@
                             job: job,
                             user: this.form.user,
                             server: this.serverId,
-                            servers : this.form.servers,
+                            server_ids : this.form.server_ids,
                             server_types : this.form.server_types,
                         }).then((cronJob) => {
                             if(cronJob) {
