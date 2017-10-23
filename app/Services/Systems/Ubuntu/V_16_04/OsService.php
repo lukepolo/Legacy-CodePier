@@ -17,6 +17,9 @@ class OsService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
+
+        // https://community.rackspace.com/products/f/25/t/5110
+        $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
     }
 
     public function setTimezoneToUTC()
@@ -117,7 +120,7 @@ Unattended-Upgrade::Allowed-Origins {
     "Ubuntu xenial-security";
 };
 Unattended-Upgrade::Package-Blacklist {
-
+    //
 };
 ');
 
