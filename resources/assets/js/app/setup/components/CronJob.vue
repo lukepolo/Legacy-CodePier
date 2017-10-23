@@ -11,7 +11,7 @@
 
             <td class="table--action">
 
-                <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
+                <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
 
                 <div class="btn btn-success" v-if="form.diff().length" @click="updateCronJob(cronJob)">update</div>
 
@@ -39,8 +39,8 @@
             return {
                 form : this.createForm({
                     cron_job : this.cronJob.id,
-                    servers : this.cronJob.servers,
                     site : this.$route.params.site_id,
+                    server_ids : this.cronJob.server_ids,
                     server_types : this.cronJob.server_types,
                 }),
             }
