@@ -12,6 +12,8 @@ class CreateUserServerProvidersTable extends Migration
      */
     public function up()
     {
+        Artisan::call('passport:install');
+
         Schema::create('user_server_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
