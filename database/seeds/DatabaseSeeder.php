@@ -11,10 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (! \File::exists(storage_path('oauth-private.key'))) {
-            Artisan::call('passport:install');
-        }
-
         $this->call(CategoriesSeeder::class);
         $this->call(BuoySeeder::class);
 
