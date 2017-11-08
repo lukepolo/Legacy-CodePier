@@ -47,11 +47,12 @@ export const destroy = (context, data) => {
 };
 
 export const listenToSslCertificate = ({ commit }, sslCertificate) => {
-  Echo.private(
-    "App.Models.SslCertificate." + sslCertificate.id
-  ).listen("SslCertificate\\SslCertificateUpdated", data => {
-    commit("update", {
-      response: data.ssl_certificate
-    });
-  });
+  Echo.private("App.Models.SslCertificate." + sslCertificate.id).listen(
+    "SslCertificate\\SslCertificateUpdated",
+    data => {
+      commit("update", {
+        response: data.ssl_certificate
+      });
+    }
+  );
 };
