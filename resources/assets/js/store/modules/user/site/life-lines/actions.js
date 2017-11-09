@@ -38,11 +38,12 @@ export const destroy = (context, data) => {
 };
 
 export const listen = ({ commit }, lifeline) => {
-  Echo.private(
-    "App.Models.Site.Lifeline." + lifeline
-  ).listen("Site\\LifeLineUpdated", data => {
-    commit("update", {
-      response: data.lifeline
-    });
-  });
+  Echo.private("App.Models.Site.Lifeline." + lifeline).listen(
+    "Site\\LifeLineUpdated",
+    data => {
+      commit("update", {
+        response: data.lifeline
+      });
+    }
+  );
 };
