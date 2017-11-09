@@ -2,8 +2,8 @@ import Request from "./Request";
 
 class Form extends Request {
   /**
-     * Reset the form fields.
-     */
+   * Reset the form fields.
+   */
   reset() {
     for (const field in this.originalData) {
       this[field] = this.originalData[field];
@@ -21,10 +21,10 @@ class Form extends Request {
   }
 
   /**
-     * Handle a successful form submission.
-     *
-     * @param {object} data
-     */
+   * Handle a successful form submission.
+   *
+   * @param {object} data
+   */
   onSuccess(data) {
     if (this.resetData) {
       this.reset();
