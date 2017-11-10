@@ -35,7 +35,7 @@ class ServerLoad extends Notification
 
         $this->slackChannel = $server->name;
 
-        if($server->site) {
+        if ($server->site) {
             $this->slackChannel = $server->site->getSlackChannelName('servers');
         }
     }
