@@ -22,7 +22,6 @@ class SlackMessageChannel
      * Create a new Slack channel instance.
      *
      * @param \GuzzleHttp\Client $http
-     *
      */
     public function __construct(HttpClient $http)
     {
@@ -60,7 +59,7 @@ class SlackMessageChannel
 
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
-                    if($response->ok || $response->error === 'name_taken') {
+                    if ($response->ok || $response->error === 'name_taken') {
                         $slackChannel = SlackChannel::create([
                             'channel' => $slackChannel,
                             'created' => true,
