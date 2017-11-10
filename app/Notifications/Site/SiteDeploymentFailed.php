@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use App\Models\Site\SiteServerDeployment;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Notifications\Messages\SlackMessage;
 
 class SiteDeploymentFailed extends Notification
@@ -43,7 +42,7 @@ class SiteDeploymentFailed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', SlackMessageChannel::class];
+        return $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
     }
 
     /**

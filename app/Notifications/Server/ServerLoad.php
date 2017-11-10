@@ -43,7 +43,7 @@ class ServerLoad extends Notification
      */
     public function via()
     {
-        return $this->load ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
+        return $this->load ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
