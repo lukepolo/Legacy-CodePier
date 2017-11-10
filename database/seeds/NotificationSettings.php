@@ -15,16 +15,16 @@ class NotificationSettings extends Seeder
     public function run()
     {
         $settings = [
-            \App\Notifications\Site\NewSiteDeployment::class => [
-                'group' => 'site_deployment',
-                'name' => 'New Site Deployment',
-                'default' => true,
-                'description' => 'Sends a notification that a deployment has been queued',
-                'services' => [
-                    self::MAIL,
-                    self::SLACK,
-                ],
-            ],
+//            \App\Notifications\Site\NewSiteDeployment::class => [
+//                'group' => 'site_deployment',
+//                'name' => 'New Site Deployment',
+//                'default' => true,
+//                'description' => 'Sends a notification that a deployment has been queued',
+//                'services' => [
+//                    self::MAIL,
+//                    self::SLACK,
+//                ],
+//            ],
             \App\Notifications\Site\SiteDeploymentFailed::class => [
                 'group' => 'site_deployment',
                 'name' => 'Site Deployment Failed',
@@ -41,7 +41,6 @@ class NotificationSettings extends Seeder
                 'default' => true,
                 'description' => 'Sends a notification that a deployment has been been successful for all servers',
                 'services' => [
-                    self::MAIL,
                     self::SLACK,
                 ],
             ],
