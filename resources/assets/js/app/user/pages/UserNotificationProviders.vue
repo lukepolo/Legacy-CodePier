@@ -1,5 +1,4 @@
 <template>
-
    <section>
        <div class="providers grid-4">
            <label v-for="provider in notification_providers">
@@ -49,6 +48,9 @@
             notification_providers() {
                 return this.$store.state.notification_providers.providers
             },
+            user_notification_providers() {
+                return this.$store.state.user_notification_providers.providers
+            },
         },
         methods: {
             connectProvider(provider) {
@@ -57,10 +59,9 @@
                 )
             },
             isConnected: function (notification_provider_id) {
-                if (_.some(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
+                if (_.find(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
                     return true
                 }
-
                 return false
             },
             disconnectProvider: function (notification_provider_id) {
@@ -78,10 +79,8 @@
             }
         },
         created() {
-            this.$store.dispatch('notification_providers/get')
-            this.$store.dispatch('user_notification_providers/get', this.$store.state.user.user.id)
-
             this.$store.dispatch('notification_settings/get')
+            this.$store.dispatch('notification_providers/get')
             this.$store.dispatch('user_notification_settings/get')
         },
     }
