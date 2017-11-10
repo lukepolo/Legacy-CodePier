@@ -49,7 +49,7 @@ class SlackMessageChannel
 
             $message = $notification->toSlack($notifiable);
 
-            if (empty($notifiable->slackChannel) || $notifiable->slackChannel->channel != $slackChannel) {
+//            if (empty($notifiable->slackChannel) || $notifiable->slackChannel->channel != $slackChannel) {
                 if ($notifiable->slackChannel) {
                     $notifiable->slackChannel()->delete();
                 }
@@ -60,6 +60,8 @@ class SlackMessageChannel
                         'name'     => $slackChannel,
                     ],
                 ]);
+
+                \Log::info(json_decode($response->getBody()->getContents()));
 
                 if ($response->getStatusCode() == 200) {
                     $response = json_decode($response->getBody()->getContents());
@@ -74,7 +76,7 @@ class SlackMessageChannel
                         \Log::info('Unable to create slack channel', [$response]);
                     }
                 }
-            }
+//            }
 
             $response = $this->http->post('https://slack.com/api/chat.postMessage', [
                 'form_params' => [
