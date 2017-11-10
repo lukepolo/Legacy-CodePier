@@ -34,7 +34,7 @@ class ServerMemory extends Notification
             }
         }
 
-        $this->slackChannel = 'servers';
+        $this->slackChannel = $server->site->slack_channel_preferences['servers'] ?: $server->site->name;
     }
 
     /**
@@ -44,7 +44,7 @@ class ServerMemory extends Notification
      */
     public function via()
     {
-        return ! empty($this->memory) ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
+        return ! empty($this->memory) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
