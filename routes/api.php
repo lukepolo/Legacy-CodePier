@@ -255,6 +255,7 @@ Route::group(['middleware' => [
             Route::apiResource('sites.deployment-steps', 'SiteDeploymentStepsController');
             Route::apiResource('sites.language-settings', 'SiteLanguageSettingsController');
             Route::apiResource('sites.environment-variables', 'SiteEnvironmentVariablesController');
+            Route::apiResource('sites.notification-channels', 'SiteNotificationChannelsController');
             Route::get('site/{site}/language-settings', 'SiteLanguageSettingsController@getLanguageSettings');
         });
     });

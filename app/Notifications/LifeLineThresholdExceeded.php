@@ -29,7 +29,7 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
 
         $this->lifeline->increment('sent_notifications');
 
-        $this->slackChannel = snake_case($this->lifeline->site->name);
+        $this->slackChannel = $this->lifeline->site->slack_channel_preferences['lifelines'];
 
         return ['mail', SlackMessageChannel::class];
     }

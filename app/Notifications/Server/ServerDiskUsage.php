@@ -32,7 +32,7 @@ class ServerDiskUsage extends Notification
                 $this->disks[$disk] = $stats;
             }
         }
-        $this->slackChannel = 'servers';
+        $this->slackChannel = $server->site->slack_channel_preferences['servers'];
     }
 
     /**

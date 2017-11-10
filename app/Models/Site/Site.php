@@ -63,6 +63,7 @@ class Site extends Model
     protected $casts = [
         'workflow' => 'array',
         'server_features' => 'array',
+        'slack_channel_preferences' => 'array',
     ];
 
     /*

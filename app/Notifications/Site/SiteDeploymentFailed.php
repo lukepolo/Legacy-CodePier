@@ -31,7 +31,7 @@ class SiteDeploymentFailed extends Notification
         $this->siteServerDeployment = $siteServerDeployment;
         $this->server = $this->siteServerDeployment->server;
 
-        $this->slackChannel = 'deployments';
+        $this->slackChannel = $this->siteServerDeployment->siteDeployment->site->slack_channel_preferences['site'];
     }
 
     /**

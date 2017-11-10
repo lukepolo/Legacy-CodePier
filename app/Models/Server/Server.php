@@ -52,6 +52,7 @@ class Server extends Model
         'options'  => 'array',
         'server_features' => 'array',
         'server_provider_features' => 'array',
+        'slack_channel_preferences' => 'array',
     ];
 
     protected $encryptable = [
