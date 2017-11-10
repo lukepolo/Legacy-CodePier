@@ -50,8 +50,7 @@ class SlackMessageChannel
             $message = $notification->toSlack($notifiable);
 
             if (empty($notifiable->slackChannel) || $notifiable->slackChannel->channel != $slackChannel) {
-
-                if($notifiable->slackChannel) {
+                if ($notifiable->slackChannel) {
                     $notifiable->slackChannel()->delete();
                 }
 
