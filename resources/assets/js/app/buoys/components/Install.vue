@@ -1,9 +1,9 @@
 <template>
-    <section v-if="buoy_app">
-        <template v-if="buoy_app && buoy_app.icon_url">
-            <img :src="buoy_app.icon_url" style="max-width:100px">
+    <section v-if="buoyApp">
+        <template v-if="buoyApp && buoyApp.icon_url">
+            <img :src="buoyApp.icon_url" style="max-width:100px">
         </template>
-        {{ buoy_app.title }}
+        {{ buoyApp.title }}
 
         <div class="jcf-form-wrap">
 
@@ -58,12 +58,12 @@
     export default {
         data() {
             return {
-                form : {
+                form : this.createForm({
                     ports : [],
                     options : [],
                     server : null,
                     buoy_app_id : null,
-                }
+                })
             }
         },
         methods: {
@@ -73,8 +73,7 @@
             }
         },
         computed: {
-            buoy_app() {
-
+            buoyApp() {
                 let buoy_app = this.$store.state.buoys.buoy_app
 
                 if(buoy_app) {

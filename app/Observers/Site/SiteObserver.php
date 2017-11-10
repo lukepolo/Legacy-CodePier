@@ -5,12 +5,10 @@ namespace App\Observers\Site;
 use App\Models\Site\Site;
 use App\Models\FirewallRule;
 use App\Jobs\Site\DeleteSite;
-use App\Events\Site\SiteRenamed;
 use App\Traits\ModelCommandTrait;
 use App\Events\Site\SiteSshKeyDeleted;
 use App\Events\Site\SiteWorkerDeleted;
 use App\Events\Site\SiteCronJobDeleted;
-use App\Events\Site\SiteUpdatedWebConfig;
 use App\Events\Site\SiteFirewallRuleDeleted;
 use App\Events\Site\SiteSslCertificateDeleted;
 use App\Contracts\Site\SiteServiceContract as SiteService;
@@ -77,14 +75,6 @@ class SiteObserver
 
     public function updating(Site $site)
     {
-        remove_events($site);
-
-        if ($site->isDirty('domain')) {
-            event(
-                new SiteRenamed($site, $site->domain, $site->getOriginal('domain'))
-            );
-        }
-
         if ($site->isDirty('framework')) {
             $tempSite = clone $site;
 
@@ -101,27 +91,11 @@ class SiteObserver
             }
         }
 
-        if ($site->isDirty('web_directory')) {
-            event(new SiteUpdatedWebConfig($site));
-        }
-
         if ($site->isDirty('type') || $site->isDirty('framework')) {
             $site->deploymentSteps()->delete();
             $this->siteDeploymentStepsService->saveDefaultSteps($site);
             $this->siteFeatureService->saveSuggestedFeaturesDefaults($site);
             $this->siteFeatureService->saveSuggestedCronJobs($site);
-        }
-    }
-
-    public function updated(Site $site)
-    {
-        remove_events($site);
-
-        if ($site->isDirty('repository')) {
-            $site->private = false;
-            $site->public_ssh_key = null;
-            $site->private_ssh_key = null;
-            $site->save();
         }
     }
 
@@ -151,7 +125,6 @@ class SiteObserver
         });
 
         $site->buoys()->delete();
-        $site->commands()->delete();
         $site->deployments()->delete();
         $site->deploymentSteps()->delete();
     }
@@ -160,7 +133,8 @@ class SiteObserver
     {
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new DeleteSite($server, $site))->onQueue(config('queue.channels.server_commands'))
+                (new DeleteSite($server, $site))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

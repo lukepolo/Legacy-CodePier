@@ -18,7 +18,7 @@ class PHP
      */
     public function installPhpDependencies()
     {
-        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-progress --no-interaction');
+        return $this->remoteTaskService->run('cd '.$this->release.'; composer install --no-dev --no-progress --no-interaction');
     }
 
     /**
@@ -33,7 +33,7 @@ class PHP
         $output = [];
 
         $output[] = $this->remoteTaskService->run('([ -d '.$this->siteFolder.'/node_modules ]) || (cd '.$this->release.'; yarn install --no-progress --production; mv '.$this->release.'/node_modules '.$this->siteFolder.')');
-        $output[] = $this->remoteTaskService->run('ln -s '.$this->siteFolder.'/node_modules '.$this->release);
+        $output[] = $this->remoteTaskService->run('ln -sf '.$this->siteFolder.'/node_modules '.$this->release);
 
         return $output;
     }

@@ -93,9 +93,9 @@
             },
 
             registerProvider(provider) {
-                window.location.href = this.action('Auth\OauthController@newProvider', {
+                window.location.replace(this.action('Auth\OauthController@newProvider', {
                     provider : provider
-                })
+                }))
             },
         },
         created() {

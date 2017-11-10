@@ -65,7 +65,7 @@ class SiteService implements SiteServiceContract
         $location = '/home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory;
 
         $this->remoteTaskService->makeDirectory($location);
-        $this->remoteTaskService->run("ln -s /opt/codepier/landing/index.html $location/index.html");
+        $this->remoteTaskService->run("ln -sf /opt/codepier/landing/index.html $location/index.html");
 
         $this->serverService->restartWebServices($server);
     }
@@ -245,7 +245,7 @@ class SiteService implements SiteServiceContract
      * @param $description
      * @param null $fromIp
      *
-     * return FirewallRule | null
+     * @return FirewallRule | null
      */
     public function createFirewallRule(Site $site, $port, $type, $description, $fromIp = null)
     {
@@ -269,6 +269,44 @@ class SiteService implements SiteServiceContract
             event(new SiteFirewallRuleCreated($site, $firewallRule));
 
             return $firewallRule;
+        }
+    }
+
+    /**
+     * @param Site $site
+     */
+    public function resetWorkflow(Site $site)
+    {
+        if ($site->servers->count() > 1) {
+            $workflow = [
+                'site_cron_jobs' => [
+                    'step' => 'site_cron_jobs',
+                    'order' => 2,
+                    'completed' => false,
+                ],
+                'site_daemons' => [
+                    'step' => 'site_daemons',
+                    'order' => 3,
+                    'completed' => false,
+                ],
+                'message' => 'You have multiple servers and may have to update your settings because.',
+            ];
+
+            if ($site->filterServersByType([
+                SystemService::WEB_SERVER,
+                SystemService::WORKER_SERVER,
+                SystemService::FULL_STACK_SERVER,
+            ])) {
+                $workflow['site_deployment'] = [
+                    'step' => 'site_deployment',
+                    'order' => 1,
+                    'completed' => false,
+                ];
+            }
+
+            $site->update([
+                'workflow' => $workflow,
+            ]);
         }
     }
 }

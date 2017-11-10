@@ -63,9 +63,10 @@
                         <draggable :list="inactive" class="dragArea" :options="{group:'tasks'}" @sort="sortInactiveList">
                             <div class="drag-element" v-for="(deploymentStep, key) in inactive"  v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
-                                        :deployment-step="deploymentStep"
-                                        v-on:updateStep="updateStep('inactive')"
-                                        v-on:deleteStep="deleteStep(key, 'inactive')"
+                                    :deployment-step="deploymentStep"
+                                    :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                    v-on:updateStep="updateStep('inactive')"
+                                    v-on:deleteStep="deleteStep(key, 'inactive')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -82,10 +83,12 @@
                         <draggable :list="active" class="dragArea" :options="{group:'tasks'}">
                             <div class="drag-element" v-for="(deploymentStep, key) in active" v-if="!deploymentStep.zerotime_deployment || (deploymentStep.zerotime_deployment && showZeroTimeDeploymentOptions)">
                                 <deployment-step-card
-                                        :deployment-step="deploymentStep"
-                                        :key="deploymentStep"
-                                        v-on:updateStep="updateStep('active')"
-                                        v-on:deleteStep="deleteStep(key, 'active')"
+                                    :order="key + 1"
+                                    :deployment-step="deploymentStep"
+                                    :key="deploymentStep.step"
+                                    :suggestedOrder="getSuggestedOrder(deploymentStep)"
+                                    v-on:updateStep="updateStep('active')"
+                                    v-on:deleteStep="deleteStep(key, 'active')"
                                 ></deployment-step-card>
                             </div>
                         </draggable>
@@ -212,13 +215,8 @@
                 _.each(this.currentSiteDeploymentSteps, (step) => {
                     if(step.script) {
                         step.editing = false;
-                        this.active.push(step);
-                    } else {
-                        step = _.find(this.deploymentSteps, { internal_deployment_function : step.internal_deployment_function });
-                        if(step) {
-                            this.active.push(step);
-                        }
                     }
+                    this.active.push(step);
                 });
 
                 _.each(this.deploymentSteps, (step) => {
@@ -232,6 +230,32 @@
             },
             deleteStep(deploymentStep, state) {
                 this[state].splice(deploymentStep, 1)
+            },
+            getSuggestedOrder(deploymentStep) {
+                let internalStep = this.internalStep(deploymentStep)
+                if(internalStep) {
+
+                    let activeSteps = _.filter(this.deploymentSteps, (step) => {
+                        return _.find(this.active, { step : step.step})
+                    })
+
+                    let steps = _.filter(activeSteps, (step) => {
+                        return step.order < internalStep.order
+                    })
+
+                    return steps.length + 1
+                }
+
+                return null
+            },
+            internalStep(deploymentStep) {
+                if(deploymentStep.internal_deployment_function && this.deploymentSteps) {
+                    return _.find(this.deploymentSteps, (step) => {
+                        return step.internal_deployment_function === deploymentStep.internal_deployment_function
+                    })
+                }
+
+                return false
             }
         },
         computed: {

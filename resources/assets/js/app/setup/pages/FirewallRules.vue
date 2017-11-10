@@ -20,8 +20,8 @@
                 <label>Select Type</label>
                 <div class="flyform--group-select">
                     <select v-model="form.type" name="type">
-                        <option>TCP</option>
-                        <option>UDP</option>
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
                     </select>
                 </div>
             </div>
@@ -78,12 +78,12 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
                     port: null,
                     type : 'tcp',
                     from_ip: null,
                     description: null
-                }
+                })
             }
         },
         created() {
@@ -144,7 +144,7 @@
                 return this.isCommandRunning('App\\Models\\FirewallRule', id)
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.form.reset()
             }
         },
         computed: {

@@ -12,12 +12,13 @@ use App\Exceptions\ServerCommandFailed;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Site\SiteUpdatedWebConfig;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Events\Site\SiteSslCertificateUpdated;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerSslCertificate implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $server;
     private $sslCertificate;

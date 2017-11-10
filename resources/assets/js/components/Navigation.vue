@@ -41,7 +41,7 @@
 
         <ul class="nav navbar-right nav-right">
 
-            <template>
+            <template v-if="isSubscribed">
                 <!--<li class="search-container">-->
                     <!--<div class="search-form" :class="{ open : search }">-->
                         <!--<input ref='search' type="text" placeholder="search..." v-model="form.query">-->
@@ -110,9 +110,9 @@ export default {
         },
         data () {
             return {
-                form: {
+                form: this.createForm({
                     query: 'Sorry, its coming soon!'
-                },
+                }),
                 search: false,
                 current_version: Laravel.version
             }
@@ -158,10 +158,6 @@ export default {
             changePile: function (pile_id) {
                 this.$store.dispatch('user_piles/change', pile_id)
             }
-        },
-        created () {
-            this.$store.dispatch('user_piles/get')
-            this.$store.dispatch('user_teams/get')
         }
     }
 </script>

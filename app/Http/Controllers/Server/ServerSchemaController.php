@@ -49,8 +49,9 @@ class ServerSchemaController extends Controller
                 'database' =>  $database,
             ]);
 
-            $this->dispatch(
-                (new AddServerSchema($server, $schema))->onQueue(config('queue.channels.server_commands'))
+            dispatch(
+                (new AddServerSchema($server, $schema))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($schema);
@@ -71,8 +72,9 @@ class ServerSchemaController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        $this->dispatch(
-            (new RemoveServerSchema($server, $server->schemas->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
+        dispatch(
+            (new RemoveServerSchema($server, $server->schemas->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
         );
 
         return response()->json('OK');

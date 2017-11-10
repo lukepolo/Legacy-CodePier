@@ -26,7 +26,7 @@ class SchemaUserRequest extends FormRequest
         return [
             'password' => 'required',
             'schema_ids'=> 'required|array',
-            'name' => 'required|databaseName',
+            'name' => 'required|alpha',
         ];
     }
 }

@@ -27,7 +27,12 @@
                     </small>
 
                     <template v-if="server && hasFeature(feature)">
-                        [Installed]
+                        <template v-if="isInstalling(feature)">
+                            [Installing]
+                        </template>
+                        <template v-else>
+                            [Installed]
+                        </template>
                     </template>
                     <template v-else-if="server && !hasFeature(feature)">
                         <template v-if="hasConflicts(feature)">
@@ -60,27 +65,33 @@
                             </div>
                         </template>
 
+
                         <template v-else>
+
                             <div class="flyform--group">
-                                <input
+
+                                <div :class="{ 'flyform--group-postfix' : hasSuffix(feature, parameter) } ">
+                                    <input
                                         :id="parameter"
                                         :name="getInputName(feature, parameter)"
-                                        type="text" :value="getParameterValue(feature, parameter, value)"
+                                        :type="getType(feature, parameter)"
+                                        :value="getParameterValue(feature, parameter, value)"
                                         placeholder=" "
-                                >
-                                <label :for="parameter">
-                                    <span>{{ parameter }}</span>
-                                </label>
+                                    >
+                                    <label :for="parameter">
+                                        <span>{{ parameter }}</span>
+                                    </label>
+                                    <template v-if="hasSuffix(feature, parameter)">
+                                        <div class="flyform--group-postfix-label">
+                                            {{ hasSuffix(feature, parameter) }}
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                         </template>
                     </template>
                 </div>
             </template>
-
-            <!--<template v-if="server && hasFeature(feature)">-->
-                <!--Im not sure if we are able to update or not-->
-                <!--<button class="btn btn-primary" @click="installFeature(feature)">Update</button>-->
-            <!--</template>-->
 
         </template>
 
@@ -136,14 +147,27 @@
                     areaFeatures = _.get(this.selected_server_features, feature.service);
                 }
 
-                if(areaFeatures && _.has(areaFeatures, feature.input_name) && areaFeatures[feature.input_name].enabled) {
+                if(
+                    areaFeatures &&
+                    _.has(areaFeatures, feature.input_name) &&
+                    (
+                        areaFeatures[feature.input_name].enabled ||
+                        areaFeatures[feature.input_name].installing
+                    )
+                ) {
                     return _.get(areaFeatures, feature.input_name);
                 }
 
                 return false;
             },
+            isInstalling: function(feature) {
+                let foundFeature = this.hasFeature(feature)
+                if(foundFeature) {
+                    return foundFeature.installing;
+                }
+                return false
+            },
             currentlySelectedHasFeature: function (service, feature) {
-
                 let areaFeatures = null;
 
                 if(this.current_selected_features) {
@@ -156,7 +180,8 @@
                     return feature;
                 }
 
-                return false;
+                return false
+
             },
             getParameterValue: function (feature, parameter, default_value) {
                 let area = this.hasFeature(feature);
@@ -180,6 +205,7 @@
                     server: this.server.id,
                     service: feature.service,
                 });
+
             },
             getFrameworks: function (area) {
                 return this.availableServerFrameworks[area];
@@ -192,6 +218,19 @@
             },
             isObject(params) {
                 return _.keys(params).length
+            },
+            getType(feature, parameter) {
+                let options = feature.parameter_options[parameter]
+                if(options && options.type) {
+                    return options.type
+                }
+                return 'text'
+            },
+            hasSuffix(feature, parameter) {
+                let options = feature.parameter_options[parameter]
+                if(options && options.suffix) {
+                    return options.suffix
+                }
             }
         },
         computed: {

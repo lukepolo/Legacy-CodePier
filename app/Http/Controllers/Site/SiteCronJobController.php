@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CronJobRequest;
 use App\Events\Site\SiteCronJobCreated;
 use App\Events\Site\SiteCronJobDeleted;
+use App\Http\Requests\CronJobUpdatedRequest;
+use App\Events\Site\FixSiteServerConfigurations;
 
 class SiteCronJobController extends Controller
 {
@@ -45,6 +47,8 @@ class SiteCronJobController extends Controller
             $cronJob = CronJob::create([
                 'job' => $job,
                 'user' => $user,
+                'server_ids' => $request->get('server_ids', []),
+                'server_types' => $request->get('server_types', []),
             ]);
 
             $site->cronJobs()->save($cronJob);
@@ -55,6 +59,29 @@ class SiteCronJobController extends Controller
         }
 
         return response()->json('Cron Job Already Exists', 400);
+    }
+
+    /**
+     * @param CronJobUpdatedRequest $request
+     * @param $siteId
+     * @param $cronJobId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(CronJobUpdatedRequest $request, $siteId, $cronJobId)
+    {
+        /** @var Site $site */
+        $site = Site::with('cronJobs')->findOrFail($siteId);
+
+        $cronJob = CronJob::findOrFail($cronJobId);
+
+        $cronJob->update([
+            'server_ids' => $request->get('server_ids', []),
+            'server_types' => $request->get('server_types', []),
+        ]);
+
+        event(new FixSiteServerConfigurations($site));
+
+        return response()->json($cronJob);
     }
 
     /**

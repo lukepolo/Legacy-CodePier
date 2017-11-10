@@ -50,12 +50,13 @@ class ServerBuoyController extends Controller
             return response()->json('This buoy is already installed on this server', 400);
         }
 
-        if (! empty($conflictedPorts = $server
+        $conflictedPorts = $server
             ->buoys
             ->pluck('ports')
             ->flatten()
-            ->intersect($localPorts)
-        )) {
+            ->intersect($localPorts);
+
+        if ($conflictedPorts->count()) {
             return response()->json('You have conflicting ports ('.$conflictedPorts->implode(',').') on this server', 400);
         }
 
@@ -71,7 +72,10 @@ class ServerBuoyController extends Controller
 
         $buoyApp->increment('installs');
 
-        dispatch(new InstallBuoy($server, $buoy));
+        dispatch(
+            (new InstallBuoy($server, $buoy))
+                ->onQueue(config('queue.channels.server_provisioning'))
+        );
 
         return response()->json($buoy);
     }
@@ -101,7 +105,10 @@ class ServerBuoyController extends Controller
     {
         $server = Server::findOrFail($serverId);
 
-        dispatch(new RemoveBuoy($server, $server->buoys->keyBy('id')->get($id)));
+        dispatch(
+            (new RemoveBuoy($server, $server->buoys->keyBy('id')->get($id)))
+                ->onQueue(config('queue.channels.server_commands'))
+        );
 
         return response()->json('OK');
     }

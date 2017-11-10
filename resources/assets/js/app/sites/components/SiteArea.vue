@@ -27,13 +27,14 @@
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <h2>{{ workFlowName }}</h2>
                                         <h4 class="heading secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
+                                        <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
                                         <hr>
                                     </template>
                                     <router-view></router-view>
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
                                         <div class="flyform--footer">
                                             <div class="flyform--footer-btns">
-                                                <button @click="revertWorkFlow" class="btn" v-if="workflowStepsCompleted !== 1">Previous</button>
+                                                <button @click="revertWorkFlow" class="btn" :disabled="workflowStepsCompleted === 1" :class="{ disabled : workflowStepsCompleted === 1}">Previous</button>
                                                 <button @click="updateWorkFlow" class="btn btn-primary">Continue</button>
                                             </div>
                                         </div>
@@ -112,7 +113,14 @@
             },
             'site'() {
                 if(this.site && this.pileId !== this.site.pile_id) {
-                    this.$store.dispatch('user_piles/change', this.site.pile_id)
+                    this.$store.dispatch('user_piles/change', this.site.pile_id).then(() => {
+                        app.$router.push({
+                            name : 'site_overview',
+                            params : {
+                                site_id : this.site.id
+                            }
+                        })
+                    })
                 }
                 this.checkRedirect()
             }
@@ -132,7 +140,6 @@
                                 if(this.workFlowCompleted !== this.$route.name) {
                                     this.$router.push({ name: this.workFlowCompleted, params: { site_id: site.id }})
                                 }
-
                             } else {
                                 this.$router.push({ name: 'site_workflow', params: { site_id: site.id }})
                             }
@@ -201,7 +208,17 @@
                 }).length + 1
             },
             totalWorkflowSteps() {
-                return _.keys(this.site.workflow).length
+                let count = _.keys(this.site.workflow).length;
+                if(this.site.workflow && this.site.workflow.message) {
+                    count--;
+                }
+
+                return count;
+            },
+            workflowMessage() {
+                if(this.site.workflow) {
+                    return this.site.workflow.message
+                }
             },
             notOverview() {
                 return this.$route.name !== 'site_overview'

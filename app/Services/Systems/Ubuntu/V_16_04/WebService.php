@@ -34,14 +34,32 @@ class WebService
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y letsencrypt');
+
+        $this->remoteTaskService->writeToFile('/opt/codepier/lets_encrypt_renewals', '
+letsencrypt renew | grep Congratulations &> /dev/null
+
+if [ $? == 0 ]; then
+    curl "'.config('app.url_stats').'/webhook/server/'.$this->server->encode().'/ssl/updated/"
+fi
+');
+
+        $this->remoteTaskService->run('chmod 775 /opt/codepier/lets_encrypt_renewals');
     }
 
     /**
      * @description NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server.
      */
-    public function installNginx($workerProcesses = 'auto', $workerConnections = 512)
+    public function installNginx($workerProcesses = 'auto', $workerConnections = 'auto')
     {
         $this->connectToServer();
+
+        if (! is_numeric($workerProcesses)) {
+            $workerProcesses = $this->remoteTaskService->run('grep processor /proc/cpuinfo | wc -l');
+        }
+
+        if (! is_numeric($workerConnections)) {
+            $workerConnections = $this->remoteTaskService->run('ulimit -n') * 2;
+        }
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y nginx');
 
@@ -63,6 +81,8 @@ class WebService
 
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'user www-data', 'user codepier;');
         $this->remoteTaskService->updateText('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'server_names_hash_bucket_size 64;');
+        $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'server_names_hash_bucket_size', 'proxy_headers_hash_max_size 128;');
+        $this->remoteTaskService->findTextAndAppend('/etc/nginx/nginx.conf', 'ssl_prefer_server_ciphers', 'ssl_session_cache shared:SSL:50m;');
 
         $this->remoteTaskService->writeToFile('/etc/nginx/sites-enabled/catch-all', '
 server {
@@ -122,15 +142,18 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
     {
         $this->connectToServer();
 
-        if ($serverType === SystemService::LOAD_BALANCER) {
-            $httpPort = '';
-            $httpType = 'http';
+        $activeSsl = false;
 
-            if ($site->hasActiveSSL()) {
-                $httpPort = ':443';
-                $httpType = 'https';
+        if ($site->hasActiveSSL()) {
+            $activeSsl = $site->activeSsl();
+
+            if ($activeSsl->servers->count() && $activeSsl->servers->pluck('id')->contains($this->server->id)) {
+            } else {
+                $activeSsl = false;
             }
+        }
 
+        if ($serverType === SystemService::LOAD_BALANCER) {
             $upstreamName = snake_case(str_replace('.', '_', $site->domain));
 
             // TODO - for now we will do it by what servers are connected to that site
@@ -138,8 +161,8 @@ gQw5FUmzayuEHRxRIy1uQ6qkPRThOrGQswIBAg==
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/before/load-balancer', '
 upstream '.$upstreamName.' {
     ip_hash;
-    '.$site->servers->map(function ($server) use ($httpPort) {
-                $server->ip = 'server '.$server->ip.$httpPort.';';
+    '.$site->servers->map(function ($server) {
+                $server->ip = 'server '.$server->ip.';';
 
                 return $server;
             })->filter(function ($server) {
@@ -147,15 +170,17 @@ upstream '.$upstreamName.' {
             })->implode('ip', "\n").'
 }');
 
-            $strictTransport = '';
             $location = '
 location / {
     include proxy_params;
-    proxy_pass '.$httpType.'://'.$upstreamName.';
+    proxy_pass http://'.$upstreamName.';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
 }
 ';
         } else {
-            $strictTransport = 'add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;';
             $location = 'root /home/codepier/'.$site->domain.($site->zerotime_deployment ? '/current' : null).'/'.$site->web_directory.';';
         }
 
@@ -163,9 +188,7 @@ location / {
 
         $site->load('sslCertificates');
 
-        if ($site->hasActiveSSL()) {
-            $activeSsl = $site->activeSsl();
-
+        if ($activeSsl) {
             $this->remoteTaskService->writeToFile(self::NGINX_SERVER_FILES.'/'.$site->domain.'/server/listen', '
             
 gzip off; 
@@ -178,21 +201,21 @@ listen [::]:443 ssl http2 '.($site->domain == 'default' ? 'default_server' : nul
 ssl_certificate_key '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.key;
 ssl_certificate '.ServerService::SSL_FILES.'/'.$activeSsl->id.'/server.crt;
 
-ssl_protocols TLSv1.2;
+ssl_session_timeout 1d;
+ssl_session_cache shared:SSL:50m;
+ssl_session_tickets off;
 
 ssl_dhparam /etc/nginx/dhparam.pem;
+
 ssl_ecdh_curve secp384r1;
 
-ssl_prefer_server_ciphers on;
+ssl_protocols TLSv1.2;
 ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
-
-'.$strictTransport.'
-
-ssl_session_cache shared:SSL:10m;
-ssl_session_timeout 10m;
+ssl_prefer_server_ciphers on;
 
 ssl_stapling on;
 ssl_stapling_verify on;
+
 resolver 8.8.8.8 8.8.4.4 valid=300s;
 resolver_timeout 10s;
 
@@ -306,6 +329,6 @@ include '.self::NGINX_SERVER_FILES.'/'.$domain.'/after/*;
             return 'Nginx';
         }
 
-        dd('we dont have apache setup yet');
+        throw new \Exception('we dont have apache setup yet');
     }
 }

@@ -59,7 +59,7 @@
                     </template>
 
                     <template v-else>
-                        <div class="grid--item" @click="createDeployHook">
+                        <div class="grid--item" @click="removeDeployHook">
                             <div class="providers--item">
                                 <div class="providers--item-header">
                                     <div class="providers--item-icon">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="providers--item-footer">
                             <div class="providers--item-footer-connect">
-                                <h4>Site SSH Key</h4>
+                                <h4 class="providers--title">Site SSH Key</h4>
                             </div>
                         </div>
                     </div>
@@ -162,34 +162,28 @@
             <div class="grid--item">
                 <h3 class="text-center">Recent Deployments</h3>
 
-                <div v-if="!deploymentEvents.length">
+                <div v-if="!recentDeployments">
                     <div class="placeholder text-center">Recent deployments will show up here once you have deployed your site.</div>
                 </div>
+                <template v-else>
+                    <template v-for="recentDeployment in recentDeployments">
+                        {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
+                        <br>
+                        <small>
+                            took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
+                        </small>
 
-                <template v-for="deploymentEvent in deploymentEvents">
-                    {{ deploymentEvent.status }} <time-ago :time="deploymentEvent.created_at"></time-ago>
-                    <br>
-                    <small>
-                        took ({{ diff(deploymentEvent.created_at, deploymentEvent.updated_at) }})
-                    </small>
-                    <br>
+                        <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
+                            Rollback
+                        </confirm>
+                        <br>
+                    </template>
                 </template>
-                <template v-for="recentDeployment in recentDeployments">
-                    {{ recentDeployment.status }} <time-ago :time="recentDeployment.created_at"></time-ago>
-                    <br>
-                    <small>
-                        took ({{ diff(recentDeployment.created_at, recentDeployment.updated_at) }})
-                    </small>
 
-                    <confirm dispatch="user_site_deployments/rollback" confirm_class="btn btn-small" :params="{ siteDeployment : recentDeployment.id, site : site.id } " v-if="recentDeployment.status === 'Completed'">
-                        Rollback
-                    </confirm>
-                    <br>
-                </template>
-                <br>
-                <hr>
-                <h3 class="heading text-center">Recent Commands</h3>
-                <h3 class="text-center"><small><em>coming soon!</em></small></h3>
+                <!--<br>-->
+                <!--<hr>-->
+                <!--<h3 class="heading text-center">Recent Commands</h3>-->
+                <!--<h3 class="text-center"><small><em>coming soon!</em></small></h3>-->
             </div>
 
             <life-lines></life-lines>
@@ -226,6 +220,30 @@
             </form>
         </div>
 
+        <hr>
+
+        <h3>Site Rename Form</h3>
+        <form @submit.prevent>
+            <div class="flyform--group">
+                <input ref="domain" name="domain" v-model="renameForm.domain" type="text" placeholder=" ">
+                <label for="domain">Domain / Alias</label>
+            </div>
+
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <confirm
+                        dispatch="user_sites/renameSite"
+                        :params="{
+                            site : this.site.id,
+                            domain : this.renameForm.domain,
+                        }"
+                        :confirm_with_text="renameForm.domain"
+                    >
+                        Rename Site {{ renameForm.site }}
+                    </confirm>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -243,7 +261,10 @@
                     deployments : '#sites',
                     lifelines : '#sites',
                     status : '#sites'
-                })
+                }),
+                renameForm : {
+                    domain : null,
+                }
             }
         },
         components : {
@@ -268,6 +289,7 @@
             fetchData() {
                 this.getDns()
                 this.$store.dispatch('user_site_deployments/get', this.$route.params.site_id)
+                Vue.set(this.renameForm, 'domain', null)
             },
             getDns(refresh) {
 
@@ -313,24 +335,7 @@
                 }
             },
             recentDeployments() {
-                return this.$store.state.user_site_deployments.deployments
-            },
-            deploymentEvents() {
-                if(this.site && this.recentDeployments) {
-
-                    let latestDeployment = this.recentDeployments[0]
-
-                    return _.filter(this.$store.state.events.events, (event) => {
-                        return event.event_type === 'App\\Models\\Site\\SiteDeployment' &&
-                            event.site_id ===  this.site.id &&
-                            !_.find(this.recentDeployments, { id : event.id }) &&
-                            (
-                                !latestDeployment ||
-                                (latestDeployment.created_at) < event.created_at
-                            )
-                    })
-                }
-
+                return _.slice(this.$store.state.user_site_deployments.deployments, 0, 5)
             }
         },
     }

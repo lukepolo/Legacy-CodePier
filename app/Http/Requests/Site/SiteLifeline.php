@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Site;
 
+use App\Rules\ValueGreaterThanZero;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SiteLifeline extends FormRequest
@@ -25,7 +26,7 @@ class SiteLifeline extends FormRequest
     {
         return [
             'name' => 'required',
-            'threshold' => 'required|greaterThanZero',
+            'threshold' => ['required', new ValueGreaterThanZero],
         ];
     }
 }

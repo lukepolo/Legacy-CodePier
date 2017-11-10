@@ -21,30 +21,24 @@ class SiteWorkerCreated
      */
     public function __construct(Site $site, Worker $worker)
     {
-        if ($site->provisionedServers->count()) {
+        if ($site->hasWorkerServers()) {
+            $availableServers = $site->filterServersByType([
+                SystemService::WORKER_SERVER,
+            ]);
+        } else {
+            $availableServers = $site->filterServersByType([
+                SystemService::FULL_STACK_SERVER,
+            ]);
+        }
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $worker, 'Installing');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                $workerServerExists = $site->servers->first(function ($server) {
-                    return $server->type === SystemService::WORKER_SERVER;
-                });
-
-                if (
-                    $serverType === SystemService::WORKER_SERVER ||
-                    (
-                        empty($workerServerExists) &&
-                        $serverType === SystemService::FULL_STACK_SERVER
-                    )
-
-                ) {
-                    dispatch(
-                        (
-                            new InstallServerWorker($server, $worker, $siteCommand)
-                        )->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($availableServers as $server) {
+                dispatch(
+                    (new InstallServerWorker($server, $worker, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

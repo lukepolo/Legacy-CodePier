@@ -32,7 +32,7 @@
     <section id="comparison" class="section">
         <div class="section--content">
             <div class="table--responsive">
-                <table class="table table--comparison">
+                <table class="table table--comparison table--light">
                     <tr>
                         <th class="row1"></th>
                         <th class="row2"><img src="/assets/img/codepier.svg" style="max-width: 130px;"></th>
@@ -42,7 +42,12 @@
                     </tr>
                     <tr>
                         <td>Languages</td>
-                        <td>Ruby, Java, PHP, Python, Node.js</td>
+                        <td>
+                            GO, Java, Node.js, PHP, Python,Ruby <br>
+                            <b>
+                                <small>During beta we will only be supporting PHP</small>
+                            </b>
+                        </td>
                         <td>PHP</td>
                         <td>Ruby, Java, PHP, Python, Node.js, Scala, Clojure</td>
                         <td>Ruby, JRuby, PHP, Node.js</td>

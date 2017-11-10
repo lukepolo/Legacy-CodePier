@@ -20,6 +20,15 @@
                                     <th>Name</th>
                                     <th>IP</th>
                                     <td>Status</td>
+                                    <td>
+                                        Date
+                                        <template v-if="!showArchive">
+                                            Created
+                                        </template>
+                                        <template v-else>
+                                            Archived
+                                        </template>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,6 +62,15 @@
                                                 Archive Server
                                             </confirm>
                                         </template>
+                                    </td>
+                                    <td>
+                                        <template v-if="!showArchive">
+                                            {{ parseDate(server.created_at).format('LLLL') }}
+                                        </template>
+                                        <template v-else>
+                                            {{ parseDate(server.updated_at).format('LLLL') }}
+                                        </template>
+
                                     </td>
                                 </tr>
                             </tbody>

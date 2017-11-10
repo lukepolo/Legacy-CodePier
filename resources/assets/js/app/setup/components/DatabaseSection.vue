@@ -44,9 +44,9 @@
         props : ['database'],
         data() {
             return {
-                schemaForm : {
+                schemaForm : this.createForm({
                     name : null
-                }
+                })
             }
         },
         methods : {

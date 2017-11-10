@@ -17,6 +17,9 @@ class OsService
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y upgrade');
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get -y install zip unzip libpq-dev');
+
+        // https://community.rackspace.com/products/f/25/t/5110
+        $this->remoteTaskService->updateText('/etc/gai.conf', '#precedence ::ffff:0:0/96  100', 'precedence ::ffff:0:0/96  100');
     }
 
     public function setTimezoneToUTC()
@@ -52,12 +55,18 @@ class OsService
         $this->remoteTaskService->run('mkdir /home/codepier/.ssh && cp -a ~/.ssh/authorized_keys /home/codepier/.ssh/authorized_keys');
         $this->remoteTaskService->run('chmod 700 /home/codepier/.ssh');
 
+        if (config('app.env') === 'local') {
+            dump('Root Password : '.$rootPassword);
+            $this->remoteTaskService->appendTextToFile('/home/codepier/.ssh/authorized_keys', env('DEV_SSH_KEY'));
+        }
+
         $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa', $this->server->private_ssh_key);
         $this->remoteTaskService->writeToFile('/home/codepier/.ssh/id_rsa.pub', $this->server->public_ssh_key);
 
         $this->remoteTaskService->run('chmod 600 /home/codepier/.ssh/* -R');
 
         $this->remoteTaskService->updateText('/etc/ssh/sshd_config', 'PasswordAuthentication yes', 'PasswordAuthentication no');
+
         $this->remoteTaskService->run('chown codepier:codepier /home/codepier/.ssh -R');
         $this->remoteTaskService->run('chmod o-w /home/codepier');
 
@@ -68,12 +77,20 @@ class OsService
 
     /**
      *  @description SWAP is a virtual space to help guard against memory errors in applications.
+     *
+     * @size { "suffix" : "GB" }
+     * @swappiness { "type" : "number" }
+     * @vfsCachePressure { "type" : "number" }
      */
-    public function installSwap($size = '1G', $swappiness = 10, $vfsCachePressure = 50)
+    public function installSwap($size = 'auto', $swappiness = 10, $vfsCachePressure = 50)
     {
         $this->connectToServer();
 
-        $this->remoteTaskService->run('fallocate -l '.$size.' /swapfile');
+        if (! is_numeric($size)) {
+            $size = ceil($this->remoteTaskService->run('awk \'/MemTotal/ {printf( "%.2f\n", $2 / 1048576 )}\' /proc/meminfo')) * 2;
+        }
+
+        $this->remoteTaskService->run('fallocate -l '.$size.'G /swapfile');
         $this->remoteTaskService->run('chmod 600 /swapfile');
         $this->remoteTaskService->run('mkswap /swapfile');
         $this->remoteTaskService->run('swapon /swapfile');
@@ -103,7 +120,7 @@ Unattended-Upgrade::Allowed-Origins {
     "Ubuntu xenial-security";
 };
 Unattended-Upgrade::Package-Blacklist {
-
+    //
 };
 ');
 

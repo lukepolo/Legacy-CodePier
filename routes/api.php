@@ -12,7 +12,10 @@
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => [
+        'auth:api',
+    ],
+], function () {
     Route::apiResource('2fa', 'Auth\SecondAuthController', [
             'parameters' => [
                 '2fa' => 'fa',
@@ -35,6 +38,47 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('user', 'User\UserController', [
         'except' => 'index',
     ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => 'my'], function () {
+        Route::group(['namespace' => 'User'], function () {
+            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
+                'except' => [
+                    'show',
+                ],
+            ]);
+            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
+            Route::apiResource('subscription-card', 'Subscription\UserSubscriptionCardController');
+        });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Teamwork Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::apiResource('team', 'User\Team\UserTeamController');
+
+    Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
+        Route::apiResource('team.members', 'UserTeamMemberController');
+        Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
+        Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
+        Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
+    });
+});
+
+Route::group(['middleware' => [
+        'auth:api',
+        'subscribed',
+    ],
+], function () {
 
     /*
     |--------------------------------------------------------------------------
@@ -82,22 +126,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     */
     Route::group(['prefix' => 'my'], function () {
         Route::group(['namespace' => 'User'], function () {
-            Route::apiResource('subscription/invoices', 'Subscription\UserSubscriptionInvoiceController', [
-                'except' => [
-                    'show',
-                ],
-            ]);
-
             Route::get('running-commands', 'UserController@getRunningCommands');
             Route::get('running-deployments', 'UserController@getRunningDeployments');
 
             Route::apiResource('ssh-keys', 'UserSshKeyController');
-            Route::apiResource('subscription', 'Subscription\UserSubscriptionController');
             Route::apiResource('server-providers', 'Providers\UserServerProviderController');
             Route::apiResource('notification-settings', 'UserNotificationSettingsController');
             Route::apiResource('repository-providers', 'Providers\UserRepositoryProviderController');
             Route::apiResource('notification-providers', 'Providers\UserNotificationProviderController');
-            Route::apiResource('subscription/invoice/next', 'Subscription\UserSubscriptionUpcomingInvoiceController');
         });
 
         /*
@@ -108,22 +144,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         */
 
         Route::apiResource('events', 'EventController');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Teamwork Routes
-        |--------------------------------------------------------------------------
-        |
-        */
-
-        Route::apiResource('team', 'User\Team\UserTeamController');
-
-        Route::group(['prefix' => 'team', 'namespace' => 'User\Team'], function () {
-            Route::apiResource('team.members', 'UserTeamMemberController');
-            Route::post('switch/{id?}', 'UserTeamController@switchTeam')->name('teams.switch');
-            Route::post('members', 'UserTeamMemberController@invite')->name('teams.members.invite');
-            Route::post('members/resend/{invite_id}', 'UserTeamMemberController@resendInvite')->name('teams.members.resend_invite');
-        });
 
         /*
         |--------------------------------------------------------------------------
@@ -172,6 +192,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('servers.sites', 'ServerSiteController');
             Route::apiResource('servers.workers', 'ServerWorkerController');
             Route::apiResource('servers.schemas', 'ServerSchemaController');
+            Route::apiResource('servers.daemons', 'ServerDaemonsController');
             Route::apiResource('servers.ssh-keys', 'ServerSshKeyController');
             Route::apiResource('servers.features', 'ServerFeatureController');
             Route::apiResource('servers.cron-jobs', 'ServerCronJobController');
@@ -193,10 +214,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::apiResource('sites', 'Site\SiteController');
 
+        Route::post('site/{site}/rename', 'Site\SiteController@rename');
         Route::post('site/{site}/find-file', 'Site\SiteFileController@find');
         Route::post('site/{site}/workflow', 'Site\SiteWorkflowController@store');
         Route::post('site/{site}/refresh-ssh-keys', 'Site\SiteController@refreshPublicKey');
         Route::post('site/{site}/refresh-deploy-key', 'Site\SiteController@refreshDeployKey');
+        Route::delete('site/{site}/clear-commands', 'Site\SiteServerCommandsController@destroy');
         Route::post('site/{site}/reload-file/{file}/server/{server}', 'Site\SiteFileController@reloadFile');
 
         Route::group(['namespace' => 'Site'], function () {
@@ -215,6 +238,7 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::apiResource('sites.servers', 'SiteServerController');
             Route::apiResource('sites.workers', 'SiteWorkerController');
             Route::apiResource('sites.schemas', 'SiteSchemaController');
+            Route::apiResource('sites.daemons', 'SiteDaemonsController');
             Route::apiResource('sites.ssh-keys', 'SiteSshKeyController');
             Route::apiResource('sites.cron-jobs', 'SiteCronJobController');
             Route::apiResource('sites.ssl-certificate', 'SiteSslController');
