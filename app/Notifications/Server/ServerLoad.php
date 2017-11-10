@@ -33,7 +33,11 @@ class ServerLoad extends Notification
             $this->load = true;
         }
 
-        $this->slackChannel = $server->site->getSlackChannelName('servers');
+        $this->slackChannel = $server->name;
+
+        if ($server->site) {
+            $this->slackChannel = $server->site->getSlackChannelName('servers');
+        }
     }
 
     /**
