@@ -34,7 +34,7 @@ class ServerMemory extends Notification
             }
         }
 
-        $this->slackChannel = $server->site->slack_channel_preferences['servers'];
+        $this->slackChannel = $server->site->slack_channel_preferences['servers'] ?: $server->site->name;;
     }
 
     /**
