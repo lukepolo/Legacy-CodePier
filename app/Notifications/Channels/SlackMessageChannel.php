@@ -50,32 +50,32 @@ class SlackMessageChannel
             $message = $notification->toSlack($notifiable);
 
 //            if (empty($notifiable->slackChannel) || $notifiable->slackChannel->channel != $slackChannel) {
-                if ($notifiable->slackChannel) {
-                    $notifiable->slackChannel()->delete();
-                }
+            if ($notifiable->slackChannel) {
+                $notifiable->slackChannel()->delete();
+            }
 
-                $response = $this->http->post('https://slack.com/api/channels.create', [
+            $response = $this->http->post('https://slack.com/api/channels.create', [
                     'form_params' => [
                         'token'    => $token,
                         'name'     => $slackChannel,
                     ],
                 ]);
 
-                \Log::info(json_decode($response->getBody()->getContents()));
+            \Log::info(json_decode($response->getBody()->getContents()));
 
-                if ($response->getStatusCode() == 200) {
-                    $response = json_decode($response->getBody()->getContents());
-                    if ($response->ok || $response->error === 'name_taken') {
-                        $slackChannel = SlackChannel::create([
+            if ($response->getStatusCode() == 200) {
+                $response = json_decode($response->getBody()->getContents());
+                if ($response->ok || $response->error === 'name_taken') {
+                    $slackChannel = SlackChannel::create([
                             'channel' => $slackChannel,
                             'created' => true,
                         ]);
 
-                        $notifiable->slackChannel()->save($slackChannel);
-                    } else {
-                        \Log::info('Unable to create slack channel', [$response]);
-                    }
+                    $notifiable->slackChannel()->save($slackChannel);
+                } else {
+                    \Log::info('Unable to create slack channel', [$response]);
                 }
+            }
 //            }
 
             $response = $this->http->post('https://slack.com/api/chat.postMessage', [
