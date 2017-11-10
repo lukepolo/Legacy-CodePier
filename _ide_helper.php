@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.20 on 2017-11-09.
+ * Generated for Laravel 5.5.20 on 2017-11-10.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12646,7 +12646,7 @@ namespace Sentry\SentryLaravel {
         /**
          * Log an exception to sentry
          *
-         * @param \Exception $exception The Exception object.
+         * @param \Throwable|\Exception $exception The Throwable/Exception object.
          * @param array $data Additional attributes to pass with this event (see Sentry docs).
          * @param mixed $logger
          * @param mixed $vars
@@ -12900,6 +12900,28 @@ namespace Sentry\SentryLaravel {
         public static function close_curl_resource()
         {
             return \Raven_Client::close_curl_resource();
+        }
+        
+        /**
+         * 
+         *
+         * @param \Raven_Serializer $serializer
+         * @static 
+         */ 
+        public static function setSerializer($serializer)
+        {
+            return \Raven_Client::setSerializer($serializer);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Raven_ReprSerializer $reprSerializer
+         * @static 
+         */ 
+        public static function setReprSerializer($reprSerializer)
+        {
+            return \Raven_Client::setReprSerializer($reprSerializer);
         }
          
     }

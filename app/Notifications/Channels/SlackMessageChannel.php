@@ -23,7 +23,6 @@ class SlackMessageChannel
      *
      * @param \GuzzleHttp\Client $http
      *
-     * @return void
      */
     public function __construct(HttpClient $http)
     {
@@ -40,11 +39,12 @@ class SlackMessageChannel
      */
     public function send($notifiable, Notification $notification)
     {
+        $slackChannel = snake_case($notification->slackChannel);
+
         $token = $notifiable->routeNotificationFor('slack');
 
-        \Log::debug($token);
         if (! empty($token)) {
-            if (! $channel = $notification->slackChannel) {
+            if (! $channel = $slackChannel) {
                 throw new SlackMessageMissingParams('Notification must have a public $slackChannel set');
             }
 
@@ -54,17 +54,22 @@ class SlackMessageChannel
                 $response = $this->http->post('https://slack.com/api/channels.create', [
                     'form_params' => [
                         'token'    => $token,
-                        'name'     => $notification->slackChannel,
+                        'name'     => $slackChannel,
                     ],
                 ]);
 
                 if ($response->getStatusCode() == 200) {
-                    $slackChannel = SlackChannel::create([
-                        'channel' => $notification->slackChannel,
-                        'created' => true,
-                    ]);
+                    $response = json_decode($response->getBody()->getContents());
+                    if($response->ok || $response->error === 'name_taken') {
+                        $slackChannel = SlackChannel::create([
+                            'channel' => $slackChannel,
+                            'created' => true,
+                        ]);
 
-                    $notifiable->slackChannel()->save($slackChannel);
+                        $notifiable->slackChannel()->save($slackChannel);
+                    } else {
+                        \Log::info('Unable to create slack channel', [$response]);
+                    }
                 }
             }
 
@@ -76,9 +81,6 @@ class SlackMessageChannel
                     'attachments' => json_encode($this->attachments($message)),
                 ],
             ]);
-
-            \Log::debug($response->getStatusCode());
-            \Log::debug($response->getBody());
 
             return $response;
         }
