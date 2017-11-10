@@ -34,7 +34,7 @@ class PHPSettings
         $this->restartWebServices();
     }
 
-    //    /**
+//    /**
 //     * @description Manually optimize OPCache
 //     */
 //    public function OpCache()
