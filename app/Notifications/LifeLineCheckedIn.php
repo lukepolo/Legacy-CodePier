@@ -27,7 +27,7 @@ class LifeLineCheckedIn extends Notification implements ShouldQueue
     {
         $this->lifeline = Lifeline::with('site.user')->findOrFail($notifiable->id);
 
-        $this->slackChannel = isset($this->lifeline->site->slack_channel_preferences['lifelines']) ?: $this->lifeline->site->name;
+        $this->slackChannel = $this->lifeline->site->getSlackChannelName('lifelines');
 
         return $this->lifeline->site->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
     }
