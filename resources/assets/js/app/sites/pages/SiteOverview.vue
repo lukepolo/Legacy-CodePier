@@ -305,7 +305,9 @@
         computed: {
             site() {
                 let site = this.$store.state.user_sites.site
-                Vue.set(this, 'notificationChannelsForm', site.slack_channel_preferences)
+                if(site && site.slack_channel_preferences) {
+                    Vue.set(this, 'notificationChannelsForm', site.slack_channel_preferences)
+                }
                 return site;
             },
             siteServers() {
