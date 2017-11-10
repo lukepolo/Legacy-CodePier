@@ -294,4 +294,13 @@ class Site extends Model
     {
         return collect($this->server_features[SystemService::WORKERS])->keys();
     }
+
+    public function getSlackChannelName($area) {
+        $channelPreferences = $this->slack_channel_preferences;
+        if(!empty($channelPreferences) && isset($channelPreferences[$area])) {
+            return $channelPreferences[$area];
+        }
+
+        return $this->name;
+    }
 }
