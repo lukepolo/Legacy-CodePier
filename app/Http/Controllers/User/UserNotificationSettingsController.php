@@ -32,11 +32,11 @@ class UserNotificationSettingsController extends Controller
                 'notification_setting_id' => $notificationSettingId,
             ]);
 
-            $userNotification->update([
-                'services' => collect($services)->filter(function ($item) {
-                    return $item;
-                })->keys(),
-            ]);
+            $userNotification->services = collect($services)->filter(function ($item) {
+                return $item;
+            })->keys();
+
+            $userNotification->save();
         }
 
         return response()->json(\Auth::user()->notificationSettings);

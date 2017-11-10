@@ -16,6 +16,7 @@ class NotificationSettings extends Seeder
     {
         $settings = [
             \App\Notifications\Site\NewSiteDeployment::class => [
+                'group' => 'site_deployment',
                 'name' => 'New Site Deployment',
                 'default' => true,
                 'description' => 'Sends a notification that a deployment has been queued',
@@ -25,6 +26,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Site\SiteDeploymentFailed::class => [
+                'group' => 'site_deployment',
                 'name' => 'Site Deployment Failed',
                 'default' => true,
                 'description' => 'Sends a notification that a deployment failed with details of the error and server',
@@ -34,6 +36,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Site\SiteDeploymentSuccessful::class => [
+                'group' => 'site_deployment',
                 'name' => 'Site Deployment Successful',
                 'default' => true,
                 'description' => 'Sends a notification that a deployment has been been successful for all servers',
@@ -43,6 +46,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Server\ServerDiskUsage::class => [
+                'group' => 'server_monitoring',
                 'name' => 'High Server Disk Usage',
                 'default' => true,
                 'description' => "Sends a notification when a server's disk usage is high.",
@@ -52,6 +56,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Server\ServerLoad::class => [
+                'group' => 'server_monitoring',
                 'name' => 'High Server CPU Usage',
                 'default' => true,
                 'description' => "Sends a notification when a server's CPU usage is high.",
@@ -61,6 +66,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Server\ServerMemory::class => [
+                'group' => 'server_monitoring',
                 'name' => 'High Server Memory Usage',
                 'default' => true,
                 'description' => "Sends a notification when a server's memory usage is high.",
@@ -70,6 +76,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\Server\ServerProvisioned::class => [
+                'group' => 'servers',
                 'name' => 'Server Provisioned',
                 'default' => true,
                 'description' => 'Sends a notification when a server has been provisioned.',
@@ -78,6 +85,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\BuoyInstall::class => [
+                'group' => 'buoys',
                 'name' => 'Buoy Installed',
                 'default' => true,
                 'description' => 'Sends a notification when a Buoy has been installed.',
@@ -86,6 +94,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\LifeLineCheckedIn::class => [
+                'group' => 'lifelines',
                 'name' => 'Lifeline Check-in',
                 'default' => true,
                 'description' => 'Sends a notification when a Lifeline has checked in.',
@@ -95,6 +104,7 @@ class NotificationSettings extends Seeder
                 ],
             ],
             \App\Notifications\LifeLineThresholdExceeded::class => [
+                'group' => 'lifelines',
                 'name' => "Lifeline Hasn't Checked In",
                 'default' => true,
                 'description' => 'Sends a notification when a Lifeline has not preformed a check-in for some time.',
@@ -112,6 +122,7 @@ class NotificationSettings extends Seeder
 
             $notificationSetting->fill([
                 'name' => $data['name'],
+                'group' => $data['group'],
                 'default' => $data['default'],
                 'services' => $data['services'],
                 'description' => $data['description'],
