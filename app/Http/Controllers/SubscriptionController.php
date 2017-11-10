@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
     public function index()
     {
         // TODO - add in an admin panel
-        //        \Cache::forget('plans');
+//        \Cache::forget('plans');
 
         return response()->json(
             \Cache::rememberForever('plans', function () {
