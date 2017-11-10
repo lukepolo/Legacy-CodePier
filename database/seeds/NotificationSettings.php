@@ -75,15 +75,6 @@ class NotificationSettings extends Seeder
                     self::SLACK,
                 ],
             ],
-            \App\Notifications\Server\ServerProvisioned::class => [
-                'group' => 'servers',
-                'name' => 'Server Provisioned',
-                'default' => true,
-                'description' => 'Sends a notification when a server has been provisioned.',
-                'services' => [
-                    self::MAIL,
-                ],
-            ],
             \App\Notifications\BuoyInstall::class => [
                 'group' => 'buoys',
                 'name' => 'Buoy Installed',

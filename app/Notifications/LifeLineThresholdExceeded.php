@@ -31,7 +31,7 @@ class LifeLineThresholdExceeded extends Notification implements ShouldQueue
 
         $this->slackChannel = $this->lifeline->site->slack_channel_preferences['lifelines'];
 
-        return ['mail', SlackMessageChannel::class];
+        return $this->lifeline->site->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class]);
     }
 
     /**

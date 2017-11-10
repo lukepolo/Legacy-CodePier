@@ -42,7 +42,7 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return ! empty($this->disks) ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
+        return ! empty($this->disks) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**

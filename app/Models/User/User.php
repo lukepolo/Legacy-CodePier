@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Notifications\Channels\SlackMessageChannel;
 use Carbon\Carbon;
 use App\Models\Pile;
 use App\Models\SshKey;
@@ -189,6 +190,25 @@ class User extends Authenticatable
         }
 
         return collect($deploymentsRunning);
+    }
+
+    public function getNotificationPreferences($notificationClass, $defaults = [], $required = []) {
+        $this->load('notificationSettings.setting');
+
+        $services = $defaults;
+
+        $userNotification = $this->notificationSettings->keyBy('setting.event')->get($notificationClass);
+
+        if(!empty($userNotification)) {
+            $services = array_replace($userNotification->services,
+                array_fill_keys(
+                    array_keys($userNotification->services, 'slack'),
+                    SlackMessageChannel::class
+                )
+            );
+        }
+
+        return array_merge($services, $required);
     }
 
     /*

@@ -33,7 +33,7 @@ class BuoyInstall extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return $notifiable->user->getNotificationPreferences(get_class($this), ['mail']);
     }
 
     /**

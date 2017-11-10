@@ -35,7 +35,7 @@ class SiteDeploymentSuccessful extends Notification
      */
     public function via($notifiable)
     {
-        return ['broadcast', SlackMessageChannel::class];
+        return $this->siteDeployment->site->user->getNotificationPreferences(get_class($this), [SlackMessageChannel::class], ['broadcast']);
     }
 
     /**
@@ -76,7 +76,7 @@ class SiteDeploymentSuccessful extends Notification
         return (new SlackMessage())
             ->success()
             ->content('Deployment Completed')
-            ->attachment(function ($attachment) use ($url, $commit, $site, $siteDeployment, $repositoryProvider) {
+            ->attachment(function ($attachment) use ($url, $commit, $site, $siteDeployment) {
                 $attachment->title('('.$site->pile->name.') '.$site->domain, $url)
                     ->fields(
                         array_filter([
