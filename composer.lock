@@ -4330,16 +4330,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "b3a03c1eb2877f0c66885641a52216dcbf313a11"
+                "reference": "3e4bb1486cd4e09869cb3342aef374788d540f1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b3a03c1eb2877f0c66885641a52216dcbf313a11",
-                "reference": "b3a03c1eb2877f0c66885641a52216dcbf313a11",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/3e4bb1486cd4e09869cb3342aef374788d540f1c",
+                "reference": "3e4bb1486cd4e09869cb3342aef374788d540f1c",
                 "shasum": ""
             },
             "require": {
@@ -4366,7 +4366,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -4390,7 +4390,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2017-10-29T21:19:48+00:00"
+            "time": "2017-11-09T17:44:23+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
