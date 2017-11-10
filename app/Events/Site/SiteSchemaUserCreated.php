@@ -21,21 +21,19 @@ class SiteSchemaUserCreated
      */
     public function __construct(Site $site, SchemaUser $schemaUser)
     {
-        if ($site->provisionedServers->count()) {
+        $availableServers = $site->filterServersByType([
+            SystemService::DATABASE_SERVER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $schemaUser, 'Creating');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::DATABASE_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new AddServerSchemaUser($server, $schemaUser,
-                            $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($availableServers as $server) {
+                dispatch(
+                    (new AddServerSchemaUser($server, $schemaUser, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

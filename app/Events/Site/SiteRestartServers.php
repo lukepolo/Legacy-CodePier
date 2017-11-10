@@ -21,7 +21,8 @@ class SiteRestartServers
     {
         foreach ($site->provisionedServers as $server) {
             dispatch(
-                (new RestartServer($server))->onQueue(config('queue.channels.server_commands'))
+                (new RestartServer($server))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         }
     }

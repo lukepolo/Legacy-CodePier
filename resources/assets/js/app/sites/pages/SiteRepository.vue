@@ -24,7 +24,7 @@
 
                 <div class="flyform--group">
                     <div class="flyform--group-prefix">
-                        <input type="text" v-model="form.repository" name="repository" placeholder=" " required>
+                        <input ref="repository" type="text" v-model="form.repository" name="repository" placeholder=" " required>
                         <label for="repository">Repository URL</label>
                         <template v-if="!form.custom_provider">
                             <div class="flyform--group-prefix-label">
@@ -61,8 +61,7 @@
 
                 <div class="flyform--group">
                     <label>Language & Framework</label>
-                    <div class="flyform--group-select">
-
+                    <div class="flyform--group-select" v-if="Object.keys(availableLanguages).length && Object.keys(availableFrameworks).length">
                         <select v-model="form.type" name="type" required>
                             <option value=""></option>
                             <template v-for="(features, language) in availableLanguages">
@@ -129,6 +128,25 @@
                 if(value) {
                     Vue.set(this.form, 'user_repository_provider_id', null)
                 }
+            },
+            'form.repository' : function(value) {
+                if(value.indexOf('http') > -1) {
+                    var parser = document.createElement('a');
+                    parser.href = value;
+
+                    let path = parser.pathname.substring(1);
+
+                    if(this.form.repository !== path) {
+                        this.form.repository = path
+
+                        let provider = this.getProviderByUrl(parser.hostname)
+
+                        if(provider) {
+                            this.form.user_repository_provider_id = provider.id
+                        }
+
+                    }
+                }
             }
         },
         methods: {
@@ -183,6 +201,17 @@
                     user_repository_provider_id: this.form.user_repository_provider_id
                 });
             },
+            getProviderByUrl(providerUrl) {
+                let provider = _.find(this.repository_providers, (repositoryProvider) => {
+                    return repositoryProvider.url === providerUrl
+                })
+
+                if(provider) {
+                    return _.find(this.repository_providers, {
+                        id : provider.id
+                    })
+                }
+            }
         },
         computed: {
             site() {
@@ -221,7 +250,7 @@
             },
             repositoryUrl() {
                 return this.providerUrl + '/' + (this.form.repository ? this.form.repository : '')
-            }
+            },
         },
     }
 </script>

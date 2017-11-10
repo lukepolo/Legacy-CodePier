@@ -68,7 +68,7 @@ class ServerLoad extends Notification
                     ->line($load.'% '.$mins.' minutes ago');
             }
 
-            $mailMessage->line('Across '.$this->server->stats['cpus'].' CPUS');
+            $mailMessage->line('Across '.$this->server->stats['cpus'].' CPUs');
 
             return $mailMessage;
         }
@@ -96,7 +96,7 @@ class ServerLoad extends Notification
                 ->error()
                 ->content('High CPU Usage : '.$server->name.' ('.$server->ip.')')
                 ->attachment(function ($attachment) use ($server, $fields) {
-                    $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUS')->fields($fields);
+                    $attachment->title('CPU Allocation across '.$server->stats['cpus'].' CPUs')->fields($fields);
                 });
         }
     }

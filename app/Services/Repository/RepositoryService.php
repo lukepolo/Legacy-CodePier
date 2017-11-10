@@ -42,10 +42,12 @@ class RepositoryService implements RepositoryServiceContract
 
         if (empty($site->public_ssh_key) || empty($site->private_ssh_key)) {
             $this->generateNewSshKeys($site);
-            $this->saveKeysToServer($site);
         }
 
+        // We only import to github if we haven't said its private
         if (! $site->private && $this->isPrivate($site)) {
+            \Log::info('we should be importing');
+
             try {
                 $providerService->importSshKey($site);
             } catch (\Exception $e) {
@@ -132,6 +134,8 @@ class RepositoryService implements RepositoryServiceContract
         $site->public_ssh_key = $sshKey['publickey'];
         $site->private_ssh_key = $sshKey['privatekey'];
         $site->save();
+
+        $this->saveKeysToServer($site);
     }
 
     /**
@@ -143,9 +147,8 @@ class RepositoryService implements RepositoryServiceContract
         foreach ($site->provisionedServers as $server) {
             try {
                 dispatch(
-                    (
-                        new InstallPublicKey($server, $site)
-                    )->onQueue(config('queue.channels.server_commands'))
+                    (new InstallPublicKey($server, $site))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             } catch (SshConnectionFailed $sshConnectionFailed) {
                 continue;

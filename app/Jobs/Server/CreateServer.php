@@ -8,13 +8,14 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\Server\ServerFailedToCreate;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Server\Provider\ServerProvider;
 use App\Events\Server\ServerProvisionStatusChanged;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class CreateServer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $server;
     protected $options;
@@ -51,7 +52,9 @@ class CreateServer implements ShouldQueue
             $serverService->create($this->serverProvider, $this->server);
 
             dispatch(
-                (new CheckServerStatus($this->server, true))->delay(30)->onQueue(config('queue.channels.server_commands'))
+                (new CheckServerStatus($this->server, true))
+                    ->delay(30)
+                    ->onQueue(config('queue.channels.server_commands'))
             );
         } catch (\Exception $e) {
             if (config('app.env') === 'local') {

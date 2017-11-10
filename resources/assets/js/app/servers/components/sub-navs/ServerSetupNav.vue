@@ -17,11 +17,17 @@
                     </a>
                 </router-link>
 
+                <router-link :to="{ name : 'server_daemons', params : { server_id : serverId } }" tag="li">
+                    <a>
+                        Daemons
+                        <div class="small">Configure daemon processes</div>
+                    </a>
+                </router-link>
 
                 <router-link :to="{ name : 'server_workers', params : { server_id : serverId } }" tag="li">
                     <a>
                         Workers
-                        <div class="small">Configure workers / daemons services</div>
+                        <div class="small">Configure workers processes</div>
                     </a>
                 </router-link>
 

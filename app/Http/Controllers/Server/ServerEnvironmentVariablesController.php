@@ -46,8 +46,9 @@ class ServerEnvironmentVariablesController extends Controller
                 'value' => $request->get('value'),
             ]);
 
-            $this->dispatch(
-                (new InstallServerEnvironmentVariable($server, $environmentVariable))->onQueue(config('queue.channels.server_commands'))
+            dispatch(
+                (new InstallServerEnvironmentVariable($server, $environmentVariable))
+                    ->onQueue(config('queue.channels.server_commands'))
             );
 
             return response()->json($environmentVariable);
@@ -67,10 +68,10 @@ class ServerEnvironmentVariablesController extends Controller
     {
         $server = Server::with('environmentVariables')->findOrFail($serverId);
 
-        $this->dispatch(
+        dispatch(
             (new RemoveServerEnvironmentVariable($server, $server->environmentVariables->keyBy('id')->get($id)))->onQueue(config('queue.channels.server_commands'))
         );
 
-        return response()->json($server->environmentVariables()->detach($id));
+        return response()->json('OK');
     }
 }

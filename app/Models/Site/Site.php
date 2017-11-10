@@ -5,6 +5,7 @@ namespace App\Models\Site;
 use App\Models\Buoy;
 use App\Models\File;
 use App\Models\Pile;
+use App\Models\Daemon;
 use App\Models\Schema;
 use App\Models\SshKey;
 use App\Models\Worker;
@@ -12,6 +13,7 @@ use App\Models\Command;
 use App\Models\CronJob;
 use App\Models\User\User;
 use App\Models\SchemaUser;
+use App\Traits\HasServers;
 use App\Traits\Encryptable;
 use App\Traits\UsedByTeams;
 use App\Models\FirewallRule;
@@ -32,7 +34,7 @@ use App\Models\Site\Deployment\DeploymentStep;
 
 class Site extends Model
 {
-    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable;
+    use UsedByTeams, Notifiable, SoftDeletes, ConnectedToUser, Encryptable, HasServers;
 
     protected $guarded = [
         'id',
@@ -151,6 +153,11 @@ class Site extends Model
     public function workers()
     {
         return $this->morphToMany(Worker::class, 'workerable');
+    }
+
+    public function daemons()
+    {
+        return $this->morphToMany(Daemon::class, 'daemonable');
     }
 
     public function buoys()
@@ -277,10 +284,13 @@ class Site extends Model
         }
     }
 
-    public function isLoadBalanced()
+    public function getDatabases()
     {
-        return ! empty($this->servers->first(function ($server) {
-            return $server->type === SystemService::LOAD_BALANCER;
-        }));
+        return collect($this->server_features[SystemService::DATABASE])->keys();
+    }
+
+    public function getWorkers()
+    {
+        return collect($this->server_features[SystemService::WORKERS])->keys();
     }
 }

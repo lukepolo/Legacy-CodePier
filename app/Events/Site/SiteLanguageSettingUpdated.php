@@ -21,20 +21,19 @@ class SiteLanguageSettingUpdated
      */
     public function __construct(Site $site, LanguageSetting $languageSetting)
     {
-        if ($site->provisionedServers->count()) {
+        $availableServers = $site->filterServersByType([
+            SystemService::WEB_SERVER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
+
+        if ($availableServers->count()) {
             $siteCommand = $this->makeCommand($site, $languageSetting, 'Updating');
 
-            foreach ($site->provisionedServers as $server) {
-                $serverType = $server->type;
-
-                if (
-                    $serverType === SystemService::WEB_SERVER ||
-                    $serverType === SystemService::FULL_STACK_SERVER
-                ) {
-                    dispatch(
-                        (new UpdateServerLanguageSetting($server, $languageSetting, $siteCommand))->onQueue(config('queue.channels.server_commands'))
-                    );
-                }
+            foreach ($availableServers as $server) {
+                dispatch(
+                    (new UpdateServerLanguageSetting($server, $languageSetting, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
+                );
             }
         }
     }

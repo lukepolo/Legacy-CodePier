@@ -6,6 +6,7 @@ use App\Models\Server\Server;
 use App\Exceptions\FailedCommand;
 use App\Contracts\Systems\SystemServiceContract;
 use App\Events\Server\ServerProvisionStatusChanged;
+use App\Services\Systems\Ubuntu\V_16_04\DatabaseService;
 use App\Contracts\RemoteTaskServiceContract as RemoteTaskService;
 
 class SystemService implements SystemServiceContract
@@ -97,6 +98,19 @@ class SystemService implements SystemServiceContract
             self::FIREWALL,
             self::MONITORING,
         ],
+    ];
+
+    // TODO - move database service names to here instead
+    const SERVICES_PORTS = [
+        DatabaseService::MYSQL => [3306],
+        DatabaseService::POSTGRESQL => [5432],
+        DatabaseService::MONGODB => [27017, 27018, 27019, 28017],
+        DatabaseService::MARIADB => [3306],
+        DatabaseService::REDIS => [6379],
+        DatabaseService::MEMCACHED => [11211],
+
+        'Supervisor' => [9001],
+        'Beanstalk' => [11300],
     ];
 
     /**

@@ -11,8 +11,10 @@ use App\Services\Systems\ServiceConstructorTrait;
 class DatabaseService
 {
     const MYSQL = 'MySQL';
+    const REDIS = 'Redis';
     const MARIADB = 'MariaDB';
     const MONGODB = 'MongoDB';
+    const MEMCACHED = 'Memcached';
     const POSTGRESQL = 'PostgreSQL';
 
     use ServiceConstructorTrait;
@@ -51,6 +53,8 @@ class DatabaseService
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y memcached');
 
+        $this->remoteTaskService->updateText('/etc/memcached.conf ', '-l 127.0.0.1', '#-l 127.0.0.1');
+
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service memcached restart');
     }
 
@@ -88,7 +92,7 @@ class DatabaseService
 
         $databasePassword = $this->server->database_password;
 
-        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev');
+        $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql');
         $this->remoteTaskService->run('sudo -u postgres psql -c "CREATE ROLE codepier LOGIN UNENCRYPTED PASSWORD \''.$databasePassword.'\' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"');
 
         $this->remoteTaskService->run('service postgresql restart');
@@ -131,9 +135,11 @@ class DatabaseService
         $this->remoteTaskService->run('apt-get install -y mongodb-org');
         $this->remoteTaskService->updateText('/etc/mongod.conf', 'bind_ip', '# bind_ip = 127.0.0.1');
 
-        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : \"codepier\", pwd : \"$databasePassword\", roles : [ { role : \"userAdminAnyDatabase\", db: \"admin\" } ] });\"");
-
         $this->remoteTaskService->run('service mongod start');
+
+        sleep(2);
+
+        $this->remoteTaskService->run("mongo --eval \"db.createUser({ user : 'codepier', pwd : '$databasePassword', roles : ['readWrite', 'dbAdmin'] });\"");
 
         $this->addToServiceRestartGroup(SystemService::WEB_SERVICE_GROUP, 'service mongod restart');
     }
@@ -199,6 +205,8 @@ class DatabaseService
      */
     public function addSchemaUser(SchemaUser $schemaUser)
     {
+        $this->connectToServer();
+
         foreach ($schemaUser->schema_ids as $schemaId) {
             $schema = Schema::findOrFail($schemaId);
             switch ($schema->database) {
@@ -211,6 +219,7 @@ class DatabaseService
                     break;
                 case self::MONGODB:
                     $this->addMongoDbUser($schemaUser, $schema);
+                    break;
                 default:
                     throw new UnknownDatabase($schema->database);
                     break;
@@ -224,6 +233,8 @@ class DatabaseService
      */
     public function removeSchemaUser(SchemaUser $schemaUser)
     {
+        $this->connectToServer();
+
         foreach ($schemaUser->schema_ids as $schemaId) {
             $schema = Schema::findOrFail($schemaId);
             switch ($schema->database) {
@@ -236,6 +247,7 @@ class DatabaseService
                     break;
                 case self::MONGODB:
                     $this->removeMongoDbUser($schemaUser, $schema);
+                    break;
                 default:
                     throw new UnknownDatabase($schema->database);
                     break;
@@ -260,37 +272,33 @@ class DatabaseService
 
     private function addMySqlUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->connectToServer($this->server);
-
         $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"GRANT ALL ON $schema->name.* TO $schemaUser->name@'%' IDENTIFIED BY '$schemaUser->password' WITH GRANT OPTION;\"");
     }
 
     private function removeMySqlUser(SchemaUser $schemaUser)
     {
-        $this->connectToServer($this->server);
         $this->remoteTaskService->run('mysql --user=root --password='.$this->server->database_password." -e \"DROP USER IF EXISTS $schemaUser->name;\"");
     }
 
     private function addPostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->connectToServer($this->server);
-        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createuser --echo $schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"CREATE ROLE $schemaUser->name LOGIN UNENCRYPTED PASSWORD '$schemaUser->password';\"");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"GRANT CONNECT ON DATABASE $schema->name TO $schemaUser->name;\"");
     }
 
     private function removePostgreSQLUser(SchemaUser $schemaUser, Schema $schema)
     {
-        //        $this->remoteTaskService->run("cd /home && sudo -u postgres /usr/bin/createdb --echo --owner=$schemaUser->name $schema->name --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"REVOKE ALL PRIVILEGES ON DATABASE $schema->name from $schemaUser->name;\"");
+        $this->remoteTaskService->run("cd /home && sudo -u postgres psql -c \"DROP ROLE $schemaUser->name;\"");
     }
 
     private function addMongoDbUser(SchemaUser $schemaUser, Schema $schema)
     {
-        $this->connectToServer($this->server);
-        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : \"$schemaUser->name\", pwd : \"$schemaUser->password\", roles : [ { role : \"readWrite\", db: \"$schema->name\" } ] });\"");
+        $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.createUser({ user : '$schemaUser->name', pwd : '$schemaUser->password', roles : [ { role : 'readWrite', db: '$schema->name' } ] });\"");
     }
 
     private function removeMongoDbUser(SchemaUser $schemaUser)
     {
-        $this->connectToServer($this->server);
         $this->remoteTaskService->run('mongo -u codepier -p '.$this->server->database_password." admin --eval \"db.removeUser($schemaUser->name);\"");
     }
 }

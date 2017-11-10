@@ -41,21 +41,6 @@ if (! function_exists('create_system_service')) {
     }
 }
 
-if (! function_exists('remove_events')) {
-
-    /**
-     * Gets the version of what is currently installed.
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @return mixed
-     */
-    function remove_events(\Illuminate\Database\Eloquent\Model $model)
-    {
-        $model->flushEventListeners();
-
-        return $model;
-    }
-}
-
 if (! function_exists('create_redis_hash')) {
 
     /**
@@ -99,5 +84,17 @@ if (! function_exists('second_authed')) {
         }
 
         return true;
+    }
+}
+
+if (! function_exists('cents_to_dollars')) {
+    /**
+     * Converts cents to dollars.
+     *
+     * @return mixed
+     */
+    function cents_to_dollars($cents)
+    {
+        return '$'.number_format(($cents / 100), 2, '.', ' ');
     }
 }

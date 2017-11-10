@@ -59,7 +59,8 @@ class ServerFileController extends Controller
     public function find(Request $request, $serverId)
     {
         $server = Server::findOrFail($serverId);
-        if ($server->provisioningProgress < 100) {
+
+        if ($server->progress < 100) {
             return response()->json('This server is not fully provisioned, please wait', 400);
         }
 
@@ -97,7 +98,9 @@ class ServerFileController extends Controller
             'content' => $request->get('content'),
         ]);
 
-        dispatch(new UpdateServerFile($server, $file));
+        dispatch(
+            new UpdateServerFile($server, $file)
+        );
 
         return response()->json($file);
     }

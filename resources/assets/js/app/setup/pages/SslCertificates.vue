@@ -64,7 +64,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate">
+                <tr v-for="ssl_certificate in ssl_certificates" :key="ssl_certificate.id">
                     <td>{{ ssl_certificate.domains }}</td>
                     <td>{{ ssl_certificate.type }}</td>
                     <td class="break-word">{{ ssl_certificate.cert_path }}</td>
@@ -119,12 +119,12 @@
     export default {
         data() {
             return {
-                form  : {
+                form  : this.createForm({
                     type : null,
                     domains : null,
                     private_key : null,
                     certificate : null,
-                }
+                })
             }
         },
         created() {
@@ -220,7 +220,7 @@
                         domains: domains,
                         type : 'Let\'s Encrypt'
                     }).then(() => {
-                        this.$data.form = this.$options.data().form
+                        this.form.reset()
                     })
                 }
 
@@ -230,13 +230,13 @@
                         type : 'Let\'s Encrypt',
                         server_id: this.serverId,
                     }).then(() => {
-                        this.$data.form = this.$options.data().form
+                        this.form.reset()
                     })
                 }
 
             },
             resetForm() {
-                this.$data.form = this.$options.data().form
+                this.form.reset()
                 if(this.siteId) {
                     this.form.type = 'Let\'s Encrypt'
                     this.form.domains = this.site.domain

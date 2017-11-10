@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EnvironmentVariable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EnvironmentVariableRequest extends FormRequest
@@ -24,7 +25,7 @@ class EnvironmentVariableRequest extends FormRequest
     public function rules()
     {
         return [
-            'variable' => 'required|environmentVariable',
+            'variable' => ['required', new EnvironmentVariable],
             'value' => 'required',
         ];
     }

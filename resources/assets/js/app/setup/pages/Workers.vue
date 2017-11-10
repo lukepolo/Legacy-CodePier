@@ -102,12 +102,13 @@
     export default {
         data() {
             return {
-                form: {
+                form: this.createForm({
+                    user : null,
                     command: null,
                     auto_start: true,
                     auto_restart: true,
                     number_of_workers: 1,
-                }
+                })
             }
         },
         created() {
@@ -166,7 +167,7 @@
                 return this.isCommandRunning('App\\Models\\Worker', id)
             },
             resetForm() {
-                this.form = this.$options.data().form
+                this.form.reset()
                 if(this.site) {
                     this.form.command = this.site.path
                 }

@@ -12,11 +12,12 @@ use App\Exceptions\ServerCommandFailed;
 use App\Services\Systems\SystemService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use App\Contracts\Server\ServerServiceContract as ServerService;
 
 class InstallServerWorker implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ServerCommandTrait;
 
     private $server;
     private $worker;

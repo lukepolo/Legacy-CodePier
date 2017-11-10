@@ -21,18 +21,19 @@ class SiteRestartWebServices
      */
     public function __construct(Site $site)
     {
-        foreach ($site->provisionedServers as $server) {
-            $serverType = $server->type;
+        $availableServers = $site->filterServersByType([
+            SystemService::WEB_SERVER,
+            SystemService::LOAD_BALANCER,
+            SystemService::FULL_STACK_SERVER,
+        ]);
 
-            if (
-                $serverType === SystemService::WEB_SERVER ||
-                $serverType === SystemService::LOAD_BALANCER ||
-                $serverType === SystemService::FULL_STACK_SERVER
-            ) {
+        if ($availableServers->count()) {
+            foreach ($availableServers as $server) {
                 $siteCommand = $this->makeCommand($site, $server, 'Restarting Web Services');
 
                 dispatch(
-                    (new RestartWebServices($server, $siteCommand))->onQueue(config('queue.channels.server_commands'))
+                    (new RestartWebServices($server, $siteCommand))
+                        ->onQueue(config('queue.channels.server_commands'))
                 );
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Systems\Ubuntu\V_16_04;
 
+use App\Models\Daemon;
 use App\Models\Worker;
 use App\Services\Systems\SystemService;
 use App\Services\Systems\ServiceConstructorTrait;
@@ -30,6 +31,7 @@ class WorkerService
      */
     public function installSupervisor()
     {
+        // TODO - open port
         $this->connectToServer();
 
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor');
@@ -37,6 +39,11 @@ class WorkerService
 
         $this->remoteTaskService->run('systemctl enable supervisor');
         $this->remoteTaskService->run('service supervisor start');
+
+        $this->remoteTaskService->appendTextToFile('/etc/supervisor/supervisord.conf', '
+[inet_http_server]
+port = :9001
+');
 
         $this->addToServiceRestartGroup(SystemService::WORKER_SERVICE_GROUP, 'service supervisor restart');
     }
@@ -67,6 +74,37 @@ stdout_logfile=/home/codepier/workers/server-worker-'.$worker->id.'.log
         $this->connectToServer($user);
 
         $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-worker-'.$worker->id.'.conf');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+    }
+
+    public function addDaemon(Daemon $daemon, $sshUser = 'root')
+    {
+        $this->connectToServer($sshUser);
+
+        $this->remoteTaskService->writeToFile('/etc/supervisor/conf.d/server-daemon-'.$daemon->id.'.conf ', '
+[program:server-worker-'.$daemon->id.']
+process_name=%(program_name)s_%(process_num)02d
+command='.$daemon->command.'
+autostart=true
+autorestart=true
+user='.$daemon->user.'
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/home/codepier/workers/server-worker-'.$daemon->id.'.log
+');
+
+        $this->remoteTaskService->run('supervisorctl reread');
+        $this->remoteTaskService->run('supervisorctl update');
+        $this->remoteTaskService->run('supervisorctl start server-daemon-'.$daemon->id.':*');
+    }
+
+    public function removeDaemon(Daemon $daemon, $user = 'root')
+    {
+        $this->connectToServer($user);
+
+        $this->remoteTaskService->run('rm /etc/supervisor/conf.d/server-daemon-'.$daemon->id.'.conf');
 
         $this->remoteTaskService->run('supervisorctl reread');
         $this->remoteTaskService->run('supervisorctl update');

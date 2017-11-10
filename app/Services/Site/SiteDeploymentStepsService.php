@@ -70,19 +70,23 @@ class SiteDeploymentStepsService implements SiteDeploymentStepsServiceContract
     {
         $order = 0;
 
-        // We then attach the deployment steps with the new order they give
         foreach ($newDeploymentSteps as $deploymentStep) {
             $internalStep = $this->getDeploymentStep($site, $deploymentStep);
 
-            $deploymentStep = DeploymentStep::firstOrnew([
+            $deploymentStepModel = DeploymentStep::firstOrnew([
                 'site_id' => $site->id,
                 'step' => ! empty($internalStep) ? $internalStep['step'] : $deploymentStep['step'],
                 'script' => empty($internalStep) ? $deploymentStep['script'] : null,
                 'internal_deployment_function' => ! empty($internalStep) ? $internalStep['internal_deployment_function'] : null,
             ]);
 
-            $deploymentStep->order = ++$order;
-            $deploymentStep->save();
+            $deploymentStepModel->fill([
+                'server_ids' => isset($deploymentStep['server_ids']) ? $deploymentStep['server_ids'] : [],
+                'server_types' => isset($deploymentStep['server_types']) ? $deploymentStep['server_types'] : [],
+            ]);
+
+            $deploymentStepModel->order = ++$order;
+            $deploymentStepModel->save();
         }
     }
 

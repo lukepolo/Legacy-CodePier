@@ -42,10 +42,13 @@
 
         </div>
 
-        <div class="btn-footer text-center">
+        <div class="btn-footer text-center" v-if="servers.length">
             <button class="btn btn-primary" @click.prevent="install">
                 Install
             </button>
+        </div>
+        <div v-else>
+            Please create a server before attaching a buoy.
         </div>
     </div>
 </template>
@@ -68,6 +71,11 @@
                         return server
                     }
                 }), _.isEmpty)
+            },
+            servers() {
+                return _.filter(this.$store.state.user_servers.servers, function(server) {
+                    return server.progress >= 100
+                })
             }
         }
     }
