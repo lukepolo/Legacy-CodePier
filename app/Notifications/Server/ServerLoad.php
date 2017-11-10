@@ -33,7 +33,7 @@ class ServerLoad extends Notification
             $this->load = true;
         }
 
-        $this->slackChannel = $server->site->slack_channel_preferences['servers'] ?: $server->site->name;
+        $this->slackChannel = isset($server->site->slack_channel_preferences['servers']) ?: $server->site->name;
     }
 
     /**
