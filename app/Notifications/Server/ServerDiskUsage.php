@@ -32,7 +32,7 @@ class ServerDiskUsage extends Notification
                 $this->disks[$disk] = $stats;
             }
         }
-        $this->slackChannel = 'servers';
+        $this->slackChannel = $server->site->slack_channel_preferences['servers'] ?: $server->site->name;
     }
 
     /**
@@ -42,7 +42,7 @@ class ServerDiskUsage extends Notification
      */
     public function via()
     {
-        return ! empty($this->disks) ? ['mail', 'broadcast', SlackMessageChannel::class] : ['broadcast'];
+        return ! empty($this->disks) ? $this->server->user->getNotificationPreferences(get_class($this), ['mail', SlackMessageChannel::class], ['broadcast']) : ['broadcast'];
     }
 
     /**
