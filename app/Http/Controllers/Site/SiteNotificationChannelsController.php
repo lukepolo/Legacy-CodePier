@@ -19,7 +19,7 @@ class SiteNotificationChannelsController extends Controller
         $site = Site::findOrFail($siteId);
 
         $site->update([
-            'slack_channel_preferences' => $request->get('slack_channel_preferences')
+            'slack_channel_preferences' => $request->get('slack_channel_preferences'),
         ]);
 
         return response()->json($site);
