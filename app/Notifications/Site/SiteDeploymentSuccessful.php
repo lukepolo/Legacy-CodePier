@@ -23,7 +23,7 @@ class SiteDeploymentSuccessful extends Notification
     public function __construct(SiteDeployment $siteDeployment)
     {
         $this->siteDeployment = $siteDeployment;
-        $this->slackChannel = $siteDeployment->site->slack_channel_preferences['site'];
+        $this->slackChannel = $siteDeployment->site->slack_channel_preferences['site'] ?: $siteDeployment->site->name;
     }
 
     /**

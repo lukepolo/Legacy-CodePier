@@ -49,7 +49,12 @@ class SlackMessageChannel
 
             $message = $notification->toSlack($notifiable);
 
-            if (empty($notifiable->slackChannel)) {
+            if (empty($notifiable->slackChannel) || $notifiable->slackChannel->channel != $slackChannel) {
+
+                if($notifiable->slackChannel) {
+                    $notifiable->slackChannel()->delete();
+                }
+
                 $response = $this->http->post('https://slack.com/api/channels.create', [
                     'form_params' => [
                         'token'    => $token,
