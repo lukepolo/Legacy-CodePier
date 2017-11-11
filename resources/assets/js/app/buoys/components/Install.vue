@@ -68,18 +68,18 @@
         },
         methods: {
             installBuoy() {
-                this.form.buoy_app_id = this.buoy_app.id
+                this.form.buoy_app_id = this.buoyApp.id
                 return this.$store.dispatch('buoys/installOnServer', this.form)
             }
         },
         computed: {
             buoyApp() {
-                let buoy_app = this.$store.state.buoys.buoy_app
+                let buoyApp = this.$store.state.buoys.buoy_app
 
-                if(buoy_app) {
-                    this.form.ports = buoy_app.ports
-                    this.form.options = buoy_app.options
-                    return buoy_app
+                if(buoyApp) {
+                    this.form.ports = buoyApp.ports
+                    this.form.options = buoyApp.options
+                    return buoyApp
                 }
             },
             servers() {
