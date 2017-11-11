@@ -29,7 +29,7 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->removeDirectory('onpremise');
         $this->remoteTaskService->run('git clone https://github.com/getsentry/onpremise');
 
-        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.18-onbuild');
+        $this->remoteTaskService->updateText('~/onpremise/Dockerfile', 'FROM', 'FROM sentry:8.21-onbuild');
         $this->remoteTaskService->run('DEBIAN_FRONTEND=noninteractive apt-get install make');
 
         $this->remoteTaskService->run('cd onpremise && mkdir -p /data/{sentry,postgres} && make build');
@@ -40,21 +40,18 @@ class SentryBuoy implements BuoyContract
         $this->remoteTaskService->appendTextToFile('~/.bashrc', "SENTRY_SECRET_KEY='$secretKey'");
         $this->remoteTaskService->appendTextToFile('/etc/environment', "SENTRY_SECRET_KEY='$secretKey'");
 
-        $this->remoteTaskService->run('docker run \
-            --detach \
+        $this->remoteTaskService->run('docker run -d \
             --name sentry-redis \
             redis:3.2-alpine');
 
-        $this->remoteTaskService->run('docker run \
-            --detach \
+        $this->remoteTaskService->run('docker run -d \
             --name sentry-postgres \
             --env POSTGRES_PASSWORD=secret \
             --env POSTGRES_USER=sentry \
             -v /data/postgres:/var/lib/postgresql/data \
             postgres:9.5');
 
-        $this->remoteTaskService->run('docker run \
-            --detach \
+        $this->remoteTaskService->run('docker run -d \
             --name sentry-smtp \
             tianon/exim4');
 
@@ -113,10 +110,8 @@ class SentryBuoy implements BuoyContract
         $this->getContainerId();
 
         $this->remoteTaskService->ssh($this->server, 'codepier');
-        // TODO - specify version of sentry so we dont use latest
         $this->remoteTaskService->appendTextToFile('~/.bashrc', 'alias createSentryUser="docker run -it --rm -e SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY --link sentry-redis:redis --link sentry-postgres:postgres sentry-onpremise createuser"');
 
-        // TODO - we will need to make this better...cause it sucks
         $this->server->notify(new BuoyInstall('Sentry Login Details', [
             'Additional Steps' => 'Sentry is currently migrating its databases. Once you can access your sentry buoy, please ssh into your server ('.$this->server->ip.') and run "createSentryUser"',
             'You can access your sentry server via ' => $this->server->ip.":$ports[0]",
