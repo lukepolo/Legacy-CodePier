@@ -75,6 +75,24 @@ $flyform-transition: all .5s;
         margin: (-$flyform-spacing/4) 0px $flyform-spacing/2;
         padding: 0px ($flyform-spacing/2 + 1px);
     }
+
+    // SINGLE-LINE FORM & BUTTON -------------------------------
+    &--submit {
+        display: flex;
+        align-items: baseline;
+
+        .flyform--group {
+            flex-grow: 1;
+
+            + .flyform--group {
+                margin-left: $spacing;
+            }
+        }
+
+        .flyform--footer-btns {
+            margin-left: $spacing;
+        }
+    }
 }
 
 
