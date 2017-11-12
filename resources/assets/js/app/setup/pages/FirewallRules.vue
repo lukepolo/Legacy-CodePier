@@ -6,7 +6,7 @@
             </h3>
 
             <tooltip message="Add Firewall Rule">
-                <span class="btn btn-small btn-primary" @click="showForm = true">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
                     <span class="icon-plus"></span>
                 </span>
             </tooltip>
@@ -43,7 +43,7 @@
             </tbody>
         </table>
 
-        <form @submit.prevent="createFirewallRule" v-if="(loaded && firewallRules.length === 0) || showForm">
+        <form @submit.prevent="createFirewallRule" v-if="shouldShowForm">
             <div class="flyform--group">
                 <input type="text" name="description" v-model="form.description" placeholder=" ">
                 <label for="description">Description</label>
@@ -73,7 +73,7 @@
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
-                    <button class="btn" type="submit" v-if="firewallRules.length" @click.prevent="resetForm">Cancel</button>
+                    <button class="btn" v-if="firewallRules.length" @click.prevent="resetForm">Cancel</button>
                     <button class="btn btn-primary" type="submit">Add Firewall Rule</button>
                 </div>
             </div>
@@ -167,6 +167,9 @@
             },
             serverId() {
                 return this.$route.params.server_id
+            },
+            shouldShowForm() {
+                return (this.loaded && this.firewallRules.length === 0) || this.showForm;
             },
             firewallRules() {
                 if(this.siteId) {
