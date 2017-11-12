@@ -316,8 +316,23 @@
     padding: $spacing;
     position: relative;
 
+    &:not(.list--item-heading):last-child {
+      border: none;
+    }
+
+    &.selected {
+      background-color: mix($gray, $black, 50%);
+    }
+
     &-text {
       flex-grow: 1;
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: $spacing/4;
+      padding-right: 1.4em;
     }
 
     &-icons {
@@ -334,10 +349,6 @@
       }
     }
 
-    &:not(.list--item-heading):last-child {
-      border: none;
-    }
-
     &-heading {
       border: 1px solid $color-divider;
       background-color: rgba($color-divider, .5);
@@ -347,6 +358,17 @@
 
     &-subgroup {
       padding: $spacing/2 $spacing $spacing/2 $spacing*2;
+    }
+
+    &-click {
+      &:hover {
+        background-color: rgba($color-divider, .2);
+        cursor: pointer;
+
+        [class^="icon-"], [class*=" icon-"] {
+          color: $color-primary;
+        }
+      }
     }
 
     @at-root a#{&}:hover {
@@ -360,17 +382,6 @@
         display: inline-block;
         float: right;
       }
-    }
-
-    &.selected {
-      background-color: mix($gray, $black, 50%);
-    }
-
-    &-name {
-      font-weight: 600;
-      font-size: 1.2em;
-      margin-bottom: $spacing/4;
-      padding-right: 1.4em;
     }
   }
 
