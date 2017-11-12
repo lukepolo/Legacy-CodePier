@@ -90,6 +90,7 @@ $flyform-transition: all .5s;
         }
 
         .flyform--footer-btns {
+            white-space: nowrap;
             margin-left: $spacing;
         }
     }
@@ -264,6 +265,7 @@ $flyform-transition: all .5s;
 }
 
 
+
 // SELECT BOX STYLES ---------------------------------------
 // ---------------------------------------------------------
 .flyform--group {
@@ -375,18 +377,6 @@ $flyform-transition: all .5s;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // CHECKBOX STYLES =========================================
 // =========================================================
 .flyform--group {
@@ -492,4 +482,12 @@ $flyform-transition: all .5s;
 
 .flyform--group-checkbox + .flyform--subform {
     margin-top: -$spacing/2;
+}
+
+
+
+[class^="grid-"], [class*=" grid-"] {
+    + .flyform--group {
+        margin-top: 0px;
+    }
 }

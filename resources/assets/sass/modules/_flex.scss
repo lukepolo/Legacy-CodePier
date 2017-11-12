@@ -11,6 +11,10 @@
         flex-shrink: 1;
     }
 
+    &--center {
+        align-items: center;
+    }
+
     &--baseline {
         align-items: baseline;
     }
