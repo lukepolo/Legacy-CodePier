@@ -3,13 +3,13 @@
 
 
         <div class="list">
-            <div class="list--item list--item-accordion">
+            <div class="list--item list--item-icons list--item-click">
                 custom/site/path <span class="icon-arrow-right"></span>
             </div>
-            <div class="list--item list--item-accordion">
+            <div class="list--item list--item-icons list--item-click">
                 custom/site/path <span class="icon-arrow-right"></span>
             </div>
-            <div class="list--item list--item-accordion">
+            <div class="list--item list--item-icons list--item-click">
                 custom/site/path <span class="icon-arrow-right"></span>
             </div>
         </div>
