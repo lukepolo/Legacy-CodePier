@@ -3,7 +3,7 @@
 
         <back v-if="workFlowCompleted"></back>
 
-        <a :href="'http://'+site.domain" target="_blank">
+        <a :href="'//'+site.domain" target="_blank">
             {{ site.name }}
         </a>
 
