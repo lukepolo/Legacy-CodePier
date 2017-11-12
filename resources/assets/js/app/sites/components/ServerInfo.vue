@@ -16,6 +16,31 @@
             </template>
         </div>
 
+        <div class="server-info-collapsed" v-if="!showServerInfo">
+            <div class="grid-3">
+                <tooltip class="server-info condensed" message="Disk Usage" delay=.5>
+                    <div class="server-progress-container">
+                        <div class="server-progress"></div>
+                        <div class="stats-label stats-used">N/A</div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="Memory" delay=.5>
+                    <div class="server-progress-container">
+                        <div class="server-progress"></div>
+                        <div class="stats-label stats-used">N/A</div>
+                    </div>
+                </tooltip>
+
+                <tooltip class="server-info condensed" message="CPU Load" delay=.5>
+                    <div class="server-progress-container">
+                        <div class="server-progress"></div>
+                        <div class="stats-label stats-used">N/A</div>
+                    </div>
+                </tooltip>
+            </div>
+        </div>
+
         <div class="server-info" v-if="showServerInfo">
             <div class="server-status">
                 <template v-if="server.progress < 100">
@@ -135,6 +160,7 @@
                                             <div class="stats-label stats-available">N/A</div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="cpu-group">
                                     <div class="cpu-min">5 mins</div>

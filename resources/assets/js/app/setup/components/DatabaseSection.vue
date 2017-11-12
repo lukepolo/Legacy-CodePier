@@ -20,10 +20,14 @@
                     -- schema name --
                 </div>
                 <div class="list--icon">
-                    <span class="icon-group_add"></span>
+                    <tooltip message="Add User">
+                        <span class="icon-group_add"></span>
+                    </tooltip>
                 </div>
                 <div class="list--icon">
-                    <div class="icon-trash"></div>
+                    <tooltip message="Delete Schema">
+                        <div class="icon-trash"></div>
+                    </tooltip>
                 </div>
             </div>
 
@@ -33,7 +37,9 @@
                 </div>
 
                 <div class="list--icon">
-                    <div class="icon-trash"></div>
+                    <tooltip message="Delete User">
+                        <div class="icon-trash"></div>
+                    </tooltip>
                 </div>
             </div>
 
@@ -61,12 +67,15 @@
                 <div class="list--item-text">
                     -- schema name --
                 </div>
-
                 <div class="list--icon">
-                    <span class="icon-group_add"></span>
+                    <tooltip message="Add User">
+                        <span class="icon-group_add"></span>
+                    </tooltip>
                 </div>
                 <div class="list--icon">
-                    <div class="icon-trash"></div>
+                    <tooltip message="Delete Schema">
+                        <div class="icon-trash"></div>
+                    </tooltip>
                 </div>
             </div>
 

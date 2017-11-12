@@ -242,7 +242,8 @@ $flyform-transition: all .5s;
 
 
     // INPUT HELP STYLES ----------------------------------------
-    [class^="hint-"]:not(.flyform--btn-right), [class*=" hint-"]:not(.flyform--btn-right) {
+    [class^="hint-"]:not(.flyform--btn-right):not(.tooltip-in-form),
+    [class*=" hint-"]:not(.flyform--btn-right):not(.tooltip-in-form) {
         position: absolute;
         top: 0px;
 
