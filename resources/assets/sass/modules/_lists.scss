@@ -303,6 +303,39 @@
 }
 
 
+// Serer Info When Collapsed
+.server-info-collapsed {
+  .grid-3 {
+    grid-gap: 0px;
+  }
+
+  .server-info.condensed {
+    padding: 0px;
+
+    .server-progress-container {
+      margin: 0px;
+    }
+  }
+  
+  .server-label {
+    font-size: .8em;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background-color: rgba($black, .3);
+    padding-top: 8px;
+  }
+}
+
+
+
+
+
+
+
+
+
 // SERVER LIST
 .list {
 
@@ -397,6 +430,11 @@
 
     + .list--icon {
       margin-left: $spacing;
+    }
+
+    .icon-trash {
+      position: relative;
+      top: -3px;
     }
   }
 }

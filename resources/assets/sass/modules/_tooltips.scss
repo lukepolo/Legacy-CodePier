@@ -1,10 +1,17 @@
 // TOOLTIP STYLES ==========================================
 // =========================================================
-@import "../../../../node_modules/hint.css/src/hint";
+@import "~hint.css/src/hint";
 
 [data-toggle="tooltip"],
 [class^="hint-"], [class*=" hint-"] {
   cursor: pointer;
   vertical-align: bottom;
   z-index: 100;
+}
+
+.#{$hintPrefix}none{
+  &:before,
+  &:after {
+    opacity: 0 !important;
+  }
 }

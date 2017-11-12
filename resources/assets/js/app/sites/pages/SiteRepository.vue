@@ -1,9 +1,5 @@
 <template>
     <div v-if="site">
-        <h3 class="heading" v-if="!form.user_repository_provider_id && !form.custom_provider">
-            To create your site, you need to select a source control provider.
-        </h3>
-
         <form @submit.prevent="updateSite">
 
             <repository-provider-selector :provider.sync="form.user_repository_provider_id">
@@ -20,6 +16,11 @@
                 </div>
             </repository-provider-selector>
 
+
+            <h3 class="heading" v-if="!form.user_repository_provider_id && !form.custom_provider">
+                To create your site, you need to select a source control provider.
+            </h3>
+
             <template v-if="form.user_repository_provider_id || form.custom_provider">
 
                 <div class="flyform--group">
@@ -35,7 +36,11 @@
 
                     <template v-if="!form.custom_provider">
                         <div class="flyform--input-icon-right">
-                            <a target="_blank" :href="'//'+repositoryUrl"><span class="icon-link"></span></a>
+                            <a target="_blank" :href="'//'+repositoryUrl">
+                                <tooltip message="Check URL" class="tooltip-in-form">
+                                    <span class="icon-link"></span>
+                                </tooltip>
+                            </a>
                         </div>
                     </template>
                 </div>
