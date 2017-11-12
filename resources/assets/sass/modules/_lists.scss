@@ -312,6 +312,24 @@
     padding: $spacing;
     position: relative;
 
+    &-accordion {
+      display: flex;
+      justify-content: space-between;
+
+      &:hover {
+        background-color: rgba($black, .2);
+        cursor: pointer;
+
+        [class^="icon-"], [class*=" icon-"] {
+          color: $color-primary;
+        }
+      }
+
+      [class^="icon-"], [class*=" icon-"] {
+        transform: scale(1.5);
+      }
+    }
+
     &:last-child {
       border: none;
     }

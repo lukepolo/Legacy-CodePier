@@ -14,4 +14,8 @@
     &--baseline {
         align-items: baseline;
     }
+
+    &--spacing {
+        margin-left: $spacing;
+    }
 }

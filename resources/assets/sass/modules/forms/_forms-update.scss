@@ -347,7 +347,7 @@ $flyform-transition: all .5s;
         }
     }
 
-    .btn:not(.btn-success):not(.btn-danger) {
+    .btn:not(.btn-success):not(.btn-danger):not(.dropdown-toggle) {
         background-color: $color-background;
     }
 
