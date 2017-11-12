@@ -1,5 +1,4 @@
 <template>
-
    <section>
        <div class="providers grid-4">
            <label v-for="provider in notification_providers">
@@ -22,16 +21,13 @@
            </label>
        </div>
 
-       <div>
-           <form @submit.prevent="updateUserNotifications">
-               <template v-for="notification_setting in notification_settings">
-                   {{ notification_setting.name }} - <small>{{ notification_setting.description }}</small>
-                   <template v-for="service in notification_setting.services">
-                       <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="hidden" value="0">
-                       {{ service }} <input :name="'notification_setting['+ notification_setting.id +']['+ service +']'" type="checkbox" :checked="hasNotificationSetting(notification_setting, service)" value="1">
-                   </template>
-                   <br>
-               </template>
+       <div v-if="notification_settings">
+           <form @submit.prevent="updateUserNotifications" ref="notification_settings_form">
+               <notification-group title="Site Deployment Notifications" :notification_settings="notification_settings['site_deployment']"></notification-group>
+               <notification-group title="LifeLines Notifications" :notification_settings="notification_settings['lifelines']"></notification-group>
+               <notification-group title="Server Monitoring Notifications" :notification_settings="notification_settings['server_monitoring']"></notification-group>
+               <notification-group title="Servers Notifications" :notification_settings="notification_settings['servers']"></notification-group>
+               <notification-group title="Buoys Notifications" :notification_settings="notification_settings['buoys']"></notification-group>
                <button class="btn btn-primary" type="submit">Update Settings</button>
            </form>
        </div>
@@ -40,16 +36,17 @@
 </template>
 
 <script>
+    import NotificationGroup from './../components/NotificationGroup.vue'
     export default {
+        components : {
+            NotificationGroup
+        },
         computed: {
             notification_settings() {
-                return this.$store.state.notification_settings.settings
+                return _.groupBy(this.$store.state.notification_settings.settings, 'group')
             },
             notification_providers() {
                 return this.$store.state.notification_providers.providers
-            },
-            user_notification_settings() {
-                return this.$store.state.user_notification_settings.settings
             },
             user_notification_providers() {
                 return this.$store.state.user_notification_providers.providers
@@ -61,22 +58,10 @@
                     this.action('Auth\OauthController@newProvider', { provider : provider.provider_name})
                 )
             },
-            hasNotificationSetting(notification_setting, service) {
-                let notification = _.find(this.user_notification_settings, {'notification_setting_id': notification_setting.id})
-
-                if(notification) {
-                    return _.indexOf(notification.services, service) !==  -1
-                }
-
-                return false
-
-            },
             isConnected: function (notification_provider_id) {
-
-                if (_.some(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
+                if (_.find(this.user_notification_providers, {'notification_provider_id': notification_provider_id})) {
                     return true
                 }
-
                 return false
             },
             disconnectProvider: function (notification_provider_id) {
@@ -90,15 +75,12 @@
                 })
             },
             updateUserNotifications() {
-
-                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$el))
+                this.$store.dispatch('user_notification_settings/update', this.getFormData(this.$refs.notification_settings_form))
             }
         },
         created() {
-            this.$store.dispatch('notification_providers/get')
-            this.$store.dispatch('user_notification_providers/get', this.$store.state.user.user.id)
-
             this.$store.dispatch('notification_settings/get')
+            this.$store.dispatch('notification_providers/get')
             this.$store.dispatch('user_notification_settings/get')
         },
     }

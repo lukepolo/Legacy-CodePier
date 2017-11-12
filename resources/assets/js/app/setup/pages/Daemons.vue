@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <server-selection :servers.sync="form.servers" :server_types.sync="form.server_types"></server-selection>
+            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
 
             <div class="flyform--footer">
                 <div class="flyform--footer-btns">
@@ -66,7 +66,7 @@
                 form: this.createForm({
                     user: null,
                     command: null,
-                    servers : [],
+                    server_ids : [],
                     server_types : [],
                 })
             }

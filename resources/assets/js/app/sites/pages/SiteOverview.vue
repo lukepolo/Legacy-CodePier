@@ -179,11 +179,6 @@
                         <br>
                     </template>
                 </template>
-
-                <!--<br>-->
-                <!--<hr>-->
-                <!--<h3 class="heading text-center">Recent Commands</h3>-->
-                <!--<h3 class="text-center"><small><em>coming soon!</em></small></h3>-->
             </div>
 
             <life-lines></life-lines>
@@ -193,6 +188,31 @@
             <div class="flyform--footer-btns">
                 <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name">Delete Site</confirm>
             </div>
+
+            <form @submit.prevent="updateNotificationChannels">
+                <p>Here, you'll be able to configure the channels that CodePier will use to send notifications to your Slack team. The default channel for all site related notifications, is #sites.</p>
+
+                <div class="flyform--group">
+                    <input type="text" name="deployments" v-model="notificationChannelsForm.site" placeholder=" " value="#sites">
+                    <label>Site Channel</label>
+                </div>
+
+                <div class="flyform--group">
+                    <input type="text" name="lifelines" v-model="notificationChannelsForm.servers" placeholder=" " value="#sites">
+                    <label>Servers Channel</label>
+                </div>
+
+                <div class="flyform--group">
+                    <input type="text" name="status" v-model="notificationChannelsForm.lifelines" placeholder=" " value="#sites">
+                    <label>Life Line Channel</label>
+                </div>
+
+                <div class="flyform-footer">
+                    <div class="flyform--footer-btns">
+                        <button type="submit" class="btn btn-small btn-primary">Update Channels</button>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <hr>
@@ -229,6 +249,11 @@
             return {
                 webhook : false,
                 sshKey: false,
+                notificationChannelsForm: {
+                    site : null,
+                    server : null,
+                    lifelines : null
+                },
                 renameForm : {
                     domain : null,
                 }
@@ -270,10 +295,20 @@
 
                 this.$store.dispatch('user_site_dns/get', data)
             },
+            updateNotificationChannels() {
+                this.$store.dispatch('user_sites/updateNotificationChannels', {
+                    site : this.$route.params.site_id,
+                    slack_channel_preferences : this.notificationChannelsForm,
+                })
+            }
         },
         computed: {
             site() {
-                return this.$store.state.user_sites.site;
+                let site = this.$store.state.user_sites.site
+                if(site && site.slack_channel_preferences) {
+                    Vue.set(this, 'notificationChannelsForm', site.slack_channel_preferences)
+                }
+                return site;
             },
             siteServers() {
                 let siteServers = _.get(this.$store.state.user_site_servers.servers, this.$route.params.site_id)

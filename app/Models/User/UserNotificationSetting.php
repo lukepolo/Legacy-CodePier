@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Traits\ConnectedToUser;
+use App\Models\NotificationSetting;
 use Illuminate\Database\Eloquent\Model;
 
 class UserNotificationSetting extends Model
@@ -14,4 +15,9 @@ class UserNotificationSetting extends Model
     protected $casts = [
         'services' => 'array',
     ];
+
+    public function setting()
+    {
+        return $this->belongsTo(NotificationSetting::class, 'notification_setting_id', 'id');
+    }
 }

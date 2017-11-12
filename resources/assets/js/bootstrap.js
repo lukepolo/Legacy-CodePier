@@ -65,7 +65,7 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
-      NProgress.done();
+    NProgress.done();
     return Promise.reject(error);
   }
 );
@@ -78,16 +78,11 @@ axios.interceptors.response.use(
  */
 
 import Echo from "laravel-echo";
-import Pusher from "pusher-js";
-
-Pusher.log = msg => {
-  // console.log(msg);
-};
 
 window.Echo = new Echo({
-  cluster : Laravel.pusherCluster,
+  cluster: Laravel.pusherCluster,
   broadcaster: "pusher",
-  key: Laravel.pusherKey,
+  key: Laravel.pusherKey
 });
 
 /*
