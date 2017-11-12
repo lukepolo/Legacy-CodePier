@@ -1,24 +1,35 @@
 <template>
     <div>
-        <h3>Custom Files</h3>
-        <template v-if="site">
-            <div class="jcf-form-wrap">
-                <form @submit.prevent="addCustomFile" class="floating-labels">
-                    <div class="jcf-input-group">
-                        <input type="text" name="file" v-model="form.file">
-                        <label for="file">
-                            <span class="float-label">File</span>
-                        </label>
-                    </div>
 
-                    <div class="btn-footer">
-                        <button class="btn btn-primary" type="submit">Add Custom File</button>
-                    </div>
-                </form>
+
+        <div class="list">
+            <div class="list--item list--item-accordion">
+                custom/site/path <span class="icon-arrow-right"></span>
             </div>
+            <div class="list--item list--item-accordion">
+                custom/site/path <span class="icon-arrow-right"></span>
+            </div>
+            <div class="list--item list--item-accordion">
+                custom/site/path <span class="icon-arrow-right"></span>
+            </div>
+        </div>
+
+        <template v-if="site">
+            <form @submit.prevent="addCustomFile" class="flex flex--baseline">
+                <div class="flyform--group flex--grow">
+                    <input type="text" name="file" v-model="form.file" placeholder=" ">
+                    <label for="file">File Path</label>
+                </div>
+
+                <div class="flex--spacing">
+                    <button class="btn btn-primary btn-small" type="submit">Add Custom File</button>
+                </div>
+            </form>
 
             <site-file :site="site" :file="file" v-for="file in customSiteFiles" :running="isRunningCommandFor(file)" :key="file"></site-file>
         </template>
+
+
     </div>
 </template>
 

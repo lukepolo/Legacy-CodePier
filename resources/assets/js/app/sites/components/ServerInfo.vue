@@ -28,10 +28,11 @@
                     </div>
 
                     <div v-if="currentProvisioningStep">
-                        <div class="server-status-text" v-if="currentProvisioningStep.failed">
+                        <div class="server-status-text text-error" v-if="currentProvisioningStep.failed">
                             Failed {{ currentProvisioningStep.step}}
-                            <div @click="retryProvision" class="btn btn-xs">retry</div>
                         </div>
+                        <div v-if="currentProvisioningStep.failed" @click="retryProvision" class="btn btn-small text-center"><span class="icon-refresh"></span> Retry</div>
+
                         <div class="server-status-text" v-else>
                             {{ server.status }}
                         </div>

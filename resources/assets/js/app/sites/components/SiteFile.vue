@@ -1,27 +1,31 @@
 <template>
     <form @submit.prevent="saveFile()">
         {{ filePath }}
-        <div class="jcf-form-wrap" v-if="site_servers">
-            <form>
-                <div class="jcf-input-group">
-                    <tooltip message="We can fetch a file and replace all content inside by reloading the file" class="long">
-                        <span class="fa fa-info-circle"></span>
-                    </tooltip>
-                    <div class="input-question">Select a server</div>
-                    <div class="select-wrap">
-                        <select name="server" v-model="reload_server">
-                            <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip }}</option>
-                        </select>
-                    </div>
-                </div>
-                <a @click="reloadFile" class="btn btn-xs">Reload File From Selected Server</a>
-            </form>
+
+        <div class="flyform--group" v-if="site_servers">
+            <label class="flyform--group-iconlabel">Select a Server</label>
+            <tooltip message="We can fetch a file and replace all content inside by reloading the file"
+                     class="long">
+                <span class="fa fa-info-circle"></span>
+            </tooltip>
+
+            <div class="flyform--group-select">
+                <select name="server" v-model="reload_server">
+                    <option v-for="server in site_servers" :value="server.id">{{ server.name }} - {{ server.ip }}
+                    </option>
+                </select>
+            </div>
         </div>
+
+
+
 
         <div ref="editor" v-file-editor class="editor"></div>
 
         <div class="btn-footer">
-            <button class="btn btn-primary" :class="{ 'btn-disabled' : running }" type="submit">
+            <a @click="reloadFile" class="btn btn-small">Reload File From Selected Server</a>
+
+            <button class="btn btn-primary btn-small" :class="{ 'btn-disabled' : running }" type="submit">
                 <template v-if="!running">
                     Update File
                 </template>
@@ -41,13 +45,13 @@
         },
         data() {
             return {
-                reload_server : null,
+                reload_server: null,
             }
         },
         watch: {
             '$route': 'fetchData',
-            'fileModel' : function() {
-                if(_.isObject(this.fileModel)) {
+            'fileModel': function () {
+                if (_.isObject(this.fileModel)) {
                     let editor = this.$refs.editor;
                     ace.edit(editor).setValue(this.fileModel.unencrypted_content ? this.fileModel.unencrypted_content : '');
                     ace.edit(editor).clearSelection(1);
@@ -64,29 +68,29 @@
                 });
             },
             fetchData() {
-                if(!_.isObject(this.file)) {
+                if (!_.isObject(this.file)) {
                     this.$store.dispatch('user_site_files/find', {
-                        custom : false,
-                        file : this.file,
-                        site : this.$route.params.site_id
+                        custom: false,
+                        file: this.file,
+                        site: this.$route.params.site_id
                     })
                 }
             },
             reloadFile() {
                 this.$store.dispatch('user_site_files/reload', {
-                    file : this.fileModel.id,
-                    server : this.reload_server,
-                    site : this.$route.params.site_id,
+                    file: this.fileModel.id,
+                    server: this.reload_server,
+                    site: this.$route.params.site_id,
                 })
             },
             getContent() {
                 return ace.edit(this.$refs.editor).getValue();
             },
         },
-        computed : {
+        computed: {
             fileModel() {
                 return _.find(this.siteFiles, (file) => {
-                    return this.file ===  file.file_path;
+                    return this.file === file.file_path;
                 });
             },
             site_servers() {
@@ -94,18 +98,18 @@
                 let servers = this.$store.getters['user_site_servers/getServers'](this.$route.params.site_id)
 
                 let server = _.first(servers);
-                if(server) {
+                if (server) {
                     this.reload_server = server.id;
                 }
 
                 return servers
             },
             filePath() {
-              if(_.isObject(this.file)) {
-                  return this.file.file_path;
-              }
+                if (_.isObject(this.file)) {
+                    return this.file.file_path;
+                }
 
-              return this.file;
+                return this.file;
             },
             siteFiles() {
                 return this.$store.state.user_site_files.files;
