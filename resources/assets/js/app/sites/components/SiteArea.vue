@@ -25,20 +25,24 @@
                                  }">
 
                                     <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
-                                        <h2>{{ workFlowName }}</h2>
-                                        <h4 class="heading secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
-                                        <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
+                                        <div class="flex">
+                                            <div class="flex--grow">
+                                            <h2>{{ workFlowName }}</h2>
+                                                <h4 class="secondary">Workflow Step #{{ workflowStepsCompleted }} / {{ totalWorkflowSteps }} </h4>
+                                                <div class="alert-info" v-if="workflowMessage">{{ workflowMessage }}</div>
+                                            </div>
+
+                                            <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
+                                                <div class="flyform--footer-btns">
+                                                    <button @click="revertWorkFlow" class="btn btn-small" :disabled="workflowStepsCompleted === 1" :class="{ disabled : workflowStepsCompleted === 1}"><span class="icon-arrow-left"></span> Previous Step</button>
+                                                    <button @click="updateWorkFlow" class="btn btn-small btn-primary">Next Step <span class="icon-arrow-right"></span></button>
+                                                </div>
+                                            </template>
+                                        </div>
                                         <hr>
                                     </template>
                                     <router-view></router-view>
-                                    <template v-if="workFlowCompleted !== true && totalWorkflowSteps > 0">
-                                        <div class="flyform--footer">
-                                            <div class="flyform--footer-btns">
-                                                <button @click="revertWorkFlow" class="btn" :disabled="workflowStepsCompleted === 1" :class="{ disabled : workflowStepsCompleted === 1}">Previous</button>
-                                                <button @click="updateWorkFlow" class="btn btn-primary">Continue</button>
-                                            </div>
-                                        </div>
-                                    </template>
+
 
                                 </router-view>
                             </template>
