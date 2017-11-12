@@ -161,7 +161,7 @@
 
             </div>
 
-            <div class="btn-container">
+            <div class="btn-container" v-if="server.progress >= 100">
                 <tooltip message="Restart web services" placement="top-right">
                     <confirm-sidebar dispatch="user_server_services/restartWebServices" :params="server.id"><span class="icon-web"></span></confirm-sidebar>
                 </tooltip>
@@ -195,6 +195,11 @@
                 default : false
             },
         },
+        data() {
+            return {
+                'showing' : this.server.progress < 100 ? true : this.showInfo
+            }
+        },
         components : {
             CpuLoads
         },
@@ -208,10 +213,7 @@
                 return _.replace(this.server.type, '_', ' ')
             },
             showServerInfo() {
-                if(this.server.progress < 100) {
-                    return true
-                }
-                return this.showInfo
+                return this.showing
             },
             currentProvisioningStep() {
                 return this.$store.state.user_server_provisioning.current_step;
@@ -219,7 +221,7 @@
         },
         methods : {
             toggle() {
-               this.showInfo = !this.showInfo
+               this.showing = !this.showing
             },
             retryProvision() {
                 this.$store.dispatch('user_server_provisioning/retry', this.server.id);

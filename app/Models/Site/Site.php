@@ -63,6 +63,7 @@ class Site extends Model
     protected $casts = [
         'workflow' => 'array',
         'server_features' => 'array',
+        'slack_channel_preferences' => 'array',
     ];
 
     /*
@@ -292,5 +293,15 @@ class Site extends Model
     public function getWorkers()
     {
         return collect($this->server_features[SystemService::WORKERS])->keys();
+    }
+
+    public function getSlackChannelName($area)
+    {
+        $channelPreferences = $this->slack_channel_preferences;
+        if (! empty($channelPreferences) && isset($channelPreferences[$area])) {
+            return $channelPreferences[$area];
+        }
+
+        return $this->name;
     }
 }

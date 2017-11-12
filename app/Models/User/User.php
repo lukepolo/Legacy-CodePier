@@ -13,6 +13,7 @@ use Laravel\Passport\HasApiTokens;
 use App\Models\Site\SiteDeployment;
 use Illuminate\Notifications\Notifiable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
+use App\Notifications\Channels\SlackMessageChannel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -189,6 +190,26 @@ class User extends Authenticatable
         }
 
         return collect($deploymentsRunning);
+    }
+
+    public function getNotificationPreferences($notificationClass, $defaults = [], $required = [])
+    {
+        $this->load('notificationSettings.setting');
+
+        $services = $defaults;
+
+        $userNotification = $this->notificationSettings->keyBy('setting.event')->get($notificationClass);
+
+        if (! empty($userNotification)) {
+            $services = array_replace($userNotification->services,
+                array_fill_keys(
+                    array_keys($userNotification->services, 'slack'),
+                    SlackMessageChannel::class
+                )
+            );
+        }
+
+        return array_merge($services, $required);
     }
 
     /*

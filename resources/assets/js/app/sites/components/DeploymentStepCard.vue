@@ -17,7 +17,7 @@
                   <span class="fa fa-info-circle"></span>
               </tooltip>
               <span v-if="order">{{ order }}.</span> {{ deploymentStep.step }}
-              <server-selection :availableServerTypes="availableServerTypes" :servers.sync="servers" :server_types.sync="server_types"></server-selection>
+              <server-selection :availableServerTypes="availableServerTypes" :server_ids.sync="server_ids" :server_types.sync="server_types"></server-selection>
 
           </div>
 
@@ -43,7 +43,6 @@
                 <a class="btn btn-primary btn-small" @click="save">Save</a>
             </div>
         </form>
-
       </template>
 
   </div>
@@ -63,8 +62,8 @@
             return {
                 step : this.deploymentStep.step,
                 script : this.deploymentStep.script,
-                servers : this.deploymentStep.servers ? this.deploymentStep.servers : [],
-                server_types : this.deploymentStep.servers ? this.deploymentStep.server_types : [],
+                server_ids : this.deploymentStep.server_ids ? this.deploymentStep.server_ids : [],
+                server_types : this.deploymentStep.server_types ? this.deploymentStep.server_types : [],
             }
         },
         watch : {
@@ -74,8 +73,11 @@
             'script' : function() {
                 this.deploymentStep.script = this.script;
             },
-            'servers' : function() {
-                this.deploymentStep.servers = this.servers
+            'server_ids' : function() {
+                this.deploymentStep.server_ids = this.server_ids
+            },
+            'server_types' : function() {
+                this.deploymentStep.server_types = this.server_types
             }
         },
         methods: {
@@ -87,7 +89,7 @@
                 this.deploymentStep.editing = false
                 this.deploymentStep.step = this.step
                 this.deploymentStep.script = this.script
-                this.deploymentStep.servers = this.servers
+                this.deploymentStep.server_ids = this.server_ids
                 this.deploymentStep.description = this.description
                 this.updateStep()
             },
