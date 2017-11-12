@@ -35,7 +35,7 @@
 
                     <template v-if="!form.custom_provider">
                         <div class="flyform--input-icon-right">
-                            <a target="_blank" :href="'http://'+repositoryUrl"><span class="icon-link"></span></a>
+                            <a target="_blank" :href="'//'+repositoryUrl"><span class="icon-link"></span></a>
                         </div>
                     </template>
                 </div>
