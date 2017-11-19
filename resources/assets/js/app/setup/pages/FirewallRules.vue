@@ -13,13 +13,13 @@
         </div>
         <table class="table" v-if="firewallRules.length">
             <thead>
-            <tr>
-                <th>Name</th>
-                <th>Port</th>
-                <th>From IP</th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Port</th>
+                    <th>From IP</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 <tr v-for="firewallRule in firewallRules">
@@ -31,12 +31,11 @@
                             {{ isRunningCommandFor(firewallRule.id).status }}
                         </template>
                     </td>
-
                     <td class="table--action">
                         <tooltip message="Delete">
-                                <span class="table--action-delete">
-                                    <a @click.prevent="deleteFirewallRule(firewallRule.id)"><span class="icon-trash"></span></a>
-                                </span>
+                            <span class="table--action-delete">
+                                <a @click.prevent="deleteFirewallRule(firewallRule.id)"><span class="icon-trash"></span></a>
+                            </span>
                         </tooltip>
                     </td>
                 </tr>
