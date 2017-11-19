@@ -1,6 +1,19 @@
 <template>
     <section>
-        <form @submit.prevent="createEnvironmentVariable">
+
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Environment Variables
+            </h3>
+
+            <tooltip message="Add Environment Variable">
+                <span class="btn btn-small btn-primary" :class="{ 'btn-disabled' : this.shouldShowForm }" @click="showForm = true">
+                    <span class="icon-plus"></span>
+                </span>
+            </tooltip>
+        </div>
+
+        <form @submit.prevent="createEnvironmentVariable" v-if="shouldShowForm">
             <div class="flyform--group">
                 <input type="text" name="variable" v-model="form.variable" placeholder=" ">
                 <label for="variable">Variable</label>
@@ -19,40 +32,34 @@
             </div>
         </form>
 
-        <br>
-
-        <div v-if="environmentVariables.length">
-            <h3>Environment Variables</h3>
-
-            <table class="table" v-if="environmentVariables">
-                <thead>
-                <tr>
-                    <th>Variable</th>
-                    <th>Value</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="environmentVariable in environmentVariables">
-                    <td>{{ environmentVariable.variable }}</td>
-                    <td>{{ environmentVariable.value }}</td>
-                    <td>
-                        <template v-if="isRunningCommandFor(environmentVariable.id)">
-                            {{ isRunningCommandFor(environmentVariable.id).status }}
-                        </template>
-                    </td>
-                    <td class="table--action">
-                        <tooltip message="Delete">
-                            <span class="table--action-delete">
-                                <a @click="deleteEnvironmentVariable(environmentVariable.id)"><span class="icon-trash"></span></a>
-                            </span>
-                        </tooltip>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table" v-if="environmentVariables.length">
+            <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Value</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="environmentVariable in environmentVariables">
+                <td>{{ environmentVariable.variable }}</td>
+                <td>{{ environmentVariable.value }}</td>
+                <td>
+                    <template v-if="isRunningCommandFor(environmentVariable.id)">
+                        {{ isRunningCommandFor(environmentVariable.id).status }}
+                    </template>
+                </td>
+                <td class="table--action">
+                    <tooltip message="Delete">
+                        <span class="table--action-delete">
+                            <a @click="deleteEnvironmentVariable(environmentVariable.id)"><span class="icon-trash"></span></a>
+                        </span>
+                    </tooltip>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <input type="hidden" v-if="site">
     </section>
@@ -62,6 +69,8 @@
     export default {
         data() {
             return {
+                loaded : false,
+                showForm : false,
                 form : this.createForm({
                     value: '',
                     variable: null,
@@ -77,11 +86,15 @@
         methods: {
             fetchData() {
                 if(this.siteId) {
-                    this.$store.dispatch('user_site_environment_variables/get', this.siteId)
+                    this.$store.dispatch('user_site_environment_variables/get', this.siteId).then(() => {
+                      this.loaded = true;
+                    })
                 }
 
                 if(this.serverId) {
-                    this.$store.dispatch('user_server_environment_variables/get', this.serverId)
+                    this.$store.dispatch('user_server_environment_variables/get', this.serverId).then(() => {
+                      this.loaded = true;
+                    })
                 }
             },
             createEnvironmentVariable() {
@@ -132,6 +145,7 @@
                 return this.isCommandRunning('App\\Models\\EnvironmentVariable', id)
             },
             resetForm() {
+                this.showForm = false;
                 this.form.value = null
                 this.form.variable = null
             }
@@ -145,6 +159,9 @@
             },
             serverId() {
                 return this.$route.params.server_id
+            },
+            shouldShowForm() {
+                return (this.loaded && this.environmentVariables.length === 0) || this.showForm;
             },
             environmentVariables() {
                 if (this.siteId) {
