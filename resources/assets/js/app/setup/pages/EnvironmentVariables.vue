@@ -13,25 +13,6 @@
             </tooltip>
         </div>
 
-        <form @submit.prevent="createEnvironmentVariable" v-if="shouldShowForm">
-            <div class="flyform--group">
-                <input type="text" name="variable" v-model="form.variable" placeholder=" ">
-                <label for="variable">Variable</label>
-            </div>
-
-            <div class="flyform--group">
-                <input type="text" name="value" v-model="form.value" placeholder=" ">
-                <label for="value">Value</label>
-            </div>
-
-            <div class="flyform--footer">
-                <div class="flyform--footer-btns">
-                    <button class="btn btn-primary" type="submit">Create Environment Variable</button>
-
-                </div>
-            </div>
-        </form>
-
         <table class="table" v-if="environmentVariables.length">
             <thead>
             <tr>
@@ -60,6 +41,25 @@
             </tr>
             </tbody>
         </table>
+
+        <form @submit.prevent="createEnvironmentVariable" v-if="shouldShowForm">
+            <div class="flyform--group">
+                <input type="text" name="variable" v-model="form.variable" placeholder=" ">
+                <label for="variable">Variable</label>
+            </div>
+
+            <div class="flyform--group">
+                <input type="text" name="value" v-model="form.value" placeholder=" ">
+                <label for="value">Value</label>
+            </div>
+
+            <div class="flyform--footer">
+                <div class="flyform--footer-btns">
+                    <button class="btn" v-if="environmentVariables.length" @click.prevent="resetForm">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Create Environment Variable</button>
+                </div>
+            </div>
+        </form>
 
         <input type="hidden" v-if="site">
     </section>
