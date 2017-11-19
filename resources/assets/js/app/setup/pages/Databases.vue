@@ -1,17 +1,20 @@
 <template>
-    <div>
+    <section>
+        <div class="flex flex--center">
+            <h3 class="flex--grow">
+                Databases
+            </h3>
+        </div>
+        <hr>
         <database-section :database="database" v-for="database in databases" :key="database.id"></database-section>
-        <database-user-section></database-user-section>
-    </div>
+    </section>
 </template>
 
 <script>
     import DatabaseSection from '../components/DatabaseSection.vue'
-    import DatabaseUserSection from '../components/DatabaseUserSection.vue'
     export default {
         components:  {
             DatabaseSection,
-            DatabaseUserSection
         },
         created() {
             this.fetchData()
