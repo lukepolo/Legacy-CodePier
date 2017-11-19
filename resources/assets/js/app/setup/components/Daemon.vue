@@ -1,29 +1,27 @@
 <template>
-    <section>
-        <tr>
-            <td class="break-word">{{ daemon.command }}</td>
-            <td>{{ daemon.user }}</td>
-            <td>
-                <template v-if="isRunningCommand">
-                    {{ isRunningCommand.status }}
-                </template>
-            </td>
+    <tr>
+        <td class="break-word">{{ daemon.command }}</td>
+        <td>{{ daemon.user }}</td>
+        <td>
+            <template v-if="isRunningCommand">
+                {{ isRunningCommand.status }}
+            </template>
+        </td>
 
-            <td class="table--action">
+        <td class="table--action">
 
-                <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
+            <server-selection :server_ids.sync="form.server_ids" :server_types.sync="form.server_types"></server-selection>
 
-                <div class="btn btn-success" v-if="form.diff().length" @click="updateDaemon(daemon)">update</div>
+            <div class="btn btn-success" v-if="form.diff().length" @click="updateDaemon(daemon)">update</div>
 
 
-                <tooltip message="Delete">
-                    <span class="table--action-delete">
-                        <a @click="deleteDaemon"><span class="icon-trash"></span></a>
-                    </span>
-                </tooltip>
-            </td>
-        </tr>
-    </section>
+            <tooltip message="Delete">
+                <span class="table--action-delete">
+                    <a @click="deleteDaemon"><span class="icon-trash"></span></a>
+                </span>
+            </tooltip>
+        </td>
+    </tr>
 </template>
 
 <script>
