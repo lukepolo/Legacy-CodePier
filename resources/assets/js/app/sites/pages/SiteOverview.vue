@@ -2,9 +2,31 @@
     <div v-if="site">
         <div class="flex">
             <div class="flex--grow">
-                <h2 class="heading">Site Overview</h2>
+                <h2 class="heading">Site Overview
+                </h2>
             </div>
-            <div>
+            <div class="heading--btns">
+                <tooltip message="Rename Site" placement="bottom">
+                    <confirm dispatch="user_sites/renameSite" :params="{ site : site.id, domain : renameForm.domain }" :confirm_with_text="site.domain"
+                            confirm_class="btn-link"
+                            confirm_position="bottom"
+                            confirm_message="Rename Site"
+                            confirm_text="Rename Site"
+                            confirm_btn="btn-primary">
+                        <span class="icon-pencil"></span>
+                    </confirm>
+                </tooltip>
+
+                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name"
+                        confirm_class="btn-link btn-link-danger"
+                        confirm_position="bottom"
+                        confirm_message="Delete Site"
+                        confirm_text="Delete Site" >
+                    <tooltip message="Delete Site" placement="bottom">
+                        <span class="icon-trash"></span>
+                    </tooltip>
+                </confirm>
+
                 <router-link class="btn btn-primary" :to="{ name: 'site_repository', params : { site_id : site.id } }">Manage Site &nbsp;<span class="icon-arrow-right"></span> </router-link>
             </div>
         </div>
@@ -185,9 +207,6 @@
         </div>
 
         <div class="flyform--footer">
-            <div class="flyform--footer-btns">
-                <confirm dispatch="user_sites/destroy" :params="site.id" :confirm_with_text="site.name">Delete Site</confirm>
-            </div>
 
             <form @submit.prevent="updateNotificationChannels">
                 <p>Here, you'll be able to configure the channels that CodePier will use to send notifications to your Slack team. The default channel for all site related notifications, is #sites.</p>

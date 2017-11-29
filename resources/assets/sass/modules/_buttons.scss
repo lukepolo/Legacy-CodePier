@@ -43,8 +43,20 @@
         padding: 0px;
         background-color: transparent;
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             color: $color-primary;
+            outline: none;
+        }
+
+        &.btn-link-danger {
+            &:hover,
+            &:focus,
+            &:active {
+                color: $red;
+                outline: none;
+            }
         }
     }
 }

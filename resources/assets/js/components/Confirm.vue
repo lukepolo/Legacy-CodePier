@@ -4,9 +4,9 @@
             <slot></slot>
         </button>
         <transition name="confirm">
-            <div v-show="confirm" class="confirm-dialog">
+            <div v-show="confirm" class="confirm-dialog" :class="confirm_position">
                 <template v-if="confirm_with_text">
-                    <h4 class="confirm-header">Are you sure?</h4>
+                    <h4 class="confirm-header">{{ confirm_message }}</h4>
                     <div class="confirm-content">
                         <p>Please confirm by typing in: {{ confirm_with_text }}</p>
                          <div class="flyform--group">
@@ -19,7 +19,7 @@
                 </template>
                 <div class="btn-footer">
                     <button class="btn btn-small" @click.stop.prevent="close()">{{ cancelText }}</button>
-                    <button class="btn btn-small btn-danger" :class="{ 'btn-disabled' : !textConfirmed }" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
+                    <button class="btn btn-small" :class="confirmButtonClass" @click.stop.prevent="confirmMethod">{{ confirmText }}</button>
                 </div>
             </div>
         </transition>
@@ -36,6 +36,15 @@
             'confirm_with_text': {},
             'confirm_class': {
                 default: 'btn'
+            },
+            'confirm_position': {
+                default: 'top'
+            },
+            'confirm_message': {
+                default: 'Are you sure?'
+            },
+            'confirm_btn': {
+                default: 'btn-danger'
             }
         },
         data () {
@@ -68,6 +77,15 @@
                     }
                 }
                 return true
+            },
+            confirmButtonClass() {
+                let classes = this.confirm_btn;
+                if(!this.textConfirmed) {
+                    classes = classes + ' btn-disabled'
+                }
+
+                console.info(classes)
+                return classes;
             }
         },
         methods: {
